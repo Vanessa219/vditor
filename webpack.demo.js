@@ -27,7 +27,7 @@ module.exports = {
     'demo.css': './demo/demo.scss',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.scss'],
+    extensions: ['.js', '.ts', '.scss', '.svg'],
   },
   module: {
     rules: [
@@ -53,6 +53,18 @@ module.exports = {
           },
           {
             loader: 'sass-loader', // compiles Sass to CSS
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        include: [path.resolve(__dirname, './src/assets/icons')],
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: true,
+            },
           },
         ],
       },
