@@ -1,13 +1,11 @@
 export class Editor {
-    readonly id: string
-    readonly option: Options
+    element: HTMLTextAreaElement
 
-    constructor(id: string, option:Options) {
-        this.id = id
-        this.option = option
+    constructor() {
+        this.element = document.createElement('textarea')
     }
 
-    genHTML(){
-
+    genElement(): HTMLTextAreaElement {
+        return this.element
     }
 }

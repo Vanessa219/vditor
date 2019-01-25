@@ -19,7 +19,7 @@ export class Toolbar {
         }
     ]
 
-    constructor(options: Options) {
+    constructor(options: Options, editorElement: HTMLTextAreaElement) {
         this.options = options
         this.menuElements = []
 
@@ -37,11 +37,11 @@ export class Toolbar {
                     console.log('menu item no matched')
                     break
             }
-            this.menuElements.push(menuItemObj.genElement(currentMenuItem, options.i18n))
+            this.menuElements.push(menuItemObj.genElement(currentMenuItem, options.i18n, editorElement))
         })
     }
 
-    private getMenuItem(menuItem: MenuItem) {
+    private getMenuItem(menuItem: MenuItem): MenuItem {
         let currentMenuItem: MenuItem
 
         this.toolbar.forEach((data: MenuItem) => {

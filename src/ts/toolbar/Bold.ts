@@ -2,8 +2,8 @@ import boldSVG from "../../assets/icons/bold.svg";
 import {MenuItemClass} from "./MenuItemClass";
 
 export class Bold extends MenuItemClass {
-    genElement(menuItem: MenuItem, i18n: string): HTMLElement {
+    genElement(menuItem: MenuItem, i18n: string, editorElement: HTMLTextAreaElement): HTMLElement {
         menuItem.icon = menuItem.icon || boldSVG
-        return super.genElement(menuItem, i18n)
+        return super.genElement(menuItem, i18n, editorElement)
     }
 }

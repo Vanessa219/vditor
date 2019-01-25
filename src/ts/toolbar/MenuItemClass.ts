@@ -2,18 +2,25 @@ import {i18n} from "../i18n/index";
 
 
 export class MenuItemClass {
-    genElement(menuItem: MenuItem, lang: string): HTMLElement {
-        const tip = menuItem.tip || i18n[lang][menuItem.name]
-        const element = document.createElement('div')
-        element.innerHTML = `<span class="tooltipped tooltipped__e" aria-label="${tip}">${menuItem.icon}</span>`
+    element: HTMLElement
+    menuItem: MenuItem
+    editorElement: HTMLTextAreaElement
 
-        this.bindEvent(element, menuItem)
-        return element
+    genElement(menuItem: MenuItem, lang: string, editorElement: HTMLTextAreaElement): HTMLElement {
+        this.menuItem = menuItem
+        this.editorElement = editorElement
+        this.element = document.createElement('div')
+
+        const tip = this.menuItem.tip || i18n[lang][this.menuItem.name]
+        this.element.innerHTML = `<span class="tooltipped tooltipped__e" aria-label="${tip}">${this.menuItem.icon}</span>`
+
+        this.bindEvent()
+        return this.element
     }
 
-    private bindEvent(element: HTMLElement, menuItem: MenuItem) {
-        element.addEventListener('click', () => {
-            console.log(menuItem)
+    private bindEvent() {
+        this.element.addEventListener('click', () => {
+            this.editorElement.value = JSON.stringify(this.menuItem)
         })
     }
 }
