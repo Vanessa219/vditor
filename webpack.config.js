@@ -59,10 +59,17 @@ const baseConfig = [
       'index.min': './src/index.ts',
     },
     resolve: {
-      extensions: ['.ts', '.svg'],
+      extensions: ['.ts', '.svg', 'png'],
     },
     module: {
       rules: [
+        {
+          test: /\.png$/,
+          include: [path.resolve(__dirname, './src/assets/images')],
+          use: [
+            'file-loader',
+          ],
+        },
         {
           test: /\.ts$/,
           use: 'ts-loader',

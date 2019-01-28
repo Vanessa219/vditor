@@ -27,7 +27,7 @@ module.exports = {
     'demo.css': './demo/demo.scss',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.scss', '.svg'],
+    extensions: ['.js', '.ts', '.scss', '.svg', '.png'],
   },
   module: {
     rules: [
@@ -97,6 +97,13 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /\.png$/,
+        include: [path.resolve(__dirname, './src/assets/images')],
+        use: [
+          'file-loader',
+        ],
       },
     ],
   },

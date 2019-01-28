@@ -1,3 +1,7 @@
+
+import octocatPng from "../../assets/images/octocat.png"
+import trollfacePng from "../../assets/images/trollface.png"
+
 export class OptionsClass {
     options: Options;
     private defaultOptions: Options = {
@@ -5,7 +9,7 @@ export class OptionsClass {
         width: 'auto',
         theme: 'classic',
         placeholder: '',
-        i18n: 'zh_CN',
+        lang: 'zh_CN',
         draggable: false,
         previewShow: false,
         counter: 0,
@@ -17,15 +21,13 @@ export class OptionsClass {
         classes: {
             previewContent: ''
         },
-        staticServePath: '',
         atUserCallback: '',
         commonEmoji: {
             "+1": "👍",
             "-1": "👎",
             "100": "💯",
-            "1234": "🔢",
-            "8ball": "🎱",
-            "a": "🅰",
+            "octocat": octocatPng,
+            "trollface": trollfacePng,
         },
         toolbar: [{
             name: 'emoji',
@@ -35,7 +37,7 @@ export class OptionsClass {
             prefix: '**',
             suffix: '**',
             hotkey: '⌘ b'
-        }]
+        }],
     }
 
     constructor(options: Options) {

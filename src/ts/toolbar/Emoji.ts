@@ -1,28 +1,47 @@
 import emojiSVG from "../../assets/icons/emoji.svg";
 import {MenuItemClass} from "./MenuItemClass";
-import {i18n} from "../i18n/index";
+import {insertText} from "../editor/index";
 
 export class Emoji extends MenuItemClass {
     element: HTMLElement
 
-    genElement(menuItem: MenuItem, lang: string, editorElement: HTMLTextAreaElement): HTMLElement {
-        this.element = document.createElement('div')
+    constructor(vditor: Vditor, menuItem: MenuItem) {
+        super(vditor, menuItem)
+        this.element.children[0].innerHTML = menuItem.icon || emojiSVG
 
-        this.element.className = 'vditor-tooltipped vditor-tooltipped__e'
-        this.element.setAttribute('aria-label', menuItem.tip || i18n[lang][menuItem.name])
-        this.element.innerHTML = menuItem.icon || emojiSVG
         const emojiPanelElement = document.createElement('div')
         emojiPanelElement.className = 'vditor-panel'
 
-        if (menuItem.tail) {
-            emojiPanelElement.innerHTML = `<div>${menuItem.tail}</div>`
-            this.element.appendChild(emojiPanelElement)
-        }
+        let commonEmojiHTML = ''
+        Object.keys(vditor.options.commonEmoji).forEach((key) => {
+            const emojiValue = vditor.options.commonEmoji[key]
+            if (emojiValue.indexOf('.') > -1) {
+                commonEmojiHTML += `<span data-value=":${key}: "><img data-value=":${key}: " src="${emojiValue}"/></span>`
+            } else {
+                commonEmojiHTML += `<span data-value="${emojiValue} ">${emojiValue}</span>`
+            }
+        })
 
-        this.element.addEventListener('click', () => {
+        const tailHTML = menuItem.tail ? `<div>${menuItem.tail}</div>` : ''
+
+        emojiPanelElement.innerHTML = `<div class="vditor-emojis">${commonEmojiHTML}</div>${tailHTML}`
+
+        this.element.appendChild(emojiPanelElement)
+
+        this._bindEvent(emojiPanelElement, vditor)
+    }
+
+    _bindEvent(emojiPanelElement: HTMLElement, vditor: Vditor) {
+        this.element.children[0].addEventListener('click', () => {
             emojiPanelElement.style.display = emojiPanelElement.style.display === 'block' ? 'none' : 'block'
         })
 
-        return this.element
+        emojiPanelElement.querySelectorAll('.vditor-emojis span').forEach((element) => {
+            element.addEventListener('click', (event: any) => {
+                insertText(vditor.editor.element, event.target.getAttribute('data-value'), '', true)
+                emojiPanelElement.style.display = 'none'
+
+            })
+        })
     }
 }

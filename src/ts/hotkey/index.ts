@@ -3,10 +3,10 @@ export class Hotkey {
     toolbarElements: any
     options: Options
 
-    constructor(toolbarElements: any, editorElement: HTMLTextAreaElement, options: Options) {
-        this.editorElement = editorElement
-        this.toolbarElements = toolbarElements
-        this.options = options
+    constructor(vditor:Vditor) {
+        this.editorElement = vditor.editor.element
+        this.toolbarElements = vditor.toolbar.elements
+        this.options = vditor.options
         this.bindHotkey()
     }
 

@@ -1,5 +1,5 @@
 import {i18n} from "../i18n/index";
-import {insertTextAtCaret} from "../editor/index";
+import {insertText} from "../editor/index";
 
 
 export class MenuItemClass {
@@ -7,22 +7,20 @@ export class MenuItemClass {
     menuItem: MenuItem
     editorElement: HTMLTextAreaElement
 
-    genElement(menuItem: MenuItem, lang: string, editorElement: HTMLTextAreaElement): HTMLElement {
+    constructor(vditor: Vditor, menuItem: MenuItem) {
         this.menuItem = menuItem
-        this.editorElement = editorElement
+        this.editorElement = vditor.editor.element
+
         this.element = document.createElement('div')
-
-        this.element.className = 'vditor-tooltipped vditor-tooltipped__e'
-        this.element.setAttribute('aria-label', this.menuItem.tip || i18n[lang][this.menuItem.name])
-        this.element.innerHTML = this.menuItem.icon
-
-        this.bindEvent()
-        return this.element
+        const iconElement = document.createElement('div')
+        iconElement.className = 'vditor-tooltipped vditor-tooltipped__e'
+        iconElement.setAttribute('aria-label', this.menuItem.tip || i18n[vditor.options.lang][this.menuItem.name])
+        this.element.appendChild(iconElement)
     }
 
-    private bindEvent() {
-        this.element.addEventListener('click', () => {
-            insertTextAtCaret(this.editorElement, this.menuItem.prefix || '', this.menuItem.suffix || '')
+    bindEvent() {
+        this.element.children[0].addEventListener('click', () => {
+            insertText(this.editorElement, this.menuItem.prefix || '', this.menuItem.suffix || '')
         })
     }
 }

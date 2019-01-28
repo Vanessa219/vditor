@@ -2,31 +2,26 @@ import {Emoji} from './emoji'
 import {Bold} from './Bold'
 
 export class Toolbar {
-    menuElements: any
-    private options: Options
+    elements: any
 
-    constructor(options: Options, editorElement: HTMLTextAreaElement) {
-        this.options = options
-        this.menuElements = []
+    constructor(vditor: Vditor) {
+        const options = vditor.options
+        this.elements = {}
 
-        this.options.toolbar.forEach((menuItem: MenuItem) => {
+        options.toolbar.forEach((menuItem: MenuItem) => {
             let menuItemObj
             switch (menuItem.name) {
                 case 'emoji':
-                    menuItemObj = new Emoji()
+                    menuItemObj = new Emoji(vditor, menuItem)
                     break
                 case 'bold':
-                    menuItemObj = new Bold()
+                    menuItemObj = new Bold(vditor, menuItem)
                     break
                 default:
                     console.log('menu item no matched')
                     break
             }
-            this.menuElements[menuItem.name] = menuItemObj.genElement(menuItem, options.i18n, editorElement)
+            this.elements[menuItem.name] = menuItemObj.element
         })
-    }
-
-    genElement() {
-        return this.menuElements
     }
 }

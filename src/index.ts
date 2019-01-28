@@ -4,9 +4,11 @@ import {OptionsClass} from "./ts/util/OptionsClass";
 import {Ui} from "./ts/ui/Ui";
 import {Editor} from "./ts/editor/index";
 import {Hotkey} from "./ts/hotkey/index";
+import {Markdown} from "./ts/markdown/index";
 
 class Vditor {
     readonly version: string;
+    vditor: any
 
     constructor(id: string, options?: Options) {
         this.version = VDITOR_VERSION;
@@ -14,15 +16,24 @@ class Vditor {
         const getOptions = new OptionsClass(options)
         const mergedOptions = getOptions.merge()
 
-        const editor = new Editor()
-        const editorElement: HTMLTextAreaElement = editor.genElement()
+        this.vditor = {
+            id,
+            options: mergedOptions,
+            timeId: -1
+        }
 
-        const toolbar = new Toolbar(mergedOptions, editorElement)
-        const toolbarElements = toolbar.genElement()
+        const editor = new Editor(this.vditor)
+        this.vditor.editor = editor
 
-        new Hotkey(toolbarElements, editorElement, mergedOptions)
+        const toolbar = new Toolbar(this.vditor)
+        this.vditor.toolbar = toolbar
 
-        new Ui(id, toolbarElements, editorElement)
+        const markdown = new Markdown(this.vditor)
+        this.vditor.markdown = markdown
+
+        new Hotkey(this.vditor)
+
+        new Ui(this.vditor)
     }
 }
 

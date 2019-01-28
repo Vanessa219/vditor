@@ -3,18 +3,13 @@ import {commandable} from '../util/commandable'
 class Editor {
     element: HTMLTextAreaElement
 
-    constructor() {
+    constructor(vditor: Vditor) {
         this.element = document.createElement('textarea')
-    }
-
-    genElement(): HTMLTextAreaElement {
-        return this.element
     }
 }
 
-const insertTextAtCaret = (textarea: HTMLTextAreaElement, prefix: string, suffix: string, replace?: string) => {
-    if (typeof textarea.selectionStart === 'number' &&
-        typeof textarea.selectionEnd === 'number') {
+const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: string, replace?: boolean) => {
+    if (typeof textarea.selectionStart === 'number' && typeof textarea.selectionEnd === 'number') {
         const startPos = textarea.selectionStart
         const endPos = textarea.selectionEnd
         const tmpStr = textarea.value
@@ -49,40 +44,52 @@ const insertTextAtCaret = (textarea: HTMLTextAreaElement, prefix: string, suffix
                     }
                 }
             }
-            return
-        }
-        if (startPos === endPos) {
-            // no selection
-            document.execCommand('insertText', false, prefix + suffix)
-            textarea.selectionStart = textarea.selectionEnd = textarea.selectionStart - suffix.length
         } else {
-            if (replace) {
+            if (startPos === endPos) {
+                // no selection
                 document.execCommand('insertText', false, prefix + suffix)
+                textarea.selectionStart = textarea.selectionEnd = textarea.selectionStart - suffix.length
             } else {
-                if (tmpStr.substring(startPos - prefix.length, startPos) === prefix &&
-                    tmpStr.substring(endPos, endPos + suffix.length) === suffix) {
-                    // broke circle, avoid repeat
-                    document.execCommand('delete', false)
-                    for (let i = 0, iMax = prefix.length; i < iMax; i++) {
-                        document.execCommand('delete', false)
-                    }
-                    for (let j = 0, jMax = suffix.length; j < jMax; j++) {
-                        document.execCommand('forwardDelete', false)
-                    }
-                    document.execCommand('insertText', false,
-                        tmpStr.substring(startPos, endPos))
-                    textarea.selectionStart = startPos - prefix.length
-                    textarea.selectionEnd = endPos - prefix.length
+                if (replace) {
+                    document.execCommand('insertText', false, prefix + suffix)
                 } else {
-                    // insert
-                    document.execCommand('insertText', false,
-                        prefix + tmpStr.substring(startPos, endPos) + suffix)
-                    textarea.selectionStart = startPos + prefix.length
-                    textarea.selectionEnd = endPos + prefix.length
+                    if (tmpStr.substring(startPos - prefix.length, startPos) === prefix &&
+                        tmpStr.substring(endPos, endPos + suffix.length) === suffix) {
+                        // broke circle, avoid repeat
+                        document.execCommand('delete', false)
+                        for (let i = 0, iMax = prefix.length; i < iMax; i++) {
+                            document.execCommand('delete', false)
+                        }
+                        for (let j = 0, jMax = suffix.length; j < jMax; j++) {
+                            document.execCommand('forwardDelete', false)
+                        }
+                        document.execCommand('insertText', false,
+                            tmpStr.substring(startPos, endPos))
+                        textarea.selectionStart = startPos - prefix.length
+                        textarea.selectionEnd = endPos - prefix.length
+                    } else {
+                        // insert
+                        document.execCommand('insertText', false,
+                            prefix + tmpStr.substring(startPos, endPos) + suffix)
+                        textarea.selectionStart = startPos + prefix.length
+                        textarea.selectionEnd = endPos + prefix.length
+                    }
                 }
             }
         }
     }
 }
 
-export {Editor, insertTextAtCaret}
+// const debounceChange = (timerId: number, change: ChangeFunction, $editor) => {
+//     if (timerId !== undefined) {
+//         clearTimeout(timerId)
+//     }
+//     return setTimeout(() => {
+//         change && change($editor.find('textarea').val(),
+//             $editor.find('.b3log-editor__icon--current').length === 0
+//                 ? undefined
+//                 : $editor.find('.b3log-editor__markdown'))
+//     }, 500)
+// }
+
+export {Editor, insertText}

@@ -3,6 +3,8 @@ declare module "*.svg" {
     export default content
 }
 
+declare module '*.png'
+
 interface Classes {
     previewContent: string
 }
@@ -28,7 +30,7 @@ interface Options {
     width?: number | string
     theme?: string
     placeholder?: string
-    i18n?: string
+    lang?: string
     draggable?: boolean
     previewShow?: boolean
     counter?: number
@@ -36,6 +38,20 @@ interface Options {
     classes?: Classes
     staticServePath?: string
     atUserCallback?: object | string
-    commonEmoji?: object
+    commonEmoji?: any
     toolbar?: Array<string | MenuItem>
+    change?: ChangeFunction
+}
+
+interface ChangeFunction {
+    (value: string, previewElement?: HTMLElement): void
+}
+
+interface Vditor {
+    id: string
+    options: Options
+    timeId: number
+    toolbar?: any
+    markdown?: any
+    editor?: any
 }
