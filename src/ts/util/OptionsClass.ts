@@ -27,15 +27,46 @@ export class OptionsClass {
             "8ball": "🎱",
             "a": "🅰",
         },
-        toolbar: ['emoji', 'bold']
+        toolbar: [{
+            name: 'emoji',
+            hotkey: '⌘ /'
+        }, {
+            name: 'bold',
+            prefix: '**',
+            suffix: '**',
+            hotkey: '⌘ b'
+        }]
     }
 
     constructor(options: Options) {
         this.options = options
-        this.merge()
     }
 
     merge(): Options {
-        return Object.assign({}, this.defaultOptions, this.options)
+        let toolbar: Array<MenuItem> = []
+        if (this.options && this.options.toolbar) {
+            this.options.toolbar.forEach((menuItem) => {
+                let currentMenuItem: MenuItem
+                this.defaultOptions.toolbar.forEach((defaultMenuItem: MenuItem) => {
+                    if (typeof menuItem === 'string' && defaultMenuItem.name === menuItem) {
+                        currentMenuItem = defaultMenuItem
+                    }
+                    if (typeof menuItem === 'object' && defaultMenuItem.name === menuItem.name) {
+                        currentMenuItem = Object.assign({}, defaultMenuItem, menuItem)
+                    }
+                })
+                toolbar.push(currentMenuItem)
+            })
+        }
+
+        const mergedOptions = Object.assign({}, this.defaultOptions, this.options)
+
+        if (toolbar.length > 0) {
+            mergedOptions.toolbar = toolbar
+        }
+
+        console.log(this.defaultOptions, mergedOptions)
+
+        return mergedOptions
     }
 }

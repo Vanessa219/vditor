@@ -1,0 +1,18 @@
+/**
+ * panel.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Jan 28, 2019
+ */
+
+.vditor-panel {
+  background-color: #fff;
+  line-height: 20px;
+  position: absolute;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  border-radius: 3px;
+  padding: 5px;
+  z-index: 1;
+  font-size: 14px;
+  display: none;
+}

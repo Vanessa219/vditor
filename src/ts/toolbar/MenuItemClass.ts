@@ -1,4 +1,5 @@
 import {i18n} from "../i18n/index";
+import {insertTextAtCaret} from "../editor/index";
 
 
 export class MenuItemClass {
@@ -11,8 +12,9 @@ export class MenuItemClass {
         this.editorElement = editorElement
         this.element = document.createElement('div')
 
-        const tip = this.menuItem.tip || i18n[lang][this.menuItem.name]
-        this.element.innerHTML = `<span class="tooltipped tooltipped__e" aria-label="${tip}">${this.menuItem.icon}</span>`
+        this.element.className = 'vditor-tooltipped vditor-tooltipped__e'
+        this.element.setAttribute('aria-label', this.menuItem.tip || i18n[lang][this.menuItem.name])
+        this.element.innerHTML = this.menuItem.icon
 
         this.bindEvent()
         return this.element
@@ -20,7 +22,7 @@ export class MenuItemClass {
 
     private bindEvent() {
         this.element.addEventListener('click', () => {
-            this.editorElement.value = JSON.stringify(this.menuItem)
+            insertTextAtCaret(this.editorElement, this.menuItem.prefix || '', this.menuItem.suffix || '')
         })
     }
 }

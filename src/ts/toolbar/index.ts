@@ -2,31 +2,16 @@ import {Emoji} from './emoji'
 import {Bold} from './Bold'
 
 export class Toolbar {
-    menuElements: Array<HTMLElement>
+    menuElements: any
     private options: Options
-    private toolbar: Array<MenuItem> = [
-        {
-            name: 'emoji',
-            icon: '',
-            tip: '',
-            hotkey: 'emoji hotkey'
-        },
-        {
-            name: 'bold',
-            icon: '',
-            tip: '',
-            hotkey: 'bold hotkey'
-        }
-    ]
 
     constructor(options: Options, editorElement: HTMLTextAreaElement) {
         this.options = options
         this.menuElements = []
 
         this.options.toolbar.forEach((menuItem: MenuItem) => {
-            const currentMenuItem = this.getMenuItem(menuItem)
             let menuItemObj
-            switch (currentMenuItem.name) {
+            switch (menuItem.name) {
                 case 'emoji':
                     menuItemObj = new Emoji()
                     break
@@ -37,24 +22,8 @@ export class Toolbar {
                     console.log('menu item no matched')
                     break
             }
-            this.menuElements.push(menuItemObj.genElement(currentMenuItem, options.i18n, editorElement))
+            this.menuElements[menuItem.name] = menuItemObj.genElement(menuItem, options.i18n, editorElement)
         })
-    }
-
-    private getMenuItem(menuItem: MenuItem): MenuItem {
-        let currentMenuItem: MenuItem
-
-        this.toolbar.forEach((data: MenuItem) => {
-            if (typeof menuItem === 'string') {
-                if (data.name === menuItem) {
-                    currentMenuItem = data
-                }
-            } else {
-                currentMenuItem = Object.assign({}, data, menuItem)
-            }
-        })
-
-        return currentMenuItem
     }
 
     genElement() {
