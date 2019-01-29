@@ -15,6 +15,8 @@ import {Redo} from "./Redo";
 import {InlineCode} from "./InlineCode";
 import {Code} from "./Code";
 import {Link} from "./Link";
+import {Help} from "./Help";
+import {Table} from "./Table";
 
 export class Toolbar {
     elements: any
@@ -76,6 +78,12 @@ export class Toolbar {
                     break
                 case 'link':
                     menuItemObj = new Link(vditor, menuItem)
+                    break
+                case 'help':
+                    menuItemObj = new Help(vditor, menuItem)
+                    break
+                case 'table':
+                    menuItemObj = new Table(vditor, menuItem)
                     break
                 default:
                     console.log('menu item no matched')

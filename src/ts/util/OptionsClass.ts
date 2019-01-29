@@ -72,7 +72,7 @@ export class OptionsClass {
         }, {
             name: 'check',
             prefix: '* [ ] ',
-            hotkey: '⌘ c'
+            hotkey: '⌘ j'
         }, {
             name: '|'
         }, {
@@ -96,11 +96,21 @@ export class OptionsClass {
         }, {
             name: '|'
         }, {
+            name: 'table',
+            prefix: '| ',
+            suffix: ' |  |  |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |',
+            hotkey: '⌘ m'
+        }, {
             name: 'link',
             prefix: '[',
             suffix: '](http://)',
             hotkey: '⌘ k'
         }, {
+            name: '|'
+        }, {
+            name: 'help',
+            hotkey: '⌘ .'
+        },{
             name: 'br'
         }],
     }
