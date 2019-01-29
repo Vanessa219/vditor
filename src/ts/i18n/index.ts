@@ -19,7 +19,7 @@ export const i18n: any = {
         undo: 'Undo',
         table: 'Table',
         record: 'Record',
-        upload: 'Upload',
+        upload: 'Upload, support drag and copy',
         preview: 'Preview'
     },
     zh_CN: {
@@ -42,7 +42,7 @@ export const i18n: any = {
         undo: '撤销',
         table: '表格',
         record: '录音',
-        upload: '上传',
+        upload: '上传，支持拖拽及复制',
         preview: '预览'
     }
 }

@@ -1,3 +1,78 @@
 @import "tooltipped";
 @import "panel";
 @import "toolbar";
+
+.vditor {
+  display: flex;
+  flex-direction: column;
+
+  &--fullscreen {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    z-index: 90;
+    background-color: #fff;
+  }
+
+  &-content {
+    display: flex;
+    min-height: 60px;
+    flex: 1;
+    position: relative;
+  }
+
+  &-textarea {
+    flex: 1;
+    border: 0;
+    font-size: 14px;
+    resize: none;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &-preview {
+    flex: 1;
+    background-color: #fff;
+    overflow: auto;
+    padding: 10px;
+    box-shadow: inset 1px 0 hsla(0,0%,50.2%,.06);
+    box-sizing: border-box;
+  }
+
+  &-counter {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: #616161;
+    background-color: hsla(0, 0%, 100%, .8);
+    border-radius: 3px;
+    font-size: 12px;
+    user-select: none;
+  }
+
+  &-drag {
+    padding: 1px 0;
+    border-radius: 5px;
+    cursor: row-resize;
+    color: rgba(0, 0, 0, .38);
+    transition: all .15s ease-in-out;
+    user-select: none;
+
+    &:hover {
+      background-color: rgba(66, 133, 244, .54);
+      color: rgba(0, 0, 0, .54);
+    }
+
+    svg {
+      width: 13px;
+      height: 3px;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}

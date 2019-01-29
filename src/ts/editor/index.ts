@@ -5,6 +5,24 @@ class Editor {
 
     constructor(vditor: Vditor) {
         this.element = document.createElement('textarea')
+        this.element.className = 'vditor-textarea'
+        this.element.setAttribute('placeholder', vditor.options.placeholder)
+
+        this.bindEvent(vditor)
+    }
+
+    private bindEvent(vditor: Vditor) {
+        this.element.addEventListener('input', () => {
+
+            if (vditor.options.counter > 0) {
+                vditor.counter.render(this.element.value.length, vditor.options.counter)
+            }
+        })
+        this.element.addEventListener('focus', () => {
+            if (vditor.options.counter > 0) {
+                vditor.counter.render(this.element.value.length, vditor.options.counter)
+            }
+        })
     }
 }
 

@@ -9,3 +9,9 @@
     display: inline-block;
   }
 }
+
+.vditor-menu {
+  &--current svg {
+    fill: blue;
+  }
+}

@@ -17,6 +17,8 @@ import {Code} from "./Code";
 import {Link} from "./Link";
 import {Help} from "./Help";
 import {Table} from "./Table";
+import {Preview} from "./Preview";
+import {Fullscreen} from "./Fullscreen";
 
 export class Toolbar {
     elements: any
@@ -84,6 +86,12 @@ export class Toolbar {
                     break
                 case 'table':
                     menuItemObj = new Table(vditor, menuItem)
+                    break
+                case 'preview':
+                    menuItemObj = new Preview(vditor, menuItem)
+                    break
+                case 'fullscreen':
+                    menuItemObj = new Fullscreen(vditor, menuItem)
                     break
                 default:
                     console.log('menu item no matched')

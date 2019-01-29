@@ -6,7 +6,7 @@ declare module "*.svg" {
 declare module '*.png'
 
 interface Classes {
-    previewContent: string
+    preview?: string
 }
 
 interface Upload {
@@ -26,7 +26,7 @@ interface MenuItem {
 }
 
 interface Options {
-    height?: number
+    height?: number | string
     width?: number | string
     theme?: string
     placeholder?: string
@@ -54,4 +54,8 @@ interface Vditor {
     toolbar?: any
     markdown?: any
     editor?: any
+    counter?: any
+    drag?: any
 }
+
+declare function captureEvents(name: string): void

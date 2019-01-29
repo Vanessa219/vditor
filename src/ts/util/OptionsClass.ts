@@ -4,7 +4,7 @@ import trollfacePng from "../../assets/images/trollface.png"
 export class OptionsClass {
     options: Options;
     private defaultOptions: Options = {
-        height: 100,
+        height: 'auto',
         width: 'auto',
         theme: 'classic',
         placeholder: '',
@@ -18,7 +18,7 @@ export class OptionsClass {
             LinkToImgPath: '',
         },
         classes: {
-            previewContent: ''
+            preview: ''
         },
         atUserCallback: '',
         commonEmoji: {
@@ -79,7 +79,7 @@ export class OptionsClass {
             name: 'code',
             prefix: '```\n',
             suffix: '\n```',
-            hotkey: '⌘ f'
+            hotkey: '⌘ u'
         }, {
             name: 'inline-code',
             prefix: '`',
@@ -108,9 +108,15 @@ export class OptionsClass {
         }, {
             name: '|'
         }, {
+            name: 'preview',
+            hotkey: '⌘ p'
+        }, {
+            name: 'fullscreen',
+            hotkey: '⌘ f'
+        }, {
             name: 'help',
             hotkey: '⌘ .'
-        },{
+        }, {
             name: 'br'
         }],
     }
@@ -141,8 +147,6 @@ export class OptionsClass {
         if (toolbar.length > 0) {
             mergedOptions.toolbar = toolbar
         }
-
-        console.log(this.defaultOptions, mergedOptions)
 
         return mergedOptions
     }
