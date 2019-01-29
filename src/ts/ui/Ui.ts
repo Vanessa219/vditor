@@ -3,7 +3,7 @@ export class Ui {
         const vditorElement = document.getElementById(vditor.id)
 
         const toolbarElement = document.createElement('div')
-        // toolbarElement.className = 'vditor-toolbar'
+        toolbarElement.className = 'vditor-toolbar'
         Object.keys(vditor.toolbar.elements).forEach((key) => {
             toolbarElement.appendChild(vditor.toolbar.elements[key])
         })

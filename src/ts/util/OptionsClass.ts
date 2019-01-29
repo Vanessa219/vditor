@@ -1,4 +1,3 @@
-
 import octocatPng from "../../assets/images/octocat.png"
 import trollfacePng from "../../assets/images/trollface.png"
 
@@ -31,12 +30,78 @@ export class OptionsClass {
         },
         toolbar: [{
             name: 'emoji',
-            hotkey: '⌘ /'
+            hotkey: '⌘ e'
+        }, {
+            name: 'headings',
+            hotkey: '⌘ h'
         }, {
             name: 'bold',
             prefix: '**',
             suffix: '**',
             hotkey: '⌘ b'
+        }, {
+            name: 'italic',
+            prefix: '*',
+            suffix: '*',
+            hotkey: '⌘ i'
+        }, {
+            name: 'strike',
+            prefix: '~~',
+            suffix: '~~',
+            hotkey: '⌘ s'
+        }, {
+            name: '|'
+        }, {
+            name: 'line',
+            prefix: '* * *\n',
+            hotkey: '⌘ d'
+        }, {
+            name: 'quote',
+            prefix: '> ',
+            hotkey: '⌘ r'
+        }, {
+            name: '|'
+        }, {
+            name: 'list',
+            prefix: '* ',
+            hotkey: '⌘ l'
+        }, {
+            name: 'ordered-list',
+            prefix: '1. ',
+            hotkey: '⌘ o'
+        }, {
+            name: 'check',
+            prefix: '* [ ] ',
+            hotkey: '⌘ c'
+        }, {
+            name: '|'
+        }, {
+            name: 'code',
+            prefix: '```\n',
+            suffix: '\n```',
+            hotkey: '⌘ f'
+        }, {
+            name: 'inline-code',
+            prefix: '`',
+            suffix: '`',
+            hotkey: '⌘ g'
+        }, {
+            name: '|'
+        }, {
+            name: 'undo',
+            hotkey: '⌘ z'
+        }, {
+            name: 'redo',
+            hotkey: '⌘ y'
+        }, {
+            name: '|'
+        }, {
+            name: 'link',
+            prefix: '[',
+            suffix: '](http://)',
+            hotkey: '⌘ k'
+        }, {
+            name: 'br'
         }],
     }
 

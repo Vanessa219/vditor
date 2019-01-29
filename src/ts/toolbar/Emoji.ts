@@ -40,7 +40,6 @@ export class Emoji extends MenuItemClass {
             element.addEventListener('click', (event: any) => {
                 insertText(vditor.editor.element, event.target.getAttribute('data-value'), '', true)
                 emojiPanelElement.style.display = 'none'
-
             })
         })
     }

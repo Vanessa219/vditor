@@ -13,8 +13,16 @@ export class MenuItemClass {
 
         this.element = document.createElement('div')
         const iconElement = document.createElement('div')
-        iconElement.className = 'vditor-tooltipped vditor-tooltipped__e'
-        iconElement.setAttribute('aria-label', this.menuItem.tip || i18n[vditor.options.lang][this.menuItem.name])
+        iconElement.className = 'vditor-tooltipped vditor-tooltipped__s'
+
+        const hotkey = `<${this.menuItem.hotkey}>`
+        if (/Mac/.test(navigator.platform)) {
+            hotkey.replace('ctrl', '⌘')
+        } else {
+            hotkey.replace('⌘', 'ctrl')
+        }
+        iconElement.setAttribute('aria-label',
+            this.menuItem.tip || i18n[vditor.options.lang][this.menuItem.name] + hotkey)
         this.element.appendChild(iconElement)
     }
 
