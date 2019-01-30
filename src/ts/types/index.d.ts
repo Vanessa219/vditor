@@ -40,10 +40,15 @@ interface Options {
     atUserCallback?: object | string
     commonEmoji?: any
     toolbar?: Array<string | MenuItem>
-    change?: ChangeFunction
+    input?: InputFunction
+    focus?: { (value: string): void }
+    blur?: { (value: string): void }
+    esc?: { (value: string): void }
+    ctrlEnter?: { (value: string): void }
+    select?: { (value: string): void }
 }
 
-interface ChangeFunction {
+interface InputFunction {
     (value: string, previewElement?: HTMLElement): void
 }
 

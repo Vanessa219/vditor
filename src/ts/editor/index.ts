@@ -13,16 +13,47 @@ class Editor {
 
     private bindEvent(vditor: Vditor) {
         this.element.addEventListener('input', () => {
-
             if (vditor.options.counter > 0) {
                 vditor.counter.render(this.element.value.length, vditor.options.counter)
             }
-        })
-        this.element.addEventListener('focus', () => {
-            if (vditor.options.counter > 0) {
-                vditor.counter.render(this.element.value.length, vditor.options.counter)
+            if (vditor.options.input) {
+                vditor.options.input(this.element.value, vditor.markdown && vditor.markdown.element)
             }
         })
+        if (vditor.options.focus) {
+            this.element.addEventListener('focus', () => {
+                vditor.options.focus(this.element.value)
+            })
+        }
+        if (vditor.options.blur) {
+            this.element.addEventListener('blur', () => {
+                vditor.options.blur(this.element.value)
+            })
+        }
+        if (vditor.options.select) {
+            this.element.onselect = () => {
+                vditor.options.select(this.element.value.substring(
+                    this.element.selectionStart, this.element.selectionEnd))
+            }
+        }
+        if (vditor.markdown) {
+            this.element.addEventListener('scroll', () => {
+                if (vditor.markdown.element.style.display === 'none') {
+                    return
+                }
+                const textScrollTop = this.element.scrollTop
+                const textHeight = this.element.clientHeight
+                const textScrollHeight = this.element.scrollHeight
+                const preview = vditor.markdown.element
+                if ((textScrollTop / textHeight > 0.5)) {
+                    preview.scrollTop = (textScrollTop + textHeight) *
+                        preview.scrollHeight / textScrollHeight - textHeight
+                } else {
+                    preview.scrollTop = textScrollTop *
+                        preview.scrollHeight / textScrollHeight
+                }
+            })
+        }
     }
 }
 

@@ -14,6 +14,24 @@ const vditor = new Vditor('vditor', {
   classes: {
     preview: 'content-reset',
   },
+  focus:(val)=> {
+    console.log(`focus: ${val}`)
+  },
+  blur:(val)=> {
+    console.log(`blur: ${val}`)
+  },
+  input: (val, mdElement)=> {
+    console.log('change:' + val, mdElement)
+  },
+  esc: (val)=> {
+    console.log(`esc: ${val}`)
+  },
+  ctrlEnter: (val)=> {
+    console.log(`ctrlEnter: ${val}`)
+  },
+  select: (val)=> {
+    console.log(`select: ${val}`)
+  },
   toolbar: [
     'preview',
     {

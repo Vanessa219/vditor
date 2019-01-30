@@ -12,6 +12,16 @@ export class Hotkey {
 
     private bindHotkey(): void {
         this.editorElement.addEventListener('keydown', (event) => {
+            if (this.options.esc) {
+                if(event.key.toLowerCase() === 'Escape'.toLowerCase()) {
+                    this.options.esc(this.editorElement.value)
+                }
+            }
+            if (this.options.ctrlEnter) {
+                if( (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'Enter'.toLowerCase()) {
+                    this.options.ctrlEnter(this.editorElement.value)
+                }
+            }
             this.options.toolbar.forEach((menuItem: MenuItem) => {
                 if (!menuItem.hotkey) {
                     return

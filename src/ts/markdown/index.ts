@@ -11,10 +11,7 @@ export class Markdown {
 
     constructor(vditor: Vditor) {
         this.element = document.createElement('div')
-        this.element.className = 'vditor-preview' + (vditor.options.classes.preview ? ' ' + vditor.options.classes.preview : '')
-    }
-
-    renderPreview(html: string) {
-        this.element.innerHTML = html
+        this.element.className = 'vditor-preview' +
+            (vditor.options.classes.preview ? ' ' + vditor.options.classes.preview : '')
     }
 }

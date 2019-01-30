@@ -28,6 +28,7 @@
     border: 0;
     font-size: 14px;
     resize: none;
+    padding: 10px;
     box-sizing: border-box;
 
     &:focus {
@@ -42,6 +43,10 @@
     padding: 10px;
     box-shadow: inset 1px 0 hsla(0,0%,50.2%,.06);
     box-sizing: border-box;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &-counter {
