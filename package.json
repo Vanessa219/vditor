@@ -32,7 +32,8 @@
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "webpack": "^4.29.0",
-    "webpack-cli": "^3.2.1"
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
   },
   "license": "MIT",
   "repository": {
@@ -46,7 +47,7 @@
     "build": "webpack --env.production",
     "dev": "webpack",
     "demo": "webpack --config webpack.demo.js",
-    "start": "http-server"
+    "start": "webpack-dev-server --config webpack.start.js"
   },
   "keywords": [
     "editor",
