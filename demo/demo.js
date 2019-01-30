@@ -14,23 +14,39 @@ const vditor = new Vditor('vditor', {
   classes: {
     preview: 'content-reset',
   },
-  focus:(val)=> {
+  commonEmoji: {
+    '+1': '👍',
+    '-1': '👎',
+  },
+  focus: (val) => {
     console.log(`focus: ${val}`)
   },
-  blur:(val)=> {
+  blur: (val) => {
     console.log(`blur: ${val}`)
   },
-  input: (val, mdElement)=> {
+  input: (val, mdElement) => {
     console.log('change:' + val, mdElement)
   },
-  esc: (val)=> {
+  esc: (val) => {
     console.log(`esc: ${val}`)
   },
-  ctrlEnter: (val)=> {
+  ctrlEnter: (val) => {
     console.log(`ctrlEnter: ${val}`)
   },
-  select: (val)=> {
+  select: (val) => {
     console.log(`select: ${val}`)
+  },
+  atUser: (key) => {
+    console.log(`atUser: ${key}`)
+    return [
+      {
+        value: '@88250',
+        html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> 88250',
+      },
+      {
+        value: '@Vanessa',
+        html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> Vanessa',
+      }]
   },
   toolbar: [
     'preview',

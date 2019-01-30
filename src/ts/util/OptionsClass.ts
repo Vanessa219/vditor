@@ -20,7 +20,6 @@ export class OptionsClass {
         classes: {
             preview: ''
         },
-        atUserCallback: '',
         commonEmoji: {
             "+1": "👍",
             "-1": "👎",

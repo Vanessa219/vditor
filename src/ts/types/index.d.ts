@@ -5,6 +5,8 @@ declare module "*.svg" {
 
 declare module '*.png'
 
+declare module '*/emoji/allEmoji'
+
 interface Classes {
     preview?: string
 }
@@ -37,7 +39,7 @@ interface Options {
     upload?: Upload
     classes?: Classes
     staticServePath?: string
-    atUserCallback?: object | string
+    atUser?: { (value: string): Array<any> }
     commonEmoji?: any
     toolbar?: Array<string | MenuItem>
     input?: InputFunction
@@ -61,6 +63,7 @@ interface Vditor {
     editor?: any
     counter?: any
     drag?: any
+    hint?: any
 }
 
 declare function captureEvents(name: string): void

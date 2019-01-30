@@ -1,4 +1,5 @@
 import {commandable} from '../util/commandable'
+import {Hint} from "../hint/index";
 
 class Editor {
     element: HTMLTextAreaElement
@@ -16,15 +17,23 @@ class Editor {
             if (vditor.options.counter > 0) {
                 vditor.counter.render(this.element.value.length, vditor.options.counter)
             }
+
             if (vditor.options.input) {
                 vditor.options.input(this.element.value, vditor.markdown && vditor.markdown.element)
             }
+
+            vditor.hint && vditor.hint.render()
         })
-        if (vditor.options.focus) {
-            this.element.addEventListener('focus', () => {
+
+        this.element.addEventListener('focus', () => {
+            if (vditor.options.focus) {
                 vditor.options.focus(this.element.value)
-            })
-        }
+            }
+            if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
+                vditor.toolbar.elements.emoji.children[1].style.display = 'none'
+            }
+        })
+
         if (vditor.options.blur) {
             this.element.addEventListener('blur', () => {
                 vditor.options.blur(this.element.value)

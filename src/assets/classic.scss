@@ -16,6 +16,10 @@
     background-color: #fff;
   }
 
+  &-emojis {
+    cursor: pointer;
+  }
+
   &-content {
     display: flex;
     min-height: 60px;
@@ -78,6 +82,21 @@
       height: 3px;
       display: block;
       margin: 0 auto;
+    }
+  }
+
+  &-hint {
+    background-color: #fff;
+    line-height: 21px;
+    position: absolute;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    border-radius: 3px;
+    padding: 5px 0;
+    z-index: 1;
+    font-size: 16px;
+
+    &--current {
+      background-color: lightblue;
     }
   }
 }

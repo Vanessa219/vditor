@@ -7,6 +7,7 @@ import {Hotkey} from "./ts/hotkey/index";
 import {Markdown} from "./ts/markdown/index";
 import {Counter} from "./ts/counter/index";
 import {Drag} from "./ts/drag/index";
+import {Hint} from "./ts/hint/index";
 
 class VditorClass {
     readonly version: string;
@@ -45,9 +46,14 @@ class VditorClass {
             this.vditor.markdown = markdown
         }
 
-        new Hotkey(this.vditor)
-
         new Ui(this.vditor)
+
+        if (this.vditor.options.atUser || this.vditor.toolbar.elements.emoji) {
+            const hint = new Hint(this.vditor)
+            this.vditor.hint = hint
+        }
+
+        new Hotkey(this.vditor)
     }
 }
 
