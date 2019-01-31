@@ -17,7 +17,40 @@
   }
 
   &-emojis {
-    cursor: pointer;
+    display: inline-block;
+
+    &__tail {
+      font-size: 12px;
+      text-align: right;
+      color: #616161;
+      a {
+        text-decoration: none;
+        color: #616161;
+        &:hover {
+          color: #4285f4;
+        }
+      }
+    }
+
+    span {
+      cursor: pointer;
+      border-radius: 3px;
+      float: left;
+      height: 20px;
+      width: 20px;
+      text-align: center;
+      line-height: 20px;
+      padding: 3px;
+      &:hover {
+        background-color: #f1f7fe;
+      }
+    }
+
+    img {
+      height: 20px;
+      width: 20px;
+      display: inline-block;
+    }
   }
 
   &-content {
@@ -47,7 +80,7 @@
     background-color: #fff;
     overflow: auto;
     padding: 10px;
-    box-shadow: inset 1px 0 hsla(0,0%,50.2%,.06);
+    box-shadow: inset 1px 0 hsla(0, 0%, 50.2%, .06);
     box-sizing: border-box;
 
     &::-webkit-scrollbar {
@@ -91,7 +124,7 @@
     background-color: #fff;
     line-height: 21px;
     position: absolute;
-    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
     border-radius: 3px;
     padding: 5px 0;
     z-index: 1;

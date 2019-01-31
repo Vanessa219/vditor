@@ -22,7 +22,7 @@ export class Emoji extends MenuItemClass {
             }
         })
 
-        const tailHTML = menuItem.tail ? `<div>${menuItem.tail}</div>` : ''
+        const tailHTML = menuItem.tail ? `<div class="vditor-emojis__tail">${menuItem.tail}</div>` : ''
 
         emojiPanelElement.innerHTML = `<div class="vditor-emojis">${commonEmojiHTML}</div>${tailHTML}`
 
@@ -33,7 +33,14 @@ export class Emoji extends MenuItemClass {
 
     _bindEvent(emojiPanelElement: HTMLElement, vditor: Vditor) {
         this.element.children[0].addEventListener('click', () => {
-            emojiPanelElement.style.display = emojiPanelElement.style.display === 'block' ? 'none' : 'block'
+            if (emojiPanelElement.style.display === 'block') {
+                emojiPanelElement.style.display = 'none'
+            } else {
+                emojiPanelElement.style.display = 'block'
+                if (vditor.toolbar.elements.headings) {
+                    vditor.toolbar.elements.headings.children[1].style.display = 'none'
+                }
+            }
         })
 
         emojiPanelElement.querySelectorAll('.vditor-emojis span').forEach((element) => {

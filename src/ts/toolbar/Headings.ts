@@ -25,7 +25,14 @@ export class Headings extends MenuItemClass {
 
     _bindEvent(headingsPanelElement: HTMLElement, vditor: Vditor) {
         this.element.children[0].addEventListener('click', () => {
-            headingsPanelElement.style.display = headingsPanelElement.style.display === 'block' ? 'none' : 'block'
+            if (headingsPanelElement.style.display === 'block') {
+                headingsPanelElement.style.display = 'none'
+            } else {
+                headingsPanelElement.style.display = 'block'
+                if (vditor.toolbar.elements.emoji) {
+                    vditor.toolbar.elements.emoji.children[1].style.display = 'none'
+                }
+            }
         })
 
         for (let i = 0; i < 6; i++) {
