@@ -64,21 +64,31 @@ const vditor = new Vditor('vditor', {
   ],
 })
 
-const vditor2 = new Vditor('vditor2')
+const vditor2 = new Vditor('vditor2', {
+  upload: {
+    url: '/api/upload/editor',
+  },
+})
 
 vditor.insertVale('Hi, Vditor!')
 vditor.focus()
 console.log('vditor.getValue(): ' + vditor.getValue())
+vditor.setSelection(4, 9)
 console.log('vditor.getSelection(): ' + vditor.getSelection())
 setTimeout(() => {
   vditor.setValue('Hi, Markdown!')
-  vditor.setSelection(4, 12)
   vditor.renderPreview()
-  vditor.blur()
+  vditor.disabled()
 }, 3000)
 
 setTimeout(() => {
+  vditor.enable()
+  vditor.setSelection(4, 12)
   vditor.deleteValue()
+}, 6000)
+
+setTimeout(() => {
   vditor.setSelection(0, 4)
   vditor.updateValue('Welcome')
-}, 6000)
+  vditor.blur()
+}, 9000)

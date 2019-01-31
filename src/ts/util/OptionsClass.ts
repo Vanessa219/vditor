@@ -13,9 +13,9 @@ export class OptionsClass {
         previewShow: false,
         counter: 0,
         upload: {
-            imgPath: '',
-            max: 10,
-            LinkToImgPath: '',
+            url: '',
+            max: 10 * 1024 * 1024,
+            linkToImgUrl: '',
         },
         classes: {
             preview: ''
@@ -109,6 +109,9 @@ export class OptionsClass {
         }, {
             name: '|'
         }, {
+            name: 'upload',
+            tipPosition: 'n'
+        }, {
             name: 'table',
             prefix: '| ',
             suffix: ' |  |  |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |',
@@ -145,19 +148,25 @@ export class OptionsClass {
 
     merge(): Options {
         let toolbar: Array<MenuItem> = []
-        if (this.options && this.options.toolbar) {
-            this.options.toolbar.forEach((menuItem) => {
-                let currentMenuItem: MenuItem
-                this.defaultOptions.toolbar.forEach((defaultMenuItem: MenuItem) => {
-                    if (typeof menuItem === 'string' && defaultMenuItem.name === menuItem) {
-                        currentMenuItem = defaultMenuItem
-                    }
-                    if (typeof menuItem === 'object' && defaultMenuItem.name === menuItem.name) {
-                        currentMenuItem = Object.assign({}, defaultMenuItem, menuItem)
-                    }
+        if (this.options) {
+            if (this.options.toolbar) {
+                this.options.toolbar.forEach((menuItem) => {
+                    let currentMenuItem: MenuItem
+                    this.defaultOptions.toolbar.forEach((defaultMenuItem: MenuItem) => {
+                        if (typeof menuItem === 'string' && defaultMenuItem.name === menuItem) {
+                            currentMenuItem = defaultMenuItem
+                        }
+                        if (typeof menuItem === 'object' && defaultMenuItem.name === menuItem.name) {
+                            currentMenuItem = Object.assign({}, defaultMenuItem, menuItem)
+                        }
+                    })
+                    toolbar.push(currentMenuItem)
                 })
-                toolbar.push(currentMenuItem)
-            })
+            }
+
+            if (this.options.upload) {
+                this.options.upload = Object.assign({}, this.defaultOptions.upload, this.options.upload)
+            }
         }
 
         const mergedOptions = Object.assign({}, this.defaultOptions, this.options)

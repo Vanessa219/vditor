@@ -23,6 +23,7 @@ class VditorClass {
         this.vditor = {
             id,
             options: mergedOptions,
+            isUploading: false
         }
 
         if (mergedOptions.counter > 0) {
@@ -73,6 +74,14 @@ class VditorClass {
         this.vditor.editor.element.blur()
     }
 
+    disabled() {
+        this.vditor.editor.element.setAttribute('disabled', 'disabled')
+    }
+
+    enable() {
+        this.vditor.editor.element.removeAttribute('disabled')
+    }
+
     setSelection(start: number, end: number) {
         this.vditor.editor.element.selectionStart = start
         this.vditor.editor.element.selectionEnd = end
@@ -101,6 +110,10 @@ class VditorClass {
 
     updateValue(value: string) {
         insertText(this.vditor.editor.element, value, '', true)
+    }
+
+    isUploading() {
+        return this.vditor.isUploading
     }
 }
 

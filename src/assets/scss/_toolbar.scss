@@ -31,6 +31,23 @@
         color: $toolbarIconHover;
       }
     }
+
+    label {
+      overflow: hidden;
+      position: relative;
+      height: 14px;
+      width: 14px;
+      display: block;
+      cursor: pointer;
+    }
+
+    input {
+      position: absolute;
+      width: 1px;
+      opacity: .001;
+      height: 14px;
+      overflow: hidden;
+    }
   }
 
   &-menu {

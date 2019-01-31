@@ -12,9 +12,9 @@ interface Classes {
 }
 
 interface Upload {
-    imgPath: string
+    url: string
     max: number
-    LinkToImgPath: string
+    linkToImgUrl: string
 }
 
 interface MenuItem {
@@ -65,6 +65,7 @@ interface Vditor {
     counter?: any
     drag?: any
     hint?: any
+    isUploading: boolean
 }
 
 declare function captureEvents(name: string): void

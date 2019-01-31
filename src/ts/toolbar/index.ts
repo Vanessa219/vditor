@@ -19,6 +19,7 @@ import {Help} from "./Help";
 import {Table} from "./Table";
 import {Preview} from "./Preview";
 import {Fullscreen} from "./Fullscreen";
+import {Upload} from "./Upload";
 
 export class Toolbar {
     elements: any
@@ -92,6 +93,9 @@ export class Toolbar {
                     break
                 case 'fullscreen':
                     menuItemObj = new Fullscreen(vditor, menuItem)
+                    break
+                case 'upload':
+                    menuItemObj = new Upload(vditor, menuItem)
                     break
                 default:
                     console.log('menu item no matched')
