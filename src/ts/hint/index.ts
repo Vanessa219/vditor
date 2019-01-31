@@ -43,7 +43,6 @@ export class Hint {
                 import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji')
                     .then(allEmoji => {
                         let emojiHint = emojiKey === '' ? this.commonEmoji : allEmoji.default
-                        console.log(emojiHint);
                         let matchEmojiData:Array<any> = []
                         Object.keys(emojiHint).forEach((key) => {
                             if (key.indexOf(emojiKey.toLowerCase()) === 0) {

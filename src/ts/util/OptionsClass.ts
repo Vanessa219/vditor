@@ -29,92 +29,111 @@ export class OptionsClass {
         },
         toolbar: [{
             name: 'emoji',
-            hotkey: '⌘ e'
+            hotkey: '⌘-e',
+            tipPosition: 'ne'
         }, {
             name: 'headings',
-            hotkey: '⌘ h'
+            hotkey: '⌘-h',
+            tipPosition: 'ne'
         }, {
             name: 'bold',
             prefix: '**',
             suffix: '**',
-            hotkey: '⌘ b'
+            hotkey: '⌘-b',
+            tipPosition: 'ne'
         }, {
             name: 'italic',
             prefix: '*',
             suffix: '*',
-            hotkey: '⌘ i'
+            hotkey: '⌘-i',
+            tipPosition: 'ne'
         }, {
             name: 'strike',
             prefix: '~~',
             suffix: '~~',
-            hotkey: '⌘ s'
+            hotkey: '⌘-s',
+            tipPosition: 'ne'
         }, {
             name: '|'
         }, {
             name: 'line',
             prefix: '* * *\n',
-            hotkey: '⌘ d'
+            hotkey: '⌘-d',
+            tipPosition: 'n'
         }, {
             name: 'quote',
             prefix: '> ',
-            hotkey: '⌘ r'
+            hotkey: '⌘-r',
+            tipPosition: 'n'
         }, {
             name: '|'
         }, {
             name: 'list',
             prefix: '* ',
-            hotkey: '⌘ l'
+            hotkey: '⌘-l',
+            tipPosition: 'n'
         }, {
             name: 'ordered-list',
             prefix: '1. ',
-            hotkey: '⌘ o'
+            hotkey: '⌘-o',
+            tipPosition: 'n'
         }, {
             name: 'check',
             prefix: '* [ ] ',
-            hotkey: '⌘ j'
+            hotkey: '⌘-j',
+            tipPosition: 'n'
         }, {
             name: '|'
         }, {
             name: 'code',
             prefix: '```\n',
             suffix: '\n```',
-            hotkey: '⌘ u'
+            hotkey: '⌘-u',
+            tipPosition: 'n'
         }, {
             name: 'inline-code',
             prefix: '`',
             suffix: '`',
-            hotkey: '⌘ g'
+            hotkey: '⌘-g',
+            tipPosition: 'n'
         }, {
             name: '|'
         }, {
             name: 'undo',
-            hotkey: '⌘ z'
+            hotkey: '⌘-z',
+            tipPosition: 'n'
         }, {
             name: 'redo',
-            hotkey: '⌘ y'
+            hotkey: '⌘-y',
+            tipPosition: 'n'
         }, {
             name: '|'
         }, {
             name: 'table',
             prefix: '| ',
             suffix: ' |  |  |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |',
-            hotkey: '⌘ m'
+            hotkey: '⌘-m',
+            tipPosition: 'n'
         }, {
             name: 'link',
             prefix: '[',
             suffix: '](http://)',
-            hotkey: '⌘ k'
+            hotkey: '⌘-k',
+            tipPosition: 'n'
         }, {
             name: '|'
         }, {
             name: 'preview',
-            hotkey: '⌘ p'
+            hotkey: '⌘-p',
+            tipPosition: 'nw'
         }, {
             name: 'fullscreen',
-            hotkey: '⌘ f'
+            hotkey: '⌘-f',
+            tipPosition: 'nw'
         }, {
             name: 'help',
-            hotkey: '⌘ .'
+            hotkey: '⌘-.',
+            tipPosition: 'nw'
         }, {
             name: 'br'
         }],

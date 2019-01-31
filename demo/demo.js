@@ -49,11 +49,16 @@ const vditor = new Vditor('vditor', {
       }]
   },
   toolbar: [
-    'preview',
+    {
+      name: 'preview',
+      tipPosition: 'ne',
+    },
     {
       name: 'emoji',
       tail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
-    }],
+    },
+    'strike',
+  ],
 })
 
 const vditor2 = new Vditor('vditor2')

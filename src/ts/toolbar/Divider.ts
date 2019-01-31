@@ -3,6 +3,6 @@ export class Divider {
 
     constructor() {
         this.element = document.createElement('div')
-        this.element.innerHTML = '|'
+        this.element.className = 'vditor-menu__divider'
     }
 }

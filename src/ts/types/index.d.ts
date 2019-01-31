@@ -25,6 +25,7 @@ interface MenuItem {
     suffix?: string
     prefix?: string
     tail?: string
+    tipPosition?: string
 }
 
 interface Options {

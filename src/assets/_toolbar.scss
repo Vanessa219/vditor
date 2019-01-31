@@ -5,13 +5,37 @@
  * @version 0.1.0.0, Jan 28, 2019
  */
 .vditor-toolbar {
+  background-color: #f6f8fa;
+  padding: 0 5px;
+  display: inline-flex;
+
   & > div {
+    padding: 10px 5px;
+  }
+
+  svg {
+    fill: currentColor;
     display: inline-block;
+    stroke-width: 0;
+    stroke: currentColor;
+    width: 14px;
+    height: 14px;
+  }
+
+  .vditor-tooltipped {
+    color: #616161;
+    &:hover {
+      color: #4285f4;
+    }
   }
 }
 
 .vditor-menu {
   &--current svg {
-    fill: blue;
+    color: #4285f4;
+  }
+
+  &__divider {
+    width: 10px;
   }
 }

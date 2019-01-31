@@ -13,9 +13,9 @@ export class MenuItemClass {
 
         this.element = document.createElement('div')
         const iconElement = document.createElement('div')
-        iconElement.className = 'vditor-tooltipped vditor-tooltipped__s'
+        iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`
 
-        const hotkey = `<${this.menuItem.hotkey}>`
+        const hotkey = ` <${this.menuItem.hotkey}>`
         if (/Mac/.test(navigator.platform)) {
             hotkey.replace('ctrl', '⌘')
         } else {

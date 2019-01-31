@@ -6,19 +6,19 @@ export class Preview extends MenuItemClass {
         super(vditor, menuItem)
         this.element.children[0].innerHTML = menuItem.icon || previewSVG
         if (vditor.options.previewShow) {
-            this.element.children[0].className='vditor-tooltipped vditor-tooltipped__s vditor-menu--current'
+            this.element.children[0].className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`
         }
-        this._bindEvent(vditor)
+        this._bindEvent(vditor, menuItem)
     }
 
-    _bindEvent(vditor: Vditor) {
-        this.element.children[0].addEventListener('click', function() {
+    _bindEvent(vditor: Vditor, menuItem: MenuItem) {
+        this.element.children[0].addEventListener('click', function () {
             if (vditor.markdown.element.style.display === 'block') {
                 vditor.markdown.element.style.display = 'none'
-                this.className='vditor-tooltipped vditor-tooltipped__s'
+                this.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`
             } else {
                 vditor.markdown.element.style.display = 'block'
-                this.className='vditor-tooltipped vditor-tooltipped__s vditor-menu--current'
+                this.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`
             }
         })
     }

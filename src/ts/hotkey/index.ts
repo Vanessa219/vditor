@@ -32,7 +32,7 @@ export class Hotkey {
                 if (!menuItem.hotkey) {
                     return
                 }
-                const hotkeys = menuItem.hotkey.split(' ')
+                const hotkeys = menuItem.hotkey.split('-')
                 if ((hotkeys[0] === 'ctrl' || hotkeys[0] === '⌘') && (event.metaKey || event.ctrlKey)) {
                     if (event.key === hotkeys[1]) {
                         this.toolbarElements[menuItem.name].children[0].click()
