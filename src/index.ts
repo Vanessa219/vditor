@@ -2,12 +2,13 @@ import {VDITOR_VERSION} from "./ts/constants";
 import {Toolbar} from "./ts/toolbar/index";
 import {OptionsClass} from "./ts/util/OptionsClass";
 import {Ui} from "./ts/ui/index";
-import {Editor} from "./ts/editor/index";
+import {Editor, insertText} from "./ts/editor/index";
 import {Hotkey} from "./ts/hotkey/index";
 import {Markdown} from "./ts/markdown/index";
 import {Counter} from "./ts/counter/index";
 import {Drag} from "./ts/drag/index";
 import {Hint} from "./ts/hint/index";
+import {getTextareaPosition} from "./ts/util/textareaPosition";
 
 class VditorClass {
     readonly version: string;
@@ -53,6 +54,53 @@ class VditorClass {
         }
 
         new Hotkey(this.vditor)
+    }
+
+
+    getValue() {
+        return this.vditor.editor.element.value
+    }
+
+    insertVale(value: string) {
+        insertText(this.vditor.editor.element, value, '')
+    }
+
+    focus() {
+        this.vditor.editor.element.focus()
+    }
+
+    blur() {
+        this.vditor.editor.element.blur()
+    }
+
+    setSelection(start: number, end: number) {
+        this.vditor.editor.element.selectionStart = start
+        this.vditor.editor.element.selectionEnd = end
+        this.vditor.editor.element.focus()
+    }
+
+    getSelection() {
+        this.vditor.editor.element.value.substring(this.vditor.editor.element.selectionStart, this.vditor.editor.element.selectionEnd)
+    }
+
+    setValue(value: string) {
+        this.vditor.editor.element.value = value
+    }
+
+    renderPreview() {
+        this.vditor.markdown.render()
+    }
+
+    getCursorPosition() {
+        return getTextareaPosition(this.vditor.editor.element)
+    }
+
+    deleteValue() {
+        insertText(this.vditor.editor.element, '', '', true)
+    }
+
+    updateValue(value: string) {
+        insertText(this.vditor.editor.element, value, '', true)
     }
 }
 

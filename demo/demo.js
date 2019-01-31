@@ -19,7 +19,9 @@ const vditor = new Vditor('vditor', {
     '-1': '👎',
   },
   focus: (val) => {
-    console.log(`focus: ${val}`)
+    console.log(`focus value: ${val}`)
+    console.log(
+      `focus cursor position:${JSON.stringify(vditor.getCursorPosition())}`)
   },
   blur: (val) => {
     console.log(`blur: ${val}`)
@@ -64,4 +66,19 @@ const vditor = new Vditor('vditor', {
 
 const vditor2 = new Vditor('vditor2')
 
-console.log(vditor2)
+vditor.insertVale('Hi, Vditor!')
+vditor.focus()
+console.log('vditor.getValue(): ' + vditor.getValue())
+console.log('vditor.getSelection(): ' + vditor.getSelection())
+setTimeout(() => {
+  vditor.setValue('Hi, Markdown!')
+  vditor.setSelection(4, 12)
+  vditor.renderPreview()
+  vditor.blur()
+}, 3000)
+
+setTimeout(() => {
+  vditor.deleteValue()
+  vditor.setSelection(0, 4)
+  vditor.updateValue('Welcome')
+}, 6000)

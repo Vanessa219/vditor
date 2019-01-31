@@ -14,4 +14,8 @@ export class Markdown {
         this.element.className = 'vditor-preview' +
             (vditor.options.classes.preview ? ' ' + vditor.options.classes.preview : '')
     }
+
+    render () {
+        console.log('render preview')
+    }
 }
