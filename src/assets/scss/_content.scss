@@ -1,0 +1,90 @@
+.vditor {
+  display: flex;
+  flex-direction: column;
+
+  &--fullscreen {
+    position: fixed;
+    top: 0;
+    width: 100% !important;
+    left: 0;
+    height: 100vh !important;
+    z-index: 90;
+    background-color: $fullscreenBg;
+  }
+
+  &-content {
+    display: flex;
+    min-height: 60px;
+    flex: 1;
+    position: relative;
+  }
+
+  &-textarea {
+    flex: 1;
+    border: 0;
+    resize: none;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: $textareaBg;
+    outline: 0 none;
+    font-size: 16px;
+    line-height: 22px;
+    color: $textareaColor;
+
+    &:focus {
+      background-color: $textareaFocusBg;
+    }
+  }
+
+  &-preview {
+    flex: 1;
+    background-color: $previewBg;
+    overflow: auto;
+    padding: 10px;
+    box-shadow: inset 1px 0 $borderColor;
+    box-sizing: border-box;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &-counter {
+    padding: 0 3px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: $textareaColor;
+    background-color: $countBg;
+    border-radius: 3px;
+    font-size: 12px;
+    user-select: none;
+  }
+
+  &-drag {
+    padding: 1px 0;
+    border-radius: 5px;
+    cursor: row-resize;
+    transition: all .15s ease-in-out;
+    user-select: none;
+    background-color: $dragBg;
+
+    &:hover {
+      background-color: $dragHoverBg;
+      svg {
+        color: $hoverColor;
+      }
+    }
+
+    svg {
+      fill: currentColor;
+      stroke-width: 0;
+      stroke: currentColor;
+      width: 13px;
+      height: 3px;
+      display: block;
+      margin: 0 auto;
+      color: $toolbarIcon;
+    }
+  }
+}

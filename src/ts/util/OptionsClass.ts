@@ -63,7 +63,7 @@ export class OptionsClass {
         }, {
             name: 'quote',
             prefix: '> ',
-            hotkey: '⌘-r',
+            hotkey: '⌘-.',
             tipPosition: 'n'
         }, {
             name: '|'
@@ -132,7 +132,7 @@ export class OptionsClass {
             tipPosition: 'nw'
         }, {
             name: 'help',
-            hotkey: '⌘-.',
+            hotkey: '⌘-/',
             tipPosition: 'nw'
         }, {
             name: 'br'

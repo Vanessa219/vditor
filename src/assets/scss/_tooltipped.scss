@@ -25,7 +25,7 @@
     font-size: 11px;
     font-weight: normal;
     -webkit-font-smoothing: subpixel-antialiased;
-    color: #fff;
+    color: $tooltipColor;
     text-align: center;
     text-decoration: none;
     text-shadow: none;
@@ -35,7 +35,7 @@
     white-space: pre;
     pointer-events: none;
     content: attr(aria-label);
-    background: rgba(0, 0, 0, 0.8);
+    background: $toolTipBg;
     border-radius: 3px;
     line-height: 16px;
     opacity: 0
@@ -47,7 +47,7 @@
     display: none;
     width: 0;
     height: 0;
-    color: rgba(0, 0, 0, 0.8);
+    color: $toolTipBg;
     pointer-events: none;
     content: "";
     border: 5px solid transparent;
@@ -86,7 +86,7 @@
     right: 50%;
     bottom: -5px;
     margin-right: -5px;
-    border-bottom-color: rgba(0, 0, 0, 0.8)
+    border-bottom-color: $toolTipBg
   }
 
   &__se::after {
@@ -114,7 +114,7 @@
     right: 50%;
     bottom: auto;
     margin-right: -5px;
-    border-top-color: rgba(0, 0, 0, 0.8)
+    border-top-color: $toolTipBg
   }
 
   &__ne::after {
@@ -144,7 +144,7 @@
     bottom: 50%;
     left: -5px;
     margin-top: -5px;
-    border-left-color: rgba(0, 0, 0, 0.8);
+    border-left-color: $toolTipBg;
   }
 
   &__e::after {
@@ -159,7 +159,7 @@
     right: -5px;
     bottom: 50%;
     margin-top: -5px;
-    border-right-color: rgba(0, 0, 0, 0.8)
+    border-right-color: $toolTipBg
   }
 }
 

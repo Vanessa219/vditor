@@ -98,7 +98,8 @@ const baseConfig = [
   }, {
     mode: 'production',
     entry: {
-      'index.classic': './src/assets/classic.scss',
+      'index.classic': './src/assets/scss/classic.scss',
+      'index.dark': './src/assets/scss/dark.scss',
     },
     resolve: {
       extensions: ['.scss'],

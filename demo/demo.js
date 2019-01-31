@@ -53,7 +53,8 @@ const vditor = new Vditor('vditor', {
       name: 'preview',
       tipPosition: 'ne',
     },
-    {
+    'br'
+    , {
       name: 'emoji',
       tail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
     },
@@ -62,3 +63,5 @@ const vditor = new Vditor('vditor', {
 })
 
 const vditor2 = new Vditor('vditor2')
+
+console.log(vditor2)

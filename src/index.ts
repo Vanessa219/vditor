@@ -22,7 +22,6 @@ class VditorClass {
         this.vditor = {
             id,
             options: mergedOptions,
-            timeId: -1
         }
 
         if (mergedOptions.counter > 0) {

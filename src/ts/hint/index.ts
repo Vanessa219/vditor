@@ -43,18 +43,18 @@ export class Hint {
                 import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji')
                     .then(allEmoji => {
                         let emojiHint = emojiKey === '' ? this.commonEmoji : allEmoji.default
-                        let matchEmojiData:Array<any> = []
+                        let matchEmojiData: Array<any> = []
                         Object.keys(emojiHint).forEach((key) => {
                             if (key.indexOf(emojiKey.toLowerCase()) === 0) {
                                 if (emojiHint[key].indexOf('.') > -1) {
                                     matchEmojiData.push({
                                         value: `:${key}:`,
-                                        html: `<img src="${emojiHint[key]}"/>`
+                                        html: `<img src="${emojiHint[key]}" title=":${key}:"/> :${key}:`
                                     })
                                 } else {
                                     matchEmojiData.push({
                                         value: emojiHint[key],
-                                        html: emojiHint[key]
+                                        html: `${emojiHint[key]} ${key}`
                                     })
                                 }
                             }
@@ -104,8 +104,8 @@ export class Hint {
             return
         }
         const textareaPosition = getTextareaPosition(this.editorElement)
-        const x = textareaPosition.left + 2
-        const y = textareaPosition.top + 29
+        const x = textareaPosition.left
+        const y = textareaPosition.top - 4
         let hintsHTML = ''
 
         data.forEach((hintData, i) => {
@@ -131,11 +131,10 @@ export class Hint {
                 insertText(this.editorElement, value, '', true)
             })
         })
-
         // hint 展现在上部
-        if (y + this.element.offsetHeight > this.editorElement.offsetHeight + 68) {
-            this.element.style.top = `${y - this.element.offsetHeight - 18}px`
+        if (y + this.element.offsetHeight - this.editorElement.offsetHeight >
+            window.innerHeight - (this.editorElement.parentElement.offsetHeight + this.editorElement.parentElement.offsetTop - document.documentElement.scrollTop)) {
+            this.element.style.top = `${y - this.element.offsetHeight}px`
         }
     }
-
 }

@@ -37,11 +37,16 @@ class Editor {
             }
         })
 
-        if (vditor.options.blur) {
-            this.element.addEventListener('blur', () => {
+
+        this.element.addEventListener('blur', () => {
+            if (vditor.options.blur) {
                 vditor.options.blur(this.element.value)
-            })
-        }
+            }
+            if (vditor.hint && vditor.hint.element) {
+                vditor.hint.element.style.display = 'none'
+            }
+        })
+
         if (vditor.options.select) {
             this.element.onselect = () => {
                 vditor.options.select(this.element.value.substring(

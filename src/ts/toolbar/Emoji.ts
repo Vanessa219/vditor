@@ -16,9 +16,9 @@ export class Emoji extends MenuItemClass {
         Object.keys(vditor.options.commonEmoji).forEach((key) => {
             const emojiValue = vditor.options.commonEmoji[key]
             if (emojiValue.indexOf('.') > -1) {
-                commonEmojiHTML += `<span data-value=":${key}: "><img data-value=":${key}: " src="${emojiValue}"/></span>`
+                commonEmojiHTML += `<span data-value=":${key}: " title=":${key}:"><img data-value=":${key}: " src="${emojiValue}"/></span>`
             } else {
-                commonEmojiHTML += `<span data-value="${emojiValue} ">${emojiValue}</span>`
+                commonEmojiHTML += `<span data-value="${emojiValue} " title="${key}">${emojiValue}</span>`
             }
         })
 

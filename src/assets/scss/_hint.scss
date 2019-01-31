@@ -1,0 +1,38 @@
+.vditor-hint {
+  background-color: $layerBg;
+  position: absolute;
+  box-shadow: $layerShadow;
+  border-radius: 3px;
+  padding: 5px 0;
+  z-index: 1;
+  line-height: 20px;
+  list-style: none;
+  color: $textareaColor;
+  font-size: 12px;
+  margin: 0;
+  max-width: 200px;
+  min-width: 80px;
+  display: none;
+
+  li {
+    cursor: pointer;
+    padding: 3px 10px;
+    border-bottom: 1px solid $borderColor;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &--current,
+  li:hover {
+    background-color: $hoverBg;
+    color: $layerBg;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    float: left;
+    margin-right: 3px;
+  }
+}

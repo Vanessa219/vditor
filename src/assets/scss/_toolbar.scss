@@ -1,0 +1,87 @@
+/**
+ * toolbar.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.0.0, Jan 28, 2019
+ */
+.vditor {
+  &-toolbar {
+    background-color: $toolbarBg;
+    border-bottom: 1px solid $borderColor;
+    padding: 0 5px;
+
+    & > div {
+      padding: 10px 5px;
+      float: left;
+      line-height: 14px;
+    }
+
+    svg {
+      fill: currentColor;
+      display: inline-block;
+      stroke-width: 0;
+      stroke: currentColor;
+      width: 14px;
+      height: 14px;
+    }
+
+    .vditor-tooltipped {
+      color: $toolbarIcon;
+      &:hover {
+        color: $toolbarIconHover;
+      }
+    }
+  }
+
+  &-menu {
+    &--current svg {
+      color: $toolbarIconHover;
+    }
+
+    &__divider {
+      width: 10px;
+    }
+
+    &__br {
+      width: 100%;
+      padding: 0 !important;
+    }
+  }
+
+  &-emojis {
+    display: inline-block;
+
+    &__tail {
+      font-size: 12px;
+      text-align: right;
+      color: $toolbarIcon;
+      a {
+        text-decoration: none;
+        color: $toolbarIcon;
+        &:hover {
+          color: $hoverBg;
+        }
+      }
+    }
+
+    span {
+      cursor: pointer;
+      border-radius: 3px;
+      float: left;
+      height: 20px;
+      width: 20px;
+      text-align: center;
+      line-height: 20px;
+      padding: 3px;
+      &:hover {
+        background-color: $hoverBg;
+      }
+    }
+
+    img {
+      height: 20px;
+      width: 20px;
+      display: inline-block;
+    }
+  }
+}
