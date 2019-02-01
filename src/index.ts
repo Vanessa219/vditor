@@ -120,6 +120,10 @@ class VditorClass {
     isUploading() {
         return this.vditor.upload.isUploading
     }
+
+    clearCache() {
+        localStorage.removeItem('vditor' + this.vditor.id)
+    }
 }
 
 export default VditorClass

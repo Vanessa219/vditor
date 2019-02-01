@@ -10,8 +10,11 @@
     "dist/index.min.js"
   ],
   "dependencies": {
+    "@types/node": "^10.12.21",
     "marked": "^0.6.0",
-    "recordrtc": "^5.5.3"
+    "recordrtc": "^5.5.3",
+    "turndown": "^5.0.3",
+    "turndown-plugin-gfm": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

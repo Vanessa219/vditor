@@ -9,6 +9,8 @@ declare module '*/emoji/allEmoji.js'
 
 declare module 'recordrtc/RecordRTC.js'
 
+declare module 'turndown'
+
 interface Classes {
     preview?: string
 }
@@ -53,6 +55,7 @@ interface Options {
     esc?: { (value: string): void }
     ctrlEnter?: { (value: string): void }
     select?: { (value: string): void }
+    userCache: boolean
 }
 
 interface InputFunction {

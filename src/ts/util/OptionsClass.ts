@@ -4,6 +4,7 @@ import trollfacePng from "../../assets/images/trollface.png"
 export class OptionsClass {
     options: Options;
     private defaultOptions: Options = {
+        userCache: true,
         height: 'auto',
         width: 'auto',
         theme: 'classic',

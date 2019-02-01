@@ -67,6 +67,7 @@ const vditor = new Vditor('vditor', {
 const vditor2 = new Vditor('vditor2', {
   upload: {
     url: '/api/upload/editor',
+    linkToImgUrl: '/api/fetch-upload',
   },
 })
 

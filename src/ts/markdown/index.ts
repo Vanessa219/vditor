@@ -1,11 +1,3 @@
-import(/* webpackChunkName: "marked" */ 'marked')
-    .then(marked => {
-        console.log(marked.parse('# Marked in the browser.'));
-    })
-    .catch(err => {
-        console.log('Failed to load marked', err);
-    });
-
 export class Markdown {
     element: HTMLElement
 
@@ -16,6 +8,17 @@ export class Markdown {
     }
 
     render () {
-        console.log('render preview')
+        let markedParse
+        if (!markedParse) {
+            import(/* webpackChunkName: "marked" */ 'marked')
+                .then(marked => {
+                    markedParse = marked.parser
+                })
+                .catch(err => {
+                    console.log('Failed to load marked', err);
+                });
+        }
+
+        //markedParse('# Marked in the browser.')
     }
 }

@@ -1,6 +1,7 @@
+import TurndownService from 'turndown'
 import {commandable} from '../util/commandable'
-import {Hint} from "../hint/index";
 import {uploadFiles} from "../upload/index";
+import {i18n} from "../i18n/index";
 
 class Editor {
     element: HTMLTextAreaElement
@@ -9,7 +10,9 @@ class Editor {
         this.element = document.createElement('textarea')
         this.element.className = 'vditor-textarea'
         this.element.setAttribute('placeholder', vditor.options.placeholder)
-
+        if (vditor.options.userCache) {
+            this.element.value = localStorage.getItem('vditor' + vditor.id)
+        }
         this.bindEvent(vditor)
     }
 
@@ -24,6 +27,10 @@ class Editor {
             }
 
             vditor.hint && vditor.hint.render()
+
+            if (vditor.options.userCache) {
+                localStorage.setItem(`vditor${vditor.id}`, vditor.editor.element.value)
+            }
         })
 
         this.element.addEventListener('focus', () => {
@@ -92,75 +99,77 @@ class Editor {
             event.preventDefault()
 
             if (event.clipboardData.getData('text/html').replace(/(^\s*)|(\s*)$/g, '') !== '') {
-                //     let onlyMultiCode = false
-                //     // no escape
-                //     TurndownService.prototype.escape = function (string) {
-                //         return string
-                //     }
-                //     const turndownService = new TurndownService()
-                //
-                //     turndownService.addRule('strikethrough', {
-                //         filter: ['pre', 'code'],
-                //         replacement: function (content, node) {
-                //             if (node.parentElement.tagName === 'PRE') {
-                //                 return content
-                //             }
-                //             if (content.split('\n').length > 1) {
-                //                 onlyMultiCode = true
-                //                 return '```\n' + content + '\n```'
-                //             }
-                //             return '`' + content + '`'
-                //         },
-                //     })
-                //     turndownService.addRule('strikethrough', {
-                //         filter: ['img'],
-                //         replacement: function (content, target) {
-                //             if (!target.getAttribute('src')) {
-                //                 return ''
-                //             }
-                //
-                //             config.fetchUpload &&
-                //             config.fetchUpload(target.src, (originalURL, url) => {
-                //                 replaceTextareaValue(textarea, originalURL, url)
-                //                 if (needDebounce) {
-                //                     timerId = debounceInput(timerId, config.change, $editor)
-                //                 }
-                //             })
-                //
-                //             return `![${target.alt}](${target.src})`
-                //         },
-                //     })
-                //
-                //     const turndownPluginGfm = require('turndown-plugin-gfm')
-                //     turndownService.use(turndownPluginGfm.gfm)
-                //
-                //     let markdownStr = turndownService.turndown(
-                //         event.clipboardData.getData('text/html'))
-                //
-                //     if (onlyMultiCode) {
-                //         if ($('<div>' + event.clipboardData.getData('text/html') +
-                //             '</div>').
-                //         find('pre').length > 1) {
-                //             onlyMultiCode = false
-                //         } else if (markdownStr.substr(0, 3) !== '```' ||
-                //             markdownStr.substr(markdownStr.length - 3, 3) !== '```') {
-                //             onlyMultiCode = false
-                //         }
-                //     }
-                //     if (onlyMultiCode) {
-                //         insertTextAtCaret(event.target,
-                //             '```\n' + event.clipboardData.getData('text/plain') +
-                //             '\n```',
-                //             '', true)
-                //         if (needDebounce) {
-                //             timerId = debounceInput(timerId, config.change, $editor)
-                //         }
-                //     } else {
-                //         insertTextAtCaret(event.target, markdownStr, '', true)
-                //         if (needDebounce) {
-                //             timerId = debounceInput(timerId, config.change, $editor)
-                //         }
-                //     }
+                let onlyMultiCode = false
+                // no escape
+                TurndownService.prototype.escape = (string: string) => {
+                    return string
+                }
+
+                const turndownService = new TurndownService()
+
+                turndownService.addRule('strikethrough', {
+                    filter: ['pre', 'code'],
+                    replacement: (content: string, node: HTMLElement) => {
+                        if (node.parentElement.tagName === 'PRE') {
+                            return content
+                        }
+                        if (content.split('\n').length > 1) {
+                            onlyMultiCode = true
+                            return '```\n' + content + '\n```'
+                        }
+                        return '`' + content + '`'
+                    },
+                })
+                turndownService.addRule('strikethrough', {
+                    filter: ['img'],
+                    replacement: (content: string, target: HTMLElement) => {
+                        if (!target.getAttribute('src')) {
+                            return ''
+                        }
+                        if (vditor.options.upload.linkToImgUrl) {
+                            const xhr = new XMLHttpRequest()
+                            xhr.open('POST', vditor.options.upload.linkToImgUrl)
+                            xhr.onreadystatechange = () => {
+                                if (xhr.readyState === XMLHttpRequest.DONE) {
+                                    if (xhr.status === 200) {
+                                        const responseJSON = JSON.parse(xhr.responseText)
+                                        const original = target.getAttribute('src')
+                                        vditor.editor.element.selectionStart = vditor.editor.element.value.split(original)[0].length
+                                        vditor.editor.element.selectionEnd = vditor.editor.element.selectionStart + original.length
+                                        insertText(vditor.editor.element, responseJSON.url, '', true)
+                                    }
+                                }
+                            }
+                            xhr.send(JSON.stringify({url: target.getAttribute('src')}))
+                        }
+
+                        return `![${target.getAttribute('alt')}](${target.getAttribute('src')})`
+                    },
+                })
+
+                const turndownPluginGfm = require('turndown-plugin-gfm')
+                turndownService.use(turndownPluginGfm.gfm)
+
+                let markdownStr = turndownService.turndown(
+                    event.clipboardData.getData('text/html'))
+
+                if (onlyMultiCode) {
+                    const tempElement = document.createElement('div')
+                    tempElement.innerHTML = event.clipboardData.getData('text/html')
+                    if (tempElement.querySelectorAll('pre').length > 1) {
+                        onlyMultiCode = false
+                    } else if (markdownStr.substr(0, 3) !== '```' ||
+                        markdownStr.substr(markdownStr.length - 3, 3) !== '```') {
+                        onlyMultiCode = false
+                    }
+                }
+                if (onlyMultiCode) {
+                    insertText(vditor.editor.element,
+                        '```\n' + event.clipboardData.getData('text/plain') + '\n```',
+                        '', true)
+                } else {
+                    insertText(vditor.editor.element, markdownStr, '', true)
+                }
             } else if (event.clipboardData.getData('text/plain').replace(/(^\s*)|(\s*)$/g, '') !== '' &&
                 event.clipboardData.files.length === 0) {
                 insertText(event.target,
