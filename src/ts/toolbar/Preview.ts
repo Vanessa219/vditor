@@ -19,6 +19,7 @@ export class Preview extends MenuItemClass {
             } else {
                 vditor.markdown.element.style.display = 'block'
                 this.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`
+                vditor.markdown.render(vditor)
             }
         })
     }

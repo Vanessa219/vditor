@@ -55,7 +55,7 @@ const genUploadedLabel = (editorElement: HTMLTextAreaElement, responseText: stri
     Object.keys(response.data.succMap).forEach((key) => {
         const path = response.data.succMap[key]
         if (path.indexOf('.weba') > -1) {
-            insertText(editorElement, `<audio controls="controls" src="${path}">\n`, '')
+            insertText(editorElement, `<audio controls="controls" src="${path}"></audio>\n`, '')
             return
         }
         const original = `[${key.replace(/\W/g, '')}](${i18n[lang].uploading})`

@@ -65,6 +65,9 @@ const vditor = new Vditor('vditor', {
 })
 
 const vditor2 = new Vditor('vditor2', {
+  parseMarkdown: (element) => {
+    console.log(element)
+  },
   markdownUrl: '/api/markdown',
   upload: {
     url: '/api/upload/editor',
