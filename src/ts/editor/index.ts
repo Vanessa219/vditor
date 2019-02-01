@@ -1,5 +1,5 @@
 import TurndownService from 'turndown'
-import turndownPluginGfm from 'turndown-plugin-gfm'
+import {gfm} from 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 import {commandable} from '../util/commandable'
 import {uploadFiles} from "../upload/index";
 
@@ -149,7 +149,7 @@ class Editor {
                     },
                 })
 
-                turndownService.use(turndownPluginGfm.gfm)
+                turndownService.use(gfm)
 
                 let markdownStr = turndownService.turndown(
                     event.clipboardData.getData('text/html'))

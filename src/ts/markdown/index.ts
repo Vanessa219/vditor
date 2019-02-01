@@ -16,7 +16,7 @@ export class Markdown {
             this.element.innerHTML = value
         } else if (vditor.options.markdownUrl) {
             clearTimeout(vditor.mdTimeoutId)
-            vditor.mdTimeoutId = setTimeout(()=> {
+            vditor.mdTimeoutId = setTimeout(() => {
                 const xhr = new XMLHttpRequest()
                 xhr.open('POST', vditor.options.markdownUrl)
                 xhr.onreadystatechange = () => {
@@ -31,9 +31,9 @@ export class Markdown {
                     }
                 }
 
-                const formData = new FormData();
-                formData.append('markdownText', vditor.editor.element.value);
-                xhr.send(formData)
+                xhr.send(JSON.stringify({
+                    markdownText: vditor.editor.element.value,
+                }))
             }, 1000)
         } else {
             this.element.innerHTML = vditor.editor.element.value

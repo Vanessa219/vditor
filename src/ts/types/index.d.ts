@@ -11,7 +11,7 @@ declare module 'recordrtc/RecordRTC.js'
 
 declare module 'turndown'
 
-declare module 'turndown-plugin-gfm'
+declare module 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 
 interface Classes {
     preview?: string
