@@ -20,6 +20,7 @@ import {Table} from "./Table";
 import {Preview} from "./Preview";
 import {Fullscreen} from "./Fullscreen";
 import {Upload} from "./Upload";
+import {Record} from "./Record";
 
 export class Toolbar {
     elements: any
@@ -96,6 +97,9 @@ export class Toolbar {
                     break
                 case 'upload':
                     menuItemObj = new Upload(vditor, menuItem)
+                    break
+                case 'record':
+                    menuItemObj = new Record(vditor, menuItem)
                     break
                 default:
                     console.log('menu item no matched')

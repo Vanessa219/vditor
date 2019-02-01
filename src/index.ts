@@ -9,6 +9,7 @@ import {Counter} from "./ts/counter/index";
 import {Drag} from "./ts/drag/index";
 import {Hint} from "./ts/hint/index";
 import {getTextareaPosition} from "./ts/util/textareaPosition";
+import {UploadClass} from "./ts/upload/index";
 
 class VditorClass {
     readonly version: string;
@@ -23,7 +24,6 @@ class VditorClass {
         this.vditor = {
             id,
             options: mergedOptions,
-            isUploading: false
         }
 
         if (mergedOptions.counter > 0) {
@@ -45,6 +45,11 @@ class VditorClass {
         if (toolbar.elements.preview) {
             const markdown = new Markdown(this.vditor)
             this.vditor.markdown = markdown
+        }
+
+        if (mergedOptions.upload.url) {
+            const upload = new UploadClass()
+            this.vditor.upload = upload
         }
 
         new Ui(this.vditor)
@@ -113,7 +118,7 @@ class VditorClass {
     }
 
     isUploading() {
-        return this.vditor.isUploading
+        return this.vditor.upload.isUploading
     }
 }
 

@@ -1,5 +1,6 @@
 import {commandable} from '../util/commandable'
 import {Hint} from "../hint/index";
+import {uploadFiles} from "../upload/index";
 
 class Editor {
     element: HTMLTextAreaElement
@@ -71,8 +72,111 @@ class Editor {
                 }
             })
         }
+
+        if (vditor.options.upload.url) {
+            this.element.addEventListener('drop', (event: any) => {
+                event.stopPropagation()
+                event.preventDefault()
+
+                const files = event.dataTransfer.items
+                if (files.length === 0) {
+                    return
+                }
+
+                uploadFiles(vditor, files)
+            })
+        }
+
+        this.element.addEventListener('paste', (event: any) => {
+            event.stopPropagation()
+            event.preventDefault()
+
+            if (event.clipboardData.getData('text/html').replace(/(^\s*)|(\s*)$/g, '') !== '') {
+                //     let onlyMultiCode = false
+                //     // no escape
+                //     TurndownService.prototype.escape = function (string) {
+                //         return string
+                //     }
+                //     const turndownService = new TurndownService()
+                //
+                //     turndownService.addRule('strikethrough', {
+                //         filter: ['pre', 'code'],
+                //         replacement: function (content, node) {
+                //             if (node.parentElement.tagName === 'PRE') {
+                //                 return content
+                //             }
+                //             if (content.split('\n').length > 1) {
+                //                 onlyMultiCode = true
+                //                 return '```\n' + content + '\n```'
+                //             }
+                //             return '`' + content + '`'
+                //         },
+                //     })
+                //     turndownService.addRule('strikethrough', {
+                //         filter: ['img'],
+                //         replacement: function (content, target) {
+                //             if (!target.getAttribute('src')) {
+                //                 return ''
+                //             }
+                //
+                //             config.fetchUpload &&
+                //             config.fetchUpload(target.src, (originalURL, url) => {
+                //                 replaceTextareaValue(textarea, originalURL, url)
+                //                 if (needDebounce) {
+                //                     timerId = debounceInput(timerId, config.change, $editor)
+                //                 }
+                //             })
+                //
+                //             return `![${target.alt}](${target.src})`
+                //         },
+                //     })
+                //
+                //     const turndownPluginGfm = require('turndown-plugin-gfm')
+                //     turndownService.use(turndownPluginGfm.gfm)
+                //
+                //     let markdownStr = turndownService.turndown(
+                //         event.clipboardData.getData('text/html'))
+                //
+                //     if (onlyMultiCode) {
+                //         if ($('<div>' + event.clipboardData.getData('text/html') +
+                //             '</div>').
+                //         find('pre').length > 1) {
+                //             onlyMultiCode = false
+                //         } else if (markdownStr.substr(0, 3) !== '```' ||
+                //             markdownStr.substr(markdownStr.length - 3, 3) !== '```') {
+                //             onlyMultiCode = false
+                //         }
+                //     }
+                //     if (onlyMultiCode) {
+                //         insertTextAtCaret(event.target,
+                //             '```\n' + event.clipboardData.getData('text/plain') +
+                //             '\n```',
+                //             '', true)
+                //         if (needDebounce) {
+                //             timerId = debounceInput(timerId, config.change, $editor)
+                //         }
+                //     } else {
+                //         insertTextAtCaret(event.target, markdownStr, '', true)
+                //         if (needDebounce) {
+                //             timerId = debounceInput(timerId, config.change, $editor)
+                //         }
+                //     }
+            } else if (event.clipboardData.getData('text/plain').replace(/(^\s*)|(\s*)$/g, '') !== '' &&
+                event.clipboardData.files.length === 0) {
+                insertText(event.target,
+                    event.clipboardData.getData('text/plain'), '', true)
+            } else if (event.clipboardData.files.length > 0) {
+                // upload file
+                if (!vditor.options.upload.url) {
+                    return
+                }
+                // NOTE: not work in Safari. maybe the browser considered local filesystem as the same domain as the pasted data
+                uploadFiles(vditor, event.clipboardData.files)
+            }
+        })
     }
 }
+
 
 const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: string, replace?: boolean) => {
     if (typeof textarea.selectionStart === 'number' && typeof textarea.selectionEnd === 'number') {
@@ -145,6 +249,7 @@ const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: strin
         }
     }
 }
+
 
 // const debounceChange = (timerId: number, change: ChangeFunction, $editor) => {
 //     if (timerId !== undefined) {

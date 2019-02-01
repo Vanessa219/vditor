@@ -5,7 +5,9 @@ declare module "*.svg" {
 
 declare module '*.png'
 
-declare module '*/emoji/allEmoji'
+declare module '*/emoji/allEmoji.js'
+
+declare module 'recordrtc/RecordRTC.js'
 
 interface Classes {
     preview?: string
@@ -15,6 +17,8 @@ interface Upload {
     url: string
     max: number
     linkToImgUrl: string
+    success?: { (textarea: HTMLTextAreaElement, msg: string): void }
+    error?: { (msg: string): void }
 }
 
 interface MenuItem {
@@ -65,7 +69,7 @@ interface Vditor {
     counter?: any
     drag?: any
     hint?: any
-    isUploading: boolean
+    upload?: any
 }
 
 declare function captureEvents(name: string): void

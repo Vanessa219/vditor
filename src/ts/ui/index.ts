@@ -33,6 +33,11 @@ export class Ui {
         if (vditor.options.counter > 0) {
             contentElement.appendChild(vditor.counter.element)
         }
+
+        if (vditor.upload) {
+            contentElement.appendChild(vditor.upload.element)
+        }
+
         vditorElement.appendChild(contentElement)
 
         if (vditor.options.draggable) {

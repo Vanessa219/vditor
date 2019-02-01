@@ -1,6 +1,6 @@
 import uploadSVG from "../../assets/icons/upload.svg";
 import {MenuItemClass} from "./MenuItemClass";
-import {uploadFile} from "../util/upload";
+import {uploadFiles} from "../upload/index"
 
 export class Upload extends MenuItemClass {
     constructor(vditor: Vditor, menuItem: MenuItem) {
@@ -15,7 +15,7 @@ export class Upload extends MenuItemClass {
             if (event.target.files.length === 0) {
                 return
             }
-            uploadFile(vditor, event.target.files, event.target)
+            uploadFiles(vditor, event.target.files, event.target)
         })
     }
 }

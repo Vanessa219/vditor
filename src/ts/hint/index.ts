@@ -16,7 +16,7 @@ export class Hint {
         this.element = document.createElement('ul')
         this.element.className = 'vditor-hint'
 
-        this.editorElement.parentNode.appendChild(this.element);
+        this.editorElement.parentElement.appendChild(this.element);
     }
 
     render() {
@@ -40,7 +40,7 @@ export class Hint {
                 }, 100)
             }
             if (emojiKey !== undefined) {
-                import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji')
+                import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji.js')
                     .then(allEmoji => {
                         let emojiHint = emojiKey === '' ? this.commonEmoji : allEmoji.default
                         let matchEmojiData: Array<any> = []

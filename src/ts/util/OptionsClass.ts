@@ -112,16 +112,20 @@ export class OptionsClass {
             name: 'upload',
             tipPosition: 'n'
         }, {
+            name: 'link',
+            prefix: '[',
+            suffix: '](http://)',
+            hotkey: '⌘-k',
+            tipPosition: 'n'
+        }, {
             name: 'table',
             prefix: '| ',
             suffix: ' |  |  |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |',
             hotkey: '⌘-m',
             tipPosition: 'n'
         }, {
-            name: 'link',
-            prefix: '[',
-            suffix: '](http://)',
-            hotkey: '⌘-k',
+            name: 'record',
+            hotkey: '⌘-;',
             tipPosition: 'n'
         }, {
             name: '|'

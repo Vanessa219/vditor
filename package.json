@@ -10,7 +10,8 @@
     "dist/index.min.js"
   ],
   "dependencies": {
-    "marked": "^0.6.0"
+    "marked": "^0.6.0",
+    "recordrtc": "^5.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
