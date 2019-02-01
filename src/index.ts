@@ -101,8 +101,8 @@ class VditorClass {
         this.vditor.editor.element.value = value
     }
 
-    renderPreview() {
-        this.vditor.markdown.render()
+    renderPreview(value?:string) {
+        this.vditor.markdown.render(this.vditor, value)
     }
 
     getCursorPosition() {

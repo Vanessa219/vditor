@@ -16,6 +16,10 @@ module.exports = {
       '/api': {
         target: 'http://localhost:8080',
         pathRewrite: {'^/api' : ''}
+      },
+      '/hacpai': {
+        target: 'https://hacpai.com',
+        pathRewrite: {'^/hacpai' : ''}
       }
     }
   }

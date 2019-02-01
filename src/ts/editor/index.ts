@@ -1,7 +1,7 @@
 import TurndownService from 'turndown'
+import turndownPluginGfm from 'turndown-plugin-gfm'
 import {commandable} from '../util/commandable'
 import {uploadFiles} from "../upload/index";
-import {i18n} from "../i18n/index";
 
 class Editor {
     element: HTMLTextAreaElement
@@ -31,6 +31,8 @@ class Editor {
             if (vditor.options.userCache) {
                 localStorage.setItem(`vditor${vditor.id}`, vditor.editor.element.value)
             }
+
+            vditor.markdown.render(vditor)
         })
 
         this.element.addEventListener('focus', () => {
@@ -147,7 +149,6 @@ class Editor {
                     },
                 })
 
-                const turndownPluginGfm = require('turndown-plugin-gfm')
                 turndownService.use(turndownPluginGfm.gfm)
 
                 let markdownStr = turndownService.turndown(

@@ -10,8 +10,6 @@
     "dist/index.min.js"
   ],
   "dependencies": {
-    "@types/node": "^10.12.21",
-    "marked": "^0.6.0",
     "recordrtc": "^5.5.3",
     "turndown": "^5.0.3",
     "turndown-plugin-gfm": "^1.0.2"
@@ -19,7 +17,6 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
-    "@types/marked": "^0.6.0",
     "autoprefixer": "^9.4.6",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",

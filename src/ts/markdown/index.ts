@@ -7,18 +7,30 @@ export class Markdown {
             (vditor.options.classes.preview ? ' ' + vditor.options.classes.preview : '')
     }
 
-    render () {
-        let markedParse
-        if (!markedParse) {
-            import(/* webpackChunkName: "marked" */ 'marked')
-                .then(marked => {
-                    markedParse = marked.parser
-                })
-                .catch(err => {
-                    console.log('Failed to load marked', err);
-                });
+    render(vditor: Vditor, value?: string) {
+        if (this.element.style.display === 'none') {
+            return
         }
 
-        //markedParse('# Marked in the browser.')
+        if (value) {
+            this.element.innerHTML = value
+        } else if (vditor.options.markdownUrl) {
+            const xhr = new XMLHttpRequest()
+            xhr.open('POST', vditor.options.markdownUrl)
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const responseJSON = JSON.parse(xhr.responseText)
+                        this.element.innerHTML = responseJSON.html
+                    }
+                }
+            }
+
+            const formData = new FormData();
+            formData.append('markdownText', vditor.editor.element.value);
+            xhr.send(formData)
+        } else {
+            this.element.innerHTML = vditor.editor.element.value
+        }
     }
 }

@@ -11,6 +11,8 @@ declare module 'recordrtc/RecordRTC.js'
 
 declare module 'turndown'
 
+declare module 'turndown-plugin-gfm'
+
 interface Classes {
     preview?: string
 }
@@ -35,6 +37,7 @@ interface MenuItem {
 }
 
 interface Options {
+    markdownUrl?: string
     height?: number | string
     width?: number | string
     theme?: string

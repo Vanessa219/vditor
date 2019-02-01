@@ -13,6 +13,7 @@ export class OptionsClass {
         draggable: false,
         previewShow: false,
         counter: 0,
+        markdownUrl: '',
         upload: {
             url: '',
             max: 10 * 1024 * 1024,
