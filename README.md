@@ -31,10 +31,9 @@
 * [《提问的智慧》精读注解版](https://hacpai.com/article/1536377163156)
 * Vditor 使用指南 TBD
 
-
 ## 授权
 
-本项目由 [B3log 开源](https://github.com/b3log)开发和维护，使用 MIT 开源许可协议。
+Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议，请务必遵循该开源协议相关约定。
 
 ## 社区
 
