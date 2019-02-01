@@ -37,6 +37,7 @@ interface MenuItem {
 }
 
 interface Options {
+    parseMarkdown?: { (element: HTMLElement): void }
     markdownUrl?: string
     height?: number | string
     width?: number | string
@@ -67,6 +68,7 @@ interface InputFunction {
 
 interface Vditor {
     id: string
+    mdTimeoutId: number
     options: Options
     timeId: number
     toolbar?: any
