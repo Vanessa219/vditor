@@ -7,15 +7,24 @@ export class OptionsClass {
         userCache: true,
         height: 'auto',
         width: 'auto',
-        theme: 'classic',
         placeholder: '',
         lang: 'zh_CN',
         draggable: false,
-        previewShow: false,
+        preview: {
+            delay: 1000,
+            show: false
+        },
+        hint: {
+            delay: 200,
+            emoji: {
+                "+1": "👍",
+                "-1": "👎",
+                "100": "💯",
+                "octocat": octocatPng,
+                "trollface": trollfacePng,
+            },
+        },
         counter: 0,
-        previewDelay: 1000,
-        hintDelay: 500,
-        markdownUrl: '',
         upload: {
             url: '',
             max: 10 * 1024 * 1024,
@@ -23,13 +32,6 @@ export class OptionsClass {
         },
         classes: {
             preview: ''
-        },
-        commonEmoji: {
-            "+1": "👍",
-            "-1": "👎",
-            "100": "💯",
-            "octocat": octocatPng,
-            "trollface": trollfacePng,
         },
         toolbar: [{
             name: 'emoji',

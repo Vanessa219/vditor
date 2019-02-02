@@ -13,8 +13,8 @@ export class Emoji extends MenuItemClass {
         emojiPanelElement.className = 'vditor-panel'
 
         let commonEmojiHTML = ''
-        Object.keys(vditor.options.commonEmoji).forEach((key) => {
-            const emojiValue = vditor.options.commonEmoji[key]
+        Object.keys(vditor.options.hint.emoji).forEach((key) => {
+            const emojiValue = vditor.options.hint.emoji[key]
             if (emojiValue.indexOf('.') > -1) {
                 commonEmojiHTML += `<span data-value=":${key}: " title=":${key}:"><img data-value=":${key}: " src="${emojiValue}"/></span>`
             } else {

@@ -145,6 +145,7 @@ const baseConfig = [
       }),
       new WebpackOnBuildPlugin(() => {
         fs.unlinkSync('./dist/index.classic.js')
+        fs.unlinkSync('./dist/index.dark.js')
       }),
     ],
   }]

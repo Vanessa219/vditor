@@ -13,20 +13,29 @@ export class Record extends MenuItemClass {
 
     _bindEvent(vditor: Vditor) {
         let mediaRecorder: any
-        import(/* webpackChunkName: "recordrtc" */ 'recordrtc/RecordRTC.js').then(RecordRTC => {
-            navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
-                mediaRecorder = new RecordRTC.default(mediaStream, {
-                    type: 'audio',
-                    mimeType: 'audio/wav',
-                });
-            }).catch((err: ErrorEvent) => {
-                console.log('init media error:', err);
-            });
-        }).catch(err => {
-            console.log('Failed to load marked', err);
-        });
-
         this.element.children[0].addEventListener('click', () => {
+            if (!mediaRecorder) {
+                import(/* webpackChunkName: "recordrtc" */ 'recordrtc/RecordRTC.js').then(RecordRTC => {
+                    navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
+                        mediaRecorder = new RecordRTC.default(mediaStream, {
+                            type: 'audio',
+                            mimeType: 'audio/wav',
+                        });
+
+                        vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recoding
+                        vditor.upload.element.style.opacity = 1
+                        vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
+                        vditor.editor.element.setAttribute('disabled', 'disabled')
+                        mediaRecorder.startRecording()
+                    }).catch((err: ErrorEvent) => {
+                        console.log('init media error:', err);
+                    });
+                }).catch(err => {
+                    console.log('Failed to load marked', err);
+                });
+                return
+            }
+
             if ('recording' === mediaRecorder.getState()) {
                 mediaRecorder.stopRecording(function () {
                     const blob = mediaRecorder.getBlob();

@@ -5,7 +5,7 @@ export class Preview extends MenuItemClass {
     constructor(vditor: Vditor, menuItem: MenuItem) {
         super(vditor, menuItem)
         this.element.children[0].innerHTML = menuItem.icon || previewSVG
-        if (vditor.options.previewShow) {
+        if (vditor.options.preview.show) {
             this.element.children[0].className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`
         }
         this._bindEvent(vditor, menuItem)

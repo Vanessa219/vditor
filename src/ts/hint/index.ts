@@ -11,10 +11,10 @@ export class Hint {
 
     constructor(vditor: Vditor) {
         this.timeId = -1
-        this.hintDelay = vditor.options.hintDelay
+        this.hintDelay = vditor.options.hint.delay
         this.editorElement = vditor.editor.element
-        this.atUser = vditor.options.atUser
-        this.commonEmoji = vditor.options.commonEmoji
+        this.atUser = vditor.options.hint.at
+        this.commonEmoji = vditor.options.hint.emoji
 
         this.element = document.createElement('ul')
         this.element.className = 'vditor-hint'
