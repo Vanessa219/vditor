@@ -1,7 +1,5 @@
-// webpack.demo.js
-import Vditor from '../src/index'
-// import Vditor from 'vditor'
-// import Vditor from '../dist/index.min'
+// import Vditor from '../src/index'
+import Vditor from '../dist/index.min'
 
 const vditor = new Vditor('vditor', {
   height: 200,
@@ -62,8 +60,8 @@ const vditor = new Vditor('vditor', {
       name: 'preview',
       tipPosition: 'ne',
     },
-    'br'
-    , {
+    'br',
+    {
       name: 'emoji',
       tail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
     },

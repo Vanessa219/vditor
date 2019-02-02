@@ -18,7 +18,14 @@ export class Markdown {
 
         if (value) {
             this.element.innerHTML = value
-        } else if (vditor.options.preview.url) {
+            return
+        }
+
+        if (vditor.editor.element.value.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '') === '') {
+            return
+        }
+
+        if (vditor.options.preview.url) {
             clearTimeout(vditor.mdTimeoutId)
             vditor.mdTimeoutId = setTimeout(() => {
                 const xhr = new XMLHttpRequest()
