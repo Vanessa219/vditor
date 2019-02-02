@@ -37,6 +37,8 @@ interface MenuItem {
 }
 
 interface Options {
+    previewDelay: number
+    hintDelay: number
     parseMarkdown?: { (element: HTMLElement): void }
     markdownUrl?: string
     height?: number | string

@@ -13,6 +13,8 @@ export class OptionsClass {
         draggable: false,
         previewShow: false,
         counter: 0,
+        previewDelay: 1000,
+        hintDelay: 500,
         markdownUrl: '',
         upload: {
             url: '',

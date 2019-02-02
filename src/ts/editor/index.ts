@@ -22,9 +22,7 @@ class Editor {
                 vditor.counter.render(this.element.value.length, vditor.options.counter)
             }
 
-            if (vditor.options.input) {
-                vditor.options.input(this.element.value, vditor.markdown && vditor.markdown.element)
-            }
+            vditor.options.input && vditor.options.input(this.element.value, vditor.markdown && vditor.markdown.element)
 
             vditor.hint && vditor.hint.render()
 
@@ -32,7 +30,7 @@ class Editor {
                 localStorage.setItem(`vditor${vditor.id}`, vditor.editor.element.value)
             }
 
-            vditor.markdown.render(vditor)
+            vditor.markdown && vditor.markdown.render(vditor)
         })
 
         this.element.addEventListener('focus', () => {
@@ -224,6 +222,10 @@ const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: strin
                     }
                 }
             }
+
+            const event = document.createEvent('HTMLEvents');
+            event.initEvent('input', true, false);
+            textarea.dispatchEvent(event);
         } else {
             if (startPos === endPos) {
                 // no selection

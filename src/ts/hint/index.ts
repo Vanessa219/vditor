@@ -7,8 +7,11 @@ export class Hint {
     element: HTMLUListElement
     atUser: { (value: string): Array<any> }
     commonEmoji: any
+    hintDelay: number
 
     constructor(vditor: Vditor) {
+        this.timeId = -1
+        this.hintDelay = vditor.options.hintDelay
         this.editorElement = vditor.editor.element
         this.atUser = vditor.options.atUser
         this.commonEmoji = vditor.options.commonEmoji
@@ -27,17 +30,13 @@ export class Hint {
 
         if (atKey === undefined && emojiKey === undefined) {
             this.element.style.display = 'none'
-            if (this.timeId) {
-                clearTimeout(this.timeId)
-            }
+            clearTimeout(this.timeId)
         } else {
             if (atKey !== undefined && this.atUser) {
-                if (this.timeId) {
-                    clearTimeout(this.timeId)
-                }
+                clearTimeout(this.timeId)
                 this.timeId = setTimeout(() => {
                     this.genHTML(this.atUser(atKey))
-                }, 100)
+                }, this.hintDelay)
             }
             if (emojiKey !== undefined) {
                 import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji.js')

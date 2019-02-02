@@ -34,7 +34,7 @@ export class Markdown {
                 xhr.send(JSON.stringify({
                     markdownText: vditor.editor.element.value,
                 }))
-            }, 1000)
+            }, vditor.options.previewDelay)
         } else {
             this.element.innerHTML = vditor.editor.element.value
         }
