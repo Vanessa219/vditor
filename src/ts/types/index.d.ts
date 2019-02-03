@@ -5,7 +5,7 @@ declare module "*.svg" {
 
 declare module '*.png'
 
-declare module '*/emoji/allEmoji.js'
+declare module '*emoji/allEmoji.js'
 
 declare module 'recordrtc/RecordRTC.js'
 
@@ -34,7 +34,6 @@ interface MenuItem {
     hotkey?: string
     suffix?: string
     prefix?: string
-    tail?: string
     tipPosition?: string
 }
 
@@ -46,6 +45,7 @@ interface Preview {
 }
 
 interface Hint {
+    emojiTail?: string
     delay?: number
     emoji?: any
     at?: { (value: string): Array<any> }
@@ -59,7 +59,7 @@ interface Options {
     toolbar?: Array<string | MenuItem>
     draggable?: boolean
     counter?: number
-    userCache?: boolean
+    cache?: boolean
     preview?: Preview
     hint?: Hint
     upload?: Upload

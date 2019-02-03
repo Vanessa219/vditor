@@ -1,7 +1,8 @@
-import Vditor from '../src/index'
-// import Vditor from '../dist/vditor/index.min'
+// import Vditor from '../src/index'
+import Vditor from '../dist/vditor/index.min'
 
 const vditor = new Vditor('vditor', {
+  cache: false,
   height: 200,
   width: '50%',
   counter: 100,
@@ -15,10 +16,8 @@ const vditor = new Vditor('vditor', {
     },
   },
   hint: {
-    emoji: {
-      '+1': '👍',
-      '-1': '👎',
-    },
+    emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
+    emoji: ['+1', '-1'],
     at: (key) => {
       console.log(`atUser: ${key}`)
       return [
@@ -63,7 +62,6 @@ const vditor = new Vditor('vditor', {
     'br',
     {
       name: 'emoji',
-      tail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
     },
     'strike',
   ],

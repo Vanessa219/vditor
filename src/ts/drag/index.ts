@@ -20,7 +20,6 @@ export class Drag {
                 event = window.event;
             }
             const y = event.clientY;
-            console.log(vditorElement)
             const height = vditorElement.offsetHeight
             _document.ondragstart = "return false;";
             _document.onselectstart = "return false;";

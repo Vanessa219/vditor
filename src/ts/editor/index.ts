@@ -10,7 +10,7 @@ class Editor {
         this.element = document.createElement('textarea')
         this.element.className = 'vditor-textarea'
         this.element.setAttribute('placeholder', vditor.options.placeholder)
-        if (vditor.options.userCache) {
+        if (vditor.options.cache) {
             this.element.value = localStorage.getItem('vditor' + vditor.id)
         }
         this.bindEvent(vditor)
@@ -26,7 +26,7 @@ class Editor {
 
             vditor.hint && vditor.hint.render()
 
-            if (vditor.options.userCache) {
+            if (vditor.options.cache) {
                 localStorage.setItem(`vditor${vditor.id}`, vditor.editor.element.value)
             }
 

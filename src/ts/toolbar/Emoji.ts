@@ -22,7 +22,7 @@ export class Emoji extends MenuItemClass {
             }
         })
 
-        const tailHTML = menuItem.tail ? `<div class="vditor-emojis__tail">${menuItem.tail}</div>` : ''
+        const tailHTML = vditor.options.hint.emojiTail ? `<div class="vditor-emojis__tail">${vditor.options.hint.emojiTail}</div>` : ''
 
         emojiPanelElement.innerHTML = `<div class="vditor-emojis">${commonEmojiHTML}</div>${tailHTML}`
 
