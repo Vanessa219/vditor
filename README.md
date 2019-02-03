@@ -6,6 +6,8 @@
 
 ## 背景
 
+<details>
+<summary>有点啰嗦。</summary>
 我们在开发 [Sym](https://github.com/b3log/symphony) 的初期是直接使用 WYSIWYG 富文本编辑器的。那时候基于 HTML 的编辑器非常流行，项目中引用起来也很方便，也符合用户当时的使用习惯。
 
 后来，Markdown 的崛起逐步改变了大家的排版方式。再加上我们其他几个项目都是面向程序员用户的，所以迁移到 md 上也是大势所趋。我们选择了 [CodeMirror](https://github.com/codemirror/CodeMirror)，这是一款优秀的编辑器，它对开发者提供了丰富的编程接口，对各种浏览器的兼容性也比较好。
@@ -15,6 +17,7 @@
 终于，我们决定开始在 Sym 中自己实现编辑器。随着几个版本的迭代，Sym 的编辑器也日趋成熟。在我们运营的社区[黑客派](https://hacpai.com)上陆续有人问我们是否能将编辑器单独抽离出来提供给大家使用。与此同时，我们的前端主程 [V](https://hacpai.com/member/Vanessa) 同学对于维护分散在各个项目中的编辑器也感到有点力不从心，外加她最近在学 TypeScript 正好需要练手实践，所以就决定使用 ts 来实现一个全新的浏览器端 md 编辑器。
 
 于是，Vditor 就这样诞生了。
+</details>
 
 ## 功能
 
@@ -39,7 +42,7 @@
 
 ## 授权
 
-Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议，请务必遵循该开源协议相关约定。
+Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议，无论是个人还是企业都可以免费使用。
 
 ## 社区
 
