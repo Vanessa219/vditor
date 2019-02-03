@@ -42,15 +42,14 @@ SOFTWARE.
   entryOnly: true,
 })
 
-const baseConfig = [
+module.exports = [
   {
-    mode: 'development',
-    watch: true,
+    mode: 'production',
     output: {
       filename: '[name].js',
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'dist/vditor'),
       chunkFilename: '[name].bundle.js',
-      publicPath: '/dist/',
+      publicPath: '/dist/vditor/',
       libraryTarget: 'umd',
       library: 'Vditor',
       libraryExport: 'default',
@@ -59,7 +58,7 @@ const baseConfig = [
       'index.min': './src/index.ts',
     },
     resolve: {
-      extensions: ['.ts', '.svg', 'png'],
+      extensions: ['.js', '.ts', '.svg', 'png'],
     },
     module: {
       rules: [
@@ -69,6 +68,32 @@ const baseConfig = [
           use: [
             'file-loader',
           ],
+        },
+        {
+          test: /\.js$/,
+          exclude: '/node_modules/',
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [
+                  '@babel/env',
+                  {
+                    targets: {
+                      browsers: [
+                        'last 2 Chrome major versions',
+                        'last 2 Firefox major versions',
+                        'last 2 Safari major versions',
+                        'last 2 Edge major versions',
+                        'last 2 iOS major versions',
+                        'last 2 ChromeAndroid major versions',
+                      ],
+                    },
+                  },
+                ],
+              ],
+            },
+          },
         },
         {
           test: /\.ts$/,
@@ -89,7 +114,7 @@ const baseConfig = [
       ],
     },
     plugins: [
-      new CleanWebpackPlugin(['./dist']),
+      new CleanWebpackPlugin(['./dist/vditor']),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
       }),
@@ -98,8 +123,8 @@ const baseConfig = [
   }, {
     mode: 'production',
     entry: {
-      'index.classic': './src/assets/scss/classic.scss',
-      'index.dark': './src/assets/scss/dark.scss',
+      'vditor/index.classic': './src/assets/scss/classic.scss',
+      'vditor/index.dark': './src/assets/scss/dark.scss',
     },
     resolve: {
       extensions: ['.scss'],
@@ -144,16 +169,8 @@ const baseConfig = [
         filename: '[name].css',
       }),
       new WebpackOnBuildPlugin(() => {
-        fs.unlinkSync('./dist/index.classic.js')
+        fs.unlinkSync('./dist/vditor/index.classic.js')
+        fs.unlinkSync('./dist/vditor/index.dark.js')
       }),
     ],
   }]
-
-module.exports = env => {
-  if (env && env.production) {
-    baseConfig[0].mode = 'production'
-    baseConfig[0].watch = false
-    return baseConfig
-  }
-  return baseConfig
-}

@@ -63,7 +63,6 @@ class VditorClass {
         new Hotkey(this.vditor)
     }
 
-
     getValue() {
         return this.vditor.editor.element.value
     }

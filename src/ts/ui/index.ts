@@ -24,7 +24,7 @@ export class Ui {
         contentElement.appendChild(vditor.editor.element)
 
         if (vditor.markdown) {
-            if (!vditor.options.previewShow) {
+            if (!vditor.options.preview.show) {
                 vditor.markdown.element.style.display = 'none'
             }
             contentElement.appendChild(vditor.markdown.element)

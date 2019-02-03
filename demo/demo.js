@@ -1,22 +1,38 @@
-// webpack.demo.js
-import Vditor from '../src/index'
-// import Vditor from 'vditor'
-// import Vditor from '../dist/index.min'
+// import Vditor from '../src/index'
+import Vditor from '../dist/vditor/index.min'
 
 const vditor = new Vditor('vditor', {
+  cache: false,
   height: 200,
   width: '50%',
   counter: 100,
   draggable: true,
   placeholder: 'say sth...',
   lang: 'en_US',
-  previewShow: true,
+  preview: {
+    url: '/api/markdown',
+    parse: (element) => {
+      console.log(element)
+    },
+  },
+  hint: {
+    emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
+    emoji: ['+1', '-1'],
+    at: (key) => {
+      console.log(`atUser: ${key}`)
+      return [
+        {
+          value: '@88250',
+          html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> 88250',
+        },
+        {
+          value: '@Vanessa',
+          html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> Vanessa',
+        }]
+    },
+  },
   classes: {
     preview: 'content-reset',
-  },
-  commonEmoji: {
-    '+1': '👍',
-    '-1': '👎',
   },
   focus: (val) => {
     console.log(`focus value: ${val}`)
@@ -38,40 +54,30 @@ const vditor = new Vditor('vditor', {
   select: (val) => {
     console.log(`select: ${val}`)
   },
-  atUser: (key) => {
-    console.log(`atUser: ${key}`)
-    return [
-      {
-        value: '@88250',
-        html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> 88250',
-      },
-      {
-        value: '@Vanessa',
-        html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> Vanessa',
-      }]
-  },
   toolbar: [
     {
       name: 'preview',
       tipPosition: 'ne',
     },
-    'br'
-    , {
+    'br',
+    {
       name: 'emoji',
-      tail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
     },
     'strike',
   ],
 })
 
 const vditor2 = new Vditor('vditor2', {
-  parseMarkdown: (element) => {
-    console.log(element)
-  },
-  markdownUrl: '/api/markdown',
   upload: {
     url: '/api/upload/editor',
     linkToImgUrl: '/api/fetch-upload',
+  },
+  preview: {
+    show: true,
+    url: '/api/markdown',
+    parse: (element) => {
+      console.log(element)
+    },
   },
 })
 

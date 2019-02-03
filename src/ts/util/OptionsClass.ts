@@ -1,21 +1,29 @@
-import octocatPng from "../../assets/images/octocat.png"
-import trollfacePng from "../../assets/images/trollface.png"
+import allEmoji from '../emoji/allEmoji.js'
 
 export class OptionsClass {
     options: Options;
     private defaultOptions: Options = {
-        userCache: true,
+        cache: true,
         height: 'auto',
         width: 'auto',
-        theme: 'classic',
         placeholder: '',
         lang: 'zh_CN',
         draggable: false,
-        previewShow: false,
+        preview: {
+            delay: 1000,
+            show: false
+        },
+        hint: {
+            delay: 200,
+            emoji: [
+                "+1",
+                "-1",
+                "100",
+                "octocat",
+                "trollface",
+            ],
+        },
         counter: 0,
-        previewDelay: 1000,
-        hintDelay: 500,
-        markdownUrl: '',
         upload: {
             url: '',
             max: 10 * 1024 * 1024,
@@ -23,13 +31,6 @@ export class OptionsClass {
         },
         classes: {
             preview: ''
-        },
-        commonEmoji: {
-            "+1": "👍",
-            "-1": "👎",
-            "100": "💯",
-            "octocat": octocatPng,
-            "trollface": trollfacePng,
         },
         toolbar: [{
             name: 'emoji',
@@ -178,6 +179,13 @@ export class OptionsClass {
         }
 
         const mergedOptions = Object.assign({}, this.defaultOptions, this.options)
+
+        // array emoji to object emoji
+        const objectEmoji: any = {}
+        mergedOptions.hint.emoji.forEach((emoji: string) => {
+            objectEmoji[emoji] = allEmoji[emoji]
+        })
+        mergedOptions.hint.emoji = objectEmoji
 
         if (toolbar.length > 0) {
             mergedOptions.toolbar = toolbar

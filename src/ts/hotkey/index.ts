@@ -42,7 +42,7 @@ export class Hotkey {
                 }
             })
 
-            if (this.options.atUser || this.toolbarElements.emoji) {
+            if (this.options.hint.at || this.toolbarElements.emoji) {
                 this.hint(event)
             }
         })

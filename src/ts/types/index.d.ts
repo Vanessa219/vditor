@@ -5,7 +5,7 @@ declare module "*.svg" {
 
 declare module '*.png'
 
-declare module '*/emoji/allEmoji.js'
+declare module '*emoji/allEmoji.js'
 
 declare module 'recordrtc/RecordRTC.js'
 
@@ -13,14 +13,16 @@ declare module 'turndown'
 
 declare module 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 
+declare function captureEvents(name: string): void
+
 interface Classes {
     preview?: string
 }
 
 interface Upload {
     url: string
-    max: number
-    linkToImgUrl: string
+    max?: number
+    linkToImgUrl?: string
     success?: { (textarea: HTMLTextAreaElement, msg: string): void }
     error?: { (msg: string): void }
 }
@@ -32,40 +34,42 @@ interface MenuItem {
     hotkey?: string
     suffix?: string
     prefix?: string
-    tail?: string
     tipPosition?: string
 }
 
+interface Preview {
+    delay?: number
+    show?: boolean
+    parse?: { (element: HTMLElement): void }
+    url?: string
+}
+
+interface Hint {
+    emojiTail?: string
+    delay?: number
+    emoji?: any
+    at?: { (value: string): Array<any> }
+}
+
 interface Options {
-    previewDelay: number
-    hintDelay: number
-    parseMarkdown?: { (element: HTMLElement): void }
-    markdownUrl?: string
     height?: number | string
     width?: number | string
-    theme?: string
     placeholder?: string
     lang?: string
+    toolbar?: Array<string | MenuItem>
     draggable?: boolean
-    previewShow?: boolean
     counter?: number
+    cache?: boolean
+    preview?: Preview
+    hint?: Hint
     upload?: Upload
     classes?: Classes
-    staticServePath?: string
-    atUser?: { (value: string): Array<any> }
-    commonEmoji?: any
-    toolbar?: Array<string | MenuItem>
-    input?: InputFunction
+    input?: { (value: string, previewElement?: HTMLElement): void }
     focus?: { (value: string): void }
     blur?: { (value: string): void }
     esc?: { (value: string): void }
     ctrlEnter?: { (value: string): void }
     select?: { (value: string): void }
-    userCache: boolean
-}
-
-interface InputFunction {
-    (value: string, previewElement?: HTMLElement): void
 }
 
 interface Vditor {
@@ -81,5 +85,3 @@ interface Vditor {
     hint?: any
     upload?: any
 }
-
-declare function captureEvents(name: string): void
