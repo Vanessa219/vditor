@@ -1,5 +1,5 @@
-// import Vditor from '../src/index'
-import Vditor from '../dist/vditor/index.min'
+import Vditor from '../src/index'
+// import Vditor from '../dist/vditor/index.min'
 
 const vditor = new Vditor('vditor', {
   cache: false,

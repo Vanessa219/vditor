@@ -15,11 +15,11 @@ export class MenuItemClass {
         const iconElement = document.createElement('div')
         iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`
 
-        const hotkey = this.menuItem.hotkey ? ` <${this.menuItem.hotkey}>` : ''
+        let hotkey = this.menuItem.hotkey ? ` <${this.menuItem.hotkey}>` : ''
         if (/Mac/.test(navigator.platform)) {
-            hotkey.replace('ctrl', '⌘')
+            hotkey = hotkey.replace('ctrl', '⌘')
         } else {
-            hotkey.replace('⌘', 'ctrl')
+            hotkey = hotkey.replace('⌘', 'ctrl')
         }
         iconElement.setAttribute('aria-label',
             this.menuItem.tip || i18n[vditor.options.lang][this.menuItem.name] + hotkey)

@@ -18,13 +18,14 @@ export const i18n: any = {
         redo: 'Redo',
         undo: 'Undo',
         table: 'Table',
-        record: 'Start Record/Cancel Record and Upload',
-        upload: 'Upload, support drag and copy',
+        record: 'Start Record/Cancel Record',
+        upload: 'Upload image or file',
         preview: 'Preview',
         uploading: 'uploading...',
         over: 'over',
         uploadError: 'upload error',
-        recoding: 'recoding...'
+        recoding: 'recoding...',
+        info: 'Info'
     },
     zh_CN: {
         emoji: '表情',
@@ -38,19 +39,20 @@ export const i18n: any = {
         fullscreen: '全屏',
         help: '帮助',
         strike: '删除线',
-        line: '横线',
+        line: '分隔线',
         check: '任务列表',
         code: '代码片断',
         'inline-code': '行内代码',
         redo: '重做',
         undo: '撤销',
         table: '表格',
-        record: '开始录音/取消录音并上传',
-        upload: '上传，支持拖拽及复制',
+        record: '开始录音/结束录音',
+        upload: '上传图片或文件',
         preview: '预览',
         uploading: '上传中...',
         over: '超过',
         uploadError: '上传错误',
-        recoding: '录音中...'
+        recoding: '录音中...',
+        info: '关于'
     }
 }

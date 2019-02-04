@@ -62,7 +62,7 @@ export class OptionsClass {
             name: '|'
         }, {
             name: 'line',
-            prefix: '* * *\n',
+            prefix: '---\n',
             hotkey: '⌘-d',
             tipPosition: 'n'
         }, {
@@ -119,18 +119,17 @@ export class OptionsClass {
         }, {
             name: 'link',
             prefix: '[',
-            suffix: '](http://)',
+            suffix: '](https://)',
             hotkey: '⌘-k',
             tipPosition: 'n'
         }, {
             name: 'table',
-            prefix: '| ',
-            suffix: ' |  |  |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |',
+            prefix: '| col1',
+            suffix: ' | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |',
             hotkey: '⌘-m',
             tipPosition: 'n'
         }, {
             name: 'record',
-            hotkey: '⌘-;',
             tipPosition: 'n'
         }, {
             name: '|'
@@ -141,6 +140,10 @@ export class OptionsClass {
         }, {
             name: 'fullscreen',
             hotkey: '⌘-f',
+            tipPosition: 'nw'
+        }, {
+            name: 'info',
+            hotkey: '⌘-;',
             tipPosition: 'nw'
         }, {
             name: 'help',

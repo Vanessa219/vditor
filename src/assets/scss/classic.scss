@@ -1,4 +1,5 @@
 $borderColor: #d1d5da !default;
+$errorColor: #d23f31!default;
 
 $toolbarBg: #f6f8fa !default;
 $toolbarIcon: #586069 !default;
@@ -22,7 +23,6 @@ $dragHoverBg: #4285f4 !default;
 
 $fullscreenBg: #fff !default;
 $previewBg: #fff !default;
-$countBg: rgba(255, 255, 255, 0.8) !default;
 
 @import "tooltipped";
 @import "panel";

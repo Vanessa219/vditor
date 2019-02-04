@@ -10,6 +10,11 @@ export class Counter {
     }
 
     render(length: number, counter: number) {
+        if (length > counter) {
+            this.element.className = 'vditor-counter vditor-counter--error'
+        } else {
+            this.element.className = 'vditor-counter'
+        }
         this.element.innerHTML = `${length}/${counter}`
     }
 }

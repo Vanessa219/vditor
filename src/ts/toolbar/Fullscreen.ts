@@ -15,11 +15,22 @@ export class Fullscreen extends MenuItemClass {
             if (vditorElement.className.indexOf('vditor--fullscreen') > -1) {
                 this.innerHTML = menuItem.icon || fullscreenSVG
                 vditorElement.className = vditorElement.className.replace(' vditor--fullscreen', '')
+                Object.keys(vditor.toolbar.elements).forEach((key) => {
+                    const svgElement = vditor.toolbar.elements[key].firstChild
+                    if (svgElement) {
+                        svgElement.className = svgElement.className.replace('__s', '__n')
+                    }
+                })
             } else {
                 this.innerHTML = menuItem.icon || contractSVG
                 vditorElement.className = vditorElement.className + ' vditor--fullscreen'
+                Object.keys(vditor.toolbar.elements).forEach((key) => {
+                    const svgElement = vditor.toolbar.elements[key].firstChild
+                    if (svgElement) {
+                        svgElement.className = svgElement.className.replace('__n', '__s')
+                    }
+                })
             }
-
         })
     }
 }

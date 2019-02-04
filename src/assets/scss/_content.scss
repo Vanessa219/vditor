@@ -58,12 +58,17 @@
     padding: 0 3px;
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    right: 20px;
     color: $textareaColor;
-    background-color: $countBg;
+    background-color: rgba($fullscreenBg, 0.6);
     border-radius: 3px;
     font-size: 12px;
     user-select: none;
+
+    &--error {
+      color: $errorColor;
+      background-color: rgba($errorColor, 0.1);
+    }
   }
 
   &-drag {

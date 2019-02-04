@@ -3,6 +3,7 @@ $borderColor: #fff !default;
 $toolbarBg: #2c2c2c !default;
 $toolbarIcon: #b9b9b9 !default;
 $toolbarIconHover: #fff !default;
+$errorColor: #d23f31!default;
 
 $textareaBg: #fff !default;
 $textareaColor: rgba(0,0,0,.8) !default;
@@ -22,7 +23,6 @@ $hoverColor: #fff !default;
 
 $fullscreenBg: #fff !default;
 $previewBg: #f3f3f3 !default;
-$countBg: rgba(255, 255, 255, 0.8) !default;
 
 @import "tooltipped";
 @import "panel";
