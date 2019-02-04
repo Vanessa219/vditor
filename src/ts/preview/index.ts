@@ -22,6 +22,7 @@ export class Preview {
         }
 
         if (vditor.editor.element.value.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '') === '') {
+            this.element.innerHTML = ''
             return
         }
 

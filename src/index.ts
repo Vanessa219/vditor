@@ -98,10 +98,15 @@ class VditorClass {
     }
 
     setValue(value: string) {
-        this.vditor.editor.element.value = value
+        this.vditor.editor.element.selectionStart = 0
+        this.vditor.editor.element.selectionEnd = this.vditor.editor.element.value.length
+        insertText(this.vditor.editor.element, value, '', true)
+        if (!value) {
+            localStorage.removeItem('vditor' + this.vditor.id)
+        }
     }
 
-    renderPreview(value?:string) {
+    renderPreview(value?: string) {
         this.vditor.preview.render(this.vditor, value)
     }
 

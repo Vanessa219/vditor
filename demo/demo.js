@@ -71,6 +71,7 @@ const vditor = new Vditor('vditor', {
 })
 
 const vditor2 = new Vditor('vditor2', {
+  counter: 100,
   upload: {
     url: '/api/upload/editor',
     linkToImgUrl: '/api/fetch-upload',

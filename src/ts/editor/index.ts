@@ -12,6 +12,9 @@ class Editor {
         this.element.setAttribute('placeholder', vditor.options.placeholder)
         if (vditor.options.cache) {
             this.element.value = localStorage.getItem('vditor' + vditor.id)
+            if (vditor.options.counter > 0) {
+                vditor.counter.render(this.element.value.length, vditor.options.counter)
+            }
         }
         this.bindEvent(vditor)
     }
@@ -259,18 +262,5 @@ const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: strin
         }
     }
 }
-
-
-// const debounceChange = (timerId: number, change: ChangeFunction, $editor) => {
-//     if (timerId !== undefined) {
-//         clearTimeout(timerId)
-//     }
-//     return setTimeout(() => {
-//         change && change($editor.find('textarea').val(),
-//             $editor.find('.b3log-editor__icon--current').length === 0
-//                 ? undefined
-//                 : $editor.find('.b3log-editor__markdown'))
-//     }, 500)
-// }
 
 export {Editor, insertText}
