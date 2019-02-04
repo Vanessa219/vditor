@@ -39,9 +39,9 @@ export class Hint {
                 }, this.hintDelay)
             }
             if (emojiKey !== undefined) {
-                import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji.js')
+                import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji')
                     .then(allEmoji => {
-                        let emojiHint = emojiKey === '' ? this.commonEmoji : allEmoji.default
+                        let emojiHint = emojiKey === '' ? this.commonEmoji : allEmoji.allEmoji
                         let matchEmojiData: Array<any> = []
                         Object.keys(emojiHint).forEach((key) => {
                             if (key.indexOf(emojiKey.toLowerCase()) === 0) {

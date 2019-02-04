@@ -1,11 +1,11 @@
 import resizeSVG from '../../assets/icons/resize.svg'
 
-export class Drag {
+export class Resize {
     element: HTMLElement
 
     constructor(vditor: Vditor) {
         this.element = document.createElement('div')
-        this.element.className = 'vditor-drag'
+        this.element.className = 'vditor-resize'
         this.element.innerHTML = resizeSVG
 
         this.bindEvent(vditor)
@@ -38,7 +38,11 @@ export class Drag {
                 if (!event) {
                     event = window.event;
                 }
-                vditorElement.style.height = Math.max(100, height + (event.clientY - y)) + 'px'
+                if (vditor.options.resize.position === 'top') {
+                    vditorElement.style.height = Math.max(100, height + (y - event.clientY)) + 'px'
+                } else {
+                    vditorElement.style.height = Math.max(100, height + (event.clientY - y)) + 'px'
+                }
             };
 
             _document.onmouseup = function () {

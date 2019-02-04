@@ -1,4 +1,4 @@
-import allEmoji from '../emoji/allEmoji.js'
+import {allEmoji} from '../emoji/allEmoji'
 
 export class OptionsClass {
     options: Options;
@@ -8,7 +8,10 @@ export class OptionsClass {
         width: 'auto',
         placeholder: '',
         lang: 'zh_CN',
-        draggable: false,
+        resize: {
+            enable: false,
+            position: 'bottom'
+        },
         preview: {
             delay: 1000,
             show: false
@@ -178,6 +181,22 @@ export class OptionsClass {
 
             if (this.options.upload) {
                 this.options.upload = Object.assign({}, this.defaultOptions.upload, this.options.upload)
+            }
+
+            if (this.options.classes) {
+                this.options.classes = Object.assign({}, this.defaultOptions.classes, this.options.classes)
+            }
+
+            if (this.options.preview) {
+                this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview)
+            }
+
+            if (this.options.hint) {
+                this.options.hint = Object.assign({}, this.defaultOptions.hint, this.options.hint)
+            }
+
+            if (this.options.resize) {
+                this.options.resize = Object.assign({}, this.defaultOptions.resize, this.options.resize)
             }
         }
 

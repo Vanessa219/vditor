@@ -6,7 +6,10 @@ const vditor = new Vditor('vditor', {
   height: 200,
   width: '50%',
   counter: 100,
-  draggable: true,
+  resize: {
+    enable: true,
+    position: 'top'
+  },
   placeholder: 'say sth...',
   lang: 'en_US',
   preview: {

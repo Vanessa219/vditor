@@ -6,7 +6,7 @@ import {Editor, insertText} from "./ts/editor/index";
 import {Hotkey} from "./ts/hotkey/index";
 import {Markdown} from "./ts/markdown/index";
 import {Counter} from "./ts/counter/index";
-import {Drag} from "./ts/drag/index";
+import {Resize} from "./ts/resize/index";
 import {Hint} from "./ts/hint/index";
 import {getTextareaPosition} from "./ts/util/textareaPosition";
 import {UploadClass} from "./ts/upload/index";
@@ -35,9 +35,9 @@ class VditorClass {
         const editor = new Editor(this.vditor)
         this.vditor.editor = editor
 
-        if (mergedOptions.draggable) {
-            const drag = new Drag(this.vditor)
-            this.vditor.drag = drag
+        if (mergedOptions.resize.enable) {
+            const resize = new Resize(this.vditor)
+            this.vditor.resize = resize
         }
 
         const toolbar = new Toolbar(this.vditor)

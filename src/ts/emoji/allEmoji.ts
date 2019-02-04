@@ -18,7 +18,7 @@ import rPng from '../../assets/images/r.png'
 import trollfacePng from '../../assets/images/trollface.png'
 import uPng from '../../assets/images/u.png'
 
-export default {
+export const allEmoji:any = {
   '+1': '👍',
   '-1': '👎',
   '100': '💯',

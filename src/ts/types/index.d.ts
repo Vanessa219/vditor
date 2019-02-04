@@ -5,8 +5,6 @@ declare module "*.svg" {
 
 declare module '*.png'
 
-declare module '*emoji/allEmoji.js'
-
 declare module 'recordrtc/RecordRTC.js'
 
 declare module 'turndown'
@@ -51,13 +49,18 @@ interface Hint {
     at?: { (value: string): Array<any> }
 }
 
+interface Resize {
+    position?: string
+    enable?: boolean
+}
+
 interface Options {
     height?: number | string
     width?: number | string
     placeholder?: string
     lang?: string
     toolbar?: Array<string | MenuItem>
-    draggable?: boolean
+    resize?: Resize
     counter?: number
     cache?: boolean
     preview?: Preview
@@ -81,7 +84,7 @@ interface Vditor {
     markdown?: any
     editor?: any
     counter?: any
-    drag?: any
+    resize?: any
     hint?: any
     upload?: any
 }

@@ -19,6 +19,10 @@ export class Ui {
 
         vditorElement.appendChild(toolbarElement)
 
+        if (vditor.options.resize.enable && vditor.options.resize.position === 'top') {
+                vditorElement.appendChild(vditor.resize.element)
+        }
+
         const contentElement = document.createElement('div')
         contentElement.className = 'vditor-content'
         contentElement.appendChild(vditor.editor.element)
@@ -40,8 +44,8 @@ export class Ui {
 
         vditorElement.appendChild(contentElement)
 
-        if (vditor.options.draggable) {
-            vditorElement.appendChild(vditor.drag.element)
+        if (vditor.options.resize.enable && vditor.options.resize.position === 'bottom') {
+            vditorElement.appendChild(vditor.resize.element)
         }
     }
 }
