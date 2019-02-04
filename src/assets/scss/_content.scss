@@ -1,6 +1,9 @@
 .vditor {
   display: flex;
   flex-direction: column;
+  border: 1px solid $borderColor;
+  border-radius: 3px;
+  box-sizing: border-box;
 
   &--fullscreen {
     position: fixed;
@@ -30,6 +33,7 @@
     font-size: 16px;
     line-height: 22px;
     color: $textareaColor;
+    border-radius: 0 0 3px 3px;
 
     &[disabled] {
       opacity: 0.3;
@@ -48,6 +52,7 @@
     padding: 10px;
     box-shadow: inset 1px 0 $borderColor;
     box-sizing: border-box;
+    border-radius: 0 0 3px 0;
 
     &::-webkit-scrollbar {
       display: none;

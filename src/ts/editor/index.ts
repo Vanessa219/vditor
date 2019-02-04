@@ -61,24 +61,22 @@ class Editor {
                     this.element.selectionStart, this.element.selectionEnd))
             }
         }
-        if (vditor.markdown) {
-            this.element.addEventListener('scroll', () => {
-                if (vditor.markdown.element.style.display === 'none') {
-                    return
-                }
-                const textScrollTop = this.element.scrollTop
-                const textHeight = this.element.clientHeight
-                const textScrollHeight = this.element.scrollHeight
-                const preview = vditor.markdown.element
-                if ((textScrollTop / textHeight > 0.5)) {
-                    preview.scrollTop = (textScrollTop + textHeight) *
-                        preview.scrollHeight / textScrollHeight - textHeight
-                } else {
-                    preview.scrollTop = textScrollTop *
-                        preview.scrollHeight / textScrollHeight
-                }
-            })
-        }
+        this.element.addEventListener('scroll', () => {
+            if (vditor.markdown.element.style.display === 'none' && !vditor.markdown) {
+                return
+            }
+            const textScrollTop = this.element.scrollTop
+            const textHeight = this.element.clientHeight
+            const textScrollHeight = this.element.scrollHeight
+            const preview = vditor.markdown.element
+            if ((textScrollTop / textHeight > 0.5)) {
+                preview.scrollTop = (textScrollTop + textHeight) *
+                    preview.scrollHeight / textScrollHeight - textHeight
+            } else {
+                preview.scrollTop = textScrollTop *
+                    preview.scrollHeight / textScrollHeight
+            }
+        })
 
         if (vditor.options.upload.url) {
             this.element.addEventListener('drop', (event: any) => {
