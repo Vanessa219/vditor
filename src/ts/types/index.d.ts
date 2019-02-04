@@ -81,7 +81,7 @@ interface Vditor {
     options: Options
     timeId: number
     toolbar?: any
-    markdown?: any
+    preview?: any
     editor?: any
     counter?: any
     resize?: any

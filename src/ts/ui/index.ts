@@ -27,11 +27,11 @@ export class Ui {
         contentElement.className = 'vditor-content'
         contentElement.appendChild(vditor.editor.element)
 
-        if (vditor.markdown) {
+        if (vditor.preview) {
             if (!vditor.options.preview.show) {
-                vditor.markdown.element.style.display = 'none'
+                vditor.preview.element.style.display = 'none'
             }
-            contentElement.appendChild(vditor.markdown.element)
+            contentElement.appendChild(vditor.preview.element)
         }
 
         if (vditor.options.counter > 0) {

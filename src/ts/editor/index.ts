@@ -22,7 +22,7 @@ class Editor {
                 vditor.counter.render(this.element.value.length, vditor.options.counter)
             }
 
-            vditor.options.input && vditor.options.input(this.element.value, vditor.markdown && vditor.markdown.element)
+            vditor.options.input && vditor.options.input(this.element.value, vditor.preview && vditor.preview.element)
 
             vditor.hint && vditor.hint.render()
 
@@ -30,7 +30,7 @@ class Editor {
                 localStorage.setItem(`vditor${vditor.id}`, vditor.editor.element.value)
             }
 
-            vditor.markdown && vditor.markdown.render(vditor)
+            vditor.preview && vditor.preview.render(vditor)
         })
 
         this.element.addEventListener('focus', () => {
@@ -62,13 +62,13 @@ class Editor {
             }
         }
         this.element.addEventListener('scroll', () => {
-            if (vditor.markdown.element.style.display === 'none' && !vditor.markdown) {
+            if (vditor.preview.element.style.display === 'none' && !vditor.preview) {
                 return
             }
             const textScrollTop = this.element.scrollTop
             const textHeight = this.element.clientHeight
             const textScrollHeight = this.element.scrollHeight
-            const preview = vditor.markdown.element
+            const preview = vditor.preview.element
             if ((textScrollTop / textHeight > 0.5)) {
                 preview.scrollTop = (textScrollTop + textHeight) *
                     preview.scrollHeight / textScrollHeight - textHeight

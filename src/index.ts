@@ -4,7 +4,7 @@ import {OptionsClass} from "./ts/util/OptionsClass";
 import {Ui} from "./ts/ui/index";
 import {Editor, insertText} from "./ts/editor/index";
 import {Hotkey} from "./ts/hotkey/index";
-import {Markdown} from "./ts/markdown/index";
+import {Preview} from "./ts/preview/index";
 import {Counter} from "./ts/counter/index";
 import {Resize} from "./ts/resize/index";
 import {Hint} from "./ts/hint/index";
@@ -44,8 +44,8 @@ class VditorClass {
         this.vditor.toolbar = toolbar
 
         if (toolbar.elements.preview) {
-            const markdown = new Markdown(this.vditor)
-            this.vditor.markdown = markdown
+            const preview = new Preview(this.vditor)
+            this.vditor.preview = preview
         }
 
         if (mergedOptions.upload.url) {
@@ -102,7 +102,7 @@ class VditorClass {
     }
 
     renderPreview(value?:string) {
-        this.vditor.markdown.render(this.vditor, value)
+        this.vditor.preview.render(this.vditor, value)
     }
 
     getCursorPosition() {

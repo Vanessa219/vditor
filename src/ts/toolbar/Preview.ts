@@ -13,13 +13,13 @@ export class Preview extends MenuItemClass {
 
     _bindEvent(vditor: Vditor, menuItem: MenuItem) {
         this.element.children[0].addEventListener('click', function () {
-            if (vditor.markdown.element.style.display === 'block') {
-                vditor.markdown.element.style.display = 'none'
+            if (vditor.preview.element.style.display === 'block') {
+                vditor.preview.element.style.display = 'none'
                 this.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`
             } else {
-                vditor.markdown.element.style.display = 'block'
+                vditor.preview.element.style.display = 'block'
                 this.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`
-                vditor.markdown.render(vditor)
+                vditor.preview.render(vditor)
             }
         })
     }

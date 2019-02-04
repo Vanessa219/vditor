@@ -31,7 +31,7 @@ export class Record extends MenuItemClass {
                         console.log('init media error:', err);
                     });
                 }).catch(err => {
-                    console.log('Failed to load marked', err);
+                    console.log('Failed to load recordrtc', err);
                 });
                 return
             }

@@ -1,4 +1,4 @@
-export class Markdown {
+export class Preview {
     element: HTMLElement
 
     constructor(vditor: Vditor) {
