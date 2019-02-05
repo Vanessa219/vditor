@@ -25,12 +25,14 @@
 
 * 插入原生 Emoji、可设置常用表情列表
 * Markdown 语法排版、支持工具栏按钮、快捷键
-* 上传文件、支持多文件同时上传、实时进度、速率显示
+* 上传文件、支持多文件同时上传、实时进度显示
 * 粘贴 HTML 自动转换为 Markdown
 * 全屏、分屏实时预览、滚动同步定位
 * 多主题支持、内置黑白两套
 * 多语言支持、内置中英文
 * 支持主流浏览器、支持移动端
+
+![v](https://user-images.githubusercontent.com/873584/52259243-fc694c00-295c-11e9-92e8-a0280de2b766.png)
 
 ## 案例
 
@@ -45,7 +47,7 @@
 
 ## 授权
 
-Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议，无论是个人还是企业都可以免费使用。
+Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 
 ## 社区
 
