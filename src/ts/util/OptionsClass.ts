@@ -146,11 +146,9 @@ export class OptionsClass {
             tipPosition: 'nw'
         }, {
             name: 'info',
-            hotkey: '⌘-;',
             tipPosition: 'nw'
         }, {
             name: 'help',
-            hotkey: '⌘-/',
             tipPosition: 'nw'
         }, {
             name: 'br'
