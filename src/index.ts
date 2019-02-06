@@ -129,6 +129,14 @@ class VditorClass {
     clearCache() {
         localStorage.removeItem('vditor' + this.vditor.id)
     }
+
+    disabledCache() {
+        this.vditor.options.cache = false
+    }
+
+    enableCache() {
+        this.vditor.options.cache = true
+    }
 }
 
 export default VditorClass
