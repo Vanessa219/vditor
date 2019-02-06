@@ -1,4 +1,8 @@
-# Vditor
+<p align="center">
+<img alt="Vditor" src="https://user-images.githubusercontent.com/873584/52320007-9980bf00-2a07-11e9-8acc-0fb5a7fab8c9.png" />
+<br>
+下一代的 Markdown 编辑器，为未来而构建
+</p>
 
 ## 简介
 
@@ -25,12 +29,15 @@
 
 * 插入原生 Emoji、可设置常用表情列表
 * Markdown 语法排版、支持工具栏按钮、快捷键
-* 上传文件、支持多文件同时上传、实时进度、速率显示
+* 上传图片、文件，实时进度显示
+* 录音支持，用户可直接发布语音
 * 粘贴 HTML 自动转换为 Markdown
 * 全屏、分屏实时预览、滚动同步定位
 * 多主题支持、内置黑白两套
 * 多语言支持、内置中英文
 * 支持主流浏览器、支持移动端
+
+![v](https://user-images.githubusercontent.com/873584/52259243-fc694c00-295c-11e9-92e8-a0280de2b766.png)
 
 ## 案例
 
@@ -45,7 +52,7 @@
 
 ## 授权
 
-Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议，无论是个人还是企业都可以免费使用。
+Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 
 ## 社区
 
