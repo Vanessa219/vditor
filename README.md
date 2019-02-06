@@ -1,4 +1,8 @@
-# Vditor
+<p align="center">
+<br><br>
+<img alt="Vditor" src="https://user-images.githubusercontent.com/873584/52320007-9980bf00-2a07-11e9-8acc-0fb5a7fab8c9.png" />
+<strong>下一代的 Markdown 编辑器，为未来而构建</strong>
+</p>
 
 ## 简介
 
