@@ -40,7 +40,7 @@ export class Hint {
                 }, this.hintDelay)
             }
             if (emojiKey !== undefined) {
-                import(/* webpackChunkName: "allEmoji" */ '../emoji/allEmoji')
+                import(/* webpackChunkName: "vendors~vditor" */ '../emoji/allEmoji')
                     .then(allEmoji => {
                         let emojiHint = emojiKey === '' ? this.commonEmoji : allEmoji.allEmoji
                         let matchEmojiData: Array<any> = []

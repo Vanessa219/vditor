@@ -15,7 +15,7 @@ export class Record extends MenuItemClass {
         let mediaRecorder: any
         this.element.children[0].addEventListener('click', () => {
             if (!mediaRecorder) {
-                import(/* webpackChunkName: "recordrtc" */ 'recordrtc/RecordRTC.js').then(RecordRTC => {
+                import(/* webpackChunkName: "vditor" */ 'recordrtc/RecordRTC.js').then(RecordRTC => {
                     navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                         mediaRecorder = new RecordRTC.default(mediaStream, {
                             type: 'audio',

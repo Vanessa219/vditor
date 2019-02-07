@@ -176,7 +176,7 @@ class Editor {
 
             if (event.clipboardData.getData('text/html').replace(/(^\s*)|(\s*)$/g, '') !== '') {
                 if (!TurndownService) {
-                    import(/* webpackChunkName: "turndown" */ 'turndown').then(turndown => {
+                    import(/* webpackChunkName: "vditor" */ 'turndown').then(turndown => {
                         TurndownService  = turndown.default
                         html2md(TurndownService,vditor, event)
                     }).catch(err => {
