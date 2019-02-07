@@ -6,7 +6,7 @@
   "homepage": "https://hacpai.com/cr",
   "main": "dist/vditor/index.min.js",
   "files": [
-    "dist/vditor/*"
+    "dist/*"
   ],
   "dependencies": {
     "recordrtc": "^5.5.3",
