@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://hacpai.com/cr",

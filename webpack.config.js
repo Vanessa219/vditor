@@ -48,9 +48,9 @@ module.exports = [
     mode: 'production',
     output: {
       filename: '[name].js',
-      path: path.resolve(__dirname, 'dist/vditor'),
+      path: path.resolve(__dirname, 'dist'),
       chunkFilename: '[name].bundle.js',
-      publicPath: '/dist/vditor/',
+      publicPath: `https://vditor.b3log.org/${pkg.version}/`,
       libraryTarget: 'umd',
       library: 'Vditor',
       libraryExport: 'default',
@@ -115,8 +115,8 @@ module.exports = [
       ],
     },
     plugins: [
-      new BundleAnalyzerPlugin(),
-      new CleanWebpackPlugin(['./dist/vditor']),
+      // new BundleAnalyzerPlugin(),
+      new CleanWebpackPlugin(['./dist']),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
       }),
@@ -125,8 +125,8 @@ module.exports = [
   }, {
     mode: 'production',
     entry: {
-      'vditor/index.classic': './src/assets/scss/classic.scss',
-      'vditor/index.dark': './src/assets/scss/dark.scss',
+      'index.classic': './src/assets/scss/classic.scss',
+      'index.dark': './src/assets/scss/dark.scss',
     },
     resolve: {
       extensions: ['.scss'],
@@ -171,8 +171,8 @@ module.exports = [
         filename: '[name].css',
       }),
       new WebpackOnBuildPlugin(() => {
-        fs.unlinkSync('./dist/vditor/index.classic.js')
-        fs.unlinkSync('./dist/vditor/index.dark.js')
+        fs.unlinkSync('./dist/index.classic.js')
+        fs.unlinkSync('./dist/index.dark.js')
       }),
     ],
   }]
