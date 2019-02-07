@@ -19,7 +19,7 @@ class Editor {
         this.bindEvent(vditor)
     }
 
-    private html2md (TurndownService:any, vditor:Vditor, event:any) {
+    private html2md(TurndownService: any, vditor: Vditor, textHTML: string, textPlain: string) {
         let onlyMultiCode = false
         // no escape
         TurndownService.prototype.escape = (string: string) => {
@@ -54,10 +54,14 @@ class Editor {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
                                 const responseJSON = JSON.parse(xhr.responseText)
+                                if (responseJSON.code !== 0) {
+                                    alert(responseJSON.msg)
+                                    return
+                                }
                                 const original = target.getAttribute('src')
                                 vditor.editor.element.selectionStart = vditor.editor.element.value.split(original)[0].length
                                 vditor.editor.element.selectionEnd = vditor.editor.element.selectionStart + original.length
-                                insertText(vditor.editor.element, responseJSON.url, '', true)
+                                insertText(vditor.editor.element, responseJSON.data.url, '', true)
                             }
                         }
                     }
@@ -70,12 +74,11 @@ class Editor {
 
         turndownService.use(gfm)
 
-        let markdownStr = turndownService.turndown(
-            event.clipboardData.getData('text/html'))
+        let markdownStr = turndownService.turndown(textHTML)
 
         if (onlyMultiCode) {
             const tempElement = document.createElement('div')
-            tempElement.innerHTML = event.clipboardData.getData('text/html')
+            tempElement.innerHTML = textHTML
             if (tempElement.querySelectorAll('pre').length > 1) {
                 onlyMultiCode = false
             } else if (markdownStr.substr(0, 3) !== '```' ||
@@ -85,7 +88,7 @@ class Editor {
         }
         if (onlyMultiCode) {
             insertText(vditor.editor.element,
-                '```\n' + event.clipboardData.getData('text/plain') + '\n```',
+                '```\n' + textPlain + '\n```',
                 '', true)
         } else {
             insertText(vditor.editor.element, markdownStr, '', true)
@@ -168,23 +171,25 @@ class Editor {
             })
         }
 
-        let TurndownService:any
+        let TurndownService: any
         const html2md = this.html2md
         this.element.addEventListener('paste', (event: any) => {
             event.stopPropagation()
             event.preventDefault()
 
             if (event.clipboardData.getData('text/html').replace(/(^\s*)|(\s*)$/g, '') !== '') {
+                const textHTML = event.clipboardData.getData('text/html')
+                const textPlain = event.clipboardData.getData('text/plain')
                 if (!TurndownService) {
                     import(/* webpackChunkName: "vditor" */ 'turndown').then(turndown => {
-                        TurndownService  = turndown.default
-                        html2md(TurndownService,vditor, event)
+                        TurndownService = turndown.default
+                        html2md(TurndownService, vditor, textHTML, textPlain)
                     }).catch(err => {
                         console.log('Failed to load turndown', err);
                     });
                     return
                 }
-                html2md(TurndownService,vditor, event)
+                html2md(TurndownService, vditor, textHTML, textPlain)
 
             } else if (event.clipboardData.getData('text/plain').replace(/(^\s*)|(\s*)$/g, '') !== '' &&
                 event.clipboardData.files.length === 0) {

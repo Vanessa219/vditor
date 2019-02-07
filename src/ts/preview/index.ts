@@ -35,7 +35,11 @@ export class Preview {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             const responseJSON = JSON.parse(xhr.responseText)
-                            this.element.innerHTML = responseJSON.html
+                            if (responseJSON.code !== 0) {
+                                alert(responseJSON.msg)
+                                return
+                            }
+                            this.element.innerHTML = responseJSON.data
                             if (vditor.options.preview.parse) {
                                 vditor.options.preview.parse(this.element)
                             }

@@ -1,5 +1,45 @@
-// import Vditor from '../src/index'
-import Vditor from '../dist/index.min'
+import Vditor from '../src/index'
+// import Vditor from '../dist/index.min'
+
+const LazyLoadImage = () => {
+  const loadImg = (it) => {
+    const testImage = document.createElement('img')
+    testImage.src = it.getAttribute('data-src')
+    testImage.addEventListener('load', () => {
+      it.src = testImage.src
+      it.style.backgroundImage = 'none'
+      it.style.backgroundColor = 'transparent'
+    })
+    it.removeAttribute('data-src')
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('img').forEach((data) => {
+      if (data.getAttribute('data-src')) {
+        loadImg(data)
+      }
+    })
+    return false
+  }
+
+  if (window.imageIntersectionObserver) {
+    window.imageIntersectionObserver.disconnect()
+    document.querySelectorAll('img').forEach(function (data) {
+      window.imageIntersectionObserver.observe(data)
+    })
+  } else {
+    window.imageIntersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entrie) => {
+        if ((typeof entrie.isIntersecting === 'undefined' ? entrie.intersectionRatio !== 0 : entrie.isIntersecting) && entrie.target.getAttribute('data-src')) {
+          loadImg(entrie.target)
+        }
+      })
+    })
+    document.querySelectorAll('img').forEach(function (data) {
+      window.imageIntersectionObserver.observe(data)
+    })
+  }
+}
 
 const vditor = new Vditor('vditor', {
   cache: false,
@@ -16,6 +56,7 @@ const vditor = new Vditor('vditor', {
     url: '/api/markdown',
     parse: (element) => {
       console.log(element)
+      LazyLoadImage()
     },
   },
   hint: {
@@ -78,14 +119,17 @@ const vditor2 = new Vditor('vditor2', {
   counter: 100,
   upload: {
     url: '/api/upload/editor',
-    linkToImgUrl: '/api/fetch-upload',
+    linkToImgUrl: '/api/upload/fetch',
   },
   preview: {
     show: true,
     url: '/api/markdown',
     parse: (element) => {
-      console.log(element)
+      LazyLoadImage()
     },
+  },
+  classes: {
+    preview: 'content-reset',
   },
 })
 
