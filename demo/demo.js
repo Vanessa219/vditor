@@ -23,6 +23,7 @@ const vditor = new Vditor('vditor', {
     emoji: {
       '+1': '👍',
       '-1': '👎',
+      'trollface': 'https://vditor.b3log.org/images/trollface.png',
     },
     at: (key) => {
       console.log(`atUser: ${key}`)
