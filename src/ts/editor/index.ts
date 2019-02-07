@@ -1,7 +1,6 @@
 import {gfm} from 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 import {commandable} from '../util/commandable'
 import {uploadFiles} from "../upload/index";
-import {i18n} from "../i18n/index";
 
 class Editor {
     element: HTMLTextAreaElement
