@@ -1,10 +1,10 @@
 {
   "name": "vditor",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://hacpai.com/cr",
-  "main": "dist/vditor/index.min.js",
+  "main": "dist/index.min.js",
   "files": [
     "dist/*"
   ],
