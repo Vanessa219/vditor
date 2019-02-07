@@ -20,7 +20,10 @@ const vditor = new Vditor('vditor', {
   },
   hint: {
     emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
-    emoji: ['+1', '-1'],
+    emoji: {
+      '+1': '👍',
+      '-1': '👎',
+    },
     at: (key) => {
       console.log(`atUser: ${key}`)
       return [

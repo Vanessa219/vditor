@@ -1,7 +1,7 @@
-import TurndownService from 'turndown'
 import {gfm} from 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 import {commandable} from '../util/commandable'
 import {uploadFiles} from "../upload/index";
+import {i18n} from "../i18n/index";
 
 class Editor {
     element: HTMLTextAreaElement
@@ -17,6 +17,79 @@ class Editor {
             }
         }
         this.bindEvent(vditor)
+    }
+
+    private html2md (TurndownService:any, vditor:Vditor, event:any) {
+        let onlyMultiCode = false
+        // no escape
+        TurndownService.prototype.escape = (string: string) => {
+            return string
+        }
+
+        const turndownService = new TurndownService()
+
+        turndownService.addRule('strikethrough', {
+            filter: ['pre', 'code'],
+            replacement: (content: string, node: HTMLElement) => {
+                if (node.parentElement.tagName === 'PRE') {
+                    return content
+                }
+                if (content.split('\n').length > 1) {
+                    onlyMultiCode = true
+                    return '```\n' + content + '\n```'
+                }
+                return '`' + content + '`'
+            },
+        })
+        turndownService.addRule('strikethrough', {
+            filter: ['img'],
+            replacement: (content: string, target: HTMLElement) => {
+                if (!target.getAttribute('src')) {
+                    return ''
+                }
+                if (vditor.options.upload.linkToImgUrl) {
+                    const xhr = new XMLHttpRequest()
+                    xhr.open('POST', vditor.options.upload.linkToImgUrl)
+                    xhr.onreadystatechange = () => {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                const responseJSON = JSON.parse(xhr.responseText)
+                                const original = target.getAttribute('src')
+                                vditor.editor.element.selectionStart = vditor.editor.element.value.split(original)[0].length
+                                vditor.editor.element.selectionEnd = vditor.editor.element.selectionStart + original.length
+                                insertText(vditor.editor.element, responseJSON.url, '', true)
+                            }
+                        }
+                    }
+                    xhr.send(JSON.stringify({url: target.getAttribute('src')}))
+                }
+
+                return `![${target.getAttribute('alt')}](${target.getAttribute('src')})`
+            },
+        })
+
+        turndownService.use(gfm)
+
+        let markdownStr = turndownService.turndown(
+            event.clipboardData.getData('text/html'))
+
+        if (onlyMultiCode) {
+            const tempElement = document.createElement('div')
+            tempElement.innerHTML = event.clipboardData.getData('text/html')
+            if (tempElement.querySelectorAll('pre').length > 1) {
+                onlyMultiCode = false
+            } else if (markdownStr.substr(0, 3) !== '```' ||
+                markdownStr.substr(markdownStr.length - 3, 3) !== '```') {
+                onlyMultiCode = false
+            }
+        }
+        if (onlyMultiCode) {
+            insertText(vditor.editor.element,
+                '```\n' + event.clipboardData.getData('text/plain') + '\n```',
+                '', true)
+        } else {
+            insertText(vditor.editor.element, markdownStr, '', true)
+        }
     }
 
     private bindEvent(vditor: Vditor) {
@@ -95,81 +168,24 @@ class Editor {
             })
         }
 
+        let TurndownService:any
+        const html2md = this.html2md
         this.element.addEventListener('paste', (event: any) => {
             event.stopPropagation()
             event.preventDefault()
 
             if (event.clipboardData.getData('text/html').replace(/(^\s*)|(\s*)$/g, '') !== '') {
-                let onlyMultiCode = false
-                // no escape
-                TurndownService.prototype.escape = (string: string) => {
-                    return string
+                if (!TurndownService) {
+                    import(/* webpackChunkName: "turndown" */ 'turndown').then(turndown => {
+                        TurndownService  = turndown.default
+                        html2md(TurndownService,vditor, event)
+                    }).catch(err => {
+                        console.log('Failed to load turndown', err);
+                    });
+                    return
                 }
+                html2md(TurndownService,vditor, event)
 
-                const turndownService = new TurndownService()
-
-                turndownService.addRule('strikethrough', {
-                    filter: ['pre', 'code'],
-                    replacement: (content: string, node: HTMLElement) => {
-                        if (node.parentElement.tagName === 'PRE') {
-                            return content
-                        }
-                        if (content.split('\n').length > 1) {
-                            onlyMultiCode = true
-                            return '```\n' + content + '\n```'
-                        }
-                        return '`' + content + '`'
-                    },
-                })
-                turndownService.addRule('strikethrough', {
-                    filter: ['img'],
-                    replacement: (content: string, target: HTMLElement) => {
-                        if (!target.getAttribute('src')) {
-                            return ''
-                        }
-                        if (vditor.options.upload.linkToImgUrl) {
-                            const xhr = new XMLHttpRequest()
-                            xhr.open('POST', vditor.options.upload.linkToImgUrl)
-                            xhr.onreadystatechange = () => {
-                                if (xhr.readyState === XMLHttpRequest.DONE) {
-                                    if (xhr.status === 200) {
-                                        const responseJSON = JSON.parse(xhr.responseText)
-                                        const original = target.getAttribute('src')
-                                        vditor.editor.element.selectionStart = vditor.editor.element.value.split(original)[0].length
-                                        vditor.editor.element.selectionEnd = vditor.editor.element.selectionStart + original.length
-                                        insertText(vditor.editor.element, responseJSON.url, '', true)
-                                    }
-                                }
-                            }
-                            xhr.send(JSON.stringify({url: target.getAttribute('src')}))
-                        }
-
-                        return `![${target.getAttribute('alt')}](${target.getAttribute('src')})`
-                    },
-                })
-
-                turndownService.use(gfm)
-
-                let markdownStr = turndownService.turndown(
-                    event.clipboardData.getData('text/html'))
-
-                if (onlyMultiCode) {
-                    const tempElement = document.createElement('div')
-                    tempElement.innerHTML = event.clipboardData.getData('text/html')
-                    if (tempElement.querySelectorAll('pre').length > 1) {
-                        onlyMultiCode = false
-                    } else if (markdownStr.substr(0, 3) !== '```' ||
-                        markdownStr.substr(markdownStr.length - 3, 3) !== '```') {
-                        onlyMultiCode = false
-                    }
-                }
-                if (onlyMultiCode) {
-                    insertText(vditor.editor.element,
-                        '```\n' + event.clipboardData.getData('text/plain') + '\n```',
-                        '', true)
-                } else {
-                    insertText(vditor.editor.element, markdownStr, '', true)
-                }
             } else if (event.clipboardData.getData('text/plain').replace(/(^\s*)|(\s*)$/g, '') !== '' &&
                 event.clipboardData.files.length === 0) {
                 insertText(event.target,

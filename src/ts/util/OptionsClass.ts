@@ -1,5 +1,3 @@
-import {allEmoji} from '../emoji/allEmoji'
-
 export class OptionsClass {
     options: Options;
     private defaultOptions: Options = {
@@ -18,13 +16,12 @@ export class OptionsClass {
         },
         hint: {
             delay: 200,
-            emoji: [
-                "+1",
-                "-1",
-                "100",
-                "octocat",
-                "trollface",
-            ],
+            emoji: {
+                '+1': '👍',
+                '-1': '👎',
+                'heart': '❤️',
+                'cold_sweat': '😰',
+            },
         },
         counter: 0,
         upload: {
@@ -199,13 +196,6 @@ export class OptionsClass {
         }
 
         const mergedOptions = Object.assign({}, this.defaultOptions, this.options)
-
-        // array emoji to object emoji
-        const objectEmoji: any = {}
-        mergedOptions.hint.emoji.forEach((emoji: string) => {
-            objectEmoji[emoji] = allEmoji[emoji]
-        })
-        mergedOptions.hint.emoji = objectEmoji
 
         if (toolbar.length > 0) {
             mergedOptions.toolbar = toolbar

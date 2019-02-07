@@ -1,5 +1,6 @@
 import {getTextareaPosition} from "../util/textareaPosition";
 import {insertText} from "../editor/index";
+import {allEmoji} from "../emoji/allEmoji";
 
 export class Hint {
     timeId: number

@@ -5,18 +5,7 @@
  * @version 0.1.0.0, Jan 28, 2019
  */
 
-import cPng from '../../assets/images/c.png'
-import dPng from '../../assets/images/d.png'
-import e50aPng from '../../assets/images/e50a.png'
-import fPng from '../../assets/images/f.png'
-import gPng from '../../assets/images/g.png'
-import iPng from '../../assets/images/i.png'
-import jPng from '../../assets/images/j.png'
-import kPng from '../../assets/images/k.png'
-import octocatPng from '../../assets/images/octocat.png'
-import rPng from '../../assets/images/r.png'
-import trollfacePng from '../../assets/images/trollface.png'
-import uPng from '../../assets/images/u.png'
+const imgStaticPath =  'https://vditor.b3log.org/images'
 
 export const allEmoji:any = {
   '+1': '👍',
@@ -140,7 +129,7 @@ export const allEmoji:any = {
   'busstop': '🚏',
   'busts_in_silhouette': '👥',
   'bust_in_silhouette': '👤',
-  'c': cPng,
+  'c': `${imgStaticPath}/c.png`,
   'cactus': '🌵',
   'cake': '🍰',
   'calendar': '📆',
@@ -244,7 +233,7 @@ export const allEmoji:any = {
   'custard': '🍮',
   'customs': '🛃',
   'cyclone': '🌀',
-  'd': dPng,
+  'd': `${imgStaticPath}/d.png`,
   'dancer': '💃',
   'dancers': '👯',
   'dango': '🍡',
@@ -275,7 +264,7 @@ export const allEmoji:any = {
   'droplet': '💧',
   'dvd': '📀',
   'e-mail': '📧',
-  'e50a': e50aPng,
+  'e50a': `${imgStaticPath}/e50a.png`,
   'ear': '👂',
   'earth_africa': '🌍',
   'earth_americas': '🌎',
@@ -300,7 +289,7 @@ export const allEmoji:any = {
   'expressionless': '😑',
   'eyeglasses': '👓',
   'eyes': '👀',
-  'f': fPng,
+  'f': `${imgStaticPath}/f.png`,
   'facepunch': '👊',
   'factory': '🏭',
   'fallen_leaf': '🍂',
@@ -341,7 +330,7 @@ export const allEmoji:any = {
   'fuelpump': '⛽',
   'full_moon': '🌕',
   'full_moon_with_face': '🌝',
-  'g': gPng,
+  'g': `${imgStaticPath}/g.png`,
   'game_die': '🎲',
   'gb': '🇬🇧',
   'gem': '💎',
@@ -409,7 +398,7 @@ export const allEmoji:any = {
   'house': '🏠',
   'house_with_garden': '🏡',
   'hushed': '😯',
-  'i': iPng,
+  'i': `${imgStaticPath}/i.png`,
   'icecream': '🍦',
   'ice_cream': '🍨',
   'id': '🇮🇩',
@@ -424,7 +413,7 @@ export const allEmoji:any = {
   'iphone': '📱',
   'it': '🇮🇹',
   'izakaya_lantern': '🏮',
-  'j': jPng,
+  'j': `${imgStaticPath}/j.png`,
   'jack_o_lantern': '🎃',
   'japan': '🗾',
   'japanese_castle': '🏯',
@@ -434,7 +423,7 @@ export const allEmoji:any = {
   'joy': '😂',
   'joy_cat': '😹',
   'jp': '🇯🇵',
-  'k': kPng,
+  'k': `${imgStaticPath}/k.png`,
   'key': '🔑',
   'keycap_ten': '🔟',
   'kimono': '👘',
@@ -550,7 +539,7 @@ export const allEmoji:any = {
   'o': '⭕',
   'o2': '🅾',
   'ocean': '🌊',
-  'octocat': octocatPng,
+  'octocat': `${imgStaticPath}/octocat.png`,
   'octopus': '🐙',
   'oden': '🍢',
   'office': '🏢',
@@ -626,7 +615,7 @@ export const allEmoji:any = {
   'pushpin': '📌',
   'put_litter_in_its_place': '🚮',
   'question': '❓',
-  'r': rPng,
+  'r': `${imgStaticPath}/r.png`,
   'rabbit': '🐰',
   'rabbit2': '🐇',
   'racehorse': '🐎',
@@ -803,7 +792,7 @@ export const allEmoji:any = {
   'trident': '🔱',
   'triumph': '😤',
   'trolleybus': '🚎',
-  'trollface': trollfacePng,
+  'trollface': `${imgStaticPath}/trollface.png`,
   'trophy': '🏆',
   'tropical_drink': '🍹',
   'tropical_fish': '🐠',
@@ -818,7 +807,7 @@ export const allEmoji:any = {
   'two_hearts': '💕',
   'two_men_holding_hands': '👬',
   'two_women_holding_hands': '👭',
-  'u': uPng,
+  'u': `${imgStaticPath}/u.png`,
   'u5272': '🈹',
   'u5408': '🈴',
   'u55b6': '🈺',
