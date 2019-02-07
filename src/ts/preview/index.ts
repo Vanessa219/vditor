@@ -5,7 +5,9 @@ export class Preview {
         this.element = document.createElement('div')
         this.element.className = 'vditor-preview' +
             (vditor.options.classes.preview ? ' ' + vditor.options.classes.preview : '')
-
+        if (!vditor.options.preview.show) {
+            this.element.style.display = 'none'
+        }
         if (this.element.style.display !== 'none') {
             this.render(vditor)
         }
