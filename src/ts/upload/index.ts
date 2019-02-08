@@ -86,7 +86,6 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
 
     const xhr = new XMLHttpRequest()
     xhr.open('POST', vditor.options.upload.url)
-    xhr.withCredentials = true;
     if (vditor.options.upload.token) {
         xhr.setRequestHeader("x-upload-token", vditor.options.upload.token);
     }
