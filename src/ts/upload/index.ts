@@ -85,6 +85,7 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
     }
 
     if (!vditor.options.upload.url || !vditor.upload) {
+        element ? element.value = '' : ''
         alert('please config: options.upload.url')
         return
     }
