@@ -116,7 +116,7 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
                     vditor.options.upload.error(xhr.responseText)
                 } else {
                     vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
-                    vditor.upload.element.children[0].innerHTML = xhr.responseText
+                    vditor.upload.element.children[0].innerHTML = xhr.responseText || '401'
                 }
             }
         }
