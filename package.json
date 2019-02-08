@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://hacpai.com/cr",
@@ -48,7 +48,7 @@
     "build": "webpack",
     "demo": "webpack --config webpack.demo.js",
     "start": "webpack-dev-server --config webpack.start.js",
-    "release": "npm run build && cp -r dist deploy/0.1.6"
+    "release": "npm run build && cp -r dist deploy/0.1.7"
   },
   "keywords": [
     "editor",
