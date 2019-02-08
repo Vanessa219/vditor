@@ -46,7 +46,7 @@ const vditor2 = new Vditor('vditor2', {
   counter: 100,
   upload: {
     token: 'test',
-    url: 'https://hacpai.com/upload/editor',
+    url: 'https://hacpai.com/upload/client',
     linkToImgUrl: '/api/upload/fetch',
   },
   preview: {
