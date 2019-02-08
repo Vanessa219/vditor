@@ -23,6 +23,7 @@ interface Upload {
     linkToImgUrl?: string
     success?: { (textarea: HTMLTextAreaElement, msg: string): void }
     error?: { (msg: string): void }
+    token?: string
 }
 
 interface MenuItem {

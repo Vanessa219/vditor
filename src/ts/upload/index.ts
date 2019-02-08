@@ -86,7 +86,10 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
 
     const xhr = new XMLHttpRequest()
     xhr.open('POST', vditor.options.upload.url)
-
+    xhr.withCredentials = true;
+    if (vditor.options.upload.token) {
+        xhr.setRequestHeader("x-b3-ut", vditor.options.upload.token);
+    }
     vditor.upload.isUploading = true
     vditor.editor.element.setAttribute('disabled', 'disabled')
 

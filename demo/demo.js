@@ -41,6 +41,26 @@ const LazyLoadImage = () => {
   }
 }
 
+
+const vditor2 = new Vditor('vditor2', {
+  counter: 100,
+  upload: {
+    token: 'test',
+    url: 'https://hacpai.com/upload/editor',
+    linkToImgUrl: '/api/upload/fetch',
+  },
+  preview: {
+    show: true,
+    url: '/api/markdown',
+    parse: (element) => {
+      LazyLoadImage()
+    },
+  },
+  classes: {
+    preview: 'content-reset',
+  },
+})
+
 const vditor = new Vditor('vditor', {
   cache: false,
   height: 200,
@@ -113,24 +133,6 @@ const vditor = new Vditor('vditor', {
     },
     'strike',
   ],
-})
-
-const vditor2 = new Vditor('vditor2', {
-  counter: 100,
-  upload: {
-    url: '/api/upload/editor',
-    linkToImgUrl: '/api/upload/fetch',
-  },
-  preview: {
-    show: true,
-    url: '/api/markdown',
-    parse: (element) => {
-      LazyLoadImage()
-    },
-  },
-  classes: {
-    preview: 'content-reset',
-  },
 })
 
 // vditor.insertVale('Hi, Vditor!')
