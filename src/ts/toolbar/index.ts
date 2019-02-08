@@ -1,4 +1,4 @@
-import {Emoji} from './emoji'
+import {Emoji} from './Emoji'
 import {Bold} from './Bold'
 import {Headings} from "./Headings";
 import {Divider} from "./Divider";
