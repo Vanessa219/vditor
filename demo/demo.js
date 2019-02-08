@@ -41,7 +41,6 @@ const LazyLoadImage = () => {
   }
 }
 
-
 const vditor2 = new Vditor('vditor2', {
   counter: 100,
   upload: {
