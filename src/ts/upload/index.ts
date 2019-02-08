@@ -84,6 +84,11 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
         return
     }
 
+    if (!vditor.options.upload.url || !vditor.upload) {
+        alert('please config: options.upload.url')
+        return
+    }
+
     const xhr = new XMLHttpRequest()
     xhr.open('POST', vditor.options.upload.url)
     if (vditor.options.upload.token) {
