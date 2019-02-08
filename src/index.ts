@@ -94,7 +94,7 @@ class VditorClass {
     }
 
     getSelection() {
-        this.vditor.editor.element.value.substring(this.vditor.editor.element.selectionStart, this.vditor.editor.element.selectionEnd)
+       return this.vditor.editor.element.value.substring(this.vditor.editor.element.selectionStart, this.vditor.editor.element.selectionEnd)
     }
 
     setValue(value: string) {
