@@ -11,8 +11,6 @@ declare module 'turndown'
 
 declare module 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 
-declare function captureEvents(name: string): void
-
 interface Classes {
     preview?: string
 }

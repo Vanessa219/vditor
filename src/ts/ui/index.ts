@@ -20,7 +20,7 @@ export class Ui {
         vditorElement.appendChild(toolbarElement)
 
         if (vditor.options.resize.enable && vditor.options.resize.position === 'top') {
-                vditorElement.appendChild(vditor.resize.element)
+            vditorElement.appendChild(vditor.resize.element)
         }
 
         const contentElement = document.createElement('div')
@@ -43,6 +43,19 @@ export class Ui {
 
         if (vditor.options.resize.enable && vditor.options.resize.position === 'bottom') {
             vditorElement.appendChild(vditor.resize.element)
+        }
+
+        document.onclick = (event: any) => {
+            const menuItem = event.target.closest('.vditor-tooltipped')
+            if (menuItem && menuItem.nextSibling && menuItem.nextSibling.className === 'vditor-panel') {
+                return
+            }
+            document.querySelectorAll('.vditor-hint').forEach((element: HTMLElement) => {
+                element.style.display = 'none'
+            })
+            document.querySelectorAll('.vditor-panel').forEach((element: HTMLElement) => {
+                element.style.display = 'none'
+            })
         }
     }
 }

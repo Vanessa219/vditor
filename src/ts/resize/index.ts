@@ -28,7 +28,7 @@ export class Resize {
             // @ts-ignore
             if (this.setCapture) {
                 // @ts-ignore
-                this.setCapture();
+                this.setCapture()
             } else if (window.captureEvents) {
                 // @ts-ignore
                 window.captureEvents(Event.MOUSEMOVE | Event.MOUSEUP);
@@ -36,7 +36,7 @@ export class Resize {
 
             _document.onmousemove = function (event: any) {
                 if (!event) {
-                    event = window.event;
+                    event = window.event
                 }
                 if (vditor.options.resize.position === 'top') {
                     vditorElement.style.height = Math.max(100, height + (y - event.clientY)) + 'px'

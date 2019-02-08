@@ -128,9 +128,6 @@ class Editor {
             if (vditor.options.blur) {
                 vditor.options.blur(this.element.value)
             }
-            if (vditor.hint && vditor.hint.element) {
-                vditor.hint.element.style.display = 'none'
-            }
         })
 
         if (vditor.options.select) {
