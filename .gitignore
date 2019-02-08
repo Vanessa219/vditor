@@ -1,4 +1,5 @@
 .idea
 /dist
+/deploy/*
 /node_modules
 /demo/dist
