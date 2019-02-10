@@ -48,8 +48,8 @@
 ## 案例
 
 * [Sym](https://github.com/b3log/symphony)：一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
-* [Solo](https://github.com/b3log/solo)：一款小而美的博客系统，专为程序员设计，使用 Java 实现
-* [Pipe](https://github.com/b3log/pipe)：一款小而美的博客平台，专为程序员设计，使用 Go 实现
+* [Solo](https://github.com/b3log/solo)：一款小而美的博客系统，使用 Java 实现
+* [Pipe](https://github.com/b3log/pipe)：一款小而美的博客平台，使用 Go 实现
 
 ## 文档
 
