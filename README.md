@@ -28,16 +28,17 @@
 ## 功能
 
 * 插入原生 Emoji、设置常用表情列表
-* 自定义工具栏按钮、提示、提示显示位置、插入文案及快捷键
-* 可使用拖拽、剪切板粘贴、点击上传按钮的方式上传图片、文件，并显示实时上传进度
+* 自定义工具栏按钮、提示、插入文案及快捷键
+* 可使用拖拽、剪切板粘贴上传，显示实时上传进度
+* 支持 CORS 跨域上传
+* 内容保存本地存储，防止意外丢失
 * 录音支持，用户可直接发布语音
 * 粘贴 HTML 自动转换为 Markdown
 * 提供实时预览、滚动同步定位
-* 包含主窗口大小拖拽、提示层、计数器、本地缓存功能
-* className 和多主题支持、内置黑白两套
+* 支持主窗口大小拖拽、字符计数
+* 多主题支持、内置黑白两套
 * 多语言支持、内置中英文
 * 支持主流浏览器和移动端
-
 
 ![v](https://user-images.githubusercontent.com/970828/52485686-66e7e980-2bf4-11e9-9ad3-e84f1d364351.png)
 
@@ -46,8 +47,8 @@
 ## 案例
 
 * [Sym](https://github.com/b3log/symphony)：一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
-* [Solo](https://github.com/b3log/solo)：一款小而美的 Java 博客系统
-* [Pipe](https://github.com/b3log/pipe)：一款小而美的 Go 博客平台
+* [Solo](https://github.com/b3log/solo)：一款小而美的博客系统，使用 Java 实现
+* [Pipe](https://github.com/b3log/pipe)：一款小而美的博客平台，使用 Go 实现
 
 ## 文档
 
