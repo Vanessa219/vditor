@@ -67,7 +67,7 @@ class VditorClass {
         return this.vditor.editor.element.value
     }
 
-    insertVale(value: string) {
+    insertValue(value: string) {
         insertText(this.vditor.editor.element, value, '')
     }
 
