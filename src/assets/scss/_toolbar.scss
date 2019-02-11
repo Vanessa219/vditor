@@ -2,7 +2,7 @@
  * toolbar.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Jan 28, 2019
+ * @version 0.1.1.0, Feb 11, 2019
  */
 .vditor {
   &-toolbar {
@@ -15,6 +15,8 @@
       padding: 10px 5px;
       float: left;
       line-height: 14px;
+      height: 36px;
+      box-sizing: border-box;
     }
 
     svg {
@@ -63,6 +65,7 @@
     &__br {
       width: 100%;
       padding: 0 !important;
+      height: 0 !important;
     }
   }
 
