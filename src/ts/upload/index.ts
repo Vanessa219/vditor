@@ -54,7 +54,7 @@ const genUploadedLabel = (editorElement: HTMLTextAreaElement, responseText: stri
 
     Object.keys(response.data.succMap).forEach((key) => {
         const path = response.data.succMap[key]
-        if (path.indexOf('.weba') > -1) {
+        if (path.indexOf('.wav') === path.length - 4) {
             insertText(editorElement, `<audio controls="controls" src="${path}"></audio>\n`, '')
             return
         }
@@ -69,7 +69,10 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
     const formData = new FormData()
     const uploadFiles = []
     for (let i = 0; i < files.length; i++) {
-        const file = files[i].getAsFile ? files[i].getAsFile() : files[i]
+        let file = files[i]
+        if (file instanceof DataTransferItem) {
+            file = file.getAsFile()
+        }
         if (file.size <= vditor.options.upload.max) {
             formData.append('file[]', file)
             uploadFiles.push(file)

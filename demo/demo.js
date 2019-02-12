@@ -45,13 +45,13 @@ const vditor2 = new Vditor('vditor2', {
   counter: 100,
   upload: {
     token: 'test',
-    url: 'https://hacpai.com/upload/client',
+    url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
   },
   preview: {
     show: true,
     url: '/api/markdown',
-    parse: (element) => {
+    parse: () => {
       LazyLoadImage()
     },
   },

@@ -2,6 +2,7 @@ import recordSVG from "../../assets/icons/record.svg";
 import {MenuItemClass} from "./MenuItemClass";
 import {uploadFiles} from "../upload/index";
 import {i18n} from "../i18n/index";
+import {MediaRecorder} from "../util/MediaRecorder";
 
 export class Record extends MenuItemClass {
     constructor(vditor: Vditor, menuItem: MenuItem) {
@@ -15,39 +16,42 @@ export class Record extends MenuItemClass {
         let mediaRecorder: any
         this.element.children[0].addEventListener('click', () => {
             if (!mediaRecorder) {
-                import(/* webpackChunkName: "vditor" */ 'recordrtc/RecordRTC.js').then(RecordRTC => {
-                    navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
-                        mediaRecorder = new RecordRTC.default(mediaStream, {
-                            type: 'audio',
-                            mimeType: 'audio/wav',
-                        });
+                navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
+                    mediaRecorder = new MediaRecorder(mediaStream)
+                    mediaRecorder.recorder.onaudioprocess = (e: any) => {
+                        //Do nothing if not recording:
+                        if (!mediaRecorder.isRecording) {
+                            return
+                        }
 
-                        vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recoding
-                        vditor.upload.element.style.opacity = 1
-                        vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
-                        vditor.editor.element.setAttribute('disabled', 'disabled')
-                        mediaRecorder.startRecording()
-                    }).catch((err: ErrorEvent) => {
-                        console.log('init media error:', err);
-                    });
-                }).catch(err => {
-                    console.log('Failed to load recordrtc', err);
+                        // Copy the data from the input buffers;
+                        var left = e.inputBuffer.getChannelData(0)
+                        var right = e.inputBuffer.getChannelData(1)
+                        mediaRecorder.cloneChannelData(left, right)
+                    }
+                    mediaRecorder.startRecordingNewWavFile()
+                    vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recoding
+                    vditor.upload.element.style.opacity = 1
+                    vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
+                    vditor.editor.element.setAttribute('disabled', 'disabled')
+                }).catch((err: ErrorEvent) => {
+                    console.log('init media error:', err);
                 });
                 return
             }
 
-            if ('recording' === mediaRecorder.getState()) {
-                mediaRecorder.stopRecording(function () {
-                    const blob = mediaRecorder.getBlob();
-                    vditor.upload.element.className = 'vditor-upload'
-                    uploadFiles(vditor, [blob])
-                });
+            if (mediaRecorder.isRecording) {
+                mediaRecorder.stopRecording()
+                vditor.upload.element.className = 'vditor-upload'
+                const file = new File([mediaRecorder.buildWavFileBlob()],
+                    `record${(new Date()).getTime()}.wav`, {type: 'video/webm'})
+                uploadFiles(vditor, [file])
             } else {
                 vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recoding
                 vditor.upload.element.style.opacity = 1
                 vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
                 vditor.editor.element.setAttribute('disabled', 'disabled')
-                mediaRecorder.startRecording()
+                mediaRecorder.startRecordingNewWavFile()
             }
         })
     }

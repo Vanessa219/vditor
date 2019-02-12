@@ -69,4 +69,3 @@ Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 * [Markdown](https://en.wikipedia.org/wiki/Markdown)：轻量级纯文本排版语言
 * [TypeScript](https://github.com/Microsoft/TypeScript)：类型化的 JavaScript 超集
 * [Turndown](https://github.com/domchristie/turndown)：HTML 到 Markdown 的转换器
-* [RecordRTC](https://github.com/muaz-khan/RecordRTC)：多媒体录制库

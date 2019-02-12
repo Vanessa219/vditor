@@ -5,11 +5,14 @@ declare module "*.svg" {
 
 declare module '*.png'
 
-declare module 'recordrtc/RecordRTC.js'
-
 declare module 'turndown'
 
 declare module 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
+
+declare var webkitAudioContext: {
+    prototype: AudioContext;
+    new(contextOptions?: AudioContextOptions): AudioContext;
+};
 
 interface Classes {
     preview?: string
