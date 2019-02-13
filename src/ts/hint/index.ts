@@ -36,7 +36,7 @@ export class Hint {
             if (atKey !== undefined && this.atUser) {
                 clearTimeout(this.timeId)
                 this.timeId = setTimeout(() => {
-                    this.genHTML(this.atUser(atKey))
+                    this.genHTML(this.atUser(atKey), atKey)
                 }, this.hintDelay)
             }
             if (emojiKey !== undefined) {
@@ -59,7 +59,7 @@ export class Hint {
                                 }
                             }
                         })
-                        this.genHTML(matchEmojiData)
+                        this.genHTML(matchEmojiData, emojiKey)
                     })
                     .catch(err => {
                         console.log('Failed to load emoji', err)
@@ -98,7 +98,7 @@ export class Hint {
         return key
     }
 
-    private genHTML(data: Array<any>) {
+    private genHTML(data: Array<any>, key: string) {
         if (data.length === 0) {
             this.element.style.display = 'none'
             return
@@ -112,7 +112,20 @@ export class Hint {
             if (i > 7) {
                 return
             }
-            hintsHTML += `<li data-value="${hintData.value} " class="${i || 'vditor-hint--current'}"> ${hintData.html}</li>`
+            // process high light
+            let html = hintData.html
+            if (key !== '') {
+                const lastIndex = html.lastIndexOf('>') + 1
+                let replaceHtml = html.substr(lastIndex)
+                const replaceIndex = replaceHtml.toLowerCase().indexOf(key.toLowerCase())
+                if (replaceIndex > -1) {
+                    replaceHtml = replaceHtml.substring(0, replaceIndex) + '<b>' +
+                        replaceHtml.substring(replaceIndex, replaceIndex + key.length) + '</b>' +
+                        replaceHtml.substring(replaceIndex + key.length)
+                    html = html.substr(0, lastIndex) + replaceHtml
+                }
+            }
+            hintsHTML += `<li data-value="${hintData.value} " class="${i || 'vditor-hint--current'}"> ${html}</li>`
         })
 
         this.element.innerHTML = hintsHTML
