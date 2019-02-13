@@ -26,17 +26,18 @@ const genUploadingLabel = (vditor: Vditor, files: any): string => {
         if (!file.name) {
             return ''
         }
+        const lastIndex = file.name.lastIndexOf('.')
+        const filename = vditor.options.upload.filename(file.name.substr(0, lastIndex)) + file.name.substr(lastIndex)
         if (file.size > vditor.options.upload.max) {
-            uploadingStr += `${tag}[${file.name.replace(/\W/g,
-                '')}](${i18n[vditor.options.lang].over} ${vditor.options.upload.max / 1024 / 1024}M)\n`
+            uploadingStr += `${tag}[${filename}](${i18n[vditor.options.lang].over} ${vditor.options.upload.max / 1024 / 1024}M)\n`
         } else {
-            uploadingStr += `${tag}[${file.name.replace(/\W/g, '')}](${i18n[vditor.options.lang].uploading})\n`
+            uploadingStr += `${tag}[${filename}](${i18n[vditor.options.lang].uploading})\n`
         }
     }
     return uploadingStr
 }
 
-const genUploadedLabel = (editorElement: HTMLTextAreaElement, responseText: string, lang: string, uploadElement: HTMLElement) => {
+const genUploadedLabel = (editorElement: HTMLTextAreaElement, responseText: string, options: Options, uploadElement: HTMLElement) => {
     editorElement.focus()
     const response = JSON.parse(responseText)
 
@@ -46,10 +47,12 @@ const genUploadedLabel = (editorElement: HTMLTextAreaElement, responseText: stri
     }
 
     response.data.errFiles.forEach((data: string) => {
-        const original = `[${data.replace(/\W/g, '')}](${i18n[lang].uploading})`
+        const lastIndex = data.lastIndexOf('.')
+        const filename = options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex)
+        const original = `[${filename}](${i18n[options.lang].uploading})`
         editorElement.selectionStart = editorElement.value.split(original)[0].length
         editorElement.selectionEnd = editorElement.selectionStart + original.length
-        insertText(editorElement, `[${data.replace(/\W/g, '')}](${i18n[lang].uploadError})`, '', true)
+        insertText(editorElement, `[${filename}](${i18n[options.lang].uploadError})`, '', true)
     })
 
     Object.keys(response.data.succMap).forEach((key) => {
@@ -58,10 +61,12 @@ const genUploadedLabel = (editorElement: HTMLTextAreaElement, responseText: stri
             insertText(editorElement, `<audio controls="controls" src="${path}"></audio>\n`, '')
             return
         }
-        const original = `[${key.replace(/\W/g, '')}](${i18n[lang].uploading})`
+        const lastIndex = key.lastIndexOf('.')
+        const filename = options.upload.filename(key.substr(0, lastIndex)) + key.substr(lastIndex)
+        const original = `[${filename}](${i18n[options.lang].uploading})`
         editorElement.selectionStart = editorElement.value.split(original)[0].length
         editorElement.selectionEnd = editorElement.selectionStart + original.length
-        insertText(editorElement, `[${key.replace(/\W/g, '')}](${path})`, '', true)
+        insertText(editorElement, `[${filename}](${path})`, '', true)
     })
 }
 
@@ -111,7 +116,7 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
                 if (vditor.options.upload.success) {
                     vditor.options.upload.success(vditor.editor.element, xhr.responseText)
                 } else {
-                    genUploadedLabel(vditor.editor.element, xhr.responseText, vditor.options.lang, vditor.upload.element)
+                    genUploadedLabel(vditor.editor.element, xhr.responseText, vditor.options, vditor.upload.element)
                 }
 
                 vditor.upload.element.style.opacity = 0

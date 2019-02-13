@@ -25,6 +25,7 @@ interface Upload {
     success?: { (textarea: HTMLTextAreaElement, msg: string): void }
     error?: { (msg: string): void }
     token?: string
+    filename?: { (name: string): string }
 }
 
 interface MenuItem {

@@ -28,6 +28,7 @@ export class OptionsClass {
             url: '',
             max: 10 * 1024 * 1024,
             linkToImgUrl: '',
+            filename: name => name.replace(/\W/g, '')
         },
         classes: {
             preview: ''

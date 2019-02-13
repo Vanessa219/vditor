@@ -30,7 +30,9 @@ const LazyLoadImage = () => {
   } else {
     window.imageIntersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entrie) => {
-        if ((typeof entrie.isIntersecting === 'undefined' ? entrie.intersectionRatio !== 0 : entrie.isIntersecting) && entrie.target.getAttribute('data-src')) {
+        if ((typeof entrie.isIntersecting === 'undefined'
+          ? entrie.intersectionRatio !== 0
+          : entrie.isIntersecting) && entrie.target.getAttribute('data-src')) {
           loadImg(entrie.target)
         }
       })
@@ -47,6 +49,10 @@ const vditor2 = new Vditor('vditor2', {
     token: 'test',
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
+    filename: name => {
+      // ? \ / : | < > * [ ] white to -
+      return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
+    },
   },
   preview: {
     show: true,
@@ -67,7 +73,7 @@ const vditor = new Vditor('vditor', {
   counter: 100,
   resize: {
     enable: true,
-    position: 'top'
+    position: 'top',
   },
   placeholder: 'say sth...',
   lang: 'en_US',
