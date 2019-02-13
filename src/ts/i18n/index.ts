@@ -23,7 +23,6 @@ export const i18n: any = {
         preview: 'Preview',
         uploading: 'uploading...',
         over: 'over',
-        uploadError: 'upload error',
         recoding: 'recoding...',
         info: 'Info'
     },
@@ -51,7 +50,6 @@ export const i18n: any = {
         preview: '预览',
         uploading: '上传中...',
         over: '超过',
-        uploadError: '上传错误',
         recoding: '录音中...',
         info: '关于'
     }
