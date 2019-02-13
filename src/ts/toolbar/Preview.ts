@@ -13,14 +13,20 @@ export class Preview extends MenuItemClass {
 
     _bindEvent(vditor: Vditor, menuItem: MenuItem) {
         this.element.children[0].addEventListener('click', function () {
+            const vditorElement = document.getElementById(vditor.id)
+            let className
             if (vditor.preview.element.style.display === 'block') {
                 vditor.preview.element.style.display = 'none'
-                this.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`
+                className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`
             } else {
                 vditor.preview.element.style.display = 'block'
-                this.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`
+                className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`
                 vditor.preview.render(vditor)
             }
+            if (vditorElement.className.indexOf('vditor--fullscreen') > -1) {
+                className = className.replace('__n', '__s')
+            }
+            this.className = className
         })
     }
 }
