@@ -55,6 +55,7 @@ interface Hint {
 interface Resize {
     position?: string
     enable?: boolean
+    after?: { (height: number): void }
 }
 
 interface Options {

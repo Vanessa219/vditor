@@ -74,6 +74,9 @@ const vditor = new Vditor('vditor', {
   resize: {
     enable: true,
     position: 'top',
+    after: height => {
+      console.log(`after resize, height change: ${height}`)
+    },
   },
   placeholder: 'say sth...',
   lang: 'en_US',

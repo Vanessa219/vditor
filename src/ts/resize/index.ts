@@ -46,6 +46,10 @@ export class Resize {
             };
 
             _document.onmouseup = function () {
+                if (vditor.options.resize.after) {
+                    vditor.options.resize.after(vditorElement.offsetHeight - height)
+                }
+
                 if (this.releaseCapture) {
                     this.releaseCapture();
                 } else if (window.captureEvents) {
