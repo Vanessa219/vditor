@@ -2,6 +2,11 @@
 <img alt="Vditor" src="https://user-images.githubusercontent.com/873584/52320007-9980bf00-2a07-11e9-8acc-0fb5a7fab8c9.png" />
 <br>
 下一代的 Markdown 编辑器，为未来而构建
+<br><br>
+<a title="MIT" target="_blank" href="https://opensource.org/licenses/MIT"><img src="http://img.shields.io/badge/license-MIT-orange.svg?style=flat-square"></a>
+<a title="Code Size" target="_blank" href="https://github.com/b3log/vditor"><img src="https://img.shields.io/github/languages/code-size/b3log/vditor.svg?style=flat-square"></a>
+<a title="Version" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/v/vditor.svg?style=flat-square"></a>
+<a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square"></a>
 </p>
 
 ## 简介
