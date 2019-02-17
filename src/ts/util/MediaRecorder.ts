@@ -1,12 +1,12 @@
 export class MediaRecorder {
     SAMPLE_RATE = 5000  // 44100 suggested by demos;
-    DEFAULT_SAMPLE_RATE: any
+    DEFAULT_SAMPLE_RATE: number
     isRecording = false
     readyFlag = false
     leftChannel: Array<Float32List> = []
     rightChannel: Array<Float32List> = []
     recordingLength = 0
-    recorder: any //This needs to be public so the 'onaudioprocess' event handler can be defined externally.
+    recorder: ScriptProcessorNode //This needs to be public so the 'onaudioprocess' event handler can be defined externally.
 
     constructor(e: MediaStream) {
         let context
@@ -147,7 +147,7 @@ export class MediaRecorder {
         return result
     }
 
-    private mergeBuffers(desiredChannelBuffer: any) {
+    private mergeBuffers(desiredChannelBuffer: Array<Float32List>) {
         const result = new Float32Array(this.recordingLength)
         let offset = 0
         const lng = desiredChannelBuffer.length
@@ -159,7 +159,7 @@ export class MediaRecorder {
         return result
     }
 
-    private writeUTFBytes(view: any, offset: number, string: string) {
+    private writeUTFBytes(view: DataView, offset: number, string: string) {
         const lng = string.length
         for (let i = 0; i < lng; i++) {
             view.setUint8(offset + i, string.charCodeAt(i))

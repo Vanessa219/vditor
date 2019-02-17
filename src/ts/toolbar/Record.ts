@@ -13,12 +13,12 @@ export class Record extends MenuItemClass {
     }
 
     _bindEvent(vditor: Vditor) {
-        let mediaRecorder: any
+        let mediaRecorder: MediaRecorder
         this.element.children[0].addEventListener('click', () => {
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new MediaRecorder(mediaStream)
-                    mediaRecorder.recorder.onaudioprocess = (e: any) => {
+                    mediaRecorder.recorder.onaudioprocess = (e: AudioProcessingEvent) => {
                         //Do nothing if not recording:
                         if (!mediaRecorder.isRecording) {
                             return
