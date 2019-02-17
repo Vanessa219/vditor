@@ -16,7 +16,7 @@ export class Fullscreen extends MenuItemClass {
                 this.innerHTML = menuItem.icon || fullscreenSVG
                 vditorElement.className = vditorElement.className.replace(' vditor--fullscreen', '')
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
-                    const svgElement = vditor.toolbar.elements[key].firstChild
+                    const svgElement  = <HTMLElement>vditor.toolbar.elements[key].firstChild
                     if (svgElement) {
                         svgElement.className = svgElement.className.replace('__s', '__n')
                     }
@@ -25,7 +25,7 @@ export class Fullscreen extends MenuItemClass {
                 this.innerHTML = menuItem.icon || contractSVG
                 vditorElement.className = vditorElement.className + ' vditor--fullscreen'
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
-                    const svgElement = vditor.toolbar.elements[key].firstChild
+                    const svgElement = <HTMLElement>vditor.toolbar.elements[key].firstChild
                     if (svgElement) {
                         svgElement.className = svgElement.className.replace('__n', '__s')
                     }

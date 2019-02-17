@@ -122,7 +122,7 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
                     genUploadedLabel(vditor.editor.element, xhr.responseText, vditor.options, vditor.upload.element)
                 }
 
-                vditor.upload.element.style.opacity = 0
+                vditor.upload.element.style.opacity = '0'
             } else {
                 if (vditor.options.upload.error) {
                     vditor.options.upload.error(xhr.responseText)
@@ -138,8 +138,9 @@ const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => 
             return
         }
         const progress = event.loaded / event.total * 100
-        vditor.upload.element.style.opacity = 1
-        vditor.upload.element.children[0].style.width = progress + '%'
+        vditor.upload.element.style.opacity = '1'
+        const progressBar = <HTMLElement>vditor.upload.element.children[0]
+        progressBar.style.width = progress + '%'
     }
     xhr.send(formData)
 }

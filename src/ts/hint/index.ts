@@ -1,13 +1,12 @@
 import {getTextareaPosition} from "../util/textareaPosition";
 import {insertText} from "../editor/index";
-import {allEmoji} from "../emoji/allEmoji";
 
 export class Hint {
     timeId: number
     editorElement: HTMLTextAreaElement
     element: HTMLUListElement
-    atUser: { (value: string): Array<any> }
-    commonEmoji: any
+    atUser: { (value: string): Array<HintData> }
+    commonEmoji: {  [key: string]: string  }
     hintDelay: number
 
     constructor(vditor: Vditor) {
@@ -98,7 +97,7 @@ export class Hint {
         return key
     }
 
-    private genHTML(data: Array<any>, key: string) {
+    private genHTML(data: Array<HintData>, key: string) {
         if (data.length === 0) {
             this.element.style.display = 'none'
             return

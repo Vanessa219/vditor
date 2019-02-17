@@ -30,7 +30,8 @@ export class Headings extends MenuItemClass {
             } else {
                 headingsPanelElement.style.display = 'block'
                 if (vditor.toolbar.elements.emoji) {
-                    vditor.toolbar.elements.emoji.children[1].style.display = 'none'
+                    const panel = <HTMLElement>vditor.toolbar.elements.emoji.children[1]
+                    panel.style.display = 'none'
                 }
             }
         })

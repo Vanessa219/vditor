@@ -45,11 +45,16 @@ interface Preview {
     url?: string
 }
 
+interface HintData {
+    html: string,
+    value: string
+}
+
 interface Hint {
     emojiTail?: string
     delay?: number
-    emoji?: any
-    at?: { (value: string): Array<any> }
+    emoji?: { [key: string]: string }
+    at?: { (value: string): Array<HintData> }
 }
 
 interface Resize {
@@ -83,12 +88,34 @@ interface Vditor {
     id: string
     mdTimeoutId: number
     options: Options
-    timeId: number
-    toolbar?: any
-    preview?: any
-    editor?: any
-    counter?: any
-    resize?: any
-    hint?: any
-    upload?: any
+    toolbar?: {
+        elements?: { [key: string]: HTMLDivElement }
+    }
+    preview?: {
+        element: HTMLElement
+        render: { (vditor: Vditor, value?: string): void }
+    },
+    editor?: {
+        element: HTMLTextAreaElement
+    },
+    counter?: {
+        element: HTMLElement
+        render: { (length: number, counter: number): void }
+    },
+    resize?: {
+        element: HTMLElement
+    },
+    hint?: {
+        timeId: number
+        editorElement: HTMLTextAreaElement
+        element: HTMLUListElement
+        atUser: { (value: string): Array<HintData> }
+        commonEmoji: { [key: string]: string }
+        hintDelay: number
+        render: { (): void }
+    }
+    upload?: {
+        element: HTMLElement
+        isUploading: boolean
+    }
 }

@@ -31,7 +31,7 @@ export class Record extends MenuItemClass {
                     }
                     mediaRecorder.startRecordingNewWavFile()
                     vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recoding
-                    vditor.upload.element.style.opacity = 1
+                    vditor.upload.element.style.opacity = '1'
                     vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
                     vditor.editor.element.setAttribute('disabled', 'disabled')
                 }).catch((err: ErrorEvent) => {
@@ -48,7 +48,7 @@ export class Record extends MenuItemClass {
                 uploadFiles(vditor, [file])
             } else {
                 vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recoding
-                vditor.upload.element.style.opacity = 1
+                vditor.upload.element.style.opacity = '1'
                 vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
                 vditor.editor.element.setAttribute('disabled', 'disabled')
                 mediaRecorder.startRecordingNewWavFile()

@@ -116,10 +116,12 @@ class Editor {
                 vditor.options.focus(this.element.value)
             }
             if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
-                vditor.toolbar.elements.emoji.children[1].style.display = 'none'
+                const emojiPanel = <HTMLElement>vditor.toolbar.elements.emoji.children[1]
+                emojiPanel.style.display = 'none'
             }
             if (vditor.toolbar.elements.headings && vditor.toolbar.elements.headings.children[1]) {
-                vditor.toolbar.elements.headings.children[1].style.display = 'none'
+                const headingsPanel = <HTMLElement>vditor.toolbar.elements.headings.children[1]
+                headingsPanel.style.display = 'none'
             }
         })
 

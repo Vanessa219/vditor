@@ -13,7 +13,7 @@ import {UploadClass} from "./ts/upload/index";
 
 class VditorClass {
     readonly version: string;
-    vditor: any
+    vditor: Vditor
 
     constructor(id: string, options?: Options) {
         this.version = VDITOR_VERSION;
@@ -40,10 +40,12 @@ class VditorClass {
             this.vditor.resize = resize
         }
 
-        const toolbar = new Toolbar(this.vditor)
-        this.vditor.toolbar = toolbar
+        if (mergedOptions.toolbar) {
+            const toolbar: Toolbar = new Toolbar(this.vditor)
+            this.vditor.toolbar = toolbar
+        }
 
-        if (toolbar.elements.preview) {
+        if (this.vditor.toolbar.elements.preview) {
             const preview = new Preview(this.vditor)
             this.vditor.preview = preview
         }
@@ -55,7 +57,7 @@ class VditorClass {
 
         new Ui(this.vditor)
 
-        if (this.vditor.options.atUser || this.vditor.toolbar.elements.emoji) {
+        if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
             const hint = new Hint(this.vditor)
             this.vditor.hint = hint
         }
@@ -94,7 +96,7 @@ class VditorClass {
     }
 
     getSelection() {
-       return this.vditor.editor.element.value.substring(this.vditor.editor.element.selectionStart, this.vditor.editor.element.selectionEnd)
+        return this.vditor.editor.element.value.substring(this.vditor.editor.element.selectionStart, this.vditor.editor.element.selectionEnd)
     }
 
     setValue(value: string) {

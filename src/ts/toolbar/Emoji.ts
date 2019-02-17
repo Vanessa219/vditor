@@ -38,7 +38,8 @@ export class Emoji extends MenuItemClass {
             } else {
                 emojiPanelElement.style.display = 'block'
                 if (vditor.toolbar.elements.headings) {
-                    vditor.toolbar.elements.headings.children[1].style.display = 'none'
+                    const headingsPanel = <HTMLElement>vditor.toolbar.elements.headings.children[1]
+                    headingsPanel.style.display = 'none'
                 }
             }
         })
