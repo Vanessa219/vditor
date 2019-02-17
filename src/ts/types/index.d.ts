@@ -15,8 +15,8 @@ declare var webkitAudioContext: {
 };
 
 interface I18nLang {
-    en_US:   string;
-    zh_CN:  string;
+    en_US: string;
+    zh_CN: string;
 }
 
 interface I18n {

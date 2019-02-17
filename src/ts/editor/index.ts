@@ -156,7 +156,7 @@ class Editor {
         })
 
         if (vditor.options.upload.url) {
-            this.element.addEventListener('drop', (event: any) => {
+            this.element.addEventListener('drop', (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
                 event.stopPropagation()
                 event.preventDefault()
 
@@ -171,13 +171,13 @@ class Editor {
 
         let TurndownService: any
         const html2md = this.html2md
-        this.element.addEventListener('paste', (event: any) => {
+        this.element.addEventListener('paste', (event: Event) => {
             event.stopPropagation()
             event.preventDefault()
-
-            if (event.clipboardData.getData('text/html').replace(/(^\s*)|(\s*)$/g, '') !== '') {
-                const textHTML = event.clipboardData.getData('text/html')
-                const textPlain = event.clipboardData.getData('text/plain')
+            let clipboardEvent: ClipboardEvent = <ClipboardEvent> event
+            if (clipboardEvent.clipboardData.getData('text/html').replace(/(^\s*)|(\s*)$/g, '') !== '') {
+                const textHTML = clipboardEvent.clipboardData.getData('text/html')
+                const textPlain = clipboardEvent.clipboardData.getData('text/plain')
                 if (!TurndownService) {
                     import(/* webpackChunkName: "vditor" */ 'turndown').then(turndown => {
                         TurndownService = turndown.default
@@ -189,17 +189,17 @@ class Editor {
                 }
                 html2md(TurndownService, vditor, textHTML, textPlain)
 
-            } else if (event.clipboardData.getData('text/plain').replace(/(^\s*)|(\s*)$/g, '') !== '' &&
-                event.clipboardData.files.length === 0) {
-                insertText(event.target,
-                    event.clipboardData.getData('text/plain'), '', true)
-            } else if (event.clipboardData.files.length > 0) {
+            } else if (clipboardEvent.clipboardData.getData('text/plain').replace(/(^\s*)|(\s*)$/g, '') !== '' &&
+                clipboardEvent.clipboardData.files.length === 0) {
+                insertText(<HTMLTextAreaElement>event.target,
+                    clipboardEvent.clipboardData.getData('text/plain'), '', true)
+            } else if (clipboardEvent.clipboardData.files.length > 0) {
                 // upload file
                 if (!vditor.options.upload.url) {
                     return
                 }
                 // NOTE: not work in Safari. maybe the browser considered local filesystem as the same domain as the pasted data
-                uploadFiles(vditor, event.clipboardData.files)
+                uploadFiles(vditor, clipboardEvent.clipboardData.files)
             }
         })
     }
