@@ -45,8 +45,8 @@ export class Emoji extends MenuItemClass {
         })
 
         emojiPanelElement.querySelectorAll('.vditor-emojis span').forEach((element) => {
-            element.addEventListener('click', (event: any) => {
-                insertText(vditor.editor.element, event.target.getAttribute('data-value'), '', true)
+            element.addEventListener('click', (event: Event) => {
+                insertText(vditor.editor.element, (<HTMLElement>event.target).getAttribute('data-value'), '', true)
                 emojiPanelElement.style.display = 'none'
             })
         })

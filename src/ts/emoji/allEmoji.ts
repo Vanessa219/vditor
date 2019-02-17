@@ -2,12 +2,12 @@
  * @fileoverview all emoji.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Jan 28, 2019
+ * @version 0.1.0.1, Feb 17, 2019
  */
 
 const imgStaticPath = 'https://vditor.b3log.org/images'
 
-export const allEmoji: any = {
+export const allEmoji: { [key: string]: string } = {
     '+1': '👍',
     '-1': '👎',
     '100': '💯',
