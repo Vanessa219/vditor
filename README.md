@@ -16,7 +16,7 @@
 ## 背景
 
 <details>
-<summary>有点啰嗦。</summary>
+<summary>太长不看。</summary>
 <br>
 
 我们在开发 [Sym](https://github.com/b3log/symphony) 的初期是直接使用 WYSIWYG 富文本编辑器的。那时候基于 HTML 的编辑器非常流行，项目中引用起来也很方便，也符合用户当时的使用习惯。
@@ -67,7 +67,7 @@ Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 ## 社区
 
 * [讨论区](https://hacpai.com/tag/vditor)
-* [报告问题](https://github.com/b3log/viditor/issues/new/choose)
+* [报告问题](https://github.com/b3log/vditor/issues/new/choose)
 
 ## 鸣谢
 
