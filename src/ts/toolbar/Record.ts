@@ -43,7 +43,7 @@ export class Record extends MenuItemClass {
             if (mediaRecorder.isRecording) {
                 mediaRecorder.stopRecording()
                 vditor.upload.element.className = 'vditor-upload'
-                const file = new File([mediaRecorder.buildWavFileBlob()],
+                const file:File = new File([mediaRecorder.buildWavFileBlob()],
                     `record${(new Date()).getTime()}.wav`, {type: 'video/webm'})
                 uploadFiles(vditor, [file])
             } else {

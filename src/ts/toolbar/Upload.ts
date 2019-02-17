@@ -11,7 +11,7 @@ export class Upload extends MenuItemClass {
     }
 
     _bindEvent(vditor: Vditor) {
-        this.element.querySelector('input').addEventListener('change', (event: any) => {
+        this.element.querySelector('input').addEventListener('change', (event: HTMLInputEvent) => {
             if (event.target.files.length === 0) {
                 return
             }

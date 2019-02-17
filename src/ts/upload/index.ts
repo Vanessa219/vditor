@@ -18,10 +18,14 @@ class UploadClass {
     }
 }
 
-const genUploadingLabel = (vditor: Vditor, files: any): string => {
+const genUploadingLabel = (vditor: Vditor, files: DataTransferItemList | FileList | File[]): string => {
     let uploadingStr = ''
     for (let iMax = files.length, i = 0; i < iMax; i++) {
-        const file = files[i].getAsFile ? files[i].getAsFile() : files[i]
+        let file = files[i]
+        if (file instanceof DataTransferItem) {
+            file = file.getAsFile()
+        }
+
         const tag = file.type.indexOf('image') === -1 ? '' : '!'
         if (!file.name) {
             return ''
@@ -72,7 +76,7 @@ const genUploadedLabel = (editorElement: HTMLTextAreaElement, responseText: stri
     })
 }
 
-const uploadFiles = (vditor: Vditor, files: any, element?: HTMLInputElement) => {
+const uploadFiles = (vditor: Vditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
     const formData = new FormData()
     const uploadFiles = []
     for (let i = 0; i < files.length; i++) {
