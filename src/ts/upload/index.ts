@@ -28,11 +28,12 @@ const genUploadingLabel = (vditor: Vditor, files: any): string => {
         }
         const lastIndex = file.name.lastIndexOf('.')
         const filename = vditor.options.upload.filename(file.name.substr(0, lastIndex)) + file.name.substr(lastIndex)
+        const lang: (keyof I18nLang) = vditor.options.lang
         if (file.size > vditor.options.upload.max) {
             vditor.upload.element.className = 'vditor-upload vditor-upload--tip'
-            vditor.upload.element.children[0].innerHTML = `${file.name} ${i18n[vditor.options.lang].over} ${vditor.options.upload.max / 1024 / 1024}M`
+            vditor.upload.element.children[0].innerHTML = `${file.name} ${i18n[lang].over} ${vditor.options.upload.max / 1024 / 1024}M`
         } else {
-            uploadingStr += `${tag}[${filename}](${i18n[vditor.options.lang].uploading})\n`
+            uploadingStr += `${tag}[${filename}](${i18n[lang].uploading})\n`
         }
     }
     return uploadingStr

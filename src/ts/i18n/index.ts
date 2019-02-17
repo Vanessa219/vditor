@@ -1,4 +1,4 @@
-export const i18n: any = {
+export const i18n: I18n = {
     en_US: {
         emoji: 'Emoji',
         bold: 'Blod',

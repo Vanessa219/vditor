@@ -14,6 +14,16 @@ declare var webkitAudioContext: {
     new(contextOptions?: AudioContextOptions): AudioContext;
 };
 
+interface I18nLang {
+    en_US:   string;
+    zh_CN:  string;
+}
+
+interface I18n {
+    en_US: { [key: string]: string }
+    zh_CN: { [key: string]: string }
+}
+
 interface Classes {
     preview?: string
 }
@@ -67,7 +77,7 @@ interface Options {
     height?: number | string
     width?: number | string
     placeholder?: string
-    lang?: string
+    lang?: (keyof I18nLang)
     toolbar?: Array<string | MenuItem>
     resize?: Resize
     counter?: number
