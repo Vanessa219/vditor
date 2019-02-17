@@ -10,8 +10,19 @@ declare module 'turndown'
 declare module 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 
 declare var webkitAudioContext: {
-    prototype: AudioContext;
+    prototype: AudioContext
     new(contextOptions?: AudioContextOptions): AudioContext
+}
+
+declare interface Turndown {
+    prototype: {
+        escape(name: string): string
+    }
+    new(): {
+        addRule(name: string, options: {}): void
+        use(plugin: Turndown): void
+        turndown(text: string): string
+    }
 }
 
 interface HTMLInputEvent extends Event {

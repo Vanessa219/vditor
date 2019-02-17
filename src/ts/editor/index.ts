@@ -18,7 +18,7 @@ class Editor {
         this.bindEvent(vditor)
     }
 
-    private html2md(TurndownService: any, vditor: Vditor, textHTML: string, textPlain: string) {
+    private html2md(TurndownService:Turndown, vditor: Vditor, textHTML: string, textPlain: string) {
         let onlyMultiCode = false
         // no escape
         TurndownService.prototype.escape = (string: string) => {
@@ -169,7 +169,7 @@ class Editor {
             })
         }
 
-        let TurndownService: any
+        let TurndownService:Turndown
         const html2md = this.html2md
         this.element.addEventListener('paste', (event: Event) => {
             event.stopPropagation()
