@@ -103,7 +103,7 @@ interface Vditor {
     mdTimeoutId: number
     options: Options
     toolbar?: {
-        elements?: { [key: string]: HTMLDivElement }
+        elements?: { [key: string]: HTMLElement }
     }
     preview?: {
         element: HTMLElement

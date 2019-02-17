@@ -24,7 +24,7 @@ import {Record} from "./Record";
 import {Info} from "./Info";
 
 export class Toolbar {
-    elements: any
+    elements: { [key: string]: HTMLElement }
 
     constructor(vditor: Vditor) {
         const options = vditor.options

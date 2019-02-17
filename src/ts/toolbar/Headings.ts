@@ -37,8 +37,8 @@ export class Headings extends MenuItemClass {
         })
 
         for (let i = 0; i < 6; i++) {
-            headingsPanelElement.children.item(i).addEventListener('click', (event: any) => {
-                insertText(vditor.editor.element, event.target.getAttribute('data-value'), '')
+            headingsPanelElement.children.item(i).addEventListener('click', (event: Event) => {
+                insertText(vditor.editor.element, (<HTMLElement>event.target).getAttribute('data-value'), '')
                 headingsPanelElement.style.display = 'none'
             })
         }
