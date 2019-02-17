@@ -45,9 +45,9 @@ export class Ui {
             vditorElement.appendChild(vditor.resize.element)
         }
 
-        document.onclick = (event: any) => {
-            const menuItem = event.target.closest('.vditor-tooltipped')
-            if (menuItem && menuItem.nextSibling && menuItem.nextSibling.className === 'vditor-panel') {
+        document.onclick = (event: Event) => {
+            const menuItem = (<HTMLElement>event.target).closest('.vditor-tooltipped')
+            if (menuItem && menuItem.nextSibling && (<HTMLElement>menuItem.nextSibling).className === 'vditor-panel') {
                 return
             }
             document.querySelectorAll('.vditor-hint').forEach((element: HTMLElement) => {

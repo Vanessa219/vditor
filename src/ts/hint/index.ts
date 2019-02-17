@@ -42,7 +42,7 @@ export class Hint {
                 import(/* webpackChunkName: "vendors~vditor" */ '../emoji/allEmoji')
                     .then(allEmoji => {
                         let emojiHint = emojiKey === '' ? this.commonEmoji : allEmoji.allEmoji
-                        let matchEmojiData: Array<any> = []
+                        let matchEmojiData: Array<HintData> = []
                         Object.keys(emojiHint).forEach((key) => {
                             if (key.indexOf(emojiKey.toLowerCase()) === 0) {
                                 if (emojiHint[key].indexOf('.') > -1) {
