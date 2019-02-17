@@ -12,32 +12,23 @@ export class Resize {
     }
 
     private bindEvent(vditor: Vditor) {
-        this.element.addEventListener('mousedown', function (event: any) {
+        this.element.addEventListener('mousedown', function (event: MouseEvent) {
 
-            const _document: any = document;
+            const _document = <IEDocument>document;
             const vditorElement = document.getElementById(vditor.id)
-            if (!event) {
-                event = window.event;
-            }
             const y = event.clientY;
             const height = vditorElement.offsetHeight
-            _document.ondragstart = "return false;";
+            _document.ondragstart = () => false;
             _document.onselectstart = "return false;";
-            _document.onselect = "document.selection.empty();";
+            _document.onselect = () => {
+                (<IEDocument>document).selection.empty()
+            };
 
-            // @ts-ignore
-            if (this.setCapture) {
-                // @ts-ignore
-                this.setCapture()
-            } else if (window.captureEvents) {
-                // @ts-ignore
-                window.captureEvents(Event.MOUSEMOVE | Event.MOUSEUP);
+            if (window.captureEvents) {
+                window.captureEvents();
             }
 
-            _document.onmousemove = function (event: any) {
-                if (!event) {
-                    event = window.event
-                }
+            _document.onmousemove = function (event: MouseEvent) {
                 if (vditor.options.resize.position === 'top') {
                     vditorElement.style.height = Math.max(100, height + (y - event.clientY)) + 'px'
                 } else {
@@ -50,11 +41,8 @@ export class Resize {
                     vditor.options.resize.after(vditorElement.offsetHeight - height)
                 }
 
-                if (this.releaseCapture) {
-                    this.releaseCapture();
-                } else if (window.captureEvents) {
-                    // @ts-ignore
-                    window.captureEvents(Event.MOUSEMOVE | Event.MOUSEUP);
+                if (window.captureEvents) {
+                    window.captureEvents();
                 }
                 _document.onmousemove = null;
                 _document.onmouseup = null;

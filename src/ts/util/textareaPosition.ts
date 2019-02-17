@@ -1,54 +1,53 @@
-export const getTextareaPosition = (element:any) => {
+export const getTextareaPosition = (element: HTMLTextAreaElement) => {
     const styleProperties = [
         'direction',
-        'boxSizing',
+        'box-sizing',
         'width',
         'height',
-        'overflowX',
-        'overflowY',
-        'borderTopWidth',
-        'borderRightWidth',
-        'borderBottomWidth',
-        'borderLeftWidth',
-        'borderStyle',
-        'paddingTop',
-        'paddingRight',
-        'paddingBottom',
-        'paddingLeft',
-        'fontStyle',
-        'fontVariant',
-        'fontWeight',
-        'fontStretch',
-        'fontSize',
-        'fontSizeAdjust',
-        'lineHeight',
-        'fontFamily',
-        'textAlign',
-        'textTransform',
-        'textIndent',
-        'textDecoration',
-        'letterSpacing',
-        'wordSpacing',
-        'tabSize',
-        'MozTabSize',
+        'overflow-x',
+        'overflow-y',
+        'border-top-width',
+        'border-right-width',
+        'border-bottom-width',
+        'border-left-width',
+        'border-style',
+        'padding-top',
+        'padding-right',
+        'padding-bottom',
+        'padding-left',
+        'font-style',
+        'font-variant',
+        'font-weight',
+        'font-stretch',
+        'font-size',
+        'text-size-adjust',
+        'line-height',
+        'font-family',
+        'text-align',
+        'text-transform',
+        'text-indent',
+        'text-decoration',
+        'letter-spacing',
+        'word-spacing',
+        'tab-size',
+        'tab-size',
     ]
-    const computed = window.getComputedStyle
-        ? window.getComputedStyle(element)
-        : element.currentStyle
-    let div:HTMLElement = document.querySelector('.vditor-position')
+    const computed = window.getComputedStyle(element)
+    let div: HTMLElement = document.querySelector('.vditor-position')
     if (!div) {
         div = document.createElement('div')
         div.className = 'vditor-position'
         document.body.appendChild(div)
     }
-    let style:any = div.style
+    let style = div.style
     style.whiteSpace = 'pre-wrap'
     style.wordWrap = 'break-word'
     style.position = 'absolute'
     style.overflow = 'hidden'
     style.left = '-100%'
-    styleProperties.forEach(function (prop) {
-        style[prop] = computed[prop]
+    styleProperties.forEach((prop) => {
+        console.log(prop, computed.getPropertyValue(prop))
+        style.setProperty(prop, computed.getPropertyValue(prop))
     })
     div.textContent = element.value.substring(0, element.selectionEnd)
     const span = document.createElement('span')

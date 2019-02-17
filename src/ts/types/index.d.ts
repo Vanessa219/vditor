@@ -11,11 +11,16 @@ declare module 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
 
 declare var webkitAudioContext: {
     prototype: AudioContext;
-    new(contextOptions?: AudioContextOptions): AudioContext;
+    new(contextOptions?: AudioContextOptions): AudioContext
 }
 
 interface HTMLInputEvent extends Event {
-    target: HTMLInputElement & EventTarget;
+    target: HTMLInputElement & EventTarget
+}
+
+interface IEDocument extends Document {
+    onselectstart: string | null
+    selection: { empty(): void }
 }
 
 interface I18nLang {
@@ -126,7 +131,7 @@ interface Vditor {
         atUser: { (value: string): Array<HintData> }
         commonEmoji: { [key: string]: string }
         hintDelay: number
-        render: { (): void }
+        render(): void
     }
     upload?: {
         element: HTMLElement
