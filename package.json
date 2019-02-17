@@ -46,7 +46,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "dev": "webpack --config webpack.demo.js",
+    "dev": "webpack --config webpack.dev.js",
     "start": "webpack-dev-server --config webpack.start.js",
     "release": "npm run build && cp -r dist deploy/0.1.8"
   },
