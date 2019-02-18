@@ -5,6 +5,7 @@
 <br><br>
 <a title="MIT" target="_blank" href="https://opensource.org/licenses/MIT"><img src="http://img.shields.io/badge/license-MIT-orange.svg?style=flat-square"></a>
 <a title="Code Size" target="_blank" href="https://github.com/b3log/vditor"><img src="https://img.shields.io/github/languages/code-size/b3log/vditor.svg?style=flat-square"></a>
+<a title="Dependencies" target="_blank" href="https://github.com/b3log/vditor"><img src="https://img.shields.io/david/b3log/vditor.svg?style=flat-square"></a>  
 <a title="Version" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/v/vditor.svg?style=flat-square"></a>
 <a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square"></a>
 </p>
