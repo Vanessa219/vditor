@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://hacpai.com/cr",
@@ -50,7 +50,7 @@
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "dev": "webpack --config webpack.dev.js",
     "start": "webpack-dev-server --config webpack.start.js",
-    "release": "npm run build && cp -r dist deploy/0.1.8"
+    "release": "npm run build && cp -r dist deploy/0.2.0"
   },
   "keywords": [
     "editor",
