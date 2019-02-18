@@ -1,5 +1,11 @@
 ## Vditor change log
 
+### v0.2.0 / 2019-02-18
+* [16](https://github.com/b3log/vditor/issues/16) 期待添加滑稽表情 `enhancement`
+* [17](https://github.com/b3log/vditor/issues/17) 添加 emojiPath 选项 `enhancement`
+* [13](https://github.com/b3log/vditor/issues/13) any 修改 `development`
+* [14](https://github.com/b3log/vditor/issues/14) 添加 lint `development`
+
 ### v0.1.8 / 2019-02-14
 
 * [3](https://github.com/b3log/vditor/issues/3") hint 添加高亮 `enhancement`
