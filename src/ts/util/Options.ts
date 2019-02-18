@@ -15,6 +15,7 @@ export class Options {
                 "cold_sweat": "😰",
                 "heart": "❤️",
             },
+            emojiPath: "https://vditor.b3log.org/images",
         },
         lang: "zh_CN",
         placeholder: "",

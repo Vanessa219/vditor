@@ -5,16 +5,12 @@ export class Hint {
     public timeId: number;
     public editorElement: HTMLTextAreaElement;
     public element: HTMLUListElement;
-    public atUser: (value: string) => IHintData[];
-    public commonEmoji: {  [key: string]: string  };
-    public hintDelay: number;
+    public hint: IHint;
 
     constructor(vditor: IVditor) {
         this.timeId = -1;
-        this.hintDelay = vditor.options.hint.delay;
+        this.hint = vditor.options.hint;
         this.editorElement = vditor.editor.element;
-        this.atUser = vditor.options.hint.at;
-        this.commonEmoji = vditor.options.hint.emoji;
 
         this.element = document.createElement("ul");
         this.element.className = "vditor-hint";
@@ -32,16 +28,16 @@ export class Hint {
             this.element.style.display = "none";
             clearTimeout(this.timeId);
         } else {
-            if (atKey !== undefined && this.atUser) {
+            if (atKey !== undefined && this.hint.at) {
                 clearTimeout(this.timeId);
                 this.timeId = setTimeout(() => {
-                    this.genHTML(this.atUser(atKey), atKey);
-                }, this.hintDelay);
+                    this.genHTML(this.hint.at(atKey), atKey);
+                }, this.hint.delay);
             }
             if (emojiKey !== undefined) {
                 import(/* webpackChunkName: "vendors~vditor" */ "../emoji/allEmoji")
                     .then((allEmoji) => {
-                        const emojiHint = emojiKey === "" ? this.commonEmoji : allEmoji.allEmoji;
+                        const emojiHint = emojiKey === "" ? this.hint.emoji : allEmoji.getAllEmoji(this.hint.emojiPath);
                         const matchEmojiData: IHintData[] = [];
                         Object.keys(emojiHint).forEach((key) => {
                             if (key.indexOf(emojiKey.toLowerCase()) === 0) {

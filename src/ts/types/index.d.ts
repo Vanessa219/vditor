@@ -84,6 +84,7 @@ interface IHint {
     emojiTail?: string;
     delay?: number;
     emoji?: { [key: string]: string };
+    emojiPath?: string;
     at?: (value: string) => IHintData[];
 }
 
@@ -139,9 +140,7 @@ interface IVditor {
         timeId: number
         editorElement: HTMLTextAreaElement
         element: HTMLUListElement
-        atUser: (value: string) => IHintData[]
-        commonEmoji: { [key: string]: string }
-        hintDelay: number
+        hint: IHint
         render(): void,
     };
     upload?: {
