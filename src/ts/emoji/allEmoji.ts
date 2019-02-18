@@ -397,6 +397,7 @@ export const allEmoji: { [key: string]: string } = {
     "hourglass_flowing_sand": "⏳",
     "house": "🏠",
     "house_with_garden": "🏡",
+    "huaji": `${imgStaticPath}/huaji.gif`,
     "hushed": "😯",
     "i": `${imgStaticPath}/i.png`,
     "ice_cream": "🍨",
