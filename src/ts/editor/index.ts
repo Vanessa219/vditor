@@ -102,15 +102,21 @@ class Editor {
                 vditor.counter.render(this.element.value.length, vditor.options.counter);
             }
 
-            vditor.options.input && vditor.options.input(this.element.value, vditor.preview && vditor.preview.element);
+            if (typeof vditor.options.input === "function") {
+                vditor.options.input(this.element.value, vditor.preview && vditor.preview.element);
+            }
 
-            vditor.hint && vditor.hint.render();
+            if (vditor.hint) {
+                vditor.hint.render();
+            }
 
             if (vditor.options.cache) {
                 localStorage.setItem(`vditor${vditor.id}`, vditor.editor.element.value);
             }
 
-            vditor.preview && vditor.preview.render(vditor);
+            if (vditor.preview) {
+                vditor.preview.render(vditor);
+            }
         });
 
         this.element.addEventListener("focus", () => {

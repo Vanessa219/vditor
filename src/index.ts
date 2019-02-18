@@ -55,14 +55,14 @@ class Vditor {
             this.vditor.upload = upload;
         }
 
-        new Ui(this.vditor);
+        const ui = new Ui(this.vditor);
 
         if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
             const hint = new Hint(this.vditor);
             this.vditor.hint = hint;
         }
 
-        new Hotkey(this.vditor);
+        const hotkey = new Hotkey(this.vditor);
     }
 
     public getValue() {

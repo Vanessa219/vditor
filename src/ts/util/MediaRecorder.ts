@@ -119,7 +119,7 @@ export class MediaRecorder {
     }
 
     private downSampleBuffer(buffer: Float32Array, rate: number) {
-        if (rate == this.DEFAULT_SAMPLE_RATE) {
+        if (rate === this.DEFAULT_SAMPLE_RATE) {
             return buffer;
         }
 
@@ -136,7 +136,8 @@ export class MediaRecorder {
 
         while (offsetResult < result.length) {
             const nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
-            let accum = 0, count = 0;
+            let accum = 0;
+            let count = 0;
             for (let i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
                 accum += buffer[i];
                 count++;
@@ -160,10 +161,10 @@ export class MediaRecorder {
         return result;
     }
 
-    private writeUTFBytes(view: DataView, offset: number, string: string) {
-        const lng = string.length;
+    private writeUTFBytes(view: DataView, offset: number, value: string) {
+        const lng = value.length;
         for (let i = 0; i < lng; i++) {
-            view.setUint8(offset + i, string.charCodeAt(i));
+            view.setUint8(offset + i, value.charCodeAt(i));
         }
     }
 }

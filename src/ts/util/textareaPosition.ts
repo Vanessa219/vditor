@@ -55,6 +55,6 @@ export const getTextareaPosition = (element: HTMLTextAreaElement) => {
 
     return {
         left: span.offsetLeft - element.scrollLeft,
-        top: span.offsetTop - element.scrollTop + parseInt(computed.lineHeight),
+        top: span.offsetTop - element.scrollTop + parseInt(computed.lineHeight, 10),
     };
 };

@@ -80,8 +80,8 @@ const genUploadedLabel =
 
 const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
     const formData = new FormData();
-    const uploadFileList = []; files;
-    for (let i = 0; i < files.length; i++) {
+    const uploadFileList = [];
+    for (let i = 0, iMax = files.length; i < iMax; i++) {
         let file = files[i];
         if (file instanceof DataTransferItem) {
             file = file.getAsFile();
@@ -98,12 +98,16 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     insertText(vditor.editor.element, genUploadingLabel(vditor, files), "");
 
     if (uploadFileList.length === 0) {
-        element ? element.value = "" : "";
+        if (element) {
+            element.value = "";
+        }
         return;
     }
 
     if (!vditor.options.upload.url || !vditor.upload) {
-        element ? element.value = "" : "";
+        if (element) {
+            element.value = "";
+        }
         alert("please config: options.upload.url");
         return;
     }
@@ -119,7 +123,9 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             vditor.upload.isUploading = false;
-            element ? element.value = "" : "";
+            if (element) {
+                element.value = "";
+            }
             vditor.editor.element.removeAttribute("disabled");
 
             if (xhr.status === 200) {

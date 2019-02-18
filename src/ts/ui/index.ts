@@ -2,10 +2,10 @@ export class Ui {
     constructor(vditor: IVditor) {
         const vditorElement = document.getElementById(vditor.id);
         vditorElement.className = "vditor" + (vditorElement.className ? " " + vditorElement.className : "");
-        if (typeof vditor.options.height == "number") {
+        if (typeof vditor.options.height === "number") {
             vditorElement.style.height = vditor.options.height + "px";
         }
-        if (typeof vditor.options.width == "number") {
+        if (typeof vditor.options.width === "number") {
             vditorElement.style.width = vditor.options.width + "px";
         } else {
             vditorElement.style.width = vditor.options.width;
