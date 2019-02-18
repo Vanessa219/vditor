@@ -1,90 +1,91 @@
 import {insertText} from "../editor/index";
 
 export class Hotkey {
-    editorElement: HTMLTextAreaElement
-    toolbarElements: { [key: string]: HTMLElement }
-    options: Options
-    hintElement: HTMLElement
+    public editorElement: HTMLTextAreaElement;
+    public toolbarElements: { [key: string]: HTMLElement };
+    public options: IOptions;
+    public hintElement: HTMLElement;
 
-    constructor(vditor: Vditor) {
-        this.editorElement = vditor.editor.element
-        this.toolbarElements = vditor.toolbar.elements
-        this.options = vditor.options
-        this.hintElement = vditor.hint.element
-        this.bindHotkey()
+    constructor(vditor: IVditor) {
+        this.editorElement = vditor.editor.element;
+        this.toolbarElements = vditor.toolbar.elements;
+        this.options = vditor.options;
+        this.hintElement = vditor.hint.element;
+        this.bindHotkey();
     }
 
     private bindHotkey(): void {
-        this.editorElement.addEventListener('keydown', (event) => {
+        this.editorElement.addEventListener("keydown", (event) => {
             if (this.options.esc) {
-                if (event.key.toLowerCase() === 'Escape'.toLowerCase()) {
-                    this.options.esc(this.editorElement.value)
+                if (event.key.toLowerCase() === "Escape".toLowerCase()) {
+                    this.options.esc(this.editorElement.value);
                 }
             }
 
             if (this.options.ctrlEnter) {
-                if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'enter') {
-                    this.options.ctrlEnter(this.editorElement.value)
+                if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "enter") {
+                    this.options.ctrlEnter(this.editorElement.value);
                 }
             }
 
-            this.options.toolbar.forEach((menuItem: MenuItem) => {
+            this.options.toolbar.forEach((menuItem: IMenuItem) => {
                 if (!menuItem.hotkey) {
-                    return
+                    return;
                 }
-                const hotkeys = menuItem.hotkey.split('-')
-                if ((hotkeys[0] === 'ctrl' || hotkeys[0] === '⌘') && (event.metaKey || event.ctrlKey)) {
+                const hotkeys = menuItem.hotkey.split("-");
+                if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey)) {
                     if (event.key === hotkeys[1]) {
-                        (<HTMLElement>this.toolbarElements[menuItem.name].children[0]).click()
-                        event.preventDefault()
-                        event.stopPropagation()
+                        (this.toolbarElements[menuItem.name].children[0] as HTMLElement).click();
+                        event.preventDefault();
+                        event.stopPropagation();
                     }
                 }
-            })
+            });
 
             if (this.options.hint.at || this.toolbarElements.emoji) {
-                this.hint(event)
+                this.hint(event);
             }
-        })
+        });
     }
 
     private hint(event: KeyboardEvent) {
-        if (this.hintElement.querySelectorAll('li').length === 0 ||
-            this.hintElement.style.display === 'none') {
-            return
+        if (this.hintElement.querySelectorAll("li").length === 0 ||
+            this.hintElement.style.display === "none") {
+            return;
         }
 
-        const currentHintElement = this.hintElement.querySelector('.vditor-hint--current')
+        const currentHintElement = this.hintElement.querySelector(".vditor-hint--current");
 
-        if (event.key.toLowerCase() === 'arrowdown') {
-            event.preventDefault()
-            event.stopPropagation()
+        if (event.key.toLowerCase() === "arrowdown") {
+            event.preventDefault();
+            event.stopPropagation();
             if (!currentHintElement.nextElementSibling) {
-                this.hintElement.children[0].className = 'vditor-hint--current'
+                this.hintElement.children[0].className = "vditor-hint--current";
             } else {
-                currentHintElement.nextElementSibling.className = 'vditor-hint--current'
+                currentHintElement.nextElementSibling.className = "vditor-hint--current";
             }
-            currentHintElement.removeAttribute('class')
-        } else if (event.key.toLowerCase() === 'arrowup') {
-            event.preventDefault()
-            event.stopPropagation()
+            currentHintElement.removeAttribute("class");
+        } else if (event.key.toLowerCase() === "arrowup") {
+            event.preventDefault();
+            event.stopPropagation();
             if (!currentHintElement.previousElementSibling) {
-                const length = this.hintElement.children.length
-                this.hintElement.children[length - 1].className = 'vditor-hint--current'
+                const length = this.hintElement.children.length;
+                this.hintElement.children[length - 1].className = "vditor-hint--current";
             } else {
-                currentHintElement.previousElementSibling.className = 'vditor-hint--current'
+                currentHintElement.previousElementSibling.className = "vditor-hint--current";
             }
-            currentHintElement.removeAttribute('class')
-        } else if (event.key.toLowerCase() === 'enter') {
-            event.preventDefault()
-            event.stopPropagation()
-            this.hintElement.style.display = 'none'
+            currentHintElement.removeAttribute("class");
+        } else if (event.key.toLowerCase() === "enter") {
+            event.preventDefault();
+            event.stopPropagation();
+            this.hintElement.style.display = "none";
 
-            const value = currentHintElement.getAttribute('data-value')
-            const splitChar = value.indexOf('@') === 0 ? '@' : ':'
+            const value = currentHintElement.getAttribute("data-value");
+            const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
-            this.editorElement.selectionStart = this.editorElement.value.substr(0, this.editorElement.selectionEnd).lastIndexOf(splitChar)
-            insertText(this.editorElement, value, '', true)
+            this.editorElement.selectionStart = this.editorElement.value.substr(0, this.editorElement.selectionEnd).
+                lastIndexOf(splitChar);
+            insertText(this.editorElement, value, "", true);
         }
     }
 }

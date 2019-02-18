@@ -1,8 +1,8 @@
 export class Br {
-    element: HTMLElement
+    public element: HTMLElement;
 
     constructor() {
-        this.element = document.createElement('div')
-        this.element.className = 'vditor-menu__br'
+        this.element = document.createElement("div");
+        this.element.className = "vditor-menu__br";
     }
 }

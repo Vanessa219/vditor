@@ -1,16 +1,16 @@
 import redoSVG from "../../assets/icons/redo.svg";
-import {MenuItemClass} from "./MenuItemClass";
+import {MenuItem} from "./MenuItem";
 
-export class Redo extends MenuItemClass {
-    constructor(vditor: Vditor, menuItem: MenuItem) {
-        super(vditor, menuItem)
-        this.element.children[0].innerHTML = menuItem.icon || redoSVG
-        this.bindEvent()
+export class Redo extends MenuItem {
+    constructor(vditor: IVditor, menuItem: IMenuItem) {
+        super(vditor, menuItem);
+        this.element.children[0].innerHTML = menuItem.icon || redoSVG;
+        this.bindEvent();
     }
 
-    bindEvent() {
-        this.element.children[0].addEventListener('click', () => {
-            document.execCommand('redo')
-        })
+    public bindEvent() {
+        this.element.children[0].addEventListener("click", () => {
+            document.execCommand("redo");
+        });
     }
 }
