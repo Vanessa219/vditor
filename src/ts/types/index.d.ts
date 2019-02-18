@@ -1,151 +1,150 @@
 declare module "*.svg" {
-    const content: string
-    export default content
+    const content: string;
+    export default content;
 }
 
-declare module '*.png'
+declare module "*.png";
 
-declare module 'turndown'
+declare module "turndown";
 
-declare module 'turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js'
+declare module "turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js";
 
 declare var webkitAudioContext: {
     prototype: AudioContext
-    new(contextOptions?: AudioContextOptions): AudioContext
-}
+    new(contextOptions?: AudioContextOptions): AudioContext,
+};
 
-declare interface Turndown {
+declare interface ITurndown {
     prototype: {
-        escape(name: string): string
-    }
+        escape(name: string): string,
+    };
     new(): {
         addRule(name: string, options: {}): void
-        use(plugin: Turndown): void
-        turndown(text: string): string
-    }
+        use(plugin: ITurndown): void
+        turndown(text: string): string,
+    };
 }
 
-interface HTMLInputEvent extends Event {
-    target: HTMLInputElement & EventTarget
+interface IHTMLInputEvent extends Event {
+    target: HTMLInputElement & EventTarget;
 }
 
-interface IEDocument extends Document {
-    onselectstart: string | null
-    selection: { empty(): void }
+interface IDocument extends Document {
+    onselectstart: string | null;
+    selection: { empty(): void };
 }
 
-interface I18nLang {
+interface II18nLang {
     en_US: string;
     zh_CN: string;
 }
 
-interface I18n {
-    en_US: { [key: string]: string }
-    zh_CN: { [key: string]: string }
+interface II18n {
+    en_US: { [key: string]: string };
+    zh_CN: { [key: string]: string };
 }
 
-interface Classes {
-    preview?: string
+interface IClasses {
+    preview?: string;
 }
 
-interface Upload {
-    url: string
-    max?: number
-    linkToImgUrl?: string
-    success?: { (textarea: HTMLTextAreaElement, msg: string): void }
-    error?: { (msg: string): void }
-    token?: string
-    filename?: { (name: string): string }
+interface IUpload {
+    url: string;
+    max?: number;
+    linkToImgUrl?: string;
+    success?: (textarea: HTMLTextAreaElement, msg: string) => void;
+    error?: (msg: string) => void;
+    token?: string;
+    filename?: (name: string) => string;
 }
 
-interface MenuItem {
-    name: string
-    icon?: string
-    tip?: string
-    hotkey?: string
-    suffix?: string
-    prefix?: string
-    tipPosition?: string
+interface IMenuItem {
+    name: string;
+    icon?: string;
+    tip?: string;
+    hotkey?: string;
+    suffix?: string;
+    prefix?: string;
+    tipPosition?: string;
 }
 
-interface Preview {
-    delay?: number
-    show?: boolean
-    parse?: { (element: HTMLElement): void }
-    url?: string
+interface IPreview {
+    delay?: number;
+    show?: boolean;
+    parse?: (element: HTMLElement) => void;
+    url?: string;
 }
 
-interface HintData {
-    html: string,
-    value: string
+interface IHintData {
+    html: string;
+    value: string;
 }
 
-interface Hint {
-    emojiTail?: string
-    delay?: number
-    emoji?: { [key: string]: string }
-    at?: { (value: string): Array<HintData> }
+interface IHint {
+    emojiTail?: string;
+    delay?: number;
+    emoji?: { [key: string]: string };
+    emojiPath?: string;
+    at?: (value: string) => IHintData[];
 }
 
-interface Resize {
-    position?: string
-    enable?: boolean
-    after?: { (height: number): void }
+interface IResize {
+    position?: string;
+    enable?: boolean;
+    after?: (height: number) => void;
 }
 
-interface Options {
-    height?: number | string
-    width?: number | string
-    placeholder?: string
-    lang?: (keyof I18nLang)
-    toolbar?: Array<string | MenuItem>
-    resize?: Resize
-    counter?: number
-    cache?: boolean
-    preview?: Preview
-    hint?: Hint
-    upload?: Upload
-    classes?: Classes
-    input?: { (value: string, previewElement?: HTMLElement): void }
-    focus?: { (value: string): void }
-    blur?: { (value: string): void }
-    esc?: { (value: string): void }
-    ctrlEnter?: { (value: string): void }
-    select?: { (value: string): void }
+interface IOptions {
+    height?: number | string;
+    width?: number | string;
+    placeholder?: string;
+    lang?: (keyof II18nLang);
+    toolbar?: Array<string | IMenuItem>;
+    resize?: IResize;
+    counter?: number;
+    cache?: boolean;
+    preview?: IPreview;
+    hint?: IHint;
+    upload?: IUpload;
+    classes?: IClasses;
+    input?: (value: string, previewElement?: HTMLElement) => void;
+    focus?: (value: string) => void;
+    blur?: (value: string) => void;
+    esc?: (value: string) => void;
+    ctrlEnter?: (value: string) => void;
+    select?: (value: string) => void;
 }
 
-interface Vditor {
-    id: string
-    mdTimeoutId: number
-    options: Options
+interface IVditor {
+    id: string;
+    mdTimeoutId: number;
+    options: IOptions;
     toolbar?: {
-        elements?: { [key: string]: HTMLElement }
-    }
+        elements?: { [key: string]: HTMLElement },
+    };
     preview?: {
         element: HTMLElement
-        render: { (vditor: Vditor, value?: string): void }
-    },
+        render: (vditor: IVditor, value?: string) => void,
+    };
     editor?: {
-        element: HTMLTextAreaElement
-    },
+        element: HTMLTextAreaElement,
+    };
     counter?: {
         element: HTMLElement
-        render: { (length: number, counter: number): void }
-    },
+        render: (length: number, counter: number) => void,
+    };
     resize?: {
-        element: HTMLElement
-    },
+        element: HTMLElement,
+    };
     hint?: {
         timeId: number
         editorElement: HTMLTextAreaElement
         element: HTMLUListElement
-        atUser: { (value: string): Array<HintData> }
-        commonEmoji: { [key: string]: string }
-        hintDelay: number
-        render(): void
-    }
+        hint: IHint
+        render(): void,
+    };
     upload?: {
         element: HTMLElement
-        isUploading: boolean
-    }
+        isUploading: boolean,
+    };
 }

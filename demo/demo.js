@@ -88,6 +88,7 @@ const vditor = new Vditor('vditor', {
     },
   },
   hint: {
+    emojiPath: 'https://static.hacpai.com/emoji/graphics',
     emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
     emoji: {
       '+1': '👍',

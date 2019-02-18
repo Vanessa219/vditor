@@ -1,14 +1,14 @@
 import strikekSVG from "../../assets/icons/strike.svg";
-import {MenuItemClass} from "./MenuItemClass";
+import {MenuItem} from "./MenuItem";
 
-export class Strike extends MenuItemClass {
-    constructor(vditor: Vditor, menuItem: MenuItem) {
-        super(vditor, menuItem)
-        this.element.children[0].innerHTML = menuItem.icon || strikekSVG
-        this.bindEvent()
+export class Strike extends MenuItem {
+    constructor(vditor: IVditor, menuItem: IMenuItem) {
+        super(vditor, menuItem);
+        this.element.children[0].innerHTML = menuItem.icon || strikekSVG;
+        this.bindEvent();
     }
 
-    bindEvent() {
-        super.bindEvent()
+    public bindEvent() {
+        super.bindEvent();
     }
 }

@@ -1,16 +1,16 @@
 import undoSVG from "../../assets/icons/undo.svg";
-import {MenuItemClass} from "./MenuItemClass";
+import {MenuItem} from "./MenuItem";
 
-export class Undo extends MenuItemClass {
-    constructor(vditor: Vditor, menuItem: MenuItem) {
-        super(vditor, menuItem)
-        this.element.children[0].innerHTML = menuItem.icon || undoSVG
-        this.bindEvent()
+export class Undo extends MenuItem {
+    constructor(vditor: IVditor, menuItem: IMenuItem) {
+        super(vditor, menuItem);
+        this.element.children[0].innerHTML = menuItem.icon || undoSVG;
+        this.bindEvent();
     }
 
-    bindEvent() {
-        this.element.children[0].addEventListener('click', () => {
-            document.execCommand('undo')
-        })
+    public bindEvent() {
+        this.element.children[0].addEventListener("click", () => {
+            document.execCommand("undo");
+        });
     }
 }

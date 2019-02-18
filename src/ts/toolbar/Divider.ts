@@ -1,8 +1,8 @@
 export class Divider {
-    element: HTMLElement
+    public element: HTMLElement;
 
     constructor() {
-        this.element = document.createElement('div')
-        this.element.className = 'vditor-menu__divider'
+        this.element = document.createElement("div");
+        this.element.className = "vditor-menu__divider";
     }
 }

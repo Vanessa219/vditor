@@ -1,16 +1,16 @@
 import infoSVG from "../../assets/icons/info.svg";
-import {MenuItemClass} from "./MenuItemClass";
+import {MenuItem} from "./MenuItem";
 
-export class Info extends MenuItemClass {
-    constructor(vditor: Vditor, menuItem: MenuItem) {
-        super(vditor, menuItem)
-        this.element.children[0].innerHTML = menuItem.icon || infoSVG
-        this.bindEvent()
+export class Info extends MenuItem {
+    constructor(vditor: IVditor, menuItem: IMenuItem) {
+        super(vditor, menuItem);
+        this.element.children[0].innerHTML = menuItem.icon || infoSVG;
+        this.bindEvent();
     }
 
-    bindEvent() {
-        this.element.children[0].addEventListener('click', () => {
-            window.open('https://github.com/b3log/vditor')
-        })
+    public bindEvent() {
+        this.element.children[0].addEventListener("click", () => {
+            window.open("https://github.com/b3log/vditor");
+        });
     }
 }
