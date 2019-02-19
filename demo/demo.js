@@ -1,5 +1,5 @@
-// import Vditor from '../src/index'
-import Vditor from '../dist/index.min'
+import Vditor from '../src/index'
+// import Vditor from '../dist/index.min'
 
 const LazyLoadImage = () => {
   const loadImg = (it) => {
@@ -148,7 +148,7 @@ const vditor = new Vditor('vditor', {
 vditor.insertValue('Hi, Vditor!')
 vditor.focus()
 console.log('vditor.getValue(): ' + vditor.getValue())
-vditor.setSelection(4, 9)
+vditor.setSelection(4, 10)
 console.log('vditor.getSelection(): ' + vditor.getSelection())
 setTimeout(() => {
   vditor.setValue('Hi, Markdown!')

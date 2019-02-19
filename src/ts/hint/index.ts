@@ -48,7 +48,7 @@ export class Hint {
                                     });
                                 } else {
                                     matchEmojiData.push({
-                                        html: `${emojiHint[key]} ${key}`,
+                                        html: `<span class="vditor-hint__emoji">${emojiHint[key]}</span>${key}`,
                                         value: emojiHint[key],
                                     });
                                 }

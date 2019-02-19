@@ -89,11 +89,13 @@
       cursor: pointer;
       border-radius: 3px;
       float: left;
-      height: 20px;
-      width: 20px;
+      height: 26px;
+      width: 26px;
       text-align: center;
       line-height: 20px;
       padding: 3px;
+      box-sizing: border-box;
+      font-size: 16px;
       &:hover {
         background-color: $hoverBg;
       }
@@ -102,7 +104,7 @@
     img {
       height: 20px;
       width: 20px;
-      display: inline-block;
+      float: left;
     }
   }
 }
