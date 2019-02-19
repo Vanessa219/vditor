@@ -93,7 +93,8 @@ const vditor = new Vditor('vditor', {
     emoji: {
       '+1': '👍',
       '-1': '👎',
-      'trollface': 'https://vditor.b3log.org/images/trollface.png',
+      'trollface': '/src/assets/emoji/trollface.png',
+      'huaji': '/src/assets/emoji/huaji.gif',
     },
     at: (key) => {
       console.log(`atUser: ${key}`)
@@ -144,25 +145,25 @@ const vditor = new Vditor('vditor', {
   ],
 })
 
-// vditor.insertVale('Hi, Vditor!')
-// vditor.focus()
-// console.log('vditor.getValue(): ' + vditor.getValue())
-// vditor.setSelection(4, 9)
-// console.log('vditor.getSelection(): ' + vditor.getSelection())
-// setTimeout(() => {
-//   vditor.setValue('Hi, Markdown!')
-//   vditor.renderPreview()
-//   vditor.disabled()
-// }, 3000)
-//
-// setTimeout(() => {
-//   vditor.enable()
-//   vditor.setSelection(4, 12)
-//   vditor.deleteValue()
-// }, 6000)
-//
-// setTimeout(() => {
-//   vditor.setSelection(0, 4)
-//   vditor.updateValue('Welcome')
-//   vditor.blur()
-// }, 9000)
+vditor.insertValue('Hi, Vditor!')
+vditor.focus()
+console.log('vditor.getValue(): ' + vditor.getValue())
+vditor.setSelection(4, 9)
+console.log('vditor.getSelection(): ' + vditor.getSelection())
+setTimeout(() => {
+  vditor.setValue('Hi, Markdown!')
+  vditor.renderPreview()
+  vditor.disabled()
+}, 3000)
+
+setTimeout(() => {
+  vditor.enable()
+  vditor.setSelection(4, 12)
+  vditor.deleteValue()
+}, 6000)
+
+setTimeout(() => {
+  vditor.setSelection(0, 4)
+  vditor.updateValue('Welcome')
+  vditor.blur()
+}, 9000)

@@ -1,5 +1,5 @@
 .idea
+.DS_Store
 /dist
-/deploy/*
 /node_modules
 /demo/dist
