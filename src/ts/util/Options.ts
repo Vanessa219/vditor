@@ -15,7 +15,7 @@ export class Options {
                 "cold_sweat": "😰",
                 "heart": "❤️",
             },
-            emojiPath: "https://cdn.jsdelivr.net/npm/vditor@latest/src/assets/emoji",
+            emojiPath: "https://cdn.jsdelivr.net/npm/vditor/src/assets/emoji",
         },
         lang: "zh_CN",
         placeholder: "",

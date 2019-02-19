@@ -50,7 +50,7 @@ module.exports = [
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
       chunkFilename: '[name].bundle.js',
-      publicPath: 'https://cdn.jsdelivr.net/npm/vditor@latest/dist/',
+      publicPath: `https://cdn.jsdelivr.net/npm/vditor@${pkg.version}/dist/`,
       libraryTarget: 'umd',
       library: 'Vditor',
       libraryExport: 'default',

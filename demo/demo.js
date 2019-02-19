@@ -1,5 +1,5 @@
-import Vditor from '../src/index'
-// import Vditor from '../dist/index.min'
+// import Vditor from '../src/index'
+import Vditor from '../dist/index.min'
 
 const LazyLoadImage = () => {
   const loadImg = (it) => {
