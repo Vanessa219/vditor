@@ -119,6 +119,7 @@ interface IVditor {
     id: string;
     mdTimeoutId: number;
     options: IOptions;
+    originalInnerHTML: string;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };

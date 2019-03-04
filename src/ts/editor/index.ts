@@ -4,28 +4,53 @@ import {commandable} from "../util/commandable";
 
 class Editor {
     public element: HTMLTextAreaElement;
+    TurndownService: ITurndown;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("textarea");
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         if (vditor.options.cache) {
-            this.element.value = localStorage.getItem("vditor" + vditor.id);
+            const localValue = localStorage.getItem("vditor" + vditor.id)
+            if (localValue) {
+                this.element.value = localValue;
+            } else {
+                this.setOriginal(vditor)
+            }
             if (vditor.options.counter > 0) {
                 vditor.counter.render(this.element.value.length, vditor.options.counter);
             }
+        } else {
+            this.setOriginal(vditor)
         }
         this.bindEvent(vditor);
     }
 
-    private html2md(TurndownService: ITurndown, vditor: IVditor, textHTML: string, textPlain: string) {
+    private setOriginal(vditor: IVditor) {
+        const that = this
+        if (!vditor.originalInnerHTML.trim()) {
+            return
+        }
+        if (!this.TurndownService) {
+            import(/* webpackChunkName: "vditor" */ "turndown").then((turndown) => {
+                that.TurndownService = turndown.default;
+                that.html2md(vditor, vditor.originalInnerHTML, vditor.originalInnerHTML);
+            }).catch((err) => {
+                console.error("Failed to load turndown", err);
+            });
+            return;
+        }
+        this.html2md(vditor, vditor.originalInnerHTML, vditor.originalInnerHTML);
+    }
+
+    private html2md(vditor: IVditor, textHTML: string, textPlain: string) {
         let onlyMultiCode = false;
         // no escape
-        TurndownService.prototype.escape = (name: string) => {
+        this.TurndownService.prototype.escape = (name: string) => {
             return name;
         };
 
-        const turndownService = new TurndownService();
+        const turndownService = new this.TurndownService();
 
         turndownService.addRule("strikethrough", {
             filter: ["pre", "code"],
@@ -176,8 +201,7 @@ class Editor {
             });
         }
 
-        let TurndownService: ITurndown;
-        const html2md = this.html2md;
+        const that = this;
         this.element.addEventListener("paste", (event: Event) => {
             event.stopPropagation();
             event.preventDefault();
@@ -185,16 +209,16 @@ class Editor {
             if (clipboardEvent.clipboardData.getData("text/html").replace(/(^\s*)|(\s*)$/g, "") !== "") {
                 const textHTML = clipboardEvent.clipboardData.getData("text/html");
                 const textPlain = clipboardEvent.clipboardData.getData("text/plain");
-                if (!TurndownService) {
+                if (!this.TurndownService) {
                     import(/* webpackChunkName: "vditor" */ "turndown").then((turndown) => {
-                        TurndownService = turndown.default;
-                        html2md(TurndownService, vditor, textHTML, textPlain);
+                        that.TurndownService = turndown.default;
+                        that.html2md(vditor, textHTML, textPlain);
                     }).catch((err) => {
                         console.error("Failed to load turndown", err);
                     });
                     return;
                 }
-                html2md(TurndownService, vditor, textHTML, textPlain);
+                this.html2md(vditor, textHTML, textPlain);
 
             } else if (clipboardEvent.clipboardData.getData("text/plain").replace(/(^\s*)|(\s*)$/g, "") !== "" &&
                 clipboardEvent.clipboardData.files.length === 0) {
