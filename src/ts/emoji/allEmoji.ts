@@ -251,6 +251,7 @@ export const getAllEmoji = (imgStaticPath: string) => {
         "do_not_litter": "🚯",
         "dog": "🐶",
         "dog2": "🐕",
+        "doge": `${imgStaticPath}/doge.png`,
         "dollar": "💵",
         "dolls": "🎎",
         "dolphin": "🐬",
