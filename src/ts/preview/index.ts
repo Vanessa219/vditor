@@ -33,7 +33,7 @@ export class Preview {
             vditor.mdTimeoutId = setTimeout(() => {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
-                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhr.onreadystatechange = () => {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
