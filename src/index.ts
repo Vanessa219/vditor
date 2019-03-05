@@ -1,6 +1,6 @@
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
-import {Editor, insertText} from "./ts/editor/index";
+import {Editor, html2md, insertText} from "./ts/editor/index";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
 import {Preview} from "./ts/preview/index";
@@ -25,7 +25,7 @@ class Vditor {
             id,
             mdTimeoutId: -1,
             options: mergedOptions,
-            originalInnerHTML: document.getElementById(id).innerHTML
+            originalInnerHTML: document.getElementById(id).innerHTML,
         };
 
         if (mergedOptions.counter > 0) {
@@ -140,6 +140,10 @@ class Vditor {
 
     public enableCache() {
         this.vditor.options.cache = true;
+    }
+
+    public html2md(value: string) {
+        return html2md(this.vditor, value);
     }
 }
 

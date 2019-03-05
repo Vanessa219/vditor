@@ -146,6 +146,7 @@ const vditor = new Vditor('vditor', {
   ],
 })
 
+vditor.html2md('<h2>Hi</h2>').then(mdValue => {console.log(mdValue)})
 vditor.insertValue('Hi, Vditor!')
 vditor.focus()
 console.log('vditor.getValue(): ' + vditor.getValue())

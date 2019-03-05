@@ -1,7 +1,7 @@
 export class Ui {
     constructor(vditor: IVditor) {
         const vditorElement = document.getElementById(vditor.id);
-        vditorElement.innerHTML = ''
+        vditorElement.innerHTML = "";
         vditorElement.className = "vditor" + (vditorElement.className ? " " + vditorElement.className : "");
         if (typeof vditor.options.height === "number") {
             vditorElement.style.height = vditor.options.height + "px";

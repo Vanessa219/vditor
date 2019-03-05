@@ -4,7 +4,6 @@ import {commandable} from "../util/commandable";
 
 class Editor {
     public element: HTMLTextAreaElement;
-    TurndownService: ITurndown;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("textarea");
@@ -14,114 +13,27 @@ class Editor {
             this.element.setAttribute("name", vditor.options.editorName);
         }
         if (vditor.options.cache) {
-            const localValue = localStorage.getItem("vditor" + vditor.id)
+            const localValue = localStorage.getItem("vditor" + vditor.id);
             if (localValue) {
                 this.element.value = localValue;
             } else {
-                this.setOriginal(vditor)
+                this.setOriginal(vditor);
             }
             if (vditor.options.counter > 0) {
                 vditor.counter.render(this.element.value.length, vditor.options.counter);
             }
         } else {
-            this.setOriginal(vditor)
+            this.setOriginal(vditor);
         }
         this.bindEvent(vditor);
     }
 
-    private setOriginal(vditor: IVditor) {
-        const that = this
+    private async setOriginal(vditor: IVditor) {
         if (!vditor.originalInnerHTML.trim()) {
-            return
-        }
-        if (!this.TurndownService) {
-            import(/* webpackChunkName: "vditor" */ "turndown").then((turndown) => {
-                that.TurndownService = turndown.default;
-                that.html2md(vditor, vditor.originalInnerHTML, vditor.originalInnerHTML);
-            }).catch((err) => {
-                console.error("Failed to load turndown", err);
-            });
             return;
         }
-        this.html2md(vditor, vditor.originalInnerHTML, vditor.originalInnerHTML);
-    }
-
-    private html2md(vditor: IVditor, textHTML: string, textPlain: string) {
-        let onlyMultiCode = false;
-        // no escape
-        this.TurndownService.prototype.escape = (name: string) => {
-            return name;
-        };
-
-        const turndownService = new this.TurndownService();
-
-        turndownService.addRule("strikethrough", {
-            filter: ["pre", "code"],
-            replacement: (content: string, node: HTMLElement) => {
-                if (node.parentElement.tagName === "PRE") {
-                    return content;
-                }
-                if (content.split("\n").length > 1) {
-                    onlyMultiCode = true;
-                    return "```\n" + content + "\n```";
-                }
-                return "`" + content + "`";
-            },
-        });
-        turndownService.addRule("strikethrough", {
-            filter: ["img"],
-            replacement: (content: string, target: HTMLElement) => {
-                if (!target.getAttribute("src")) {
-                    return "";
-                }
-                if (vditor.options.upload.linkToImgUrl) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open("POST", vditor.options.upload.linkToImgUrl);
-                    xhr.onreadystatechange = () => {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                            if (xhr.status === 200) {
-                                const responseJSON = JSON.parse(xhr.responseText);
-                                if (responseJSON.code !== 0) {
-                                    alert(responseJSON.msg);
-                                    return;
-                                }
-                                const original = target.getAttribute("src");
-                                vditor.editor.element.selectionStart =
-                                    vditor.editor.element.value.split(original)[0].length;
-                                vditor.editor.element.selectionEnd =
-                                    vditor.editor.element.selectionStart + original.length;
-                                insertText(vditor.editor.element, responseJSON.data.url, "", true);
-                            }
-                        }
-                    };
-                    xhr.send(JSON.stringify({url: target.getAttribute("src")}));
-                }
-
-                return `![${target.getAttribute("alt")}](${target.getAttribute("src")})`;
-            },
-        });
-
-        turndownService.use(gfm);
-
-        const markdownStr = turndownService.turndown(textHTML);
-
-        if (onlyMultiCode) {
-            const tempElement = document.createElement("div");
-            tempElement.innerHTML = textHTML;
-            if (tempElement.querySelectorAll("pre").length > 1) {
-                onlyMultiCode = false;
-            } else if (markdownStr.substr(0, 3) !== "```" ||
-                markdownStr.substr(markdownStr.length - 3, 3) !== "```") {
-                onlyMultiCode = false;
-            }
-        }
-        if (onlyMultiCode) {
-            insertText(vditor.editor.element,
-                "```\n" + textPlain + "\n```",
-                "", true);
-        } else {
-            insertText(vditor.editor.element, markdownStr, "", true);
-        }
+        const mdValue = await html2md(vditor, vditor.originalInnerHTML);
+        insertText(vditor.editor.element, mdValue, "", true);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -204,25 +116,15 @@ class Editor {
             });
         }
 
-        const that = this;
-        this.element.addEventListener("paste", (event: Event) => {
+        this.element.addEventListener("paste", async (event: Event) => {
             event.stopPropagation();
             event.preventDefault();
             const clipboardEvent: ClipboardEvent = event as ClipboardEvent;
             if (clipboardEvent.clipboardData.getData("text/html").replace(/(^\s*)|(\s*)$/g, "") !== "") {
                 const textHTML = clipboardEvent.clipboardData.getData("text/html");
                 const textPlain = clipboardEvent.clipboardData.getData("text/plain");
-                if (!this.TurndownService) {
-                    import(/* webpackChunkName: "vditor" */ "turndown").then((turndown) => {
-                        that.TurndownService = turndown.default;
-                        that.html2md(vditor, textHTML, textPlain);
-                    }).catch((err) => {
-                        console.error("Failed to load turndown", err);
-                    });
-                    return;
-                }
-                this.html2md(vditor, textHTML, textPlain);
-
+                const mdValue = await html2md(vditor, textHTML, textPlain);
+                insertText(vditor.editor.element, mdValue, "", true);
             } else if (clipboardEvent.clipboardData.getData("text/plain").replace(/(^\s*)|(\s*)$/g, "") !== "" &&
                 clipboardEvent.clipboardData.files.length === 0) {
                 insertText(event.target as HTMLTextAreaElement,
@@ -239,6 +141,87 @@ class Editor {
         });
     }
 }
+
+const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
+    const { default: TurndownService } = await import(/* webpackChunkName: "vditor" */ "turndown");
+
+    let onlyMultiCode = false;
+
+    // no escape
+    TurndownService.prototype.escape = (name: string) => {
+        return name;
+    };
+
+    const turndownService = new TurndownService();
+
+    turndownService.addRule("strikethrough", {
+        filter: ["pre", "code"],
+        replacement: (content: string, node: HTMLElement) => {
+            if (node.parentElement.tagName === "PRE") {
+                return content;
+            }
+            if (content.split("\n").length > 1) {
+                onlyMultiCode = true;
+                return "```\n" + content + "\n```";
+            }
+            return "`" + content + "`";
+        },
+    });
+    turndownService.addRule("strikethrough", {
+        filter: ["img"],
+        replacement: (content: string, target: HTMLElement) => {
+            if (!target.getAttribute("src")) {
+                return "";
+            }
+            // 直接使用 API 或 setOriginal 时不需要对图片进行服务器上传，直接转换。
+            // 目前使用 textPlain 判断是否来自 API 或 setOriginal
+            if (vditor.options.upload.linkToImgUrl && textPlain) {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", vditor.options.upload.linkToImgUrl);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            const responseJSON = JSON.parse(xhr.responseText);
+                            if (responseJSON.code !== 0) {
+                                alert(responseJSON.msg);
+                                return;
+                            }
+                            const original = target.getAttribute("src");
+                            vditor.editor.element.selectionStart =
+                                vditor.editor.element.value.split(original)[0].length;
+                            vditor.editor.element.selectionEnd =
+                                vditor.editor.element.selectionStart + original.length;
+                            insertText(vditor.editor.element, responseJSON.data.url, "", true);
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify({url: target.getAttribute("src")}));
+            }
+
+            return `![${target.getAttribute("alt")}](${target.getAttribute("src")})`;
+        },
+    });
+
+    turndownService.use(gfm);
+
+    const markdownStr = turndownService.turndown(textHTML);
+
+    if (onlyMultiCode) {
+        const tempElement = document.createElement("div");
+        tempElement.innerHTML = textHTML;
+        if (tempElement.querySelectorAll("pre").length > 1) {
+            onlyMultiCode = false;
+        } else if (markdownStr.substr(0, 3) !== "```" ||
+            markdownStr.substr(markdownStr.length - 3, 3) !== "```") {
+            onlyMultiCode = false;
+        }
+    }
+    if (onlyMultiCode) {
+        return "```\n" + (textPlain || textHTML) + "\n```";
+    } else {
+        return markdownStr;
+    }
+};
 
 const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: string, replace?: boolean) => {
     if (typeof textarea.selectionStart === "number" && typeof textarea.selectionEnd === "number") {
@@ -316,4 +299,4 @@ const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: strin
     }
 };
 
-export {Editor, insertText};
+export {Editor, insertText, html2md};
