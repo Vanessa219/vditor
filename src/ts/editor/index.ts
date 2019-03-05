@@ -10,6 +10,9 @@ class Editor {
         this.element = document.createElement("textarea");
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
+        if (vditor.options.editorName) {
+            this.element.setAttribute("name", vditor.options.editorName);
+        }
         if (vditor.options.cache) {
             const localValue = localStorage.getItem("vditor" + vditor.id)
             if (localValue) {

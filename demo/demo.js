@@ -45,6 +45,7 @@ const LazyLoadImage = () => {
 
 const vditor2 = new Vditor('vditor2', {
   counter: 100,
+  editorName: 'vditor',
   upload: {
     token: 'test',
     url: '/api/upload/editor',
