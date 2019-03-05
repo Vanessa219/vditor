@@ -9,7 +9,7 @@ class Upload {
         this.isUploading = false;
         this.element = document.createElement("div");
         this.element.className = "vditor-upload";
-        this.element.innerHTML = '<div class="vditor-upload__progress"></div><div class="vditor-upload__close">x</div>';
+        this.element.innerHTML = '<div class="vditor-upload__progress"></div><div class="vditor-upload__close">X</div>';
 
         this.element.children[1].addEventListener("click", function() {
             this.parentElement.style.opacity = 0;
@@ -18,91 +18,109 @@ class Upload {
     }
 }
 
-const genUploadingLabel = (vditor: IVditor, files: DataTransferItemList | FileList | File[]): string => {
+const validateFile = (vditor: IVditor, files: DataTransferItemList | FileList | File[]): File[] => {
+    vditor.upload.element.className = "vditor-upload";
+
+    const uploadFileList = [];
+    let errorTip = "";
     let uploadingStr = "";
+    const lang: (keyof II18nLang) = vditor.options.lang;
+
     for (let iMax = files.length, i = 0; i < iMax; i++) {
         let file = files[i];
+        let validate = true;
         if (file instanceof DataTransferItem) {
             file = file.getAsFile();
         }
 
-        const tag = file.type.indexOf("image") === -1 ? "" : "!";
         if (!file.name) {
-            return "";
+            errorTip += `<li>${i18n[lang].nameEmpty}</li>`;
+            validate = false;
         }
-        const lastIndex = file.name.lastIndexOf(".");
-        const filename = vditor.options.upload.filename(file.name.substr(0, lastIndex)) + file.name.substr(lastIndex);
-        const lang: (keyof II18nLang) = vditor.options.lang;
+
         if (file.size > vditor.options.upload.max) {
-            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-            vditor.upload.element.children[0].innerHTML =
-                `${file.name} ${i18n[lang].over} ${vditor.options.upload.max / 1024 / 1024}M`;
-        } else {
-            uploadingStr += `${tag}[${filename}](${i18n[lang].uploading})\n`;
+            errorTip += `<li>${file.name} ${i18n[lang].over} ${vditor.options.upload.max / 1024 / 1024}M</li>`;
+            validate = false;
+        }
+
+        const lastIndex = file.name.lastIndexOf(".");
+        const fileExt = file.name.substr(lastIndex);
+        const filename = vditor.options.upload.filename(file.name.substr(0, lastIndex)) + fileExt;
+
+        if (vditor.options.upload.accept) {
+            let isAccept = false;
+            vditor.options.upload.accept.split(",").forEach((item) => {
+                const type = item.trim();
+                if (type.indexOf(".") === 0) {
+                    if (fileExt === type) {
+                        isAccept = true;
+                    }
+                } else {
+                    if (file.type.split("/")[0] === type.split("/")[0]) {
+                        isAccept = true;
+                    }
+                }
+            });
+
+            if (!isAccept) {
+                errorTip += `<li>${file.name} ${i18n[lang].fileTypeError}</li>`;
+                validate = false;
+            }
+        }
+
+        if (validate) {
+            uploadFileList.push(file);
+            uploadingStr += `${file.type.indexOf("image") === -1 ? "" : "!"}[${filename}](${i18n[lang].uploading})\n`;
         }
     }
-    return uploadingStr;
+
+    if (errorTip !== "") {
+        vditor.upload.element.className = "vditor-upload vditor-upload--tip";
+        vditor.upload.element.children[0].innerHTML = `<ul>${errorTip}</ul>`;
+    }
+
+    if (uploadingStr !== "") {
+        insertText(vditor.editor.element, uploadingStr, "");
+    }
+
+    return uploadFileList;
 };
 
 const genUploadedLabel =
     (editorElement: HTMLTextAreaElement, responseText: string, options: IOptions, uploadElement: HTMLElement) => {
-    editorElement.focus();
-    const response = JSON.parse(responseText);
+        editorElement.focus();
+        const response = JSON.parse(responseText);
 
-    if (response.code === 1) {
-        uploadElement.className = "vditor-upload vditor-upload--tip";
-        uploadElement.children[0].innerHTML = response.msg;
-    }
-
-    response.data.errFiles.forEach((data: string) => {
-        const lastIndex = data.lastIndexOf(".");
-        const filename = options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
-        const original = `[${filename}](${i18n[options.lang].uploading})`;
-        editorElement.selectionStart = editorElement.value.split(original)[0].length;
-        editorElement.selectionEnd = editorElement.selectionStart + original.length;
-        insertText(editorElement, "", "", true);
-    });
-
-    Object.keys(response.data.succMap).forEach((key) => {
-        const path = response.data.succMap[key];
-        if (path.indexOf(".wav") === path.length - 4) {
-            insertText(editorElement, `<audio controls="controls" src="${path}"></audio>\n`, "");
-            return;
+        if (response.code === 1) {
+            uploadElement.className = "vditor-upload vditor-upload--tip";
+            uploadElement.children[0].innerHTML = response.msg;
         }
-        const lastIndex = key.lastIndexOf(".");
-        const filename = options.upload.filename(key.substr(0, lastIndex)) + key.substr(lastIndex);
-        const original = `[${filename}](${i18n[options.lang].uploading})`;
-        editorElement.selectionStart = editorElement.value.split(original)[0].length;
-        editorElement.selectionEnd = editorElement.selectionStart + original.length;
-        insertText(editorElement, `[${filename}](${path})`, "", true);
-    });
-};
+
+        response.data.errFiles.forEach((data: string) => {
+            const lastIndex = data.lastIndexOf(".");
+            const filename = options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
+            const original = `[${filename}](${i18n[options.lang].uploading})`;
+            editorElement.selectionStart = editorElement.value.split(original)[0].length;
+            editorElement.selectionEnd = editorElement.selectionStart + original.length;
+            insertText(editorElement, "", "", true);
+        });
+
+        Object.keys(response.data.succMap).forEach((key) => {
+            const path = response.data.succMap[key];
+            if (path.indexOf(".wav") === path.length - 4) {
+                insertText(editorElement, `<audio controls="controls" src="${path}"></audio>\n`, "");
+                return;
+            }
+            const lastIndex = key.lastIndexOf(".");
+            const filename = options.upload.filename(key.substr(0, lastIndex)) + key.substr(lastIndex);
+            const original = `[${filename}](${i18n[options.lang].uploading})`;
+            editorElement.selectionStart = editorElement.value.split(original)[0].length;
+            editorElement.selectionEnd = editorElement.selectionStart + original.length;
+            insertText(editorElement, `[${filename}](${path})`, "", true);
+        });
+    };
 
 const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
-    const formData = new FormData();
-    const uploadFileList = [];
-    for (let i = 0, iMax = files.length; i < iMax; i++) {
-        let file = files[i];
-        if (file instanceof DataTransferItem) {
-            file = file.getAsFile();
-        }
-        if (file.size <= vditor.options.upload.max) {
-            formData.append("file[]", file);
-            uploadFileList.push(file);
-        }
-    }
-
-    vditor.upload.element.className = "vditor-upload";
-    vditor.upload.element.children[0].innerHTML = "";
-
-    insertText(vditor.editor.element, genUploadingLabel(vditor, files), "");
-
-    if (uploadFileList.length === 0) {
-        if (element) {
-            element.value = "";
-        }
-        return;
-    }
 
     if (!vditor.options.upload.url || !vditor.upload) {
         if (element) {
@@ -110,6 +128,19 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         }
         alert("please config: options.upload.url");
         return;
+    }
+
+    const uploadFileList = validateFile(vditor, files);
+    if (uploadFileList.length === 0) {
+        if (element) {
+            element.value = "";
+        }
+        return;
+    }
+
+    const formData = new FormData();
+    for (let i = 0, iMax = uploadFileList.length; i < iMax; i++) {
+        formData.append("file[]", uploadFileList[i]);
     }
 
     const xhr = new XMLHttpRequest();

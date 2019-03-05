@@ -47,6 +47,7 @@ const vditor2 = new Vditor('vditor2', {
   counter: 100,
   editorName: 'vditor',
   upload: {
+    accept: 'image/*,.pdf',
     token: 'test',
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',

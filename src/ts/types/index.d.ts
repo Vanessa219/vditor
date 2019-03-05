@@ -18,6 +18,7 @@ declare interface ITurndown {
     prototype: {
         escape(name: string): string,
     };
+
     new(): {
         addRule(name: string, options: {}): void
         use(plugin: ITurndown): void
@@ -56,6 +57,7 @@ interface IUpload {
     error?: (msg: string) => void;
     token?: string;
     filename?: (name: string) => string;
+    accept?: string;
 }
 
 interface IMenuItem {

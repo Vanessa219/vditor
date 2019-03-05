@@ -113,35 +113,38 @@
     border-radius: 3px;
     overflow: hidden;
     transition: all .15s ease-in-out;
+    color: $hoverColor;
+    font-size: 12px;
+    line-height: 14px;
+
+    ul {
+      margin: 0;
+    }
 
     &--tip {
-      height: 20px;
-      font-size: 12px;
-      line-height: 20px;
-      color: $hoverColor;
+      height: auto;
       opacity: 1 !important;
 
       .vditor-upload__close {
-        position: absolute;
-        right: 5px;
-        top: 0;
-        cursor: pointer;
         display: block;
-      }
-
-      .vditor-upload__progress {
-        padding: 0 5px;
       }
     }
 
     &__close {
       display: none;
+      position: absolute;
+      right: 5px;
+      cursor: pointer;
+      padding: 5px;
+      top: 0;
     }
 
     &__progress {
       height: 100%;
       background-color: rgba($hoverBg, 0.8);
       transition: all .15s ease-in-out;
+      padding: 5px;
+      box-sizing: border-box;
     }
   }
 }
