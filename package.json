@@ -14,15 +14,18 @@
     "turndown-plugin-gfm": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-typescript": "^7.3.3",
     "autoprefixer": "^9.4.6",
+    "babel-jest": "^24.1.0",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^1.0.1",
     "css-loader": "^2.1.0",
     "file-loader": "^3.0.1",
     "html-loader": "^0.5.5",
     "http-server": "^0.11.1",
+    "jest": "^24.1.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",
     "on-build-webpack": "^0.1.0",
@@ -49,7 +52,8 @@
     "build": "webpack",
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "dev": "webpack --config webpack.dev.js",
-    "start": "webpack-dev-server --config webpack.start.js"
+    "start": "webpack-dev-server --config webpack.start.js",
+    "test": "jest"
   },
   "keywords": [
     "editor",
