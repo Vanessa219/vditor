@@ -45,6 +45,24 @@ export class Hotkey {
             if (this.options.hint.at || this.toolbarElements.emoji) {
                 this.hint(event);
             }
+
+            if (this.options.tab && event.key.toLowerCase() === "tab") {
+                const selectionValue = this.editorElement.value.substring(this.editorElement.selectionStart,
+                    this.editorElement.selectionEnd);
+
+                const selectionsList = selectionValue.split("\n");
+                const selectionResult = selectionsList.map((value) => {
+                    return this.options.tab + value;
+                });
+
+                insertText(this.editorElement, selectionResult.join("\n"), "", true);
+                this.editorElement.selectionEnd = this.editorElement.selectionStart =
+                    this.editorElement.selectionStart - selectionValue.length -
+                    this.options.tab.length * (selectionsList.length - 1);
+
+                event.preventDefault();
+                event.stopPropagation();
+            }
         });
     }
 
@@ -83,8 +101,8 @@ export class Hotkey {
             const value = currentHintElement.getAttribute("data-value");
             const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
-            this.editorElement.selectionStart = this.editorElement.value.substr(0, this.editorElement.selectionEnd).
-                lastIndexOf(splitChar);
+            this.editorElement.selectionStart =
+                this.editorElement.value.substr(0, this.editorElement.selectionEnd).lastIndexOf(splitChar);
             insertText(this.editorElement, value, "", true);
         }
     }

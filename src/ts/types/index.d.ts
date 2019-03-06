@@ -116,6 +116,7 @@ interface IOptions {
     esc?: (value: string) => void;
     ctrlEnter?: (value: string) => void;
     select?: (value: string) => void;
+    tab?: string;
 }
 
 interface IVditor {

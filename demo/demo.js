@@ -46,6 +46,7 @@ const LazyLoadImage = () => {
 const vditor2 = new Vditor('vditor2', {
   counter: 100,
   editorName: 'vditor',
+  tab: '  ',
   upload: {
     accept: 'image/*,.pdf',
     token: 'test',
@@ -153,20 +154,20 @@ vditor.focus()
 console.log('vditor.getValue(): ' + vditor.getValue())
 vditor.setSelection(4, 10)
 console.log('vditor.getSelection(): ' + vditor.getSelection())
-setTimeout(() => {
-  vditor.setValue('Hi, Markdown!')
-  vditor.renderPreview()
-  vditor.disabled()
-}, 3000)
-
-setTimeout(() => {
-  vditor.enable()
-  vditor.setSelection(4, 12)
-  vditor.deleteValue()
-}, 6000)
-
-setTimeout(() => {
-  vditor.setSelection(0, 4)
-  vditor.updateValue('Welcome')
-  vditor.blur()
-}, 9000)
+// setTimeout(() => {
+//   vditor.setValue('Hi, Markdown!')
+//   vditor.renderPreview()
+//   vditor.disabled()
+// }, 3000)
+//
+// setTimeout(() => {
+//   vditor.enable()
+//   vditor.setSelection(4, 12)
+//   vditor.deleteValue()
+// }, 6000)
+//
+// setTimeout(() => {
+//   vditor.setSelection(0, 4)
+//   vditor.updateValue('Welcome')
+//   vditor.blur()
+// }, 9000)
