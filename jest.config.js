@@ -15,7 +15,7 @@ module.exports = {
   // cacheDirectory: "/private/var/folders/bm/7369j389267bsy4rhs0t51km0000gn/T/jest_dx",
 
   // Automatically clear mock calls and instances between every test
-  clearMocks: true,
+  // clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
@@ -149,7 +149,7 @@ module.exports = {
   // ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.ts$",
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: null,
@@ -165,7 +165,7 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.ts$": "ts-jest",
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

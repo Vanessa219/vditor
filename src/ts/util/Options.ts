@@ -146,7 +146,7 @@ export class Options {
             name: "br",
         }],
         upload: {
-            filename: (name) => name.replace(/\W/g, ""),
+            filename: (name: string) => name.replace(/\W/g, ""),
             linkToImgUrl: "",
             max: 10 * 1024 * 1024,
             url: "",

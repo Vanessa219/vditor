@@ -53,7 +53,8 @@
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "dev": "webpack --config webpack.dev.js",
     "start": "webpack-dev-server --config webpack.start.js",
-    "test": "jest"
+    "test:watch": "jest --watch",
+    "test": "jest --coverage"
   },
   "keywords": [
     "editor",

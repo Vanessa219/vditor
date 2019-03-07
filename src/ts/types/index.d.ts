@@ -50,7 +50,7 @@ interface IClasses {
 }
 
 interface IUpload {
-    url: string;
+    url?: string;
     max?: number;
     linkToImgUrl?: string;
     success?: (textarea: HTMLTextAreaElement, msg: string) => void;
