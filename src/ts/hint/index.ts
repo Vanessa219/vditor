@@ -30,7 +30,7 @@ export class Hint {
         } else {
             if (atKey !== undefined && this.hint.at) {
                 clearTimeout(this.timeId);
-                this.timeId = setTimeout(() => {
+                this.timeId = window.setTimeout(() => {
                     this.genHTML(this.hint.at(atKey), atKey);
                 }, this.hint.delay);
             }

@@ -43,8 +43,9 @@ const LazyLoadImage = () => {
   }
 }
 
-const vditor2 = new Vditor('vditor2', {
+new Vditor('vditor', {
   counter: 100,
+  height: 300,
   editorName: 'vditor',
   tab: '  ',
   upload: {
@@ -69,10 +70,11 @@ const vditor2 = new Vditor('vditor2', {
   },
 })
 
-const vditor = new Vditor('vditor', {
+
+window.vditorTest = new Vditor('vditorTest', {
   cache: false,
   height: 200,
-  width: '50%',
+  width: 500,
   counter: 100,
   resize: {
     enable: true,
@@ -147,27 +149,3 @@ const vditor = new Vditor('vditor', {
     'strike',
   ],
 })
-
-vditor.html2md('<h2>Hi</h2>').then(mdValue => {console.log(mdValue)})
-vditor.insertValue('Hi, Vditor!')
-vditor.focus()
-console.log('vditor.getValue(): ' + vditor.getValue())
-vditor.setSelection(4, 10)
-console.log('vditor.getSelection(): ' + vditor.getSelection())
-// setTimeout(() => {
-//   vditor.setValue('Hi, Markdown!')
-//   vditor.renderPreview()
-//   vditor.disabled()
-// }, 3000)
-//
-// setTimeout(() => {
-//   vditor.enable()
-//   vditor.setSelection(4, 12)
-//   vditor.deleteValue()
-// }, 6000)
-//
-// setTimeout(() => {
-//   vditor.setSelection(0, 4)
-//   vditor.updateValue('Welcome')
-//   vditor.blur()
-// }, 9000)

@@ -30,7 +30,7 @@ export class Preview {
 
         if (vditor.options.preview.url) {
             clearTimeout(vditor.mdTimeoutId);
-            vditor.mdTimeoutId = setTimeout(() => {
+            vditor.mdTimeoutId = window.setTimeout(() => {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
