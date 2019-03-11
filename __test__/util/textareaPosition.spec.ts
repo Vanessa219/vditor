@@ -1,5 +1,7 @@
 import puppeteer from 'puppeteer'
 
+declare let vditorTest: any;
+
 describe('use puppeteer to test getTextareaPosition', () => {
     let browser: any
     let page: any
@@ -15,14 +17,12 @@ describe('use puppeteer to test getTextareaPosition', () => {
 
     it('getTextareaPosition', async () => {
         await page.evaluate(() => {
-            // @ts-ignore
             vditorTest.setValue('vditorvditorvditorvditorvditorvditorvditorvditorvditorvditorvditorvditor for jest puppeteer :')
         })
 
         await page.waitFor(1000)
 
         let result = await page.evaluate(() => {
-            // @ts-ignore
             return vditorTest.vditor.hint.element.getAttribute('style')
         })
         expect(result).toContain('top: -65px;')

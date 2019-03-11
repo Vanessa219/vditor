@@ -72,7 +72,7 @@ new Vditor('vditor', {
 
 
 window.vditorTest = new Vditor('vditorTest', {
-  cache: false,
+  cache: true,
   height: 200,
   width: 500,
   counter: 100,
@@ -136,6 +136,16 @@ window.vditorTest = new Vditor('vditorTest', {
   },
   select: (val) => {
     console.log(`select: ${val}`)
+  },
+  upload: {
+    accept: 'image/*,.pdf',
+    token: 'test',
+    url: '/api/upload/editor',
+    linkToImgUrl: '/api/upload/fetch',
+    filename: name => {
+      // ? \ / : | < > * [ ] white to -
+      return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
+    },
   },
   toolbar: [
     {
