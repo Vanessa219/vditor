@@ -43,7 +43,7 @@ const LazyLoadImage = () => {
   }
 }
 
-new Vditor('vditor', {
+const vditor = new Vditor('vditor', {
   counter: 100,
   height: 300,
   editorName: 'vditor',
@@ -65,13 +65,13 @@ new Vditor('vditor', {
     show: true,
     parse: () => {
       LazyLoadImage()
+      vditor.getHTML(true).then(html => {console.log(html)})
     },
   },
   classes: {
     preview: 'content-reset',
   },
 })
-
 
 window.vditorTest = new Vditor('vditorTest', {
   cache: true,
