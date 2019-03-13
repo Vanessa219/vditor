@@ -1,5 +1,10 @@
 ## Vditor change log
 
+### v1.0.0 / 2019-03-13
+
+* [24](https://github.com/b3log/vditor/issues/24) markdown 不支持多行公式块 `invalid`
+* [15](https://github.com/b3log/vditor/issues/15) 添加测试用例 `development`
+* [9](https://github.com/b3log/vditor/issues/9) 支持前端预览 md `enhancement`
 
 ### v0.4.0 / 2019-03-06
 
