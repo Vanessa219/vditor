@@ -5,6 +5,10 @@ declare module "*.svg" {
 
 declare module "*.png";
 
+declare module "highlight.js";
+
+declare module "markdown-it";
+
 declare module "turndown";
 
 declare module "turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js";
@@ -13,6 +17,13 @@ declare var webkitAudioContext: {
     prototype: AudioContext
     new(contextOptions?: AudioContextOptions): AudioContext,
 };
+
+declare interface IHljsOptions {
+    html: boolean
+    linkify: boolean
+    typographer: boolean
+    highlight?(str: string, lang: string): string
+}
 
 declare interface ITurndown {
     prototype: {
@@ -75,6 +86,10 @@ interface IPreview {
     show?: boolean;
     parse?: (element: HTMLElement) => void;
     url?: string;
+    hljs: {
+        style: string,
+        enable: boolean
+    }
 }
 
 interface IHintData {

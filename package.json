@@ -10,6 +10,8 @@
     "src/*"
   ],
   "dependencies": {
+    "highlight.js": "^9.15.6",
+    "markdown-it": "^8.4.2",
     "turndown": "^5.0.3",
     "turndown-plugin-gfm": "^1.0.2"
   },

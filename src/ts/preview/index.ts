@@ -13,7 +13,7 @@ export class Preview {
         }
     }
 
-    public render(vditor: IVditor, value?: string) {
+    public async render(vditor: IVditor, value?: string) {
         if (this.element.style.display === "none") {
             return;
         }
@@ -55,7 +55,33 @@ export class Preview {
                 }));
             }, vditor.options.preview.delay);
         } else {
-            this.element.innerHTML = vditor.editor.element.value;
+            const {default: MarkdownIt} = await import(/* webpackChunkName: "markdown-it" */ "markdown-it");
+            const hljsOpt: IHljsOptions = {
+                html: true,
+                linkify: true,
+                typographer: true,
+            }
+            if (vditor.options.preview.hljs.style) {
+                if (!document.getElementById('vditorHljsStyle')){
+                    const hljsStyle = document.createElement("link")
+                    hljsStyle.id = 'vditorHljsStyle'
+                    hljsStyle.setAttribute("rel", "stylesheet")
+                    hljsStyle.setAttribute("type", "text/css")
+                    hljsStyle.setAttribute("href", `https://cdn.jsdelivr.net/npm/highlight.js@9.15.6/styles/${vditor.options.preview.hljs.style}.min.css`)
+                    document.getElementsByTagName('head')[0].appendChild(hljsStyle)
+                }
+            }
+            if (vditor.options.preview.hljs.enable) {
+                const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
+                hljsOpt.highlight = (str: string, lang: string) => {
+                    if (lang && hljs.getLanguage(lang)) {
+                        return hljs.highlight(lang, str, true).value
+                    }
+                    return hljs.highlightAuto(str).value;
+                }
+            }
+            const md = new MarkdownIt(hljsOpt);
+            this.element.innerHTML = md.render(vditor.editor.element.value);
         }
     }
 }

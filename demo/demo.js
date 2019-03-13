@@ -59,8 +59,10 @@ new Vditor('vditor', {
     },
   },
   preview: {
+    hljs: {
+      style: 'github',
+    },
     show: true,
-    url: '/api/markdown',
     parse: () => {
       LazyLoadImage()
     },
