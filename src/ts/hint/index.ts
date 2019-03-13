@@ -35,7 +35,7 @@ export class Hint {
                 }, this.hint.delay);
             }
             if (emojiKey !== undefined) {
-                import(/* webpackChunkName: "vendors~vditor" */ "../emoji/allEmoji")
+                import(/* webpackChunkName: "allEmoji" */ "../emoji/allEmoji")
                     .then((allEmoji) => {
                         const emojiHint = emojiKey === "" ? this.hint.emoji : allEmoji.getAllEmoji(this.hint.emojiPath);
                         const matchEmojiData: IHintData[] = [];

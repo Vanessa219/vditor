@@ -20,11 +20,11 @@ export class Options {
         lang: "zh_CN",
         placeholder: "",
         preview: {
-            hljs: {
-                style: 'atom-one-light',
-                enable: true
-            },
             delay: 1000,
+            hljs: {
+                enable: true,
+                style: "atom-one-light",
+            },
             show: false,
         },
         resize: {
@@ -190,7 +190,8 @@ export class Options {
 
             if (this.options.preview) {
                 if (this.options.preview.hljs) {
-                    this.options.preview.hljs = Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
+                    this.options.preview.hljs =
+                        Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
                 }
                 this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview);
             }

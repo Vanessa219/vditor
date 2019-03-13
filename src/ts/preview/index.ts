@@ -55,12 +55,12 @@ export class Preview {
                 }));
             }, vditor.options.preview.delay);
         } else {
-            md2html(vditor, vditor.options.preview.hljs.enable).then(html => {
-                this.element.innerHTML = html
+            md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
+                this.element.innerHTML = html;
                 if (vditor.options.preview.parse) {
                     vditor.options.preview.parse(this.element);
                 }
-            })
+            });
         }
     }
 }
@@ -71,25 +71,26 @@ export const md2html = async (vditor: IVditor, includeHljs: boolean) => {
         html: true,
         linkify: true,
         typographer: true,
-    }
+    };
     if (vditor.options.preview.hljs.style) {
-        if (!document.getElementById('vditorHljsStyle')) {
-            const hljsStyle = document.createElement("link")
-            hljsStyle.id = 'vditorHljsStyle'
-            hljsStyle.setAttribute("rel", "stylesheet")
-            hljsStyle.setAttribute("type", "text/css")
-            hljsStyle.setAttribute("href", `https://cdn.jsdelivr.net/npm/highlight.js@9.15.6/styles/${vditor.options.preview.hljs.style}.min.css`)
-            document.getElementsByTagName('head')[0].appendChild(hljsStyle)
+        if (!document.getElementById("vditorHljsStyle")) {
+            const hljsStyle = document.createElement("link");
+            hljsStyle.id = "vditorHljsStyle";
+            hljsStyle.setAttribute("rel", "stylesheet");
+            hljsStyle.setAttribute("type", "text/css");
+            hljsStyle.setAttribute("href",
+                `https://cdn.jsdelivr.net/npm/highlight.js@9.15.6/styles/${vditor.options.preview.hljs.style}.min.css`);
+            document.getElementsByTagName("head")[0].appendChild(hljsStyle);
         }
     }
     if (includeHljs) {
         const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
         hljsOpt.highlight = (str: string, lang: string) => {
             if (lang && hljs.getLanguage(lang)) {
-                return hljs.highlight(lang, str, true).value
+                return hljs.highlight(lang, str, true).value;
             }
             return hljs.highlightAuto(str).value;
-        }
+        };
     }
     return new MarkdownIt(hljsOpt).render(vditor.editor.element.value);
-}
+};

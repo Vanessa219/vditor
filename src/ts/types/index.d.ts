@@ -19,10 +19,10 @@ declare var webkitAudioContext: {
 };
 
 declare interface IHljsOptions {
-    html: boolean
-    linkify: boolean
-    typographer: boolean
-    highlight?(str: string, lang: string): string
+    html: boolean;
+    linkify: boolean;
+    typographer: boolean;
+    highlight?(str: string, lang: string): string;
 }
 
 declare interface ITurndown {
@@ -88,8 +88,8 @@ interface IPreview {
     url?: string;
     hljs?: {
         style?: string,
-        enable?: boolean
-    }
+        enable?: boolean,
+    };
 }
 
 interface IHintData {

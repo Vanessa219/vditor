@@ -143,7 +143,7 @@ class Editor {
 }
 
 const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
-    const { default: TurndownService } = await import(/* webpackChunkName: "vditor" */ "turndown");
+    const { default: TurndownService } = await import(/* webpackChunkName: "turndown" */ "turndown");
 
     let onlyMultiCode = false;
 
