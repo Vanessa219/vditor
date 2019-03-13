@@ -70,6 +70,25 @@ describe('Options', () => {
         })
     });
 
+    test('Options preview hljs', () => {
+        const options = new Options({
+            preview: {
+                show: true,
+                hljs: {
+                    style: 'github'
+                }
+            },
+        });
+        expect(options.merge().preview).toEqual({
+            delay: 1000,
+            show: true,
+            hljs: {
+                style: 'github',
+                "enable": true,
+            }
+        })
+    });
+
     test('Options hint', () => {
         const options = new Options({
             hint: {

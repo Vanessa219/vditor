@@ -86,9 +86,9 @@ interface IPreview {
     show?: boolean;
     parse?: (element: HTMLElement) => void;
     url?: string;
-    hljs: {
-        style: string,
-        enable: boolean
+    hljs?: {
+        style?: string,
+        enable?: boolean
     }
 }
 
