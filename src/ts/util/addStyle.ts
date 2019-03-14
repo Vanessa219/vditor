@@ -7,4 +7,4 @@ export const addStyle = (url: string, id: string) => {
         hljsStyle.setAttribute("href", url);
         document.getElementsByTagName("head")[0].appendChild(hljsStyle);
     }
-}
+};

@@ -48,6 +48,18 @@
         <li>bar</li>
     </ul>
 </div>
+<div id="math">
+    <p>$ALG.1 Gradient Boost$</p>
+    <ol>
+        <li>$ F_0(x) = arg \min_p\sum_{i=1}^NL(y_i, p) $</li>
+        <li>$ for\ m=1\ to\ M\ do:\ $</li>
+        <li>$ \hat{y_i} = -[\frac {\partial L(y_i,F(x_i))}{\partial F(x_i)}]_{F(x)=F_{m-1}(x)} \text{计算残差, 梯度下降的方向} $
+        </li>
+        <li>$f_m = arg \min_p \sum_{i=1}^N L(y_i, F_{m-1}(x_i)+\eta q(x_i)) \text{基学习器h，优化f，计算步长} $</li>
+        <li>$F_m(x) = F_{m-1}(x) + \eta f_m(x) \text{更新模型} $</li>
+        <li>$\text{end For} $</li>
+    </ol>
+</div>
 <h2>vditor for jest puppeteer</h2>
 <div id="vditorTest"></div>
 <!-- 静态文件引入文件 -->
