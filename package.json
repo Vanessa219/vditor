@@ -10,6 +10,7 @@
     "src/*"
   ],
   "dependencies": {
+    "flowchart.js": "^1.11.3",
     "highlight.js": "^9.15.6",
     "katex": "^0.10.1",
     "markdown-it": "^8.4.2",

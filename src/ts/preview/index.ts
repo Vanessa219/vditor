@@ -1,4 +1,5 @@
-import {mathRender} from "../markdown/math";
+import {mathRender} from "../markdown/mathRender";
+import {flowRender} from "../markdown/flowRender";
 import {addStyle} from "../util/addStyle";
 
 export class Preview {
@@ -69,6 +70,7 @@ export class Preview {
         }
 
         mathRender(vditor.preview.element);
+        flowRender(vditor.preview.element);
     }
 }
 

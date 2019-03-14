@@ -73,7 +73,7 @@ const vditor = new Vditor('vditor', {
   },
 })
 
-Vditor.mathRender(document.getElementById('math'))
+Vditor.flowRender(document.getElementById('math'))
 
 window.vditorTest = new Vditor('vditorTest', {
   cache: true,
