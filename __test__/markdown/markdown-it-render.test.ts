@@ -6,7 +6,8 @@ it('MarkdownIt', () => {
     let error = 0;
     spec.forEach(async (item: any) => {
         const result = new MarkdownIt({
-            xhtmlOut: true
+            xhtmlOut: true,
+            html: true,
         }).render(item.markdown)
         if (result === item.html) {
             right++

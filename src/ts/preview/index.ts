@@ -1,3 +1,6 @@
+import {mathRender} from "../markdown/math";
+import {addStyle} from "../util/addStyle";
+
 export class Preview {
     public element: HTMLElement;
 
@@ -11,6 +14,14 @@ export class Preview {
         if (this.element.style.display !== "none") {
             this.render(vditor);
         }
+    }
+
+    private afterRender(vditor:IVditor) {
+        if (vditor.options.preview.parse) {
+            vditor.options.preview.parse(this.element);
+        }
+
+        mathRender(vditor.preview.element)
     }
 
     public render(vditor: IVditor, value?: string) {
@@ -43,9 +54,7 @@ export class Preview {
                                 return;
                             }
                             this.element.innerHTML = responseJSON.data;
-                            if (vditor.options.preview.parse) {
-                                vditor.options.preview.parse(this.element);
-                            }
+                            this.afterRender(vditor)
                         }
                     }
                 };
@@ -57,9 +66,7 @@ export class Preview {
         } else {
             md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
                 this.element.innerHTML = html;
-                if (vditor.options.preview.parse) {
-                    vditor.options.preview.parse(this.element);
-                }
+                this.afterRender(vditor)
             });
         }
     }
@@ -73,15 +80,8 @@ export const md2html = async (vditor: IVditor, includeHljs: boolean) => {
         typographer: true,
     };
     if (vditor.options.preview.hljs.style) {
-        if (!document.getElementById("vditorHljsStyle")) {
-            const hljsStyle = document.createElement("link");
-            hljsStyle.id = "vditorHljsStyle";
-            hljsStyle.setAttribute("rel", "stylesheet");
-            hljsStyle.setAttribute("type", "text/css");
-            hljsStyle.setAttribute("href",
-                `https://cdn.jsdelivr.net/npm/highlight.js@9.15.6/styles/${vditor.options.preview.hljs.style}.min.css`);
-            document.getElementsByTagName("head")[0].appendChild(hljsStyle);
-        }
+        addStyle(`https://cdn.jsdelivr.net/npm/highlight.js@9.15.6/styles/${vditor.options.preview.hljs.style}.min.css`,
+            'vditorHljsStyle')
     }
     if (includeHljs) {
         const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");

@@ -9,6 +9,9 @@ declare module "highlight.js";
 
 declare module "markdown-it";
 
+declare module "katex";
+declare module "katex/contrib/auto-render/auto-render";
+
 declare module "turndown";
 
 declare module "turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js";
