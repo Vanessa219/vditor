@@ -72,6 +72,6 @@ Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 
 ## 鸣谢
 
-* [Markdown](https://en.wikipedia.org/wiki/Markdown)：轻量级纯文本排版语言
-* [TypeScript](https://github.com/Microsoft/TypeScript)：类型化的 JavaScript 超集
 * [Turndown](https://github.com/domchristie/turndown)：HTML 到 Markdown 的转换器
+* [markdown-it](https://github.com/markdown-it/markdown-it)：100% 支持 CommonMark 的 Markdown 解析器
+* [highlight.js](https://github.com/highlightjs/highlight.js)：JavaScript 语法高亮
