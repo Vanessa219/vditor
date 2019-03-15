@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.1.1 / 2019-03-20
+### v1.1.3 / 2019-03-20
 
 * [30](https://github.com/b3log/vditor/issues/30) 支持 task list `feature`
 * [29](https://github.com/b3log/vditor/issues/29) 代码块添加复制 `feature`
