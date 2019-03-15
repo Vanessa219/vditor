@@ -65,12 +65,9 @@ const vditor = new Vditor('vditor', {
     show: true,
     parse: () => {
       LazyLoadImage()
-      vditor.getHTML(true).then(html => {console.log(html)})
     },
   },
 })
-
-Vditor.mermaidRender(document.getElementById('mermaid'))
 
 window.vditorTest = new Vditor('vditorTest', {
   cache: true,

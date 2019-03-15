@@ -58,10 +58,14 @@ export class Preview {
                 }));
             }, vditor.options.preview.delay);
         } else {
-            md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
-                this.element.innerHTML = html;
-                this.afterRender(vditor);
-            });
+            clearTimeout(vditor.mdTimeoutId);
+            vditor.mdTimeoutId = window.setTimeout(() => {
+                md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
+                    this.element.innerHTML = html;
+                    console.log((new Date).getTime())
+                    this.afterRender(vditor);
+                });
+            }, vditor.options.preview.delay);
         }
     }
 
@@ -69,7 +73,6 @@ export class Preview {
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
-
         mathRender(vditor.preview.element);
         mermaidRender(vditor.preview.element);
         codeRender(vditor.preview.element, vditor.options.lang);
