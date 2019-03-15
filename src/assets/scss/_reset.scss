@@ -155,6 +155,10 @@
       display: block;
     }
 
+    pre:hover div.vditor-copy {
+      display: block;
+    }
+
     kbd {
       display: inline-block;
       padding: 3px 5px;
@@ -175,15 +179,21 @@
         outline: none;
       }
     }
+
+    svg {
+      height: auto;
+      width: auto;
+    }
   }
 
   &-task {
     list-style: none;
     margin-left: -1.4em;
-  }
-
-  pre:hover div.vditor-copy {
-    display: block;
+    display: flex;
+    align-items: center;
+    input {
+      margin-right: 5px;
+    }
   }
 
   &-copy {

@@ -59,9 +59,6 @@ const vditor = new Vditor('vditor', {
     },
   },
   preview: {
-    hljs: {
-      style: 'github',
-    },
     show: true,
     parse: () => {
       LazyLoadImage()

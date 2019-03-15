@@ -2,7 +2,7 @@ import copySVG from "../../assets/icons/copy.svg";
 import {i18n} from "../i18n/index";
 
 export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
-    element.querySelectorAll("code").forEach((e) => {
+    element.querySelectorAll("pre > code").forEach((e:HTMLElement) => {
         if (e.className.indexOf("language-mermaid") > -1) {
             return;
         }
