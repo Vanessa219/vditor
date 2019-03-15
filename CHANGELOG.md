@@ -1,8 +1,17 @@
 ## Vditor change log
 
+### v1.1.0 / 2019-03-20
+
+
+* [29](https://github.com/b3log/vditor/issues/29) 代码块添加复制 `feature`
+* [28](https://github.com/b3log/vditor/issues/28) 编辑器中按下Ctrl+s 会出现字符 `question`
+* [27](https://github.com/b3log/vditor/issues/27) 支持时序图渲染和甘特图  `feature`
+* [26](https://github.com/b3log/vditor/issues/26) 支持流程图渲染 `feature`
+* [25](https://github.com/b3log/vditor/issues/25) 支持数学公式渲染 `feature`
+* [24](https://github.com/b3log/vditor/issues/24) markdown 不支持多行公式块 `enhancement`
+
 ### v1.0.0 / 2019-03-13
 
-* [24](https://github.com/b3log/vditor/issues/24) markdown 不支持多行公式块 `invalid`
 * [15](https://github.com/b3log/vditor/issues/15) 添加测试用例 `development`
 * [9](https://github.com/b3log/vditor/issues/9) 支持前端预览 md `enhancement`
 
