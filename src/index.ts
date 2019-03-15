@@ -3,6 +3,7 @@ import {Counter} from "./ts/counter/index";
 import {Editor, html2md, insertText} from "./ts/editor/index";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
+import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {md2html, Preview} from "./ts/preview/index";
@@ -17,6 +18,7 @@ class Vditor {
 
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;
+    public static codeRender = codeRender;
     public readonly version: string;
     public vditor: IVditor;
 

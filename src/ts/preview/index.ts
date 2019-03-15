@@ -1,3 +1,4 @@
+import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {addStyle} from "../util/addStyle";
@@ -71,6 +72,7 @@ export class Preview {
 
         mathRender(vditor.preview.element);
         mermaidRender(vditor.preview.element);
+        codeRender(vditor.preview.element, vditor.options.lang);
     }
 }
 
@@ -88,8 +90,8 @@ export const md2html = async (vditor: IVditor, includeHljs: boolean) => {
     if (includeHljs) {
         const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
         hljsOpt.highlight = (str: string, lang: string) => {
-            if (lang === 'mermaid') {
-                return str
+            if (lang === "mermaid") {
+                return str;
             }
             if (lang && hljs.getLanguage(lang)) {
                 return hljs.highlight(lang, str, true).value;
