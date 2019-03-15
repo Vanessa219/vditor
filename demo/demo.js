@@ -68,9 +68,6 @@ const vditor = new Vditor('vditor', {
       vditor.getHTML(true).then(html => {console.log(html)})
     },
   },
-  classes: {
-    preview: 'content-reset',
-  },
 })
 
 Vditor.mermaidRender(document.getElementById('mermaid'))

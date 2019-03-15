@@ -1,0 +1,38 @@
+.vditor {
+  &-reset {
+
+  }
+
+  &-task {
+    list-style: none;
+    margin-left: -1.4em;
+  }
+
+  pre:hover div.vditor-copy {
+    display: block;
+  }
+
+  &-copy {
+    position: relative;
+    display: none;
+
+    textarea {
+      position: absolute;
+      top: -100000px;
+    }
+
+    span {
+      cursor: pointer;
+      position: absolute;
+      right: 0.5em;
+      top: 0.5em;
+      height: 20px;
+      width: 20px;
+    }
+
+    svg {
+      height: 20px;
+      width: 20px;
+    }
+  }
+}

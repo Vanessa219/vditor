@@ -9,8 +9,6 @@ declare module "highlight.js";
 
 declare module "mermaid";
 
-declare module "markdown-it";
-
 declare module "katex";
 declare module "katex/contrib/auto-render/auto-render";
 
@@ -26,6 +24,7 @@ declare interface IHljsOptions {
     html: boolean;
     linkify: boolean;
     typographer: boolean;
+
     highlight?(str: string, lang: string): string;
 }
 
@@ -39,6 +38,27 @@ declare interface ITurndown {
         use(plugin: ITurndown): void
         turndown(text: string): string,
     };
+}
+
+interface IMarkdownIt {
+    render?: (md: string) => string | undefined;
+    core?: {
+        ruler: {
+            after: (type: string, name: string, process: (state: IMarkdownItState) => void) => void,
+        },
+    };
+}
+
+interface IMarkdownItState {
+    tokens: IMarkdownItToken[];
+    Token: any;
+}
+
+interface IMarkdownItToken {
+    type: string;
+    attrIndex: (name: string) => number;
+    attrPush: (name: string[]) => void;
+    attrs: string[][];
 }
 
 interface IHTMLInputEvent extends Event {
@@ -143,6 +163,7 @@ interface IVditor {
     mdTimeoutId: number;
     options: IOptions;
     originalInnerHTML: string;
+    markdownIt?: IMarkdownIt;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };

@@ -21,6 +21,7 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@types/jest": "^24.0.9",
+    "@types/markdown-it": "0.0.7",
     "@types/puppeteer": "^1.12.2",
     "autoprefixer": "^9.4.6",
     "babel-loader": "^8.0.5",

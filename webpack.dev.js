@@ -24,38 +24,12 @@ module.exports = {
   },
   entry: {
     'demo': './demo/demo.js',
-    'demo.css': './demo/demo.scss',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.scss', '.svg', '.png'],
+    extensions: ['.js', '.ts', '.svg', '.png'],
   },
   module: {
     rules: [
-      {
-        test: /\.scss$/,
-        include: [path.resolve(__dirname, 'demo')],
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader', // translates CSS into CommonJS
-            options: {
-              url: false,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: () => [
-                require('autoprefixer')({grid: true, remove: false}),
-              ],
-            },
-          },
-          {
-            loader: 'sass-loader', // compiles Sass to CSS
-          },
-        ],
-      },
       {
         test: /\.svg$/,
         include: [path.resolve(__dirname, './src/assets/icons')],
