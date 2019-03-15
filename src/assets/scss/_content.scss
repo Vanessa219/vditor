@@ -4,7 +4,6 @@
   border: 1px solid $borderColor;
   border-radius: 3px;
   box-sizing: border-box;
-  overflow: hidden;
 
   &--fullscreen {
     position: fixed;
@@ -21,6 +20,7 @@
     min-height: 60px;
     flex: 1;
     position: relative;
+    overflow: hidden;
   }
 
   &-textarea {
