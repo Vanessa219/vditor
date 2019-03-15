@@ -59,6 +59,8 @@ interface IMarkdownItToken {
     attrIndex: (name: string) => number;
     attrPush: (name: string[]) => void;
     attrs: string[][];
+    content: string;
+    children: IMarkdownItToken[];
 }
 
 interface IHTMLInputEvent extends Event {

@@ -62,7 +62,6 @@ export class Preview {
             vditor.mdTimeoutId = window.setTimeout(() => {
                 md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
                     this.element.innerHTML = html;
-                    console.log((new Date).getTime())
                     this.afterRender(vditor);
                 });
             }, vditor.options.preview.delay);
