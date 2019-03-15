@@ -1,7 +1,6 @@
 ## Vditor change log
 
-### v1.1.0 / 2019-03-20
-
+### v1.1.1 / 2019-03-20
 
 * [29](https://github.com/b3log/vditor/issues/29) 代码块添加复制 `feature`
 * [28](https://github.com/b3log/vditor/issues/28) 编辑器中按下Ctrl+s 会出现字符 `question`

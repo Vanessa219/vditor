@@ -16,7 +16,7 @@ export class Preview extends MenuItem {
         this.element.children[0].addEventListener("click", function() {
             const vditorElement = document.getElementById(vditor.id);
             let className;
-            if (vditor.preview.element.style.display === "block") {
+            if (vditor.preview.element.style.display === "block" || vditor.preview.element.style.display === "") {
                 vditor.preview.element.style.display = "none";
                 className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
             } else {

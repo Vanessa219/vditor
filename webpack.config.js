@@ -12,7 +12,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const WebpackOnBuildPlugin = require('on-build-webpack')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require(
+  'webpack-bundle-analyzer').BundleAnalyzerPlugin
 const pkg = require('./package.json')
 
 const banner = new webpack.BannerPlugin({
@@ -122,6 +123,15 @@ module.exports = [
       }),
       banner,
     ],
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendors: {
+            test: /null/,
+          }
+        }
+      },
+    },
   }, {
     mode: 'production',
     entry: {
