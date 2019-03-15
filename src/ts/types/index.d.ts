@@ -7,7 +7,7 @@ declare module "*.png";
 
 declare module "highlight.js";
 
-declare module "flowchart.js";
+declare module "mermaid";
 
 declare module "markdown-it";
 

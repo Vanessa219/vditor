@@ -73,7 +73,7 @@ const vditor = new Vditor('vditor', {
   },
 })
 
-Vditor.flowRender(document.getElementById('math'))
+Vditor.mermaidRender(document.getElementById('mermaid'))
 
 window.vditorTest = new Vditor('vditorTest', {
   cache: true,

@@ -10,10 +10,10 @@
     "src/*"
   ],
   "dependencies": {
-    "flowchart.js": "^1.11.3",
     "highlight.js": "^9.15.6",
     "katex": "^0.10.1",
     "markdown-it": "^8.4.2",
+    "mermaid": "^8.0.0",
     "turndown": "^5.0.3",
     "turndown-plugin-gfm": "^1.0.2"
   },

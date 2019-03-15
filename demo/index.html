@@ -48,16 +48,16 @@
         <li>bar</li>
     </ul>
 </div>
-<div id="math">
-<pre><code class="language-flow"><span class="hljs-attribute">st</span>=&gt;start: Start
-<span class="hljs-attribute">op</span>=&gt;operation: Your Operation
-<span class="hljs-attribute">cond</span>=&gt;condition: <span class="hljs-literal">Yes</span> <span class="hljs-keyword">or</span> <span class="hljs-literal">No</span>?
-<span class="hljs-attribute">e</span>=&gt;end
-
-st-&gt;op-&gt;cond
-cond(<span class="hljs-literal">yes</span>)-&gt;e
-cond(<span class="hljs-literal">no</span>)-&gt;op
-</code></pre>
+<div id="mermaid">
+<pre>
+    <code class="language-mermaid">
+graph LR
+    A[Hard edge] -->|Link text| B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two]
+    </code>
+</pre>
 </div>
 <h2>vditor for jest puppeteer</h2>
 <div id="vditorTest"></div>

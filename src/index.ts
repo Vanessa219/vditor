@@ -4,7 +4,7 @@ import {Editor, html2md, insertText} from "./ts/editor/index";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
 import {mathRender} from "./ts/markdown/mathRender";
-import {flowRender} from "./ts/markdown/flowRender";
+import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {md2html, Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Toolbar} from "./ts/toolbar/index";
@@ -16,7 +16,7 @@ import {getTextareaPosition} from "./ts/util/textareaPosition";
 class Vditor {
 
     public static mathRender = mathRender;
-    public static flowRender = flowRender;
+    public static mermaidRender = mermaidRender;
     public readonly version: string;
     public vditor: IVditor;
 
