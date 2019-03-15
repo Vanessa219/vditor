@@ -4,6 +4,7 @@
   border: 1px solid $borderColor;
   border-radius: 3px;
   box-sizing: border-box;
+  overflow: hidden;
 
   &--fullscreen {
     position: fixed;
