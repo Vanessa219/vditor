@@ -33,9 +33,10 @@ export class Preview {
             return;
         }
 
-        if (vditor.options.preview.url) {
-            clearTimeout(vditor.mdTimeoutId);
-            vditor.mdTimeoutId = window.setTimeout(() => {
+
+        clearTimeout(vditor.mdTimeoutId);
+        vditor.mdTimeoutId = window.setTimeout(() => {
+            if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -56,16 +57,13 @@ export class Preview {
                 xhr.send(JSON.stringify({
                     markdownText: vditor.editor.element.value,
                 }));
-            }, vditor.options.preview.delay);
-        } else {
-            clearTimeout(vditor.mdTimeoutId);
-            vditor.mdTimeoutId = window.setTimeout(() => {
+            } else {
                 md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
                     this.element.innerHTML = html;
                     this.afterRender(vditor);
                 });
-            }, vditor.options.preview.delay);
-        }
+            }
+        }, vditor.options.preview.delay);
     }
 
     private afterRender(vditor: IVditor) {
