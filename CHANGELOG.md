@@ -2,6 +2,7 @@
 
 ### v1.1.1 / 2019-03-20
 
+* [30](https://github.com/b3log/vditor/issues/30) 支持 task list `feature`
 * [29](https://github.com/b3log/vditor/issues/29) 代码块添加复制 `feature`
 * [28](https://github.com/b3log/vditor/issues/28) 编辑器中按下Ctrl+s 会出现字符 `question`
 * [27](https://github.com/b3log/vditor/issues/27) 支持时序图渲染和甘特图  `feature`

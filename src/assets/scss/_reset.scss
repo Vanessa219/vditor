@@ -1,6 +1,180 @@
 .vditor {
   &-reset {
+    font-family: $font-family-base;
+    word-wrap: break-word;
+    overflow: auto;
+    line-height: 1.65;
+    font-size: 16px;
+    word-break: break-word;
 
+    ul,
+    ol {
+      padding-left: 2em;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    li {
+      margin-top: 0.25em;
+    }
+
+    audio {
+      max-width: 100%;
+    }
+
+    video {
+      max-height: 90vh;
+    }
+
+    img.emoji {
+      cursor: auto;
+      max-width: 20px;
+      vertical-align: top;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-top: 24px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    h1 {
+      padding-bottom: 0.3em;
+      font-size: 1.7em;
+      border-bottom: 1px solid #eee;
+    }
+
+    h2 {
+      padding-bottom: 0.3em;
+      font-size: 1.5em;
+      border-bottom: 1px solid #eee;
+    }
+
+    h3 {
+      font-size: 1.25em;
+    }
+
+    h4 {
+      font-size: 1em
+    }
+
+    h5 {
+      font-size: 0.875em;
+    }
+
+    h6 {
+      font-size: 0.85em;
+    }
+
+    hr {
+      height: 0.15em;
+      padding: 0;
+      margin: 24px 0;
+      background-color: #e7e7e7;
+      border: 0;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    blockquote {
+      padding: 0 1em;
+      color: #777;
+      border-left: 0.25em solid #ddd;
+      margin: 0 0 16px 0;
+      p {
+        margin: 0;
+      }
+    }
+
+    ins > iframe {
+      border: 0;
+    }
+
+    iframe {
+      border: 1px solid $borderColor;
+    }
+
+    table {
+      width: 100%;
+      border: 1px solid #dedede;
+      margin: 15px auto;
+      border-collapse: collapse;
+      empty-cells: show;
+    }
+
+    thead {
+      text-align: center;
+    }
+
+    td,
+    th {
+      height: 35px;
+      border: 1px solid #dedede;
+      padding: 0 10px;
+    }
+
+    th {
+      font-weight: bold;
+      text-align: center !important;
+      background: rgba(158, 188, 226, 0.2);
+    }
+
+    tbody tr:nth-child(2n) {
+      background: rgba(158, 188, 226, 0.12);
+    }
+
+    tr:hover {
+      background: #efefef;
+    }
+
+    code {
+      padding: 0.2em 0.4em;
+      margin: 0;
+      font-size: 85%;
+      background-color: rgba(27, 31, 35, .05);
+      border-radius: 3px;
+      font-family: $font-family-code;
+      word-break: break-word;
+    }
+
+    pre > code {
+      padding: 0.5em;
+      background-color: rgba(0, 0, 0, 0.04);
+      background-image: url("https://cdn.jsdelivr.net/npm/vditor@1.1.2/src/assets/images/code-bg.png");
+      background-size: 20px 20px;
+      border-radius: 5px;
+      display: block;
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 3px 5px;
+      font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      line-height: 10px;
+      color: #555;
+      vertical-align: middle;
+      background-color: #fcfcfc;
+      border: solid 1px $borderColor;
+      border-bottom-color: #bbb;
+      border-radius: 3px;
+      box-shadow: inset 0 -1px 0 #bbb;
+    }
+
+    summary {
+      cursor: pointer;
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   &-task {
