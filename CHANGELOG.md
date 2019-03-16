@@ -2,6 +2,7 @@
 
 ### v1.1.3 / 2019-03-20
 
+* [31](https://github.com/b3log/vditor/issues/31) 添加 vditor-reset class `feature`
 * [30](https://github.com/b3log/vditor/issues/30) 支持 task list `feature`
 * [29](https://github.com/b3log/vditor/issues/29) 代码块添加复制 `feature`
 * [28](https://github.com/b3log/vditor/issues/28) 编辑器中按下Ctrl+s 会出现字符 `question`
