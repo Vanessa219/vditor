@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.1.7 / 2019-03-20
+### v1.1.8 / 2019-03-20
 
 * [31](https://github.com/b3log/vditor/issues/31) 添加 vditor-reset class `feature`
 * [30](https://github.com/b3log/vditor/issues/30) 支持 task list `feature`
