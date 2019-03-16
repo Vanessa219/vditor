@@ -185,6 +185,11 @@
       height: auto;
       width: auto;
     }
+
+    // 当预览内容很长时，就会溢出 vditor，把页面撑高
+    .katex-display {
+      position: relative;
+    }
   }
 
   &-task {

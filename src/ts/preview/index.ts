@@ -33,7 +33,6 @@ export class Preview {
             return;
         }
 
-
         clearTimeout(vditor.mdTimeoutId);
         vditor.mdTimeoutId = window.setTimeout(() => {
             if (vditor.options.preview.url) {
