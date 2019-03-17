@@ -12,7 +12,6 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
     const hljsOpt: IHljsOptions = {
         html: true,
         linkify: true,
-        typographer: true,
     };
 
     if (includeHljs) {

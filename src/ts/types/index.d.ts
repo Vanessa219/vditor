@@ -23,8 +23,6 @@ declare var webkitAudioContext: {
 declare interface IHljsOptions {
     html: boolean;
     linkify: boolean;
-    typographer: boolean;
-
     highlight?(str: string, lang: string): string;
 }
 
