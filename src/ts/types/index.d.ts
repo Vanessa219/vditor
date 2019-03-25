@@ -23,6 +23,7 @@ declare var webkitAudioContext: {
 declare interface IHljsOptions {
     html: boolean;
     linkify: boolean;
+
     highlight?(str: string, lang: string): string;
 }
 
@@ -93,6 +94,7 @@ interface IUpload {
     token?: string;
     filename?: (name: string) => string;
     accept?: string;
+    validate?: (files: File[]) => string | boolean;
 }
 
 interface IMenuItem {

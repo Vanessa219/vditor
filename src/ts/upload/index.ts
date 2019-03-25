@@ -18,7 +18,7 @@ class Upload {
     }
 }
 
-const validateFile = (vditor: IVditor, files: DataTransferItemList | FileList | File[]): File[] => {
+const validateFile = (vditor: IVditor, files: File[]): File[] => {
     vditor.upload.element.className = "vditor-upload";
 
     const uploadFileList = [];
@@ -27,11 +27,8 @@ const validateFile = (vditor: IVditor, files: DataTransferItemList | FileList | 
     const lang: (keyof II18nLang) = vditor.options.lang;
 
     for (let iMax = files.length, i = 0; i < iMax; i++) {
-        let file = files[i];
+        const file = files[i];
         let validate = true;
-        if (file instanceof DataTransferItem) {
-            file = file.getAsFile();
-        }
 
         if (!file.name) {
             errorTip += `<li>${i18n[lang].nameEmpty}</li>`;
@@ -130,7 +127,26 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         return;
     }
 
-    const uploadFileList = validateFile(vditor, files);
+    // FileList | DataTransferItemList | File[] => File[]
+    const fileList = [];
+    for (let iMax = files.length, i = 0; i < iMax; i++) {
+        let fileItem = files[i];
+        if (fileItem instanceof DataTransferItem) {
+            fileItem = fileItem.getAsFile();
+        }
+        fileList.push(fileItem);
+    }
+
+    if (vditor.options.upload.validate) {
+        const isValidate = vditor.options.upload.validate(fileList);
+        if (typeof isValidate === "string") {
+            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
+            vditor.upload.element.children[0].innerHTML = isValidate;
+            return;
+        }
+    }
+
+    const uploadFileList = validateFile(vditor, fileList);
     if (uploadFileList.length === 0) {
         if (element) {
             element.value = "";

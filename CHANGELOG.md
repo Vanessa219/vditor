@@ -1,5 +1,9 @@
 ## Vditor change log
 
+### v1.2.0 / 2019-03-25
+
+* [32](https://github.com/b3log/vditor/issues/32) 添加 options.upload.validate 接口 `feature`
+
 ### v1.1.11 / 2019-03-21
 
 * [31](https://github.com/b3log/vditor/issues/31) 添加 vditor-reset class `feature`

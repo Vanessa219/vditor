@@ -53,9 +53,12 @@ const vditor = new Vditor('vditor', {
     token: 'test',
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
-    filename: name => {
+    filename (name) {
       // ? \ / : | < > * [ ] white to -
       return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
+    },
+    validate (file) {
+      return 'error';
     },
   },
   preview: {
