@@ -57,8 +57,8 @@ const vditor = new Vditor('vditor', {
       // ? \ / : | < > * [ ] white to -
       return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
     },
-    validate (file) {
-      return 'error';
+    handler (file) {
+      console.log(file)
     },
   },
   preview: {

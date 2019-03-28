@@ -95,6 +95,7 @@ interface IUpload {
     filename?: (name: string) => string;
     accept?: string;
     validate?: (files: File[]) => string | boolean;
+    handler?: (files: File[]) => string | null;
 }
 
 interface IMenuItem {

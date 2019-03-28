@@ -137,6 +137,16 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         fileList.push(fileItem);
     }
 
+    if (vditor.options.upload.handler) {
+        const isValidate = vditor.options.upload.handler(fileList);
+        if (typeof isValidate === "string") {
+            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
+            vditor.upload.element.children[0].innerHTML = isValidate;
+            return;
+        }
+        return;
+    }
+
     if (vditor.options.upload.validate) {
         const isValidate = vditor.options.upload.validate(fileList);
         if (typeof isValidate === "string") {
