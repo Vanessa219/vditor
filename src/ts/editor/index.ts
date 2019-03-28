@@ -102,7 +102,7 @@ class Editor {
             }
         });
 
-        if (vditor.options.upload.url) {
+        if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop", (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
                 event.stopPropagation();
                 event.preventDefault();
@@ -131,7 +131,7 @@ class Editor {
                     clipboardEvent.clipboardData.getData("text/plain"), "", true);
             } else if (clipboardEvent.clipboardData.files.length > 0) {
                 // upload file
-                if (!vditor.options.upload.url) {
+                if (!(vditor.options.upload.url || vditor.options.upload.handler)) {
                     return;
                 }
                 // NOTE: not work in Safari.

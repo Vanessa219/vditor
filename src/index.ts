@@ -59,7 +59,7 @@ class Vditor {
             this.vditor.preview = preview;
         }
 
-        if (mergedOptions.upload.url) {
+        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
             const upload = new Upload();
             this.vditor.upload = upload;
         }

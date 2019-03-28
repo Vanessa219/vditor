@@ -59,6 +59,7 @@ const vditor = new Vditor('vditor', {
     },
     handler (file) {
       console.log(file)
+      return 'handler'
     },
   },
   preview: {
