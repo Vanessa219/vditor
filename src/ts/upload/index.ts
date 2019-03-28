@@ -118,15 +118,6 @@ const genUploadedLabel =
     };
 
 const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
-
-    if (!vditor.options.upload.url || !vditor.upload) {
-        if (element) {
-            element.value = "";
-        }
-        alert("please config: options.upload.url");
-        return;
-    }
-
     // FileList | DataTransferItemList | File[] => File[]
     const fileList = [];
     for (let iMax = files.length, i = 0; i < iMax; i++) {
@@ -144,6 +135,14 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             vditor.upload.element.children[0].innerHTML = isValidate;
             return;
         }
+        return;
+    }
+
+    if (!vditor.options.upload.url || !vditor.upload) {
+        if (element) {
+            element.value = "";
+        }
+        alert("please config: options.upload.url");
         return;
     }
 
