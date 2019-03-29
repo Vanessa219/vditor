@@ -140,17 +140,15 @@
       padding: 0.2em 0.4em;
       margin: 0;
       font-size: 85%;
-      background-color: rgba(27, 31, 35, .05);
       border-radius: 3px;
       font-family: $font-family-code;
       word-break: break-word;
+      background-size: 20px 20px;
+      background-image: url("https://cdn.jsdelivr.net/npm/vditor@1.1.2/src/assets/images/code-bg.png");
     }
 
     pre > code {
       padding: 0.5em;
-      background-color: rgba(0, 0, 0, 0.04);
-      background-image: url("https://cdn.jsdelivr.net/npm/vditor@1.1.2/src/assets/images/code-bg.png");
-      background-size: 20px 20px;
       border-radius: 5px;
       display: block;
       overflow: auto;
@@ -216,13 +214,20 @@
       position: absolute;
       right: 0.5em;
       top: 0.5em;
-      height: 20px;
-      width: 20px;
+      height: 14px;
+      width: 14px;
+      display: block;
+      background-color: $toolbarBg;
+      border-radius: 3px;
+      padding: 3px;
     }
 
     svg {
-      height: 20px;
-      width: 20px;
+      color: $toolbarIcon;
+      height: 14px;
+      width: 14px;
+      display: block;
+      fill: currentColor;
     }
   }
 }
