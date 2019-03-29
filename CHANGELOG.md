@@ -1,7 +1,8 @@
 ## Vditor change log
 
-### v1.2.1 / 2019-03-28
+### v1.2.1 / 2019-03-29
 
+* [34](https://github.com/b3log/vditor/issues/34) 适配代码高亮黑色系列主题 `enhancement`
 * [33](https://github.com/b3log/vditor/issues/33) 添加 options.upload.handler 接口 `feature`
 * [32](https://github.com/b3log/vditor/issues/32) 添加 options.upload.validate 接口 `feature`
 
