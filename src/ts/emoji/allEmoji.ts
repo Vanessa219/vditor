@@ -360,6 +360,7 @@ export const getAllEmoji = (imgStaticPath: string) => {
         "hamster": "🐹",
         "hand": "✋",
         "handbag": "👜",
+        "handshake": "🤝",
         "hankey": "💩",
         "hash": "#⃣",
         "hatched_chick": "🐥",
