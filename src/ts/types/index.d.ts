@@ -20,9 +20,10 @@ declare var webkitAudioContext: {
     new(contextOptions?: AudioContextOptions): AudioContext,
 };
 
-declare interface IHljsOptions {
+declare interface IMarkdownItOptions {
     html: boolean;
     linkify: boolean;
+    breaks: boolean;
 
     highlight?(str: string, lang: string): string;
 }

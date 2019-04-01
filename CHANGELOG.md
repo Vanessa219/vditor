@@ -1,7 +1,9 @@
 ## Vditor change log
 
-### v1.2.1 / 2019-03-29
+### v1.2.6 / 2019-03-29
 
+* [36](https://github.com/b3log/vditor/issues/36) 和 markdown-http 保持一致，开启软换行 `enhancement`
+* [35](https://github.com/b3log/vditor/issues/35) 添加 handshake 🤝 emoji `enhancement`
 * [34](https://github.com/b3log/vditor/issues/34) 适配代码高亮黑色系列主题 `enhancement`
 * [33](https://github.com/b3log/vditor/issues/33) 添加 options.upload.handler 接口 `feature`
 * [32](https://github.com/b3log/vditor/issues/32) 添加 options.upload.validate 接口 `feature`

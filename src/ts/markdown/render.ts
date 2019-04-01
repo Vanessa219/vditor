@@ -9,14 +9,15 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
 
     const {default: MarkdownIt} = await import(/* webpackChunkName: "markdown-it" */ "markdown-it");
 
-    const hljsOpt: IHljsOptions = {
+    const options: IMarkdownItOptions = {
+        breaks: true,
         html: true,
         linkify: true,
     };
 
     if (includeHljs) {
         const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
-        hljsOpt.highlight = (str: string, lang: string) => {
+        options.highlight = (str: string, lang: string) => {
             if (lang === "mermaid") {
                 return str;
             }
@@ -26,7 +27,7 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
             return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
         };
     }
-    return new MarkdownIt(hljsOpt).use(task);
+    return new MarkdownIt(options).use(task);
 };
 
 export const md2html = async (vditor: IVditor, includeHljs: boolean) => {
