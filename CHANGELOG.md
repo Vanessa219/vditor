@@ -1,7 +1,8 @@
 ## Vditor change log
 
-### v1.2.6 / 2019-03-29
+### v1.2.7 / 2019-04-02
 
+* [37](https://github.com/b3log/vditor/issues/37) chrome 地址栏链接复制处理 `enhancement`
 * [36](https://github.com/b3log/vditor/issues/36) 和 markdown-http 保持一致，开启软换行 `enhancement`
 * [35](https://github.com/b3log/vditor/issues/35) 添加 handshake 🤝 emoji `enhancement`
 * [34](https://github.com/b3log/vditor/issues/34) 适配代码高亮黑色系列主题 `enhancement`
