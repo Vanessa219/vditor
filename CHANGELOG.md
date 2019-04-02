@@ -1,7 +1,8 @@
 ## Vditor change log
 
-### v1.2.7 / 2019-04-02
+### v1.2.8 / 2019-04-02
 
+* [38](https://github.com/b3log/vditor/issues/38) firefox 中代码块点击复制会回到顶部 `bug`
 * [37](https://github.com/b3log/vditor/issues/37) chrome 地址栏链接复制处理 `enhancement`
 * [36](https://github.com/b3log/vditor/issues/36) 和 markdown-http 保持一致，开启软换行 `enhancement`
 * [35](https://github.com/b3log/vditor/issues/35) 添加 handshake 🤝 emoji `enhancement`
