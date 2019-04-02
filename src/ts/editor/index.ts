@@ -123,7 +123,13 @@ class Editor {
             if (clipboardEvent.clipboardData.getData("text/html").replace(/(^\s*)|(\s*)$/g, "") !== "") {
                 const textHTML = clipboardEvent.clipboardData.getData("text/html");
                 const textPlain = clipboardEvent.clipboardData.getData("text/plain");
-                const mdValue = await html2md(vditor, textHTML, textPlain);
+                let mdValue = ''
+                // https://github.com/b3log/vditor/issues/37
+                if (textHTML === `<meta charset='utf-8'><a href="${textPlain}">${textPlain}</a>`) {
+                    mdValue = textPlain;
+                } else {
+                    mdValue = await html2md(vditor, textHTML, textPlain);
+                }
                 insertText(vditor.editor.element, mdValue, "", true);
             } else if (clipboardEvent.clipboardData.getData("text/plain").replace(/(^\s*)|(\s*)$/g, "") !== "" &&
                 clipboardEvent.clipboardData.files.length === 0) {
@@ -143,7 +149,7 @@ class Editor {
 }
 
 const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
-    const { default: TurndownService } = await import(/* webpackChunkName: "turndown" */ "turndown");
+    const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
 
     let onlyMultiCode = false;
 
