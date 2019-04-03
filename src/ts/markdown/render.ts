@@ -22,7 +22,7 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
                 return str;
             }
             if (lang && hljs.getLanguage(lang)) {
-                return `<pre><code class="hljs">${hljs.highlight(lang, str, true).value}</code></pre>`;
+                return `<pre><code class="language-${lang} hljs">${hljs.highlight(lang, str, true).value}</code></pre>`;
             }
             return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
         };
