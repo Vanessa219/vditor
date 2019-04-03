@@ -123,9 +123,12 @@ class Editor {
             if (clipboardEvent.clipboardData.getData("text/html").replace(/(^\s*)|(\s*)$/g, "") !== "") {
                 const textHTML = clipboardEvent.clipboardData.getData("text/html");
                 const textPlain = clipboardEvent.clipboardData.getData("text/plain");
-                let mdValue = ''
+                let mdValue = "";
                 // https://github.com/b3log/vditor/issues/37
-                if (textHTML === `<meta charset='utf-8'><a href="${textPlain}">${textPlain}</a>`) {
+                if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+                    `<a href="${textPlain}">${textPlain}</a>` ||
+                    textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+                    `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
                     mdValue = textPlain;
                 } else {
                     mdValue = await html2md(vditor, textHTML, textPlain);
