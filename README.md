@@ -8,6 +8,7 @@
 <a title="Dependencies" target="_blank" href="https://github.com/b3log/vditor"><img src="https://img.shields.io/david/b3log/vditor.svg?style=flat-square"></a>  
 <a title="Version" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/v/vditor.svg?style=flat-square"></a>
 <a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square"></a>
+<a title="Hits" target="_blank" href="http://hits.dwyl.io/b3log/vditor"><img src="http://hits.dwyl.io/b3log/vditor.svg"></a>
 </p>
 
 ## 简介
