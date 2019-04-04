@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.2.8 / 2019-04-02
+### v1.2.10 / 2019-04-04
 
 * [38](https://github.com/b3log/vditor/issues/38) firefox 中代码块点击复制会回到顶部 `bug`
 * [37](https://github.com/b3log/vditor/issues/37) chrome 地址栏链接复制处理 `enhancement`
