@@ -1,5 +1,11 @@
 ## Vditor change log
 
+### v1.3.0 / 2019-04-19
+
+* [40](https://github.com/b3log/vditor/issues/40) 运行命令合并 `development`
+* [39](https://github.com/b3log/vditor/issues/39) 拷贝行内代码，外围空格消失 `enhancement`
+
+
 ### v1.2.10 / 2019-04-04
 
 * [38](https://github.com/b3log/vditor/issues/38) firefox 中代码块点击复制会回到顶部 `bug`
