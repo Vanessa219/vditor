@@ -61,7 +61,7 @@
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
     "test:watch": "jest --watch",
     "test": "jest --coverage",
-    "start": "webpack-dev-server --config webpack.dev.js",
+    "start": "webpack-dev-server --config webpack.start.js",
     "build": "webpack"
   },
   "keywords": [
