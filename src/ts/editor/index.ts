@@ -161,7 +161,11 @@ const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) =>
         return name;
     };
 
-    const turndownService = new TurndownService();
+    const turndownService = new TurndownService({
+        blankReplacement: (blank: string) => {
+            return blank;
+        },
+    });
 
     turndownService.addRule("strikethrough", {
         filter: ["pre", "code"],
