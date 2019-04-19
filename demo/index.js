@@ -1,5 +1,5 @@
 import Vditor from '../src/index'
-// import Vditor from '../dist/index.min'
+import "../src/assets/scss/classic.scss"
 
 const LazyLoadImage = () => {
   const loadImg = (it) => {
@@ -97,8 +97,8 @@ window.vditorTest = new Vditor('vditorTest', {
     emoji: {
       '+1': '👍',
       '-1': '👎',
-      'trollface': '/src/assets/emoji/trollface.png',
-      'huaji': '/src/assets/emoji/huaji.gif',
+      'trollface': 'https://cdn.jsdelivr.net/npm/vditor@latest/src/assets/emoji/trollface.png',
+      'huaji': 'https://cdn.jsdelivr.net/npm/vditor@latest/src/assets/emoji/huaji.gif',
     },
     at: (key) => {
       console.log(`atUser: ${key}`)
@@ -112,9 +112,6 @@ window.vditorTest = new Vditor('vditorTest', {
           html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> Vanessa',
         }]
     },
-  },
-  classes: {
-    preview: 'content-reset',
   },
   focus: (val) => {
     console.log(`focus value: ${val}`)

@@ -9,6 +9,7 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackOnBuildPlugin = require('on-build-webpack')
 
@@ -18,18 +19,44 @@ module.exports = {
   mode: 'development',
   watch: true,
   output: {
-    filename: '[name].js',
+    filename: '[name]',
     path: path.resolve(__dirname, 'demo/dist'),
-    publicPath: 'dist/',
   },
   entry: {
-    'demo': './demo/demo.js',
+    'index.js': './demo/index.js',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.svg', '.png'],
+    extensions: ['.js', '.ts', '.svg', '.png', '.scss'],
   },
   module: {
     rules: [
+      {
+        test: /\.scss$/,
+        include: [path.resolve(__dirname, 'src')],
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader', // translates CSS into CommonJS
+            options: {
+              url: false,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: () => [
+                require('autoprefixer')({grid: true, remove: false}),
+              ],
+            },
+          },
+          {
+            loader: 'sass-loader', // compiles Sass to CSS
+          },
+        ],
+      },
       {
         test: /\.svg$/,
         include: [path.resolve(__dirname, './src/assets/icons')],
@@ -82,15 +109,28 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(['./demo/dist']),
-    new MiniCssExtractPlugin({
-      filename: '[name]',
+    new HtmlWebpackPlugin({
+      chunks: ['index.js'],
+      filename: './index.html',
+      template: './demo/index.html',
     }),
     new webpack.DefinePlugin({
       VDITOR_VERSION: JSON.stringify(pkg.version),
-    }),
-    new WebpackOnBuildPlugin(() => {
-      fs.unlinkSync('./demo/dist/demo.css.js')
-    }),
+    })
   ],
+  devServer: {
+    contentBase: path.join(__dirname, '.'),
+    port: 9000,
+    host: '0.0.0.0',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        pathRewrite: {'^/api' : ''}
+      },
+      '/hacpai': {
+        target: 'https://hacpai.com',
+        pathRewrite: {'^/hacpai' : ''}
+      }
+    }
+  }
 }
