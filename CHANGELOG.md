@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.3.2 / 2019-04-20
+### v1.3.3 / 2019-04-20
 
 * [42](https://github.com/b3log/vditor/issues/42) 支持 CDN 快速切换 `feature`
 * [41](https://github.com/b3log/vditor/issues/41) jsDelivr 证书过期解决方案 `question`
