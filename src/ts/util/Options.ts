@@ -1,3 +1,4 @@
+import {CDN_PATH, VDITOR_VERSION} from "../constants";
 export class Options {
     public options: IOptions;
     private defaultOptions: IOptions = {
@@ -15,7 +16,7 @@ export class Options {
                 "cold_sweat": "😰",
                 "heart": "❤️",
             },
-            emojiPath: "https://cdn.jsdelivr.net/npm/vditor/src/assets/emoji",
+            emojiPath: `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/images/emoji`,
         },
         lang: "zh_CN",
         placeholder: "",

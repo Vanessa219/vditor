@@ -8,6 +8,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 const pkg = require('./package.json')
 
@@ -112,7 +113,12 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       VDITOR_VERSION: JSON.stringify(pkg.version),
-    })
+      PUBLIC_PATH: JSON.stringify(pkg.publicPath),
+    }),
+    new CopyPlugin([
+      {from: 'src/images', to: 'images'},
+      {from: 'src/js', to: 'js'},
+    ])
   ],
   devServer: {
     contentBase: path.join(__dirname, '.'),

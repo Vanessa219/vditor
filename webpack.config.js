@@ -12,10 +12,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const WebpackOnBuildPlugin = require('on-build-webpack')
+const CopyPlugin = require('copy-webpack-plugin')
 const BundleAnalyzerPlugin = require(
   'webpack-bundle-analyzer').BundleAnalyzerPlugin
 const pkg = require('./package.json')
-
 const banner = new webpack.BannerPlugin({
   banner: `Vditor v${pkg.version} - A markdown editor written in TypeScript.
   
@@ -51,7 +51,9 @@ module.exports = [
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
       chunkFilename: '[name].bundle.js',
-      publicPath: `https://cdn.jsdelivr.net/npm/vditor@${pkg.version}/dist/`,
+      // publicPath: `https://cdn.jsdelivr.net/npm/vditor@${pkg.version}/`,
+      // publicPath: `https://static.hacpai.com/js/lib/vditor@${pkg.version}/`,
+      publicPath: `${pkg.cdn}/vditor@${pkg.version}/dist/`,
       libraryTarget: 'umd',
       library: 'Vditor',
       libraryExport: 'default',
@@ -120,6 +122,7 @@ module.exports = [
       new CleanWebpackPlugin(['./dist']),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
+        CDN_PATH: JSON.stringify(pkg.cdn),
       }),
       banner,
     ],
@@ -184,5 +187,9 @@ module.exports = [
         fs.unlinkSync('./dist/index.classic.js')
         fs.unlinkSync('./dist/index.dark.js')
       }),
+      new CopyPlugin([
+        {from: 'src/images', to: 'images'},
+        {from: 'src/js', to: 'js'},
+      ])
     ],
   }]
