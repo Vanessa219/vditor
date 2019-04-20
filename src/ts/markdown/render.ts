@@ -1,10 +1,11 @@
+import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
 import {task} from "./markdown-it-task";
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
 
 const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
     if (vditor.options.preview.hljs.style) {
-        addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js@9.15.6/styles/${vditor.options.preview.hljs.style}.min.css`,
+        addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js@9.15.6/styles/${
+            vditor.options.preview.hljs.style}.css`,
             "vditorHljsStyle");
     }
 

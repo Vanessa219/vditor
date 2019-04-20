@@ -51,8 +51,7 @@ module.exports = [
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
       chunkFilename: '[name].bundle.js',
-      // publicPath: `https://cdn.jsdelivr.net/npm/vditor@${pkg.version}/`,
-      // publicPath: `https://static.hacpai.com/js/lib/vditor@${pkg.version}/`,
+      // pkg.cdn: https://static.hacpai.com/js/lib | https://unpkg.com | https://cdn.jsdelivr.net/npm
       publicPath: `${pkg.cdn}/vditor@${pkg.version}/dist/`,
       libraryTarget: 'umd',
       library: 'Vditor',
@@ -131,8 +130,8 @@ module.exports = [
         cacheGroups: {
           vendors: {
             test: /null/,
-          }
-        }
+          },
+        },
       },
     },
   }, {
@@ -190,6 +189,6 @@ module.exports = [
       new CopyPlugin([
         {from: 'src/images', to: 'images'},
         {from: 'src/js', to: 'js'},
-      ])
+      ]),
     ],
   }]

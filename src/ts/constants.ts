@@ -9,4 +9,3 @@ declare const CDN_PATH: string;
 const _CDN_PATH = CDN_PATH;
 
 export {_CDN_PATH as CDN_PATH};
-

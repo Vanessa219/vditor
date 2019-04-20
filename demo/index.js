@@ -97,8 +97,8 @@ window.vditorTest = new Vditor('vditorTest', {
     emoji: {
       '+1': '👍',
       '-1': '👎',
-      'trollface': 'https://cdn.jsdelivr.net/npm/vditor@latest/src/assets/emoji/trollface.png',
-      'huaji': 'https://cdn.jsdelivr.net/npm/vditor@latest/src/assets/emoji/huaji.gif',
+      'trollface': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/trollface.png',
+      'huaji': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/huaji.gif',
     },
     at: (key) => {
       console.log(`atUser: ${key}`)
