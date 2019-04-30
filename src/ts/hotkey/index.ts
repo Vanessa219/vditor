@@ -10,7 +10,7 @@ export class Hotkey {
         this.editorElement = vditor.editor.element;
         this.toolbarElements = vditor.toolbar.elements;
         this.options = vditor.options;
-        this.hintElement = vditor.hint.element;
+        this.hintElement = vditor.hint && vditor.hint.element;
         this.bindHotkey();
     }
 
