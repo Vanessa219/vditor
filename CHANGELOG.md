@@ -1,7 +1,10 @@
 ## Vditor change log
 
-### v1.3.3 / 2019-04-20
+### v1.3.4 / 2019-04-30
 
+* [45](https://github.com/b3log/vditor/issues/45) 上传图片进行容错处理 `enhancement`
+* [44](https://github.com/b3log/vditor/issues/44) toolbar将emoji插件去掉之后报错 `bug`
+* [43](https://github.com/b3log/vditor/issues/43) ~~支持字体样式~~ `question`
 * [42](https://github.com/b3log/vditor/issues/42) 支持 CDN 快速切换 `feature`
 * [41](https://github.com/b3log/vditor/issues/41) jsDelivr 证书过期解决方案 `question`
 * [40](https://github.com/b3log/vditor/issues/40) 运行命令合并 `development`

@@ -93,14 +93,16 @@ const genUploadedLabel =
             uploadElement.children[0].innerHTML = response.msg;
         }
 
-        response.data.errFiles.forEach((data: string) => {
-            const lastIndex = data.lastIndexOf(".");
-            const filename = options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
-            const original = `[${filename}](${i18n[options.lang].uploading})`;
-            editorElement.selectionStart = editorElement.value.split(original)[0].length;
-            editorElement.selectionEnd = editorElement.selectionStart + original.length;
-            insertText(editorElement, "", "", true);
-        });
+        if (response.data.errFiles) {
+            response.data.errFiles.forEach((data: string) => {
+                const lastIndex = data.lastIndexOf(".");
+                const filename = options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
+                const original = `[${filename}](${i18n[options.lang].uploading})`;
+                editorElement.selectionStart = editorElement.value.split(original)[0].length;
+                editorElement.selectionEnd = editorElement.selectionStart + original.length;
+                insertText(editorElement, "", "", true);
+            });
+        }
 
         Object.keys(response.data.succMap).forEach((key) => {
             const path = response.data.succMap[key];
