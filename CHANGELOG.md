@@ -1,7 +1,9 @@
 ## Vditor change log
 
-### v1.3.4 / 2019-04-30
+### v1.3.5 / 2019-04-30
 
+* [47](https://github.com/b3log/vditor/issues/47) Upgrade tar to version 4.4.2 or later `development`
+* [46](https://github.com/b3log/vditor/issues/46) 注脚解析的讨论 `question`
 * [45](https://github.com/b3log/vditor/issues/45) 上传图片进行容错处理 `enhancement`
 * [44](https://github.com/b3log/vditor/issues/44) toolbar将emoji插件去掉之后报错 `bug`
 * [43](https://github.com/b3log/vditor/issues/43) ~~支持字体样式~~ `question`
