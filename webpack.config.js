@@ -118,7 +118,7 @@ module.exports = [
     },
     plugins: [
       // new BundleAnalyzerPlugin(),
-      new CleanWebpackPlugin(['./dist']),
+      new CleanWebpackPlugin([path.join(__dirname, 'dist')]),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
         CDN_PATH: JSON.stringify(pkg.cdn),
