@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.3.5 / 2019-04-30
+### v1.3.5 / 2019-05-04
 
 * [47](https://github.com/b3log/vditor/issues/47) Upgrade tar to version 4.4.2 or later `development`
 * [46](https://github.com/b3log/vditor/issues/46) 注脚解析的讨论 `question`
