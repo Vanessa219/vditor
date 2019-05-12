@@ -1,5 +1,10 @@
 ## Vditor change log
 
+
+### v1.4.0 / 2019-05-12
+
+* [48](https://github.com/b3log/vditor/issues/48) 修改 emoji 中的 hash 值 `bug`
+
 ### v1.3.5 / 2019-05-04
 
 * [47](https://github.com/b3log/vditor/issues/47) Upgrade tar to version 4.4.2 or later `development`

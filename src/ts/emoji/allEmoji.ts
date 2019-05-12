@@ -362,7 +362,7 @@ export const getAllEmoji = (imgStaticPath: string) => {
         "handbag": "👜",
         "handshake": "🤝",
         "hankey": "💩",
-        "hash": "#⃣",
+        "hash": "#️⃣",
         "hatched_chick": "🐥",
         "hatching_chick": "🐣",
         "headphones": "🎧",
