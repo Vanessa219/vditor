@@ -27,7 +27,7 @@
   &--current,
   li:hover {
     background-color: $hoverBg;
-    color: $layerBg;
+    color: $hoverColor;
   }
 
   &__emoji {

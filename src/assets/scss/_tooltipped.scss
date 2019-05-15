@@ -35,7 +35,7 @@
     white-space: pre;
     pointer-events: none;
     content: attr(aria-label);
-    background: $toolTipBg;
+    background: $tooltipBg;
     border-radius: 3px;
     line-height: 16px;
     opacity: 0
@@ -47,7 +47,7 @@
     display: none;
     width: 0;
     height: 0;
-    color: $toolTipBg;
+    color: $tooltipBg;
     pointer-events: none;
     content: "";
     border: 5px solid transparent;
@@ -86,7 +86,7 @@
     right: 50%;
     bottom: -5px;
     margin-right: -5px;
-    border-bottom-color: $toolTipBg
+    border-bottom-color: $tooltipBg
   }
 
   &__se::after {
@@ -114,7 +114,7 @@
     right: 50%;
     bottom: auto;
     margin-right: -5px;
-    border-top-color: $toolTipBg
+    border-top-color: $tooltipBg
   }
 
   &__ne::after {
@@ -144,7 +144,7 @@
     bottom: 50%;
     left: -5px;
     margin-top: -5px;
-    border-left-color: $toolTipBg;
+    border-left-color: $tooltipBg;
   }
 
   &__e::after {
@@ -159,7 +159,7 @@
     right: -5px;
     bottom: 50%;
     margin-top: -5px;
-    border-right-color: $toolTipBg
+    border-right-color: $tooltipBg
   }
 }
 
