@@ -5,6 +5,7 @@ import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
+import {markdownItRender} from "./ts/markdown/render";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {md2html} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
@@ -20,6 +21,7 @@ class Vditor {
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;
     public static codeRender = codeRender;
+    public static md2html = markdownItRender
     public readonly version: string;
     public vditor: IVditor;
 

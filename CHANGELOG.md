@@ -1,8 +1,9 @@
 ## Vditor change log
 
 
-### v1.4.0 / 2019-05-12
+### v1.4.2 / 2019-05-15
 
+* [49](https://github.com/b3log/vditor/issues/49) 添加 md2html 接口 `feature`
 * [48](https://github.com/b3log/vditor/issues/48) 修改 emoji 中的 hash 值 `bug`
 
 ### v1.3.5 / 2019-05-04

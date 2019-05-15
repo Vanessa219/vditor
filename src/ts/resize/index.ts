@@ -14,15 +14,16 @@ export class Resize {
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("mousedown", (event: MouseEvent) => {
 
-            const documentSelf = document as IDocument;
+            const documentSelf = document;
             const vditorElement = document.getElementById(vditor.id);
             const y = event.clientY;
             const height = vditorElement.offsetHeight;
             documentSelf.ondragstart = () => false;
-            documentSelf.onselectstart = "return false;";
-            documentSelf.onselect = () => {
-                (document as IDocument).selection.empty();
-            };
+            // TODO 移除非规范代码
+            // documentSelf.onselectstart = "return false;";
+            // documentSelf.onselect = () => {
+            //     (document as any).selection.empty();
+            // };
 
             if (window.captureEvents) {
                 window.captureEvents();

@@ -67,11 +67,6 @@ interface IHTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
 }
 
-interface IDocument extends Document {
-    onselectstart: string | null;
-    selection: { empty(): void };
-}
-
 interface II18nLang {
     en_US: string;
     zh_CN: string;
