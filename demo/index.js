@@ -1,5 +1,5 @@
 import Vditor from '../src/index'
-import "../src/assets/scss/dark.scss"
+import "../src/assets/scss/classic.scss"
 
 const LazyLoadImage = () => {
   const loadImg = (it) => {
