@@ -2,12 +2,10 @@ import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
 import {task} from "./markdown-it-task";
 
-
 export const markdownItRender = async (mdText: string, hljsStyle: string) => {
     addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js@9.15.6/styles/${
             hljsStyle}.css`,
         "vditorHljsStyle");
-
 
     const {default: MarkdownIt} = await import(/* webpackChunkName: "markdown-it" */ "markdown-it");
 
@@ -29,7 +27,7 @@ export const markdownItRender = async (mdText: string, hljsStyle: string) => {
     };
     const markdownIt = new MarkdownIt(options).use(task);
     return markdownIt.render(mdText);
-}
+};
 
 const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
     if (vditor.options.preview.hljs.style) {

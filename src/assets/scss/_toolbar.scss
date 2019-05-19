@@ -30,6 +30,7 @@
 
     .vditor-tooltipped {
       color: $toolbarIcon;
+
       &:hover {
         color: $toolbarIconHover;
       }
@@ -76,9 +77,11 @@
       font-size: 12px;
       text-align: right;
       color: $toolbarIcon;
+
       a {
         text-decoration: none;
         color: $toolbarIcon;
+
         &:hover {
           color: $hoverBg;
         }
@@ -89,15 +92,17 @@
       cursor: pointer;
       border-radius: 3px;
       float: left;
-      height: 26px;
-      width: 26px;
+      height: 30px;
+      width: 30px;
       text-align: center;
-      line-height: 20px;
+      line-height: 26px;
       padding: 3px;
       box-sizing: border-box;
       font-size: 16px;
+      transition: $transition;
+
       &:hover {
-        background-color: $hoverBg;
+        transform: scale(1.2);
       }
     }
 
@@ -105,6 +110,7 @@
       height: 20px;
       width: 20px;
       float: left;
+      margin: 3px 0 0 3px;
     }
   }
 }

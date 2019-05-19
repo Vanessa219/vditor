@@ -4,7 +4,7 @@
 ### v1.4.2 / 2019-05-19
 
 * [51](https://github.com/b3log/vditor/issues/51) 剪切板中 text/html 大于 106496 时强制使用 text/plain `enhancement`
-* [50](https://github.com/b3log/vditor/issues/50) 鼠标移动到 emoji 上添加变大效果 `enhancement`
+* [50](https://github.com/b3log/vditor/issues/50) 鼠标移动到 emoji 上添加变大及提示效果 `enhancement`
 * [49](https://github.com/b3log/vditor/issues/49) 添加 md2html 接口 `feature`
 * [48](https://github.com/b3log/vditor/issues/48) 修改 emoji 中的 hash 值 `bug`
 

@@ -16,10 +16,12 @@ export class Emoji extends MenuItem {
         Object.keys(vditor.options.hint.emoji).forEach((key) => {
             const emojiValue = vditor.options.hint.emoji[key];
             if (emojiValue.indexOf(".") > -1) {
-                commonEmojiHTML += `<span data-value=":${key}: " title=":${key}:"><img data-value=":${key}: "
+                commonEmojiHTML += `<span data-value=":${key}: " aria-label=":${key}:"
+                    class="vditor-tooltipped vditor-tooltipped__n"><img data-value=":${key}: "
 src="${emojiValue}"/></span>`;
             } else {
-                commonEmojiHTML += `<span data-value="${emojiValue} " title="${key}">${emojiValue}</span>`;
+                commonEmojiHTML += `<span data-value="${emojiValue} " aria-label="${key}"
+                    class="vditor-tooltipped vditor-tooltipped__n">${emojiValue}</span>`;
             }
         });
 

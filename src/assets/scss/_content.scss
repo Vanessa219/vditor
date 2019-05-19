@@ -80,7 +80,7 @@
     padding: 1px 0;
     border-radius: 5px;
     cursor: row-resize;
-    transition: all .15s ease-in-out;
+    transition: $transition;
     user-select: none;
     background-color: $resizeBg;
 
@@ -112,7 +112,7 @@
     top: -3px;
     border-radius: 3px;
     overflow: hidden;
-    transition: all .15s ease-in-out;
+    transition: $transition;
     color: $hoverColor;
     font-size: 12px;
     line-height: 14px;
@@ -142,7 +142,7 @@
     &__progress {
       height: 100%;
       background-color: rgba($hoverBg, 0.8);
-      transition: all .15s ease-in-out;
+      transition: $transition;
       padding: 5px;
       box-sizing: border-box;
     }

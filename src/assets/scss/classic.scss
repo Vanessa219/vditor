@@ -27,6 +27,8 @@ $previewBg: #fff !default;
 $font-family-base: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif !default;
 $font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace !default;
 
+$transition: all .15s ease-in-out !default;
+
 @import "tooltipped";
 @import "panel";
 @import "toolbar";
