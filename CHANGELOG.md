@@ -3,6 +3,7 @@
 
 ### v1.4.4 / 2019-05-23
 
+* [53](https://github.com/b3log/vditor/issues/53) 升级 katex 0.10.1 => 0.10.2 `enhancement`
 * [52](https://github.com/b3log/vditor/issues/52) 图片 emoji 对不齐 `enhancement`
 * [51](https://github.com/b3log/vditor/issues/51) 剪切板中 text/html 大于 106496 时强制使用 text/plain `enhancement`
 * [50](https://github.com/b3log/vditor/issues/50) 鼠标移动到 emoji 上添加变大及提示效果 `enhancement`
