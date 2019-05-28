@@ -184,6 +184,15 @@
       width: auto;
     }
 
+    p:last-child,
+    blockquote:last-child,
+    pre:last-child,
+    ul:last-child,
+    ol:last-child,
+    hr:last-child {
+      margin-bottom: 0;
+    }
+
     // 当预览内容很长时，就会溢出 vditor，把页面撑高
     .katex {
       position: relative;
