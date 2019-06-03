@@ -9,7 +9,7 @@ export const markdownItRender = async (mdText: string, hljsStyle: string) => {
 
     const {default: MarkdownIt} = await import(/* webpackChunkName: "markdown-it" */ "markdown-it");
 
-    const options: IMarkdownItOptions = {
+    const options: markdownit.Options = {
         breaks: true,
         html: true,
         linkify: true,
@@ -38,7 +38,7 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
 
     const {default: MarkdownIt} = await import(/* webpackChunkName: "markdown-it" */ "markdown-it");
 
-    const options: IMarkdownItOptions = {
+    const options: markdownit.Options = {
         breaks: true,
         html: true,
         linkify: true,

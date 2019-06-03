@@ -1,8 +1,9 @@
 ## Vditor change log
 
 
-### v1.4.5 / 2019-05-28
+### v1.4.6 / 2019-05-28
 
+* [60](https://github.com/b3log/vditor/issues/60) type 完善 `development`
 * [56](https://github.com/b3log/vditor/issues/56) 展现样式完善 `enhancement`
 * [55](https://github.com/b3log/vditor/issues/55) 如何设置图片上传的路径 `question`
 * [54](https://github.com/b3log/vditor/issues/54) 在使用Vditor时，如何做到支持粘贴图片的？ `question`

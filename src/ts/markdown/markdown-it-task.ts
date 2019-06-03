@@ -1,6 +1,6 @@
-export const task = (md: IMarkdownIt) => {
-    md.core.ruler.after("inline", "github-task-lists", (state: IMarkdownItState) => {
-        state.tokens.forEach((token: IMarkdownItToken, index: number) => {
+export const task = (md: markdownit) => {
+    md.core.ruler.after("inline", "github-task-lists", (state) => {
+        state.tokens.forEach((token, index: number) => {
             if (token.type === "inline" &&
                 (token.content.indexOf("[ ] ") === 0 || token.content.toLocaleLowerCase().indexOf("[x] ") === 0) &&
                 state.tokens[index - 1].type === "paragraph_open" &&

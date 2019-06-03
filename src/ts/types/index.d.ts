@@ -1,7 +1,4 @@
-declare module "*.svg" {
-    const content: string;
-    export default content;
-}
+declare module "*.svg";
 
 declare module "*.png";
 
@@ -19,49 +16,6 @@ declare var webkitAudioContext: {
     prototype: AudioContext
     new(contextOptions?: AudioContextOptions): AudioContext,
 };
-
-declare interface IMarkdownItOptions {
-    html: boolean;
-    linkify: boolean;
-    breaks: boolean;
-
-    highlight?(str: string, lang: string): string;
-}
-
-declare interface ITurndown {
-    prototype: {
-        escape(name: string): string,
-    };
-
-    new(): {
-        addRule(name: string, options: {}): void
-        use(plugin: ITurndown): void
-        turndown(text: string): string,
-    };
-}
-
-interface IMarkdownIt {
-    render?: (md: string) => string | undefined;
-    core?: {
-        ruler: {
-            after: (type: string, name: string, process: (state: IMarkdownItState) => void) => void,
-        },
-    };
-}
-
-interface IMarkdownItState {
-    tokens: IMarkdownItToken[];
-    Token: any;
-}
-
-interface IMarkdownItToken {
-    type: string;
-    attrIndex: (name: string) => number;
-    attrPush: (name: string[]) => void;
-    attrs: string[][];
-    content: string;
-    children: IMarkdownItToken[];
-}
 
 interface IHTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
@@ -162,7 +116,7 @@ interface IVditor {
     mdTimeoutId: number;
     options: IOptions;
     originalInnerHTML: string;
-    markdownIt?: IMarkdownIt;
+    markdownIt?: markdownit;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };
@@ -191,4 +145,36 @@ interface IVditor {
         element: HTMLElement
         isUploading: boolean,
     };
+}
+declare class IVditorConstructor {
+
+    public static mathRender: (element: HTMLElement) => void;
+    public static mermaidRender: (element: HTMLElement) => void;
+    public static codeRender: (element: HTMLElement, lang: (keyof II18nLang)) => void;
+    public static md2html: (mdText: string, hljsStyle: string) => string;
+    public readonly version: string;
+    public vditor: IVditor;
+
+    public getValue: () => string;
+    public insertValue: (value: string) => void;
+    public focus: () => void;
+    public blur: () => void;
+    public enable: () => void;
+    public setSelection: (start: number, end: number) => void;
+    public getSelection: () => string;
+    public setValue: (text: string) => void;
+    public renderPreview: (value?: string) => void;
+    public getCursorPosition: () => {
+        left: number,
+        top: number,
+    };
+    public deleteValue: () => void;
+    public updateValue: () => string;
+    public isUploading: () => boolean;
+    public clearCache: () => void;
+    public disabledCache: () => void;
+    public enableCache: () => void;
+    public html2md: (value: string) => string;
+    public getHTML: (includeHljs?: boolean) => string;
+    constructor(options: IOptions)
 }
