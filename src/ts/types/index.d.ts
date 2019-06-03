@@ -39,13 +39,18 @@ interface IUpload {
     url?: string;
     max?: number;
     linkToImgUrl?: string;
-    success?: (textarea: HTMLTextAreaElement, msg: string) => void;
-    error?: (msg: string) => void;
     token?: string;
-    filename?: (name: string) => string;
     accept?: string;
-    validate?: (files: File[]) => string | boolean;
-    handler?: (files: File[]) => string | null;
+
+    success?(textarea: HTMLTextAreaElement, msg: string): void;
+
+    error?(msg: string): void;
+
+    filename?(name: string): string;
+
+    validate?(files: File[]): string | boolean;
+
+    handler?(files: File[]): string | null;
 }
 
 interface IMenuItem {
@@ -61,12 +66,13 @@ interface IMenuItem {
 interface IPreview {
     delay?: number;
     show?: boolean;
-    parse?: (element: HTMLElement) => void;
     url?: string;
     hljs?: {
         style?: string,
         enable?: boolean,
     };
+
+    parse?(element: HTMLElement): void;
 }
 
 interface IHintData {
@@ -79,13 +85,15 @@ interface IHint {
     delay?: number;
     emoji?: { [key: string]: string };
     emojiPath?: string;
-    at?: (value: string) => IHintData[];
+
+    at?(value: string): IHintData[];
 }
 
 interface IResize {
     position?: string;
     enable?: boolean;
-    after?: (height: number) => void;
+
+    after?(height: number): void;
 }
 
 interface IOptions {
@@ -102,12 +110,19 @@ interface IOptions {
     hint?: IHint;
     upload?: IUpload;
     classes?: IClasses;
-    input?: (value: string, previewElement?: HTMLElement) => void;
-    focus?: (value: string) => void;
-    blur?: (value: string) => void;
-    esc?: (value: string) => void;
-    ctrlEnter?: (value: string) => void;
-    select?: (value: string) => void;
+
+    input?(value: string, previewElement?: HTMLElement): void;
+
+    focus?(value: string): void;
+
+    blur?(value: string): void;
+
+    esc?(value: string): void;
+
+    ctrlEnter?(value: string): void;
+
+    select?(value: string): void;
+
     tab?: string;
 }
 
@@ -122,14 +137,14 @@ interface IVditor {
     };
     preview?: {
         element: HTMLElement
-        render: (vditor: IVditor, value?: string) => void,
+        render(vditor: IVditor, value?: string): void,
     };
     editor?: {
         element: HTMLTextAreaElement,
     };
     counter?: {
         element: HTMLElement
-        render: (length: number, counter: number) => void,
+        render(length: number, counter: number): void,
     };
     resize?: {
         element: HTMLElement,
@@ -146,35 +161,57 @@ interface IVditor {
         isUploading: boolean,
     };
 }
-declare class IVditorConstructor {
 
-    public static mathRender: (element: HTMLElement) => void;
-    public static mermaidRender: (element: HTMLElement) => void;
-    public static codeRender: (element: HTMLElement, lang: (keyof II18nLang)) => void;
-    public static md2html: (mdText: string, hljsStyle: string) => string;
+declare class IVditorConstructor {
     public readonly version: string;
     public vditor: IVditor;
 
-    public getValue: () => string;
-    public insertValue: (value: string) => void;
-    public focus: () => void;
-    public blur: () => void;
-    public enable: () => void;
-    public setSelection: (start: number, end: number) => void;
-    public getSelection: () => string;
-    public setValue: (text: string) => void;
-    public renderPreview: (value?: string) => void;
-    public getCursorPosition: () => {
+    constructor(options: IOptions)
+
+    public static mathRender(element: HTMLElement): void;
+
+    public static mermaidRender(element: HTMLElement): void;
+
+    public static codeRender(element: HTMLElement, lang: (keyof II18nLang)): void;
+
+    public static md2html(mdText: string, hljsStyle: string): string;
+
+    public getValue(): string;
+
+    public insertValue(value: string): void;
+
+    public focus(): void;
+
+    public blur(): void;
+
+    public enable(): void;
+
+    public setSelection(start: number, end: number): void;
+
+    public getSelection(): string;
+
+    public setValue(text: string): void;
+
+    public renderPreview(value?: string): void;
+
+    public getCursorPosition(): {
         left: number,
         top: number,
     };
-    public deleteValue: () => void;
-    public updateValue: () => string;
-    public isUploading: () => boolean;
-    public clearCache: () => void;
-    public disabledCache: () => void;
-    public enableCache: () => void;
-    public html2md: (value: string) => string;
-    public getHTML: (includeHljs?: boolean) => string;
-    constructor(options: IOptions)
+
+    public deleteValue(): void;
+
+    public updateValue(): string;
+
+    public isUploading(): boolean;
+
+    public clearCache(): void;
+
+    public disabledCache(): void;
+
+    public enableCache(): void;
+
+    public html2md(value: string): string;
+
+    public getHTML(includeHljs?: boolean): string;
 }
