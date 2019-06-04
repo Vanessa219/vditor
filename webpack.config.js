@@ -47,6 +47,65 @@ SOFTWARE.
 module.exports = [
   {
     mode: 'production',
+    entry: {
+      'index.classic': './src/assets/scss/classic.scss',
+      'index.dark': './src/assets/scss/dark.scss',
+    },
+    resolve: {
+      extensions: ['.scss'],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.scss$/,
+          include: [path.resolve(__dirname, 'src/assets')],
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader', // translates CSS into CommonJS
+              options: {
+                url: false,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                ident: 'postcss',
+                plugins: () => [
+                  require('autoprefixer')({grid: true, remove: false}),
+                ],
+              },
+            },
+            {
+              loader: 'sass-loader', // compiles Sass to CSS
+            },
+          ],
+        },
+      ],
+    },
+    optimization: {
+      minimizer: [
+        new OptimizeCSSAssetsPlugin({}),
+      ],
+    },
+    plugins: [
+      new CleanWebpackPlugin(
+        {cleanOnceBeforeBuildPatterns: [path.join(__dirname, 'dist')]}),
+      banner,
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+      }),
+      new WebpackOnBuildPlugin(() => {
+        fs.unlinkSync('./dist/index.classic.js')
+        fs.unlinkSync('./dist/index.dark.js')
+      }),
+      new CopyPlugin([
+        {from: 'src/images', to: 'images'},
+        {from: 'src/js', to: 'js'},
+      ]),
+    ],
+  }, {
+    mode: 'production',
     output: {
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
@@ -118,8 +177,6 @@ module.exports = [
     },
     plugins: [
       // new BundleAnalyzerPlugin(),
-      new CleanWebpackPlugin(
-        {cleanOnceBeforeBuildPatterns: [path.join(__dirname, 'dist')]}),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
         CDN_PATH: JSON.stringify(pkg.cdn),
@@ -135,61 +192,4 @@ module.exports = [
         },
       },
     },
-  }, {
-    mode: 'production',
-    entry: {
-      'index.classic': './src/assets/scss/classic.scss',
-      'index.dark': './src/assets/scss/dark.scss',
-    },
-    resolve: {
-      extensions: ['.scss'],
-    },
-    module: {
-      rules: [
-        {
-          test: /\.scss$/,
-          include: [path.resolve(__dirname, 'src/assets')],
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader', // translates CSS into CommonJS
-              options: {
-                url: false,
-              },
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: () => [
-                  require('autoprefixer')({grid: true, remove: false}),
-                ],
-              },
-            },
-            {
-              loader: 'sass-loader', // compiles Sass to CSS
-            },
-          ],
-        },
-      ],
-    },
-    optimization: {
-      minimizer: [
-        new OptimizeCSSAssetsPlugin({}),
-      ],
-    },
-    plugins: [
-      banner,
-      new MiniCssExtractPlugin({
-        filename: '[name].css',
-      }),
-      new WebpackOnBuildPlugin(() => {
-        fs.unlinkSync('./dist/index.classic.js')
-        fs.unlinkSync('./dist/index.dark.js')
-      }),
-      new CopyPlugin([
-        {from: 'src/images', to: 'images'},
-        {from: 'src/js', to: 'js'},
-      ]),
-    ],
   }]
