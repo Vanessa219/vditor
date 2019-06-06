@@ -3,7 +3,7 @@ import {addStyle} from "../util/addStyle";
 import {task} from "./markdown-it-task";
 
 export const markdownItRender = async (mdText: string, hljsStyle: string) => {
-    addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js@9.15.6/styles/${
+    addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js@9.15.8/styles/${
             hljsStyle}.css`,
         "vditorHljsStyle");
 
@@ -31,7 +31,7 @@ export const markdownItRender = async (mdText: string, hljsStyle: string) => {
 
 const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
     if (vditor.options.preview.hljs.style) {
-        addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js@9.15.6/styles/${
+        addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js@9.15.8/styles/${
                 vditor.options.preview.hljs.style}.css`,
             "vditorHljsStyle");
     }
