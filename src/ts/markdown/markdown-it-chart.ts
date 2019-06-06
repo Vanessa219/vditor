@@ -9,7 +9,7 @@ export const chart = (md: markdownit) => {
         let html = "";
         try {
             data = JSON.stringify(JSON.parse(data));
-            html = `<div class="vditor-echarts"></div><textarea style='display:none'>${data}</textarea>`;
+            html = `<div class="vditor-echarts"></div><div style='display:none'>${data}</div>`;
         } catch (e) {
             html = `<pre><code>${token.info} ${e}</code></pre>`;
         }

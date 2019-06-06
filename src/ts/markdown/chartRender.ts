@@ -4,8 +4,8 @@ export const chartRender = async (element: (HTMLElement | Document) = document) 
         const {default: echarts} = await import(/* webpackChunkName: "echarts" */ "echarts");
         echartsElements.forEach((e: HTMLDivElement) => {
             const chart = echarts.init(e);
-            const dataElement = e.nextElementSibling as HTMLTextAreaElement;
-            chart.setOption(JSON.parse(dataElement.value));
+            const dataElement = e.nextElementSibling;
+            chart.setOption(JSON.parse(dataElement.innerHTML));
             dataElement.remove();
         });
     }
