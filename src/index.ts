@@ -15,12 +15,14 @@ import {Ui} from "./ts/ui/index";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 import {getTextareaPosition} from "./ts/util/textareaPosition";
+import {chartRender} from "./ts/markdown/chartRender";
 
 class Vditor {
 
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;
     public static codeRender = codeRender;
+    public static chartRender = chartRender;
     public static md2html = markdownItRender;
     public readonly version: string;
     public vditor: IVditor;
