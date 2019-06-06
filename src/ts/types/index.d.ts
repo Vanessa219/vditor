@@ -2,7 +2,6 @@ declare module "*.svg";
 
 declare module "*.png";
 
-declare module "chart.js";
 declare module "echarts";
 
 declare module "highlight.js";

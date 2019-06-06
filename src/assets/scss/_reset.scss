@@ -1,8 +1,4 @@
 .vditor {
-  &-echarts {
-    height: 420px;
-  }
-
   &-reset {
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -202,6 +198,11 @@
     // 当预览内容很长时，就会溢出 vditor，把页面撑高
     .katex {
       position: relative;
+    }
+
+    .language-echarts {
+      overflow: hidden;
+      height: 420px;
     }
   }
 

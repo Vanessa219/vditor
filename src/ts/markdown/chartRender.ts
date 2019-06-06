@@ -1,12 +1,10 @@
 export const chartRender = async (element: (HTMLElement | Document) = document) => {
-    const echartsElements = element.querySelectorAll(".vditor-echarts");
+    const echartsElements = element.querySelectorAll(".language-echarts");
     if (echartsElements.length > 0) {
         const {default: echarts} = await import(/* webpackChunkName: "echarts" */ "echarts");
         echartsElements.forEach((e: HTMLDivElement) => {
-            const chart = echarts.init(e);
-            const dataElement = e.nextElementSibling;
-            chart.setOption(JSON.parse(dataElement.innerHTML));
-            dataElement.remove();
+            const option = JSON.parse(e.innerHTML);
+            echarts.init(e).setOption(option);
         });
     }
 };

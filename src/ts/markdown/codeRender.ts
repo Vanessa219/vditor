@@ -3,7 +3,7 @@ import {i18n} from "../i18n/index";
 
 export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
     element.querySelectorAll("pre > code").forEach((e: HTMLElement) => {
-        if (e.className.indexOf("language-mermaid") > -1) {
+        if (e.className.indexOf("language-mermaid") > -1 || e.className.indexOf("language-echarts") > -1) {
             return;
         }
 

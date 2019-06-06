@@ -3,7 +3,7 @@ export const mermaidRender = (element: HTMLElement) => {
         return;
     }
     import(/* webpackChunkName: "mermaid" */ "mermaid").then((mermaid) => {
-        mermaid.init({noteMargin: 10}, ".language-mermaid");
+       mermaid.init({noteMargin: 10}, ".language-mermaid");
     });
 
 };

@@ -1,6 +1,5 @@
 import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
-import {chart} from "./markdown-it-chart";
 import {task} from "./markdown-it-task";
 
 export const markdownItRender = async (mdText: string, hljsStyle: string) => {
@@ -18,7 +17,7 @@ export const markdownItRender = async (mdText: string, hljsStyle: string) => {
 
     const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
     options.highlight = (str: string, lang: string) => {
-        if (lang === "mermaid") {
+        if (lang === "mermaid" || lang === "echart") {
             return str;
         }
         if (lang && hljs.getLanguage(lang)) {
@@ -26,7 +25,7 @@ export const markdownItRender = async (mdText: string, hljsStyle: string) => {
         }
         return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
     };
-    const markdownIt = new MarkdownIt(options).use(task).use(chart);
+    const markdownIt = new MarkdownIt(options).use(task);
     return markdownIt.render(mdText);
 };
 
@@ -48,7 +47,7 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
     if (includeHljs) {
         const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
         options.highlight = (str: string, lang: string) => {
-            if (lang === "mermaid") {
+            if (lang === "mermaid" || lang === "echarts") {
                 return str;
             }
             if (lang && hljs.getLanguage(lang)) {
@@ -57,7 +56,7 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
             return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
         };
     }
-    return new MarkdownIt(options).use(task).use(chart);
+    return new MarkdownIt(options).use(task);
 };
 
 export const md2html = async (vditor: IVditor, includeHljs: boolean) => {
