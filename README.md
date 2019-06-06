@@ -79,4 +79,3 @@ Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 * [Turndown](https://github.com/domchristie/turndown)：🛏 An HTML to Markdown converter written in JavaScript
 * [mermaid](https://github.com/knsv/mermaid)：Generation of diagram and flowchart from text in a similar manner as markdown
 * [incubator-echarts](https://github.com/apache/incubator-echarts)：A powerful, interactive charting and visualization library for browser
-* [chart.js](https://github.com/chartjs/Chart.js)：Simple HTML5 Charts using the <canvas> tag

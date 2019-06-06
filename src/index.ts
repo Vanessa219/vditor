@@ -3,11 +3,12 @@ import {Counter} from "./ts/counter/index";
 import {Editor, html2md, insertText} from "./ts/editor/index";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
+import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {markdownItRender} from "./ts/markdown/render";
 import {md2html} from "./ts/markdown/render";
+import {markdownItRender} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Toolbar} from "./ts/toolbar/index";
@@ -15,7 +16,6 @@ import {Ui} from "./ts/ui/index";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 import {getTextareaPosition} from "./ts/util/textareaPosition";
-import {chartRender} from "./ts/markdown/chartRender";
 
 class Vditor {
 

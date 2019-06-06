@@ -1,4 +1,8 @@
 .vditor {
+  &-echarts {
+    height: 420px;
+  }
+
   &-reset {
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -90,6 +94,7 @@
       color: #777;
       border-left: 0.25em solid #ddd;
       margin: 0 0 16px 0;
+
       p {
         margin: 0;
       }
@@ -174,6 +179,7 @@
 
     summary {
       cursor: pointer;
+
       &:focus {
         outline: none;
       }
@@ -204,6 +210,7 @@
     margin-left: -1.4em;
     display: flex;
     align-items: center;
+
     input {
       margin-right: 5px;
     }

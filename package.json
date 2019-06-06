@@ -13,7 +13,6 @@
     "src/assets/*"
   ],
   "dependencies": {
-    "chart.js": "^2.8.0",
     "echarts": "^4.2.1",
     "highlight.js": "^9.15.6",
     "katex": "^0.10.2",
