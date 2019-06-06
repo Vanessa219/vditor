@@ -1,3 +1,4 @@
+import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
@@ -72,5 +73,6 @@ export class Preview {
         mathRender(vditor.preview.element);
         mermaidRender(vditor.preview.element);
         codeRender(vditor.preview.element, vditor.options.lang);
+        chartRender(vditor.preview.element);
     }
 }

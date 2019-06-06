@@ -2,6 +2,9 @@ declare module "*.svg";
 
 declare module "*.png";
 
+declare module "chart.js";
+declare module "echarts";
+
 declare module "highlight.js";
 
 declare module "mermaid";
@@ -111,6 +114,8 @@ interface IOptions {
     upload?: IUpload;
     classes?: IClasses;
 
+    tab?: string;
+
     input?(value: string, previewElement?: HTMLElement): void;
 
     focus?(value: string): void;
@@ -122,8 +127,6 @@ interface IOptions {
     ctrlEnter?(value: string): void;
 
     select?(value: string): void;
-
-    tab?: string;
 }
 
 interface IVditor {
@@ -163,10 +166,6 @@ interface IVditor {
 }
 
 declare class IVditorConstructor {
-    public readonly version: string;
-    public vditor: IVditor;
-
-    constructor(options: IOptions)
 
     public static mathRender(element: HTMLElement): void;
 
@@ -175,6 +174,10 @@ declare class IVditorConstructor {
     public static codeRender(element: HTMLElement, lang: (keyof II18nLang)): void;
 
     public static md2html(mdText: string, hljsStyle: string): string;
+    public readonly version: string;
+    public vditor: IVditor;
+
+    constructor(options: IOptions)
 
     public getValue(): string;
 
