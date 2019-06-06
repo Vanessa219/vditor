@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.5.0 / 2019-06-06
+### v1.5.2 / 2019-06-07
 
 * [62](https://github.com/b3log/vditor/issues/62) 升级 highlight.js 到 9.15.8 `development`
 * [58](https://github.com/b3log/vditor/issues/58) 添加图表支持 `feature`
