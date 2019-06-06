@@ -1,9 +1,11 @@
 ## Vditor change log
 
 
-### v1.4.6 / 2019-05-28
+### v1.4.7 / 2019-06-06
 
 * [60](https://github.com/b3log/vditor/issues/60) type 完善 `development`
+* [59](https://github.com/b3log/vditor/issues/59) Bump fstream from 1.0.11 to 1.0.12 `dependencies`
+* [57](https://github.com/b3log/vditor/issues/57) ios移动端兼容 `question`
 * [56](https://github.com/b3log/vditor/issues/56) 展现样式完善 `enhancement`
 * [55](https://github.com/b3log/vditor/issues/55) 如何设置图片上传的路径 `question`
 * [54](https://github.com/b3log/vditor/issues/54) 在使用Vditor时，如何做到支持粘贴图片的？ `question`
