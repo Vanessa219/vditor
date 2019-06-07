@@ -17,7 +17,7 @@ export const markdownItRender = async (mdText: string, hljsStyle: string) => {
 
     const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
     options.highlight = (str: string, lang: string) => {
-        if (lang === "mermaid" || lang === "echart") {
+        if (lang === "mermaid" || lang === "echarts") {
             return str;
         }
         if (lang && hljs.getLanguage(lang)) {
