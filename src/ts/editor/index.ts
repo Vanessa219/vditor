@@ -1,6 +1,6 @@
-import {gfm} from "turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js";
 import {uploadFiles} from "../upload/index";
 import {commandable} from "../util/commandable";
+import {gfm} from "./turndown-plugin-gfm";
 
 class Editor {
     public element: HTMLTextAreaElement;
@@ -154,8 +154,6 @@ class Editor {
 const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
     const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
 
-    let onlyMultiCode = false;
-
     // no escape
     TurndownService.prototype.escape = (name: string) => {
         return name;
@@ -165,23 +163,14 @@ const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) =>
         blankReplacement: (blank: string) => {
             return blank;
         },
+        codeBlockStyle: "fenced",
+        emDelimiter: "*",
+        headingStyle: "atx",
+        hr: "---",
     });
 
-    turndownService.addRule("strikethrough", {
-        filter: ["pre", "code"],
-        replacement: (content: string, node: HTMLElement) => {
-            if (node.parentElement.tagName === "PRE") {
-                return content;
-            }
-            if (content.split("\n").length > 1) {
-                onlyMultiCode = true;
-                return "```\n" + content + "\n```";
-            }
-            return "`" + content + "`";
-        },
-    });
-    turndownService.addRule("strikethrough", {
-        filter: ["img"],
+    turndownService.addRule("vditorImage", {
+        filter: "img",
         replacement: (content: string, target: HTMLElement) => {
             if (!target.getAttribute("src")) {
                 return "";
@@ -219,17 +208,13 @@ const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) =>
 
     const markdownStr = turndownService.turndown(textHTML);
 
-    if (onlyMultiCode) {
-        const tempElement = document.createElement("div");
-        tempElement.innerHTML = textHTML;
-        if (tempElement.querySelectorAll("pre").length > 1) {
-            onlyMultiCode = false;
-        } else if (markdownStr.substr(0, 3) !== "```" ||
-            markdownStr.substr(markdownStr.length - 3, 3) !== "```") {
-            onlyMultiCode = false;
-        }
-    }
-    if (onlyMultiCode) {
+    // process copy from IDE
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = textHTML;
+    const pres = tempElement.querySelectorAll("pre");
+    if (pres.length === 1 && !pres[0].nextElementSibling
+        && ((pres[0].previousElementSibling && pres[0].previousElementSibling.tagName === "META")
+            || !pres[0].previousElementSibling)) {
         return "```\n" + (textPlain || textHTML) + "\n```";
     } else {
         return markdownStr;

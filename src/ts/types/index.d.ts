@@ -12,7 +12,16 @@ declare module "katex";
 declare module "katex/contrib/auto-render/auto-render";
 
 declare module "turndown";
-declare module "turndown-plugin-gfm/lib/turndown-plugin-gfm.es.js";
+
+interface ITurndown {
+    addRule(key: string, rule: ITurndownRule): ITurndown;
+}
+
+interface ITurndownRule {
+    filter: string | string[] | ((node: HTMLInputElement) => boolean);
+
+    replacement(content: string, node?: HTMLElement): string;
+}
 
 declare var webkitAudioContext: {
     prototype: AudioContext
@@ -173,6 +182,7 @@ declare class IVditorConstructor {
     public static codeRender(element: HTMLElement, lang: (keyof II18nLang)): void;
 
     public static md2html(mdText: string, hljsStyle: string): string;
+
     public readonly version: string;
     public vditor: IVditor;
 
