@@ -182,8 +182,8 @@ const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) =>
                 xhr.open("POST", vditor.options.upload.linkToImgUrl);
                 xhr.onreadystatechange = () => {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
+                        const responseJSON = JSON.parse(xhr.responseText);
                         if (xhr.status === 200) {
-                            const responseJSON = JSON.parse(xhr.responseText);
                             if (responseJSON.code !== 0) {
                                 alert(responseJSON.msg);
                                 return;
@@ -194,6 +194,10 @@ const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) =>
                             vditor.editor.element.selectionEnd =
                                 vditor.editor.element.selectionStart + original.length;
                             insertText(vditor.editor.element, responseJSON.data.url, "", true);
+                        } else {
+                            vditor.upload.element.style.opacity = "1"
+                            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
+                            vditor.upload.element.children[0].innerHTML = `<ul>${responseJSON.msg}</ul>`;
                         }
                     }
                 };

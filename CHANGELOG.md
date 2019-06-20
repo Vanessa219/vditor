@@ -3,6 +3,7 @@
 ### v1.5.5 / 2019-06-20
 
 * [66](https://github.com/b3log/vditor/issues/66) 上传按钮问题  `bug`
+* [65](https://github.com/b3log/vditor/issues/65) options.upload.linkToImgUrl 配置错误提示  `enhancement`
 * [63](https://github.com/b3log/vditor/issues/63) 粘贴时 html2md 和 md2html 保持一致  `bug`
 * [62](https://github.com/b3log/vditor/issues/62) 升级 highlight.js 到 9.15.8 `development`
 * [58](https://github.com/b3log/vditor/issues/58) 添加图表支持 `feature`
