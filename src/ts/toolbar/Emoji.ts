@@ -28,7 +28,9 @@ src="${emojiValue}"/></span>`;
         const tailHTML = vditor.options.hint.emojiTail ?
             `<div class="vditor-emojis__tail">${vditor.options.hint.emojiTail}</div>` : "";
 
-        emojiPanelElement.innerHTML = `<div class="vditor-emojis">${commonEmojiHTML}</div>${tailHTML}`;
+        emojiPanelElement.innerHTML = `<div class="vditor-emojis" style="height: ${
+            vditor.options.height === 'auto' ? 'auto' : vditor.options.height as number - 80
+            }px">${commonEmojiHTML}</div>${tailHTML}`;
 
         this.element.appendChild(emojiPanelElement);
 
@@ -50,8 +52,7 @@ src="${emojiValue}"/></span>`;
 
         emojiPanelElement.querySelectorAll(".vditor-emojis span").forEach((element) => {
             element.addEventListener("click", (event: Event) => {
-                insertText(vditor.editor.element, (event.target as HTMLElement).
-                    getAttribute("data-value"), "", true);
+                insertText(vditor.editor.element, (event.target as HTMLElement).getAttribute("data-value"), "", true);
                 emojiPanelElement.style.display = "none";
             });
         });

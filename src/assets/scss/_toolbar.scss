@@ -80,6 +80,10 @@
 
   &-emojis {
     display: inline-block;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &__tail {
       font-size: 12px;
