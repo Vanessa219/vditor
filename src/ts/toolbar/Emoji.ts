@@ -16,20 +16,19 @@ export class Emoji extends MenuItem {
         Object.keys(vditor.options.hint.emoji).forEach((key) => {
             const emojiValue = vditor.options.hint.emoji[key];
             if (emojiValue.indexOf(".") > -1) {
-                commonEmojiHTML += `<span data-value=":${key}: " aria-label=":${key}:"
-                    class="vditor-tooltipped vditor-tooltipped__n"><img data-value=":${key}: "
-src="${emojiValue}"/></span>`;
+                commonEmojiHTML += `<span data-value=":${key}: " data-key=":${key}:"><img
+data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
             } else {
-                commonEmojiHTML += `<span data-value="${emojiValue} " aria-label="${key}"
-                    class="vditor-tooltipped vditor-tooltipped__n">${emojiValue}</span>`;
+                commonEmojiHTML += `<span data-value="${emojiValue} " data-key="${key}">${emojiValue}</span>`;
             }
         });
 
-        const tailHTML = vditor.options.hint.emojiTail ?
-            `<div class="vditor-emojis__tail">${vditor.options.hint.emojiTail}</div>` : "";
+        const tailHTML = `<div class="vditor-emojis__tail">
+    <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail}</span>
+</div>`;
 
         emojiPanelElement.innerHTML = `<div class="vditor-emojis" style="height: ${
-            vditor.options.height === 'auto' ? 'auto' : vditor.options.height as number - 80
+            vditor.options.height === "auto" ? "auto" : vditor.options.height as number - 80
             }px">${commonEmojiHTML}</div>${tailHTML}`;
 
         this.element.appendChild(emojiPanelElement);
@@ -54,6 +53,10 @@ src="${emojiValue}"/></span>`;
             element.addEventListener("click", (event: Event) => {
                 insertText(vditor.editor.element, (event.target as HTMLElement).getAttribute("data-value"), "", true);
                 emojiPanelElement.style.display = "none";
+            });
+            element.addEventListener("mouseover", (event: Event) => {
+                emojiPanelElement.querySelector(".vditor-emojis__tip").innerHTML =
+                    (event.target as HTMLElement).getAttribute("data-key");
             });
         });
     }
