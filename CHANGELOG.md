@@ -1,7 +1,8 @@
 ## Vditor change log
 
-### v1.5.6 / 2019-06-21
+### v1.5.8 / 2019-06-29
 
+* [67](https://github.com/b3log/vditor/issues/67) 长文本粘贴性能改进 `enhancement`
 * [66](https://github.com/b3log/vditor/issues/66) 上传按钮问题  `bug`
 * [65](https://github.com/b3log/vditor/issues/65) options.upload.linkToImgUrl 配置错误提示  `enhancement`
 * [64](https://github.com/b3log/vditor/issues/64) 表情太多需要滚动条 `enhancement`

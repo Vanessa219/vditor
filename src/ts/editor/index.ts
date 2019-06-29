@@ -41,19 +41,15 @@ class Editor {
             if (vditor.options.counter > 0) {
                 vditor.counter.render(this.element.value.length, vditor.options.counter);
             }
-
             if (typeof vditor.options.input === "function") {
                 vditor.options.input(this.element.value, vditor.preview && vditor.preview.element);
             }
-
             if (vditor.hint) {
                 vditor.hint.render();
             }
-
             if (vditor.options.cache) {
                 localStorage.setItem(`vditor${vditor.id}`, vditor.editor.element.value);
             }
-
             if (vditor.preview) {
                 vditor.preview.render(vditor);
             }
@@ -117,27 +113,31 @@ class Editor {
         }
 
         this.element.addEventListener("paste", async (event: Event) => {
-            event.stopPropagation();
-            event.preventDefault();
             const clipboardEvent: ClipboardEvent = event as ClipboardEvent;
-            if (clipboardEvent.clipboardData.getData("text/html").replace(/(^\s*)|(\s*)$/g, "") !== "") {
+            if (clipboardEvent.clipboardData.getData("text/html").trim() !== "") {
                 const textHTML = clipboardEvent.clipboardData.getData("text/html");
                 const textPlain = clipboardEvent.clipboardData.getData("text/plain");
                 let mdValue = textPlain;
-                // https://github.com/b3log/vditor/issues/37
                 if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                     `<a href="${textPlain}">${textPlain}</a>` ||
                     textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                     `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
+                    // https://github.com/b3log/vditor/issues/37
                     mdValue = textPlain;
+                    insertText(vditor.editor.element, mdValue, "", true);
+                    event.stopPropagation();
+                    event.preventDefault();
                 } else if (textHTML.length < 106496) {
+                    // https://github.com/b3log/vditor/issues/51
                     mdValue = await html2md(vditor, textHTML, textPlain);
+                    insertText(vditor.editor.element, mdValue, "", true);
+                    event.stopPropagation();
+                    event.preventDefault();
                 }
-                insertText(vditor.editor.element, mdValue, "", true);
-            } else if (clipboardEvent.clipboardData.getData("text/plain").replace(/(^\s*)|(\s*)$/g, "") !== "" &&
+            } else if (clipboardEvent.clipboardData.getData("text/plain").trim() !== "" &&
                 clipboardEvent.clipboardData.files.length === 0) {
-                insertText(event.target as HTMLTextAreaElement,
-                    clipboardEvent.clipboardData.getData("text/plain"), "", true);
+                // textarea 粘贴的默认内容为 clipboardEvent.clipboardData.getData("text/plain")
+                // https://github.com/b3log/vditor/issues/67
             } else if (clipboardEvent.clipboardData.files.length > 0) {
                 // upload file
                 if (!(vditor.options.upload.url || vditor.options.upload.handler)) {
@@ -146,6 +146,8 @@ class Editor {
                 // NOTE: not work in Safari.
                 // maybe the browser considered local filesystem as the same domain as the pasted data
                 uploadFiles(vditor, clipboardEvent.clipboardData.files);
+                event.stopPropagation();
+                event.preventDefault();
             }
         });
     }
