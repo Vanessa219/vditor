@@ -29,6 +29,7 @@ export const i18n: II18n = {
         "undo": "Undo",
         "upload": "Upload image or file",
         "uploading": "uploading...",
+        "performanceTip": "Real-time preview requires ${x}ms, you can close it"
     },
     zh_CN: {
         "bold": "粗体",
@@ -60,5 +61,6 @@ export const i18n: II18n = {
         "undo": "撤销",
         "upload": "上传图片或文件",
         "uploading": "上传中...",
+        "performanceTip": "实时预览需 ${x}ms，可点击预览按钮进行关闭"
     },
 };

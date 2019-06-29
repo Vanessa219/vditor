@@ -3,6 +3,7 @@ import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {md2html} from "../markdown/render";
+import {i18n} from "../i18n/index";
 
 export class Preview {
     public element: HTMLElement;
@@ -21,6 +22,11 @@ export class Preview {
 
     public render(vditor: IVditor, value?: string) {
         if (this.element.style.display === "none") {
+            if (vditor.upload.element.getAttribute('data-type') === 'renderPerformance') {
+                vditor.upload.element.style.opacity = "0";
+                vditor.upload.element.className = "vditor-upload";
+                vditor.upload.element.removeAttribute('data-type')
+            }
             return;
         }
 
@@ -36,6 +42,7 @@ export class Preview {
 
         clearTimeout(vditor.mdTimeoutId);
         vditor.mdTimeoutId = window.setTimeout(() => {
+            const renderStartTime = new Date().getTime()
             if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
@@ -49,7 +56,7 @@ export class Preview {
                                 return;
                             }
                             this.element.innerHTML = responseJSON.data;
-                            this.afterRender(vditor);
+                            this.afterRender(vditor, renderStartTime);
                         }
                     }
                 };
@@ -60,13 +67,13 @@ export class Preview {
             } else {
                 md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
                     this.element.innerHTML = html;
-                    this.afterRender(vditor);
+                    this.afterRender(vditor, renderStartTime);
                 });
             }
         }, vditor.options.preview.delay);
     }
 
-    private afterRender(vditor: IVditor) {
+    private afterRender(vditor: IVditor, startTime: number) {
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
@@ -74,5 +81,18 @@ export class Preview {
         mermaidRender(vditor.preview.element);
         codeRender(vditor.preview.element, vditor.options.lang);
         chartRender(vditor.preview.element);
+        const time = (new Date().getTime() - startTime)
+        if ((new Date().getTime() - startTime) > 1000) {
+            // https://github.com/b3log/vditor/issues/67
+            vditor.upload.element.style.opacity = "1";
+            vditor.upload.element.setAttribute('data-type', 'renderPerformance')
+            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
+            vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].performanceTip.replace('${x}',
+                time.toString());
+        } else {
+            vditor.upload.element.style.opacity = "0";
+            vditor.upload.element.className = "vditor-upload";
+            vditor.upload.element.removeAttribute('data-type')
+        }
     }
 }
