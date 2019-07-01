@@ -122,17 +122,17 @@ class Editor {
                     `<a href="${textPlain}">${textPlain}</a>` ||
                     textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                     `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
+                    event.stopPropagation();
+                    event.preventDefault();
                     // https://github.com/b3log/vditor/issues/37
                     mdValue = textPlain;
                     insertText(vditor.editor.element, mdValue, "", true);
+                } else if (textHTML.length < 106496) {
                     event.stopPropagation();
                     event.preventDefault();
-                } else if (textHTML.length < 106496) {
                     // https://github.com/b3log/vditor/issues/51
                     mdValue = await html2md(vditor, textHTML, textPlain);
                     insertText(vditor.editor.element, mdValue, "", true);
-                    event.stopPropagation();
-                    event.preventDefault();
                 }
             } else if (clipboardEvent.clipboardData.getData("text/plain").trim() !== "" &&
                 clipboardEvent.clipboardData.files.length === 0) {
@@ -143,11 +143,11 @@ class Editor {
                 if (!(vditor.options.upload.url || vditor.options.upload.handler)) {
                     return;
                 }
+                event.stopPropagation();
+                event.preventDefault();
                 // NOTE: not work in Safari.
                 // maybe the browser considered local filesystem as the same domain as the pasted data
                 uploadFiles(vditor, clipboardEvent.clipboardData.files);
-                event.stopPropagation();
-                event.preventDefault();
             }
         });
     }

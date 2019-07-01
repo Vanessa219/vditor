@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.5.9 / 2019-06-29
+### v1.5.10 / 2019-07-01
 
 * [67](https://github.com/b3log/vditor/issues/67) 长文本粘贴性能改进 `enhancement`
 * [66](https://github.com/b3log/vditor/issues/66) 上传按钮问题  `bug`
