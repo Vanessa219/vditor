@@ -2,6 +2,7 @@
 
 ### v1.5.10 / 2019-07-01
 
+* [70](https://github.com/b3log/vditor/issues/70) 建议删除CDN和代码中的Dynamic Import `invalid`
 * [67](https://github.com/b3log/vditor/issues/67) 长文本粘贴性能改进 `enhancement`
 * [66](https://github.com/b3log/vditor/issues/66) 上传按钮问题  `bug`
 * [65](https://github.com/b3log/vditor/issues/65) options.upload.linkToImgUrl 配置错误提示  `enhancement`
