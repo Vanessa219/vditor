@@ -55,6 +55,7 @@
 ## 案例
 
 * [Sym](https://github.com/b3log/symphony)：一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
+* [Starfire](https://github.com/b3log/starfire)：一个分布式的内容分享讨论社区，通过点对点超媒体协议让社区更快、更安全也更开放
 * [Solo](https://github.com/b3log/solo)：一款小而美的博客系统，使用 Java 实现
 * [Pipe](https://github.com/b3log/pipe)：一款小而美的博客平台，使用 Go 实现
 
