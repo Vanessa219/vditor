@@ -2,7 +2,9 @@
 
 ### v1.5.10 / 2019-07-01
 
+* [71](https://github.com/b3log/vditor/issues/71) new 之前应保证该 id 元素在 html 中已经渲染 `question`
 * [70](https://github.com/b3log/vditor/issues/70) 建议删除CDN和代码中的Dynamic Import `invalid`
+* [69](https://github.com/b3log/vditor/issues/69) Assets 文件夹介绍 `question`
 * [67](https://github.com/b3log/vditor/issues/67) 长文本粘贴性能改进 `enhancement`
 * [66](https://github.com/b3log/vditor/issues/66) 上传按钮问题  `bug`
 * [65](https://github.com/b3log/vditor/issues/65) options.upload.linkToImgUrl 配置错误提示  `enhancement`
