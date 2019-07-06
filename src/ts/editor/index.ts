@@ -117,22 +117,19 @@ class Editor {
             if (clipboardEvent.clipboardData.getData("text/html").trim() !== "") {
                 const textHTML = clipboardEvent.clipboardData.getData("text/html");
                 const textPlain = clipboardEvent.clipboardData.getData("text/plain");
-                let mdValue = textPlain;
-                if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                    `<a href="${textPlain}">${textPlain}</a>` ||
-                    textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                    `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    // https://github.com/b3log/vditor/issues/37
-                    mdValue = textPlain;
-                    insertText(vditor.editor.element, mdValue, "", true);
-                } else if (textHTML.length < 106496) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    // https://github.com/b3log/vditor/issues/51
-                    mdValue = await html2md(vditor, textHTML, textPlain);
-                    insertText(vditor.editor.element, mdValue, "", true);
+                if (textHTML.length < 106496) {
+                    if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+                        `<a href="${textPlain}">${textPlain}</a>` ||
+                        textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+                        `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
+                        // https://github.com/b3log/vditor/issues/37
+                    } else {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        // https://github.com/b3log/vditor/issues/51
+                        const mdValue = await html2md(vditor, textHTML, textPlain);
+                        insertText(vditor.editor.element, mdValue, "", true);
+                    }
                 }
             } else if (clipboardEvent.clipboardData.getData("text/plain").trim() !== "" &&
                 clipboardEvent.clipboardData.files.length === 0) {
