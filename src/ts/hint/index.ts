@@ -98,6 +98,7 @@ export class Hint {
             this.element.style.display = "none";
             return;
         }
+
         const textareaPosition = getTextareaPosition(this.editorElement);
         const x = textareaPosition.left;
         const y = textareaPosition.top - 4;
@@ -141,9 +142,7 @@ export class Hint {
             });
         });
         // hint 展现在上部
-        if (y + this.element.offsetHeight - this.editorElement.offsetHeight >
-            window.innerHeight - (this.editorElement.parentElement.offsetHeight +
-                this.editorElement.parentElement.offsetTop - document.documentElement.scrollTop)) {
+        if (this.element.getBoundingClientRect().bottom > window.innerHeight) {
             this.element.style.top = `${y - this.element.offsetHeight}px`;
         }
     }
