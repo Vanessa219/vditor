@@ -2,6 +2,7 @@
 
 ### v1.5.11 / 2019-07-06
 
+* [73](https://github.com/b3log/vditor/issues/73) iframe 添加 max-width `enhancement`
 * [72](https://github.com/b3log/vditor/issues/72) 当编辑器父元素为 position: fix 时 hit 计算错误 `bug`
 * [71](https://github.com/b3log/vditor/issues/71) new 之前应保证该 id 元素在 html 中已经渲染 `question`
 * [70](https://github.com/b3log/vditor/issues/70) 建议删除CDN和代码中的Dynamic Import `invalid`
