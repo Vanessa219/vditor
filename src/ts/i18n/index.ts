@@ -19,6 +19,7 @@ export const i18n: II18n = {
         "nameEmpty": "Name is empty",
         "ordered-list": "Order List",
         "over": "over",
+        "performanceTip": "Real-time preview requires ${x}ms, you can close it",
         "preview": "Preview",
         "quote": "Quote",
         "record": "Start Record/End Record",
@@ -29,7 +30,6 @@ export const i18n: II18n = {
         "undo": "Undo",
         "upload": "Upload image or file",
         "uploading": "uploading...",
-        "performanceTip": "Real-time preview requires ${x}ms, you can close it"
     },
     zh_CN: {
         "bold": "粗体",
@@ -51,6 +51,7 @@ export const i18n: II18n = {
         "nameEmpty": "文件名不能为空",
         "ordered-list": "有序列表",
         "over": "超过",
+        "performanceTip": "实时预览需 ${x}ms，可点击预览按钮进行关闭",
         "preview": "预览",
         "quote": "引用",
         "record": "开始录音/结束录音",
@@ -61,6 +62,5 @@ export const i18n: II18n = {
         "undo": "撤销",
         "upload": "上传图片或文件",
         "uploading": "上传中...",
-        "performanceTip": "实时预览需 ${x}ms，可点击预览按钮进行关闭"
     },
 };

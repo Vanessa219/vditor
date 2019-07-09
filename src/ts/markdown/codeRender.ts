@@ -2,7 +2,7 @@ import copySVG from "../../assets/icons/copy.svg";
 import {i18n} from "../i18n/index";
 
 export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
-    element.querySelectorAll("pre > code").forEach((e: HTMLElement, index:number) => {
+    element.querySelectorAll("pre > code").forEach((e: HTMLElement, index: number) => {
         if (e.className.indexOf("language-mermaid") > -1 || e.className.indexOf("language-echarts") > -1) {
             return;
         }
@@ -12,8 +12,8 @@ export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
         }
 
         // 避免预览区在渲染后由于代码块过多产生性能问题 https://github.com/b3log/vditor/issues/67
-        if (element.className.indexOf('vditor-preview') > -1 && index > 5) {
-            return
+        if (element.className.indexOf("vditor-preview") > -1 && index > 5) {
+            return;
         }
 
         const divElement = document.createElement("div");

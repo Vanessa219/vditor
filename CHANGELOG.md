@@ -1,6 +1,6 @@
 ## Vditor change log
 
-### v1.5.11 / 2019-07-06
+### v1.5.12 / 2019-07-09
 
 * [73](https://github.com/b3log/vditor/issues/73) iframe 添加 max-width `enhancement`
 * [72](https://github.com/b3log/vditor/issues/72) 当编辑器父元素为 position: fix 时 hit 计算错误 `bug`
