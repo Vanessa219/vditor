@@ -89,7 +89,7 @@ export class Preview {
             vditor.upload.element.className = "vditor-upload vditor-upload--tip";
             vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].performanceTip.replace("${x}",
                 time.toString());
-        } else {
+        } else if (vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
             vditor.upload.element.style.opacity = "0";
             vditor.upload.element.className = "vditor-upload";
             vditor.upload.element.removeAttribute("data-type");
