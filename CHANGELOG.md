@@ -1,5 +1,10 @@
 ## Vditor change log
 
+### v1.6.0 / 2019-07-12
+
+* [75](https://github.com/b3log/vditor/issues/75) 增强 emoji 配置的容错性及 UI 细节改进 `enhancement`
+* [74](https://github.com/b3log/vditor/issues/74) 上传错误处理文案与性能提示冲突 `bug`
+
 ### v1.5.12 / 2019-07-09
 
 * [73](https://github.com/b3log/vditor/issues/73) iframe 添加 max-width `enhancement`

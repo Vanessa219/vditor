@@ -12,7 +12,10 @@ export class Emoji extends MenuItem {
         const emojiPanelElement = document.createElement("div");
         emojiPanelElement.className = "vditor-panel";
 
-        let commonEmojiHTML = "";
+        let commonEmojiHTML = `<span data-value="👍 " data-key="+1">👍</span>
+<span data-value="👎 " data-key="-1">👎</span>
+<span data-value="😰 " data-key="cold_sweat">😰</span>
+<span data-value="❤️ " data-key="heart">❤️</span>`;
         Object.keys(vditor.options.hint.emoji).forEach((key) => {
             const emojiValue = vditor.options.hint.emoji[key];
             if (emojiValue.indexOf(".") > -1) {
@@ -24,10 +27,10 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
         });
 
         const tailHTML = `<div class="vditor-emojis__tail">
-    <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail}</span>
+    <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail || ''}</span>
 </div>`;
 
-        emojiPanelElement.innerHTML = `<div class="vditor-emojis" style="height: ${
+        emojiPanelElement.innerHTML = `<div class="vditor-emojis" style="max-height: ${
             vditor.options.height === "auto" ? "auto" : vditor.options.height as number - 80
             }px">${commonEmojiHTML}</div>${tailHTML}`;
 
