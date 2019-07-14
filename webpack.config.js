@@ -2,7 +2,7 @@
  * @fileoverview webpack.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.1, Jun 3, 2019
+ * @version 0.1.0.1, Jul 14, 2019
  */
 
 const path = require('path')
@@ -184,8 +184,11 @@ module.exports = [
       banner,
     ],
     optimization: {
+      namedModules: true,
+      namedChunks: true,
       splitChunks: {
         cacheGroups: {
+          default: false,
           vendors: {
             test: /null/,
           },

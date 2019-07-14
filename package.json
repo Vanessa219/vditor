@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "echarts": "^4.2.1",
-    "highlight.js": "^9.15.6",
+    "highlight.js": "^9.15.8",
     "katex": "^0.10.2",
     "markdown-it": "^8.4.2",
     "mermaid": "^8.1.0",
@@ -47,7 +47,7 @@
     "ts-loader": "^6.0.2",
     "tslint": "^5.17.0",
     "typescript": "^3.5.1",
-    "webpack": "^4.32.2",
+    "webpack": "^4.35.3",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.5.1"
