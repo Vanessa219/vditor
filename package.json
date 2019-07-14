@@ -17,7 +17,7 @@
     "highlight.js": "^9.15.6",
     "katex": "^0.10.2",
     "markdown-it": "^8.4.2",
-    "mermaid": "^8.0.0",
+    "mermaid": "^8.1.0",
     "turndown": "^5.0.3"
   },
   "devDependencies": {
@@ -55,7 +55,7 @@
   "license": "MIT",
   "repository": "git://github.com/b3log/vditor.git",
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/"
   },
   "bugs": {
     "url": "https://github.com/b3log/vditor/issues"
