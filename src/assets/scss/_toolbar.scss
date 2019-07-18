@@ -87,7 +87,12 @@
 
     &__tip {
       flex: 1;
+      width: 200px;
+      margin-right: 10px;
       color: $toolbarIcon;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
 
     &__tail {

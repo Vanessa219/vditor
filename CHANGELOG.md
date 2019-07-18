@@ -1,5 +1,18 @@
 ## Vditor change log
 
+### TODO
+
+* [68](https://github.com/b3log/vditor/issues/68) 1 high severity vulnerability: vditor > mermaid `development`
+* [61](https://github.com/b3log/vditor/issues/61) 支持简单的快捷键 `feature`
+
+### v1.6.0 / 2019-07-12
+
+* [78](https://github.com/b3log/vditor/issues/78) npx webpack出现错误 `bug`
+* [77](https://github.com/b3log/vditor/issues/77) 发布一个bower版本 `development`
+* [76](https://github.com/b3log/vditor/issues/76) Bump lodash from 4.17.11 to 4.17.14 `dependencies`
+* [75](https://github.com/b3log/vditor/issues/75) 增强 emoji 配置的容错性及 UI 细节改进 `enhancement`
+* [74](https://github.com/b3log/vditor/issues/74) 上传错误处理文案与性能提示冲突 `bug`
+
 ### v1.5.12 / 2019-07-09
 
 * [73](https://github.com/b3log/vditor/issues/73) iframe 添加 max-width `enhancement`
