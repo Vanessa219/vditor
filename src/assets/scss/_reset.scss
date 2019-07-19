@@ -7,6 +7,18 @@
     font-size: 16px;
     word-break: break-word;
 
+    ul ul ul {
+      list-style-type: square;
+    }
+
+    ul ul {
+      list-style-type: circle;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
     ul,
     ol {
       padding-left: 2em;

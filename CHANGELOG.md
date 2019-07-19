@@ -7,6 +7,7 @@
 
 ### v1.6.0 / 2019-07-12
 
+* [79](https://github.com/b3log/vditor/issues/79) 重置内容中的 ul 样式 `enhancement`
 * [78](https://github.com/b3log/vditor/issues/78) npx webpack出现错误 `bug`
 * [77](https://github.com/b3log/vditor/issues/77) 发布一个bower版本 `development`
 * [76](https://github.com/b3log/vditor/issues/76) Bump lodash from 4.17.11 to 4.17.14 `dependencies`
