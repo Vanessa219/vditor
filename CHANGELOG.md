@@ -5,7 +5,7 @@
 * [68](https://github.com/b3log/vditor/issues/68) 1 high severity vulnerability: vditor > mermaid `development`
 * [61](https://github.com/b3log/vditor/issues/61) 支持简单的快捷键 `feature`
 
-### v1.6.0 / 2019-07-12
+### v1.6.3 / 2019-07-12
 
 * [79](https://github.com/b3log/vditor/issues/79) 重置内容中的 ul 样式 `enhancement`
 * [78](https://github.com/b3log/vditor/issues/78) npx webpack出现错误 `bug`
