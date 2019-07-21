@@ -2,10 +2,9 @@
 
 ### TODO
 
-* [68](https://github.com/b3log/vditor/issues/68) 1 high severity vulnerability: vditor > mermaid `development`
 * [61](https://github.com/b3log/vditor/issues/61) 支持简单的快捷键 `feature`
 
-### v1.6.4 / 2019-07-19
+### v1.6.6 / 2019-07-21
 
 * [80](https://github.com/b3log/vditor/issues/80) 移除第三方依赖库版本号 `enhancement`
 * [79](https://github.com/b3log/vditor/issues/79) 重置内容中的 ul 样式 `enhancement`
@@ -14,6 +13,7 @@
 * [76](https://github.com/b3log/vditor/issues/76) Bump lodash from 4.17.11 to 4.17.14 `dependencies`
 * [75](https://github.com/b3log/vditor/issues/75) 增强 emoji 配置的容错性及 UI 细节改进 `enhancement`
 * [74](https://github.com/b3log/vditor/issues/74) 上传错误处理文案与性能提示冲突 `bug`
+* [68](https://github.com/b3log/vditor/issues/68) 1 high severity vulnerability: vditor > mermaid `development`
 
 ### v1.5.12 / 2019-07-09
 

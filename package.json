@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
@@ -17,7 +17,7 @@
     "highlight.js": "^9.15.8",
     "katex": "^0.10.2",
     "markdown-it": "^8.4.2",
-    "mermaid": "^8.1.0",
+    "mermaid": "^8.2.1",
     "turndown": "^5.0.3"
   },
   "devDependencies": {
