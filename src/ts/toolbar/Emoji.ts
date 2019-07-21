@@ -27,7 +27,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
         });
 
         const tailHTML = `<div class="vditor-emojis__tail">
-    <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail || ''}</span>
+    <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail || ""}</span>
 </div>`;
 
         emojiPanelElement.innerHTML = `<div class="vditor-emojis" style="max-height: ${
