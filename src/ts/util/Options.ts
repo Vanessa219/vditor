@@ -16,7 +16,7 @@ export class Options {
                 "cold_sweat": "😰",
                 "heart": "❤️",
             },
-            emojiPath: `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/images/emoji`,
+            emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
         },
         lang: "zh_CN",
         placeholder: "",

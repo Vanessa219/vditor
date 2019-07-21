@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
@@ -54,9 +54,6 @@
   },
   "license": "MIT",
   "repository": "git://github.com/b3log/vditor.git",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "bugs": {
     "url": "https://github.com/b3log/vditor/issues"
   },
