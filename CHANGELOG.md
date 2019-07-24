@@ -4,8 +4,9 @@
 
 * [61](https://github.com/b3log/vditor/issues/61) 支持简单的快捷键 `feature`
 
-### v1.6.6 / 2019-07-21
+### v1.6.8 / 2019-07-24
 
+* [81](https://github.com/b3log/vditor/issues/81) toolbar.hotkey 支持 shift `feature`
 * [80](https://github.com/b3log/vditor/issues/80) 移除第三方依赖库版本号 `enhancement`
 * [79](https://github.com/b3log/vditor/issues/79) 重置内容中的 ul 样式 `enhancement`
 * [78](https://github.com/b3log/vditor/issues/78) npx webpack出现错误 `bug`

@@ -28,13 +28,16 @@ export class Hotkey {
                 }
             }
 
+            // toolbar action
             this.options.toolbar.forEach((menuItem: IMenuItem) => {
                 if (!menuItem.hotkey) {
                     return;
                 }
                 const hotkeys = menuItem.hotkey.split("-");
+                const hasShift = hotkeys.length === 3 && (hotkeys[1] === "shift" || hotkeys[1] === "⇧")
+                const key = hasShift ? hotkeys[2] : hotkeys[1]
                 if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey)) {
-                    if (event.key === hotkeys[1]) {
+                    if (event.key === key && (!hasShift || (hasShift && event.shiftKey))) {
                         (this.toolbarElements[menuItem.name].children[0] as HTMLElement).click();
                         event.preventDefault();
                         event.stopPropagation();
@@ -64,6 +67,9 @@ export class Hotkey {
                 event.stopPropagation();
             }
         });
+
+        // editor actions
+
     }
 
     private hint(event: KeyboardEvent) {

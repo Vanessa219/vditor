@@ -1,4 +1,5 @@
 import {CDN_PATH, VDITOR_VERSION} from "../constants";
+
 export class Options {
     public options: IOptions;
     private defaultOptions: IOptions = {
@@ -17,6 +18,10 @@ export class Options {
                 "heart": "❤️",
             },
             emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
+        },
+        keymap: {
+            deleteLine: '⌘-delete',
+            duplicate: '⌘-d'
         },
         lang: "zh_CN",
         placeholder: "",
@@ -61,7 +66,7 @@ export class Options {
         }, {
             name: "|",
         }, {
-            hotkey: "⌘-d",
+            hotkey: "⌘-⇧-d",
             name: "line",
             prefix: "---\n",
             tipPosition: "n",

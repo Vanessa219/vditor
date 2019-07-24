@@ -108,6 +108,7 @@ interface IResize {
 }
 
 interface IOptions {
+    keymap?: { [key: string]: string };
     height?: number | string;
     width?: number | string;
     placeholder?: string;
