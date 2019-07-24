@@ -1,4 +1,5 @@
 import {insertText} from "../editor/index";
+import {getLineScope} from "../editor/getLineScope";
 
 export class Hotkey {
     public editorElement: HTMLTextAreaElement;
@@ -14,8 +15,21 @@ export class Hotkey {
         this.bindHotkey();
     }
 
+    private processKeymap(hotkey: string, event: KeyboardEvent, action: Function) {
+        const hotkeys = hotkey.split("-");
+        const hasShift = hotkeys.length === 3 && (hotkeys[1] === "shift" || hotkeys[1] === "⇧")
+        const key = hasShift ? hotkeys[2] : hotkeys[1]
+        if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === key.toLowerCase()) {
+            if ((!hasShift && !event.shiftKey) || (hasShift && event.shiftKey)) {
+                action()
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }
+    }
+
     private bindHotkey(): void {
-        this.editorElement.addEventListener("keydown", (event) => {
+        this.editorElement.addEventListener("keydown", (event: KeyboardEvent) => {
             if (this.options.esc) {
                 if (event.key.toLowerCase() === "Escape".toLowerCase()) {
                     this.options.esc(this.editorElement.value);
@@ -28,21 +42,43 @@ export class Hotkey {
                 }
             }
 
+            // editor actions
+            if (this.options.keymap.deleteLine) {
+                this.processKeymap(this.options.keymap.deleteLine, event, () => {
+                    const oStartIndex = this.editorElement.selectionStart
+                    const starLine = getLineScope(this.editorElement.value, this.editorElement.selectionStart)
+                    const endLine = getLineScope(this.editorElement.value, this.editorElement.selectionEnd)
+                    this.editorElement.selectionStart = starLine[0]
+                    this.editorElement.selectionEnd = endLine[1] + 1
+                    insertText(this.editorElement, "", "", true);
+                    this.editorElement.selectionStart = this.editorElement.selectionEnd = oStartIndex
+                })
+            }
+            if (this.options.keymap.duplicate) {
+                this.processKeymap(this.options.keymap.duplicate, event, () => {
+                    const value = this.editorElement.value
+                    const oStartIndex = this.editorElement.selectionStart
+                    if (this.editorElement.selectionStart === this.editorElement.selectionEnd) {
+                        const currentLineScope = getLineScope(value, this.editorElement.selectionStart)
+                        this.editorElement.selectionStart = currentLineScope[1]
+                        const currentLine = '\n' + value.substring(currentLineScope[0], currentLineScope[1])
+                        insertText(this.editorElement, currentLine, "");
+                        this.editorElement.selectionStart = this.editorElement.selectionEnd = oStartIndex + currentLine.length
+                    } else {
+                        const currentValue = value.substring(this.editorElement.selectionStart, this.editorElement.selectionEnd)
+                        insertText(this.editorElement, currentValue, "", false, false);
+                    }
+                })
+            }
+
             // toolbar action
             this.options.toolbar.forEach((menuItem: IMenuItem) => {
                 if (!menuItem.hotkey) {
                     return;
                 }
-                const hotkeys = menuItem.hotkey.split("-");
-                const hasShift = hotkeys.length === 3 && (hotkeys[1] === "shift" || hotkeys[1] === "⇧")
-                const key = hasShift ? hotkeys[2] : hotkeys[1]
-                if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey)) {
-                    if (event.key === key && (!hasShift || (hasShift && event.shiftKey))) {
-                        (this.toolbarElements[menuItem.name].children[0] as HTMLElement).click();
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                }
+                this.processKeymap(menuItem.hotkey, event, () => {
+                    (this.toolbarElements[menuItem.name].children[0] as HTMLElement).click();
+                })
             });
 
             if (this.options.hint.at || this.toolbarElements.emoji) {
@@ -67,9 +103,6 @@ export class Hotkey {
                 event.stopPropagation();
             }
         });
-
-        // editor actions
-
     }
 
     private hint(event: KeyboardEvent) {

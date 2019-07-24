@@ -224,7 +224,7 @@ const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) =>
     }
 };
 
-const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: string, replace?: boolean) => {
+const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: string, replace?: boolean, toggle: boolean = true) => {
     if (typeof textarea.selectionStart === "number" && typeof textarea.selectionEnd === "number") {
         const startPos = textarea.selectionStart;
         const endPos = textarea.selectionEnd;
@@ -243,7 +243,7 @@ const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: strin
                     textarea.selectionEnd = startPos + prefix.length + suffix.length;
                 } else {
                     if (tmpStr.substring(startPos - prefix.length, startPos) === prefix &&
-                        tmpStr.substring(endPos, endPos + suffix.length) === suffix) {
+                        tmpStr.substring(endPos, endPos + suffix.length) === suffix && toggle) {
                         // broke circle, avoid repeat
                         textarea.value = tmpStr.substring(0, startPos - prefix.length) +
                             tmpStr.substring(startPos, endPos) +
@@ -274,7 +274,7 @@ const insertText = (textarea: HTMLTextAreaElement, prefix: string, suffix: strin
                     document.execCommand("insertText", false, prefix + suffix);
                 } else {
                     if (tmpStr.substring(startPos - prefix.length, startPos) === prefix &&
-                        tmpStr.substring(endPos, endPos + suffix.length) === suffix) {
+                        tmpStr.substring(endPos, endPos + suffix.length) === suffix && toggle) {
                         // broke circle, avoid repeat
                         document.execCommand("delete", false);
                         for (let i = 0, iMax = prefix.length; i < iMax; i++) {

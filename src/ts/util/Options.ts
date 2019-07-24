@@ -20,7 +20,7 @@ export class Options {
             emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
         },
         keymap: {
-            deleteLine: '⌘-delete',
+            deleteLine: '⌘-Backspace',
             duplicate: '⌘-d'
         },
         lang: "zh_CN",
@@ -192,6 +192,10 @@ export class Options {
 
             if (this.options.classes) {
                 this.options.classes = Object.assign({}, this.defaultOptions.classes, this.options.classes);
+            }
+
+            if (this.options.keymap) {
+                this.options.keymap = Object.assign({}, this.defaultOptions.keymap, this.options.keymap);
             }
 
             if (this.options.preview) {

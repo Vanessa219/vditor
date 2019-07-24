@@ -1,12 +1,8 @@
 ## Vditor change log
 
-### TODO
-
-* [61](https://github.com/b3log/vditor/issues/61) 支持简单的快捷键 `feature`
-
 ### v1.6.8 / 2019-07-24
 
-* [81](https://github.com/b3log/vditor/issues/81) toolbar.hotkey 支持 shift `feature`
+* [81](https://github.com/b3log/vditor/issues/81) toolbar.hotkey 添加 shift 可选配置 `feature`
 * [80](https://github.com/b3log/vditor/issues/80) 移除第三方依赖库版本号 `enhancement`
 * [79](https://github.com/b3log/vditor/issues/79) 重置内容中的 ul 样式 `enhancement`
 * [78](https://github.com/b3log/vditor/issues/78) npx webpack出现错误 `bug`
@@ -15,6 +11,7 @@
 * [75](https://github.com/b3log/vditor/issues/75) 增强 emoji 配置的容错性及 UI 细节改进 `enhancement`
 * [74](https://github.com/b3log/vditor/issues/74) 上传错误处理文案与性能提示冲突 `bug`
 * [68](https://github.com/b3log/vditor/issues/68) 1 high severity vulnerability: vditor > mermaid `development`
+* [61](https://github.com/b3log/vditor/issues/61) 支持简单的快捷键 `feature`
 
 ### v1.5.12 / 2019-07-09
 
