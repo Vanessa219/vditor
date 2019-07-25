@@ -1,7 +1,12 @@
 ## Vditor change log
 
+### TODO
+
+* [82](https://github.com/b3log/vditor/issues/82) textarea 修改为带 contenteditable 属性的 div `development`
+
 ### v1.6.8 / 2019-07-24
 
+* [83](https://github.com/b3log/vditor/issues/83) 升级 markdown-it `dependencies`
 * [81](https://github.com/b3log/vditor/issues/81) toolbar.hotkey 添加 shift 可选配置 `feature`
 * [80](https://github.com/b3log/vditor/issues/80) 移除第三方依赖库版本号 `enhancement`
 * [79](https://github.com/b3log/vditor/issues/79) 重置内容中的 ul 样式 `enhancement`
