@@ -1,26 +1,24 @@
-import {insertText} from "../editor/index";
-import {getTextareaPosition} from "../util/textareaPosition";
+import {getCursorPosition} from "./getCursorPosition";
+import {insertText} from "../editor";
+import {inputEvent} from "../editor/inputEvent";
 
 export class Hint {
     public timeId: number;
-    public editorElement: HTMLTextAreaElement;
+    public vditor: IVditor;
     public element: HTMLUListElement;
-    public hint: IHint;
 
     constructor(vditor: IVditor) {
         this.timeId = -1;
-        this.hint = vditor.options.hint;
-        this.editorElement = vditor.editor.element;
+        this.vditor = vditor;
 
         this.element = document.createElement("ul");
         this.element.className = "vditor-hint";
 
-        this.editorElement.parentElement.appendChild(this.element);
+        this.vditor.editor.element.parentElement.appendChild(this.element);
     }
 
     public render() {
-        const valueArray = this.editorElement.value.substr(0, this.editorElement.selectionStart).split("\n");
-        const currentLineValue = valueArray.slice(-1).pop();
+        const currentLineValue = window.getSelection().focusNode.textContent.substring(0, window.getSelection().anchorOffset);
         const atKey = this.getKey(currentLineValue, "@");
         const emojiKey = this.getKey(currentLineValue, ":");
 
@@ -28,16 +26,16 @@ export class Hint {
             this.element.style.display = "none";
             clearTimeout(this.timeId);
         } else {
-            if (atKey !== undefined && this.hint.at) {
+            if (atKey !== undefined && this.vditor.options.hint.at) {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
-                    this.genHTML(this.hint.at(atKey), atKey);
-                }, this.hint.delay);
+                    this.genHTML(this.vditor.options.hint.at(atKey), atKey);
+                }, this.vditor.options.hint.delay);
             }
             if (emojiKey !== undefined) {
                 import(/* webpackChunkName: "allEmoji" */ "../emoji/allEmoji")
                     .then((allEmoji) => {
-                        const emojiHint = emojiKey === "" ? this.hint.emoji : allEmoji.getAllEmoji(this.hint.emojiPath);
+                        const emojiHint = emojiKey === "" ? this.vditor.options.hint.emoji : allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath);
                         const matchEmojiData: IHintData[] = [];
                         Object.keys(emojiHint).forEach((key) => {
                             if (key.indexOf(emojiKey.toLowerCase()) === 0) {
@@ -65,7 +63,7 @@ export class Hint {
 
     private getKey(currentLineValue: string, splitChar: string) {
         if (!String.prototype.trim) {
-            String.prototype.trim = function() {
+            String.prototype.trim = function () {
                 return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
             };
         }
@@ -99,9 +97,9 @@ export class Hint {
             return;
         }
 
-        const textareaPosition = getTextareaPosition(this.editorElement);
+        const textareaPosition = getCursorPosition(this.vditor.editor.element);
         const x = textareaPosition.left;
-        const y = textareaPosition.top - 4;
+        const y = textareaPosition.top;
         let hintsHTML = "";
 
         data.forEach((hintData, i) => {
@@ -136,9 +134,10 @@ export class Hint {
                 const value = element.getAttribute("data-value");
                 const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
-                this.editorElement.selectionStart = this.editorElement.value.substr(0, this.editorElement.selectionEnd).
-                lastIndexOf(splitChar);
-                insertText(this.editorElement, value, "", true);
+                const range = this.vditor.editor.range;
+                range.setStart(range.startContainer, range.commonAncestorContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar))
+                insertText(range, value, "", true);
+                inputEvent(this.vditor)
             });
         });
         // hint 展现在上部

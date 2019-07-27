@@ -187,8 +187,6 @@ window.vditorTest = new Vditor('vditorTest', {
   },
   focus: (val) => {
     console.log(`focus value: ${val}`)
-    console.log(
-      `focus cursor position:${JSON.stringify(vditor.getCursorPosition())}`)
   },
   blur: (val) => {
     console.log(`blur: ${val}`)
@@ -198,6 +196,8 @@ window.vditorTest = new Vditor('vditorTest', {
   },
   esc: (val) => {
     console.log(`esc: ${val}`)
+    console.log(
+      `cursor position:${JSON.stringify(vditorTest.getCursorPosition())}`)
   },
   ctrlEnter: (val) => {
     console.log(`ctrlEnter: ${val}`)
