@@ -43,6 +43,11 @@
     &:focus {
       background-color: $textareaFocusBg;
     }
+
+    &:empty::before {
+      content: attr(placeholder);
+      color: rgba($textareaColor, .68);
+    }
   }
 
   &-preview {
@@ -86,6 +91,7 @@
 
     &:hover {
       background-color: $resizeHoverBg;
+
       svg {
         color: $hoverColor;
       }

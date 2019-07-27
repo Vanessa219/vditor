@@ -16,6 +16,8 @@ import {Ui} from "./ts/ui/index";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 import {getTextareaPosition} from "./ts/util/textareaPosition";
+import {getNodeOffset} from "./ts/editor/getNodeOffset";
+import {inputEvent} from "./ts/editor/inputEvent";
 
 class Vditor {
 
@@ -79,7 +81,7 @@ class Vditor {
     }
 
     public getValue() {
-        return this.vditor.editor.element.value;
+        return this.vditor.editor.element.innerText;
     }
 
     public insertValue(value: string) {
@@ -103,20 +105,32 @@ class Vditor {
     }
 
     public setSelection(start: number, end: number) {
-        this.vditor.editor.element.selectionStart = start;
-        this.vditor.editor.element.selectionEnd = end;
+        const startObj = getNodeOffset(this.vditor.editor.element.childNodes, start)
+        const endObj = getNodeOffset(this.vditor.editor.element.childNodes, end)
+        const range = document.createRange()
+        range.setStart(startObj.node, startObj.offset);
+        range.setEnd(endObj.node, endObj.offset);
+        let sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
         this.vditor.editor.element.focus();
     }
 
     public getSelection() {
-        return this.vditor.editor.element.value.substring(this.vditor.editor.element.selectionStart,
-            this.vditor.editor.element.selectionEnd);
+        let selectDom = window.getSelection().getRangeAt(0).commonAncestorContainer
+        while (selectDom) {
+            if (this.vditor.editor.element.isEqualNode(selectDom)) {
+                return window.getSelection().toString()
+            } else {
+                selectDom = selectDom.parentElement
+            }
+        }
+        return ''
     }
 
     public setValue(value: string) {
-        this.vditor.editor.element.selectionStart = 0;
-        this.vditor.editor.element.selectionEnd = this.vditor.editor.element.value.length;
-        insertText(this.vditor.editor.element, value, "", true);
+        this.vditor.editor.element.innerText = value
+        inputEvent(this.vditor)
         if (!value) {
             localStorage.removeItem("vditor" + this.vditor.id);
         }
