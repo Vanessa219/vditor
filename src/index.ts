@@ -15,7 +15,7 @@ import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
-import {getTextareaPosition} from "./ts/util/textareaPosition";
+import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {getNodeOffset} from "./ts/editor/getNodeOffset";
 import {inputEvent} from "./ts/editor/inputEvent";
 
@@ -141,7 +141,7 @@ class Vditor {
     }
 
     public getCursorPosition() {
-        return getTextareaPosition(this.vditor.editor.element);
+        return getCursorPosition(this.vditor.editor.element);
     }
 
     public deleteValue() {
