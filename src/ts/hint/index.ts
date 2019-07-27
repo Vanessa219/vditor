@@ -1,5 +1,5 @@
 import {getCursorPosition} from "./getCursorPosition";
-import {insertText} from "../editor";
+import {insertText} from "../editor/insertText";
 import {inputEvent} from "../editor/inputEvent";
 
 export class Hint {
@@ -136,7 +136,7 @@ export class Hint {
 
                 const range = this.vditor.editor.range;
                 range.setStart(range.startContainer, range.commonAncestorContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar))
-                insertText(range, value, "", true);
+                insertText(value, "", true, true, range);
                 inputEvent(this.vditor)
             });
         });

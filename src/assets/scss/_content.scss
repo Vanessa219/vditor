@@ -23,6 +23,8 @@
   }
 
   &-textarea {
+    height: 100%;
+    overflow: auto;
     width: 100%;
     flex: 1;
     border: 0;
