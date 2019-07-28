@@ -1,5 +1,5 @@
-import {getCursorPosition} from "./getCursorPosition";
 import {insertText} from "../editor/insertText";
+import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
     public timeId: number;
@@ -17,7 +17,8 @@ export class Hint {
     }
 
     public render() {
-        const currentLineValue = window.getSelection().focusNode.textContent.substring(0, window.getSelection().anchorOffset);
+        const currentLineValue = window.getSelection().focusNode
+            .textContent.substring(0, window.getSelection().anchorOffset);
         const atKey = this.getKey(currentLineValue, "@");
         const emojiKey = this.getKey(currentLineValue, ":");
 
@@ -34,7 +35,8 @@ export class Hint {
             if (emojiKey !== undefined) {
                 import(/* webpackChunkName: "allEmoji" */ "../emoji/allEmoji")
                     .then((allEmoji) => {
-                        const emojiHint = emojiKey === "" ? this.vditor.options.hint.emoji : allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath);
+                        const emojiHint = emojiKey === "" ? this.vditor.options.hint.emoji :
+                            allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath);
                         const matchEmojiData: IHintData[] = [];
                         Object.keys(emojiHint).forEach((key) => {
                             if (key.indexOf(emojiKey.toLowerCase()) === 0) {
@@ -62,7 +64,7 @@ export class Hint {
 
     private getKey(currentLineValue: string, splitChar: string) {
         if (!String.prototype.trim) {
-            String.prototype.trim = function () {
+            String.prototype.trim = function() {
                 return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
             };
         }
@@ -134,7 +136,8 @@ export class Hint {
                 const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
                 const range = this.vditor.editor.range;
-                range.setStart(range.startContainer, range.commonAncestorContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar))
+                range.setStart(range.startContainer,
+                    range.commonAncestorContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar));
                 insertText(this.vditor, value, "", true, true, range);
             });
         });

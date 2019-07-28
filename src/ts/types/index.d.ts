@@ -153,7 +153,7 @@ interface IVditor {
     };
     editor?: {
         element: HTMLDivElement,
-        range: Range
+        range: Range,
     };
     counter?: {
         element: HTMLElement
@@ -206,7 +206,7 @@ declare class IVditorConstructor {
 
     public renderPreview(value?: string): void;
 
-    public getCursorPosition(editor:HTMLDivElement): {
+    public getCursorPosition(editor: HTMLDivElement): {
         left: number,
         top: number,
     };

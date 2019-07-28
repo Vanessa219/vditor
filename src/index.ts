@@ -1,25 +1,25 @@
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
-import {Editor} from "./ts/editor/index";
+import {getNodeOffset} from "./ts/editor/getNodeOffset";
 import {html2md} from "./ts/editor/html2md";
+import {Editor} from "./ts/editor/index";
+import {inputEvent} from "./ts/editor/inputEvent";
 import {insertText} from "./ts/editor/insertText";
+import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {md2html} from "./ts/markdown/render";
 import {markdownItRender} from "./ts/markdown/render";
+import {md2html} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
-import {getCursorPosition} from "./ts/hint/getCursorPosition";
-import {getNodeOffset} from "./ts/editor/getNodeOffset";
-import {inputEvent} from "./ts/editor/inputEvent";
 
 class Vditor {
 
@@ -107,32 +107,32 @@ class Vditor {
     }
 
     public setSelection(start: number, end: number) {
-        const startObj = getNodeOffset(this.vditor.editor.element.childNodes, start)
-        const endObj = getNodeOffset(this.vditor.editor.element.childNodes, end)
-        const range = document.createRange()
+        const startObj = getNodeOffset(this.vditor.editor.element.childNodes, start);
+        const endObj = getNodeOffset(this.vditor.editor.element.childNodes, end);
+        const range = document.createRange();
         range.setStart(startObj.node, startObj.offset);
         range.setEnd(endObj.node, endObj.offset);
-        let sel = window.getSelection();
+        const sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
         this.vditor.editor.element.focus();
     }
 
     public getSelection() {
-        let selectDom = window.getSelection().getRangeAt(0).commonAncestorContainer
+        let selectDom = window.getSelection().getRangeAt(0).commonAncestorContainer;
         while (selectDom) {
             if (this.vditor.editor.element.isEqualNode(selectDom)) {
-                return window.getSelection().toString()
+                return window.getSelection().toString();
             } else {
-                selectDom = selectDom.parentElement
+                selectDom = selectDom.parentElement;
             }
         }
-        return ''
+        return "";
     }
 
     public setValue(value: string) {
-        this.vditor.editor.element.innerText = value
-        inputEvent(this.vditor)
+        this.vditor.editor.element.innerText = value;
+        inputEvent(this.vditor);
         if (!value) {
             localStorage.removeItem("vditor" + this.vditor.id);
         }

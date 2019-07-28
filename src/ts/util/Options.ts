@@ -20,8 +20,8 @@ export class Options {
             emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
         },
         keymap: {
-            deleteLine: '⌘-Backspace',
-            duplicate: '⌘-d'
+            deleteLine: "⌘-Backspace",
+            duplicate: "⌘-d",
         },
         lang: "zh_CN",
         placeholder: "",

@@ -1,4 +1,4 @@
-export const inputEvent = (vditor:IVditor) => {
+export const inputEvent = (vditor: IVditor) => {
     if (vditor.options.counter > 0) {
         vditor.counter.render(vditor.editor.element.innerText.length, vditor.options.counter);
     }
@@ -14,4 +14,4 @@ export const inputEvent = (vditor:IVditor) => {
     if (vditor.preview) {
         vditor.preview.render(vditor);
     }
-}
+};

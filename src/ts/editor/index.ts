@@ -1,17 +1,17 @@
 import {uploadFiles} from "../upload/index";
-import {inputEvent} from "./inputEvent";
 import {html2md} from "./html2md";
+import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
 
 class Editor {
     public element: HTMLDivElement;
-    public range: Range
+    public range: Range;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("div");
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
-        this.element.setAttribute("contenteditable", 'true');
+        this.element.setAttribute("contenteditable", "true");
         if (vditor.options.editorName) {
             this.element.setAttribute("name", vditor.options.editorName);
         }
@@ -36,13 +36,13 @@ class Editor {
             return;
         }
         const mdValue = await html2md(vditor, vditor.originalInnerHTML);
-        this.element.focus()
+        this.element.focus();
         insertText(vditor, mdValue, "", true);
     }
 
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("input", () => {
-            inputEvent(vditor)
+            inputEvent(vditor);
         });
 
         this.element.addEventListener("focus", () => {
@@ -60,7 +60,7 @@ class Editor {
         });
 
         this.element.addEventListener("blur", () => {
-            this.range = window.getSelection().getRangeAt(0).cloneRange()
+            this.range = window.getSelection().getRangeAt(0).cloneRange();
             if (vditor.options.blur) {
                 vditor.options.blur(this.element.innerText);
             }
