@@ -35,7 +35,7 @@ export class Preview {
             return;
         }
 
-        if (vditor.editor.element.value.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
+        if (vditor.editor.element.innerText.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
             this.element.innerHTML = "";
             return;
         }
@@ -62,7 +62,7 @@ export class Preview {
                 };
 
                 xhr.send(JSON.stringify({
-                    markdownText: vditor.editor.element.value,
+                    markdownText: vditor.editor.element.innerText,
                 }));
             } else {
                 md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
