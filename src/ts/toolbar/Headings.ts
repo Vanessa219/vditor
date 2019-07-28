@@ -1,5 +1,5 @@
 import headingsSVG from "../../assets/icons/headings.svg";
-import {insertText} from "../editor/index";
+import {insertText} from "../editor/insertText";
 import {MenuItem} from "./MenuItem";
 
 export class Headings extends MenuItem {
@@ -38,7 +38,11 @@ export class Headings extends MenuItem {
 
         for (let i = 0; i < 6; i++) {
             headingsPanelElement.children.item(i).addEventListener("click", (event: Event) => {
-                insertText(vditor.editor.element, (event.target as HTMLElement).getAttribute("data-value"), "");
+                if (!vditor.editor.range) {
+                    vditor.editor.element.focus()
+                }
+                insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
+                    false, true, vditor.editor.range);
                 headingsPanelElement.style.display = "none";
             });
         }
