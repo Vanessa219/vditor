@@ -1,10 +1,13 @@
+import {inputEvent} from "./inputEvent";
+
 const genNode = (text: string) => {
     const spanElement = document.createElement("span");
     spanElement.innerText = text;
     return spanElement
 }
 
-export const insertText = (prefix: string, suffix: string, replace: boolean = false, toggle: boolean = true, range: Range = window.getSelection().getRangeAt(0)) => {
+export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false, toggle: boolean = true,
+                           range: Range = window.getSelection().getRangeAt(0)) => {
     if (range.collapsed) {
         // no selection
         range.insertNode(genNode(prefix + suffix));
@@ -33,4 +36,5 @@ export const insertText = (prefix: string, suffix: string, replace: boolean = fa
             }
         }
     }
+    inputEvent(vditor)
 }

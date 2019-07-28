@@ -37,7 +37,7 @@ class Editor {
         }
         const mdValue = await html2md(vditor, vditor.originalInnerHTML);
         this.element.focus()
-        insertText(mdValue, "", true);
+        insertText(vditor, mdValue, "", true);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -119,7 +119,7 @@ class Editor {
                         event.preventDefault();
                         // https://github.com/b3log/vditor/issues/51
                         const mdValue = await html2md(vditor, textHTML, textPlain);
-                        insertText(mdValue, "", true);
+                        insertText(vditor, mdValue, "", true);
                     }
                 }
             } else if (clipboardEvent.clipboardData.getData("text/plain").trim() !== "" &&

@@ -1,6 +1,8 @@
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
-import {Editor, html2md, insertText} from "./ts/editor/index";
+import {Editor} from "./ts/editor/index";
+import {html2md} from "./ts/editor/html2md";
+import {insertText} from "./ts/editor/insertText";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
 import {chartRender} from "./ts/markdown/chartRender";
@@ -85,7 +87,7 @@ class Vditor {
     }
 
     public insertValue(value: string) {
-        insertText(this.vditor.editor.element, value, "");
+        insertText(this.vditor, value, "");
     }
 
     public focus() {
@@ -145,11 +147,11 @@ class Vditor {
     }
 
     public deleteValue() {
-        insertText(this.vditor.editor.element, "", "", true);
+        insertText(this.vditor, "", "", true);
     }
 
     public updateValue(value: string) {
-        insertText(this.vditor.editor.element, value, "", true);
+        insertText(this.vditor, value, "", true);
     }
 
     public isUploading() {
