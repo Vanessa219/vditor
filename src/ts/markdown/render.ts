@@ -59,9 +59,9 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
 
 export const md2html = async (vditor: IVditor, includeHljs: boolean) => {
     if (typeof vditor.markdownIt !== "undefined") {
-        return vditor.markdownIt.render(vditor.editor.element.value);
+        return vditor.markdownIt.render(vditor.editor.element.innerText);
     } else {
         vditor.markdownIt = await initMarkdownIt(vditor, includeHljs);
-        return vditor.markdownIt.render(vditor.editor.element.value);
+        return vditor.markdownIt.render(vditor.editor.element.innerText);
     }
 };
