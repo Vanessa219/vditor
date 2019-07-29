@@ -1,14 +1,14 @@
-import {insertText} from "../editor/index";
+import {insertText} from "../editor/insertText";
 import {i18n} from "../i18n/index";
 
 export class MenuItem {
     public element: HTMLElement;
     public menuItem: IMenuItem;
-    public editorElement: HTMLTextAreaElement;
+    public vditor: IVditor;
 
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         this.menuItem = menuItem;
-        this.editorElement = vditor.editor.element;
+        this.vditor = vditor;
 
         this.element = document.createElement("div");
         const iconElement = document.createElement("div");
@@ -27,7 +27,11 @@ export class MenuItem {
 
     public bindEvent() {
         this.element.children[0].addEventListener("click", () => {
-            insertText(this.editorElement, this.menuItem.prefix || "", this.menuItem.suffix || "");
+            if (!this.vditor.editor.range) {
+                this.vditor.editor.element.focus()
+            }
+            insertText(this.vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
+                false, true, this.vditor.editor.range);
         });
     }
 }

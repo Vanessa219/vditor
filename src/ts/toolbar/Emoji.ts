@@ -1,5 +1,5 @@
 import emojiSVG from "../../assets/icons/emoji.svg";
-import {insertText} from "../editor/index";
+import {insertText} from "../editor/insertText";
 import {MenuItem} from "./MenuItem";
 
 export class Emoji extends MenuItem {
@@ -54,7 +54,11 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
 
         emojiPanelElement.querySelectorAll(".vditor-emojis span").forEach((element) => {
             element.addEventListener("click", (event: Event) => {
-                insertText(vditor.editor.element, (event.target as HTMLElement).getAttribute("data-value"), "", true);
+                if (!vditor.editor.range) {
+                    vditor.editor.element.focus()
+                }
+                insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"),
+                    "", true, true, vditor.editor.range);
                 emojiPanelElement.style.display = "none";
             });
             element.addEventListener("mouseover", (event: Event) => {
