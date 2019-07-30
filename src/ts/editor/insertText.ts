@@ -58,9 +58,16 @@ const getTextLength = (value: string) => {
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
                            toggle: boolean = false) => {
     let range: Range = window.getSelection().getRangeAt(0);
-    if (!vditor.editor.element.isEqualNode(range.commonAncestorContainer.parentElement)) {
-        range = vditor.editor.range;
+    if (!vditor.editor.element.isEqualNode(range.commonAncestorContainer.parentElement) &&
+        !vditor.editor.element.isEqualNode(range.commonAncestorContainer)) {
+        if (vditor.editor.range) {
+            range = vditor.editor.range;
+        } else {
+            vditor.editor.element.focus()
+            range = window.getSelection().getRangeAt(0);
+        }
     }
+
     if (range.collapsed || (!range.collapsed && replace)) {
         // select none or replace selection
         const selectionCaret = saveSelection(vditor.editor.element, range);

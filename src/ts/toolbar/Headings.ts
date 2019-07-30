@@ -38,9 +38,6 @@ export class Headings extends MenuItem {
 
         for (let i = 0; i < 6; i++) {
             headingsPanelElement.children.item(i).addEventListener("click", (event: Event) => {
-                if (!vditor.editor.range) {
-                    vditor.editor.element.focus()
-                }
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                     false, true);
                 headingsPanelElement.style.display = "none";

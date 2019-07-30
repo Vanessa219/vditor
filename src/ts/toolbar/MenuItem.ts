@@ -25,11 +25,8 @@ export class MenuItem {
         this.element.appendChild(iconElement);
     }
 
-    public bindEvent(replace:boolean = false) {
+    public bindEvent(replace: boolean = false) {
         this.element.children[0].addEventListener("click", () => {
-            if (!this.vditor.editor.range) {
-                this.vditor.editor.element.focus()
-            }
             insertText(this.vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                 replace, true);
         });
