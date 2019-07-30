@@ -1,27 +1,27 @@
-import {insertText} from "../editor/index";
-import {getLineScope} from "../editor/getLineScope";
+import {insertHTML, insertText} from "../editor/insertText";
+import {setSelectionByNode} from "../editor/setSelection";
+import {getSelectText} from "../editor/getSelectText";
 
 export class Hotkey {
-    public editorElement: HTMLTextAreaElement;
-    public toolbarElements: { [key: string]: HTMLElement };
-    public options: IOptions;
     public hintElement: HTMLElement;
+    public vditor: IVditor;
+    private disableEnter: boolean;
 
     constructor(vditor: IVditor) {
-        this.editorElement = vditor.editor.element;
-        this.toolbarElements = vditor.toolbar.elements;
-        this.options = vditor.options;
         this.hintElement = vditor.hint && vditor.hint.element;
+        this.vditor = vditor;
+        this.disableEnter = false;
         this.bindHotkey();
     }
 
-    private processKeymap(hotkey: string, event: KeyboardEvent, action: Function) {
+    private processKeymap(hotkey: string, event: KeyboardEvent, action: () => void) {
         const hotkeys = hotkey.split("-");
-        const hasShift = hotkeys.length === 3 && (hotkeys[1] === "shift" || hotkeys[1] === "⇧")
-        const key = hasShift ? hotkeys[2] : hotkeys[1]
-        if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === key.toLowerCase()) {
+        const hasShift = hotkeys.length === 3 && (hotkeys[1] === "shift" || hotkeys[1] === "⇧");
+        const key = hasShift ? hotkeys[2] : hotkeys[1];
+        if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey)
+            && event.key.toLowerCase() === key.toLowerCase()) {
             if ((!hasShift && !event.shiftKey) || (hasShift && event.shiftKey)) {
-                action()
+                action();
                 event.preventDefault();
                 event.stopPropagation();
             }
@@ -29,75 +29,124 @@ export class Hotkey {
     }
 
     private bindHotkey(): void {
-        this.editorElement.addEventListener("keydown", (event: KeyboardEvent) => {
-            if (this.options.esc) {
+        this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
+            if (this.vditor.options.esc) {
                 if (event.key.toLowerCase() === "Escape".toLowerCase()) {
-                    this.options.esc(this.editorElement.value);
+                    this.vditor.options.esc(this.vditor.editor.element.innerText);
                 }
             }
 
-            if (this.options.ctrlEnter) {
-                if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "enter") {
-                    this.options.ctrlEnter(this.editorElement.value);
+            if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
+                this.hint(event);
+            }
+
+            if (event.key.toLowerCase() === "enter") {
+                if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter) {
+                    this.vditor.options.ctrlEnter(this.vditor.editor.element.innerText);
+                } else if (!event.metaKey && !event.ctrlKey && !this.disableEnter) {
+                    // new line, use br instead of div
+                    const range = window.getSelection().getRangeAt(0);
+                    range.deleteContents();
+                    let needTwoBR = true
+                    let getResult = false
+                    if (range.endContainer.nodeType === 3) {
+                        let nextSibling = range.endContainer.nextSibling
+                        while (nextSibling && !getResult) {
+                            if (nextSibling.nodeName === "BR" || (nextSibling.nodeType === 3 && nextSibling.textContent !== "")) {
+                                needTwoBR = false
+                                getResult = true
+                            }
+                            nextSibling = nextSibling.nextSibling
+                        }
+                    } else {
+                        let currentIndex = range.endOffset
+                        let currentNode = range.endContainer.childNodes[currentIndex]
+                        while (currentNode && !getResult) {
+                            if (currentNode.nodeName === "BR" || (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
+                                needTwoBR = false
+                                getResult = true
+                            }
+                            currentIndex++
+                        }
+                    }
+
+                    let html = "<br>"
+                    // bottom always needs br, otherwise can not enter
+                    if (needTwoBR) {
+                        html = "<br><br>";
+                    }
+
+                    // insert br and remove position
+                    const element = document.createElement("div");
+                    element.innerHTML = html;
+                    const fragment = document.createDocumentFragment();
+                    let node = element.firstChild;
+                    let firstNode = node;
+                    while (node) {
+                        fragment.appendChild(node);
+                        node = element.firstChild;
+                    }
+                    range.insertNode(fragment);
+                    setSelectionByNode(firstNode, firstNode, range);
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
             }
 
             // editor actions
-            if (this.options.keymap.deleteLine) {
-                this.processKeymap(this.options.keymap.deleteLine, event, () => {
-                    const oStartIndex = this.editorElement.selectionStart
-                    const starLine = getLineScope(this.editorElement.value, this.editorElement.selectionStart)
-                    const endLine = getLineScope(this.editorElement.value, this.editorElement.selectionEnd)
-                    this.editorElement.selectionStart = starLine[0]
-                    this.editorElement.selectionEnd = endLine[1] + 1
-                    insertText(this.editorElement, "", "", true);
-                    this.editorElement.selectionStart = this.editorElement.selectionEnd = oStartIndex
+            if (this.vditor.options.keymap.deleteLine) {
+                this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
+                    const range = window.getSelection().getRangeAt(0)
+                    if (range.startContainer.nodeType === 3) {
+                        range.setStart(range.startContainer, 0)
+                    } else {
+                        range.setStartBefore(range.startContainer.childNodes[range.startOffset - 1])
+                    }
+                    if (range.endContainer.nodeType === 3) {
+                        if (range.endContainer.nextSibling) {
+                            range.setEndAfter(range.endContainer.nextSibling)
+                        } else {
+                            range.setEnd(range.endContainer, range.endContainer.textContent.length)
+                        }
+                    } else {
+                        range.setEndBefore(range.endContainer.childNodes[range.endOffset])
+                    }
+                    insertHTML('')
                 })
             }
-            if (this.options.keymap.duplicate) {
-                this.processKeymap(this.options.keymap.duplicate, event, () => {
-                    const value = this.editorElement.value
-                    const oStartIndex = this.editorElement.selectionStart
-                    if (this.editorElement.selectionStart === this.editorElement.selectionEnd) {
-                        const currentLineScope = getLineScope(value, this.editorElement.selectionStart)
-                        this.editorElement.selectionStart = currentLineScope[1]
-                        const currentLine = '\n' + value.substring(currentLineScope[0], currentLineScope[1])
-                        insertText(this.editorElement, currentLine, "");
-                        this.editorElement.selectionStart = this.editorElement.selectionEnd = oStartIndex + currentLine.length
+            if (this.vditor.options.keymap.duplicate) {
+                this.processKeymap(this.vditor.options.keymap.duplicate, event, () => {
+                    const range = window.getSelection().getRangeAt(0)
+                    let selectText = ''
+                    if (range.collapsed) {
+                        range.setStart(range.startContainer, 0)
+                        range.setEnd(range.endContainer, range.endContainer.textContent.length)
+                        selectText = '\n' + getSelectText(range, this.vditor.editor.element)
                     } else {
-                        const currentValue = value.substring(this.editorElement.selectionStart, this.editorElement.selectionEnd)
-                        insertText(this.editorElement, currentValue, "", false, false);
+                        selectText = getSelectText(range, this.vditor.editor.element)
                     }
+                    range.setStart(range.endContainer, range.endOffset)
+                    insertHTML(selectText)
                 })
             }
 
             // toolbar action
-            this.options.toolbar.forEach((menuItem: IMenuItem) => {
+            this.vditor.options.toolbar.forEach((menuItem: IMenuItem) => {
                 if (!menuItem.hotkey) {
                     return;
                 }
                 this.processKeymap(menuItem.hotkey, event, () => {
-                    (this.toolbarElements[menuItem.name].children[0] as HTMLElement).click();
-                })
+                    (this.vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
+                });
             });
 
-            if (this.options.hint.at || this.toolbarElements.emoji) {
-                this.hint(event);
-            }
-
-            if (this.options.tab && event.key.toLowerCase() === "tab") {
-                const selectionValue = this.editorElement.value.substring(this.editorElement.selectionStart,
-                    this.editorElement.selectionEnd);
-
-                const selectionsList = selectionValue.split("\n");
-                const selectionResult = selectionsList.map((value) => {
-                    return this.options.tab + value;
+            if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
+                const selectionValue = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element)
+                const selectionResult = selectionValue.split("\n").map((value) => {
+                    return this.vditor.options.tab + value;
                 });
 
-                insertText(this.editorElement, selectionResult.join("\n"), "", true);
-                this.editorElement.selectionEnd = this.editorElement.selectionStart =
-                    this.editorElement.selectionStart - selectionValue.length -
-                    this.options.tab.length * (selectionsList.length - 1);
+                insertText(this.vditor, selectionResult.join("\n"), "", true);
 
                 event.preventDefault();
                 event.stopPropagation();
@@ -111,7 +160,7 @@ export class Hotkey {
             return;
         }
 
-        const currentHintElement = this.hintElement.querySelector(".vditor-hint--current");
+        const currentHintElement: HTMLElement = this.hintElement.querySelector(".vditor-hint--current");
 
         if (event.key.toLowerCase() === "arrowdown") {
             event.preventDefault();
@@ -135,14 +184,11 @@ export class Hotkey {
         } else if (event.key.toLowerCase() === "enter") {
             event.preventDefault();
             event.stopPropagation();
-            this.hintElement.style.display = "none";
-
-            const value = currentHintElement.getAttribute("data-value");
-            const splitChar = value.indexOf("@") === 0 ? "@" : ":";
-
-            this.editorElement.selectionStart =
-                this.editorElement.value.substr(0, this.editorElement.selectionEnd).lastIndexOf(splitChar);
-            insertText(this.editorElement, value, "", true);
+            this.vditor.hint.fillEmoji(currentHintElement);
+            this.disableEnter = true;
+            setTimeout(() => {
+                this.disableEnter = false;
+            }, 10);
         }
     }
 }

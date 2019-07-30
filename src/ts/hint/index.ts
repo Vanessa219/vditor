@@ -1,6 +1,7 @@
 import {selectIsEditor} from "../editor/selectIsEditor";
 import {setSelectionByStar} from "../editor/setSelection";
 import {getCursorPosition} from "./getCursorPosition";
+import {insertHTML} from "../editor/insertText";
 
 export class Hint {
     public timeId: number;
@@ -75,7 +76,7 @@ export class Hint {
         }
         setSelectionByStar(range.startContainer,
             range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar), range);
-        document.execCommand("insertHTML", false, value);
+        insertHTML(value)
     }
 
     private getKey(currentLineValue: string, splitChar: string) {
