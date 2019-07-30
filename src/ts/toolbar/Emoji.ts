@@ -55,7 +55,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
         emojiPanelElement.querySelectorAll(".vditor-emojis span").forEach((element) => {
             element.addEventListener("click", (event: Event) => {
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"),
-                    "", true, false);
+                    "", true);
                 emojiPanelElement.style.display = "none";
             });
             element.addEventListener("mouseover", (event: Event) => {

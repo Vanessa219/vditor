@@ -1,3 +1,5 @@
+import {selectIsEditor} from "./selectIsEditor";
+
 const addNode = (html: string, range: Range) => {
     html = html.replace(/\n/g, "<br>");
     document.execCommand("insertHTML", false, html);
@@ -58,12 +60,11 @@ const getTextLength = (value: string) => {
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
                            toggle: boolean = false) => {
     let range: Range = window.getSelection().getRangeAt(0);
-    if (!vditor.editor.element.isEqualNode(range.commonAncestorContainer.parentElement) &&
-        !vditor.editor.element.isEqualNode(range.commonAncestorContainer)) {
+    if (!selectIsEditor(range, vditor.editor.element)) {
         if (vditor.editor.range) {
             range = vditor.editor.range;
         } else {
-            vditor.editor.element.focus()
+            vditor.editor.element.focus();
             range = window.getSelection().getRangeAt(0);
         }
     }

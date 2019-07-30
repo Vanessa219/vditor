@@ -43,7 +43,7 @@ const LazyLoadImage = () => {
   }
 }
 
-const vditor = new Vditor('vditor', {
+window.vditor = new Vditor('vditor', {
   counter: 100,
   height: 300,
   editorName: 'vditor',
@@ -203,7 +203,7 @@ window.vditorTest = new Vditor('vditorTest', {
     console.log(`ctrlEnter: ${val}`)
   },
   select: (val) => {
-    console.log(`select: ${val}`)
+    console.log('select:', val)
   },
   upload: {
     accept: 'image/*,.pdf',

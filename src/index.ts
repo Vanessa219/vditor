@@ -1,10 +1,10 @@
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
-import {getNodeOffset} from "./ts/editor/getNodeOffset";
+import {getSelectText} from "./ts/editor/getSelectText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
-import {inputEvent} from "./ts/editor/inputEvent";
 import {insertText} from "./ts/editor/insertText";
+import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
@@ -107,32 +107,24 @@ class Vditor {
     }
 
     public setSelection(start: number, end: number) {
-        const startObj = getNodeOffset(this.vditor.editor.element.childNodes, start);
-        const endObj = getNodeOffset(this.vditor.editor.element.childNodes, end);
-        const range = document.createRange();
-        range.setStart(startObj.node, startObj.offset);
-        range.setEnd(endObj.node, endObj.offset);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        this.vditor.editor.element.focus();
+       const range = setSelectionByPosition(start, end, this.vditor.editor.element);
+       if (this.vditor.options.select) {
+            this.vditor.options.select(getSelectText(range, this.vditor.editor.element));
+        }
     }
 
     public getSelection() {
-        let selectDom = window.getSelection().getRangeAt(0).commonAncestorContainer;
-        while (selectDom) {
-            if (this.vditor.editor.element.isEqualNode(selectDom)) {
-                return window.getSelection().toString();
-            } else {
-                selectDom = selectDom.parentElement;
-            }
+        let selectText = "";
+        if (window.getSelection().rangeCount !== 0) {
+            selectText = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element);
         }
-        return "";
+        return selectText;
     }
 
     public setValue(value: string) {
-        this.vditor.editor.element.innerText = value;
-        inputEvent(this.vditor);
+        this.vditor.editor.element.focus();
+        window.getSelection().getRangeAt(0).selectNode(this.vditor.editor.element);
+        insertText(this.vditor, value, "", true);
         if (!value) {
             localStorage.removeItem("vditor" + this.vditor.id);
         }

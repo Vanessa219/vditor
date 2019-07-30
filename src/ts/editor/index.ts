@@ -1,4 +1,5 @@
 import {uploadFiles} from "../upload/index";
+import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
@@ -68,7 +69,7 @@ class Editor {
 
         if (vditor.options.select) {
             this.element.addEventListener("mouseup", () => {
-                vditor.options.select(window.getSelection().getRangeAt(0).toString());
+                vditor.options.select(getSelectText(window.getSelection().getRangeAt(0), this.element));
             });
         }
 

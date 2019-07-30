@@ -1,4 +1,6 @@
+import {selectIsEditor} from "../editor/selectIsEditor";
 import {getCursorPosition} from "./getCursorPosition";
+import {setSelectionByStar} from "../editor/setSelection";
 
 export class Hint {
     public timeId: number;
@@ -68,14 +70,11 @@ export class Hint {
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
         let range: Range = window.getSelection().getRangeAt(0);
-        if (!this.vditor.editor.element.isEqualNode(range.commonAncestorContainer.parentElement)) {
+        if (!selectIsEditor(range, this.vditor.editor.element)) {
             range = this.vditor.editor.range;
         }
-        range.setStart(range.startContainer,
-            range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar));
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
+        setSelectionByStar(range.startContainer,
+            range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar), range)
         document.execCommand("insertHTML", false, value);
     }
 
