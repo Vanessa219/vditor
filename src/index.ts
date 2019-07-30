@@ -3,7 +3,7 @@ import {Counter} from "./ts/counter/index";
 import {getSelectText} from "./ts/editor/getSelectText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
-import {insertText} from "./ts/editor/insertText";
+import {insertText, quickInsertText} from "./ts/editor/insertText";
 import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
@@ -124,7 +124,7 @@ class Vditor {
     public setValue(value: string) {
         this.vditor.editor.element.focus();
         window.getSelection().getRangeAt(0).selectNode(this.vditor.editor.element);
-        insertText(this.vditor, value, "", true);
+        quickInsertText(value);
         if (!value) {
             localStorage.removeItem("vditor" + this.vditor.id);
         }

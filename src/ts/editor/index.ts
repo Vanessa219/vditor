@@ -2,7 +2,7 @@ import {uploadFiles} from "../upload/index";
 import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
-import {insertText} from "./insertText";
+import {insertText, quickInsertText} from "./insertText";
 
 class Editor {
     public element: HTMLDivElement;
@@ -38,7 +38,7 @@ class Editor {
         }
         const mdValue = await html2md(vditor, vditor.originalInnerHTML);
         this.element.focus();
-        insertText(vditor, mdValue, "", true);
+        quickInsertText(mdValue);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -120,7 +120,7 @@ class Editor {
                         event.preventDefault();
                         // https://github.com/b3log/vditor/issues/51
                         const mdValue = await html2md(vditor, textHTML, textPlain);
-                        insertText(vditor, mdValue, "", true);
+                        quickInsertText(mdValue);
                     }
                 }
             } else if (clipboardEvent.clipboardData.getData("text/plain").trim() !== "" &&

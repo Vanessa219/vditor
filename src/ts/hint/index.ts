@@ -1,4 +1,4 @@
-import {insertHTML} from "../editor/insertText";
+import {quickInsertText} from "../editor/insertText";
 import {selectIsEditor} from "../editor/selectIsEditor";
 import {setSelectionByStar} from "../editor/setSelection";
 import {getCursorPosition} from "./getCursorPosition";
@@ -76,7 +76,7 @@ export class Hint {
         }
         setSelectionByStar(range.startContainer,
             range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar), range);
-        insertHTML(value);
+        quickInsertText(value);
     }
 
     private getKey(currentLineValue: string, splitChar: string) {

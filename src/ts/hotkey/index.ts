@@ -1,5 +1,5 @@
 import {getSelectText} from "../editor/getSelectText";
-import {insertHTML, insertText} from "../editor/insertText";
+import {quickInsertText, insertText} from "../editor/insertText";
 import {setSelectionByNode} from "../editor/setSelection";
 
 export class Hotkey {
@@ -113,7 +113,7 @@ export class Hotkey {
                     } else {
                         range.setEndBefore(range.endContainer.childNodes[range.endOffset]);
                     }
-                    insertHTML("");
+                    quickInsertText("");
                 });
             }
             if (this.vditor.options.keymap.duplicate) {
@@ -128,7 +128,7 @@ export class Hotkey {
                         selectText = getSelectText(range, this.vditor.editor.element);
                     }
                     range.setStart(range.endContainer, range.endOffset);
-                    insertHTML(selectText);
+                    quickInsertText(selectText);
                 });
             }
 
@@ -148,7 +148,7 @@ export class Hotkey {
                     return this.vditor.options.tab + value;
                 });
 
-                insertText(this.vditor, selectionResult.join("\n"), "", true);
+                quickInsertText(selectionResult.join("\n"));
 
                 event.preventDefault();
                 event.stopPropagation();
