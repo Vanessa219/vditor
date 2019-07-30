@@ -31,7 +31,7 @@ export class MenuItem {
                 this.vditor.editor.element.focus()
             }
             insertText(this.vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
-                replace, true, this.vditor.editor.range);
+                replace, true);
         });
     }
 }

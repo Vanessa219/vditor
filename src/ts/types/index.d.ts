@@ -165,6 +165,7 @@ interface IVditor {
     hint?: {
         timeId: number
         element: HTMLUListElement
+        fillEmoji(element: HTMLElement): void
         render(): void,
     };
     upload?: {

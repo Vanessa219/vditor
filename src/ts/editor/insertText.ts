@@ -1,11 +1,9 @@
-import {inputEvent} from "./inputEvent";
-
 const addNode = (html: string, range: Range) => {
     html = html.replace(/\n/g, '<br>')
     document.execCommand("insertHTML", false, html);
 };
 
-const saveSelection = (editorElement: HTMLDivElement, range: Range) => {
+export const saveSelection = (editorElement: HTMLDivElement, range: Range) => {
     const lastRange = range.cloneRange();
     lastRange.selectNodeContents(editorElement);
     lastRange.setEnd(range.startContainer, range.startOffset);
@@ -17,7 +15,7 @@ const saveSelection = (editorElement: HTMLDivElement, range: Range) => {
     }
 };
 
-const setSelection = function (editorElement: HTMLDivElement, selectionCaret: { start: number, end: number }) {
+export const setSelection = function (editorElement: HTMLDivElement, selectionCaret: { start: number, end: number }) {
     let charIndex = 0
     const range = document.createRange();
     range.setStart(editorElement, 0);
@@ -56,8 +54,11 @@ const getTextLength = (value: string) => {
     return value.replace(/\n/g, '').length
 }
 
-export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
-                           toggle: boolean = false, range: Range = window.getSelection().getRangeAt(0)) => {
+export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false, toggle: boolean = false) => {
+    let range: Range = window.getSelection().getRangeAt(0)
+    if (!vditor.editor.element.isEqualNode(range.commonAncestorContainer.parentElement)) {
+        range = vditor.editor.range
+    }
     if (range.collapsed || (!range.collapsed && replace)) {
         // select none or replace selection
         const selectionCaret = saveSelection(vditor.editor.element, range)
@@ -94,5 +95,4 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         setSelection(vditor.editor.element, selectionCaret)
         addNode(prefix + selectHTML + suffix, range)
     }
-    inputEvent(vditor);
 };

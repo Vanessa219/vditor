@@ -58,7 +58,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
                     vditor.editor.element.focus()
                 }
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"),
-                    "", true, false, vditor.editor.range);
+                    "", true, false);
                 emojiPanelElement.style.display = "none";
             });
             element.addEventListener("mouseover", (event: Event) => {

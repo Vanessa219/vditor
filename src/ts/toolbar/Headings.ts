@@ -42,7 +42,7 @@ export class Headings extends MenuItem {
                     vditor.editor.element.focus()
                 }
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
-                    false, true, vditor.editor.range);
+                    false, true);
                 headingsPanelElement.style.display = "none";
             });
         }

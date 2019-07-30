@@ -1,4 +1,3 @@
-import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
@@ -62,9 +61,27 @@ export class Hint {
         }
     }
 
+    public fillEmoji = (element: HTMLElement) => {
+        this.element.style.display = "none";
+
+        const value = element.getAttribute("data-value");
+        const splitChar = value.indexOf("@") === 0 ? "@" : ":";
+
+        let range: Range = window.getSelection().getRangeAt(0)
+        if (!this.vditor.editor.element.isEqualNode(range.commonAncestorContainer.parentElement)) {
+            range = this.vditor.editor.range
+        }
+        range.setStart(range.startContainer,
+            range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar));
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand("insertHTML", false, value);
+    }
+
     private getKey(currentLineValue: string, splitChar: string) {
         if (!String.prototype.trim) {
-            String.prototype.trim = function() {
+            String.prototype.trim = function () {
                 return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
             };
         }
@@ -130,15 +147,7 @@ export class Hint {
 
         this.element.querySelectorAll("li").forEach((element) => {
             element.addEventListener("click", () => {
-                this.element.style.display = "none";
-
-                const value = element.getAttribute("data-value");
-                const splitChar = value.indexOf("@") === 0 ? "@" : ":";
-
-                const range = this.vditor.editor.range;
-                range.setStart(range.startContainer,
-                    range.commonAncestorContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar));
-                insertText(this.vditor, value, "", true, false, range);
+                this.fillEmoji(element)
             });
         });
         // hint 展现在上部
