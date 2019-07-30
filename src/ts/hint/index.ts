@@ -67,9 +67,9 @@ export class Hint {
         const value = element.getAttribute("data-value");
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
-        let range: Range = window.getSelection().getRangeAt(0)
+        let range: Range = window.getSelection().getRangeAt(0);
         if (!this.vditor.editor.element.isEqualNode(range.commonAncestorContainer.parentElement)) {
-            range = this.vditor.editor.range
+            range = this.vditor.editor.range;
         }
         range.setStart(range.startContainer,
             range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar));
@@ -81,7 +81,7 @@ export class Hint {
 
     private getKey(currentLineValue: string, splitChar: string) {
         if (!String.prototype.trim) {
-            String.prototype.trim = function () {
+            String.prototype.trim = function() {
                 return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
             };
         }
@@ -147,7 +147,7 @@ export class Hint {
 
         this.element.querySelectorAll("li").forEach((element) => {
             element.addEventListener("click", () => {
-                this.fillEmoji(element)
+                this.fillEmoji(element);
             });
         });
         // hint 展现在上部
