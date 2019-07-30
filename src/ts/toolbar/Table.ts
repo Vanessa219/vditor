@@ -9,6 +9,6 @@ export class Table extends MenuItem {
     }
 
     public bindEvent() {
-        super.bindEvent();
+        super.bindEvent(true);
     }
 }

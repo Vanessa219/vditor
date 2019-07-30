@@ -1,16 +1,8 @@
 import {inputEvent} from "./inputEvent";
 
-const addNode = (text: string, range: Range) => {
-    text = text.replace(/\n/g, '<br>')
-    const element = document.createElement("div");
-    element.innerHTML = text;
-    const fragment = document.createDocumentFragment()
-    let appendNode
-    while ((appendNode = element.firstChild)) {
-        fragment.appendChild(appendNode);
-    }
-    range.insertNode(fragment);
-    return fragment
+const addNode = (html: string, range: Range) => {
+    html = html.replace(/\n/g, '<br>')
+    document.execCommand("insertHTML", false, html);
 };
 
 const saveSelection = (editorElement: HTMLDivElement, range: Range) => {
@@ -60,43 +52,47 @@ const setSelection = function (editorElement: HTMLDivElement, selectionCaret: { 
     selection.addRange(range);
 }
 
+const getTextLength = (value: string) => {
+    return value.replace(/\n/g, '').length
+}
+
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
-                           toggle: boolean = true, range: Range = window.getSelection().getRangeAt(0)) => {
-    if (range.collapsed) {
-        // no selection
+                           toggle: boolean = false, range: Range = window.getSelection().getRangeAt(0)) => {
+    if (range.collapsed || (!range.collapsed && replace)) {
+        // select none or replace selection
         const selectionCaret = saveSelection(vditor.editor.element, range)
-        addNode(prefix + suffix, range)
-        selectionCaret.start = selectionCaret.end = selectionCaret.start + (prefix + suffix).length
         setSelection(vditor.editor.element, selectionCaret)
-    } else {
-        if (replace) {
-            const selectionCaret = saveSelection(vditor.editor.element, range)
-            range.deleteContents();
-            addNode(prefix + suffix, range)
-            selectionCaret.start = selectionCaret.end = selectionCaret.start + (prefix + suffix).length
-            setSelection(vditor.editor.element, selectionCaret)
-        } else {
-            const selectDom = range.commonAncestorContainer.textContent;
-            const selectString = range.toString();
-            if (selectDom.substring(range.startOffset - prefix.length, range.startOffset) === prefix &&
-                selectDom.substring(range.endOffset, range.endOffset + suffix.length) === suffix && toggle) {
-                range.setStart(range.startContainer, range.startOffset - prefix.length);
-                range.setEnd(range.endContainer, range.endOffset + suffix.length);
-                const selectionCaret = saveSelection(vditor.editor.element, range)
-                range.deleteContents();
-                addNode(selectString, range)
-                selectionCaret.end = selectionCaret.start + selectString.length
-                setSelection(vditor.editor.element, selectionCaret)
-            } else {
-                // insert
-                const selectionCaret = saveSelection(vditor.editor.element, range)
-                range.deleteContents();
-                addNode(prefix + selectString + suffix, range)
-                selectionCaret.start += prefix.length
-                selectionCaret.end = selectionCaret.start + selectString.length
-                setSelection(vditor.editor.element, selectionCaret)
-            }
+        addNode(prefix + suffix, range)
+        if (suffix) {
+            const caretStart = selectionCaret.start + getTextLength(prefix)
+            setSelection(vditor.editor.element, {
+                start: caretStart,
+                end: caretStart
+            })
         }
+    } else {
+        // keep selection, for toolbar and insertValue method and new line
+        let selectHTML: string = ''
+        const selectContents = range.cloneContents()
+        Array.from(selectContents.childNodes).forEach((child: HTMLElement) => {
+            if (child.nodeType === 3) {
+                selectHTML += child.textContent
+            } else {
+                selectHTML += child.outerHTML
+            }
+        })
+        const selectionCaret = saveSelection(vditor.editor.element, range)
+        const editorText = vditor.editor.element.textContent;
+        if (editorText.substring(selectionCaret.start - getTextLength(prefix), selectionCaret.start) === prefix.replace(/\n/g, '') &&
+            editorText.substring(selectionCaret.end, selectionCaret.end + getTextLength(suffix)) === suffix.replace(/\n/g, '') && toggle) {
+            // for toolbar restore
+            selectionCaret.start -= getTextLength(prefix)
+            selectionCaret.end += getTextLength(suffix);
+            prefix = suffix = ''
+        }
+        // insert
+        setSelection(vditor.editor.element, selectionCaret)
+        addNode(prefix + selectHTML + suffix, range)
     }
     inputEvent(vditor);
 };

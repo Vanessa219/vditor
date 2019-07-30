@@ -138,7 +138,7 @@ export class Hint {
                 const range = this.vditor.editor.range;
                 range.setStart(range.startContainer,
                     range.commonAncestorContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar));
-                insertText(this.vditor, value, "", true, true, range);
+                insertText(this.vditor, value, "", true, false, range);
             });
         });
         // hint 展现在上部
