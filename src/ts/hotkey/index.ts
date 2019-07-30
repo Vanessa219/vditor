@@ -1,6 +1,6 @@
+import {getSelectText} from "../editor/getSelectText";
 import {insertHTML, insertText} from "../editor/insertText";
 import {setSelectionByNode} from "../editor/setSelection";
-import {getSelectText} from "../editor/getSelectText";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -47,30 +47,32 @@ export class Hotkey {
                     // new line, use br instead of div
                     const range = window.getSelection().getRangeAt(0);
                     range.deleteContents();
-                    let needTwoBR = true
-                    let getResult = false
+                    let needTwoBR = true;
+                    let getResult = false;
                     if (range.endContainer.nodeType === 3) {
-                        let nextSibling = range.endContainer.nextSibling
+                        let nextSibling = range.endContainer.nextSibling;
                         while (nextSibling && !getResult) {
-                            if (nextSibling.nodeName === "BR" || (nextSibling.nodeType === 3 && nextSibling.textContent !== "")) {
-                                needTwoBR = false
-                                getResult = true
+                            if (nextSibling.nodeName === "BR" ||
+                                (nextSibling.nodeType === 3 && nextSibling.textContent !== "")) {
+                                needTwoBR = false;
+                                getResult = true;
                             }
-                            nextSibling = nextSibling.nextSibling
+                            nextSibling = nextSibling.nextSibling;
                         }
                     } else {
-                        let currentIndex = range.endOffset
-                        let currentNode = range.endContainer.childNodes[currentIndex]
+                        let currentIndex = range.endOffset;
+                        const currentNode = range.endContainer.childNodes[currentIndex];
                         while (currentNode && !getResult) {
-                            if (currentNode.nodeName === "BR" || (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
-                                needTwoBR = false
-                                getResult = true
+                            if (currentNode.nodeName === "BR" ||
+                                (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
+                                needTwoBR = false;
+                                getResult = true;
                             }
-                            currentIndex++
+                            currentIndex++;
                         }
                     }
 
-                    let html = "<br>"
+                    let html = "<br>";
                     // bottom always needs br, otherwise can not enter
                     if (needTwoBR) {
                         html = "<br><br>";
@@ -81,7 +83,7 @@ export class Hotkey {
                     element.innerHTML = html;
                     const fragment = document.createDocumentFragment();
                     let node = element.firstChild;
-                    let firstNode = node;
+                    const firstNode = node;
                     while (node) {
                         fragment.appendChild(node);
                         node = element.firstChild;
@@ -96,38 +98,38 @@ export class Hotkey {
             // editor actions
             if (this.vditor.options.keymap.deleteLine) {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
-                    const range = window.getSelection().getRangeAt(0)
+                    const range = window.getSelection().getRangeAt(0);
                     if (range.startContainer.nodeType === 3) {
-                        range.setStart(range.startContainer, 0)
+                        range.setStart(range.startContainer, 0);
                     } else {
-                        range.setStartBefore(range.startContainer.childNodes[range.startOffset - 1])
+                        range.setStartBefore(range.startContainer.childNodes[range.startOffset - 1]);
                     }
                     if (range.endContainer.nodeType === 3) {
                         if (range.endContainer.nextSibling) {
-                            range.setEndAfter(range.endContainer.nextSibling)
+                            range.setEndAfter(range.endContainer.nextSibling);
                         } else {
-                            range.setEnd(range.endContainer, range.endContainer.textContent.length)
+                            range.setEnd(range.endContainer, range.endContainer.textContent.length);
                         }
                     } else {
-                        range.setEndBefore(range.endContainer.childNodes[range.endOffset])
+                        range.setEndBefore(range.endContainer.childNodes[range.endOffset]);
                     }
-                    insertHTML('')
-                })
+                    insertHTML("");
+                });
             }
             if (this.vditor.options.keymap.duplicate) {
                 this.processKeymap(this.vditor.options.keymap.duplicate, event, () => {
-                    const range = window.getSelection().getRangeAt(0)
-                    let selectText = ''
+                    const range = window.getSelection().getRangeAt(0);
+                    let selectText = "";
                     if (range.collapsed) {
-                        range.setStart(range.startContainer, 0)
-                        range.setEnd(range.endContainer, range.endContainer.textContent.length)
-                        selectText = '\n' + getSelectText(range, this.vditor.editor.element)
+                        range.setStart(range.startContainer, 0);
+                        range.setEnd(range.endContainer, range.endContainer.textContent.length);
+                        selectText = "\n" + getSelectText(range, this.vditor.editor.element);
                     } else {
-                        selectText = getSelectText(range, this.vditor.editor.element)
+                        selectText = getSelectText(range, this.vditor.editor.element);
                     }
-                    range.setStart(range.endContainer, range.endOffset)
-                    insertHTML(selectText)
-                })
+                    range.setStart(range.endContainer, range.endOffset);
+                    insertHTML(selectText);
+                });
             }
 
             // toolbar action
@@ -141,7 +143,7 @@ export class Hotkey {
             });
 
             if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
-                const selectionValue = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element)
+                const selectionValue = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element);
                 const selectionResult = selectionValue.split("\n").map((value) => {
                     return this.vditor.options.tab + value;
                 });
