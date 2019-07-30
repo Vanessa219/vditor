@@ -1,5 +1,6 @@
 import {getSelectText} from "../editor/getSelectText";
-import {quickInsertText, insertText} from "../editor/insertText";
+import {inputEvent} from "../editor/inputEvent";
+import {quickInsertText} from "../editor/insertText";
 import {setSelectionByNode} from "../editor/setSelection";
 
 export class Hotkey {
@@ -61,14 +62,14 @@ export class Hotkey {
                         }
                     } else {
                         let currentIndex = range.endOffset;
-                        const currentNode = range.endContainer.childNodes[currentIndex];
+                        let currentNode = range.endContainer.childNodes[currentIndex];
                         while (currentNode && !getResult) {
                             if (currentNode.nodeName === "BR" ||
                                 (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
                                 needTwoBR = false;
                                 getResult = true;
                             }
-                            currentIndex++;
+                            currentNode = range.endContainer.childNodes[++currentIndex];
                         }
                     }
 
@@ -90,11 +91,11 @@ export class Hotkey {
                     }
                     range.insertNode(fragment);
                     setSelectionByNode(firstNode, firstNode, range);
+                    inputEvent(this.vditor);
                     event.preventDefault();
                     event.stopPropagation();
                 }
             }
-
             // editor actions
             if (this.vditor.options.keymap.deleteLine) {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {

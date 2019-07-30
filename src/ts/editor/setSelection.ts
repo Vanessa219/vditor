@@ -40,7 +40,6 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLD
 export const setSelectionByNode = (starNode: Node, endNode: Node, range: Range) => {
     range.setStartAfter(starNode);
     range.setEndAfter(endNode);
-    range.collapse(true);
     focus(range);
 };
 
