@@ -44,8 +44,7 @@ export const setSelectionByNode = (starNode: Node, endNode: Node, range: Range) 
     focus(range);
 };
 
-export const setSelectionByStar = (starNode: Node, offset: number, range:Range) => {
+export const setSelectionByStar = (starNode: Node, offset: number, range: Range) => {
     range.setStart(starNode, offset);
     focus(range);
 };
-

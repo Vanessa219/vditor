@@ -1,6 +1,6 @@
 import {selectIsEditor} from "../editor/selectIsEditor";
-import {getCursorPosition} from "./getCursorPosition";
 import {setSelectionByStar} from "../editor/setSelection";
+import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
     public timeId: number;
@@ -74,7 +74,7 @@ export class Hint {
             range = this.vditor.editor.range;
         }
         setSelectionByStar(range.startContainer,
-            range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar), range)
+            range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar), range);
         document.execCommand("insertHTML", false, value);
     }
 
