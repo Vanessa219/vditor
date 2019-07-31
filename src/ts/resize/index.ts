@@ -19,11 +19,6 @@ export class Resize {
             const y = event.clientY;
             const height = vditorElement.offsetHeight;
             documentSelf.ondragstart = () => false;
-            // TODO 移除非规范代码
-            // documentSelf.onselectstart = "return false;";
-            // documentSelf.onselect = () => {
-            //     (document as any).selection.empty();
-            // };
 
             if (window.captureEvents) {
                 window.captureEvents();

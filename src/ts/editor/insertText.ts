@@ -8,6 +8,10 @@ export const quickInsertText = (text: string) => {
     document.execCommand("insertHTML", false, html);
 };
 
+const code160to32 = (text:string) => {
+   return text.replace(/ /g, " ");
+}
+
 const getContainerLength = (container: Node) => {
     let length = 0
     if (container && container.textContent) {
@@ -49,7 +53,7 @@ const moveForward = (position: number, container: Node, offset: number) => {
 
 const moveStartForward = (position: number, range: Range, editor: HTMLDivElement) => {
     const result = moveForward(position, range.startContainer, range.startOffset)
-    if (!result.container) {
+    if (!result.container && editor.childNodes.length > 0) {
         range.setStartBefore(editor.childNodes[0]);
     } else if (result.container.nodeName === "BR") {
         range.setStartBefore(result.container);
@@ -60,7 +64,7 @@ const moveStartForward = (position: number, range: Range, editor: HTMLDivElement
 
 const moveEndForward = (position: number, range: Range, editor: HTMLDivElement) => {
     const result = moveForward(position, range.endContainer, range.endOffset)
-    if (!result.container) {
+    if (!result.container && editor.childNodes.length > 0) {
         range.setEndBefore(editor.childNodes[0]);
     } else if (result.container.nodeName === "BR") {
         range.setEndBefore(result.container);
@@ -102,7 +106,7 @@ const moveBack = (position: number, container: Node, offset: number) => {
 
 const moveEndBack = (position: number, range: Range, editor: HTMLDivElement) => {
     const result = moveBack(position, range.endContainer, range.endOffset)
-    if (!result.container) {
+    if (!result.container && editor.childNodes.length > 0) {
         range.setEndBefore(editor.childNodes[0]);
     } else if (result.container.nodeName === "BR") {
         range.setEndBefore(result.container);
@@ -126,7 +130,7 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         }
     }
     setSelectionFocus(range);
-
+    moveEndBack(1, range, vditor.editor.element);
     if (range.collapsed || (!range.collapsed && replace)) {
         // select none and then use toolbar or method || select something and then ues method or use table
         const text = prefix + suffix;
@@ -144,29 +148,32 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         const selectText = getSelectText(range, vditor.editor.element);
 
         if (toggle) {
+            // TODO block code
             let prefixMatch = false
             let suffixMatch = false
             if (range.startContainer.nodeType === 3) {
-                if (range.startContainer.textContent.substring(range.startOffset - prefix.length, range.startOffset) === prefix) {
+                if (code160to32(range.startContainer.textContent.substring(range.startOffset - prefix.length, range.startOffset)) === prefix) {
                     prefixMatch = true
                 }
             } else {
-                const startText = range.startContainer.childNodes[range.startOffset - 1].textContent
-                if (startText.substring(startText.length - suffix.length) === prefix) {
+                const startText = range.startContainer.childNodes[Math.max(0, range.startOffset - 1)].textContent
+                if (code160to32(startText.substring(startText.length - suffix.length)) === prefix) {
                     prefixMatch = true
                 }
             }
 
             if (range.endContainer.nodeType === 3) {
-                if (range.endContainer.textContent.substring(range.endOffset, range.endOffset + suffix.length) === suffix) {
+                if (code160to32(range.endContainer.textContent.substring(range.endOffset, range.endOffset + suffix.length)) === suffix) {
                     suffixMatch = true
                 }
             } else {
                 const endText = range.endContainer.childNodes[range.endOffset].textContent
-                if (endText.substring(0, suffix.length) === suffix) {
+                if (code160to32(endText.substring(0, suffix.length)) === suffix) {
                     suffixMatch = true
                 }
             }
+
+            console.log(prefixMatch, suffixMatch)
 
             if (prefixMatch && suffixMatch) {
                 moveStartForward(prefix.length, range, vditor.editor.element);

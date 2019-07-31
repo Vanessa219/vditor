@@ -103,7 +103,7 @@ export class Hotkey {
                     if (range.startContainer.nodeType === 3) {
                         range.setStart(range.startContainer, 0);
                     } else {
-                        range.setStartBefore(range.startContainer.childNodes[range.startOffset - 1]);
+                        range.setStartBefore(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
                     }
                     if (range.endContainer.nodeType === 3) {
                         if (range.endContainer.nextSibling) {
