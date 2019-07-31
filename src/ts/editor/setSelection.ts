@@ -37,13 +37,13 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLD
     return range;
 };
 
-export const setSelectionByNode = (starNode: Node, endNode: Node, range: Range) => {
-    range.setStartAfter(starNode);
+export const setSelectionByNode = (startNode: Node, endNode: Node, range: Range) => {
+    range.setStartAfter(startNode);
     range.setEndAfter(endNode);
     setSelectionFocus(range);
 };
 
-export const setSelectionByStar = (starNode: Node, offset: number, range: Range) => {
-    range.setStart(starNode, offset);
+export const setSelectionByStar = (startNode: Node, offset: number, range: Range) => {
+    range.setStart(startNode, offset);
     setSelectionFocus(range);
 };

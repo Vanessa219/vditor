@@ -68,7 +68,7 @@ export class Options {
         }, {
             hotkey: "⌘-⇧-d",
             name: "line",
-            prefix: "---\n",
+            prefix: "---",
             tipPosition: "n",
         }, {
             hotkey: "⌘-.",
