@@ -47,3 +47,20 @@ export const setSelectionByStar = (startNode: Node, offset: number, range: Range
     range.setStart(startNode, offset);
     setSelectionFocus(range);
 };
+
+export const setSelectionByInlineText = (text: string, childNodes: NodeListOf<ChildNode>) => {
+    let offset = 0
+    let startIndex = 0
+    Array.from(childNodes).some((node: HTMLElement, index: number) => {
+        startIndex = node.textContent.indexOf(text)
+        if (node.nodeType === 3 && startIndex > -1) {
+
+            offset = index
+            return true
+        }
+    });
+    const range = document.createRange();
+    range.setStart(childNodes[offset], startIndex);
+    range.setEnd(childNodes[offset], startIndex + text.length);
+    setSelectionFocus(range);
+}
