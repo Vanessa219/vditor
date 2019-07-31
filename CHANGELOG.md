@@ -5,7 +5,7 @@
 * [85](https://github.com/b3log/vditor/issues/85) 改善提示且提供提示接口 `enhancement`
 * [84](https://github.com/b3log/vditor/issues/84) 支持全屏预览 `feature`
 
-### v1.6.9 / 2019-07-24
+### v1.6.9 / 2019-07-31
 
 * [83](https://github.com/b3log/vditor/issues/83) 升级 markdown-it `dependencies`
 * [82](https://github.com/b3log/vditor/issues/82) textarea 修改为带 contenteditable 属性的 div `development`
