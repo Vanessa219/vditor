@@ -8,6 +8,14 @@ export const quickInsertText = (text: string) => {
     document.execCommand("insertHTML", false, html);
 };
 
+const getContainerLength = (container: Node) => {
+    let length = 0
+    if (container && container.textContent) {
+        length = container.textContent.length
+    }
+    return length
+}
+
 const moveForward = (position: number, container: Node, offset: number) => {
     let currentContainer = container;
     let currentOffset = offset;
@@ -18,18 +26,18 @@ const moveForward = (position: number, container: Node, offset: number) => {
                 position--;
             } else {
                 currentContainer = currentContainer.previousSibling;
-                currentOffset = currentContainer.textContent.length;
+                currentOffset = getContainerLength(currentContainer);
                 position--;
             }
         } else if (currentContainer.nodeName === "BR") {
             currentContainer = currentContainer.previousSibling;
-            currentOffset = currentContainer.textContent.length;
-            if (currentContainer.nodeType !== 3) {
+            currentOffset = getContainerLength(currentContainer);
+            if (currentContainer && currentContainer.nodeType !== 3) {
                 position--;
             }
         } else {
             currentContainer = container.childNodes[offset - 1];
-            currentOffset = currentContainer.textContent.length;
+            currentOffset = getContainerLength(currentContainer);
             position--;
         }
     }
@@ -37,15 +45,14 @@ const moveForward = (position: number, container: Node, offset: number) => {
         container: currentContainer,
         offset: currentOffset
     }
-
 };
 
 const moveStartForward = (position: number, range: Range, editor: HTMLDivElement) => {
     const result = moveForward(position, range.startContainer, range.startOffset)
-    if (result.container.nodeName === "BR") {
-        range.setStartBefore(result.container);
-    } else if (!result.container) {
+    if (!result.container) {
         range.setStartBefore(editor.childNodes[0]);
+    } else if (result.container.nodeName === "BR") {
+        range.setStartBefore(result.container);
     } else {
         range.setStart(result.container, result.offset);
     }
@@ -53,48 +60,57 @@ const moveStartForward = (position: number, range: Range, editor: HTMLDivElement
 
 const moveEndForward = (position: number, range: Range, editor: HTMLDivElement) => {
     const result = moveForward(position, range.endContainer, range.endOffset)
-    if (result.container.nodeName === "BR") {
-        range.setEndBefore(result.container);
-    } else if (!result.container) {
+    if (!result.container) {
         range.setEndBefore(editor.childNodes[0]);
+    } else if (result.container.nodeName === "BR") {
+        range.setEndBefore(result.container);
     } else {
         range.setEnd(result.container, result.offset);
     }
 }
 
-const moveEndCursor = (range: Range, endOffset: number, editor: HTMLDivElement) => {
-    let rangeEndNode = range.endContainer;
-    let rangeEndOffset = range.endOffset;
-    while (endOffset !== 0 && rangeEndNode) {
-        if (rangeEndNode.nodeType === 3) {
-            if (rangeEndOffset !== 0 && rangeEndNode.textContent !== "") {
-                rangeEndOffset--;
-                endOffset--;
+const moveBack = (position: number, container: Node, offset: number) => {
+    let currentContainer = container;
+    let currentOffset = offset;
+    while (position !== 0 && currentContainer) {
+        if (currentContainer.nodeType === 3) {
+            if (currentOffset !== 0 && currentContainer.textContent !== "") {
+                currentOffset--;
+                position--;
             } else {
-                rangeEndNode = rangeEndNode.previousSibling;
-                rangeEndOffset = 0;
-                endOffset--;
+                currentContainer = currentContainer.previousSibling;
+                currentOffset = getContainerLength(currentContainer);
+                position--;
             }
-        } else if (rangeEndNode.nodeName === "BR") {
-            rangeEndNode = rangeEndNode.previousSibling;
-            rangeEndOffset = rangeEndNode.textContent.length;
-            if (rangeEndNode.nodeType !== 3) {
-                endOffset--;
+        } else if (currentContainer.nodeName === "BR") {
+            currentContainer = currentContainer.previousSibling;
+            currentOffset = getContainerLength(currentContainer);
+            if (currentContainer && currentContainer.nodeType !== 3) {
+                position--;
             }
         } else {
-            rangeEndNode = range.endContainer.childNodes[range.endOffset - 1];
-            rangeEndOffset = rangeEndNode.textContent.length;
-            endOffset--;
+            currentContainer = container.childNodes[offset - 1];
+            currentOffset = getContainerLength(currentContainer);
+            position--;
         }
     }
-    if (rangeEndNode.nodeName === "BR") {
-        range.setEndBefore(rangeEndNode);
-    } else if (!rangeEndNode) {
-        range.setEndBefore(editor.childNodes[0]);
-    } else {
-        range.setEnd(rangeEndNode, rangeEndOffset);
+    return {
+        container: currentContainer,
+        offset: currentOffset
     }
 };
+
+const moveEndBack = (position: number, range: Range, editor: HTMLDivElement) => {
+    const result = moveBack(position, range.endContainer, range.endOffset)
+    if (!result.container) {
+        range.setEndBefore(editor.childNodes[0]);
+    } else if (result.container.nodeName === "BR") {
+        range.setEndBefore(result.container);
+    } else {
+        range.setEnd(result.container, result.offset);
+    }
+}
+
 
 // toolbar emoji, heading, bold, inline code, ordered list, quote, italic, link, strike, list, line, check, code, table
 // and insert/update/deleteValue method
@@ -127,17 +143,37 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         // heading, bold, inline code, ordered list, quote, italic, link, strike, list, line, check, code
         const selectText = getSelectText(range, vditor.editor.element);
 
-        // const selectionCaret = getSelectionPosition(vditor.editor.element, range);
-        // const editorText = vditor.editor.element.textContent;
-        // if (editorText.substring(selectionCaret.start - getTextLength(prefix), selectionCaret.start) ===
-        //     prefix.replace(/\n/g, "") &&
-        //     editorText.substring(selectionCaret.end, selectionCaret.end + getTextLength(suffix)) ===
-        //     suffix.replace(/\n/g, "") && toggle) {
-        //     // for toolbar restore
-        //     selectionCaret.start -= getTextLength(prefix);
-        //     selectionCaret.end += getTextLength(suffix);
-        //     prefix = suffix = "";
-        // }
+        if (toggle) {
+            let prefixMatch = false
+            let suffixMatch = false
+            if (range.startContainer.nodeType === 3) {
+                if (range.startContainer.textContent.substring(range.startOffset - prefix.length, range.startOffset) === prefix) {
+                    prefixMatch = true
+                }
+            } else {
+                const startText = range.startContainer.childNodes[range.startOffset - 1].textContent
+                if (startText.substring(startText.length - suffix.length) === prefix) {
+                    prefixMatch = true
+                }
+            }
+
+            if (range.endContainer.nodeType === 3) {
+                if (range.endContainer.textContent.substring(range.endOffset, range.endOffset + suffix.length) === suffix) {
+                    suffixMatch = true
+                }
+            } else {
+                const endText = range.endContainer.childNodes[range.endOffset].textContent
+                if (endText.substring(0, suffix.length) === suffix) {
+                    suffixMatch = true
+                }
+            }
+
+            if (prefixMatch && suffixMatch) {
+                moveStartForward(prefix.length, range, vditor.editor.element);
+                moveEndBack(suffix.length, range, vditor.editor.element);
+                prefix = suffix = ''
+            }
+        }
 
         quickInsertText(prefix + selectText + suffix);
         range = window.getSelection().getRangeAt(0);
