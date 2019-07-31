@@ -1,6 +1,6 @@
-import {gfm} from "./turndown-plugin-gfm";
-import {setSelectionByInlineText} from "./setSelection";
 import {quickInsertText} from "./insertText";
+import {setSelectionByInlineText} from "./setSelection";
+import {gfm} from "./turndown-plugin-gfm";
 
 export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
     const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
@@ -39,9 +39,9 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
                                 alert(responseJSON.msg);
                                 return;
                             }
-                            const original = responseJSON.data.originalURL
-                            setSelectionByInlineText(original, vditor.editor.element.childNodes)
-                            quickInsertText(responseJSON.data.url)
+                            const original = responseJSON.data.originalURL;
+                            setSelectionByInlineText(original, vditor.editor.element.childNodes);
+                            quickInsertText(responseJSON.data.url);
                         } else {
                             vditor.upload.element.style.opacity = "1";
                             vditor.upload.element.className = "vditor-upload vditor-upload--tip";

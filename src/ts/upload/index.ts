@@ -1,4 +1,5 @@
-import {insertText} from "../editor/index";
+import {quickInsertText} from "../editor/insertText";
+import {setSelectionByInlineText} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
 
 class Upload {
@@ -77,14 +78,14 @@ const validateFile = (vditor: IVditor, files: File[]): File[] => {
     }
 
     if (uploadingStr !== "") {
-        insertText(vditor.editor.element, uploadingStr, "");
+        quickInsertText(uploadingStr);
     }
 
     return uploadFileList;
 };
 
 const genUploadedLabel =
-    (editorElement: HTMLTextAreaElement, responseText: string, options: IOptions, uploadElement: HTMLElement) => {
+    (editorElement: HTMLDivElement, responseText: string, options: IOptions, uploadElement: HTMLElement) => {
         editorElement.focus();
         const response = JSON.parse(responseText);
 
@@ -98,24 +99,23 @@ const genUploadedLabel =
                 const lastIndex = data.lastIndexOf(".");
                 const filename = options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
                 const original = `[${filename}](${i18n[options.lang].uploading})`;
-                editorElement.selectionStart = editorElement.value.split(original)[0].length;
-                editorElement.selectionEnd = editorElement.selectionStart + original.length;
-                insertText(editorElement, "", "", true);
+                setSelectionByInlineText(original, editorElement.childNodes);
+                quickInsertText("");
             });
         }
 
         Object.keys(response.data.succMap).forEach((key) => {
             const path = response.data.succMap[key];
-            if (path.indexOf(".wav") === path.length - 4) {
-                insertText(editorElement, `<audio controls="controls" src="${path}"></audio>\n`, "");
-                return;
-            }
             const lastIndex = key.lastIndexOf(".");
             const filename = options.upload.filename(key.substr(0, lastIndex)) + key.substr(lastIndex);
             const original = `[${filename}](${i18n[options.lang].uploading})`;
-            editorElement.selectionStart = editorElement.value.split(original)[0].length;
-            editorElement.selectionEnd = editorElement.selectionStart + original.length;
-            insertText(editorElement, `[${filename}](${path})`, "", true);
+            if (path.indexOf(".wav") === path.length - 4) {
+                setSelectionByInlineText(original, editorElement.childNodes);
+                quickInsertText(`<audio controls="controls" src="${path}"></audio>\n`);
+                return;
+            }
+            setSelectionByInlineText(original, editorElement.childNodes);
+            quickInsertText(`[${filename}](${path})`);
         });
     };
 

@@ -121,7 +121,7 @@ window.vditor = new Vditor('vditor', {
   },
   tab: '  ',
   upload: {
-    accept: 'image/*,.pdf',
+    accept: 'image/*,.pdf,.wav',
     token: 'test',
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
