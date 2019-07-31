@@ -2,7 +2,7 @@ import {uploadFiles} from "../upload/index";
 import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
-import {insertText, quickInsertText} from "./insertText";
+import {quickInsertText} from "./insertText";
 
 class Editor {
     public element: HTMLDivElement;

@@ -21,7 +21,7 @@ const getNodeOffset = (childNodes: NodeListOf<ChildNode>, position: number) => {
     return {node: childNodes[nodeIndex], offset: offsetIndex};
 };
 
-const focus = (range: Range) => {
+export const setSelectionFocus = (range: Range) => {
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
@@ -33,17 +33,17 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLD
     const range = document.createRange();
     range.setStart(startObj.node, startObj.offset);
     range.setEnd(endObj.node, endObj.offset);
-    focus(range);
+    setSelectionFocus(range);
     return range;
 };
 
 export const setSelectionByNode = (starNode: Node, endNode: Node, range: Range) => {
     range.setStartAfter(starNode);
     range.setEndAfter(endNode);
-    focus(range);
+    setSelectionFocus(range);
 };
 
 export const setSelectionByStar = (starNode: Node, offset: number, range: Range) => {
     range.setStart(starNode, offset);
-    focus(range);
+    setSelectionFocus(range);
 };
