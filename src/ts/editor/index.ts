@@ -106,9 +106,12 @@ class Editor {
 
         this.element.addEventListener("paste", async (event: Event) => {
             const clipboardEvent: ClipboardEvent = event as ClipboardEvent;
-            if (clipboardEvent.clipboardData.getData("text/html").trim() !== "") {
-                const textHTML = clipboardEvent.clipboardData.getData("text/html");
-                const textPlain = clipboardEvent.clipboardData.getData("text/plain");
+            const textHTML = clipboardEvent.clipboardData.getData("text/html");
+            const textPlain = clipboardEvent.clipboardData.getData("text/plain");
+            event.stopPropagation();
+            event.preventDefault();
+
+            if (textHTML.trim() !== "") {
                 if (textHTML.length < 106496) {
                     if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                         `<a href="${textPlain}">${textPlain}</a>` ||
@@ -116,28 +119,25 @@ class Editor {
                         `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
-                        event.stopPropagation();
-                        event.preventDefault();
                         // https://github.com/b3log/vditor/issues/51
                         const mdValue = await html2md(vditor, textHTML, textPlain);
                         quickInsertText(mdValue);
+                        return
                     }
                 }
-            } else if (clipboardEvent.clipboardData.getData("text/plain").trim() !== "" &&
-                clipboardEvent.clipboardData.files.length === 0) {
-                // textarea 粘贴的默认内容为 clipboardEvent.clipboardData.getData("text/plain")
+            } else if (textPlain.trim() !== "" && clipboardEvent.clipboardData.files.length === 0) {
                 // https://github.com/b3log/vditor/issues/67
             } else if (clipboardEvent.clipboardData.files.length > 0) {
                 // upload file
                 if (!(vditor.options.upload.url || vditor.options.upload.handler)) {
                     return;
                 }
-                event.stopPropagation();
-                event.preventDefault();
                 // NOTE: not work in Safari.
                 // maybe the browser considered local filesystem as the same domain as the pasted data
                 uploadFiles(vditor, clipboardEvent.clipboardData.files);
+                return
             }
+            quickInsertText(textPlain);
         });
     }
 }
