@@ -1,7 +1,7 @@
 import {getSelectText} from "../editor/getSelectText";
 import {inputEvent} from "../editor/inputEvent";
 import {quickInsertText} from "../editor/insertText";
-import {setSelectionByNode} from "../editor/setSelection";
+import {setSelectionByStartEndNode} from "../editor/setSelection";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -90,7 +90,7 @@ export class Hotkey {
                         node = element.firstChild;
                     }
                     range.insertNode(fragment);
-                    setSelectionByNode(firstNode, firstNode, range);
+                    setSelectionByStartEndNode(firstNode, firstNode, range);
                     inputEvent(this.vditor);
                     event.preventDefault();
                     event.stopPropagation();

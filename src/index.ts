@@ -4,7 +4,7 @@ import {getSelectText} from "./ts/editor/getSelectText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
 import {insertText, quickInsertText} from "./ts/editor/insertText";
-import {setSelectionByPosition} from "./ts/editor/setSelection";
+import {setSelectionByNode, setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
@@ -122,8 +122,7 @@ class Vditor {
     }
 
     public setValue(value: string) {
-        this.vditor.editor.element.focus();
-        window.getSelection().getRangeAt(0).selectNode(this.vditor.editor.element);
+        setSelectionByNode(this.vditor.editor.element);
         quickInsertText(value);
         if (!value) {
             localStorage.removeItem("vditor" + this.vditor.id);
