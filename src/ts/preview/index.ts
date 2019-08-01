@@ -1,3 +1,4 @@
+import {code160to32} from "../editor/insertText";
 import {i18n} from "../i18n/index";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
@@ -62,7 +63,7 @@ export class Preview {
                 };
 
                 xhr.send(JSON.stringify({
-                    markdownText: vditor.editor.element.innerText,
+                    markdownText: code160to32(vditor.editor.element.innerText),
                 }));
             } else {
                 md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {

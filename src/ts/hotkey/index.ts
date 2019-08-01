@@ -1,6 +1,6 @@
 import {getSelectText} from "../editor/getSelectText";
 import {inputEvent} from "../editor/inputEvent";
-import {quickInsertText} from "../editor/insertText";
+import {code160to32, quickInsertText} from "../editor/insertText";
 import {setSelectionByStartEndNode} from "../editor/setSelection";
 
 export class Hotkey {
@@ -33,7 +33,7 @@ export class Hotkey {
         this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
             if (this.vditor.options.esc) {
                 if (event.key.toLowerCase() === "Escape".toLowerCase()) {
-                    this.vditor.options.esc(this.vditor.editor.element.innerText);
+                    this.vditor.options.esc(code160to32(this.vditor.editor.element.innerText));
                 }
             }
 
@@ -43,7 +43,7 @@ export class Hotkey {
 
             if (event.key.toLowerCase() === "enter") {
                 if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter) {
-                    this.vditor.options.ctrlEnter(this.vditor.editor.element.innerText);
+                    this.vditor.options.ctrlEnter(code160to32(this.vditor.editor.element.innerText));
                 } else if (!event.metaKey && !event.ctrlKey && !this.disableEnter) {
                     // new line, use br instead of div
                     const range = window.getSelection().getRangeAt(0);

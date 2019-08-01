@@ -2,7 +2,7 @@ import {uploadFiles} from "../upload/index";
 import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
-import {quickInsertText} from "./insertText";
+import {code160to32, quickInsertText} from "./insertText";
 
 class Editor {
     public element: HTMLDivElement;
@@ -48,7 +48,7 @@ class Editor {
 
         this.element.addEventListener("focus", () => {
             if (vditor.options.focus) {
-                vditor.options.focus(this.element.innerText);
+                vditor.options.focus(code160to32(this.element.innerText));
             }
             if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
                 const emojiPanel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
@@ -63,7 +63,7 @@ class Editor {
         this.element.addEventListener("blur", () => {
             this.range = window.getSelection().getRangeAt(0).cloneRange();
             if (vditor.options.blur) {
-                vditor.options.blur(this.element.innerText);
+                vditor.options.blur(code160to32(this.element.innerText));
             }
         });
 

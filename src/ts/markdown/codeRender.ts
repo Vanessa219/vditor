@@ -1,4 +1,5 @@
 import copySVG from "../../assets/icons/copy.svg";
+import {code160to32} from "../editor/insertText";
 import {i18n} from "../i18n/index";
 
 export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
@@ -18,7 +19,7 @@ export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
 
         const divElement = document.createElement("div");
         divElement.className = "vditor-copy";
-        divElement.innerHTML = `<textarea>${e.innerText}</textarea><span aria-label="${i18n[lang].copy}"
+        divElement.innerHTML = `<textarea>${code160to32(e.innerText)}</textarea><span aria-label="${i18n[lang].copy}"
 onmouseover="this.setAttribute('aria-label', '${i18n[lang].copy}')"
 class="vditor-tooltipped vditor-tooltipped__w"
 onclick="this.previousElementSibling.select();document.execCommand('copy');` +

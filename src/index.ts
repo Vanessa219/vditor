@@ -3,7 +3,7 @@ import {Counter} from "./ts/counter/index";
 import {getSelectText} from "./ts/editor/getSelectText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
-import {insertText, quickInsertText} from "./ts/editor/insertText";
+import {code160to32, insertText, quickInsertText} from "./ts/editor/insertText";
 import {setSelectionByNode, setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
@@ -83,7 +83,7 @@ class Vditor {
     }
 
     public getValue() {
-        return this.vditor.editor.element.innerText;
+        return code160to32(this.vditor.editor.element.innerText);
     }
 
     public insertValue(value: string) {
