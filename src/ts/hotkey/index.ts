@@ -101,19 +101,41 @@ export class Hotkey {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
                     const range = window.getSelection().getRangeAt(0);
                     if (range.startContainer.nodeType === 3) {
-                        range.setStart(range.startContainer, 0);
+                        range.setStartBefore(range.startContainer);
                     } else {
-                        range.setStartBefore(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
+                        range.setStartBefore(range.startContainer.childNodes[range.startOffset]);
                     }
-                    if (range.endContainer.nodeType === 3) {
-                        if (range.endContainer.nextSibling) {
-                            range.setEndAfter(range.endContainer.nextSibling);
-                        } else {
-                            range.setEnd(range.endContainer, range.endContainer.textContent.length);
+                    if (range.endContainer.nodeType === 3 && range.endContainer.nextSibling) {
+                        range.setEndAfter(range.endContainer.nextSibling);
+                    } else if (range.endOffset <= range.endContainer.childNodes.length -1){
+                        range.setEndAfter(range.endContainer.childNodes[range.endOffset]);
+                    }
+
+                    // last line
+                    let isLastLine = true
+                    let endOffset = range.endOffset
+                    while (range.endContainer.childNodes[endOffset] && isLastLine) {
+                        if (range.endContainer.childNodes[endOffset].nodeType === 3 &&
+                            range.endContainer.childNodes[endOffset].textContent !== '') {
+                            isLastLine = false
                         }
-                    } else {
-                        range.setEndBefore(range.endContainer.childNodes[range.endOffset]);
+                        if (range.endContainer.childNodes[endOffset].nodeName === "BR") {
+                            isLastLine = false
+                        }
+                        endOffset++
                     }
+
+                    if (isLastLine) {
+                        let startOffset = range.startOffset - 1
+                        while (startOffset > 0 && range.startContainer.childNodes[startOffset].nodeType === 3 &&
+                        range.startContainer.childNodes[startOffset].textContent === '') {
+                            startOffset--
+                        }
+                        if (startOffset > 0) {
+                            range.setStart(range.startContainer, startOffset)
+                        }
+                    }
+
                     quickInsertText("");
                 });
             }
