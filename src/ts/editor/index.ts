@@ -120,9 +120,9 @@ class Editor {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
                         // https://github.com/b3log/vditor/issues/51
-                        const mdValue = await html2md(vditor, textHTML, textPlain);
+                        const mdValue = await html2md(vditor, textHTML.replace(/<br>/g, "\n"), textPlain);
                         quickInsertText(mdValue);
-                        return
+                        return;
                     }
                 }
             } else if (textPlain.trim() !== "" && clipboardEvent.clipboardData.files.length === 0) {
@@ -135,7 +135,7 @@ class Editor {
                 // NOTE: not work in Safari.
                 // maybe the browser considered local filesystem as the same domain as the pasted data
                 uploadFiles(vditor, clipboardEvent.clipboardData.files);
-                return
+                return;
             }
             quickInsertText(textPlain);
         });
