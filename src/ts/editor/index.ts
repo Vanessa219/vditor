@@ -104,10 +104,16 @@ class Editor {
             });
         }
 
-        this.element.addEventListener("paste", async (event: Event) => {
-            const clipboardEvent: ClipboardEvent = event as ClipboardEvent;
-            const textHTML = clipboardEvent.clipboardData.getData("text/html");
-            const textPlain = clipboardEvent.clipboardData.getData("text/plain");
+        this.element.addEventListener("copy", async (event: ClipboardEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+            event.clipboardData.setData("text/plain",
+                getSelectText( document.getSelection().getRangeAt(0), this.element));
+        });
+
+        this.element.addEventListener("paste", async (event: ClipboardEvent) => {
+            const textHTML = event.clipboardData.getData("text/html");
+            const textPlain = event.clipboardData.getData("text/plain");
             event.stopPropagation();
             event.preventDefault();
 
@@ -120,21 +126,21 @@ class Editor {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
                         // https://github.com/b3log/vditor/issues/51
-                        const mdValue = await html2md(vditor, textHTML.replace(/<br>/g, "\n"), textPlain);
+                        const mdValue = await html2md(vditor, textHTML, textPlain);
                         quickInsertText(mdValue);
                         return;
                     }
                 }
-            } else if (textPlain.trim() !== "" && clipboardEvent.clipboardData.files.length === 0) {
+            } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
                 // https://github.com/b3log/vditor/issues/67
-            } else if (clipboardEvent.clipboardData.files.length > 0) {
+            } else if (event.clipboardData.files.length > 0) {
                 // upload file
                 if (!(vditor.options.upload.url || vditor.options.upload.handler)) {
                     return;
                 }
                 // NOTE: not work in Safari.
                 // maybe the browser considered local filesystem as the same domain as the pasted data
-                uploadFiles(vditor, clipboardEvent.clipboardData.files);
+                uploadFiles(vditor, event.clipboardData.files);
                 return;
             }
             quickInsertText(textPlain);
