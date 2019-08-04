@@ -6,12 +6,10 @@ import {setSelectionByStartEndNode} from "../editor/setSelection";
 export class Hotkey {
     public hintElement: HTMLElement;
     public vditor: IVditor;
-    private disableEnter: boolean;
 
     constructor(vditor: IVditor) {
         this.hintElement = vditor.hint && vditor.hint.element;
         this.vditor = vditor;
-        this.disableEnter = false;
         this.bindHotkey();
     }
 
@@ -30,7 +28,66 @@ export class Hotkey {
     }
 
     private bindHotkey(): void {
+        this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
+            if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
+                // new line, use br instead of div
+                const range = window.getSelection().getRangeAt(0);
+                range.deleteContents();
+                let needTwoBR = true;
+                let getResult = false;
+                if (range.endContainer.nodeType === 3) {
+                    let nextSibling = range.endContainer.nextSibling;
+                    while (nextSibling && !getResult) {
+                        if (nextSibling.nodeName === "BR" ||
+                            (nextSibling.nodeType === 3 && nextSibling.textContent !== "")) {
+                            needTwoBR = false;
+                            getResult = true;
+                        }
+                        nextSibling = nextSibling.nextSibling;
+                    }
+                } else {
+                    let currentIndex = range.endOffset;
+                    let currentNode = range.endContainer.childNodes[currentIndex];
+                    while (currentNode && !getResult) {
+                        if (currentNode.nodeName === "BR" ||
+                            (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
+                            needTwoBR = false;
+                            getResult = true;
+                        }
+                        currentNode = range.endContainer.childNodes[++currentIndex];
+                    }
+                }
+
+                let html = "<br>";
+                // bottom always needs br, otherwise can not enter
+                if (needTwoBR) {
+                    html = "<br><br>";
+                }
+
+                // insert br and remove position
+                const element = document.createElement("div");
+                element.innerHTML = html;
+                const fragment = document.createDocumentFragment();
+                let node = element.firstChild;
+                const firstNode = node;
+                while (node) {
+                    fragment.appendChild(node);
+                    node = element.firstChild;
+                }
+                range.insertNode(fragment);
+                setSelectionByStartEndNode(firstNode, firstNode, range);
+                inputEvent(this.vditor);
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });
+
         this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
+            if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter &&
+                event.key.toLowerCase() === "enter") {
+                this.vditor.options.ctrlEnter(code160to32(this.vditor.editor.element.innerText));
+            }
+
             if (this.vditor.options.esc) {
                 if (event.key.toLowerCase() === "Escape".toLowerCase()) {
                     this.vditor.options.esc(code160to32(this.vditor.editor.element.innerText));
@@ -41,61 +98,6 @@ export class Hotkey {
                 this.hint(event);
             }
 
-            if (event.key.toLowerCase() === "enter") {
-                if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter) {
-                    this.vditor.options.ctrlEnter(code160to32(this.vditor.editor.element.innerText));
-                } else if (!event.metaKey && !event.ctrlKey && !this.disableEnter) {
-                    // new line, use br instead of div
-                    const range = window.getSelection().getRangeAt(0);
-                    range.deleteContents();
-                    let needTwoBR = true;
-                    let getResult = false;
-                    if (range.endContainer.nodeType === 3) {
-                        let nextSibling = range.endContainer.nextSibling;
-                        while (nextSibling && !getResult) {
-                            if (nextSibling.nodeName === "BR" ||
-                                (nextSibling.nodeType === 3 && nextSibling.textContent !== "")) {
-                                needTwoBR = false;
-                                getResult = true;
-                            }
-                            nextSibling = nextSibling.nextSibling;
-                        }
-                    } else {
-                        let currentIndex = range.endOffset;
-                        let currentNode = range.endContainer.childNodes[currentIndex];
-                        while (currentNode && !getResult) {
-                            if (currentNode.nodeName === "BR" ||
-                                (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
-                                needTwoBR = false;
-                                getResult = true;
-                            }
-                            currentNode = range.endContainer.childNodes[++currentIndex];
-                        }
-                    }
-
-                    let html = "<br>";
-                    // bottom always needs br, otherwise can not enter
-                    if (needTwoBR) {
-                        html = "<br><br>";
-                    }
-
-                    // insert br and remove position
-                    const element = document.createElement("div");
-                    element.innerHTML = html;
-                    const fragment = document.createDocumentFragment();
-                    let node = element.firstChild;
-                    const firstNode = node;
-                    while (node) {
-                        fragment.appendChild(node);
-                        node = element.firstChild;
-                    }
-                    range.insertNode(fragment);
-                    setSelectionByStartEndNode(firstNode, firstNode, range);
-                    inputEvent(this.vditor);
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            }
             // editor actions
             if (this.vditor.options.keymap.deleteLine) {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
@@ -107,32 +109,32 @@ export class Hotkey {
                     }
                     if (range.endContainer.nodeType === 3 && range.endContainer.nextSibling) {
                         range.setEndAfter(range.endContainer.nextSibling);
-                    } else if (range.endOffset <= range.endContainer.childNodes.length -1){
+                    } else if (range.endOffset <= range.endContainer.childNodes.length - 1) {
                         range.setEndAfter(range.endContainer.childNodes[range.endOffset]);
                     }
 
                     // last line
-                    let isLastLine = true
-                    let endOffset = range.endOffset
+                    let isLastLine = true;
+                    let endOffset = range.endOffset;
                     while (range.endContainer.childNodes[endOffset] && isLastLine) {
                         if (range.endContainer.childNodes[endOffset].nodeType === 3 &&
-                            range.endContainer.childNodes[endOffset].textContent !== '') {
-                            isLastLine = false
+                            range.endContainer.childNodes[endOffset].textContent !== "") {
+                            isLastLine = false;
                         }
                         if (range.endContainer.childNodes[endOffset].nodeName === "BR") {
-                            isLastLine = false
+                            isLastLine = false;
                         }
-                        endOffset++
+                        endOffset++;
                     }
 
                     if (isLastLine) {
-                        let startOffset = range.startOffset - 1
+                        let startOffset = range.startOffset - 1;
                         while (startOffset > 0 && range.startContainer.childNodes[startOffset].nodeType === 3 &&
-                        range.startContainer.childNodes[startOffset].textContent === '') {
-                            startOffset--
+                        range.startContainer.childNodes[startOffset].textContent === "") {
+                            startOffset--;
                         }
                         if (startOffset > 0) {
-                            range.setStart(range.startContainer, startOffset)
+                            range.setStart(range.startContainer, startOffset);
                         }
                     }
 
@@ -210,10 +212,6 @@ export class Hotkey {
             event.preventDefault();
             event.stopPropagation();
             this.vditor.hint.fillEmoji(currentHintElement);
-            this.disableEnter = true;
-            setTimeout(() => {
-                this.disableEnter = false;
-            }, 10);
         }
     }
 }
