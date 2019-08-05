@@ -76,7 +76,8 @@ interface IMenuItem {
 
 interface IPreview {
     delay?: number;
-    show?: boolean;
+    maxWidth?: number;
+    mode?: string; // both | preview
     url?: string;
     hljs?: {
         style?: string,

@@ -1,8 +1,19 @@
 ## Vditor change log
 
+### 升级
+
+* v1.7
+  * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
+
 ### TODO
 
+* [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
 * [85](https://github.com/b3log/vditor/issues/85) 改善提示且提供提示接口 `enhancement`
+
+
+### v1.7.0 / 2019-08-05
+
+* [87](https://github.com/b3log/vditor/issues/87) 获取文本时对 HTML 实体进行转换 `bug`
 * [84](https://github.com/b3log/vditor/issues/84) 支持全屏预览 `feature`
 
 ### v1.6.12 / 2019-08-04

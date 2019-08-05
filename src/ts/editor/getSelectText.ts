@@ -7,7 +7,7 @@ export const getSelectText = (range: Range, editor: HTMLDivElement) => {
         element.appendChild(range.cloneContents());
         return element.innerHTML.replace(/<br>/g, "\n").replace(/&nbsp;/g, " ")
             .replace(/&lt;/g, "<").replace(/&gt;/g, ">")
-            .replace(/&amp;/g, '&');
+            .replace(/&amp;/g, "&");
     }
 
     return "";

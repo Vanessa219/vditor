@@ -31,7 +31,8 @@ export class Options {
                 enable: true,
                 style: "atom-one-light",
             },
-            show: false,
+            mode: "both",
+            maxWidth: 768
         },
         resize: {
             enable: false,
@@ -140,6 +141,10 @@ export class Options {
             name: "|",
         }, {
             hotkey: "⌘-p",
+            name: "both",
+            tipPosition: "nw",
+        }, {
+            hotkey: "⌘-⇧-p",
             name: "preview",
             tipPosition: "nw",
         }, {
