@@ -1,4 +1,5 @@
 import {Bold} from "./Bold";
+import {Both} from "./Both";
 import {Br} from "./Br";
 import {Check} from "./Check";
 import {Code} from "./Code";
@@ -89,6 +90,9 @@ export class Toolbar {
                     break;
                 case "table":
                     menuItemObj = new Table(vditor, menuItem);
+                    break;
+                case "both":
+                    menuItemObj = new Both(vditor, menuItem);
                     break;
                 case "preview":
                     menuItemObj = new Preview(vditor, menuItem);

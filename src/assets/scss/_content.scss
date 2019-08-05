@@ -62,8 +62,29 @@
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
 
-    &::-webkit-scrollbar {
+    &--editor {
       display: none;
+    }
+
+    &--both {
+      display: block;
+    }
+
+    &--preview {
+      position: absolute;
+      top: 0;
+      left: -1px;
+      bottom: 0;
+      right: 0;
+      display: block;
+    }
+
+    & > div::-webkit-scrollbar {
+      display: none;
+    }
+
+    & > .vditor-reset {
+      margin: 0 auto;
     }
   }
 

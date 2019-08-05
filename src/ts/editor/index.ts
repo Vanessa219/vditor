@@ -74,7 +74,8 @@ class Editor {
         }
 
         this.element.addEventListener("scroll", () => {
-            if (vditor.preview.element.style.display === "none" && !vditor.preview) {
+            if (!vditor.preview && (vditor.preview.element.className === "vditor-preview vditor-preview--editor" ||
+                vditor.preview.element.className === "vditor-preview vditor-preview--preview")) {
                 return;
             }
             const textScrollTop = this.element.scrollTop;
@@ -108,7 +109,7 @@ class Editor {
             event.stopPropagation();
             event.preventDefault();
             event.clipboardData.setData("text/plain",
-                getSelectText( document.getSelection().getRangeAt(0), this.element));
+                getSelectText(document.getSelection().getRangeAt(0), this.element));
         });
 
         this.element.addEventListener("paste", async (event: ClipboardEvent) => {

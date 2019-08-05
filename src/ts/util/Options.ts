@@ -1,4 +1,4 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
+import {CDN_PATH} from "../constants";
 
 export class Options {
     public options: IOptions;
@@ -31,8 +31,8 @@ export class Options {
                 enable: true,
                 style: "atom-one-light",
             },
+            maxWidth: 768,
             mode: "both",
-            maxWidth: 768
         },
         resize: {
             enable: false,

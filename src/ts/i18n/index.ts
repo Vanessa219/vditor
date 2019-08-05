@@ -1,6 +1,7 @@
 export const i18n: II18n = {
     en_US: {
         "bold": "Blod",
+        "both": "editor & preview",
         "check": "Task List",
         "code": "Code Block",
         "copied": "Copied",
@@ -33,6 +34,7 @@ export const i18n: II18n = {
     },
     zh_CN: {
         "bold": "粗体",
+        "both": "编辑 & 预览",
         "check": "任务列表",
         "code": "代码块",
         "copied": "已复制",

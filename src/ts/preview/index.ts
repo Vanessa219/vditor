@@ -11,19 +11,17 @@ export class Preview {
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("div");
-        this.element.className = "vditor-preview " +
-            (vditor.options.classes.preview ? vditor.options.classes.preview : "vditor-reset");
-        if (!vditor.options.preview.show) {
-            this.element.style.display = "none";
-        }
-        if (this.element.style.display !== "none") {
-            this.render(vditor);
-        }
+        this.element.className = `vditor-preview vditor-preview--${vditor.options.preview.mode}`;
+        const previewElement = document.createElement("div");
+        previewElement.className = vditor.options.classes.preview ? vditor.options.classes.preview : "vditor-reset";
+        previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
+        this.element.appendChild(previewElement);
+        this.render(vditor);
     }
 
     public render(vditor: IVditor, value?: string) {
-        if (this.element.style.display === "none") {
-            if (vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
+        if (this.element.className === "vditor-preview vditor-preview--editor") {
+            if (vditor.upload && vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
                 vditor.upload.element.style.opacity = "0";
                 vditor.upload.element.className = "vditor-upload";
                 vditor.upload.element.removeAttribute("data-type");
@@ -32,16 +30,17 @@ export class Preview {
         }
 
         if (value) {
-            this.element.innerHTML = value;
+            this.element.children[0].innerHTML = value;
             return;
         }
 
         if (vditor.editor.element.innerText.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
-            this.element.innerHTML = "";
+            this.element.children[0].innerHTML = "";
             return;
         }
 
         clearTimeout(vditor.mdTimeoutId);
+
         vditor.mdTimeoutId = window.setTimeout(() => {
             const renderStartTime = new Date().getTime();
             if (vditor.options.preview.url) {
@@ -56,7 +55,7 @@ export class Preview {
                                 alert(responseJSON.msg);
                                 return;
                             }
-                            this.element.innerHTML = responseJSON.data;
+                            this.element.children[0].innerHTML = responseJSON.data;
                             this.afterRender(vditor, renderStartTime);
                         }
                     }
@@ -67,7 +66,7 @@ export class Preview {
                 }));
             } else {
                 md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
-                    this.element.innerHTML = html;
+                    this.element.children[0].innerHTML = html;
                     this.afterRender(vditor, renderStartTime);
                 });
             }
@@ -78,10 +77,10 @@ export class Preview {
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
-        mathRender(vditor.preview.element);
-        mermaidRender(vditor.preview.element);
-        codeRender(vditor.preview.element, vditor.options.lang);
-        chartRender(vditor.preview.element);
+        mathRender(vditor.preview.element.children[0] as HTMLElement);
+        mermaidRender(vditor.preview.element.children[0] as HTMLElement);
+        codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
+        chartRender(vditor.preview.element.children[0] as HTMLElement);
         const time = (new Date().getTime() - startTime);
         if ((new Date().getTime() - startTime) > 1000) {
             // https://github.com/b3log/vditor/issues/67

@@ -135,7 +135,7 @@ window.vditor = new Vditor('vditor', {
     },
   },
   preview: {
-    show: true,
+    mode: "preview",
     parse: () => {
       LazyLoadImage()
     },
@@ -218,6 +218,10 @@ window.vditorTest = new Vditor('vditorTest', {
   toolbar: [
     {
       name: 'preview',
+      tipPosition: 'ne',
+    },
+    {
+      name: 'both',
       tipPosition: 'ne',
     },
     'br',
