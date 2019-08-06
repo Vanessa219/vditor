@@ -169,6 +169,11 @@ interface IVditor {
         fillEmoji(element: HTMLElement): void
         render(): void,
     };
+    tip: {
+        element: HTMLElement
+        show(text: string, time?: number): void
+        hide(): void,
+    };
     upload?: {
         element: HTMLElement
         isUploading: boolean,
@@ -197,6 +202,8 @@ declare class IVditorConstructor {
     public focus(): void;
 
     public blur(): void;
+
+    public disabled(): void;
 
     public enable(): void;
 
@@ -228,4 +235,6 @@ declare class IVditorConstructor {
     public html2md(value: string): string;
 
     public getHTML(includeHljs?: boolean): string;
+
+    public tip(text: string, time?: number): void;
 }

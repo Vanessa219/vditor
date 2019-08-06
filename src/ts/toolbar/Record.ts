@@ -30,10 +30,8 @@ export class Record extends MenuItem {
                         mediaRecorder.cloneChannelData(left, right);
                     };
                     mediaRecorder.startRecordingNewWavFile();
-                    vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recording;
-                    vditor.upload.element.style.opacity = "1";
-                    vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-                    vditor.editor.element.setAttribute("disabled", "disabled");
+                    vditor.tip.show(i18n[vditor.options.lang].recording);
+                    vditor.editor.element.setAttribute("contenteditable", "false");
                 }).catch((err: ErrorEvent) => {
                     console.error("init media error:", err);
                 });
@@ -42,15 +40,13 @@ export class Record extends MenuItem {
 
             if (mediaRecorder.isRecording) {
                 mediaRecorder.stopRecording();
-                vditor.upload.element.className = "vditor-upload";
+                vditor.tip.hide();
                 const file: File = new File([mediaRecorder.buildWavFileBlob()],
                     `record${(new Date()).getTime()}.wav`, {type: "video/webm"});
                 uploadFiles(vditor, [file]);
             } else {
-                vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].recording;
-                vditor.upload.element.style.opacity = "1";
-                vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-                vditor.editor.element.setAttribute("disabled", "disabled");
+                vditor.tip.show(i18n[vditor.options.lang].recording);
+                vditor.editor.element.setAttribute("contenteditable", "false");
                 mediaRecorder.startRecordingNewWavFile();
             }
         });

@@ -43,9 +43,7 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
                             setSelectionByInlineText(original, vditor.editor.element.childNodes);
                             quickInsertText(responseJSON.data.url);
                         } else {
-                            vditor.upload.element.style.opacity = "1";
-                            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-                            vditor.upload.element.children[0].innerHTML = `<ul>${responseJSON.msg}</ul>`;
+                            vditor.tip.show(responseJSON.msg);
                         }
                     }
                 };

@@ -40,6 +40,8 @@ export class Ui {
             contentElement.appendChild(vditor.upload.element);
         }
 
+        contentElement.appendChild(vditor.tip.element);
+
         vditorElement.appendChild(contentElement);
 
         if (vditor.options.resize.enable && vditor.options.resize.position === "bottom") {

@@ -54,11 +54,13 @@ export const setSelectionByInlineText = (text: string, childNodes: NodeListOf<Ch
     Array.from(childNodes).some((node: HTMLElement, index: number) => {
         startIndex = node.textContent.indexOf(text);
         if (node.nodeType === 3 && startIndex > -1) {
-
             offset = index;
             return true;
         }
     });
+    if (startIndex < 0) {
+        return;
+    }
     const range = document.createRange();
     range.setStart(childNodes[offset], startIndex);
     range.setEnd(childNodes[offset], startIndex + text.length);

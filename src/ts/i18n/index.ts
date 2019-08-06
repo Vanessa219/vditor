@@ -53,7 +53,7 @@ export const i18n: II18n = {
         "nameEmpty": "文件名不能为空",
         "ordered-list": "有序列表",
         "over": "超过",
-        "performanceTip": "实时预览需 ${x}ms，可点击预览按钮进行关闭",
+        "performanceTip": "实时预览需 ${x}ms，可点击编辑 & 预览按钮进行关闭",
         "preview": "预览",
         "quote": "引用",
         "record": "开始录音/结束录音",

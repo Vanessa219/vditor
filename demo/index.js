@@ -121,7 +121,7 @@ window.vditor = new Vditor('vditor', {
   },
   tab: '  ',
   upload: {
-    accept: 'image/*,.pdf,.wav',
+    accept: 'image/*,.wav',
     token: 'test',
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
@@ -135,7 +135,7 @@ window.vditor = new Vditor('vditor', {
     },
   },
   preview: {
-    mode: "preview",
+    mode: "both",
     parse: () => {
       LazyLoadImage()
     },

@@ -10,18 +10,11 @@ class Upload {
         this.isUploading = false;
         this.element = document.createElement("div");
         this.element.className = "vditor-upload";
-        this.element.innerHTML = '<div class="vditor-upload__progress"></div><div class="vditor-upload__close">X</div>';
-
-        this.element.children[1].addEventListener("click", function() {
-            this.parentElement.style.opacity = 0;
-            this.parentElement.className = "vditor-upload";
-        });
     }
 }
 
 const validateFile = (vditor: IVditor, files: File[]): File[] => {
-    vditor.upload.element.className = "vditor-upload";
-
+    vditor.tip.hide();
     const uploadFileList = [];
     let errorTip = "";
     let uploadingStr = "";
@@ -73,8 +66,7 @@ const validateFile = (vditor: IVditor, files: File[]): File[] => {
     }
 
     if (errorTip !== "") {
-        vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-        vditor.upload.element.children[0].innerHTML = `<ul>${errorTip}</ul>`;
+        vditor.tip.show(`<ul>${errorTip}</ul>`);
     }
 
     if (uploadingStr !== "") {
@@ -85,20 +77,19 @@ const validateFile = (vditor: IVditor, files: File[]): File[] => {
 };
 
 const genUploadedLabel =
-    (editorElement: HTMLDivElement, responseText: string, options: IOptions, uploadElement: HTMLElement) => {
+    (editorElement: HTMLDivElement, responseText: string, vditor: IVditor) => {
         editorElement.focus();
         const response = JSON.parse(responseText);
 
         if (response.code === 1) {
-            uploadElement.className = "vditor-upload vditor-upload--tip";
-            uploadElement.children[0].innerHTML = response.msg;
+            vditor.tip.show(response.msg);
         }
 
         if (response.data.errFiles) {
             response.data.errFiles.forEach((data: string) => {
                 const lastIndex = data.lastIndexOf(".");
-                const filename = options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
-                const original = `[${filename}](${i18n[options.lang].uploading})`;
+                const filename = vditor.options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
+                const original = `[${filename}](${i18n[vditor.options.lang].uploading})`;
                 setSelectionByInlineText(original, editorElement.childNodes);
                 quickInsertText("");
             });
@@ -107,8 +98,8 @@ const genUploadedLabel =
         Object.keys(response.data.succMap).forEach((key) => {
             const path = response.data.succMap[key];
             const lastIndex = key.lastIndexOf(".");
-            const filename = options.upload.filename(key.substr(0, lastIndex)) + key.substr(lastIndex);
-            const original = `[${filename}](${i18n[options.lang].uploading})`;
+            const filename = vditor.options.upload.filename(key.substr(0, lastIndex)) + key.substr(lastIndex);
+            const original = `[${filename}](${i18n[vditor.options.lang].uploading})`;
             if (path.indexOf(".wav") === path.length - 4) {
                 setSelectionByInlineText(original, editorElement.childNodes);
                 quickInsertText(`<audio controls="controls" src="${path}"></audio>\n`);
@@ -133,8 +124,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     if (vditor.options.upload.handler) {
         const isValidate = vditor.options.upload.handler(fileList);
         if (typeof isValidate === "string") {
-            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-            vditor.upload.element.children[0].innerHTML = isValidate;
+            vditor.tip.show(isValidate);
             return;
         }
         return;
@@ -151,8 +141,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     if (vditor.options.upload.validate) {
         const isValidate = vditor.options.upload.validate(fileList);
         if (typeof isValidate === "string") {
-            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-            vditor.upload.element.children[0].innerHTML = isValidate;
+            vditor.tip.show(isValidate);
             return;
         }
     }
@@ -176,7 +165,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         xhr.setRequestHeader("X-Upload-Token", vditor.options.upload.token);
     }
     vditor.upload.isUploading = true;
-    vditor.editor.element.setAttribute("disabled", "disabled");
+    vditor.editor.element.setAttribute("contenteditable", "false");
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -184,24 +173,23 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             if (element) {
                 element.value = "";
             }
-            vditor.editor.element.removeAttribute("disabled");
+            vditor.editor.element.setAttribute("contenteditable", "true");
 
             if (xhr.status === 200) {
                 if (vditor.options.upload.success) {
                     vditor.options.upload.success(vditor.editor.element, xhr.responseText);
                 } else {
-                    genUploadedLabel(vditor.editor.element, xhr.responseText, vditor.options, vditor.upload.element);
+                    genUploadedLabel(vditor.editor.element, xhr.responseText, vditor);
                 }
-
-                vditor.upload.element.style.opacity = "0";
             } else {
                 if (vditor.options.upload.error) {
                     vditor.options.upload.error(xhr.responseText);
                 } else {
-                    vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-                    vditor.upload.element.children[0].innerHTML = xhr.responseText || "401";
+                    vditor.tip.show(xhr.responseText);
+                    document.execCommand("undo");
                 }
             }
+            vditor.upload.element.style.display = "none";
         }
     };
     xhr.upload.onprogress = (event: ProgressEvent) => {
@@ -209,8 +197,8 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             return;
         }
         const progress = event.loaded / event.total * 100;
-        vditor.upload.element.style.opacity = "1";
-        const progressBar = vditor.upload.element.children[0] as HTMLElement;
+        vditor.upload.element.style.display = "block";
+        const progressBar = vditor.upload.element;
         progressBar.style.width = progress + "%";
     };
     xhr.send(formData);

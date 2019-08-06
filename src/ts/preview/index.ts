@@ -22,9 +22,7 @@ export class Preview {
     public render(vditor: IVditor, value?: string) {
         if (this.element.className === "vditor-preview vditor-preview--editor") {
             if (vditor.upload && vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
-                vditor.upload.element.style.opacity = "0";
-                vditor.upload.element.className = "vditor-upload";
-                vditor.upload.element.removeAttribute("data-type");
+                vditor.tip.hide();
             }
             return;
         }
@@ -82,16 +80,13 @@ export class Preview {
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         chartRender(vditor.preview.element.children[0] as HTMLElement);
         const time = (new Date().getTime() - startTime);
-        if ((new Date().getTime() - startTime) > 1000) {
+        if ((new Date().getTime() - startTime) > 2000) {
             // https://github.com/b3log/vditor/issues/67
-            vditor.upload.element.style.opacity = "1";
+            vditor.tip.show(i18n[vditor.options.lang].performanceTip.replace("${x}",
+                time.toString()));
             vditor.upload.element.setAttribute("data-type", "renderPerformance");
-            vditor.upload.element.className = "vditor-upload vditor-upload--tip";
-            vditor.upload.element.children[0].innerHTML = i18n[vditor.options.lang].performanceTip.replace("${x}",
-                time.toString());
         } else if (vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
-            vditor.upload.element.style.opacity = "0";
-            vditor.upload.element.className = "vditor-upload";
+            vditor.tip.hide();
             vditor.upload.element.removeAttribute("data-type");
         }
     }

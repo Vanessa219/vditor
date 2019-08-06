@@ -16,6 +16,7 @@ import {markdownItRender} from "./ts/markdown/render";
 import {md2html} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
+import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
 import {Upload} from "./ts/upload/index";
@@ -42,6 +43,7 @@ class Vditor {
             mdTimeoutId: -1,
             options: mergedOptions,
             originalInnerHTML: document.getElementById(id).innerHTML,
+            tip: new Tip(),
         };
 
         if (mergedOptions.counter > 0) {
@@ -99,16 +101,16 @@ class Vditor {
     }
 
     public disabled() {
-        this.vditor.editor.element.setAttribute("disabled", "disabled");
+        this.vditor.editor.element.setAttribute("contenteditable", "false");
     }
 
     public enable() {
-        this.vditor.editor.element.removeAttribute("disabled");
+        this.vditor.editor.element.setAttribute("contenteditable", "true");
     }
 
     public setSelection(start: number, end: number) {
-       const range = setSelectionByPosition(start, end, this.vditor.editor.element);
-       if (this.vditor.options.select) {
+        const range = setSelectionByPosition(start, end, this.vditor.editor.element);
+        if (this.vditor.options.select) {
             this.vditor.options.select(getSelectText(range, this.vditor.editor.element));
         }
     }
@@ -167,6 +169,10 @@ class Vditor {
 
     public getHTML(includeHljs?: boolean) {
         return md2html(this.vditor, includeHljs);
+    }
+
+    public tip(text: string, time?: number) {
+        this.vditor.tip.show(text, time);
     }
 }
 
