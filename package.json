@@ -4,7 +4,8 @@
   "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
-  "homepage": "https://hacpai.com/cr",
+  "homepage": "https://hacpai.com/tag/vditor",
+  "jsdelivr": "dist/index.min.js",
   "main": "dist/index.min.js",
   "files": [
     "dist/*",
