@@ -30,6 +30,7 @@ export class Resize {
                 } else {
                     vditorElement.style.height = Math.max(100, height + (moveEvent.clientY - y)) + "px";
                 }
+                vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
             };
 
             documentSelf.onmouseup = () => {

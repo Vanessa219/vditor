@@ -2,6 +2,7 @@ import {getSelectText} from "../editor/getSelectText";
 import {inputEvent} from "../editor/inputEvent";
 import {code160to32, quickInsertText} from "../editor/insertText";
 import {setSelectionByStartEndNode} from "../editor/setSelection";
+import {getCursorPosition} from "../hint/getCursorPosition";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -63,7 +64,6 @@ export class Hotkey {
                 if (needTwoBR) {
                     html = "<br><br>";
                 }
-
                 // insert br and remove position
                 const element = document.createElement("div");
                 element.innerHTML = html;
@@ -77,6 +77,16 @@ export class Hotkey {
                 range.insertNode(fragment);
                 setSelectionByStartEndNode(firstNode, firstNode, range);
                 inputEvent(this.vditor);
+
+                // 光标总在可视区域内
+                const height = parseInt(document.defaultView.getComputedStyle(
+                    this.vditor.editor.element.querySelector("br"), null).getPropertyValue("line-height"), 10);
+                const position = getCursorPosition(this.vditor.editor.element);
+                if (position.top >= this.vditor.editor.element.parentElement.clientHeight - height) {
+                    this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollTop +
+                        (position.top - this.vditor.editor.element.parentElement.clientHeight) + height;
+                }
+
                 event.preventDefault();
                 event.stopPropagation();
             }

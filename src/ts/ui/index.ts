@@ -48,6 +48,8 @@ export class Ui {
             vditorElement.appendChild(vditor.resize.element);
         }
 
+        vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
+
         document.onclick = (event: Event) => {
             const menuItem = (event.target as HTMLElement).closest(".vditor-tooltipped");
             if (menuItem && menuItem.nextSibling &&

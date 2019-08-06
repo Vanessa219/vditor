@@ -13,6 +13,7 @@
 ### v1.7.1 / 2019-08-06
 
 * [91](https://github.com/b3log/vditor/issues/91) No default jsDelivr CDN file set `development`
+* [90](https://github.com/b3log/vditor/issues/90) 编辑区域底部留白且光标所在位置应在可视区域内 `feature`
 * [87](https://github.com/b3log/vditor/issues/87) 获取文本时对 HTML 实体进行转换 `bug`
 * [85](https://github.com/b3log/vditor/issues/85) 改善提示且提供提示接口 `feature`
 * [84](https://github.com/b3log/vditor/issues/84) 支持全屏预览 `feature`
