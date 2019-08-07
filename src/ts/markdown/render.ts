@@ -1,4 +1,4 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
+import {CDN_PATH} from "../constants";
 import {code160to32} from "../editor/insertText";
 import {addStyle} from "../util/addStyle";
 import {task} from "./markdown-it-task";
