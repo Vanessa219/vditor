@@ -7,7 +7,7 @@
 <a title="npm bundle size" target="_blank" href="https://www.npmjs.com/package/vditor"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/vditor?style=flat-square&color=blueviolet"></a>
 <a title="Dependencies" target="_blank" href="https://github.com/b3log/vditor"><img src="https://img.shields.io/david/b3log/vditor.svg?style=flat-square&color=ff96b4"></a>  <br>
 <a title="Version" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/v/vditor.svg?style=flat-square"></a>
-<a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square"></a>
+<a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square&color=97ca00"></a>
 <a title="jsdelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor"><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"/></a>
 <a title="jsDelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"></a>
 <a title="Hits" target="_blank" href="https://github.com/b3log/hits"><img src="https://hits.b3log.org/b3log/vditor.svg"></a>
