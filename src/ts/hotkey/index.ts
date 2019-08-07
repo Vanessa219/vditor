@@ -143,7 +143,7 @@ export class Hotkey {
                         range.startContainer.childNodes[startOffset].textContent === "") {
                             startOffset--;
                         }
-                        if (startOffset > 0) {
+                        if (startOffset >= 0) {
                             range.setStart(range.startContainer, startOffset);
                         }
                     }
