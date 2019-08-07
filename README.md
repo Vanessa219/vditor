@@ -15,7 +15,7 @@
 
 ## 简介
 
-[Vditor](https://github.com/b3log/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。支持原生 JavaScript、Vue、React。
+[Vditor](https://github.com/b3log/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。支持原生 JavaScript、Vue、React、Angular。
 
 ## 背景
 
