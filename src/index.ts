@@ -174,6 +174,43 @@ class Vditor {
     public tip(text: string, time?: number) {
         this.vditor.tip.show(text, time);
     }
+
+    public setPreviewMode(mode: string) {
+        let toolbarItemClassName;
+        switch (mode) {
+            case "both":
+                toolbarItemClassName = this.vditor.toolbar.elements.both.children[0].className;
+                if (toolbarItemClassName.indexOf("vditor-menu--current") === -1) {
+                    this.vditor.preview.element.className = "vditor-preview vditor-preview--both";
+                    this.vditor.toolbar.elements.both.children[0].className =
+                        `${toolbarItemClassName} vditor-menu--current`;
+                    this.vditor.toolbar.elements.preview.children[0].className =
+                        this.vditor.toolbar.elements.preview.children[0].className.replace(" vditor-menu--current", "");
+                }
+                break;
+            case "editor":
+                if (this.vditor.preview.element.className !== "vditor-preview vditor-preview--editor") {
+                    this.vditor.preview.element.className = "vditor-preview vditor-preview--editor";
+                    this.vditor.toolbar.elements.preview.children[0].className =
+                        this.vditor.toolbar.elements.preview.children[0].className.replace(" vditor-menu--current", "");
+                    this.vditor.toolbar.elements.both.children[0].className =
+                        this.vditor.toolbar.elements.both.children[0].className.replace(" vditor-menu--current", "");
+                }
+                break;
+            case "preview":
+                toolbarItemClassName = this.vditor.toolbar.elements.preview.children[0].className;
+                if (toolbarItemClassName.indexOf("vditor-menu--current") === -1) {
+                    this.vditor.preview.element.className = "vditor-preview vditor-preview--preview";
+                    this.vditor.toolbar.elements.preview.children[0].className =
+                        `${toolbarItemClassName} vditor-menu--current`;
+                    this.vditor.toolbar.elements.both.children[0].className =
+                        this.vditor.toolbar.elements.both.children[0].className.replace(" vditor-menu--current", "");
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 export default Vditor;

@@ -12,6 +12,7 @@
 
 ### v1.7.1 / 2019-08-07
 
+* [93](https://github.com/b3log/vditor/issues/93) 新增预览模式设置接口 `feature`
 * [91](https://github.com/b3log/vditor/issues/91) No default jsDelivr CDN file set `development`
 * [90](https://github.com/b3log/vditor/issues/90) 编辑区域底部留白且光标所在位置应在可视区域内 `feature`
 * [88](https://github.com/b3log/vditor/issues/88) resize 优化 `enhancement`

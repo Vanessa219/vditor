@@ -237,4 +237,6 @@ declare class IVditorConstructor {
     public getHTML(includeHljs?: boolean): string;
 
     public tip(text: string, time?: number): void;
+
+    public setPreviewMode(mode: string): void;
 }
