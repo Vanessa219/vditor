@@ -117,15 +117,31 @@
   }
 
   &-resize {
-    padding: 1px 0;
-    border-radius: 5px;
+    padding: 3px 0;
     cursor: row-resize;
-    transition: $transition;
     user-select: none;
-    background-color: $resizeBg;
+    position: absolute;
+    width: 100%;
 
-    &:hover {
-      background-color: $resizeHoverBg;
+    &--top {
+      top: -3px;
+    }
+
+    &--bottom {
+      bottom: -3px;
+    }
+
+    & > div {
+      height: 3px;
+      background-color: $resizeBg;
+      transition: $transition;
+    }
+
+    &:hover,
+    &--selected {
+      & > div {
+        background-color: $resizeHoverBg;
+      }
 
       svg {
         color: $hoverColor;
@@ -149,7 +165,7 @@
     height: 3px;
     left: 0;
     top: -2px;
-    transition:$transition;
+    transition: $transition;
     background-color: rgba($hoverBg, 0.8);
   }
 

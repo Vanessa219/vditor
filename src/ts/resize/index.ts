@@ -5,8 +5,8 @@ export class Resize {
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("div");
-        this.element.className = "vditor-resize";
-        this.element.innerHTML = resizeSVG;
+        this.element.className = `vditor-resize vditor-resize--${vditor.options.resize.position}`;
+        this.element.innerHTML = `<div>${resizeSVG}</div>`;
 
         this.bindEvent(vditor);
     }
@@ -23,6 +23,8 @@ export class Resize {
             if (window.captureEvents) {
                 window.captureEvents();
             }
+
+            this.element.className = this.element.className + " vditor-resize--selected";
 
             documentSelf.onmousemove = (moveEvent: MouseEvent) => {
                 if (vditor.options.resize.position === "top") {
@@ -46,6 +48,7 @@ export class Resize {
                 documentSelf.ondragstart = null;
                 documentSelf.onselectstart = null;
                 documentSelf.onselect = null;
+                this.element.className = this.element.className.replace(/ vditor-resize--selected/g, "");
             };
         });
     }

@@ -20,10 +20,6 @@ export class Ui {
 
         vditorElement.appendChild(toolbarElement);
 
-        if (vditor.options.resize.enable && vditor.options.resize.position === "top") {
-            vditorElement.appendChild(vditor.resize.element);
-        }
-
         const contentElement = document.createElement("div");
         contentElement.className = "vditor-content";
         contentElement.appendChild(vditor.editor.element);
@@ -40,13 +36,13 @@ export class Ui {
             contentElement.appendChild(vditor.upload.element);
         }
 
+        if (vditor.options.resize.enable) {
+            contentElement.appendChild(vditor.resize.element);
+        }
+
         contentElement.appendChild(vditor.tip.element);
 
         vditorElement.appendChild(contentElement);
-
-        if (vditor.options.resize.enable && vditor.options.resize.position === "bottom") {
-            vditorElement.appendChild(vditor.resize.element);
-        }
 
         vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
 
