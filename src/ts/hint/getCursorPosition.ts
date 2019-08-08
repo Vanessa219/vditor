@@ -6,7 +6,7 @@ export const getCursorPosition = (editor: HTMLDivElement) => {
     if (startNode) {
         if (startNode.nodeType === 3 && startNode.textContent === "") {
             cursorRect = startNode.nextElementSibling.getClientRects()[0];
-        } else {
+        } else if (startNode.getClientRects) {
             cursorRect = startNode.getClientRects()[0];
         }
     } else {
