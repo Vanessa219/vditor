@@ -1,8 +1,5 @@
 import {getSelectText} from "../editor/getSelectText";
-import {inputEvent} from "../editor/inputEvent";
 import {code160to32, quickInsertText} from "../editor/insertText";
-import {setSelectionByStartEndNode} from "../editor/setSelection";
-import {getCursorPosition} from "../hint/getCursorPosition";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -29,69 +26,6 @@ export class Hotkey {
     }
 
     private bindHotkey(): void {
-        this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
-            if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
-                // new line, use br instead of div
-                const range = window.getSelection().getRangeAt(0);
-                range.deleteContents();
-                let needTwoBR = true;
-                let getResult = false;
-                if (range.endContainer.nodeType === 3) {
-                    let nextSibling = range.endContainer.nextSibling;
-                    while (nextSibling && !getResult) {
-                        if (nextSibling.nodeName === "BR" ||
-                            (nextSibling.nodeType === 3 && nextSibling.textContent !== "")) {
-                            needTwoBR = false;
-                            getResult = true;
-                        }
-                        nextSibling = nextSibling.nextSibling;
-                    }
-                } else {
-                    let currentIndex = range.endOffset;
-                    let currentNode = range.endContainer.childNodes[currentIndex];
-                    while (currentNode && !getResult) {
-                        if (currentNode.nodeName === "BR" ||
-                            (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
-                            needTwoBR = false;
-                            getResult = true;
-                        }
-                        currentNode = range.endContainer.childNodes[++currentIndex];
-                    }
-                }
-
-                let html = "<br>";
-                // bottom always needs br, otherwise can not enter
-                if (needTwoBR) {
-                    html = "<br><br>";
-                }
-                // insert br and remove position
-                const element = document.createElement("div");
-                element.innerHTML = html;
-                const fragment = document.createDocumentFragment();
-                let node = element.firstChild;
-                const firstNode = node;
-                while (node) {
-                    fragment.appendChild(node);
-                    node = element.firstChild;
-                }
-                range.insertNode(fragment);
-                setSelectionByStartEndNode(firstNode, firstNode, range);
-                inputEvent(this.vditor);
-
-                // 光标总在可视区域内
-                const height = parseInt(document.defaultView.getComputedStyle(
-                    this.vditor.editor.element.querySelector("br"), null).getPropertyValue("line-height"), 10);
-                const position = getCursorPosition(this.vditor.editor.element);
-                if (position.top >= this.vditor.editor.element.parentElement.clientHeight - height) {
-                    this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollTop +
-                        (position.top - this.vditor.editor.element.parentElement.clientHeight) + height;
-                }
-
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        });
-
         this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
             if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter &&
                 event.key.toLowerCase() === "enter") {

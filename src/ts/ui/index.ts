@@ -1,3 +1,6 @@
+import {quickInsertText} from "../editor/insertText";
+import {html2md} from "../editor/html2md";
+
 export class Ui {
     constructor(vditor: IVditor) {
         const vditorElement = document.getElementById(vditor.id);
@@ -44,8 +47,25 @@ export class Ui {
 
         vditorElement.appendChild(contentElement);
 
+        this.afterRender(vditor)
+    }
+
+    private async afterRender(vditor: IVditor) {
         vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
 
+        const localValue = localStorage.getItem("vditor" + vditor.id);
+        vditor.editor.element.focus();
+        if (vditor.options.cache && localValue) {
+            quickInsertText(localValue)
+        } else {
+            if (!vditor.originalInnerHTML.trim()) {
+                return;
+            }
+            const mdValue = await html2md(vditor, vditor.originalInnerHTML);
+            quickInsertText(mdValue);
+        }
+
+        // when click, hide hint and panel
         document.onclick = (event: Event) => {
             const menuItem = (event.target as HTMLElement).closest(".vditor-tooltipped");
             if (menuItem && menuItem.nextSibling &&

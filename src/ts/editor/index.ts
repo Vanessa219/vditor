@@ -16,29 +16,7 @@ class Editor {
         if (vditor.options.editorName) {
             this.element.setAttribute("name", vditor.options.editorName);
         }
-        if (vditor.options.cache) {
-            const localValue = localStorage.getItem("vditor" + vditor.id);
-            if (localValue) {
-                this.element.innerText = localValue;
-            } else {
-                this.setOriginal(vditor);
-            }
-            if (vditor.options.counter > 0) {
-                vditor.counter.render(this.element.innerText.length, vditor.options.counter);
-            }
-        } else {
-            this.setOriginal(vditor);
-        }
         this.bindEvent(vditor);
-    }
-
-    private async setOriginal(vditor: IVditor) {
-        if (!vditor.originalInnerHTML.trim()) {
-            return;
-        }
-        const mdValue = await html2md(vditor, vditor.originalInnerHTML);
-        this.element.focus();
-        quickInsertText(mdValue);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -121,16 +99,15 @@ class Editor {
             const textPlain = event.clipboardData.getData("text/plain");
             event.stopPropagation();
             event.preventDefault();
-
             if (textHTML.trim() !== "") {
                 if (textHTML.length < 106496) {
+                    // https://github.com/b3log/vditor/issues/51
                     if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                         `<a href="${textPlain}">${textPlain}</a>` ||
                         textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                         `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
-                        // https://github.com/b3log/vditor/issues/51
                         const mdValue = await html2md(vditor, textHTML, textPlain);
                         quickInsertText(mdValue);
                         return;

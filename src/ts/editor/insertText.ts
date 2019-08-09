@@ -4,9 +4,7 @@ import {setSelectionFocus} from "./setSelection";
 
 export const quickInsertText = (text: string) => {
     // 当前焦点在编辑器中，不需要 toggle， 不需要光标移动，没有前缀后缀之分时使用
-    const html = text.replace(/</g, "&lt").replace(/>/g, "&gt")
-        .replace(/\n/g, "<br>").replace(/ /g, "&nbsp;");
-    document.execCommand("insertHTML", false, html);
+    document.execCommand("insertText", false, text);
 };
 
 export const code160to32 = (text: string) => {
