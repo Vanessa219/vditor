@@ -69,7 +69,11 @@ class Editor {
 
         if (vditor.options.select) {
             this.element.addEventListener("mouseup", () => {
-                vditor.options.select(getSelectText(window.getSelection().getRangeAt(0), this.element));
+                const selectText = getSelectText(window.getSelection().getRangeAt(0), this.element)
+                if (selectText === '') {
+                    return
+                }
+                vditor.options.select(selectText);
             });
         }
 
