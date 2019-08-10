@@ -1,4 +1,4 @@
-import {quickInsertText} from "../editor/insertText";
+import {formatRender} from "../editor/formatRender";
 import {html2md} from "../editor/html2md";
 
 export class Ui {
@@ -47,22 +47,21 @@ export class Ui {
 
         vditorElement.appendChild(contentElement);
 
-        this.afterRender(vditor)
+        this.afterRender(vditor);
     }
 
     private async afterRender(vditor: IVditor) {
         vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
 
         const localValue = localStorage.getItem("vditor" + vditor.id);
-        vditor.editor.element.focus();
         if (vditor.options.cache && localValue) {
-            quickInsertText(localValue)
+            formatRender(vditor, localValue);
         } else {
             if (!vditor.originalInnerHTML.trim()) {
                 return;
             }
             const mdValue = await html2md(vditor, vditor.originalInnerHTML);
-            quickInsertText(mdValue);
+            formatRender(vditor, mdValue);
         }
 
         // when click, hide hint and panel

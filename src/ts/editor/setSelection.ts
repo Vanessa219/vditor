@@ -1,26 +1,3 @@
-const getNodeOffset = (childNodes: NodeListOf<ChildNode>, position: number) => {
-    let nodeIndex = 0;
-    let offsetIndex = 0;
-    let lastIndex = 0;
-    Array.from(childNodes).some((node: HTMLElement, index: number) => {
-        let nodeLength = node.textContent.length;
-        if (node.nodeName === "BR") {
-            nodeLength = 1;
-        }
-        if (lastIndex + nodeLength >= position) {
-            if (node.nodeName === "BR") {
-                offsetIndex = 0;
-            } else {
-                offsetIndex = position - lastIndex;
-            }
-            nodeIndex = index;
-            return true;
-        }
-        lastIndex += nodeLength;
-    });
-    return {node: childNodes[nodeIndex], offset: offsetIndex};
-};
-
 export const setSelectionFocus = (range: Range) => {
     const selection = window.getSelection();
     selection.removeAllRanges();
@@ -28,11 +5,38 @@ export const setSelectionFocus = (range: Range) => {
 };
 
 export const setSelectionByPosition = (start: number, end: number, editor: HTMLDivElement) => {
-    const startObj = getNodeOffset(editor.childNodes, start);
-    const endObj = getNodeOffset(editor.childNodes, end);
-    const range = document.createRange();
-    range.setStart(startObj.node, startObj.offset);
-    range.setEnd(endObj.node, endObj.offset);
+    const range = editor.ownerDocument.createRange();
+    range.setStart(editor, 0);
+    range.collapse(true);
+
+    let charIndex = 0;
+    let line = 0;
+    let pNode = editor.childNodes[line];
+    let foundStart = false;
+    let stop = false;
+
+    while (!stop && pNode) {
+        const nextCharIndex = charIndex + pNode.textContent.length;
+        if (!foundStart && start >= charIndex && start <= nextCharIndex) {
+            if (pNode.childNodes[0].nodeType === 3) {
+                range.setStart(pNode.childNodes[0], start - charIndex);
+            } else {
+                range.setStartBefore(pNode.nextSibling);
+            }
+            foundStart = true;
+        }
+        if (foundStart && end >= charIndex && end <= nextCharIndex) {
+            if (pNode.childNodes[0].nodeType === 3) {
+                range.setEnd(pNode.childNodes[0], end - charIndex);
+            } else {
+                range.setEndBefore(pNode.nextSibling);
+            }
+            stop = true;
+        }
+        charIndex = nextCharIndex;
+        pNode = editor.childNodes[++line];
+    }
+
     setSelectionFocus(range);
     return range;
 };

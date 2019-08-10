@@ -1,8 +1,10 @@
 import {uploadFiles} from "../upload/index";
+import {formatRender} from "./formatRender";
 import {getSelectText} from "./getSelectText";
+import {getText} from "./getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
-import {code160to32, quickInsertText} from "./insertText";
+import {quickInsertText} from "./insertText";
 
 class Editor {
     public element: HTMLDivElement;
@@ -21,12 +23,16 @@ class Editor {
 
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("input", () => {
-            inputEvent(vditor);
+            if (vditor.editor.element.childNodes.length !== 0 && vditor.editor.element.childNodes[0].nodeType === 3) {
+                formatRender(vditor, getText(this.element));
+            } else {
+                inputEvent(vditor);
+            }
         });
 
         this.element.addEventListener("focus", () => {
             if (vditor.options.focus) {
-                vditor.options.focus(code160to32(this.element.innerText));
+                vditor.options.focus(getText(this.element));
             }
             if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
                 const emojiPanel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
@@ -41,15 +47,15 @@ class Editor {
         this.element.addEventListener("blur", () => {
             this.range = window.getSelection().getRangeAt(0).cloneRange();
             if (vditor.options.blur) {
-                vditor.options.blur(code160to32(this.element.innerText));
+                vditor.options.blur(getText(this.element));
             }
         });
 
         if (vditor.options.select) {
             this.element.addEventListener("mouseup", () => {
-                const selectText = getSelectText(window.getSelection().getRangeAt(0), this.element)
-                if (selectText === '') {
-                    return
+                const selectText = getSelectText(window.getSelection().getRangeAt(0), this.element);
+                if (selectText === "") {
+                    return;
                 }
                 vditor.options.select(selectText);
             });

@@ -1,4 +1,18 @@
 export const selectIsEditor = (range: Range, editor: HTMLDivElement) => {
-    return (editor.isEqualNode(range.commonAncestorContainer.parentElement) ||
-        editor.isEqualNode(range.commonAncestorContainer));
+    let container = range.commonAncestorContainer;
+    let isEditor = false;
+    while (container) {
+        if (editor.isEqualNode(container)) {
+            isEditor = true;
+            container = undefined;
+        }
+        if (container) {
+            if (container.nodeName === "BODY") {
+                container = undefined;
+            } else {
+                container = container.parentElement;
+            }
+        }
+    }
+    return isEditor;
 };

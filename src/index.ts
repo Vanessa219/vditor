@@ -1,6 +1,7 @@
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
 import {getSelectText} from "./ts/editor/getSelectText";
+import {getText} from "./ts/editor/getText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
 import {code160to32, insertText, quickInsertText} from "./ts/editor/insertText";
@@ -12,8 +13,8 @@ import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {markdownItRender} from "./ts/markdown/render";
 import {md2html} from "./ts/markdown/render";
+import {markdownItRender} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
@@ -85,7 +86,7 @@ class Vditor {
     }
 
     public getValue() {
-        return code160to32(this.vditor.editor.element.innerText);
+        return getText(this.vditor.editor.element);
     }
 
     public insertValue(value: string) {

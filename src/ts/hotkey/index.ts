@@ -1,5 +1,9 @@
+import {formatRender} from "../editor/formatRender";
+import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
-import {code160to32, quickInsertText} from "../editor/insertText";
+import {getText} from "../editor/getText";
+import { quickInsertText} from "../editor/insertText";
+import {setSelectionByPosition} from "../editor/setSelection";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -9,6 +13,7 @@ export class Hotkey {
         this.hintElement = vditor.hint && vditor.hint.element;
         this.vditor = vditor;
         this.bindHotkey();
+
     }
 
     private processKeymap(hotkey: string, event: KeyboardEvent, action: () => void) {
@@ -26,20 +31,43 @@ export class Hotkey {
     }
 
     private bindHotkey(): void {
+        this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
+            if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
+                const position = getSelectPosition(this.vditor.editor.element);
+                const text = getText(this.vditor.editor.element);
+                setSelectionByPosition(position.start, position.start, this.vditor.editor.element);
+                formatRender(this.vditor, text.substring(0, position.start) + "\n" + text.substring(position.end), 1);
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });
+
         this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
+
             if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter &&
                 event.key.toLowerCase() === "enter") {
-                this.vditor.options.ctrlEnter(code160to32(this.vditor.editor.element.innerText));
+                this.vditor.options.ctrlEnter(getText(this.vditor.editor.element));
+                return;
             }
 
             if (this.vditor.options.esc) {
                 if (event.key.toLowerCase() === "Escape".toLowerCase()) {
-                    this.vditor.options.esc(code160to32(this.vditor.editor.element.innerText));
+                    this.vditor.options.esc(getText(this.vditor.editor.element));
+                    return;
                 }
             }
 
-            if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
-                this.hint(event);
+            if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
+                const selectionValue = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element);
+                const selectionResult = selectionValue.split("\n").map((value) => {
+                    return this.vditor.options.tab + value;
+                });
+
+                quickInsertText(selectionResult.join("\n"));
+
+                event.preventDefault();
+                event.stopPropagation();
+                return;
             }
 
             // editor actions
@@ -47,44 +75,15 @@ export class Hotkey {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
                     const range = window.getSelection().getRangeAt(0);
                     if (range.startContainer.nodeType === 3) {
-                        range.setStartBefore(range.startContainer);
-                    } else {
-                        range.setStartBefore(range.startContainer.childNodes[range.startOffset]);
+                        range.setStart(range.startContainer, 0);
                     }
-                    if (range.endContainer.nodeType === 3 && range.endContainer.nextSibling) {
-                        range.setEndAfter(range.endContainer.nextSibling);
-                    } else if (range.endOffset <= range.endContainer.childNodes.length - 1) {
-                        range.setEndAfter(range.endContainer.childNodes[range.endOffset]);
+                    if (range.endContainer.nodeType === 3) {
+                        range.setEnd(range.endContainer, range.endContainer.textContent.length);
                     }
-
-                    // last line
-                    let isLastLine = true;
-                    let endOffset = range.endOffset;
-                    while (range.endContainer.childNodes[endOffset] && isLastLine) {
-                        if (range.endContainer.childNodes[endOffset].nodeType === 3 &&
-                            range.endContainer.childNodes[endOffset].textContent !== "") {
-                            isLastLine = false;
-                        }
-                        if (range.endContainer.childNodes[endOffset].nodeName === "BR") {
-                            isLastLine = false;
-                        }
-                        endOffset++;
-                    }
-
-                    if (isLastLine) {
-                        let startOffset = range.startOffset - 1;
-                        while (startOffset > 0 && range.startContainer.childNodes[startOffset].nodeType === 3 &&
-                        range.startContainer.childNodes[startOffset].textContent === "") {
-                            startOffset--;
-                        }
-                        if (startOffset >= 0) {
-                            range.setStart(range.startContainer, startOffset);
-                        }
-                    }
-
-                    quickInsertText("");
+                    document.execCommand("delete");
                 });
             }
+
             if (this.vditor.options.keymap.duplicate) {
                 this.processKeymap(this.vditor.options.keymap.duplicate, event, () => {
                     const range = window.getSelection().getRangeAt(0);
@@ -111,16 +110,8 @@ export class Hotkey {
                 });
             });
 
-            if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
-                const selectionValue = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element);
-                const selectionResult = selectionValue.split("\n").map((value) => {
-                    return this.vditor.options.tab + value;
-                });
-
-                quickInsertText(selectionResult.join("\n"));
-
-                event.preventDefault();
-                event.stopPropagation();
+            if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
+                this.hint(event);
             }
         });
     }

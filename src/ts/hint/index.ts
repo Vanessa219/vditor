@@ -19,6 +19,9 @@ export class Hint {
     }
 
     public render() {
+        if (!window.getSelection().focusNode) {
+            return;
+        }
         const currentLineValue = window.getSelection().focusNode
             .textContent.substring(0, window.getSelection().anchorOffset);
         const atKey = this.getKey(currentLineValue, "@");

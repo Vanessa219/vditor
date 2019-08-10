@@ -1,17 +1,17 @@
-import {code160to32} from "./insertText";
+import {getText} from "./getText";
 
 export const inputEvent = (vditor: IVditor) => {
     if (vditor.options.counter > 0) {
-        vditor.counter.render(vditor.editor.element.innerText.length, vditor.options.counter);
+        vditor.counter.render(getText(vditor.editor.element).length, vditor.options.counter);
     }
     if (typeof vditor.options.input === "function") {
-        vditor.options.input(code160to32(vditor.editor.element.innerText), vditor.preview && vditor.preview.element);
+        vditor.options.input(getText(vditor.editor.element), vditor.preview && vditor.preview.element);
     }
     if (vditor.hint) {
         vditor.hint.render();
     }
     if (vditor.options.cache) {
-        localStorage.setItem(`vditor${vditor.id}`, code160to32(vditor.editor.element.innerText));
+        localStorage.setItem(`vditor${vditor.id}`, getText(vditor.editor.element));
     }
     if (vditor.preview) {
         vditor.preview.render(vditor);

@@ -1,4 +1,4 @@
-import {code160to32} from "../editor/insertText";
+import {getText} from "../editor/getText";
 import {i18n} from "../i18n/index";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
@@ -32,7 +32,7 @@ export class Preview {
             return;
         }
 
-        if (vditor.editor.element.innerText.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
+        if (getText(vditor.editor.element).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
             this.element.children[0].innerHTML = "";
             return;
         }
@@ -60,7 +60,7 @@ export class Preview {
                 };
 
                 xhr.send(JSON.stringify({
-                    markdownText: code160to32(vditor.editor.element.innerText),
+                    markdownText: getText(vditor.editor.element),
                 }));
             } else {
                 md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
