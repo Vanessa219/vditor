@@ -1,4 +1,4 @@
-import {quickInsertText} from "./insertText";
+import {insertText} from "./insertText";
 import {setSelectionByInlineText} from "./setSelection";
 import {gfm} from "./turndown-plugin-gfm";
 
@@ -41,7 +41,7 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
                             }
                             const original = responseJSON.data.originalURL;
                             setSelectionByInlineText(original, vditor.editor.element.childNodes);
-                            quickInsertText(responseJSON.data.url);
+                            insertText(vditor, responseJSON.data.url, "", true);
                         } else {
                             vditor.tip.show(responseJSON.msg);
                         }

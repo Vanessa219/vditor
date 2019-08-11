@@ -41,17 +41,6 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLD
     return range;
 };
 
-export const setSelectionByStartEndNode = (startNode: Node, endNode: Node, range: Range) => {
-    range.setStartAfter(startNode);
-    range.setEndAfter(endNode);
-    setSelectionFocus(range);
-};
-
-export const setSelectionByStar = (startNode: Node, offset: number, range: Range) => {
-    range.setStart(startNode, offset);
-    setSelectionFocus(range);
-};
-
 export const setSelectionByInlineText = (text: string, childNodes: NodeListOf<ChildNode>) => {
     let offset = 0;
     let startIndex = 0;
@@ -68,11 +57,5 @@ export const setSelectionByInlineText = (text: string, childNodes: NodeListOf<Ch
     const range = document.createRange();
     range.setStart(childNodes[offset], startIndex);
     range.setEnd(childNodes[offset], startIndex + text.length);
-    setSelectionFocus(range);
-};
-
-export const setSelectionByNode = (node: Node) => {
-    const range = document.createRange();
-    range.selectNodeContents(node);
     setSelectionFocus(range);
 };

@@ -1,5 +1,5 @@
 import {CDN_PATH} from "../constants";
-import {code160to32} from "../editor/insertText";
+import {code160to32} from "../util/code160to32";
 import {addStyle} from "../util/addStyle";
 
 export const mathRender = (element: HTMLElement) => {

@@ -1,17 +1,19 @@
 import {selectIsEditor} from "./selectIsEditor";
 
-export const getSelectPosition = (editorElement: HTMLDivElement) => {
+export const getSelectPosition = (editorElement: HTMLDivElement, range?: Range) => {
     const position = {
         end: 0,
         start: 0,
     };
 
-    if (window.getSelection().rangeCount === 0) {
-        return position;
+    if (!range) {
+        if (window.getSelection().rangeCount === 0) {
+            return position;
+        }
+        range = window.getSelection().getRangeAt(0);
     }
 
-    const range = window.getSelection().getRangeAt(0);
-    if (selectIsEditor(range, editorElement)) {
+    if (selectIsEditor(editorElement, range)) {
         const preSelectionRange = range.cloneRange();
         preSelectionRange.selectNodeContents(editorElement);
         preSelectionRange.setEnd(range.startContainer, range.startOffset);

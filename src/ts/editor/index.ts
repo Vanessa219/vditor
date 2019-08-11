@@ -4,7 +4,7 @@ import {getSelectText} from "./getSelectText";
 import {getText} from "./getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
-import {quickInsertText} from "./insertText";
+import {insertText} from "./insertText";
 
 class Editor {
     public element: HTMLDivElement;
@@ -24,7 +24,11 @@ class Editor {
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("input", () => {
             if (vditor.editor.element.childNodes.length !== 0 && vditor.editor.element.childNodes[0].nodeType === 3) {
-                formatRender(vditor, getText(this.element));
+                const text = getText(this.element);
+                formatRender(vditor, text, {
+                    start: text.length,
+                    end: text.length,
+                });
             } else {
                 inputEvent(vditor);
             }
@@ -53,7 +57,7 @@ class Editor {
 
         if (vditor.options.select) {
             this.element.addEventListener("mouseup", () => {
-                const selectText = getSelectText(window.getSelection().getRangeAt(0), this.element);
+                const selectText = getSelectText(this.element);
                 if (selectText === "") {
                     return;
                 }
@@ -97,7 +101,7 @@ class Editor {
             event.stopPropagation();
             event.preventDefault();
             event.clipboardData.setData("text/plain",
-                getSelectText(document.getSelection().getRangeAt(0), this.element));
+                getSelectText(this.element));
         });
 
         this.element.addEventListener("paste", async (event: ClipboardEvent) => {
@@ -115,7 +119,7 @@ class Editor {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
                         const mdValue = await html2md(vditor, textHTML, textPlain);
-                        quickInsertText(mdValue);
+                        insertText(vditor, mdValue, "", true);
                         return;
                     }
                 }
@@ -131,7 +135,7 @@ class Editor {
                 uploadFiles(vditor, event.clipboardData.files);
                 return;
             }
-            quickInsertText(textPlain);
+            insertText(vditor, textPlain, "", true);
         });
     }
 }

@@ -1,6 +1,8 @@
-import {quickInsertText} from "../editor/insertText";
+import {formatRender} from "../editor/formatRender";
+import {getSelectPosition} from "../editor/getSelectPosition";
+import {getText} from "../editor/getText";
 import {selectIsEditor} from "../editor/selectIsEditor";
-import {setSelectionByStar} from "../editor/setSelection";
+import {code160to32} from "../util/code160to32";
 import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
@@ -22,8 +24,10 @@ export class Hint {
         if (!window.getSelection().focusNode) {
             return;
         }
-        const currentLineValue = window.getSelection().focusNode
-            .textContent.substring(0, window.getSelection().anchorOffset);
+        const position = getSelectPosition(this.vditor.editor.element);
+        const currentLineValue = getText(this.vditor.editor.element).substring(0, position.end).split("\n")
+            .slice(-1).pop();
+
         const atKey = this.getKey(currentLineValue, "@");
         const emojiKey = this.getKey(currentLineValue, ":");
 
@@ -74,38 +78,31 @@ export class Hint {
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
         let range: Range = window.getSelection().getRangeAt(0);
-        if (!selectIsEditor(range, this.vditor.editor.element)) {
+        if (!selectIsEditor(this.vditor.editor.element, range)) {
             range = this.vditor.editor.range;
         }
-        setSelectionByStar(range.startContainer,
-            range.startContainer.textContent.substr(0, range.startOffset).lastIndexOf(splitChar), range);
-        quickInsertText(value);
+        const position = getSelectPosition(this.vditor.editor.element, range);
+        const text = getText(this.vditor.editor.element);
+        const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
+        formatRender(this.vditor, preText + value + text.substring(position.start),
+            {
+                start: (preText + value).length,
+                end: (preText + value).length,
+            });
     }
 
     private getKey(currentLineValue: string, splitChar: string) {
-        if (!String.prototype.trim) {
-            String.prototype.trim = function() {
-                return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
-            };
-        }
-
         const lineArray = currentLineValue.split(splitChar);
-
         let key;
-        if (lineArray.length > 1) {
-            if (lineArray.length === 2 && lineArray[0] === "") {
-                if ((lineArray[1] === "" || lineArray[1].trim() !== "") &&
-                    lineArray[1].indexOf(" ") === -1 &&
-                    lineArray[1].length < 33) {
-                    key = lineArray[1];
-                }
+        const lastItem = lineArray[lineArray.length - 1];
+        const maxLength = 32;
+        if (lineArray.length > 1 && lastItem.trim() === lastItem) {
+            if (lineArray.length === 2 && lineArray[0] === "" && lineArray[1].length < maxLength) {
+                key = lineArray[1];
             } else {
-                const prefAt = lineArray[lineArray.length - 2];
-                const currentAt = lineArray.slice(-1).pop();
-                if (prefAt.slice(-1) === " " && currentAt.indexOf(" ") === -1 &&
-                    ((currentAt === "" || currentAt.trim() !== "") &&
-                        currentAt.length < 33)) {
-                    key = currentAt;
+                const preChar = lineArray[lineArray.length - 2].slice(-1);
+                if (code160to32(preChar) === " " && lastItem.length < maxLength) {
+                    key = lastItem;
                 }
             }
         }

@@ -1,6 +1,13 @@
-export const selectIsEditor = (range: Range, editor: HTMLDivElement) => {
-    let container = range.commonAncestorContainer;
+export const selectIsEditor = (editor: HTMLDivElement, range?: Range) => {
     let isEditor = false;
+    if (!range) {
+        if (window.getSelection().rangeCount === 0) {
+            return isEditor;
+        } else {
+            range = window.getSelection().getRangeAt(0);
+        }
+    }
+    let container = range.commonAncestorContainer;
     while (container) {
         if (editor.isEqualNode(container)) {
             isEditor = true;

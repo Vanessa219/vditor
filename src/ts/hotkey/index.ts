@@ -2,8 +2,7 @@ import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {getText} from "../editor/getText";
-import { quickInsertText} from "../editor/insertText";
-import {setSelectionByPosition} from "../editor/setSelection";
+import {insertText} from "../editor/insertText";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -35,10 +34,25 @@ export class Hotkey {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
                 const position = getSelectPosition(this.vditor.editor.element);
                 const text = getText(this.vditor.editor.element);
-                setSelectionByPosition(position.start, position.start, this.vditor.editor.element);
-                formatRender(this.vditor, text.substring(0, position.start) + "\n" + text.substring(position.end), 1);
+                formatRender(this.vditor, text.substring(0, position.start) + "\n" + text.substring(position.end),
+                    {
+                        start: position.start + 1,
+                        end: position.start + 1,
+                    });
                 event.preventDefault();
                 event.stopPropagation();
+            }
+        });
+
+        this.vditor.editor.element.addEventListener("keyup", (event: KeyboardEvent) => {
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.key === "Backspace") {
+                const position = getSelectPosition(this.vditor.editor.element);
+                const text = getText(this.vditor.editor.element);
+                formatRender(this.vditor, text,
+                    {
+                        start: position.start,
+                        end: position.end,
+                    });
             }
         });
 
@@ -58,12 +72,12 @@ export class Hotkey {
             }
 
             if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
-                const selectionValue = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element);
+                const selectionValue = getSelectText(this.vditor.editor.element);
                 const selectionResult = selectionValue.split("\n").map((value) => {
                     return this.vditor.options.tab + value;
                 });
 
-                quickInsertText(selectionResult.join("\n"));
+                insertText(this.vditor, selectionResult.join("\n"), "", true);
 
                 event.preventDefault();
                 event.stopPropagation();
@@ -80,6 +94,7 @@ export class Hotkey {
                     if (range.endContainer.nodeType === 3) {
                         range.setEnd(range.endContainer, range.endContainer.textContent.length);
                     }
+                    // TODO
                     document.execCommand("delete");
                 });
             }
@@ -91,12 +106,12 @@ export class Hotkey {
                     if (range.collapsed) {
                         range.setStart(range.startContainer, 0);
                         range.setEnd(range.endContainer, range.endContainer.textContent.length);
-                        selectText = "\n" + getSelectText(range, this.vditor.editor.element);
+                        selectText = "\n" + getSelectText(this.vditor.editor.element, range);
                     } else {
-                        selectText = getSelectText(range, this.vditor.editor.element);
+                        selectText = getSelectText(this.vditor.editor.element, range);
                     }
                     range.setStart(range.endContainer, range.endOffset);
-                    quickInsertText(selectText);
+                    // TODO
                 });
             }
 
