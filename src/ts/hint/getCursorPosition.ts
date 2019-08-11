@@ -1,4 +1,4 @@
-export const getCursorPosition = (editor: HTMLDivElement) => {
+export const getCursorPosition = (editor: HTMLPreElement) => {
     const parentRect = editor.parentElement.getBoundingClientRect();
     const range = window.getSelection().getRangeAt(0);
     const startNode = range.startContainer.childNodes[range.startOffset] as HTMLElement;
@@ -6,7 +6,7 @@ export const getCursorPosition = (editor: HTMLDivElement) => {
     if (startNode) {
         if (startNode.nodeType === 3 && startNode.textContent === "") {
             cursorRect = startNode.nextElementSibling.getClientRects()[0];
-        } else {
+        } else if (startNode.getClientRects) {
             cursorRect = startNode.getClientRects()[0];
         }
     } else {

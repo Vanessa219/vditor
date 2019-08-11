@@ -1,5 +1,5 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
-import {code160to32} from "../editor/insertText";
+import {CDN_PATH} from "../constants";
+import {getText} from "../editor/getText";
 import {addStyle} from "../util/addStyle";
 import {task} from "./markdown-it-task";
 
@@ -60,9 +60,9 @@ const initMarkdownIt = async (vditor: IVditor, includeHljs: boolean) => {
 
 export const md2html = async (vditor: IVditor, includeHljs: boolean) => {
     if (typeof vditor.markdownIt !== "undefined") {
-        return vditor.markdownIt.render(code160to32(vditor.editor.element.innerText));
+        return vditor.markdownIt.render(getText(vditor.editor.element));
     } else {
         vditor.markdownIt = await initMarkdownIt(vditor, includeHljs);
-        return vditor.markdownIt.render(code160to32(vditor.editor.element.innerText));
+        return vditor.markdownIt.render(getText(vditor.editor.element));
     }
 };

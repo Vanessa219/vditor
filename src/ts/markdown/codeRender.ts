@@ -1,6 +1,6 @@
 import copySVG from "../../assets/icons/copy.svg";
-import {code160to32} from "../editor/insertText";
 import {i18n} from "../i18n/index";
+import {code160to32} from "../util/code160to32";
 
 export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
     element.querySelectorAll("pre > code").forEach((e: HTMLElement, index: number) => {

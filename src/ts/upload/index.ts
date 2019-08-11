@@ -1,4 +1,4 @@
-import {quickInsertText} from "../editor/insertText";
+import {insertText} from "../editor/insertText";
 import {setSelectionByInlineText} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
 
@@ -70,14 +70,14 @@ const validateFile = (vditor: IVditor, files: File[]): File[] => {
     }
 
     if (uploadingStr !== "") {
-        quickInsertText(uploadingStr);
+        insertText(vditor, uploadingStr, "");
     }
 
     return uploadFileList;
 };
 
 const genUploadedLabel =
-    (editorElement: HTMLDivElement, responseText: string, vditor: IVditor) => {
+    (editorElement: HTMLPreElement, responseText: string, vditor: IVditor) => {
         editorElement.focus();
         const response = JSON.parse(responseText);
 
@@ -91,7 +91,7 @@ const genUploadedLabel =
                 const filename = vditor.options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
                 const original = `[${filename}](${i18n[vditor.options.lang].uploading})`;
                 setSelectionByInlineText(original, editorElement.childNodes);
-                quickInsertText("");
+                insertText(vditor, "", "", true);
             });
         }
 
@@ -102,11 +102,11 @@ const genUploadedLabel =
             const original = `[${filename}](${i18n[vditor.options.lang].uploading})`;
             if (path.indexOf(".wav") === path.length - 4) {
                 setSelectionByInlineText(original, editorElement.childNodes);
-                quickInsertText(`<audio controls="controls" src="${path}"></audio>\n`);
+                insertText(vditor, '<audio controls="controls" src="${path}"></audio>\n', "", true);
                 return;
             }
             setSelectionByInlineText(original, editorElement.childNodes);
-            quickInsertText(`[${filename}](${path})`);
+            insertText(vditor, `[${filename}](${path})`, "", true);
         });
     };
 

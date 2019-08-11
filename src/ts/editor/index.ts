@@ -1,54 +1,42 @@
 import {uploadFiles} from "../upload/index";
+import {formatRender} from "./formatRender";
 import {getSelectText} from "./getSelectText";
+import {getText} from "./getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
-import {code160to32, quickInsertText} from "./insertText";
+import {insertText} from "./insertText";
 
 class Editor {
-    public element: HTMLDivElement;
+    public element: HTMLPreElement;
     public range: Range;
 
     constructor(vditor: IVditor) {
-        this.element = document.createElement("div");
+        this.element = document.createElement("pre");
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
         if (vditor.options.editorName) {
             this.element.setAttribute("name", vditor.options.editorName);
         }
-        if (vditor.options.cache) {
-            const localValue = localStorage.getItem("vditor" + vditor.id);
-            if (localValue) {
-                this.element.innerText = localValue;
-            } else {
-                this.setOriginal(vditor);
-            }
-            if (vditor.options.counter > 0) {
-                vditor.counter.render(this.element.innerText.length, vditor.options.counter);
-            }
-        } else {
-            this.setOriginal(vditor);
-        }
         this.bindEvent(vditor);
-    }
-
-    private async setOriginal(vditor: IVditor) {
-        if (!vditor.originalInnerHTML.trim()) {
-            return;
-        }
-        const mdValue = await html2md(vditor, vditor.originalInnerHTML);
-        this.element.focus();
-        quickInsertText(mdValue);
     }
 
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("input", () => {
+            if (vditor.editor.element.childNodes.length !== 0 && vditor.editor.element.childNodes[0].nodeType === 3) {
+                const text = getText(this.element);
+                formatRender(vditor, text, {
+                    end: text.length,
+                    start: text.length,
+                }, false);
+            }
             inputEvent(vditor);
+
         });
 
         this.element.addEventListener("focus", () => {
             if (vditor.options.focus) {
-                vditor.options.focus(code160to32(this.element.innerText));
+                vditor.options.focus(getText(this.element));
             }
             if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
                 const emojiPanel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
@@ -63,13 +51,17 @@ class Editor {
         this.element.addEventListener("blur", () => {
             this.range = window.getSelection().getRangeAt(0).cloneRange();
             if (vditor.options.blur) {
-                vditor.options.blur(code160to32(this.element.innerText));
+                vditor.options.blur(getText(this.element));
             }
         });
 
         if (vditor.options.select) {
             this.element.addEventListener("mouseup", () => {
-                vditor.options.select(getSelectText(window.getSelection().getRangeAt(0), this.element));
+                const selectText = getSelectText(this.element);
+                if (selectText === "") {
+                    return;
+                }
+                vditor.options.select(selectText);
             });
         }
 
@@ -108,8 +100,7 @@ class Editor {
         this.element.addEventListener("copy", async (event: ClipboardEvent) => {
             event.stopPropagation();
             event.preventDefault();
-            event.clipboardData.setData("text/plain",
-                getSelectText(document.getSelection().getRangeAt(0), this.element));
+            event.clipboardData.setData("text/plain", getSelectText(this.element));
         });
 
         this.element.addEventListener("paste", async (event: ClipboardEvent) => {
@@ -117,18 +108,17 @@ class Editor {
             const textPlain = event.clipboardData.getData("text/plain");
             event.stopPropagation();
             event.preventDefault();
-
             if (textHTML.trim() !== "") {
                 if (textHTML.length < 106496) {
+                    // https://github.com/b3log/vditor/issues/51
                     if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                         `<a href="${textPlain}">${textPlain}</a>` ||
                         textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                         `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
-                        // https://github.com/b3log/vditor/issues/51
                         const mdValue = await html2md(vditor, textHTML, textPlain);
-                        quickInsertText(mdValue);
+                        insertText(vditor, mdValue, "", true);
                         return;
                     }
                 }
@@ -144,7 +134,7 @@ class Editor {
                 uploadFiles(vditor, event.clipboardData.files);
                 return;
             }
-            quickInsertText(textPlain);
+            insertText(vditor, textPlain, "", true);
         });
     }
 }

@@ -53,7 +53,7 @@ interface IUpload {
     token?: string;
     accept?: string;
 
-    success?(textarea: HTMLDivElement, msg: string): void;
+    success?(textarea: HTMLPreElement, msg: string): void;
 
     error?(msg: string): void;
 
@@ -153,7 +153,7 @@ interface IVditor {
         render(vditor: IVditor, value?: string): void,
     };
     editor?: {
-        element: HTMLDivElement,
+        element: HTMLPreElement,
         range: Range,
     };
     counter?: {
@@ -215,7 +215,7 @@ declare class IVditorConstructor {
 
     public renderPreview(value?: string): void;
 
-    public getCursorPosition(editor: HTMLDivElement): {
+    public getCursorPosition(editor: HTMLPreElement): {
         left: number,
         top: number,
     };

@@ -1,8 +1,10 @@
+import {formatRender} from "../editor/formatRender";
+import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
-import {inputEvent} from "../editor/inputEvent";
-import {code160to32, quickInsertText} from "../editor/insertText";
-import {setSelectionByStartEndNode} from "../editor/setSelection";
-import {getCursorPosition} from "../hint/getCursorPosition";
+import {getText} from "../editor/getText";
+import {insertText} from "../editor/insertText";
+import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
+import {setSelectionByPosition} from "../editor/setSelection";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -12,6 +14,7 @@ export class Hotkey {
         this.hintElement = vditor.hint && vditor.hint.element;
         this.vditor = vditor;
         this.bindHotkey();
+
     }
 
     private processKeymap(hotkey: string, event: KeyboardEvent, action: () => void) {
@@ -31,139 +34,85 @@ export class Hotkey {
     private bindHotkey(): void {
         this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
-                // new line, use br instead of div
-                const range = window.getSelection().getRangeAt(0);
-                range.deleteContents();
-                let needTwoBR = true;
-                let getResult = false;
-                if (range.endContainer.nodeType === 3) {
-                    let nextSibling = range.endContainer.nextSibling;
-                    while (nextSibling && !getResult) {
-                        if (nextSibling.nodeName === "BR" ||
-                            (nextSibling.nodeType === 3 && nextSibling.textContent !== "")) {
-                            needTwoBR = false;
-                            getResult = true;
-                        }
-                        nextSibling = nextSibling.nextSibling;
-                    }
-                } else {
-                    let currentIndex = range.endOffset;
-                    let currentNode = range.endContainer.childNodes[currentIndex];
-                    while (currentNode && !getResult) {
-                        if (currentNode.nodeName === "BR" ||
-                            (currentNode.nodeType === 3 && currentNode.textContent !== "")) {
-                            needTwoBR = false;
-                            getResult = true;
-                        }
-                        currentNode = range.endContainer.childNodes[++currentIndex];
-                    }
-                }
-
-                let html = "<br>";
-                // bottom always needs br, otherwise can not enter
-                if (needTwoBR) {
-                    html = "<br><br>";
-                }
-                // insert br and remove position
-                const element = document.createElement("div");
-                element.innerHTML = html;
-                const fragment = document.createDocumentFragment();
-                let node = element.firstChild;
-                const firstNode = node;
-                while (node) {
-                    fragment.appendChild(node);
-                    node = element.firstChild;
-                }
-                range.insertNode(fragment);
-                setSelectionByStartEndNode(firstNode, firstNode, range);
-                inputEvent(this.vditor);
-
-                // 光标总在可视区域内
-                const height = parseInt(document.defaultView.getComputedStyle(
-                    this.vditor.editor.element.querySelector("br"), null).getPropertyValue("line-height"), 10);
-                const position = getCursorPosition(this.vditor.editor.element);
-                if (position.top >= this.vditor.editor.element.parentElement.clientHeight - height) {
-                    this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollTop +
-                        (position.top - this.vditor.editor.element.parentElement.clientHeight) + height;
-                }
-
+                insertText(this.vditor, '\n', '', true)
                 event.preventDefault();
                 event.stopPropagation();
             }
         });
 
+        this.vditor.editor.element.addEventListener("keyup", (event: KeyboardEvent) => {
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.key === "Backspace") {
+                const position = getSelectPosition(this.vditor.editor.element);
+                const text = getText(this.vditor.editor.element);
+                formatRender(this.vditor, text,
+                    {
+                        end: position.end,
+                        start: position.start,
+                    }, false);
+            }
+        });
+
         this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
+
             if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter &&
                 event.key.toLowerCase() === "enter") {
-                this.vditor.options.ctrlEnter(code160to32(this.vditor.editor.element.innerText));
+                this.vditor.options.ctrlEnter(getText(this.vditor.editor.element));
+                return;
             }
 
             if (this.vditor.options.esc) {
                 if (event.key.toLowerCase() === "Escape".toLowerCase()) {
-                    this.vditor.options.esc(code160to32(this.vditor.editor.element.innerText));
+                    this.vditor.options.esc(getText(this.vditor.editor.element));
+                    return;
                 }
             }
 
-            if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
-                this.hint(event);
+            if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
+                const selectionValue = getSelectText(this.vditor.editor.element);
+                const selectionResult = selectionValue.split("\n").map((value) => {
+                    return this.vditor.options.tab + value;
+                });
+
+                insertText(this.vditor, selectionResult.join("\n"), "", true);
+
+                event.preventDefault();
+                event.stopPropagation();
+                return;
             }
 
             // editor actions
             if (this.vditor.options.keymap.deleteLine) {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
-                    const range = window.getSelection().getRangeAt(0);
-                    if (range.startContainer.nodeType === 3) {
-                        range.setStartBefore(range.startContainer);
-                    } else {
-                        range.setStartBefore(range.startContainer.childNodes[range.startOffset]);
-                    }
-                    if (range.endContainer.nodeType === 3 && range.endContainer.nextSibling) {
-                        range.setEndAfter(range.endContainer.nextSibling);
-                    } else if (range.endOffset <= range.endContainer.childNodes.length - 1) {
-                        range.setEndAfter(range.endContainer.childNodes[range.endOffset]);
-                    }
-
-                    // last line
-                    let isLastLine = true;
-                    let endOffset = range.endOffset;
-                    while (range.endContainer.childNodes[endOffset] && isLastLine) {
-                        if (range.endContainer.childNodes[endOffset].nodeType === 3 &&
-                            range.endContainer.childNodes[endOffset].textContent !== "") {
-                            isLastLine = false;
-                        }
-                        if (range.endContainer.childNodes[endOffset].nodeName === "BR") {
-                            isLastLine = false;
-                        }
-                        endOffset++;
-                    }
-
-                    if (isLastLine) {
-                        let startOffset = range.startOffset - 1;
-                        while (startOffset > 0 && range.startContainer.childNodes[startOffset].nodeType === 3 &&
-                        range.startContainer.childNodes[startOffset].textContent === "") {
-                            startOffset--;
-                        }
-                        if (startOffset >= 0) {
-                            range.setStart(range.startContainer, startOffset);
-                        }
-                    }
-
-                    quickInsertText("");
+                    const position = getSelectPosition(this.vditor.editor.element)
+                    const text = getText(this.vditor.editor.element)
+                    const linePosition = getCurrentLinePosition(position, text)
+                    const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end)
+                    const startIndex = Math.min(deletedText.length, position.start)
+                    formatRender(this.vditor, deletedText, {
+                        end: startIndex,
+                        start: startIndex
+                    })
                 });
             }
+
             if (this.vditor.options.keymap.duplicate) {
                 this.processKeymap(this.vditor.options.keymap.duplicate, event, () => {
-                    const range = window.getSelection().getRangeAt(0);
-                    let selectText = "";
-                    if (range.collapsed) {
-                        range.setStart(range.startContainer, 0);
-                        range.setEnd(range.endContainer, range.endContainer.textContent.length);
-                        selectText = "\n" + getSelectText(range, this.vditor.editor.element);
+                    const position = getSelectPosition(this.vditor.editor.element)
+                    const text = getText(this.vditor.editor.element)
+                    let lineText = text.substring(position.start, position.end)
+                    if (position.start === position.end) {
+                        const linePosition = getCurrentLinePosition(position, text)
+                        lineText = text.substring(linePosition.start, linePosition.end)
+                        formatRender(this.vditor, text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end), {
+                            start: position.start + lineText.length,
+                            end: position.end + lineText.length
+                        })
                     } else {
-                        selectText = getSelectText(range, this.vditor.editor.element);
+                        formatRender(this.vditor, text.substring(0, position.end) + lineText + text.substring(position.end), {
+                            start: position.start + lineText.length,
+                            end: position.end + lineText.length
+                        })
                     }
-                    range.setStart(range.endContainer, range.endOffset);
-                    quickInsertText(selectText);
                 });
             }
 
@@ -177,16 +126,8 @@ export class Hotkey {
                 });
             });
 
-            if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
-                const selectionValue = getSelectText(window.getSelection().getRangeAt(0), this.vditor.editor.element);
-                const selectionResult = selectionValue.split("\n").map((value) => {
-                    return this.vditor.options.tab + value;
-                });
-
-                quickInsertText(selectionResult.join("\n"));
-
-                event.preventDefault();
-                event.stopPropagation();
+            if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
+                this.hint(event);
             }
         });
     }

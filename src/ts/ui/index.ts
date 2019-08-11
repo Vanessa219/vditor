@@ -1,3 +1,6 @@
+import {formatRender} from "../editor/formatRender";
+import {html2md} from "../editor/html2md";
+
 export class Ui {
     constructor(vditor: IVditor) {
         const vditorElement = document.getElementById(vditor.id);
@@ -44,8 +47,24 @@ export class Ui {
 
         vditorElement.appendChild(contentElement);
 
+        this.afterRender(vditor);
+    }
+
+    private async afterRender(vditor: IVditor) {
         vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
 
+        const localValue = localStorage.getItem("vditor" + vditor.id);
+        if (vditor.options.cache && localValue) {
+            formatRender(vditor, localValue);
+        } else {
+            if (!vditor.originalInnerHTML.trim()) {
+                return;
+            }
+            const mdValue = await html2md(vditor, vditor.originalInnerHTML);
+            formatRender(vditor, mdValue);
+        }
+
+        // when click, hide hint and panel
         document.onclick = (event: Event) => {
             const menuItem = (event.target as HTMLElement).closest(".vditor-tooltipped");
             if (menuItem && menuItem.nextSibling &&

@@ -1,6 +1,6 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
-import {code160to32} from "../editor/insertText";
+import {CDN_PATH} from "../constants";
 import {addStyle} from "../util/addStyle";
+import {code160to32} from "../util/code160to32";
 
 export const mathRender = (element: HTMLElement) => {
     const text = code160to32(element.innerText);
