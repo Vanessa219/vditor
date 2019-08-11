@@ -16,13 +16,13 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         }
     }
 
-    const position = getSelectPosition(vditor.editor.element);
+    const position = getSelectPosition(vditor.editor.element, range);
     const content = getText(vditor.editor.element);
 
-    // select none || select something and need not replace
+    // select none || select something and need replace
     if (range.collapsed || (!range.collapsed && replace)) {
         const text = prefix + suffix;
-        formatRender(vditor, content.substring(0, position.start) + text + content.substring(position.start),
+        formatRender(vditor, content.substring(0, position.start) + text + content.substring(position.end),
             {
                 end: position.start + text.length,
                 start: position.start + text.length,
@@ -34,15 +34,15 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
             formatRender(vditor, content.substring(0, position.start - prefix.length)
                 + selectText + content.substring(position.end + suffix.length),
                 {
-                    end: position.start + selectText.length,
+                    end: position.start - prefix.length + selectText.length,
                     start: position.start - prefix.length,
                 });
         } else {
             const text = prefix + selectText + suffix;
             formatRender(vditor, content.substring(0, position.start) + text + content.substring(position.end),
                 {
-                    end: position.start - prefix.length + text.length,
-                    start: position.start - prefix.length,
+                    end: position.start + prefix.length + selectText.length,
+                    start: position.start + prefix.length,
                 });
         }
     }

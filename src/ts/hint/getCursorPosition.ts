@@ -1,4 +1,4 @@
-export const getCursorPosition = (editor: HTMLDivElement) => {
+export const getCursorPosition = (editor: HTMLPreElement) => {
     const parentRect = editor.parentElement.getBoundingClientRect();
     const range = window.getSelection().getRangeAt(0);
     const startNode = range.startContainer.childNodes[range.startOffset] as HTMLElement;

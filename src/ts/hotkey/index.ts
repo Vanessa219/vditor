@@ -3,6 +3,9 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
+import {getCursorPosition} from "../hint/getCursorPosition";
+import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
+import {setSelectionByPosition} from "../editor/setSelection";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -87,31 +90,32 @@ export class Hotkey {
             // editor actions
             if (this.vditor.options.keymap.deleteLine) {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
-                    const range = window.getSelection().getRangeAt(0);
-                    if (range.startContainer.nodeType === 3) {
-                        range.setStart(range.startContainer, 0);
-                    }
-                    if (range.endContainer.nodeType === 3) {
-                        range.setEnd(range.endContainer, range.endContainer.textContent.length);
-                    }
-                    // TODO
-                    document.execCommand("delete");
+                    const position = getSelectPosition(this.vditor.editor.element)
+                    const text = getText(this.vditor.editor.element)
+                    formatRender(this.vditor, text, undefined, false)
+                    const linePosition = getCurrentLinePosition(position, text)
+                    setSelectionByPosition(linePosition.start, linePosition.end, this.vditor.editor.element)
+                    insertText(this.vditor, '', '', true)
                 });
             }
 
             if (this.vditor.options.keymap.duplicate) {
                 this.processKeymap(this.vditor.options.keymap.duplicate, event, () => {
-                    const range = window.getSelection().getRangeAt(0);
-                    let selectText = "";
-                    if (range.collapsed) {
-                        range.setStart(range.startContainer, 0);
-                        range.setEnd(range.endContainer, range.endContainer.textContent.length);
-                        selectText = "\n" + getSelectText(this.vditor.editor.element, range);
+                    const position = getSelectPosition(this.vditor.editor.element)
+                    const text = getText(this.vditor.editor.element)
+                    if (position.start === position.end) {
+                        formatRender(this.vditor, text, undefined, false)
+                        const linePosition = getCurrentLinePosition(position, text)
+                        const lineText = text.substring(linePosition.start, linePosition.end)
+                        setSelectionByPosition(linePosition.end, linePosition.end, this.vditor.editor.element)
+                        insertText(this.vditor, lineText, '')
+                        setSelectionByPosition(position.start + lineText.length, position.start + lineText.length, this.vditor.editor.element)
                     } else {
-                        selectText = getSelectText(this.vditor.editor.element, range);
+                        formatRender(this.vditor, text, position, false)
+                        const selectedText = text.substring(position.start, position.end)
+                        insertText(this.vditor, selectedText, '')
+                        setSelectionByPosition(position.end, position.end + selectedText.length, this.vditor.editor.element)
                     }
-                    range.setStart(range.endContainer, range.endOffset);
-                    // TODO
                 });
             }
 

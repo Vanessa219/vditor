@@ -4,7 +4,7 @@ export const setSelectionFocus = (range: Range) => {
     selection.addRange(range);
 };
 
-export const setSelectionByPosition = (start: number, end: number, editor: HTMLDivElement) => {
+export const setSelectionByPosition = (start: number, end: number, editor: HTMLPreElement) => {
     const range = editor.ownerDocument.createRange();
     range.setStart(editor, 0);
     range.collapse(true);
@@ -20,16 +20,20 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLD
         if (!foundStart && start >= charIndex && start <= nextCharIndex) {
             if (pNode.childNodes[0].nodeType === 3) {
                 range.setStart(pNode.childNodes[0], start - charIndex);
-            } else {
+            } else if (pNode.nextSibling) {
                 range.setStartBefore(pNode.nextSibling);
+            } else {
+                range.setStartAfter(pNode)
             }
             foundStart = true;
         }
         if (foundStart && end >= charIndex && end <= nextCharIndex) {
             if (pNode.childNodes[0].nodeType === 3) {
                 range.setEnd(pNode.childNodes[0], end - charIndex);
-            } else {
+            } else if (pNode.nextSibling) {
                 range.setEndBefore(pNode.nextSibling);
+            } else {
+                range.setEndAfter(pNode)
             }
             stop = true;
         }

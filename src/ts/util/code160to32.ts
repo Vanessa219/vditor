@@ -1,3 +1,4 @@
 export const code160to32 = (text: string) => {
-    return text.replace(/ /g, " ");
+    // 非打断空格转换为空格
+    return text.replace(/\u00a0/g, " ");
 };

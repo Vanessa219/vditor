@@ -77,7 +77,7 @@ const validateFile = (vditor: IVditor, files: File[]): File[] => {
 };
 
 const genUploadedLabel =
-    (editorElement: HTMLDivElement, responseText: string, vditor: IVditor) => {
+    (editorElement: HTMLPreElement, responseText: string, vditor: IVditor) => {
         editorElement.focus();
         const response = JSON.parse(responseText);
 

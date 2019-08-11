@@ -109,7 +109,7 @@ export class Hint {
         return key;
     }
 
-    private genHTML(data: IHintData[], key: string, editorElement: HTMLDivElement) {
+    private genHTML(data: IHintData[], key: string, editorElement: HTMLPreElement) {
         if (data.length === 0) {
             this.element.style.display = "none";
             return;

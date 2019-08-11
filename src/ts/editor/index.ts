@@ -7,11 +7,11 @@ import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
 
 class Editor {
-    public element: HTMLDivElement;
+    public element: HTMLPreElement;
     public range: Range;
 
     constructor(vditor: IVditor) {
-        this.element = document.createElement("div");
+        this.element = document.createElement("pre");
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
