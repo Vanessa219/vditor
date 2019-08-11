@@ -5,7 +5,7 @@ import {setSelectionByPosition} from "./setSelection";
 export const formatRender = (vditor: IVditor, content: string, position?: { start: number, end: number },
                              triggerEvent: boolean = true) => {
 
-    const textList = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\r\n");
+    const textList = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
     let html = "";
     const newLine = '<span><br><span style="display: none">\n</span></span>';
     textList.forEach((text, index) => {
