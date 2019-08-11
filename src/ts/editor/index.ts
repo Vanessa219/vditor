@@ -26,8 +26,8 @@ class Editor {
             if (vditor.editor.element.childNodes.length !== 0 && vditor.editor.element.childNodes[0].nodeType === 3) {
                 const text = getText(this.element);
                 formatRender(vditor, text, {
-                    start: text.length,
                     end: text.length,
+                    start: text.length,
                 });
             } else {
                 inputEvent(vditor);

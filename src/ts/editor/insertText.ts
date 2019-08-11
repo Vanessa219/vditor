@@ -10,7 +10,7 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         if (vditor.editor.range) {
             range = vditor.editor.range;
         } else {
-            const range = vditor.editor.element.ownerDocument.createRange();
+            range = vditor.editor.element.ownerDocument.createRange();
             range.setStart(vditor.editor.element, 0);
             range.collapse(true);
         }
@@ -24,8 +24,8 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         const text = prefix + suffix;
         formatRender(vditor, content.substring(0, position.start) + text + content.substring(position.start),
             {
-                start: position.start + text.length,
                 end: position.start + text.length,
+                start: position.start + text.length,
             });
     } else {
         const selectText = content.substring(position.start, position.end);
@@ -34,15 +34,15 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
             formatRender(vditor, content.substring(0, position.start - prefix.length)
                 + selectText + content.substring(position.end + suffix.length),
                 {
-                    start: position.start - prefix.length,
                     end: position.start + selectText.length,
+                    start: position.start - prefix.length,
                 });
         } else {
             const text = prefix + selectText + suffix;
             formatRender(vditor, content.substring(0, position.start) + text + content.substring(position.end),
                 {
-                    start: position.start - prefix.length,
                     end: position.start - prefix.length + text.length,
+                    start: position.start - prefix.length,
                 });
         }
     }

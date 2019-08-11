@@ -5,6 +5,7 @@ import {getSelectText} from "./ts/editor/getSelectText";
 import {getText} from "./ts/editor/getText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
+import {insertText} from "./ts/editor/insertText";
 import {selectIsEditor} from "./ts/editor/selectIsEditor";
 import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
@@ -14,8 +15,8 @@ import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {markdownItRender} from "./ts/markdown/render";
 import {md2html} from "./ts/markdown/render";
+import {markdownItRender} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
@@ -23,7 +24,6 @@ import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
-import {insertText} from "./ts/editor/insertText";
 
 class Vditor {
 
@@ -195,21 +195,21 @@ class Vditor {
     public deleteValue() {
         if (selectIsEditor(this.vditor.editor.element)) {
             if (window.getSelection().isCollapsed) {
-                return
+                return;
             }
-            insertText(this.vditor, '', '', true)
+            insertText(this.vditor, "", "", true);
         }
     }
 
     public updateValue(value: string) {
         if (selectIsEditor(this.vditor.editor.element)) {
-            insertText(this.vditor, value, '', true)
+            insertText(this.vditor, value, "", true);
         }
     }
 
     public insertValue(value: string) {
         if (selectIsEditor(this.vditor.editor.element)) {
-            insertText(this.vditor, value, '')
+            insertText(this.vditor, value, "");
         }
     }
 

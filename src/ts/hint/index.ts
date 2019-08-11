@@ -86,8 +86,8 @@ export class Hint {
         const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
         formatRender(this.vditor, preText + value + text.substring(position.start),
             {
-                start: (preText + value).length,
                 end: (preText + value).length,
+                start: (preText + value).length,
             });
     }
 

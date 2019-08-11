@@ -36,8 +36,8 @@ export class Hotkey {
                 const text = getText(this.vditor.editor.element);
                 formatRender(this.vditor, text.substring(0, position.start) + "\n" + text.substring(position.end),
                     {
-                        start: position.start + 1,
                         end: position.start + 1,
+                        start: position.start + 1,
                     });
                 event.preventDefault();
                 event.stopPropagation();
@@ -50,8 +50,8 @@ export class Hotkey {
                 const text = getText(this.vditor.editor.element);
                 formatRender(this.vditor, text,
                     {
-                        start: position.start,
                         end: position.end,
+                        start: position.start,
                     });
             }
         });
