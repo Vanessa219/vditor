@@ -38,7 +38,7 @@ export class Hint {
             if (atKey !== undefined && this.vditor.options.hint.at) {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
-                    this.genHTML(this.vditor.options.hint.at(atKey), atKey);
+                    this.genHTML(this.vditor.options.hint.at(atKey), atKey, this.vditor.editor.element);
                 }, this.vditor.options.hint.delay);
             }
             if (emojiKey !== undefined) {
@@ -62,7 +62,7 @@ export class Hint {
                                 }
                             }
                         });
-                        this.genHTML(matchEmojiData, emojiKey);
+                        this.genHTML(matchEmojiData, emojiKey, this.vditor.editor.element);
                     })
                     .catch((err) => {
                         console.error("Failed to load emoji", err);
@@ -109,7 +109,7 @@ export class Hint {
         return key;
     }
 
-    private genHTML(data: IHintData[], key: string) {
+    private genHTML(data: IHintData[], key: string, editorElement: HTMLDivElement) {
         if (data.length === 0) {
             this.element.style.display = "none";
             return;
@@ -141,7 +141,9 @@ export class Hint {
         });
 
         this.element.innerHTML = hintsHTML;
-        this.element.style.top = `${y}px`;
+        const lineHeight = parseInt(document.defaultView.getComputedStyle(editorElement, null)
+            .getPropertyValue('line-height'), 10)
+        this.element.style.top = `${y + (lineHeight || 22)}px`;
         this.element.style.left = `${x}px`;
         this.element.style.display = "block";
 
