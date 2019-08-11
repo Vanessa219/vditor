@@ -4,6 +4,7 @@ import {getText} from "../editor/getText";
 import {selectIsEditor} from "../editor/selectIsEditor";
 import {code160to32} from "../util/code160to32";
 import {getCursorPosition} from "./getCursorPosition";
+import {insertText} from "../editor/insertText";
 
 export class Hint {
     public timeId: number;

@@ -50,7 +50,7 @@ export const setSelectionByInlineText = (text: string, childNodes: NodeListOf<Ch
     let startIndex = 0;
     Array.from(childNodes).some((node: HTMLElement, index: number) => {
         startIndex = node.textContent.indexOf(text);
-        if (node.nodeType === 3 && startIndex > -1) {
+        if (startIndex > -1 && childNodes[index].childNodes[0].nodeType === 3) {
             offset = index;
             return true;
         }
@@ -59,7 +59,7 @@ export const setSelectionByInlineText = (text: string, childNodes: NodeListOf<Ch
         return;
     }
     const range = document.createRange();
-    range.setStart(childNodes[offset], startIndex);
-    range.setEnd(childNodes[offset], startIndex + text.length);
+    range.setStart(childNodes[offset].childNodes[0], startIndex);
+    range.setEnd(childNodes[offset].childNodes[0], startIndex + text.length);
     setSelectionFocus(range);
 };

@@ -28,10 +28,10 @@ class Editor {
                 formatRender(vditor, text, {
                     end: text.length,
                     start: text.length,
-                });
-            } else {
-                inputEvent(vditor);
+                }, false);
             }
+            inputEvent(vditor);
+
         });
 
         this.element.addEventListener("focus", () => {
@@ -100,8 +100,7 @@ class Editor {
         this.element.addEventListener("copy", async (event: ClipboardEvent) => {
             event.stopPropagation();
             event.preventDefault();
-            event.clipboardData.setData("text/plain",
-                getSelectText(this.element));
+            event.clipboardData.setData("text/plain", getSelectText(this.element));
         });
 
         this.element.addEventListener("paste", async (event: ClipboardEvent) => {

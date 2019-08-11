@@ -3,7 +3,6 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
-import {getCursorPosition} from "../hint/getCursorPosition";
 import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 import {setSelectionByPosition} from "../editor/setSelection";
 
@@ -35,13 +34,7 @@ export class Hotkey {
     private bindHotkey(): void {
         this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
-                const position = getSelectPosition(this.vditor.editor.element);
-                const text = getText(this.vditor.editor.element);
-                formatRender(this.vditor, text.substring(0, position.start) + "\n" + text.substring(position.end),
-                    {
-                        end: position.start + 1,
-                        start: position.start + 1,
-                    });
+                insertText(this.vditor, '\n', '', true)
                 event.preventDefault();
                 event.stopPropagation();
             }
@@ -55,7 +48,7 @@ export class Hotkey {
                     {
                         end: position.end,
                         start: position.start,
-                    });
+                    }, false);
             }
         });
 
@@ -92,10 +85,13 @@ export class Hotkey {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
                     const position = getSelectPosition(this.vditor.editor.element)
                     const text = getText(this.vditor.editor.element)
-                    formatRender(this.vditor, text, undefined, false)
                     const linePosition = getCurrentLinePosition(position, text)
-                    setSelectionByPosition(linePosition.start, linePosition.end, this.vditor.editor.element)
-                    insertText(this.vditor, '', '', true)
+                    const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end)
+                    const startIndex = Math.min(deletedText.length, position.start)
+                    formatRender(this.vditor, deletedText, {
+                        end: startIndex,
+                        start: startIndex
+                    })
                 });
             }
 
@@ -103,18 +99,19 @@ export class Hotkey {
                 this.processKeymap(this.vditor.options.keymap.duplicate, event, () => {
                     const position = getSelectPosition(this.vditor.editor.element)
                     const text = getText(this.vditor.editor.element)
+                    let lineText = text.substring(position.start, position.end)
                     if (position.start === position.end) {
-                        formatRender(this.vditor, text, undefined, false)
                         const linePosition = getCurrentLinePosition(position, text)
-                        const lineText = text.substring(linePosition.start, linePosition.end)
-                        setSelectionByPosition(linePosition.end, linePosition.end, this.vditor.editor.element)
-                        insertText(this.vditor, lineText, '')
-                        setSelectionByPosition(position.start + lineText.length, position.start + lineText.length, this.vditor.editor.element)
+                        lineText = text.substring(linePosition.start, linePosition.end)
+                        formatRender(this.vditor, text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end), {
+                            start: position.start + lineText.length,
+                            end: position.end + lineText.length
+                        })
                     } else {
-                        formatRender(this.vditor, text, position, false)
-                        const selectedText = text.substring(position.start, position.end)
-                        insertText(this.vditor, selectedText, '')
-                        setSelectionByPosition(position.end, position.end + selectedText.length, this.vditor.editor.element)
+                        formatRender(this.vditor, text.substring(0, position.end) + lineText + text.substring(position.end), {
+                            start: position.start + lineText.length,
+                            end: position.end + lineText.length
+                        })
                     }
                 });
             }
