@@ -13,15 +13,11 @@
 <a title="Hits" target="_blank" href="https://github.com/b3log/hits"><img src="https://hits.b3log.org/b3log/vditor.svg"></a>
 </p>
 
-## 简介
+## 💡 简介
 
 [Vditor](https://github.com/b3log/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。支持原生 JavaScript、Vue、React、Angular。
 
-## 背景
-
-<details>
-<summary>太长不看。</summary>
-<br>
+## 📽️ 背景
 
 我们在开发 [Sym](https://github.com/b3log/symphony) 的初期是直接使用 WYSIWYG 富文本编辑器的。那时候基于 HTML 的编辑器非常流行，项目中引用起来也很方便，也符合用户当时的使用习惯。
 
@@ -29,13 +25,13 @@
 
 再后来，随着我们项目业务需求方面的沉淀，使用 CodeMirror 有时候会感到比较“笨重”。比如要实现 @自动完成用户名列表、插入 Emoji、上传文件等就需要比较深入的二次开发，而这些业务需求恰恰是很多项目场景共有且必备的。
 
-终于，我们决定开始在 Sym 中自己实现编辑器。随着几个版本的迭代，Sym 的编辑器也日趋成熟。在我们运营的社区[黑客派](https://hacpai.com)上陆续有人问我们是否能将编辑器单独抽离出来提供给大家使用。与此同时，我们的前端主程 [V](https://hacpai.com/member/Vanessa) 同学对于维护分散在各个项目中的编辑器也感到有点力不从心，外加她最近在学 TypeScript 正好需要练手实践，所以就决定使用 ts 来实现一个全新的浏览器端 md 编辑器。
+终于，我们决定开始在 Sym 中自己实现编辑器。随着几个版本的迭代，Sym 的编辑器也日趋成熟。在我们运营的社区[黑客派](https://hacpai.com)上陆续有人问我们是否能将编辑器单独抽离出来提供给大家使用。与此同时，我们的前端主程 [V](https://hacpai.com/member/Vanessa) 同学对于维护分散在各个项目中的编辑器也感到有点力不从心，外加对 TypeScript 的好感，所以就决定使用 ts 来实现一个全新的浏览器端 md 编辑器。
 
 于是，Vditor 就这样诞生了。
-</details>
 
-## 功能
+## ✨  特性
 
+* 所见即所得编辑模式（正在实现中）
 * 支持图表、流程图、甘特图、时序图、任务列表、at
 * 插入原生 Emoji、设置常用表情列表
 * 自定义工具栏按钮、提示、插入文案及快捷键
@@ -55,28 +51,28 @@
 ![classic](https://user-images.githubusercontent.com/970828/56904803-9ca0be00-6ad1-11e9-919a-352467bb228c.png)
 ![black](https://user-images.githubusercontent.com/970828/56904802-9ca0be00-6ad1-11e9-87bc-ea420344d939.png)
 
-## 案例
+## 🗃 案例
 
 * [Sym](https://github.com/b3log/symphony)：一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
 * [Starfire](https://github.com/b3log/starfire)：一个分布式的内容分享讨论社区，通过点对点超媒体协议让社区更快、更安全也更开放
 * [Solo](https://github.com/b3log/solo)：一款小而美的博客系统，使用 Java 实现
 * [Pipe](https://github.com/b3log/pipe)：一款小而美的博客平台，使用 Go 实现
 
-## 文档
+## 📜 文档
 
 * [《提问的智慧》精读注解版](https://hacpai.com/article/1536377163156)
 * [Vditor 使用指南](https://hacpai.com/article/1549638745630?r=Vanessa)
 
-## 授权
-
-Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
-
-## 社区
+## 🏘️ 社区
 
 * [讨论区](https://hacpai.com/tag/vditor)
 * [报告问题](https://github.com/b3log/vditor/issues/new/choose)
 
-## 鸣谢
+## 📄 授权
+
+Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
+
+## 🙏 鸣谢
 
 * [markdown-it](https://github.com/markdown-it/markdown-it)：Markdown parser, done right. 100% CommonMark support, extensions, syntax plugins & high speed
 * [highlight.js](https://github.com/highlightjs/highlight.js)：Javascript syntax highlighter
