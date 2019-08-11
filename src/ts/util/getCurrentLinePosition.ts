@@ -4,7 +4,8 @@ export const getCurrentLinePosition = (position: { start: number, end: number },
     let start = position.start - 1
     let findStart = false
     while (!findStart && start > -1) {
-        if (text.charAt(start) === '\n') {
+        // 防止光标在末尾
+        if (text.charAt(start) === '\n' && text.length !== start + 1) {
             start++
             findStart = true
         } else if (start === 0) {
