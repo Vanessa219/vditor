@@ -15,7 +15,11 @@ export const getSelectPosition = (editorElement: HTMLPreElement, range?: Range) 
 
     if (selectIsEditor(editorElement, range)) {
         const preSelectionRange = range.cloneRange();
-        preSelectionRange.selectNodeContents(editorElement);
+        if (editorElement.childNodes[0] && editorElement.childNodes[0].childNodes[0]) {
+            preSelectionRange.setStart(editorElement.childNodes[0].childNodes[0], 0);
+        } else {
+            preSelectionRange.selectNodeContents(editorElement);
+        }
         preSelectionRange.setEnd(range.startContainer, range.startOffset);
         position.start = preSelectionRange.toString().length;
         position.end = position.start + range.toString().length;
