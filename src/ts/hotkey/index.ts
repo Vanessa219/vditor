@@ -3,8 +3,8 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
-import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 import {setSelectionByPosition} from "../editor/setSelection";
+import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -34,7 +34,7 @@ export class Hotkey {
     private bindHotkey(): void {
         this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
-                insertText(this.vditor, '\n', '', true)
+                insertText(this.vditor, "\n", "", true);
                 event.preventDefault();
                 event.stopPropagation();
             }
@@ -60,9 +60,10 @@ export class Hotkey {
                 const selectionResult = selectionValue.split("\n").map((value) => {
                     return this.vditor.options.tab + value;
                 }).join("\n");
-                const position = getSelectPosition(this.vditor.editor.element)
+                const position = getSelectPosition(this.vditor.editor.element);
                 insertText(this.vditor, selectionResult, "", true);
-                setSelectionByPosition(position.start, position.start + selectionResult.length, this.vditor.editor.element)
+                setSelectionByPosition(position.start,
+                    position.start + selectionResult.length, this.vditor.editor.element);
                 event.preventDefault();
                 event.stopPropagation();
                 return;
@@ -71,7 +72,7 @@ export class Hotkey {
             if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.key === "Backspace") {
                 const position = getSelectPosition(this.vditor.editor.element);
                 if (position.start !== position.end) {
-                    insertText(this.vditor, '', '', true)
+                    insertText(this.vditor, "", "", true);
                 } else {
                     const text = getText(this.vditor.editor.element);
                     formatRender(this.vditor, text.substring(0, position.start - 1) + text.substring(position.start),
@@ -88,35 +89,39 @@ export class Hotkey {
             // editor actions
             if (this.vditor.options.keymap.deleteLine) {
                 this.processKeymap(this.vditor.options.keymap.deleteLine, event, () => {
-                    const position = getSelectPosition(this.vditor.editor.element)
-                    const text = getText(this.vditor.editor.element)
-                    const linePosition = getCurrentLinePosition(position, text)
-                    const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end)
-                    const startIndex = Math.min(deletedText.length, position.start)
+                    const position = getSelectPosition(this.vditor.editor.element);
+                    const text = getText(this.vditor.editor.element);
+                    const linePosition = getCurrentLinePosition(position, text);
+                    const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
+                    const startIndex = Math.min(deletedText.length, position.start);
                     formatRender(this.vditor, deletedText, {
                         end: startIndex,
-                        start: startIndex
-                    })
+                        start: startIndex,
+                    });
                 });
             }
 
             if (this.vditor.options.keymap.duplicate) {
                 this.processKeymap(this.vditor.options.keymap.duplicate, event, () => {
-                    const position = getSelectPosition(this.vditor.editor.element)
-                    const text = getText(this.vditor.editor.element)
-                    let lineText = text.substring(position.start, position.end)
+                    const position = getSelectPosition(this.vditor.editor.element);
+                    const text = getText(this.vditor.editor.element);
+                    let lineText = text.substring(position.start, position.end);
                     if (position.start === position.end) {
-                        const linePosition = getCurrentLinePosition(position, text)
-                        lineText = text.substring(linePosition.start, linePosition.end)
-                        formatRender(this.vditor, text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end), {
-                            start: position.start + lineText.length,
-                            end: position.end + lineText.length
-                        })
+                        const linePosition = getCurrentLinePosition(position, text);
+                        lineText = text.substring(linePosition.start, linePosition.end);
+                        formatRender(this.vditor,
+                            text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
+                            {
+                                end: position.end + lineText.length,
+                                start: position.start + lineText.length,
+                            });
                     } else {
-                        formatRender(this.vditor, text.substring(0, position.end) + lineText + text.substring(position.end), {
-                            start: position.start + lineText.length,
-                            end: position.end + lineText.length
-                        })
+                        formatRender(this.vditor,
+                            text.substring(0, position.end) + lineText + text.substring(position.end),
+                            {
+                                end: position.end + lineText.length,
+                                start: position.start + lineText.length,
+                            });
                     }
                 });
             }

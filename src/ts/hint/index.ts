@@ -4,7 +4,6 @@ import {getText} from "../editor/getText";
 import {selectIsEditor} from "../editor/selectIsEditor";
 import {code160to32} from "../util/code160to32";
 import {getCursorPosition} from "./getCursorPosition";
-import {insertText} from "../editor/insertText";
 
 export class Hint {
     public timeId: number;
@@ -143,7 +142,7 @@ export class Hint {
 
         this.element.innerHTML = hintsHTML;
         const lineHeight = parseInt(document.defaultView.getComputedStyle(editorElement, null)
-            .getPropertyValue('line-height'), 10)
+            .getPropertyValue("line-height"), 10);
         this.element.style.top = `${y + (lineHeight || 22)}px`;
         this.element.style.left = `${x}px`;
         this.element.style.display = "block";

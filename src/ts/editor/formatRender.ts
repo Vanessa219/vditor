@@ -1,9 +1,11 @@
+import {code160to32} from "../util/code160to32";
 import {inputEvent} from "./inputEvent";
 import {setSelectionByPosition} from "./setSelection";
-import {code160to32} from "../util/code160to32";
 
-export const formatRender = (vditor: IVditor, content: string, position?: {start: number, end: number}, triggerEvent:boolean = true) => {
-    const textList = content.split("\n");
+export const formatRender = (vditor: IVditor, content: string, position?: { start: number, end: number },
+                             triggerEvent: boolean = true) => {
+
+    const textList = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\r\n");
     let html = "";
     const newLine = '<span><br><span style="display: none">\n</span></span>';
     textList.forEach((text, index) => {
@@ -11,7 +13,7 @@ export const formatRender = (vditor: IVditor, content: string, position?: {start
             return;
         }
         if (text) {
-            html += `<span>${code160to32(text.replace(/</g, '&lt;').replace(/ /g, '&nbsp;'))}</span>${newLine}`;
+            html += `<span>${code160to32(text.replace(/</g, "&lt;").replace(/ /g, "&nbsp;"))}</span>${newLine}`;
         } else {
             html += newLine;
         }

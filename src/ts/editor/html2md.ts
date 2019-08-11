@@ -39,7 +39,6 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
                                 alert(responseJSON.msg);
                                 return;
                             }
-                            debugger
                             const original = responseJSON.data.originalURL;
                             setSelectionByInlineText(original, vditor.editor.element.childNodes);
                             insertText(vditor, responseJSON.data.url, "", true);

@@ -23,7 +23,7 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
             } else if (pNode.nextSibling) {
                 range.setStartBefore(pNode.nextSibling);
             } else {
-                range.setStartAfter(pNode)
+                range.setStartAfter(pNode);
             }
             foundStart = true;
         }
@@ -33,7 +33,7 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
             } else if (pNode.nextSibling) {
                 range.setEndBefore(pNode.nextSibling);
             } else {
-                range.setEndAfter(pNode)
+                range.setEndAfter(pNode);
             }
             stop = true;
         }
