@@ -11,7 +11,7 @@ export const formatRender = (vditor: IVditor, content: string, position?: {start
             return;
         }
         if (text) {
-            html += `<span>${code160to32(text.replace(/</g, '&lt;'))}</span>${newLine}`;
+            html += `<span>${code160to32(text.replace(/</g, '&lt;').replace(/ /g, '&nbsp;'))}</span>${newLine}`;
         } else {
             html += newLine;
         }

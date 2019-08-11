@@ -40,18 +40,6 @@ export class Hotkey {
             }
         });
 
-        this.vditor.editor.element.addEventListener("keyup", (event: KeyboardEvent) => {
-            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.key === "Backspace") {
-                const position = getSelectPosition(this.vditor.editor.element);
-                const text = getText(this.vditor.editor.element);
-                formatRender(this.vditor, text,
-                    {
-                        end: position.end,
-                        start: position.start,
-                    }, false);
-            }
-        });
-
         this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
 
             if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter &&
@@ -71,10 +59,27 @@ export class Hotkey {
                 const selectionValue = getSelectText(this.vditor.editor.element);
                 const selectionResult = selectionValue.split("\n").map((value) => {
                     return this.vditor.options.tab + value;
-                });
+                }).join("\n");
+                const position = getSelectPosition(this.vditor.editor.element)
+                insertText(this.vditor, selectionResult, "", true);
+                setSelectionByPosition(position.start, position.start + selectionResult.length, this.vditor.editor.element)
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+            }
 
-                insertText(this.vditor, selectionResult.join("\n"), "", true);
-
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.key === "Backspace") {
+                const position = getSelectPosition(this.vditor.editor.element);
+                if (position.start !== position.end) {
+                    insertText(this.vditor, '', '', true)
+                } else {
+                    const text = getText(this.vditor.editor.element);
+                    formatRender(this.vditor, text.substring(0, position.start - 1) + text.substring(position.start),
+                        {
+                            end: position.start - 1,
+                            start: position.start - 1,
+                        });
+                }
                 event.preventDefault();
                 event.stopPropagation();
                 return;
