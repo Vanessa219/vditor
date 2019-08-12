@@ -181,7 +181,7 @@ interface IVditor {
     undo: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
-        addToUndoStack(text: string): void,
+        addToUndoStack(text: string, vditor:IVditor): void,
     };
 }
 

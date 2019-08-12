@@ -7,6 +7,8 @@ class Undo {
     private stackSize = 50;
     private dmp: diff_match_patch;
     private lastText: string;
+    private hasUndo: boolean;
+    private timeout: number
 
     constructor() {
         this.redoStack = [];
@@ -14,6 +16,7 @@ class Undo {
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
         this.lastText = "";
+        this.hasUndo = false
     }
 
     public undo(vditor: IVditor) {
@@ -23,6 +26,7 @@ class Undo {
         }
         this.redoStack.push(patchList);
         this.renderDiff(patchList, vditor);
+        this.hasUndo = true
     }
 
     public redo(vditor: IVditor) {
@@ -34,16 +38,31 @@ class Undo {
         this.renderDiff(patchList, vditor, true);
     }
 
-    public addToUndoStack(text: string) {
-        const patchList = this.getDiff(text, this.lastText);
-        if (patchList.length === 0) {
-            return;
-        }
-        this.lastText = text;
-        this.undoStack.push(patchList);
-        if (this.undoStack.length > this.stackSize) {
-            this.undoStack.shift();
-        }
+    public addToUndoStack(text: string, vditor: IVditor) {
+        vditor.toolbar.elements.undo.children[0].className =
+            vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
+        clearTimeout(this.timeout)
+        this.timeout = window.setTimeout(() => {
+            const diff = this.dmp.diff_main(text, this.lastText, true);
+            const patchList = this.dmp.patch_make(text, this.lastText, diff);
+            if (patchList.length === 0) {
+                return;
+            }
+            this.lastText = text;
+            this.undoStack.push(patchList);
+            if (this.undoStack.length > this.stackSize) {
+                this.undoStack.shift();
+            }
+            if (this.hasUndo) {
+                this.redoStack = []
+                this.hasUndo = false
+                const redoClassName = vditor.toolbar.elements.redo.children[0].className
+                if (redoClassName.indexOf(" vditor-menu--disabled") === -1) {
+                    vditor.toolbar.elements.redo.children[0].className =
+                        redoClassName + " vditor-menu--disabled";
+                }
+            }
+        }, 1000)
     }
 
     private renderDiff(patchList: patch_obj[], vditor: IVditor, isRedo: boolean = false) {
@@ -81,11 +100,6 @@ class Undo {
             vditor.toolbar.elements.redo.children[0].className =
                 redoClassName + " vditor-menu--disabled";
         }
-    }
-
-    private getDiff(text: string, lastText: string) {
-        const diff = this.dmp.diff_main(text, lastText, true);
-        return this.dmp.patch_make(text, lastText, diff);
     }
 }
 

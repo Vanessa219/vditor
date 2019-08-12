@@ -17,8 +17,6 @@ export const inputEvent = (vditor: IVditor, addUndo: boolean = true) => {
         vditor.preview.render(vditor);
     }
     if (addUndo) {
-        vditor.undo.addToUndoStack(getText(vditor.editor.element));
-        vditor.toolbar.elements.undo.children[0].className =
-            vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
+        vditor.undo.addToUndoStack(getText(vditor.editor.element), vditor);
     }
 };
