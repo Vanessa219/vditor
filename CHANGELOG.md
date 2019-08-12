@@ -11,7 +11,7 @@
 * [89](https://github.com/b3log/vditor/issues/89) 自定义 toolbar 事件、添加按钮到 toolbar 上 `feature`
 * [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
 
-### v1.7.3 / 2019-08-11
+### v1.7.5 / 2019-08-13
 
 * [95](https://github.com/b3log/vditor/issues/95) 1.6.x 细节 bug 修改 `bug`
 * [93](https://github.com/b3log/vditor/issues/93) 新增预览模式设置接口 `feature`
