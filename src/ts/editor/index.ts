@@ -22,16 +22,16 @@ class Editor {
     }
 
     private bindEvent(vditor: IVditor) {
-        this.element.addEventListener("input", () => {
+        this.element.addEventListener("input", (event) => {
             if (vditor.editor.element.childNodes.length !== 0 && vditor.editor.element.childNodes[0].nodeType === 3) {
                 const text = getText(this.element);
                 formatRender(vditor, text, {
                     end: text.length,
                     start: text.length,
-                }, false);
+                });
+            } else {
+                inputEvent(vditor);
             }
-            inputEvent(vditor);
-
         });
 
         this.element.addEventListener("focus", () => {

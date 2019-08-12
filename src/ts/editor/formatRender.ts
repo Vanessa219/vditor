@@ -3,7 +3,7 @@ import {inputEvent} from "./inputEvent";
 import {setSelectionByPosition} from "./setSelection";
 
 export const formatRender = (vditor: IVditor, content: string, position?: { start: number, end: number },
-                             triggerEvent: boolean = true) => {
+                             addUndo: boolean = true) => {
 
     const textList = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
     let html = "";
@@ -26,7 +26,5 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
         setSelectionByPosition(position.start, position.end, vditor.editor.element);
     }
 
-    if (triggerEvent) {
-        inputEvent(vditor);
-    }
+    inputEvent(vditor, addUndo);
 };

@@ -1,6 +1,6 @@
 import {getText} from "./getText";
 
-export const inputEvent = (vditor: IVditor) => {
+export const inputEvent = (vditor: IVditor, addUndo: boolean = true) => {
     if (vditor.options.counter > 0) {
         vditor.counter.render(getText(vditor.editor.element).length, vditor.options.counter);
     }
@@ -15,5 +15,10 @@ export const inputEvent = (vditor: IVditor) => {
     }
     if (vditor.preview) {
         vditor.preview.render(vditor);
+    }
+    if (addUndo) {
+        vditor.undo.addToUndoStack(getText(vditor.editor.element));
+        vditor.toolbar.elements.undo.children[0].className =
+            vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
     }
 };

@@ -22,6 +22,7 @@ import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
+import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 
@@ -47,6 +48,7 @@ class Vditor {
             options: mergedOptions,
             originalInnerHTML: document.getElementById(id).innerHTML,
             tip: new Tip(),
+            undo: undefined,
         };
 
         if (mergedOptions.counter > 0) {
@@ -56,6 +58,7 @@ class Vditor {
 
         const editor = new Editor(this.vditor);
         this.vditor.editor = editor;
+        this.vditor.undo = new Undo();
 
         if (mergedOptions.resize.enable) {
             const resize = new Resize(this.vditor);
@@ -83,7 +86,6 @@ class Vditor {
             const hint = new Hint(this.vditor);
             this.vditor.hint = hint;
         }
-
         const hotkey = new Hotkey(this.vditor);
     }
 

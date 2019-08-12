@@ -76,6 +76,11 @@
       padding: 0 !important;
       height: 0 !important;
     }
+
+    &--disabled  svg {
+      color: rgba($toolbarIcon, .6);
+      cursor: not-allowed;
+    }
   }
 
   &-emojis {

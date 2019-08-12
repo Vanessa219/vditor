@@ -55,13 +55,13 @@ export class Ui {
 
         const localValue = localStorage.getItem("vditor" + vditor.id);
         if (vditor.options.cache && localValue) {
-            formatRender(vditor, localValue);
+            formatRender(vditor, localValue, undefined, false);
         } else {
             if (!vditor.originalInnerHTML.trim()) {
                 return;
             }
             const mdValue = await html2md(vditor, vditor.originalInnerHTML);
-            formatRender(vditor, mdValue);
+            formatRender(vditor, mdValue, undefined, false);
         }
 
         // when click, hide hint and panel

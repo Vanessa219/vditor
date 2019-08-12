@@ -178,6 +178,11 @@ interface IVditor {
         element: HTMLElement
         isUploading: boolean,
     };
+    undo: {
+        redo(vditor: IVditor): void
+        undo(vditor: IVditor): void
+        addToUndoStack(text: string): void,
+    };
 }
 
 declare class IVditorConstructor {
