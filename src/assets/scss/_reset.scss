@@ -1,5 +1,6 @@
 .vditor {
   &-reset {
+    font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;
     word-wrap: break-word;
     overflow: auto;

@@ -116,7 +116,7 @@ window.vditor = new Vditor('vditor', {
       'huaji': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/huaji.gif',
     },
   },
-  tab: ' ',
+  tab: '\t',
   upload: {
     accept: 'image/*,.wav',
     token: 'test',

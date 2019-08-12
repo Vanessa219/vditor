@@ -50,7 +50,10 @@
     line-height: 22px;
     color: $textareaColor;
     border-radius: 0 0 3px 3px;
-    white-space: normal;
+    font-variant-ligatures: no-common-ligatures;
+    white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
 
     &[contenteditable="false"] {
       opacity: 0.3;

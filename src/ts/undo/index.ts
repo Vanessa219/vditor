@@ -1,9 +1,11 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {formatRender} from "../editor/formatRender";
+import {getText} from "../editor/getText";
+import {getSelectPosition} from "../editor/getSelectPosition";
 
 class Undo {
-    private undoStack: patch_obj[][];
-    private redoStack: patch_obj[][];
+    private undoStack: { patchList: patch_obj[], end: number }[];
+    private redoStack: { patchList: patch_obj[], end: number }[];
     private stackSize = 50;
     private dmp: diff_match_patch;
     private lastText: string;
@@ -20,27 +22,29 @@ class Undo {
     }
 
     public undo(vditor: IVditor) {
-        const patchList = this.undoStack.pop();
-        if (!patchList) {
+        const state = this.undoStack.pop();
+        if (!state || !state.patchList) {
             return;
         }
-        this.redoStack.push(patchList);
-        this.renderDiff(patchList, vditor);
+        this.redoStack.push(state);
+        this.renderDiff(state, vditor);
         this.hasUndo = true
     }
 
     public redo(vditor: IVditor) {
-        const patchList = this.redoStack.pop();
-        if (!patchList) {
+        const state = this.redoStack.pop();
+        if (!state || !state.patchList) {
             return;
         }
-        this.undoStack.push(patchList);
-        this.renderDiff(patchList, vditor, true);
+        this.undoStack.push(state);
+        this.renderDiff(state, vditor, true);
     }
 
-    public addToUndoStack(text: string, vditor: IVditor) {
+    public addToUndoStack(vditor: IVditor) {
+        const text = getText(vditor.editor.element)
         vditor.toolbar.elements.undo.children[0].className =
             vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
+
         clearTimeout(this.timeout)
         this.timeout = window.setTimeout(() => {
             const diff = this.dmp.diff_main(text, this.lastText, true);
@@ -49,7 +53,7 @@ class Undo {
                 return;
             }
             this.lastText = text;
-            this.undoStack.push(patchList);
+            this.undoStack.push({patchList, end: getSelectPosition(vditor.editor.element).end});
             if (this.undoStack.length > this.stackSize) {
                 this.undoStack.shift();
             }
@@ -65,10 +69,10 @@ class Undo {
         }, 1000)
     }
 
-    private renderDiff(patchList: patch_obj[], vditor: IVditor, isRedo: boolean = false) {
+    private renderDiff(state: { patchList: patch_obj[], end: number }, vditor: IVditor, isRedo: boolean = false) {
         let text;
         if (isRedo) {
-            const redoPatchList = this.dmp.patch_deepCopy(patchList).reverse();
+            const redoPatchList = this.dmp.patch_deepCopy(state.patchList).reverse();
             redoPatchList.forEach((patch) => {
                 patch.diffs.forEach((diff) => {
                     diff[0] = -diff[0];
@@ -76,13 +80,13 @@ class Undo {
             });
             text = this.dmp.patch_apply(redoPatchList, this.lastText)[0];
         } else {
-            text = this.dmp.patch_apply(patchList, this.lastText)[0];
+            text = this.dmp.patch_apply(state.patchList, this.lastText)[0];
         }
 
         this.lastText = text;
         formatRender(vditor, text, {
-            end: text.length,
-            start: text.length
+            end: state.end,
+            start: state.end
         }, false);
 
         const undoClassName = vditor.toolbar.elements.undo.children[0].className;
