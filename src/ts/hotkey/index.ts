@@ -68,7 +68,7 @@ export class Hotkey {
                 return;
             }
 
-            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.key === "Backspace") {
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.keyCode === 8) {
                 const position = getSelectPosition(this.vditor.editor.element);
                 if (position.start !== position.end) {
                     insertText(this.vditor, "", "", true);
