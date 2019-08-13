@@ -36,7 +36,6 @@ export class Hotkey {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
                 insertText(this.vditor, "\n", "", true);
                 event.preventDefault();
-                event.stopPropagation();
             }
         });
 
@@ -135,7 +134,16 @@ export class Hotkey {
                     (this.vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
                 });
             });
+            if (!this.vditor.toolbar.elements.undo && (event.metaKey || event.ctrlKey) && event.key === "z") {
+                this.vditor.undo.undo(this.vditor);
+                event.preventDefault();
+            }
+            if (!this.vditor.toolbar.elements.redo && (event.metaKey || event.ctrlKey) && event.key === "y") {
+                this.vditor.undo.redo(this.vditor);
+                event.preventDefault();
+            }
 
+            // hint: 上下选择
             if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
                 this.hint(event);
             }

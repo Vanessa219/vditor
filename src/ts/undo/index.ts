@@ -42,8 +42,10 @@ class Undo {
 
     public addToUndoStack(vditor: IVditor) {
         const text = getText(vditor.editor.element);
-        vditor.toolbar.elements.undo.children[0].className =
-            vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
+        if (vditor.toolbar.elements.undo) {
+            vditor.toolbar.elements.undo.children[0].className =
+                vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
+        }
 
         clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
@@ -60,10 +62,12 @@ class Undo {
             if (this.hasUndo) {
                 this.redoStack = [];
                 this.hasUndo = false;
-                const redoClassName = vditor.toolbar.elements.redo.children[0].className;
-                if (redoClassName.indexOf(" vditor-menu--disabled") === -1) {
-                    vditor.toolbar.elements.redo.children[0].className =
-                        redoClassName + " vditor-menu--disabled";
+                if (vditor.toolbar.elements.redo) {
+                    const redoClassName = vditor.toolbar.elements.redo.children[0].className;
+                    if (redoClassName.indexOf(" vditor-menu--disabled") === -1) {
+                        vditor.toolbar.elements.redo.children[0].className =
+                            redoClassName + " vditor-menu--disabled";
+                    }
                 }
             }
         }, 1000);
@@ -89,20 +93,26 @@ class Undo {
             start: state.end,
         }, false);
 
-        const undoClassName = vditor.toolbar.elements.undo.children[0].className;
-        if (this.undoStack.length !== 0) {
-            vditor.toolbar.elements.undo.children[0].className = undoClassName.replace(" vditor-menu--disabled", "");
-        } else if (undoClassName.indexOf(" vditor-menu--disabled") === -1) {
-            vditor.toolbar.elements.undo.children[0].className =
-                undoClassName + " vditor-menu--disabled";
+        if (vditor.toolbar.elements.undo) {
+            const undoClassName = vditor.toolbar.elements.undo.children[0].className;
+            if (this.undoStack.length !== 0) {
+                vditor.toolbar.elements.undo.children[0].className =
+                    undoClassName.replace(" vditor-menu--disabled", "");
+            } else if (undoClassName.indexOf(" vditor-menu--disabled") === -1) {
+                vditor.toolbar.elements.undo.children[0].className =
+                    undoClassName + " vditor-menu--disabled";
+            }
         }
 
-        const redoClassName = vditor.toolbar.elements.redo.children[0].className;
-        if (this.redoStack.length !== 0) {
-            vditor.toolbar.elements.redo.children[0].className = redoClassName.replace(" vditor-menu--disabled", "");
-        } else if (redoClassName.indexOf(" vditor-menu--disabled") === -1) {
-            vditor.toolbar.elements.redo.children[0].className =
-                redoClassName + " vditor-menu--disabled";
+        if (vditor.toolbar.elements.redo) {
+            const redoClassName = vditor.toolbar.elements.redo.children[0].className;
+            if (this.redoStack.length !== 0) {
+                vditor.toolbar.elements.redo.children[0].className =
+                    redoClassName.replace(" vditor-menu--disabled", "");
+            } else if (redoClassName.indexOf(" vditor-menu--disabled") === -1) {
+                vditor.toolbar.elements.redo.children[0].className =
+                    redoClassName + " vditor-menu--disabled";
+            }
         }
     }
 }
