@@ -1,5 +1,4 @@
 import {uploadFiles} from "../upload/index";
-import {formatRender} from "./formatRender";
 import {getSelectText} from "./getSelectText";
 import {getText} from "./getText";
 import {html2md} from "./html2md";
@@ -15,6 +14,7 @@ class Editor {
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
+        this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
         if (vditor.options.editorName) {
             this.element.setAttribute("name", vditor.options.editorName);
         }
@@ -23,15 +23,7 @@ class Editor {
 
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("input", (event) => {
-            if (vditor.editor.element.childNodes.length !== 0 && vditor.editor.element.childNodes[0].nodeType === 3) {
-                const text = getText(this.element);
-                formatRender(vditor, text, {
-                    end: text.length,
-                    start: text.length,
-                });
-            } else {
-                inputEvent(vditor);
-            }
+            inputEvent(vditor);
         });
 
         this.element.addEventListener("focus", () => {

@@ -75,6 +75,7 @@ class Undo {
 
     private renderDiff(state: { patchList: patch_obj[], end: number }, vditor: IVditor, isRedo: boolean = false) {
         let text;
+        let positoin;
         if (isRedo) {
             const redoPatchList = this.dmp.patch_deepCopy(state.patchList).reverse();
             redoPatchList.forEach((patch) => {
@@ -83,15 +84,23 @@ class Undo {
                 });
             });
             text = this.dmp.patch_apply(redoPatchList, this.lastText)[0];
+            positoin = {
+                end: state.end,
+                start: state.end
+            }
         } else {
             text = this.dmp.patch_apply(state.patchList, this.lastText)[0];
+            if (this.undoStack[this.undoStack.length - 1]) {
+                positoin = {
+                    end: this.undoStack[this.undoStack.length - 1].end,
+                    start: this.undoStack[this.undoStack.length - 1].end
+                }
+            }
         }
 
         this.lastText = text;
-        formatRender(vditor, text, {
-            end: state.end,
-            start: state.end,
-        }, false);
+
+        formatRender(vditor, text,  positoin, false);
 
         if (vditor.toolbar.elements.undo) {
             const undoClassName = vditor.toolbar.elements.undo.children[0].className;
