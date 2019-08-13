@@ -216,7 +216,10 @@ class Vditor {
     }
 
     public setValue(value: string) {
-        formatRender(this.vditor, value);
+        formatRender(this.vditor, value, {
+            end: value.length,
+            start: value.length,
+        });
         if (!value) {
             localStorage.removeItem("vditor" + this.vditor.id);
         }
