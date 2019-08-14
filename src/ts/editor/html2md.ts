@@ -62,7 +62,7 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     const tempElement = document.createElement("div");
     tempElement.innerHTML = textHTML;
     const pres = tempElement.querySelectorAll("pre");
-    if (pres.length === 1 && !pres[0].nextElementSibling
+    if (pres.length === 1 && pres[0].className !== 'vditor-textarea' && !pres[0].nextElementSibling
         && ((pres[0].previousElementSibling && pres[0].previousElementSibling.tagName === "META")
             || !pres[0].previousElementSibling)) {
         return "```\n" + (textPlain || textHTML) + "\n```";
