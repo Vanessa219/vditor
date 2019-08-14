@@ -28,27 +28,32 @@ export class Hint {
         const currentLineValue = getText(this.vditor.editor.element).substring(0, position.end).split("\n")
             .slice(-1).pop();
 
-        const atKey = this.getKey(currentLineValue, "@");
-        const emojiKey = this.getKey(currentLineValue, ":");
+        let key = this.getKey(currentLineValue, ":");
+        let isAt = false
 
-        if (atKey === undefined && emojiKey === undefined) {
+        if (typeof key === 'undefined') {
+            isAt = true;
+            key = this.getKey(currentLineValue, "@")
+        }
+
+        if (key === undefined) {
             this.element.style.display = "none";
             clearTimeout(this.timeId);
         } else {
-            if (atKey !== undefined && this.vditor.options.hint.at) {
+            if (isAt && this.vditor.options.hint.at) {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
-                    this.genHTML(this.vditor.options.hint.at(atKey), atKey, this.vditor.editor.element);
+                    this.genHTML(this.vditor.options.hint.at(key), key, this.vditor.editor.element);
                 }, this.vditor.options.hint.delay);
             }
-            if (emojiKey !== undefined) {
+            if (!isAt) {
                 import(/* webpackChunkName: "allEmoji" */ "../emoji/allEmoji")
                     .then((allEmoji) => {
-                        const emojiHint = emojiKey === "" ? this.vditor.options.hint.emoji :
+                        const emojiHint = key === "" ? this.vditor.options.hint.emoji :
                             allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath);
                         const matchEmojiData: IHintData[] = [];
                         Object.keys(emojiHint).forEach((key) => {
-                            if (key.indexOf(emojiKey.toLowerCase()) === 0) {
+                            if (key.indexOf(key.toLowerCase()) === 0) {
                                 if (emojiHint[key].indexOf(".") > -1) {
                                     matchEmojiData.push({
                                         html: `<img src="${emojiHint[key]}" title=":${key}:"/> :${key}:`,
@@ -62,7 +67,7 @@ export class Hint {
                                 }
                             }
                         });
-                        this.genHTML(matchEmojiData, emojiKey, this.vditor.editor.element);
+                        this.genHTML(matchEmojiData, key, this.vditor.editor.element);
                     })
                     .catch((err) => {
                         console.error("Failed to load emoji", err);
