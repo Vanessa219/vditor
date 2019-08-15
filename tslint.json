@@ -5,7 +5,14 @@
     ],
     "jsRules": {},
     "rules": {
-        "no-console": [true, "log"]
+        "no-console": [true, "log"],
+        "max-line-length": [
+            true,
+            {
+                "limit": 120,
+                "ignore-pattern": "match"
+            }
+        ]
     },
     "rulesDirectory": []
 }

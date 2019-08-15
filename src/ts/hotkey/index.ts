@@ -77,10 +77,13 @@ export class Hotkey {
                     insertText(this.vditor, "", "", true);
                 } else {
                     const text = getText(this.vditor.editor.element);
-                    formatRender(this.vditor, text.substring(0, position.start - 1) + text.substring(position.start),
+                    const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
+                    const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
+                    formatRender(this.vditor,
+                        text.substring(0, position.start - deleteChar) + text.substring(position.start),
                         {
-                            end: position.start - 1,
-                            start: position.start - 1,
+                            end: position.start - deleteChar,
+                            start: position.start - deleteChar,
                         });
                 }
                 event.preventDefault();
