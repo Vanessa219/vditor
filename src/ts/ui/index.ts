@@ -63,20 +63,5 @@ export class Ui {
             const mdValue = await html2md(vditor, vditor.originalInnerHTML);
             formatRender(vditor, mdValue, undefined, false);
         }
-
-        // when click, hide hint and panel
-        document.onclick = (event: Event) => {
-            const menuItem = (event.target as HTMLElement).closest(".vditor-tooltipped");
-            if (menuItem && menuItem.nextSibling &&
-                (menuItem.nextSibling as HTMLElement).className === "vditor-panel") {
-                return;
-            }
-            document.querySelectorAll(".vditor-hint").forEach((element: HTMLElement) => {
-                element.style.display = "none";
-            });
-            document.querySelectorAll(".vditor-panel").forEach((element: HTMLElement) => {
-                element.style.display = "none";
-            });
-        };
     }
 }

@@ -52,17 +52,17 @@ export class Hint {
                         const emojiHint = key === "" ? this.vditor.options.hint.emoji :
                             allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath);
                         const matchEmojiData: IHintData[] = [];
-                        Object.keys(emojiHint).forEach((key) => {
-                            if (key.indexOf(key.toLowerCase()) === 0) {
-                                if (emojiHint[key].indexOf(".") > -1) {
+                        Object.keys(emojiHint).forEach((keyName) => {
+                            if (keyName.indexOf(key.toLowerCase()) === 0) {
+                                if (emojiHint[keyName].indexOf(".") > -1) {
                                     matchEmojiData.push({
-                                        html: `<img src="${emojiHint[key]}" title=":${key}:"/> :${key}:`,
+                                        html: `<img src="${emojiHint[keyName]}" title=":${keyName}:"/> :${keyName}:`,
                                         value: `:${key}:`,
                                     });
                                 } else {
                                     matchEmojiData.push({
-                                        html: `<span class="vditor-hint__emoji">${emojiHint[key]}</span>${key}`,
-                                        value: emojiHint[key],
+                                        html: `<span class="vditor-hint__emoji">${emojiHint[keyName]}</span>${keyName}`,
+                                        value: emojiHint[keyName],
                                     });
                                 }
                             }

@@ -47,11 +47,14 @@ export class Hotkey {
                 return;
             }
 
-            if (this.vditor.options.esc) {
-                if (event.key.toLowerCase() === "Escape".toLowerCase()) {
+            if (event.key === "Escape") {
+                if (this.vditor.options.esc) {
                     this.vditor.options.esc(getText(this.vditor.editor.element));
-                    return;
                 }
+                if (this.hintElement && this.hintElement.style.display === "block") {
+                    this.hintElement.style.display = "none"
+                }
+                return
             }
 
             if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
@@ -151,6 +154,10 @@ export class Hotkey {
     }
 
     private hint(event: KeyboardEvent) {
+        if (!this.hintElement) {
+            return
+        }
+
         if (this.hintElement.querySelectorAll("li").length === 0 ||
             this.hintElement.style.display === "none") {
             return;

@@ -50,6 +50,10 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
                     headingsPanel.style.display = "none";
                 }
             }
+
+           if (vditor.hint) {
+               vditor.hint.element.style.display = 'none'
+           }
         });
 
         emojiPanelElement.querySelectorAll(".vditor-emojis span").forEach((element) => {

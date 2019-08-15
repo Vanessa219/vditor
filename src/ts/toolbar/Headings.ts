@@ -34,6 +34,9 @@ export class Headings extends MenuItem {
                     panel.style.display = "none";
                 }
             }
+            if (vditor.hint) {
+                vditor.hint.element.style.display = 'none'
+            }
         });
 
         for (let i = 0; i < 6; i++) {
