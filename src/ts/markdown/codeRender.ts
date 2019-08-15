@@ -4,7 +4,8 @@ import {code160to32} from "../util/code160to32";
 
 export const codeRender = (element: HTMLElement, lang: (keyof II18nLang)) => {
     element.querySelectorAll("pre > code").forEach((e: HTMLElement, index: number) => {
-        if (e.className.indexOf("language-mermaid") > -1 || e.className.indexOf("language-echarts") > -1) {
+        if (e.className.indexOf("language-mermaid") > -1 || e.className.indexOf("language-echarts") > -1
+            || e.className.indexOf("language-abc") > -1) {
             return;
         }
 

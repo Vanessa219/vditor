@@ -11,6 +11,7 @@ import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
 import {Hotkey} from "./ts/hotkey/index";
+import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
@@ -30,6 +31,7 @@ class Vditor {
 
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;
+    public static abcRender = abcRender;
     public static codeRender = codeRender;
     public static chartRender = chartRender;
     public static md2html = markdownItRender;

@@ -29,11 +29,11 @@ export class Hint {
             .slice(-1).pop();
 
         let key = this.getKey(currentLineValue, ":");
-        let isAt = false
+        let isAt = false;
 
-        if (typeof key === 'undefined') {
+        if (typeof key === "undefined") {
             isAt = true;
-            key = this.getKey(currentLineValue, "@")
+            key = this.getKey(currentLineValue, "@");
         }
 
         if (key === undefined) {

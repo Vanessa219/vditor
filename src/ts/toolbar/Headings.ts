@@ -35,7 +35,7 @@ export class Headings extends MenuItem {
                 }
             }
             if (vditor.hint) {
-                vditor.hint.element.style.display = 'none'
+                vditor.hint.element.style.display = "none";
             }
         });
 

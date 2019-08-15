@@ -86,15 +86,15 @@ class Undo {
             text = this.dmp.patch_apply(redoPatchList, this.lastText)[0];
             positoin = {
                 end: state.end,
-                start: state.end
-            }
+                start: state.end,
+            };
         } else {
             text = this.dmp.patch_apply(state.patchList, this.lastText)[0];
             if (this.undoStack[this.undoStack.length - 1]) {
                 positoin = {
                     end: this.undoStack[this.undoStack.length - 1].end,
-                    start: this.undoStack[this.undoStack.length - 1].end
-                }
+                    start: this.undoStack[this.undoStack.length - 1].end,
+                };
             }
         }
 

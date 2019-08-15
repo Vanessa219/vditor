@@ -52,9 +52,9 @@ export class Hotkey {
                     this.vditor.options.esc(getText(this.vditor.editor.element));
                 }
                 if (this.hintElement && this.hintElement.style.display === "block") {
-                    this.hintElement.style.display = "none"
+                    this.hintElement.style.display = "none";
                 }
-                return
+                return;
             }
 
             if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
@@ -155,7 +155,7 @@ export class Hotkey {
 
     private hint(event: KeyboardEvent) {
         if (!this.hintElement) {
-            return
+            return;
         }
 
         if (this.hintElement.querySelectorAll("li").length === 0 ||

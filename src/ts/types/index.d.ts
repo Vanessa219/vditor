@@ -8,6 +8,8 @@ declare module "highlight.js";
 
 declare module "mermaid";
 
+declare module "abcjs/src/api/abc_tunebook_svg";
+
 declare module "katex";
 declare module "katex/contrib/auto-render/auto-render";
 
@@ -190,6 +192,8 @@ declare class IVditorConstructor {
     public static mathRender(element: HTMLElement): void;
 
     public static mermaidRender(element: HTMLElement): void;
+
+    public static abcRender(element: HTMLElement): void;
 
     public static codeRender(element: HTMLElement, lang: (keyof II18nLang)): void;
 

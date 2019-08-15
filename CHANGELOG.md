@@ -8,7 +8,6 @@
 ### TODO
 
 * [98](https://github.com/b3log/vditor/issues/98) 支持 shift + tab `feature`
-* [97](https://github.com/b3log/vditor/issues/97) 添加五线谱支持 `feature`
 * [94](https://github.com/b3log/vditor/issues/94) 数学公示支持源码查看 `feature`
 * [89](https://github.com/b3log/vditor/issues/89) 自定义 toolbar 事件、添加按钮到 toolbar 上 `feature`
 * [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
@@ -16,6 +15,7 @@
 ### v1.7.9 / 2019-08-15
 
 * [99](https://github.com/b3log/vditor/issues/99) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
+* [97](https://github.com/b3log/vditor/issues/97) 添加五线谱支持 `feature`
 * [96](https://github.com/b3log/vditor/issues/96) 工具栏没有配置 preview, both, redo, undo 在其他操作时会报错 `bug`
 * [95](https://github.com/b3log/vditor/issues/95) 1.6.x 细节 bug 修改 `bug`
 * [93](https://github.com/b3log/vditor/issues/93) 新增预览模式设置接口 `feature`

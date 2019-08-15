@@ -14,6 +14,7 @@
     "src/assets/*"
   ],
   "dependencies": {
+    "abcjs": "^5.8.0",
     "diff-match-patch": "^1.0.4",
     "echarts": "^4.2.1",
     "highlight.js": "^9.15.9",

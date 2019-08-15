@@ -1,5 +1,6 @@
 import {getText} from "../editor/getText";
 import {i18n} from "../i18n/index";
+import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
@@ -79,6 +80,7 @@ export class Preview {
         mermaidRender(vditor.preview.element.children[0] as HTMLElement);
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         chartRender(vditor.preview.element.children[0] as HTMLElement);
+        abcRender(vditor.preview.element.children[0] as HTMLElement);
         const time = (new Date().getTime() - startTime);
         if ((new Date().getTime() - startTime) > 2000) {
             // https://github.com/b3log/vditor/issues/67
