@@ -14,6 +14,7 @@
 
 ### v1.7.9 / 2019-08-15
 
+* [100](https://github.com/b3log/vditor/issues/100) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
 * [99](https://github.com/b3log/vditor/issues/99) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
 * [97](https://github.com/b3log/vditor/issues/97) 添加五线谱支持 `feature`
 * [96](https://github.com/b3log/vditor/issues/96) 工具栏没有配置 preview, both, redo, undo 在其他操作时会报错 `bug`
