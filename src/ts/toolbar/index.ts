@@ -3,6 +3,7 @@ import {Both} from "./Both";
 import {Br} from "./Br";
 import {Check} from "./Check";
 import {Code} from "./Code";
+import {Custom} from "./Custom";
 import {Divider} from "./Divider";
 import {Emoji} from "./Emoji";
 import {Fullscreen} from "./Fullscreen";
@@ -110,7 +111,7 @@ export class Toolbar {
                     menuItemObj = new Info(vditor, menuItem);
                     break;
                 default:
-                    console.error("menu item no matched");
+                    menuItemObj = new Custom(vditor, menuItem);
                     break;
             }
 

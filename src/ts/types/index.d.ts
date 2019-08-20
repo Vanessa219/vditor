@@ -74,6 +74,8 @@ interface IMenuItem {
     suffix?: string;
     prefix?: string;
     tipPosition?: string;
+
+    click?(): void;
 }
 
 interface IPreview {

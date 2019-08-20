@@ -177,8 +177,8 @@ export class Options {
         const toolbar: IMenuItem[] = [];
         if (this.options) {
             if (this.options.toolbar) {
-                this.options.toolbar.forEach((menuItem) => {
-                    let currentMenuItem: IMenuItem;
+                this.options.toolbar.forEach((menuItem: IMenuItem) => {
+                    let currentMenuItem = menuItem;
                     this.defaultOptions.toolbar.forEach((defaultMenuItem: IMenuItem) => {
                         if (typeof menuItem === "string" && defaultMenuItem.name === menuItem) {
                             currentMenuItem = defaultMenuItem;

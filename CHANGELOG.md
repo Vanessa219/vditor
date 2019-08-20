@@ -9,10 +9,9 @@
 
 * [98](https://github.com/b3log/vditor/issues/98) 支持 shift + tab `feature`
 * [94](https://github.com/b3log/vditor/issues/94) 数学公示支持源码查看 `feature`
-* [89](https://github.com/b3log/vditor/issues/89) 自定义 toolbar 事件、添加按钮到 toolbar 上 `feature`
 * [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
 
-### v1.7.9 / 2019-08-15
+### v1.7.10 / 2019-08-20
 
 * [100](https://github.com/b3log/vditor/issues/100) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
 * [99](https://github.com/b3log/vditor/issues/99) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
@@ -23,6 +22,7 @@
 * [92](https://github.com/b3log/vditor/issues/92) 现在toolbar里面有演示的按钮吗 `question`
 * [91](https://github.com/b3log/vditor/issues/91) No default jsDelivr CDN file set `development`
 * [90](https://github.com/b3log/vditor/issues/90) 编辑区域底部留白且光标所在位置应在可视区域内 `feature`
+* [89](https://github.com/b3log/vditor/issues/89) 自定义 toolbar 事件、添加按钮到 toolbar 上 `feature`
 * [88](https://github.com/b3log/vditor/issues/88) resize 优化 `enhancement`
 * [87](https://github.com/b3log/vditor/issues/87) 获取文本时对 HTML 实体进行转换 `bug`
 * [85](https://github.com/b3log/vditor/issues/85) 改善提示且提供提示接口 `feature`
