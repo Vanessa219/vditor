@@ -1,5 +1,5 @@
 {
-  "name": "vditor",
+  "name": "@b3log/vditor",
   "version": "1.7.10",
   "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
@@ -57,6 +57,9 @@
     "webpack-dev-server": "^3.7.2"
   },
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "repository": "git://github.com/b3log/vditor.git",
   "bugs": {
     "url": "https://github.com/b3log/vditor/issues"

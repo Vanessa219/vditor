@@ -13,6 +13,7 @@
 
 ### v1.7.10 / 2019-08-20
 
+* [101](https://github.com/b3log/vditor/issues/101) video 标签移动端溢出 `enhancement`
 * [100](https://github.com/b3log/vditor/issues/100) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
 * [99](https://github.com/b3log/vditor/issues/99) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
 * [97](https://github.com/b3log/vditor/issues/97) 添加五线谱支持 `feature`
