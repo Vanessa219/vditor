@@ -40,7 +40,6 @@ export class Hotkey {
         });
 
         this.vditor.editor.element.addEventListener("keydown", (event: KeyboardEvent) => {
-
             if ((event.metaKey || event.ctrlKey) && this.vditor.options.ctrlEnter &&
                 event.key.toLowerCase() === "enter") {
                 this.vditor.options.ctrlEnter(getText(this.vditor.editor.element));

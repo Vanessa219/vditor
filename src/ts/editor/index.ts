@@ -22,8 +22,14 @@ class Editor {
     }
 
     private bindEvent(vditor: IVditor) {
-        this.element.addEventListener("input", (event) => {
+        this.element.addEventListener("input", () => {
             inputEvent(vditor);
+            // 选中多行后输入任意字符，br 后无 \n
+            this.element.querySelectorAll("br").forEach((br) => {
+                if (!br.nextElementSibling) {
+                    br.insertAdjacentHTML("afterend", '<span style="display: none">\n</span>');
+                }
+            });
         });
 
         this.element.addEventListener("focus", () => {
