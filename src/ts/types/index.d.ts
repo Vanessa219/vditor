@@ -191,13 +191,13 @@ interface IVditor {
 
 declare class IVditorConstructor {
 
-    public static mathRender(element: HTMLElement): void;
+    public static mathRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
     public static mermaidRender(element: HTMLElement): void;
 
     public static abcRender(element: HTMLElement): void;
 
-    public static codeRender(element: HTMLElement, lang: (keyof II18nLang)): void;
+    public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
     public static md2html(mdText: string, hljsStyle: string): string;
 

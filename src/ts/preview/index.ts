@@ -76,7 +76,7 @@ export class Preview {
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
-        mathRender(vditor.preview.element.children[0] as HTMLElement);
+        mathRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         mermaidRender(vditor.preview.element.children[0] as HTMLElement);
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         chartRender(vditor.preview.element.children[0] as HTMLElement);

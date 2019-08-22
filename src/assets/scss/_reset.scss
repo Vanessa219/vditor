@@ -180,6 +180,10 @@
       display: block;
     }
 
+    .katex:hover div.vditor-copy {
+      display: inline;
+    }
+
     kbd {
       display: inline-block;
       padding: 3px 5px;
@@ -263,7 +267,7 @@
     svg {
       color: $toolbarIcon;
       height: 14px;
-      width: 14px;
+      width: 14px !important;
       display: block;
       fill: currentColor;
     }

@@ -8,10 +8,9 @@
 ### TODO
 
 * [98](https://github.com/b3log/vditor/issues/98) 支持 shift + tab `feature`
-* [94](https://github.com/b3log/vditor/issues/94) 数学公示支持源码查看 `feature`
 * [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
 
-### v1.7.10 / 2019-08-20
+### v1.7.11 / 2019-08-20
 
 * [101](https://github.com/b3log/vditor/issues/101) video 标签移动端溢出 `enhancement`
 * [100](https://github.com/b3log/vditor/issues/100) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`
@@ -19,6 +18,7 @@
 * [97](https://github.com/b3log/vditor/issues/97) 添加五线谱支持 `feature`
 * [96](https://github.com/b3log/vditor/issues/96) 工具栏没有配置 preview, both, redo, undo 在其他操作时会报错 `bug`
 * [95](https://github.com/b3log/vditor/issues/95) 1.6.x 细节 bug 修改 `bug`
+* [94](https://github.com/b3log/vditor/issues/94) 数学公示支持源码查看 `feature`
 * [93](https://github.com/b3log/vditor/issues/93) 新增预览模式设置接口 `feature`
 * [92](https://github.com/b3log/vditor/issues/92) 现在toolbar里面有演示的按钮吗 `question`
 * [91](https://github.com/b3log/vditor/issues/91) No default jsDelivr CDN file set `development`
