@@ -177,7 +177,7 @@ module.exports = [
       ],
     },
     plugins: [
-      new BundleAnalyzerPlugin(),
+      // new BundleAnalyzerPlugin(),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
         CDN_PATH: JSON.stringify(pkg.cdn),

@@ -1,11 +1,9 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {getSelectText} from "../editor/getSelectText";
 import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
-import {setSelectionByPosition} from "../editor/setSelection";
-import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 import {getCursorPosition} from "../hint/getCursorPosition";
+import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -37,10 +35,10 @@ export class Hotkey {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
                 insertText(this.vditor, "\n", "", true);
 
-                const cursorTop = getCursorPosition(this.vditor.editor.element).top
-                const center = this.vditor.editor.element.clientHeight / 2
+                const cursorTop = getCursorPosition(this.vditor.editor.element).top;
+                const center = this.vditor.editor.element.clientHeight / 2;
                 if (cursorTop > center) {
-                    this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollTop + (cursorTop - center)
+                    this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollTop + (cursorTop - center);
                 }
                 event.preventDefault();
             }
@@ -68,45 +66,47 @@ export class Hotkey {
                 event.stopPropagation();
 
                 const position = getSelectPosition(this.vditor.editor.element);
-                const text = getText(this.vditor.editor.element)
-                const selectLinePosition = getCurrentLinePosition(position, text)
+                const text = getText(this.vditor.editor.element);
+                const selectLinePosition = getCurrentLinePosition(position, text);
                 const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
 
                 if (event.shiftKey) {
-                    let shiftCount = 0
-                    let startIsShift = false
+                    let shiftCount = 0;
+                    let startIsShift = false;
                     const selectionShiftResult = selectLineList.map((value, index) => {
-                        let shiftLineValue = value
+                        let shiftLineValue = value;
                         if (value.indexOf(this.vditor.options.tab) === 0) {
                             if (index === 0) {
-                                startIsShift = true
+                                startIsShift = true;
                             }
-                            shiftCount++
-                            shiftLineValue = value.replace(this.vditor.options.tab, '')
+                            shiftCount++;
+                            shiftLineValue = value.replace(this.vditor.options.tab, "");
                         }
                         return shiftLineValue;
                     }).join("\n");
 
-                    formatRender(this.vditor, text.substring(0, selectLinePosition.start) + selectionShiftResult + text.substring(selectLinePosition.end - 1),
+                    formatRender(this.vditor, text.substring(0, selectLinePosition.start) +
+                        selectionShiftResult + text.substring(selectLinePosition.end - 1),
                         {
                             end: position.end - shiftCount * this.vditor.options.tab.length,
                             start: position.start - (startIsShift ? this.vditor.options.tab.length : 0),
-                        })
-                    return
+                        });
+                    return;
                 }
 
                 if (position.start === position.end) {
                     insertText(this.vditor, this.vditor.options.tab, "");
-                    return
+                    return;
                 }
                 const selectionResult = selectLineList.map((value) => {
                     return this.vditor.options.tab + value;
                 }).join("\n");
-                formatRender(this.vditor, text.substring(0, selectLinePosition.start) + selectionResult + text.substring(selectLinePosition.end - 1),
+                formatRender(this.vditor, text.substring(0, selectLinePosition.start) + selectionResult +
+                    text.substring(selectLinePosition.end - 1),
                     {
                         end: position.end + selectLineList.length * this.vditor.options.tab.length,
                         start: position.start + this.vditor.options.tab.length,
-                    })
+                    });
                 return;
             }
 
