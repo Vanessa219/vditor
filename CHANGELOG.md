@@ -7,9 +7,9 @@
 
 ### TODO
 
-* [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
+* WYSIWYG
 
-### v1.7.11 / 2019-08-22
+### v1.7.14 / 2019-08-22
 
 * [103](https://github.com/b3log/vditor/issues/103) 光标位置应在正中间 `feature`
 * [102](https://github.com/b3log/vditor/issues/102) 安装依赖后自动删除已有的依赖 `question`
@@ -28,6 +28,7 @@
 * [89](https://github.com/b3log/vditor/issues/89) 自定义 toolbar 事件、添加按钮到 toolbar 上 `feature`
 * [88](https://github.com/b3log/vditor/issues/88) resize 优化 `enhancement`
 * [87](https://github.com/b3log/vditor/issues/87) 获取文本时对 HTML 实体进行转换 `bug`
+* [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
 * [85](https://github.com/b3log/vditor/issues/85) 改善提示且提供提示接口 `feature`
 * [84](https://github.com/b3log/vditor/issues/84) 支持全屏预览 `feature`
 

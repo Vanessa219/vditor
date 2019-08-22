@@ -2,7 +2,7 @@
  * @fileoverview webpack.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.1, Jul 14, 2019
+ * @version 0.2.0.0, Aug 22, 2019
  */
 
 const path = require('path')
@@ -118,6 +118,7 @@ module.exports = [
     },
     entry: {
       'index.min': './src/index.ts',
+      'method.min': './src/method.ts'
     },
     resolve: {
       extensions: ['.js', '.ts', '.svg', 'png'],
@@ -176,7 +177,7 @@ module.exports = [
       ],
     },
     plugins: [
-      // new BundleAnalyzerPlugin(),
+      new BundleAnalyzerPlugin(),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
         CDN_PATH: JSON.stringify(pkg.cdn),
