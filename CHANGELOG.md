@@ -10,7 +10,7 @@
 * [98](https://github.com/b3log/vditor/issues/98) 支持 shift + tab `feature`
 * [86](https://github.com/b3log/vditor/issues/86) 代码分包优化 `feature`
 
-### v1.7.11 / 2019-08-20
+### v1.7.11 / 2019-08-22
 
 * [101](https://github.com/b3log/vditor/issues/101) video 标签移动端溢出 `enhancement`
 * [100](https://github.com/b3log/vditor/issues/100) esc/选中工具栏中的表情或标题后输入框中的 at 及 emoji 的提示应消失 `bug`

@@ -70,7 +70,7 @@ class Editor {
             }
             const textScrollTop = this.element.scrollTop;
             const textHeight = this.element.clientHeight;
-            const textScrollHeight = this.element.scrollHeight;
+            const textScrollHeight = this.element.scrollHeight - parseFloat(this.element.style.paddingBottom);
             const preview = vditor.preview.element;
             if ((textScrollTop / textHeight > 0.5)) {
                 preview.scrollTop = (textScrollTop + textHeight) *
