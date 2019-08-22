@@ -53,7 +53,7 @@ export class Ui {
     private async afterRender(vditor: IVditor) {
         let height: number = Math.max(vditor.editor.element.parentElement.offsetHeight, 20);
         if (height < 21 && typeof vditor.options.height === "number") {
-            height = vditor.options.height;
+            height = vditor.options.height - 37;
         }
         vditor.editor.element.style.paddingBottom = height / 2 + "px";
 
