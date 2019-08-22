@@ -35,6 +35,7 @@ export class Hotkey {
         this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
                 insertText(this.vditor, "\n", "", true);
+                this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollHeight
                 event.preventDefault();
             }
         });
