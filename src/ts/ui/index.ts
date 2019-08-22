@@ -51,7 +51,11 @@ export class Ui {
     }
 
     private async afterRender(vditor: IVditor) {
-        vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
+        let height: number = Math.max(vditor.editor.element.parentElement.offsetHeight, 20);
+        if (height < 21 && typeof vditor.options.height === "number") {
+            height = vditor.options.height;
+        }
+        vditor.editor.element.style.paddingBottom = height / 2 + "px";
 
         const localValue = localStorage.getItem("vditor" + vditor.id);
         if (vditor.options.cache && localValue) {
