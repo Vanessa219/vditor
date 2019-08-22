@@ -64,16 +64,49 @@ export class Hotkey {
             }
 
             if (this.vditor.options.tab && event.key.toLowerCase() === "tab") {
-                const selectionValue = getSelectText(this.vditor.editor.element);
-                const selectionResult = selectionValue.split("\n").map((value) => {
-                    return this.vditor.options.tab + value;
-                }).join("\n");
-                const position = getSelectPosition(this.vditor.editor.element);
-                insertText(this.vditor, selectionResult, "", true);
-                setSelectionByPosition(position.start,
-                    position.start + selectionResult.length, this.vditor.editor.element);
                 event.preventDefault();
                 event.stopPropagation();
+
+                const position = getSelectPosition(this.vditor.editor.element);
+                const text = getText(this.vditor.editor.element)
+                const selectLinePosition = getCurrentLinePosition(position, text)
+                const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
+
+                if (event.shiftKey) {
+                    let shiftCount = 0
+                    let startIsShift = false
+                    const selectionShiftResult = selectLineList.map((value, index) => {
+                        let shiftLineValue = value
+                        if (value.indexOf(this.vditor.options.tab) === 0) {
+                            if (index === 0) {
+                                startIsShift = true
+                            }
+                            shiftCount++
+                            shiftLineValue = value.replace(this.vditor.options.tab, '')
+                        }
+                        return shiftLineValue;
+                    }).join("\n");
+
+                    formatRender(this.vditor, text.substring(0, selectLinePosition.start) + selectionShiftResult + text.substring(selectLinePosition.end - 1),
+                        {
+                            end: position.end - shiftCount * this.vditor.options.tab.length,
+                            start: position.start - (startIsShift ? this.vditor.options.tab.length : 0),
+                        })
+                    return
+                }
+
+                if (position.start === position.end) {
+                    insertText(this.vditor, this.vditor.options.tab, "");
+                    return
+                }
+                const selectionResult = selectLineList.map((value) => {
+                    return this.vditor.options.tab + value;
+                }).join("\n");
+                formatRender(this.vditor, text.substring(0, selectLinePosition.start) + selectionResult + text.substring(selectLinePosition.end - 1),
+                    {
+                        end: position.end + selectLineList.length * this.vditor.options.tab.length,
+                        start: position.start + this.vditor.options.tab.length,
+                    })
                 return;
             }
 
