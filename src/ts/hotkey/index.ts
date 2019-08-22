@@ -5,6 +5,7 @@ import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
 import {setSelectionByPosition} from "../editor/setSelection";
 import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
+import {getCursorPosition} from "../hint/getCursorPosition";
 
 export class Hotkey {
     public hintElement: HTMLElement;
@@ -35,7 +36,12 @@ export class Hotkey {
         this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {
                 insertText(this.vditor, "\n", "", true);
-                this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollHeight
+
+                const cursorTop = getCursorPosition(this.vditor.editor.element).top
+                const center = this.vditor.editor.element.clientHeight / 2
+                if (cursorTop > center) {
+                    this.vditor.editor.element.scrollTop = this.vditor.editor.element.scrollTop + (cursorTop - center)
+                }
                 event.preventDefault();
             }
         });

@@ -21,7 +21,11 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
             if (pNode.childNodes[0].nodeType === 3) {
                 range.setStart(pNode.childNodes[0], start - charIndex);
             } else if (pNode.nextSibling) {
-                range.setStartBefore(pNode.nextSibling);
+                if (start === 0) {
+                    range.setStartBefore(pNode);
+                } else {
+                    range.setStartBefore(pNode.nextSibling);
+                }
             } else {
                 range.setStartAfter(pNode);
             }
@@ -31,7 +35,11 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
             if (pNode.childNodes[0].nodeType === 3) {
                 range.setEnd(pNode.childNodes[0], end - charIndex);
             } else if (pNode.nextSibling) {
-                range.setEndBefore(pNode.nextSibling);
+                if (end === 0) {
+                    range.setEndBefore(pNode);
+                } else {
+                    range.setEndBefore(pNode.nextSibling);
+                }
             } else {
                 range.setEndAfter(pNode);
             }
