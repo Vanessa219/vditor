@@ -70,7 +70,7 @@ class Undo {
                     }
                 }
             }
-        }, 1000);
+        }, 500);
     }
 
     private renderDiff(state: { patchList: patch_obj[], end: number }, vditor: IVditor, isRedo: boolean = false) {

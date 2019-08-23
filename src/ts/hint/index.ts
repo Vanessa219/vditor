@@ -57,7 +57,7 @@ export class Hint {
                                 if (emojiHint[keyName].indexOf(".") > -1) {
                                     matchEmojiData.push({
                                         html: `<img src="${emojiHint[keyName]}" title=":${keyName}:"/> :${keyName}:`,
-                                        value: `:${key}:`,
+                                        value: `:${keyName}:`,
                                     });
                                 } else {
                                     matchEmojiData.push({
