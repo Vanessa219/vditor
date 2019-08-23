@@ -11,6 +11,7 @@
 
 ### v1.7.14 / 2019-08-22
 
+* [104](https://github.com/b3log/vditor/issues/104) vs code 粘贴代码问题 `bug`
 * [103](https://github.com/b3log/vditor/issues/103) 光标位置应在正中间 `feature`
 * [102](https://github.com/b3log/vditor/issues/102) 安装依赖后自动删除已有的依赖 `question`
 * [101](https://github.com/b3log/vditor/issues/101) video 标签移动端溢出 `enhancement`

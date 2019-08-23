@@ -61,10 +61,21 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     // process copy from IDE
     const tempElement = document.createElement("div");
     tempElement.innerHTML = textHTML;
+    let isCode = false
+    if (tempElement.childElementCount === 2 &&
+        (tempElement.lastElementChild as HTMLElement).style.fontFamily.indexOf('monospace') > -1) {
+        // VS Code
+        isCode = true
+    }
     const pres = tempElement.querySelectorAll("pre");
     if (pres.length === 1 && pres[0].className !== "vditor-textarea" && !pres[0].nextElementSibling
         && ((pres[0].previousElementSibling && pres[0].previousElementSibling.tagName === "META")
             || !pres[0].previousElementSibling)) {
+        // IDE
+        isCode = true
+    }
+
+    if (isCode) {
         return "```\n" + (textPlain || textHTML) + "\n```";
     } else {
         return markdownStr;
