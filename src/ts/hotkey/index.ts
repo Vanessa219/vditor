@@ -33,7 +33,7 @@ export class Hotkey {
     private bindHotkey(): void {
         this.vditor.editor.element.addEventListener("keyup", (event: KeyboardEvent) => {
             this.vditor.editor.range = window.getSelection().getRangeAt(0).cloneRange();
-        })
+        });
 
         this.vditor.editor.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key.toLowerCase() === "enter") {

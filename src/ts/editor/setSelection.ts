@@ -14,8 +14,8 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
     let pNode = editor.childNodes[line];
     let foundStart = false;
     let stop = false;
-    start = Math.max(0, start)
-    end = Math.max(0, end)
+    start = Math.max(0, start);
+    end = Math.max(0, end);
 
     while (!stop && pNode) {
         const nextCharIndex = charIndex + pNode.textContent.length;
