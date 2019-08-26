@@ -47,7 +47,6 @@ class Editor {
         });
 
         this.element.addEventListener("blur", () => {
-            this.range = window.getSelection().getRangeAt(0).cloneRange();
             if (vditor.options.blur) {
                 vditor.options.blur(getText(this.element));
             }
@@ -55,6 +54,7 @@ class Editor {
 
         if (vditor.options.select) {
             this.element.addEventListener("mouseup", () => {
+                this.range = window.getSelection().getRangeAt(0).cloneRange();
                 const selectText = getSelectText(this.element);
                 if (selectText === "") {
                     return;
