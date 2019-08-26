@@ -24,8 +24,8 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
         const text = prefix + suffix;
         formatRender(vditor, content.substring(0, position.start) + text + content.substring(position.end),
             {
-                end: position.start + text.length,
-                start: position.start + text.length,
+                end: position.start + prefix.length,
+                start: position.start + prefix.length,
             });
     } else {
         const selectText = content.substring(position.start, position.end);
