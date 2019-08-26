@@ -9,8 +9,9 @@
 
 * WYSIWYG
 
-### v1.7.16 / 2019-08-22
+### v1.7.17 / 2019-08-26
 
+* [105](https://github.com/b3log/vditor/issues/105) firefox 兼容性 `bug`
 * [104](https://github.com/b3log/vditor/issues/104) vs code 粘贴代码问题 `bug`
 * [103](https://github.com/b3log/vditor/issues/103) 光标位置应在正中间 `feature`
 * [102](https://github.com/b3log/vditor/issues/102) 安装依赖后自动删除已有的依赖 `question`
