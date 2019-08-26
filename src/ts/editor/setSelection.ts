@@ -14,37 +14,40 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
     let pNode = editor.childNodes[line];
     let foundStart = false;
     let stop = false;
+    start = Math.max(0, start)
+    end = Math.max(0, end)
 
     while (!stop && pNode) {
         const nextCharIndex = charIndex + pNode.textContent.length;
         if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-            if (pNode.childNodes[0].nodeType === 3) {
-                range.setStart(pNode.childNodes[0], start - charIndex);
-            } else if (pNode.nextSibling) {
-                if (start === 0) {
-                    range.setStartBefore(pNode);
-                } else {
-                    range.setStartBefore(pNode.nextSibling);
-                }
+            if (start === 0) {
+                range.setStartBefore(pNode);
             } else {
-                range.setStartAfter(pNode);
+                if (pNode.childNodes[0].nodeType === 3) {
+                    range.setStart(pNode.childNodes[0], start - charIndex);
+                } else if (pNode.nextSibling) {
+                    range.setStartBefore(pNode.nextSibling);
+                } else {
+                    range.setStartAfter(pNode);
+                }
             }
             foundStart = true;
             if (start === end) {
                 stop = true;
+                break;
             }
         }
         if (foundStart && end >= charIndex && end <= nextCharIndex) {
-            if (pNode.childNodes[0].nodeType === 3) {
-                range.setEnd(pNode.childNodes[0], end - charIndex);
-            } else if (pNode.nextSibling) {
-                if (end === 0) {
-                    range.setEndBefore(pNode);
-                } else {
-                    range.setEndBefore(pNode.nextSibling);
-                }
+            if (end === 0) {
+                range.setEndBefore(pNode);
             } else {
-                range.setEndAfter(pNode);
+                if (pNode.childNodes[0].nodeType === 3) {
+                    range.setEnd(pNode.childNodes[0], end - charIndex);
+                } else if (pNode.nextSibling) {
+                    range.setEndBefore(pNode.nextSibling);
+                } else {
+                    range.setEndAfter(pNode);
+                }
             }
             stop = true;
         }
