@@ -30,6 +30,9 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
                 range.setStartAfter(pNode);
             }
             foundStart = true;
+            if (start === end) {
+                stop = true;
+            }
         }
         if (foundStart && end >= charIndex && end <= nextCharIndex) {
             if (pNode.childNodes[0].nodeType === 3) {
@@ -47,6 +50,10 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
         }
         charIndex = nextCharIndex;
         pNode = editor.childNodes[++line];
+    }
+
+    if (!stop) {
+        range.setStartBefore(editor.childNodes[line - 1]);
     }
 
     setSelectionFocus(range);
