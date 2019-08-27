@@ -354,6 +354,7 @@ export const getAllEmoji = (imgStaticPath: string) => {
         "guardsman": "💂",
         "guitar": "🎸",
         "gun": "🔫",
+        "hacpai": `${imgStaticPath}/hacpai.png`,
         "haircut": "💇",
         "hamburger": "🍔",
         "hammer": "🔨",
