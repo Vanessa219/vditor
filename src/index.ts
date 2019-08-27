@@ -151,8 +151,8 @@ class Vditor {
         return html2md(this.vditor, value);
     }
 
-    public getHTML(includeHljs?: boolean) {
-        return md2html(this.vditor, includeHljs);
+    public getHTML(enableHighlight?: boolean) {
+        return md2html(this.vditor, enableHighlight);
     }
 
     public tip(text: string, time?: number) {

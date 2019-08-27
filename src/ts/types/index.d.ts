@@ -199,7 +199,7 @@ declare class IVditorConstructor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
-    public static md2html(mdText: string, hljsStyle: string): string;
+    public static md2html(mdText: string, hljsStyle?: string, enableHighlight?: boolean): string;
 
     public readonly version: string;
     public vditor: IVditor;
@@ -245,7 +245,7 @@ declare class IVditorConstructor {
 
     public html2md(value: string): string;
 
-    public getHTML(includeHljs?: boolean): string;
+    public getHTML(enableHighlight?: boolean): string;
 
     public tip(text: string, time?: number): void;
 
