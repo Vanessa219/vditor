@@ -3,7 +3,7 @@ import {getText} from "../editor/getText";
 import {addStyle} from "../util/addStyle";
 import {task} from "./markdown-it-task";
 
-export const markdownItRender = async (mdText: string, hljsStyle: string) => {
+export const markdownItRender = async (mdText: string, hljsStyle: string, enableHighlight: boolean = true) => {
     addStyle(`${CDN_PATH}/vditor/dist/js/highlight.js/styles/${hljsStyle}.css`,
         "vditorHljsStyle");
 
@@ -15,16 +15,18 @@ export const markdownItRender = async (mdText: string, hljsStyle: string) => {
         linkify: true,
     };
 
-    const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
-    options.highlight = (str: string, lang: string) => {
-        if (lang === "mermaid" || lang === "echarts" || lang === "abc") {
-            return str;
-        }
-        if (lang && hljs.getLanguage(lang)) {
-            return `<pre><code class="language-${lang} hljs">${hljs.highlight(lang, str, true).value}</code></pre>`;
-        }
-        return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
-    };
+    if (enableHighlight) {
+        const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
+        options.highlight = (str: string, lang: string) => {
+            if (lang === "mermaid" || lang === "echarts" || lang === "abc") {
+                return str;
+            }
+            if (lang && hljs.getLanguage(lang)) {
+                return `<pre><code class="language-${lang} hljs">${hljs.highlight(lang, str, true).value}</code></pre>`;
+            }
+            return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
+        };
+    }
     const markdownIt = new MarkdownIt(options).use(task);
     return markdownIt.render(mdText);
 };
