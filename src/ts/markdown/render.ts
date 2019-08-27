@@ -1,6 +1,7 @@
 import {CDN_PATH} from "../constants";
 import {getText} from "../editor/getText";
 import {addStyle} from "../util/addStyle";
+import {emojiRender} from "./emojiRender";
 import {task} from "./markdown-it-task";
 
 const render = async (hljsStyle: string, enableHighlight: boolean) => {
@@ -50,14 +51,14 @@ const render = async (hljsStyle: string, enableHighlight: boolean) => {
 export const markdownItRender = async (mdText: string, hljsStyle: string = "atom-one-light",
                                        enableHighlight: boolean = true) => {
     const md = await render(hljsStyle, enableHighlight);
-    return md.render(mdText);
+    return md.render(emojiRender(mdText));
 };
 
 export const md2html = async (vditor: IVditor, enableHighlight: boolean) => {
     if (typeof vditor.markdownIt !== "undefined") {
-        return vditor.markdownIt.render(getText(vditor.editor.element));
+        return vditor.markdownIt.render(emojiRender(getText(vditor.editor.element)));
     } else {
         vditor.markdownIt = await render(vditor.options.preview.hljs.style, enableHighlight);
-        return vditor.markdownIt.render(getText(vditor.editor.element));
+        return vditor.markdownIt.render(emojiRender(getText(vditor.editor.element)));
     }
 };

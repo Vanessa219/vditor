@@ -9,8 +9,9 @@
 
 * WYSIWYG
 
-### v1.7.20 / 2019-08-27
+### v1.7.21 / 2019-08-27
 
+* [107](https://github.com/b3log/vditor/issues/107) custom emoji "trollface" & "huaji" is not working at demo mode `bug`
 * [106](https://github.com/b3log/vditor/issues/106) 添加 Chroma 样式 `feature`
 * [105](https://github.com/b3log/vditor/issues/105) firefox 兼容性 `bug`
 * [104](https://github.com/b3log/vditor/issues/104) vs code 粘贴代码问题 `bug`
