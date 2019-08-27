@@ -102,7 +102,7 @@ const genUploadedLabel =
             const original = `[${filename}](${i18n[vditor.options.lang].uploading})`;
             if (path.indexOf(".wav") === path.length - 4) {
                 setSelectionByInlineText(original, editorElement.childNodes);
-                insertText(vditor, '<audio controls="controls" src="${path}"></audio>\n', "", true);
+                insertText(vditor, `<audio controls="controls" src="${path}"></audio>\n`, "", true);
                 return;
             }
             setSelectionByInlineText(original, editorElement.childNodes);

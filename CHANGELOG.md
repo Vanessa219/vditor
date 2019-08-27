@@ -9,7 +9,7 @@
 
 * WYSIWYG
 
-### v1.7.17 / 2019-08-26
+### v1.7.19 / 2019-08-27
 
 * [105](https://github.com/b3log/vditor/issues/105) firefox 兼容性 `bug`
 * [104](https://github.com/b3log/vditor/issues/104) vs code 粘贴代码问题 `bug`
