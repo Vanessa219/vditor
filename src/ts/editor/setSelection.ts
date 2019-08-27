@@ -5,10 +5,6 @@ export const setSelectionFocus = (range: Range) => {
 };
 
 export const setSelectionByPosition = (start: number, end: number, editor: HTMLPreElement) => {
-    const range = editor.ownerDocument.createRange();
-    range.setStart(editor, 0);
-    range.collapse(true);
-
     let charIndex = 0;
     let line = 0;
     let pNode = editor.childNodes[line];
@@ -16,6 +12,10 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
     let stop = false;
     start = Math.max(0, start);
     end = Math.max(0, end);
+
+    const range = editor.ownerDocument.createRange();
+    range.setStart(pNode, 0);
+    range.collapse(true);
 
     while (!stop && pNode) {
         const nextCharIndex = charIndex + pNode.textContent.length;
@@ -55,7 +55,7 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
         pNode = editor.childNodes[++line];
     }
 
-    if (!stop) {
+    if (!stop && editor.childNodes[line - 1]) {
         range.setStartBefore(editor.childNodes[line - 1]);
     }
 

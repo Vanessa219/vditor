@@ -20,7 +20,7 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
     });
 
     // TODO: 使用虚拟 Dom
-    vditor.editor.element.innerHTML = html;
+    vditor.editor.element.innerHTML = html || newLine;
 
     if (position) {
         setSelectionByPosition(position.start, position.end, vditor.editor.element);
