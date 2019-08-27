@@ -68,9 +68,8 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
         isCode = true;
     }
     const pres = tempElement.querySelectorAll("pre");
-    if (pres.length === 1 && pres[0].className !== "vditor-textarea" && !pres[0].nextElementSibling
-        && ((pres[0].previousElementSibling && pres[0].previousElementSibling.tagName === "META")
-            || !pres[0].previousElementSibling)) {
+    if (tempElement.childElementCount < 3 && pres.length === 1 && pres[0].className !== "vditor-textarea" &&
+        !pres[0].nextElementSibling) {
         // IDE
         isCode = true;
     }
