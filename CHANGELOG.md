@@ -9,8 +9,9 @@
 
 * WYSIWYG
 
-### v1.7.21 / 2019-08-27
+### v1.7.22 / 2019-08-28
 
+* [108](https://github.com/b3log/vditor/issues/108) hint.emoji 支持自定义 `feature`
 * [107](https://github.com/b3log/vditor/issues/107) custom emoji "trollface" & "huaji" is not working at demo mode `bug`
 * [106](https://github.com/b3log/vditor/issues/106) 添加 Chroma 样式 `feature`
 * [105](https://github.com/b3log/vditor/issues/105) firefox 兼容性 `bug`

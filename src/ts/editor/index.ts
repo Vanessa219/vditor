@@ -47,6 +47,9 @@ class Editor {
         });
 
         this.element.addEventListener("blur", () => {
+            if (navigator.userAgent.indexOf('Firefox') === -1) {
+                this.range = window.getSelection().getRangeAt(0).cloneRange();
+            }
             if (vditor.options.blur) {
                 vditor.options.blur(getText(this.element));
             }

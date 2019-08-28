@@ -21,7 +21,7 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
         const nextCharIndex = charIndex + pNode.textContent.length;
         if (!foundStart && start >= charIndex && start <= nextCharIndex) {
             if (start === 0) {
-                range.setStartBefore(pNode);
+                range.setStart(pNode, 0);
             } else {
                 if (pNode.childNodes[0].nodeType === 3) {
                     range.setStart(pNode.childNodes[0], start - charIndex);
@@ -39,7 +39,7 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLP
         }
         if (foundStart && end >= charIndex && end <= nextCharIndex) {
             if (end === 0) {
-                range.setEndBefore(pNode);
+                range.setEnd(pNode, 0);
             } else {
                 if (pNode.childNodes[0].nodeType === 3) {
                     range.setEnd(pNode.childNodes[0], end - charIndex);
