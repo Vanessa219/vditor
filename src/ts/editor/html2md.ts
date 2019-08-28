@@ -5,6 +5,12 @@ import {gfm} from "./turndown-plugin-gfm";
 export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
     const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
 
+    // process word
+    let doc = new DOMParser().parseFromString(textHTML, "text/html");
+    if (doc.body) {
+        textHTML = doc.body.innerHTML
+    }
+
     // no escape
     TurndownService.prototype.escape = (name: string) => {
         return name;
@@ -23,7 +29,8 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     turndownService.addRule("vditorImage", {
         filter: "img",
         replacement: (content: string, target: HTMLElement) => {
-            if (!target.getAttribute("src")) {
+            const src = target.getAttribute("src")
+            if (!src || src.indexOf('file://') === 0) {
                 return "";
             }
             // 直接使用 API 或 setOriginal 时不需要对图片进行服务器上传，直接转换。
@@ -47,10 +54,10 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
                         }
                     }
                 };
-                xhr.send(JSON.stringify({url: target.getAttribute("src")}));
+                xhr.send(JSON.stringify({url: src}));
             }
 
-            return `![${target.getAttribute("alt")}](${target.getAttribute("src")})`;
+            return `![${target.getAttribute("alt")}](${src})`;
         },
     });
 
@@ -62,14 +69,13 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     const tempElement = document.createElement("div");
     tempElement.innerHTML = textHTML;
     let isCode = false;
-    if (tempElement.childElementCount === 2 &&
+    if (tempElement.childElementCount === 1 &&
         (tempElement.lastElementChild as HTMLElement).style.fontFamily.indexOf("monospace") > -1) {
         // VS Code
         isCode = true;
     }
     const pres = tempElement.querySelectorAll("pre");
-    if (tempElement.childElementCount < 3 && pres.length === 1 && pres[0].className !== "vditor-textarea" &&
-        !pres[0].nextElementSibling) {
+    if (tempElement.childElementCount === 1 && pres.length === 1 && pres[0].className !== "vditor-textarea") {
         // IDE
         isCode = true;
     }
