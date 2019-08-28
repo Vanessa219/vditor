@@ -49,16 +49,16 @@ const render = async (hljsStyle: string, enableHighlight: boolean) => {
 };
 
 export const markdownItRender = async (mdText: string, hljsStyle: string = "atom-one-light",
-                                       enableHighlight: boolean = true) => {
+                                       enableHighlight: boolean = true, customEmoji?: { [key: string]: string }) => {
     const md = await render(hljsStyle, enableHighlight);
-    return md.render(emojiRender(mdText));
+    return md.render(emojiRender(mdText, customEmoji));
 };
 
 export const md2html = async (vditor: IVditor, enableHighlight: boolean) => {
     if (typeof vditor.markdownIt !== "undefined") {
-        return vditor.markdownIt.render(emojiRender(getText(vditor.editor.element)));
+        return vditor.markdownIt.render(emojiRender(getText(vditor.editor.element), vditor.options.hint.emoji));
     } else {
         vditor.markdownIt = await render(vditor.options.preview.hljs.style, enableHighlight);
-        return vditor.markdownIt.render(emojiRender(getText(vditor.editor.element)));
+        return vditor.markdownIt.render(emojiRender(getText(vditor.editor.element), vditor.options.hint.emoji));
     }
 };

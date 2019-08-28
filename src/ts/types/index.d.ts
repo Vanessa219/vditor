@@ -199,7 +199,7 @@ declare class IVditorConstructor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
-    public static md2html(mdText: string, hljsStyle?: string, enableHighlight?: boolean): string;
+    public static md2html(mdText: string, hljsStyle?: string, enableHighlight?: boolean, customEmoji?: { [key: string]: string }): string;
 
     public readonly version: string;
     public vditor: IVditor;

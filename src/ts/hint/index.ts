@@ -50,7 +50,7 @@ export class Hint {
                 import(/* webpackChunkName: "allEmoji" */ "../emoji/allEmoji")
                     .then((allEmoji) => {
                         const emojiHint = key === "" ? this.vditor.options.hint.emoji :
-                            allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath);
+                            Object.assign(allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath), this.vditor.options.hint.emoji);
                         const matchEmojiData: IHintData[] = [];
                         Object.keys(emojiHint).forEach((keyName) => {
                             if (keyName.indexOf(key.toLowerCase()) === 0) {
