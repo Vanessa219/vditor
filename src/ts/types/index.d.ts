@@ -117,7 +117,6 @@ interface IOptions {
     height?: number | string;
     width?: number | string;
     placeholder?: string;
-    editorName?: string;
     lang?: (keyof II18nLang);
     toolbar?: Array<string | IMenuItem>;
     resize?: IResize;

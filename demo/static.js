@@ -43,7 +43,6 @@ const LazyLoadImage = () => {
 const vditor = new Vditor('vditor', {
   counter: 100,
   height: 300,
-  editorName: 'vditor',
   tab: '  ',
   upload: {
     accept: 'image/*,.pdf',

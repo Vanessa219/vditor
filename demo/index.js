@@ -46,7 +46,6 @@ const LazyLoadImage = () => {
 window.vditor = new Vditor('vditor', {
   counter: 100,
   height: 300,
-  editorName: 'vditor',
   hint: {
     emojiPath: 'https://static.hacpai.com/emoji/graphics',
     emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',

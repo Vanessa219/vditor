@@ -15,9 +15,6 @@ class Editor {
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
         this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
-        if (vditor.options.editorName) {
-            this.element.setAttribute("name", vditor.options.editorName);
-        }
         this.bindEvent(vditor);
     }
 
