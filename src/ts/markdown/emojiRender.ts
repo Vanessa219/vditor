@@ -2,7 +2,7 @@ import {CDN_PATH} from "../constants";
 
 export const emojiRender = (text: string, customEmoji: { [key: string]: string }) => {
     const imgEmoji = Object.assign(["c", "d", "doge", "e50a", "f", "g", "huaji", "i",
-        "j", "k", "octocat", "r", "trollface", "u", "hacpai"], Object.keys(customEmoji))
+        "j", "k", "octocat", "r", "trollface", "u", "hacpai"], Object.keys(customEmoji));
     imgEmoji.map((emoji) => {
         if (emoji in customEmoji) {
             text = text.replace(new RegExp(`:${emoji}:`, "g"),
