@@ -9,8 +9,11 @@
 <a title="Version" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/v/vditor.svg?style=flat-square"></a>
 <a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square&color=97ca00"></a>
 <a title="jsdelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor"><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"/></a>
-<a title="jsDelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"></a>
-<a title="Hits" target="_blank" href="https://github.com/b3log/hits"><img src="https://hits.b3log.org/b3log/vditor.svg"></a>
+<a title="Hits" target="_blank" href="https://github.com/b3log/hits"><img src="https://hits.b3log.org/b3log/vditor.svg"></a> <br><br>
+<a title="GitHub Watchers" target="_blank" href="https://github.com/b3log/vditor/watchers"><img src="https://img.shields.io/github/watchers/b3log/vditor.svg?label=Watchers&style=social"></a>&nbsp;&nbsp;
+<a title="GitHub Stars" target="_blank" href="https://github.com/b3log/vditor/stargazers"><img src="https://img.shields.io/github/stars/b3log/vditor.svg?label=Stars&style=social"></a>&nbsp;&nbsp;
+<a title="GitHub Forks" target="_blank" href="https://github.com/b3log/vditor/network/members"><img src="https://img.shields.io/github/forks/b3log/vditor.svg?label=Forks&style=social"></a>&nbsp;&nbsp;
+<a title="Author GitHub Followers" target="_blank" href="https://github.com/vanessa219"><img src="https://img.shields.io/github/followers/vanessa219.svg?label=Followers&style=social"></a>
 </p>
 
 ## 💡 简介
