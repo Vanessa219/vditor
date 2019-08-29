@@ -5,9 +5,11 @@ export const emojiRender = (text: string, customEmoji: { [key: string]: string }
         "j", "k", "octocat", "r", "trollface", "u", "hacpai"], Object.keys(customEmoji));
     imgEmoji.map((emoji) => {
         if (emoji in customEmoji) {
-            text = text.replace(new RegExp(`:${emoji}:`, "g"),
-                `<img alt="${emoji}" class="emoji" src="${customEmoji[emoji]}"
+            if (customEmoji[emoji].indexOf("//") > -1) {
+                text = text.replace(new RegExp(`:${emoji}:`, "g"),
+                    `<img alt="${emoji}" class="emoji" src="${customEmoji[emoji]}"
  title="${emoji}">`);
+            }
         } else {
             const suffix = emoji === "huaji" ? "gif" : "png";
             text = text.replace(new RegExp(`:${emoji}:`, "g"),

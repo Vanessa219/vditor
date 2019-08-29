@@ -6,9 +6,9 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
 
     // process word
-    let doc = new DOMParser().parseFromString(textHTML, "text/html");
+    const doc = new DOMParser().parseFromString(textHTML, "text/html");
     if (doc.body) {
-        textHTML = doc.body.innerHTML
+        textHTML = doc.body.innerHTML;
     }
 
     // no escape
@@ -29,8 +29,8 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     turndownService.addRule("vditorImage", {
         filter: "img",
         replacement: (content: string, target: HTMLElement) => {
-            const src = target.getAttribute("src")
-            if (!src || src.indexOf('file://') === 0) {
+            const src = target.getAttribute("src");
+            if (!src || src.indexOf("file://") === 0) {
                 return "";
             }
             // 直接使用 API 或 setOriginal 时不需要对图片进行服务器上传，直接转换。

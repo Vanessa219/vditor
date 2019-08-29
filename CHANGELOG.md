@@ -10,8 +10,9 @@
 
 * WYSIWYG
 
-### v1.7.23 / 2019-08-28
+### v1.7.24 / 2019-08-29
 
+* [111](https://github.com/b3log/vditor/issues/111) emoji problem `bug`
 * [110](https://github.com/b3log/vditor/issues/110) 支持 Word 粘贴 `feature`
 * [109](https://github.com/b3log/vditor/issues/109) 移除 option.editorName 变量 `bug`
 * [108](https://github.com/b3log/vditor/issues/108) hint.emoji 支持自定义 `feature`

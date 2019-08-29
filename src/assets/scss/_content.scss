@@ -15,6 +15,7 @@
   border: 1px solid $borderColor;
   border-radius: 3px;
   box-sizing: border-box;
+  font-family: $font-family-base;
 
   &--fullscreen {
     position: fixed;
