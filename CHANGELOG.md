@@ -8,6 +8,8 @@
 
 ### TODO
 
+* [113](https://github.com/b3log/vditor/issues/113) emoji 整理 `enhancement`
+* [112](https://github.com/b3log/vditor/issues/112) :xxx: 需根据对应的 emoji 渲染为 emoji，而非 :xxx: `feature`
 * WYSIWYG
 
 ### v1.7.24 / 2019-08-29

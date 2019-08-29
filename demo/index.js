@@ -160,6 +160,16 @@ window.vditorTest = new Vditor('vditorTest', {
   },
   toolbar: [
     {
+      hotkey: '⌘-⇧-l',
+      name: 'format',
+      tipPosition: 'ne',
+      tip: 'format',
+      icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="0 0 768 768"><path d="M342 426v-84h426v84h-426zM342 256v-86h426v86h-426zM0 0h768v86h-768v-86zM342 598v-86h426v86h-426zM0 214l170 170-170 170v-340zM0 768v-86h768v86h-768z"></path></svg>',
+      click: () => {
+        alert('custom toolbar')
+      },
+    },
+    {
       name: 'preview',
       tipPosition: 'ne',
     },

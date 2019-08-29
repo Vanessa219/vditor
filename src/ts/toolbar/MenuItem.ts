@@ -21,7 +21,7 @@ export class MenuItem {
             hotkey = hotkey.replace("⌘", "ctrl");
         }
         iconElement.setAttribute("aria-label",
-            this.menuItem.tip || i18n[vditor.options.lang][this.menuItem.name] + hotkey);
+            this.menuItem.tip + hotkey || i18n[vditor.options.lang][this.menuItem.name] + hotkey);
         this.element.appendChild(iconElement);
     }
 
