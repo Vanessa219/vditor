@@ -160,7 +160,7 @@ window.vditorTest = new Vditor('vditorTest', {
   },
   toolbar: [
     {
-      hotkey: '⌘-⇧-l',
+      hotkey: '⌘-⇧-f',
       name: 'format',
       tipPosition: 'ne',
       tip: 'format',

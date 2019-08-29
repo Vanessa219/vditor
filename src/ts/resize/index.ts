@@ -18,7 +18,7 @@ export class Resize {
             const vditorElement = document.getElementById(vditor.id);
             const y = event.clientY;
             const height = vditorElement.offsetHeight;
-            const minHeight = 63 + vditorElement.querySelector('.vditor-toolbar').clientHeight
+            const minHeight = 63 + vditorElement.querySelector(".vditor-toolbar").clientHeight;
             documentSelf.ondragstart = () => false;
 
             if (window.captureEvents) {
