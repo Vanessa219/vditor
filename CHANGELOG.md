@@ -135,8 +135,6 @@
 
 * [19](https://github.com/b3log/vditor/issues/19) emoji 样式修改 `theme`
 * [18](https://github.com/b3log/vditor/issues/18) 使用 cdn.jsdelivr.net `development`
-
-### v0.2.0 / 2019-02-18
 * [17](https://github.com/b3log/vditor/issues/17) 添加 emojiPath 选项 `enhancement`
 * [16](https://github.com/b3log/vditor/issues/16) 期待添加滑稽表情 `enhancement`
 * [14](https://github.com/b3log/vditor/issues/14) 添加 lint `development`
