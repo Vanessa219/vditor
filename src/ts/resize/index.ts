@@ -18,6 +18,7 @@ export class Resize {
             const vditorElement = document.getElementById(vditor.id);
             const y = event.clientY;
             const height = vditorElement.offsetHeight;
+            const minHeight = 63 + vditorElement.querySelector('.vditor-toolbar').clientHeight
             documentSelf.ondragstart = () => false;
 
             if (window.captureEvents) {
@@ -28,9 +29,9 @@ export class Resize {
 
             documentSelf.onmousemove = (moveEvent: MouseEvent) => {
                 if (vditor.options.resize.position === "top") {
-                    vditorElement.style.height = Math.max(100, height + (y - moveEvent.clientY)) + "px";
+                    vditorElement.style.height = Math.max(minHeight, height + (y - moveEvent.clientY)) + "px";
                 } else {
-                    vditorElement.style.height = Math.max(100, height + (moveEvent.clientY - y)) + "px";
+                    vditorElement.style.height = Math.max(minHeight, height + (moveEvent.clientY - y)) + "px";
                 }
                 vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
             };
