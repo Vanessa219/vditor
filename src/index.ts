@@ -16,7 +16,7 @@ import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {preview} from "./ts/markdown/preview";
+import {preview as vditorPreview} from "./ts/markdown/preview";
 import {markdownItRender} from "./ts/markdown/render";
 import {md2html} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
@@ -36,7 +36,7 @@ class Vditor {
     public static codeRender = codeRender;
     public static chartRender = chartRender;
     public static md2html = markdownItRender;
-    public static preview = preview;
+    public static preview = vditorPreview;
     public readonly version: string;
     public vditor: IVditor;
 
