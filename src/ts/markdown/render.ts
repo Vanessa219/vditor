@@ -49,7 +49,7 @@ const render = async (hljsStyle: string, enableHighlight: boolean) => {
 };
 
 export const markdownItRender = async (mdText: string, hljsStyle: string = "atom-one-light",
-                                       enableHighlight: boolean = true, customEmoji?: { [key: string]: string }) => {
+                                       enableHighlight: boolean = true, customEmoji: { [key: string]: string } = {}) => {
     const md = await render(hljsStyle, enableHighlight);
     return md.render(emojiRender(mdText, customEmoji));
 };

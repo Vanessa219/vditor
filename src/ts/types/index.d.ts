@@ -112,6 +112,13 @@ interface IResize {
     after?(height: number): void;
 }
 
+interface IPreviewOptions {
+    hljsStyle?: string;
+    enableHighlight?: boolean;
+    customEmoji?: { [key: string]: string };
+    lang?: (keyof II18nLang);
+}
+
 interface IOptions {
     keymap?: { [key: string]: string };
     height?: number | string;
