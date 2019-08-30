@@ -1,8 +1,8 @@
 import {CDN_PATH} from "../constants";
 
 export const emojiRender = (text: string, customEmoji: { [key: string]: string }) => {
-    const imgEmoji = Object.assign(["c", "d", "doge", "e50a", "f", "g", "huaji", "i",
-        "j", "k", "octocat", "r", "trollface", "u", "hacpai"], Object.keys(customEmoji));
+    const imgEmoji = ["b3log", "chainbook", "doge", "hacpai", "huaji", "latke", "pipe", "solo",
+        "sym", "vditor", "octocat", "wide", "trollface", ...Object.keys(customEmoji)];
     imgEmoji.map((emoji) => {
         if (emoji in customEmoji) {
             if (customEmoji[emoji].indexOf("//") > -1) {

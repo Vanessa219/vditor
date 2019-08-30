@@ -61,7 +61,7 @@ window.vditor = new Vditor('vditor', {
       'wide': '//static.b3log.org/images/brand/wide-128.png',
       'chainbook': '//static.b3log.org/images/brand/chainbook-128.png',
       'vditor': '//static.b3log.org/images/brand/vditor-128.png',
-      'latke': '//static.b3log.org/images/brand/latke-128.png',
+      'b3log': '//static.b3log.org/images/brand/b3log-128.png',
       'bnd': '//static.b3log.org/images/brand/bnd-128.png',
     },
   },

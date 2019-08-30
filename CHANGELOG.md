@@ -8,13 +8,13 @@
 
 ### TODO
 
-* [113](https://github.com/b3log/vditor/issues/113) emoji 整理 `enhancement`
 * [112](https://github.com/b3log/vditor/issues/112) :xxx: 需根据对应的 emoji 渲染为 emoji，而非 :xxx: `feature`
 * WYSIWYG
 
-### v1.7.24 / 2019-08-29
+### v1.7.25 / 2019-08-29
 
 * [114](https://github.com/b3log/vditor/issues/114) 封装 Preview `enhancement`
+* [113](https://github.com/b3log/vditor/issues/113) emoji 整理 `enhancement`
 * [111](https://github.com/b3log/vditor/issues/111) emoji problem `bug`
 * [110](https://github.com/b3log/vditor/issues/110) 支持 Word 粘贴 `feature`
 * [109](https://github.com/b3log/vditor/issues/109) 移除 option.editorName 变量 `bug`
