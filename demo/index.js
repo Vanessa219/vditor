@@ -110,7 +110,7 @@ window.vditorTest = new Vditor('vditorTest', {
     },
   },
   hint: {
-    emojiPath: 'https://static.hacpai.com/emoji/graphics',
+    emojiPath: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/emoji',
     emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
     emoji: {
       '+1': '👍',
