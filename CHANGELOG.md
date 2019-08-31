@@ -8,11 +8,14 @@
 
 ### TODO
 
+* [117](https://github.com/b3log/vditor/issues/117) New Feature : support youtube `feature`
 * [112](https://github.com/b3log/vditor/issues/112) :xxx: 需根据对应的 emoji 渲染为 emoji，而非 :xxx: `feature`
 * WYSIWYG
 
 ### v1.7.25 / 2019-08-29
 
+* [116](https://github.com/b3log/vditor/issues/116) Vditor 解析`&emsp;`等空格相关的内容解析完后,光标会回到头部 `question`
+* [115](https://github.com/b3log/vditor/issues/115) 测试 issues 变 0 `invalid`
 * [114](https://github.com/b3log/vditor/issues/114) 封装 Preview `enhancement`
 * [113](https://github.com/b3log/vditor/issues/113) emoji 整理 `enhancement`
 * [111](https://github.com/b3log/vditor/issues/111) emoji problem `bug`
