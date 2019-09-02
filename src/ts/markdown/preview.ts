@@ -3,7 +3,7 @@ import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
 import {mathRender} from "./mathRender";
 import {mermaidRender} from "./mermaidRender";
-import {markdownItRender} from "./render";
+import {md2htmlByText} from "./md2html";
 
 export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOptions) => {
     const defaultOption = {
@@ -14,7 +14,7 @@ export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOp
     };
     options = Object.assign(defaultOption, options);
     const html =
-        await markdownItRender(element.textContent, options.hljsStyle, options.enableHighlight, options.customEmoji);
+        await md2htmlByText(element.textContent);
     const divElement = document.createElement("div");
     divElement.innerHTML = html;
     divElement.className = element.className;
@@ -28,4 +28,5 @@ export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOp
     abcRender(divElement);
     codeRender(divElement, options.lang);
     chartRender(divElement);
+    // TODO emoji and hljs render
 };

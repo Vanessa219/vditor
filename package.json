@@ -19,7 +19,6 @@
     "echarts": "^4.2.1",
     "highlight.js": "^9.15.9",
     "katex": "^0.10.2",
-    "markdown-it": "^9.0.1",
     "mermaid": "^8.2.3",
     "turndown": "^5.0.3"
   },
@@ -28,7 +27,6 @@
     "@babel/preset-env": "^7.5.5",
     "@types/diff-match-patch": "^1.0.32",
     "@types/jest": "^24.0.17",
-    "@types/markdown-it": "0.0.8",
     "@types/puppeteer": "^1.19.0",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",

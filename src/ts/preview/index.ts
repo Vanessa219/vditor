@@ -5,7 +5,7 @@ import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
-import {md2html} from "../markdown/render";
+import {md2htmlByVditor} from "../markdown/md2html";
 
 export class Preview {
     public element: HTMLElement;
@@ -64,10 +64,11 @@ export class Preview {
                     markdownText: getText(vditor.editor.element),
                 }));
             } else {
-                md2html(vditor, vditor.options.preview.hljs.enable).then((html) => {
+                md2htmlByVditor(vditor).then((html) => {
                     this.element.children[0].innerHTML = html;
                     this.afterRender(vditor, renderStartTime);
                 });
+
             }
         }, vditor.options.preview.delay);
     }
@@ -76,6 +77,7 @@ export class Preview {
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
+        // TODO emoji & highligit render
         mathRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         mermaidRender(vditor.preview.element.children[0] as HTMLElement);
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);

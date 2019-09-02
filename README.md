@@ -77,7 +77,7 @@ Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 
 ## 🙏 鸣谢
 
-* [markdown-it](https://github.com/markdown-it/markdown-it)：Markdown parser, done right. 100% CommonMark support, extensions, syntax plugins & high speed
+* [Lute](https://github.com/b3log/lute)：🎼 一款结构化的 Markdown 引擎，支持 Go 和 JavaScript
 * [highlight.js](https://github.com/highlightjs/highlight.js)：Javascript syntax highlighter
 * [Turndown](https://github.com/domchristie/turndown)：🛏 An HTML to Markdown converter written in JavaScript
 * [mermaid](https://github.com/knsv/mermaid)：Generation of diagram and flowchart from text in a similar manner as markdown

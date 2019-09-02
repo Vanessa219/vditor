@@ -4,7 +4,7 @@ import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {preview} from "./ts/markdown/preview";
-import {markdownItRender} from "./ts/markdown/render";
+import {md2htmlByText} from "./ts/markdown/md2html";
 
 class Vditor {
 
@@ -13,7 +13,7 @@ class Vditor {
     public static abcRender = abcRender;
     public static codeRender = codeRender;
     public static chartRender = chartRender;
-    public static md2html = markdownItRender;
+    public static md2html = md2htmlByText;
     public static preview = preview;
 }
 

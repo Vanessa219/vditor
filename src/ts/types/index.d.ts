@@ -27,11 +27,18 @@ interface ITurndownRule {
 
 declare var webkitAudioContext: {
     prototype: AudioContext
-    new(contextOptions?: AudioContextOptions): AudioContext,
+    new(contextOptions?: AudioContextOptions): AudioContext
 };
 
 interface IHTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
+}
+
+declare namespace WebAssembly {
+    export function instantiateStreaming(
+        source: Response | Promise<Response>,
+        importObject?: WebAssemblyInstantiatedSource
+    ): Promise<WebAssemblyInstantiatedSource>;
 }
 
 interface II18nLang {
@@ -154,7 +161,6 @@ interface IVditor {
     mdTimeoutId: number;
     options: IOptions;
     originalInnerHTML: string;
-    markdownIt?: markdownit;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };
@@ -205,8 +211,7 @@ declare class IVditorConstructor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
-    public static md2html(mdText: string, hljsStyle?: string, enableHighlight?: boolean,
-                          customEmoji?: { [key: string]: string }): string;
+    public static md2html(mdText: string): string;
 
     public readonly version: string;
     public vditor: IVditor;

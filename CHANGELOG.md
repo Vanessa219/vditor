@@ -8,6 +8,8 @@
 
 ### TODO
 
+* [119](https://github.com/b3log/vditor/issues/119) file upload 
+* [120](https://github.com/b3log/vditor/issues/120) markdown-it 切换为 lute `enhancement`
 * [117](https://github.com/b3log/vditor/issues/117) New Feature : support youtube `feature`
 * [112](https://github.com/b3log/vditor/issues/112) :xxx: 需根据对应的 emoji 渲染为 emoji，而非 :xxx: `feature`
 * WYSIWYG

@@ -17,8 +17,6 @@ import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {preview as vditorPreview} from "./ts/markdown/preview";
-import {markdownItRender} from "./ts/markdown/render";
-import {md2html} from "./ts/markdown/render";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
@@ -27,6 +25,7 @@ import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
+import {md2htmlByText, md2htmlByVditor} from "./ts/markdown/md2html";
 
 class Vditor {
 
@@ -35,7 +34,7 @@ class Vditor {
     public static abcRender = abcRender;
     public static codeRender = codeRender;
     public static chartRender = chartRender;
-    public static md2html = markdownItRender;
+    public static md2html = md2htmlByText;
     public static preview = vditorPreview;
     public readonly version: string;
     public vditor: IVditor;
@@ -153,8 +152,8 @@ class Vditor {
         return html2md(this.vditor, value);
     }
 
-    public getHTML(enableHighlight?: boolean) {
-        return md2html(this.vditor, enableHighlight);
+    public getHTML() {
+        return md2htmlByVditor(this.vditor);
     }
 
     public tip(text: string, time?: number) {
