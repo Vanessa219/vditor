@@ -3,7 +3,7 @@ import {addStyle} from "../util/addStyle";
 
 export const highlightRender = (hljsStyle: string, enableHighlight: boolean) => {
     if (enableHighlight) {
-        return
+        return;
     }
 
     const hljsThemes = ["a11y-dark", "a11y-light", "agate", "an-old-hope", "androidstudio", "arduino-light", "arta",
@@ -26,14 +26,13 @@ export const highlightRender = (hljsStyle: string, enableHighlight: boolean) => 
             "vditorHljsStyle");
     }
 
-
     //     const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
     //     options.highlight = (str: string, lang: string) => {
     //         if (lang === "mermaid" || lang === "echarts" || lang === "abc") {
     //             return str;
     //         }
     //         if (lang && hljs.getLanguage(lang)) {
-    //             return `<pre><code class="language-${lang} hljs">${hljs.highlight(lang, str, true).value}</code></pre>`;
+    //   return `<pre><code class="language-${lang} hljs">${hljs.highlight(lang, str, true).value}</code></pre>`;
     //         }
     //         return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
     //     };

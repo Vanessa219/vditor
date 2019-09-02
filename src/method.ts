@@ -2,9 +2,9 @@ import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
+import {md2htmlByText} from "./ts/markdown/md2html";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {preview} from "./ts/markdown/preview";
-import {md2htmlByText} from "./ts/markdown/md2html";
 
 class Vditor {
 

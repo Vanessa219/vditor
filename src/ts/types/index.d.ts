@@ -27,18 +27,11 @@ interface ITurndownRule {
 
 declare var webkitAudioContext: {
     prototype: AudioContext
-    new(contextOptions?: AudioContextOptions): AudioContext
+    new(contextOptions?: AudioContextOptions): AudioContext,
 };
 
 interface IHTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
-}
-
-declare namespace WebAssembly {
-    export function instantiateStreaming(
-        source: Response | Promise<Response>,
-        importObject?: WebAssemblyInstantiatedSource
-    ): Promise<WebAssemblyInstantiatedSource>;
 }
 
 interface II18nLang {

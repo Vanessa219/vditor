@@ -4,8 +4,8 @@ import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
-import {mermaidRender} from "../markdown/mermaidRender";
 import {md2htmlByVditor} from "../markdown/md2html";
+import {mermaidRender} from "../markdown/mermaidRender";
 
 export class Preview {
     public element: HTMLElement;

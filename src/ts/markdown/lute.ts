@@ -1,28 +1,30 @@
-import {addScript} from "../util/addScript";
 import {CDN_PATH} from "../constants"; // TODO
+import {addScript} from "../util/addScript";
 
-declare global {
-    interface Window {
-        Go: {
-            new(): {
-                run(instance: WebAssembly.Instance): void
-                importObject: WebAssembly.WebAssemblyInstantiatedSource
-            }
-        }
-    }
-}
+declare const Go: new() => {
+    importObject: WebAssembly.WebAssemblyInstantiatedSource
+    run(instance: WebAssembly.Instance): void,
+};
+
+declare const WebAssembly: {
+    instantiateStreaming(
+        source: Response | Promise<Response>,
+        importObject?: WebAssembly.WebAssemblyInstantiatedSource,
+    ): Promise<WebAssembly.WebAssemblyInstantiatedSource>;
+    instantiate(bytes: BufferSource, importObject?: any): Promise<WebAssembly.WebAssemblyInstantiatedSource>;
+};
 
 export const initLute = async () => {
     if (!WebAssembly.instantiateStreaming) { // polyfill
         WebAssembly.instantiateStreaming = async (resp, importObject) => {
-            const source = await (await resp).arrayBuffer();
-            return await WebAssembly.instantiate(source, importObject);
+            const bytes = await (await resp).arrayBuffer();
+            return await WebAssembly.instantiate(bytes, importObject);
         };
     }
 
-    await addScript(`http://localhost:9000/dist/js/lute/wasm_exec.js`, 'vditorLuteJS')
-    const go = new window.Go();
-    const result = await WebAssembly.instantiateStreaming(fetch(`http://localhost:9000/dist/js/lute/lute.wasm`),
-        go.importObject)
+    await addScript(`http://localhost:9000/dist/js/lute/wasm_exec.js`, "vditorLuteJS");
+    const go = new Go();
+    const result = await WebAssembly.instantiateStreaming(fetch(`http://localhost:9000/src/js/lute/lute.wasm`),
+        go.importObject);
     go.run(result.instance);
-}
+};

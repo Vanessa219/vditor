@@ -2,8 +2,8 @@ import {abcRender} from "./abcRender";
 import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
 import {mathRender} from "./mathRender";
-import {mermaidRender} from "./mermaidRender";
 import {md2htmlByText} from "./md2html";
+import {mermaidRender} from "./mermaidRender";
 
 export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOptions) => {
     const defaultOption = {

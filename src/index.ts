@@ -15,6 +15,7 @@ import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
+import {md2htmlByText, md2htmlByVditor} from "./ts/markdown/md2html";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {preview as vditorPreview} from "./ts/markdown/preview";
 import {Preview} from "./ts/preview/index";
@@ -25,7 +26,6 @@ import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
-import {md2htmlByText, md2htmlByVditor} from "./ts/markdown/md2html";
 
 class Vditor {
 
