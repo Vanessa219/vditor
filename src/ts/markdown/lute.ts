@@ -15,6 +15,9 @@ declare const WebAssembly: {
 };
 
 export const initLute = async () => {
+    if (document.getElementById("vditorLuteJS")) {
+        return;
+    }
     if (!WebAssembly.instantiateStreaming) { // polyfill
         WebAssembly.instantiateStreaming = async (resp, importObject) => {
             const bytes = await (await resp).arrayBuffer();
@@ -24,7 +27,7 @@ export const initLute = async () => {
 
     await addScript(`http://localhost:9000/dist/js/lute/wasm_exec.js`, "vditorLuteJS");
     const go = new Go();
-    const result = await WebAssembly.instantiateStreaming(fetch(`http://localhost:9000/src/js/lute/lute.wasm`),
+    const result = await WebAssembly.instantiateStreaming(fetch(`http://localhost:9000/dist/js/lute/lute.wasm.br`),
         go.importObject);
     go.run(result.instance);
 };
