@@ -1,4 +1,4 @@
-import {CDN_PATH} from "../constants"; // TODO
+import {CDN_PATH} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare const Go: new() => {
@@ -18,6 +18,7 @@ export const initLute = async () => {
     if (document.getElementById("vditorLuteJS")) {
         return;
     }
+
     if (!WebAssembly.instantiateStreaming) { // polyfill
         WebAssembly.instantiateStreaming = async (resp, importObject) => {
             const bytes = await (await resp).arrayBuffer();
@@ -25,9 +26,9 @@ export const initLute = async () => {
         };
     }
 
-    await addScript(`http://localhost:9000/dist/js/lute/wasm_exec.js`, "vditorLuteJS");
+    await addScript(`${CDN_PATH}/vditor/dist/js/lute/wasm_exec.js`, "vditorLuteJS");
     const go = new Go();
-    const result = await WebAssembly.instantiateStreaming(fetch(`http://localhost:9000/dist/js/lute/lute.wasm.br`),
+    const result = await WebAssembly.instantiateStreaming(await fetch(`${CDN_PATH}/vditor/dist/js/lute/lute.wasm`),
         go.importObject);
     go.run(result.instance);
 };
