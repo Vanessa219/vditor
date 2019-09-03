@@ -1,8 +1,8 @@
 import {CDN_PATH} from "../constants";
 import {addStyle} from "../util/addStyle";
 
-export const highlightRender = (hljsStyle: string, enableHighlight: boolean) => {
-    if (enableHighlight) {
+export const highlightRender = async (hljsStyle: string, enableHighlight: boolean) => {
+    if (!enableHighlight) {
         return;
     }
 
@@ -21,20 +21,19 @@ export const highlightRender = (hljsStyle: string, enableHighlight: boolean) => 
         "school-book", "shades-of-purple", "solarized-dark", "solarized-light", "sunburst", "tomorrow-night",
         "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vs", "vs2015", "xcode", "xt256"];
 
-    if (hljsThemes.includes(hljsStyle) && enableHighlight) {
+    if (hljsThemes.includes(hljsStyle)) {
         addStyle(`${CDN_PATH}/vditor/dist/js/highlight.js/styles/${hljsStyle}.css`,
             "vditorHljsStyle");
     }
 
-    //     const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
-    //     options.highlight = (str: string, lang: string) => {
-    //         if (lang === "mermaid" || lang === "echarts" || lang === "abc") {
-    //             return str;
-    //         }
-    //         if (lang && hljs.getLanguage(lang)) {
-    //   return `<pre><code class="language-${lang} hljs">${hljs.highlight(lang, str, true).value}</code></pre>`;
-    //         }
-    //         return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`;
-    //     };
-    // }
+    const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
+    document.querySelectorAll('.vditor-reset pre code').forEach((block) => {
+        if (block.className.indexOf('language-mermaid') > -1 ||
+            block.className.indexOf('language-abc') > -1 ||
+            block.className.indexOf('language-echarts') > -1) {
+            return
+        }
+
+        hljs.highlightBlock(block)
+    })
 };

@@ -6,6 +6,8 @@ import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
 import {md2htmlByText} from "../markdown/md2html";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {highlightRender} from "../markdown/highlightRender";
+import {emojiRender} from "../markdown/emojiRender";
 
 export class Preview {
     public element: HTMLElement;
@@ -66,7 +68,7 @@ export class Preview {
             }, vditor.options.preview.delay);
         } else {
             const html = await md2htmlByText(getText(vditor.editor.element));
-            this.element.children[0].innerHTML = html;
+            this.element.children[0].innerHTML = emojiRender(html, vditor.options.hint.emoji);
             this.afterRender(vditor, renderStartTime);
         }
     }
@@ -75,12 +77,6 @@ export class Preview {
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
-        // TODO emoji & highligit render
-        mathRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
-        mermaidRender(vditor.preview.element.children[0] as HTMLElement);
-        codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
-        chartRender(vditor.preview.element.children[0] as HTMLElement);
-        abcRender(vditor.preview.element.children[0] as HTMLElement);
         const time = (new Date().getTime() - startTime);
         if ((new Date().getTime() - startTime) > 2000) {
             // https://github.com/b3log/vditor/issues/67
@@ -91,5 +87,11 @@ export class Preview {
             vditor.tip.hide();
             vditor.upload.element.removeAttribute("data-type");
         }
+        codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
+        highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable)
+        mathRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
+        mermaidRender(vditor.preview.element.children[0] as HTMLElement);
+        chartRender(vditor.preview.element.children[0] as HTMLElement);
+        abcRender(vditor.preview.element.children[0] as HTMLElement);
     }
 }
