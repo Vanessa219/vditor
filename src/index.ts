@@ -15,7 +15,7 @@ import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {mathRender} from "./ts/markdown/mathRender";
-import {md2htmlByText, md2htmlByVditor} from "./ts/markdown/md2html";
+import {md2htmlByText} from "./ts/markdown/md2html";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {preview as vditorPreview} from "./ts/markdown/preview";
 import {Preview} from "./ts/preview/index";
@@ -153,7 +153,7 @@ class Vditor {
     }
 
     public getHTML() {
-        return md2htmlByVditor(this.vditor);
+        return md2htmlByText(getText(this.vditor.editor.element));
     }
 
     public tip(text: string, time?: number) {

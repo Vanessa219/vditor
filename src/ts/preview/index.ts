@@ -4,7 +4,7 @@ import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {mathRender} from "../markdown/mathRender";
-import {md2htmlByVditor} from "../markdown/md2html";
+import {md2htmlByText} from "../markdown/md2html";
 import {mermaidRender} from "../markdown/mermaidRender";
 
 export class Preview {
@@ -40,7 +40,7 @@ export class Preview {
 
         clearTimeout(vditor.mdTimeoutId);
 
-        vditor.mdTimeoutId = window.setTimeout(() => {
+        vditor.mdTimeoutId = window.setTimeout(async () => {
             const renderStartTime = new Date().getTime();
             if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();
@@ -64,11 +64,9 @@ export class Preview {
                     markdownText: getText(vditor.editor.element),
                 }));
             } else {
-                md2htmlByVditor(vditor).then((html) => {
-                    this.element.children[0].innerHTML = html;
-                    this.afterRender(vditor, renderStartTime);
-                });
-
+                const html = await md2htmlByText(getText(vditor.editor.element));
+                this.element.children[0].innerHTML = html;
+                this.afterRender(vditor, renderStartTime);
             }
         }, vditor.options.preview.delay);
     }
