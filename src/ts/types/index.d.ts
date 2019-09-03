@@ -195,15 +195,23 @@ interface IVditor {
 
 declare class IVditorConstructor {
 
+    public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+
+    public static highlightRender(hljsStyle: string, enableHighlight: boolean, element?: HTMLElement | Document): void;
+
     public static mathRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
     public static mermaidRender(element: HTMLElement): void;
 
-    public static abcRender(element: HTMLElement): void;
+    public static chartRender(element?: HTMLElement | Document): void;
 
-    public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+    public static abcRender(element?: HTMLElement | Document): void;
 
     public static md2html(mdText: string): string;
+
+    public static emojiRender(text: string, customEmoji?: { [key: string]: string }): string;
+
+    public static preview(element: HTMLTextAreaElement, options?: IPreviewOptions): void;
 
     public readonly version: string;
     public vditor: IVditor;

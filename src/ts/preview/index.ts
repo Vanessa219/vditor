@@ -3,11 +3,11 @@ import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
+import {emojiRender} from "../markdown/emojiRender";
+import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {md2htmlByText} from "../markdown/md2html";
 import {mermaidRender} from "../markdown/mermaidRender";
-import {highlightRender} from "../markdown/highlightRender";
-import {emojiRender} from "../markdown/emojiRender";
 
 export class Preview {
     public element: HTMLElement;
@@ -88,7 +88,8 @@ export class Preview {
             vditor.upload.element.removeAttribute("data-type");
         }
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
-        highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable)
+        highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable,
+            vditor.preview.element.children[0] as HTMLElement);
         mathRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         mermaidRender(vditor.preview.element.children[0] as HTMLElement);
         chartRender(vditor.preview.element.children[0] as HTMLElement);

@@ -1,11 +1,11 @@
 import {abcRender} from "./abcRender";
 import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
+import {emojiRender} from "./emojiRender";
+import {highlightRender} from "./highlightRender";
 import {mathRender} from "./mathRender";
 import {md2htmlByText} from "./md2html";
 import {mermaidRender} from "./mermaidRender";
-import {highlightRender} from "./highlightRender";
-import {emojiRender} from "./emojiRender";
 
 export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOptions) => {
     const defaultOption = {
@@ -26,7 +26,7 @@ export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOp
     element.after(divElement);
     element.remove();
     codeRender(divElement, options.lang);
-    highlightRender(options.hljsStyle, options.enableHighlight)
+    highlightRender(options.hljsStyle, options.enableHighlight, divElement);
     mathRender(divElement, options.lang);
     mermaidRender(divElement);
     chartRender(divElement);

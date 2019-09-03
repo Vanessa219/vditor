@@ -17,16 +17,16 @@ const loadLuteJs = () => {
 
     return new Promise((resolve) => {
         scriptElement.onload = () => {
-            resolve()
-        }
-    })
-}
+            resolve();
+        };
+    });
+};
 
 export const md2htmlByText = async (mdText: string) => {
-    if (typeof Go === 'undefined') {
-        await loadLuteJs()
+    if (typeof Go === "undefined") {
+        await loadLuteJs();
     }
-    if (typeof lute === 'undefined' && typeof Go !== 'undefined') {
+    if (typeof lute === "undefined" && typeof Go !== "undefined") {
         const resp = await fetch(`${CDN_PATH}/vditor/dist/js/lute/lute.wasm`);
         const bytes = await resp.arrayBuffer();
         const go = new Go();

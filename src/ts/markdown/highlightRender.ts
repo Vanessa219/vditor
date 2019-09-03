@@ -1,7 +1,8 @@
 import {CDN_PATH} from "../constants";
 import {addStyle} from "../util/addStyle";
 
-export const highlightRender = async (hljsStyle: string, enableHighlight: boolean) => {
+export const highlightRender = async (hljsStyle: string, enableHighlight: boolean,
+                                      element: HTMLElement | Document = document) => {
     if (!enableHighlight) {
         return;
     }
@@ -27,13 +28,13 @@ export const highlightRender = async (hljsStyle: string, enableHighlight: boolea
     }
 
     const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
-    document.querySelectorAll('.vditor-reset pre code').forEach((block) => {
-        if (block.className.indexOf('language-mermaid') > -1 ||
-            block.className.indexOf('language-abc') > -1 ||
-            block.className.indexOf('language-echarts') > -1) {
-            return
+    element.querySelectorAll(".vditor-reset pre code").forEach((block) => {
+        if (block.className.indexOf("language-mermaid") > -1 ||
+            block.className.indexOf("language-abc") > -1 ||
+            block.className.indexOf("language-echarts") > -1) {
+            return;
         }
 
-        hljs.highlightBlock(block)
-    })
+        hljs.highlightBlock(block);
+    });
 };

@@ -1,4 +1,4 @@
-export const emojiRender = (text: string, customEmoji: { [key: string]: string }) => {
+export const emojiRender = (text: string, customEmoji: { [key: string]: string } = {}) => {
     const imgEmoji = Object.keys(customEmoji);
     imgEmoji.map((emoji) => {
         if (customEmoji[emoji].indexOf("//") > -1) {
