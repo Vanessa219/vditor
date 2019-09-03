@@ -47,7 +47,6 @@ class Vditor {
 
         this.vditor = {
             id,
-            mdTimeoutId: -1,
             options: mergedOptions,
             originalInnerHTML: document.getElementById(id).innerHTML,
             tip: new Tip(),

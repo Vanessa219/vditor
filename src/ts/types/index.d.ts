@@ -151,7 +151,6 @@ interface IOptions {
 
 interface IVditor {
     id: string;
-    mdTimeoutId: number;
     options: IOptions;
     originalInnerHTML: string;
     toolbar?: {
