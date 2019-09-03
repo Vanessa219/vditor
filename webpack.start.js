@@ -2,7 +2,7 @@
  * @fileoverview demo.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.2.0.0, Sep 2, 2019
+ * @version 0.3.0.0, Sep 3, 2019
  */
 
 const path = require('path')
@@ -21,6 +21,7 @@ module.exports = {
   },
   entry: {
     'index.js': './demo/index.js',
+    'index-preview.js': './demo/index-preview.js',
   },
   resolve: {
     extensions: ['.js', '.ts', '.svg', '.png', '.scss'],
@@ -110,6 +111,11 @@ module.exports = {
       chunks: ['index.js'],
       filename: './index.html',
       template: './demo/index.html',
+    }),
+    new HtmlWebpackPlugin({
+      chunks: ['index-preview.js'],
+      filename: './index-preview.html',
+      template: './demo/index-preview.html',
     }),
     new webpack.DefinePlugin({
       VDITOR_VERSION: JSON.stringify(pkg.version),
