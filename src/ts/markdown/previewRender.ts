@@ -5,9 +5,10 @@ import {emojiRender} from "./emojiRender";
 import {highlightRender} from "./highlightRender";
 import {mathRender} from "./mathRender";
 import {md2htmlByText} from "./md2html";
+import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 
-export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOptions) => {
+export const previewRender = async (element: HTMLTextAreaElement, options?: IPreviewOptions) => {
     const defaultOption = {
         customEmoji: {},
         enableHighlight: true,
@@ -31,4 +32,5 @@ export const preview = async (element: HTMLTextAreaElement, options?: IPreviewOp
     mermaidRender(divElement);
     chartRender(divElement);
     abcRender(divElement);
+    mediaRender(divElement);
 };

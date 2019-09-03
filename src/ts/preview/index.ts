@@ -7,6 +7,7 @@ import {emojiRender} from "../markdown/emojiRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {md2htmlByText} from "../markdown/md2html";
+import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 
 export class Preview {
@@ -94,5 +95,6 @@ export class Preview {
         mermaidRender(vditor.preview.element.children[0] as HTMLElement);
         chartRender(vditor.preview.element.children[0] as HTMLElement);
         abcRender(vditor.preview.element.children[0] as HTMLElement);
+        mediaRender(vditor.preview.element.children[0] as HTMLElement);
     }
 }

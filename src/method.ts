@@ -5,8 +5,9 @@ import {emojiRender} from "./ts/markdown/emojiRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {md2htmlByText} from "./ts/markdown/md2html";
+import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {preview, preview as vditorPreview} from "./ts/markdown/preview";
+import {previewRender} from "./ts/markdown/previewRender";
 
 class Vditor {
 
@@ -16,9 +17,10 @@ class Vditor {
     public static mermaidRender = mermaidRender;
     public static chartRender = chartRender;
     public static abcRender = abcRender;
-    public static md2html = md2htmlByText;
     public static emojiRender = emojiRender;
-    public static preview = vditorPreview;
+    public static mediaRender = mediaRender;
+    public static md2html = md2htmlByText;
+    public static preview = previewRender;
 }
 
 export default Vditor;

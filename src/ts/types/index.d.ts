@@ -207,9 +207,11 @@ declare class IVditorConstructor {
 
     public static abcRender(element?: HTMLElement | Document): void;
 
-    public static md2html(mdText: string): string;
-
     public static emojiRender(text: string, customEmoji?: { [key: string]: string }): string;
+
+    public static mediaRender(element: HTMLElement): void;
+
+    public static md2html(mdText: string): string;
 
     public static preview(element: HTMLTextAreaElement, options?: IPreviewOptions): void;
 
