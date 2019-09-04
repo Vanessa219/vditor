@@ -34,7 +34,7 @@
     <meta name="twitter:url" content="https://github.com/b3log/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/dist/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/dist/images/logo.png"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@latest/dist/index.classic.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@latest/dist/index.classic.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vditor@latest/dist/method.min.js"></script>
 </head>
 <body>
@@ -297,7 +297,12 @@ K: Em
 我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://hacpai.com/article/1474030007391)（或者按 "`?` ":smirk_cat:）
 </textarea>
 <script>
-  Vditor.preview(document.getElementById('vditorPreview'))
+  Vditor.preview(document.getElementById('vditorPreview'), {
+    customEmoji: {
+      'sd': '💔',
+      'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
+    },
+  })
 </script>
 </body>
 </html>

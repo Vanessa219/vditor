@@ -71,7 +71,7 @@ interface IUpload {
 
     handler?(files: File[]): string | null;
 
-    format?(files: FileList | DataTransferItemList | File[], responseText: string): string
+    format?(files: File[], responseText: string): string;
 }
 
 interface IMenuItem {

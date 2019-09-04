@@ -179,9 +179,9 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
                 if (vditor.options.upload.success) {
                     vditor.options.upload.success(vditor.editor.element, xhr.responseText);
                 } else {
-                    let responseText =  xhr.responseText
+                    let responseText = xhr.responseText;
                     if (vditor.options.upload.format) {
-                        responseText = vditor.options.upload.format(files, xhr.responseText)
+                        responseText = vditor.options.upload.format(files as File [], xhr.responseText);
                     }
                     genUploadedLabel(vditor.editor.element, responseText, vditor);
                 }
