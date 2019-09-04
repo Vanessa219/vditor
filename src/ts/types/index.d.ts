@@ -70,6 +70,8 @@ interface IUpload {
     validate?(files: File[]): string | boolean;
 
     handler?(files: File[]): string | null;
+
+    format?(files: FileList | DataTransferItemList | File[], responseText: string): string
 }
 
 interface IMenuItem {
@@ -265,7 +267,7 @@ declare class IVditorConstructor {
 
     public html2md(value: string): string;
 
-    public getHTML(enableHighlight?: boolean): string;
+    public getHTML(): string;
 
     public tip(text: string, time?: number): void;
 

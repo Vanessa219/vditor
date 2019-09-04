@@ -179,7 +179,11 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
                 if (vditor.options.upload.success) {
                     vditor.options.upload.success(vditor.editor.element, xhr.responseText);
                 } else {
-                    genUploadedLabel(vditor.editor.element, xhr.responseText, vditor);
+                    let responseText =  xhr.responseText
+                    if (vditor.options.upload.format) {
+                        responseText = vditor.options.upload.format(files, xhr.responseText)
+                    }
+                    genUploadedLabel(vditor.editor.element, responseText, vditor);
                 }
             } else {
                 if (vditor.options.upload.error) {
