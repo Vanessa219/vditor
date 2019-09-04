@@ -17,7 +17,7 @@ import {codeRender} from "./ts/markdown/codeRender";
 import {emojiRender} from "./ts/markdown/emojiRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
 import {mathRender} from "./ts/markdown/mathRender";
-import {md2htmlByText} from "./ts/markdown/md2html";
+import {loadLuteJs, md2htmlByText} from "./ts/markdown/md2html";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {previewRender} from "./ts/markdown/previewRender";
@@ -78,23 +78,25 @@ class Vditor {
             this.vditor.toolbar = toolbar;
         }
 
-        if (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both) {
-            const preview = new Preview(this.vditor);
-            this.vditor.preview = preview;
-        }
+        loadLuteJs().then(() => {
+            if (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both) {
+                const preview = new Preview(this.vditor);
+                this.vditor.preview = preview;
+            }
 
-        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
-            const upload = new Upload();
-            this.vditor.upload = upload;
-        }
+            if (mergedOptions.upload.url || mergedOptions.upload.handler) {
+                const upload = new Upload();
+                this.vditor.upload = upload;
+            }
 
-        const ui = new Ui(this.vditor);
+            const ui = new Ui(this.vditor);
 
-        if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
-            const hint = new Hint(this.vditor);
-            this.vditor.hint = hint;
-        }
-        const hotkey = new Hotkey(this.vditor);
+            if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
+                const hint = new Hint(this.vditor);
+                this.vditor.hint = hint;
+            }
+            const hotkey = new Hotkey(this.vditor);
+        })
     }
 
     public getValue() {

@@ -47,31 +47,25 @@ export class Hint {
                 }, this.vditor.options.hint.delay);
             }
             if (!isAt) {
-                import(/* webpackChunkName: "allEmoji" */ "../emoji/allEmoji")
-                    .then((allEmoji) => {
-                        const emojiHint = key === "" ? this.vditor.options.hint.emoji : Object.assign(
-                            allEmoji.getAllEmoji(this.vditor.options.hint.emojiPath), this.vditor.options.hint.emoji);
-                        const matchEmojiData: IHintData[] = [];
-                        Object.keys(emojiHint).forEach((keyName) => {
-                            if (keyName.indexOf(key.toLowerCase()) === 0) {
-                                if (emojiHint[keyName].indexOf(".") > -1) {
-                                    matchEmojiData.push({
-                                        html: `<img src="${emojiHint[keyName]}" title=":${keyName}:"/> :${keyName}:`,
-                                        value: `:${keyName}:`,
-                                    });
-                                } else {
-                                    matchEmojiData.push({
-                                        html: `<span class="vditor-hint__emoji">${emojiHint[keyName]}</span>${keyName}`,
-                                        value: emojiHint[keyName],
-                                    });
-                                }
-                            }
-                        });
-                        this.genHTML(matchEmojiData, key, this.vditor.editor.element);
-                    })
-                    .catch((err) => {
-                        console.error("Failed to load emoji", err);
-                    });
+                const emojiHint = key === "" ? this.vditor.options.hint.emoji : Object.assign(
+                    lute.getEmojis(this.vditor.options.hint.emojiPath), this.vditor.options.hint.emoji);
+                const matchEmojiData: IHintData[] = [];
+                Object.keys(emojiHint).forEach((keyName) => {
+                    if (keyName.indexOf(key.toLowerCase()) === 0) {
+                        if (emojiHint[keyName].indexOf(".") > -1) {
+                            matchEmojiData.push({
+                                html: `<img src="${emojiHint[keyName]}" title=":${keyName}:"/> :${keyName}:`,
+                                value: `:${keyName}:`,
+                            });
+                        } else {
+                            matchEmojiData.push({
+                                html: `<span class="vditor-hint__emoji">${emojiHint[keyName]}</span>${keyName}`,
+                                value: emojiHint[keyName],
+                            });
+                        }
+                    }
+                });
+                this.genHTML(matchEmojiData, key, this.vditor.editor.element);
             }
         }
     }

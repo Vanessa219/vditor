@@ -10,13 +10,14 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 * [119](https://github.com/b3log/vditor/issues/119) file upload 
-* [112](https://github.com/b3log/vditor/issues/112) :xxx: 需根据对应的 emoji 渲染为 emoji，而非 :xxx: `feature`
 
 ### v1.8.0 / 2019-09-03
 
-* [117](https://github.com/b3log/vditor/issues/117) 支持站点、视频、音频解析 `feature`
+* [123](https://github.com/b3log/vditor/issues/123) 添加 format 功能 `feature`
 * [122](https://github.com/b3log/vditor/issues/122) 添加 emojiRender 和 highlightRender 接口 `feature`
 * [120](https://github.com/b3log/vditor/issues/120) markdown-it 切换为 lute `enhancement`
+* [117](https://github.com/b3log/vditor/issues/117) 支持站点、视频、音频解析 `feature`
+* [112](https://github.com/b3log/vditor/issues/112) :xxx: 需根据对应的 emoji 渲染为 emoji，而非 :xxx: `feature`
 
 ### v1.7.25 / 2019-08-29
 
