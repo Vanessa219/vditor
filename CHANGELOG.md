@@ -13,7 +13,7 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.0 / 2019-09-03
+### v1.8.0 / 2019-09-04
 
 * [123](https://github.com/b3log/vditor/issues/123) 添加 format 功能 `feature`
 * [122](https://github.com/b3log/vditor/issues/122) 添加 emojiRender 和 highlightRender 接口 `feature`
