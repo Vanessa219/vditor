@@ -17,7 +17,7 @@ describe('use puppeteer to test methods', () => {
             page.coverage.startJSCoverage(),
             page.coverage.startCSSCoverage(),
         ])
-        await page.goto('http://localhost:9000/demo/')
+        await page.goto('http://localhost:9000')
     })
 
     it('method: getValue', async () => {
@@ -26,7 +26,7 @@ describe('use puppeteer to test methods', () => {
 [Vditor](https://github.com/b3log/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。`)
             return vditorTest.getValue()
         })
-        expect(result).toBe(defaultValue)
+        expect(result).toBe(defaultValue + '\n')
     })
 
     it('method: insertValue', async () => {
@@ -34,7 +34,7 @@ describe('use puppeteer to test methods', () => {
             vditorTest.insertValue('于是，Vditor 就这样诞生了。')
             return vditorTest.getValue()
         })
-        expect(result).toBe(defaultValue + insertValue)
+        expect(result).toBe(defaultValue + insertValue + '\n')
     })
 
     it('method: focus', async () => {
@@ -56,17 +56,17 @@ describe('use puppeteer to test methods', () => {
     it('method: disabled', async () => {
         const result = await page.evaluate(() => {
             vditorTest.disabled()
-            return vditorTest.vditor.editor.element.getAttribute('disabled')
+            return vditorTest.vditor.editor.element.getAttribute('contenteditable')
         })
-        expect(result).toBe('disabled')
+        expect(result).toBe("false")
     })
 
     it('method: enable', async () => {
         const result = await page.evaluate(() => {
             vditorTest.enable()
-            return vditorTest.vditor.editor.element.getAttribute('disabled')
+            return vditorTest.vditor.editor.element.getAttribute('contenteditable')
         })
-        expect(result).toBeNull()
+        expect(result).toBeTruthy()
     })
 
     it('method: setSelection and getSelection', async () => {
@@ -82,7 +82,7 @@ describe('use puppeteer to test methods', () => {
             vditorTest.setValue('于是，Vditor 就这样诞生了。')
             return vditorTest.getValue()
         })
-        expect(result).toBe(insertValue)
+        expect(result).toBe(insertValue + '\n')
     })
 
     it('method: deleteValue and disabledCache', async () => {
@@ -95,8 +95,8 @@ describe('use puppeteer to test methods', () => {
                 value: vditorTest.getValue()
             }
         })
-        expect(result.value).toBe('Vditor 就这样诞生了。')
-        expect(result.cache).toBe(insertValue)
+        expect(result.value).toBe('Vditor 就这样诞生了。\n')
+        expect(result.cache).toBe(insertValue + '\n')
     })
 
     it('method: deleteValue null', async () => {
@@ -104,7 +104,7 @@ describe('use puppeteer to test methods', () => {
             vditorTest.deleteValue()
             return vditorTest.getValue()
         })
-        expect(result).toBe('Vditor 就这样诞生了。')
+        expect(result).toBe('Vditor 就这样诞生了。\n')
     })
 
     it('method: updateValue and enableCache', async () => {
@@ -117,8 +117,8 @@ describe('use puppeteer to test methods', () => {
                 cache: localStorage.getItem('vditorvditorTest'),
             }
         })
-        expect(result.value).toBe(updateValue)
-        expect(result.cache).toBe(updateValue)
+        expect(result.value).toBe(updateValue + '\n')
+        expect(result.cache).toBe(updateValue + '\n')
     })
 
     it('method: clearCache', async () => {

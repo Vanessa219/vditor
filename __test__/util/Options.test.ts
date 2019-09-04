@@ -1,6 +1,10 @@
+const globalAny: any = global;
+globalAny.VDITOR_VERSION = 'version'
+globalAny.CDN_PATH = 'cdn/path'
 import {Options} from '../../src/ts/util/Options';
 
 describe('Options', () => {
+
     test('Options toolbar', () => {
         const options = new Options({
             toolbar: ['br', 'fullscreen', {
@@ -82,6 +86,7 @@ describe('Options', () => {
         expect(options.merge().preview).toEqual({
             delay: 1000,
             mode: 'both',
+            maxWidth: 768,
             hljs: {
                 style: 'github',
                 enable: true,
@@ -105,7 +110,7 @@ describe('Options', () => {
                 emoji: {
                     "+1": "👍",
                 },
-                emojiPath: "https://cdn.jsdelivr.net/npm/vditor/src/assets/emoji",
+                emojiPath: globalAny.CDN_PATH + "/vditor/dist/images/emoji",
             },
         })
     });

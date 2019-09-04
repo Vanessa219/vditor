@@ -12,7 +12,7 @@ describe('use puppeteer to test getTextareaPosition', () => {
             page.coverage.startJSCoverage(),
             page.coverage.startCSSCoverage(),
         ])
-        await page.goto('http://localhost:9000/demo/')
+        await page.goto('http://localhost:9000/')
     })
 
     it('getTextareaPosition', async () => {
@@ -25,8 +25,8 @@ describe('use puppeteer to test getTextareaPosition', () => {
         let result = await page.evaluate(() => {
             return vditorTest.vditor.hint.element.getAttribute('style')
         })
-        expect(result).toContain('top: -65px;')
-        expect(result).toContain('left: 173px;')
+        expect(result).toContain('top: -61px;')
+        expect(result).toContain('left: 191px;')
     })
 
     afterAll(async () => {
