@@ -24,6 +24,7 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
+import {Format} from "./Format";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -109,6 +110,9 @@ export class Toolbar {
                     break;
                 case "info":
                     menuItemObj = new Info(vditor, menuItem);
+                    break;
+                case "format":
+                    menuItemObj = new Format(vditor, menuItem);
                     break;
                 default:
                     menuItemObj = new Custom(vditor, menuItem);

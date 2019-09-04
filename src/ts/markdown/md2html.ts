@@ -3,7 +3,7 @@ import {CDN_PATH} from "../constants";
 export const loadLuteJs = () => {
     const scriptElement = document.createElement("script");
     scriptElement.type = "text/javascript";
-    // scriptElement.src = `${CDN_PATH}/vditor/dist/js/lute/lute.min.js`;
+    // TODO scriptElement.src = `${CDN_PATH}/vditor/dist/js/lute/lute.min.js`;
     scriptElement.src = `http://localhost:9000/src/js/lute/lute.min.js`;
     document.getElementsByTagName("head")[0].appendChild(scriptElement);
 

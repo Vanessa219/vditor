@@ -148,6 +148,12 @@ export class Options {
             name: "preview",
             tipPosition: "nw",
         }, {
+            hotkey: "⌘-⇧-f",
+            name: "format",
+            tipPosition: "nw",
+        }, {
+            name: "|",
+        }, {
             hotkey: "⌘-'",
             name: "fullscreen",
             tipPosition: "nw",
