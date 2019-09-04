@@ -28,7 +28,7 @@ interface ITurndownRule {
 declare const lute: {
     markdown(text: string): string
     getEmojis(path: string): { [key: string]: string }
-    format(text:string):string
+    format(text: string): string,
 };
 
 declare var webkitAudioContext: {

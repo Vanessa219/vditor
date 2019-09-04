@@ -96,7 +96,7 @@ class Vditor {
                 this.vditor.hint = hint;
             }
             const hotkey = new Hotkey(this.vditor);
-        })
+        });
     }
 
     public getValue() {

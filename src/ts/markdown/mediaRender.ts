@@ -31,18 +31,20 @@ const iframeRender = (element: HTMLElement, url: string) => {
         element.remove();
     } else if (coubMatch && coubMatch[1]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe src="//coub.com/embed/${coubMatch[1]}?muted=false&autostart=false&originalSize=true&startWithHD=true"></iframe>`);
+            `<iframe
+ src="//coub.com/embed/${coubMatch[1]}?muted=false&autostart=false&originalSize=true&startWithHD=true"></iframe>`);
         element.remove();
     } else if (facebookMatch && facebookMatch[0]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(facebookMatch[0])}"></iframe>`);
+            `<iframe
+src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(facebookMatch[0])}"></iframe>`);
         element.remove();
     } else if (dailymotionMatch && dailymotionMatch[2]) {
         element.insertAdjacentHTML("afterend",
             `<iframe src="https://www.dailymotion.com/embed/video/${dailymotionMatch[2]}"></iframe>`);
         element.remove();
     }
-}
+};
 
 export const mediaRender = (element: HTMLElement) => {
     element.querySelectorAll("a").forEach((aElement) => {

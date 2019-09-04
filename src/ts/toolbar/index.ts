@@ -6,6 +6,7 @@ import {Code} from "./Code";
 import {Custom} from "./Custom";
 import {Divider} from "./Divider";
 import {Emoji} from "./Emoji";
+import {Format} from "./Format";
 import {Fullscreen} from "./Fullscreen";
 import {Headings} from "./Headings";
 import {Help} from "./Help";
@@ -24,7 +25,6 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {Format} from "./Format";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
