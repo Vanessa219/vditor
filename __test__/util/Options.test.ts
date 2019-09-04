@@ -58,14 +58,14 @@ describe('Options', () => {
         const options = new Options({
             preview: {
                 url: 'https://hacpai.com/md',
-                show: true,
+                mode: 'both',
             },
         });
         expect(options.merge()).toMatchObject({
             preview: {
                 url: 'https://hacpai.com/md',
                 delay: 1000,
-                show: true,
+                mode: 'both',
             },
         })
     });
@@ -73,7 +73,7 @@ describe('Options', () => {
     test('Options preview hljs', () => {
         const options = new Options({
             preview: {
-                show: true,
+                mode: 'both',
                 hljs: {
                     style: 'github'
                 }
@@ -81,10 +81,10 @@ describe('Options', () => {
         });
         expect(options.merge().preview).toEqual({
             delay: 1000,
-            show: true,
+            mode: 'both',
             hljs: {
                 style: 'github',
-                "enable": true,
+                enable: true,
             }
         })
     });
