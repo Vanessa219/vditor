@@ -49,8 +49,8 @@
 * 多语言支持、内置中英文
 * 支持主流浏览器和移动端
 
-![classic](https://user-images.githubusercontent.com/970828/56904803-9ca0be00-6ad1-11e9-919a-352467bb228c.png)
-![black](https://user-images.githubusercontent.com/970828/56904802-9ca0be00-6ad1-11e9-87bc-ea420344d939.png)
+![demo](https://user-images.githubusercontent.com/970828/64320104-624fac00-cff0-11e9-8727-0ad51a6f71c0.png)
+![render](https://user-images.githubusercontent.com/970828/64320106-624fac00-cff0-11e9-83a8-7c355886f319.png)
 
 ## 🗃 案例
 
