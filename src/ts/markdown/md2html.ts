@@ -1,9 +1,9 @@
-import {CDN_PATH} from "../constants";
+import {CDN_PATH, VDITOR_VERSION} from "../constants";
 
 export const loadLuteJs = () => {
     const scriptElement = document.createElement("script");
     scriptElement.type = "text/javascript";
-    scriptElement.src = `${CDN_PATH}/vditor/dist/js/lute/lute.min.js`;
+    scriptElement.src = `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/lute/lute.min.js`;
     document.getElementsByTagName("head")[0].appendChild(scriptElement);
 
     return new Promise((resolve) => {
