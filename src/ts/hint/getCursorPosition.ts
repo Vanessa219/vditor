@@ -12,14 +12,15 @@ export const getCursorPosition = (editor: HTMLPreElement) => {
             cursorRect = startNode.getClientRects()[0];
         }
     } else {
+        const startOffset = range.startOffset
         // fix Safari
         if (isSafari()) {
-            range.setStart(range.startContainer, range.startOffset - 1);
+            range.setStart(range.startContainer, startOffset - 1);
         }
         cursorRect = range.getBoundingClientRect();
         // fix Safari
         if (isSafari()) {
-            range.setStart(range.startContainer, range.startOffset);
+            range.setStart(range.startContainer, startOffset);
         }
     }
     return {
