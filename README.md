@@ -50,7 +50,7 @@
 * 支持主流浏览器和移动端
 
 ![demo](https://user-images.githubusercontent.com/970828/64320104-624fac00-cff0-11e9-8727-0ad51a6f71c0.png)
-![render](https://user-images.githubusercontent.com/970828/64321099-72688b00-cff2-11e9-9976-16faae91dd32.png)
+![render](https://user-images.githubusercontent.com/970828/64341072-30ebd600-d01a-11e9-8e8a-b30c24364b58.png)
 
 ## 🗃 案例
 
