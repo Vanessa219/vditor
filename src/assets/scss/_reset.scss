@@ -122,6 +122,11 @@
       border: 1px solid $borderColor;
       max-width: 100%;
       box-sizing: border-box;
+
+      &.iframe__video {
+        min-width: 80%;
+        min-height: 30vh;
+      }
     }
 
     table {

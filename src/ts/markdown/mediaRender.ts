@@ -18,30 +18,30 @@ const iframeRender = (element: HTMLElement, url: string) => {
 
     if (youtubeMatch && youtubeMatch[1].length === 11) {
         element.insertAdjacentHTML("afterend",
-            `<iframe src="//www.youtube.com/embed/${youtubeMatch[1] +
+            `<iframe class="iframe__video" src="//www.youtube.com/embed/${youtubeMatch[1] +
             (youtubeMatch[2] ? "?start=" + youtubeMatch[2] : "")}"></iframe>`);
         element.remove();
     } else if (youkuMatch && youkuMatch[1]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe src="//player.youku.com/embed/${youkuMatch[1]}"></iframe>`);
+            `<iframe class="iframe__video" src="//player.youku.com/embed/${youkuMatch[1]}"></iframe>`);
         element.remove();
     } else if (qqMatch && qqMatch[1]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe src="https://v.qq.com/txp/iframe/player.html?vid=${qqMatch[1]}"></iframe>`);
+            `<iframe class="iframe__video" src="https://v.qq.com/txp/iframe/player.html?vid=${qqMatch[1]}"></iframe>`);
         element.remove();
     } else if (coubMatch && coubMatch[1]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe
+            `<iframe class="iframe__video"
  src="//coub.com/embed/${coubMatch[1]}?muted=false&autostart=false&originalSize=true&startWithHD=true"></iframe>`);
         element.remove();
     } else if (facebookMatch && facebookMatch[0]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe
+            `<iframe class="iframe__video"
 src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(facebookMatch[0])}"></iframe>`);
         element.remove();
     } else if (dailymotionMatch && dailymotionMatch[2]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe src="https://www.dailymotion.com/embed/video/${dailymotionMatch[2]}"></iframe>`);
+            `<iframe class="iframe__video" src="https://www.dailymotion.com/embed/video/${dailymotionMatch[2]}"></iframe>`);
         element.remove();
     }
 };
