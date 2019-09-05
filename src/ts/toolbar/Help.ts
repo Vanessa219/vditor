@@ -1,5 +1,6 @@
 import helpSVG from "../../assets/icons/help.svg";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Help extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -9,7 +10,7 @@ export class Help extends MenuItem {
     }
 
     public bindEvent() {
-        this.element.children[0].addEventListener("click", () => {
+        this.element.children[0].addEventListener(getEventName(), () => {
             window.open("https://hacpai.com/guide/markdown");
         });
     }

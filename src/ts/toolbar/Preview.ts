@@ -1,5 +1,6 @@
 import previewSVG from "../../assets/icons/preview.svg";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Preview extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -13,7 +14,7 @@ export class Preview extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener("click", function() {
+        this.element.children[0].addEventListener(getEventName(), function() {
             const vditorElement = document.getElementById(vditor.id);
             let className;
             if (vditor.preview.element.className === "vditor-preview vditor-preview--preview") {
@@ -23,6 +24,7 @@ export class Preview extends MenuItem {
                 vditor.preview.element.className = "vditor-preview vditor-preview--preview";
                 className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
                 vditor.preview.render(vditor);
+                vditor.editor.element.blur()
             }
             if (vditorElement.className.indexOf("vditor--fullscreen") > -1) {
                 className = className.replace("__n", "__s");

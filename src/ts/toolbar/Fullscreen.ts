@@ -1,6 +1,7 @@
 import contractSVG from "../../assets/icons/contract.svg";
 import fullscreenSVG from "../../assets/icons/fullscreen.svg";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Fullscreen extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -10,7 +11,7 @@ export class Fullscreen extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener("click", function() {
+        this.element.children[0].addEventListener(getEventName(), function() {
             const vditorElement = document.getElementById(vditor.id);
             if (vditorElement.className.indexOf("vditor--fullscreen") > -1) {
                 this.innerHTML = menuItem.icon || fullscreenSVG;

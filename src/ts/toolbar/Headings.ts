@@ -1,6 +1,7 @@
 import headingsSVG from "../../assets/icons/headings.svg";
 import {insertText} from "../editor/insertText";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Headings extends MenuItem {
     public element: HTMLElement;
@@ -24,7 +25,7 @@ export class Headings extends MenuItem {
     }
 
     public _bindEvent(headingsPanelElement: HTMLElement, vditor: IVditor) {
-        this.element.children[0].addEventListener("click", () => {
+        this.element.children[0].addEventListener(getEventName(), () => {
             if (headingsPanelElement.style.display === "block") {
                 headingsPanelElement.style.display = "none";
             } else {
@@ -40,7 +41,7 @@ export class Headings extends MenuItem {
         });
 
         for (let i = 0; i < 6; i++) {
-            headingsPanelElement.children.item(i).addEventListener("click", (event: Event) => {
+            headingsPanelElement.children.item(i).addEventListener(getEventName(), (event: Event) => {
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                     false, true);
                 headingsPanelElement.style.display = "none";

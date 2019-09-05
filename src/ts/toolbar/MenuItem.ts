@@ -1,5 +1,6 @@
 import {insertText} from "../editor/insertText";
 import {i18n} from "../i18n/index";
+import {getEventName} from "../util/getEventName";
 
 export class MenuItem {
     public element: HTMLElement;
@@ -26,7 +27,7 @@ export class MenuItem {
     }
 
     public bindEvent(replace: boolean = false) {
-        this.element.children[0].addEventListener("click", () => {
+        this.element.children[0].addEventListener(getEventName(), () => {
             insertText(this.vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                 replace, true);
         });

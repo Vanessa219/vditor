@@ -1,6 +1,7 @@
 import emojiSVG from "../../assets/icons/emoji.svg";
 import {insertText} from "../editor/insertText";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;
@@ -37,7 +38,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
     }
 
     public _bindEvent(emojiPanelElement: HTMLElement, vditor: IVditor) {
-        this.element.children[0].addEventListener("click", () => {
+        this.element.children[0].addEventListener(getEventName(), () => {
             if (emojiPanelElement.style.display === "block") {
                 emojiPanelElement.style.display = "none";
             } else {
@@ -54,7 +55,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
         });
 
         emojiPanelElement.querySelectorAll(".vditor-emojis span").forEach((element) => {
-            element.addEventListener("click", (event: Event) => {
+            element.addEventListener(getEventName(), (event: Event) => {
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"),
                     "", true);
                 emojiPanelElement.style.display = "none";

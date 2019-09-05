@@ -5,7 +5,7 @@ import {selectIsEditor} from "./selectIsEditor";
 
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
                            toggle: boolean = false) => {
-    let range: Range = window.getSelection().getRangeAt(0);
+    let range: Range = window.getSelection().rangeCount === 0 ? undefined : window.getSelection().getRangeAt(0);
     if (!selectIsEditor(vditor.editor.element)) {
         if (vditor.editor.range) {
             range = vditor.editor.range;

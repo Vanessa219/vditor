@@ -3,6 +3,7 @@ import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
 import {MediaRecorder} from "../util/MediaRecorder";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -14,7 +15,7 @@ export class Record extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         let mediaRecorder: MediaRecorder;
-        this.element.children[0].addEventListener("click", () => {
+        this.element.children[0].addEventListener(getEventName(), () => {
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new MediaRecorder(mediaStream);

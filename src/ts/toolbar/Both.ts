@@ -1,5 +1,6 @@
 import bothSVG from "../../assets/icons/both.svg";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Both extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -13,7 +14,7 @@ export class Both extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener("click", function() {
+        this.element.children[0].addEventListener(getEventName(), function() {
             const vditorElement = document.getElementById(vditor.id);
             let className;
             if (vditor.preview.element.className === "vditor-preview vditor-preview--both") {
