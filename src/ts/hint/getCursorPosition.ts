@@ -1,3 +1,5 @@
+import {isSafari} from "../util/isSafari";
+
 export const getCursorPosition = (editor: HTMLPreElement) => {
     const parentRect = editor.parentElement.getBoundingClientRect();
     const range = window.getSelection().getRangeAt(0);
@@ -11,12 +13,12 @@ export const getCursorPosition = (editor: HTMLPreElement) => {
         }
     } else {
         // fix Safari
-        if (navigator.userAgent.indexOf('Safari') > -1 && navigator.userAgent.indexOf('Chrome') === -1) {
+        if (isSafari()) {
             range.setStart(range.startContainer, range.startOffset - 1);
         }
         cursorRect = range.getBoundingClientRect();
         // fix Safari
-        if (navigator.userAgent.indexOf('Safari') > -1 && navigator.userAgent.indexOf('Chrome') === -1) {
+        if (isSafari()) {
             range.setStart(range.startContainer, range.startOffset);
         }
     }
