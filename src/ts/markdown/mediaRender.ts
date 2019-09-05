@@ -37,11 +37,12 @@ const iframeRender = (element: HTMLElement, url: string) => {
     } else if (facebookMatch && facebookMatch[0]) {
         element.insertAdjacentHTML("afterend",
             `<iframe class="iframe__video"
-src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(facebookMatch[0])}"></iframe>`);
+ src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(facebookMatch[0])}"></iframe>`);
         element.remove();
     } else if (dailymotionMatch && dailymotionMatch[2]) {
         element.insertAdjacentHTML("afterend",
-            `<iframe class="iframe__video" src="https://www.dailymotion.com/embed/video/${dailymotionMatch[2]}"></iframe>`);
+            `<iframe class="iframe__video"
+ src="https://www.dailymotion.com/embed/video/${dailymotionMatch[2]}"></iframe>`);
         element.remove();
     }
 };

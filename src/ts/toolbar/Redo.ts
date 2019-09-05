@@ -1,6 +1,6 @@
 import redoSVG from "../../assets/icons/redo.svg";
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/getEventName";
+import {MenuItem} from "./MenuItem";
 
 export class Redo extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

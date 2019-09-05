@@ -1,7 +1,7 @@
 import headingsSVG from "../../assets/icons/headings.svg";
 import {insertText} from "../editor/insertText";
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/getEventName";
+import {MenuItem} from "./MenuItem";
 
 export class Headings extends MenuItem {
     public element: HTMLElement;

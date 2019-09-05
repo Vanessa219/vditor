@@ -1,7 +1,7 @@
 import emojiSVG from "../../assets/icons/emoji.svg";
 import {insertText} from "../editor/insertText";
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/getEventName";
+import {MenuItem} from "./MenuItem";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;

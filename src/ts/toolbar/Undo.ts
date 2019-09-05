@@ -1,6 +1,6 @@
 import undoSVG from "../../assets/icons/undo.svg";
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/getEventName";
+import {MenuItem} from "./MenuItem";
 
 export class Undo extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

@@ -1,5 +1,5 @@
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/getEventName";
+import {MenuItem} from "./MenuItem";
 
 export class Custom extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

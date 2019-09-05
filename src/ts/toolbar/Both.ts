@@ -1,6 +1,6 @@
 import bothSVG from "../../assets/icons/both.svg";
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/getEventName";
+import {MenuItem} from "./MenuItem";
 
 export class Both extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

@@ -1,9 +1,9 @@
 import recordSVG from "../../assets/icons/record.svg";
 import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
+import {getEventName} from "../util/getEventName";
 import {MediaRecorder} from "../util/MediaRecorder";
 import {MenuItem} from "./MenuItem";
-import {getEventName} from "../util/getEventName";
 
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -33,8 +33,8 @@ export class Record extends MenuItem {
                     mediaRecorder.startRecordingNewWavFile();
                     vditor.tip.show(i18n[vditor.options.lang].recording);
                     vditor.editor.element.setAttribute("contenteditable", "false");
-                }).catch((err: ErrorEvent) => {
-                    console.error("init media error:", err);
+                }).catch(() => {
+                    vditor.tip.show(i18n[vditor.options.lang]["record-tip"]);
                 });
                 return;
             }
