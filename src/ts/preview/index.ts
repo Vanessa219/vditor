@@ -26,7 +26,7 @@ export class Preview {
 
     public async render(vditor: IVditor, value?: string) {
         if (this.element.className === "vditor-preview vditor-preview--editor") {
-            if (vditor.upload && vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
+            if (vditor.upload && vditor.upload.element && vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
                 vditor.tip.hide();
             }
             return;
