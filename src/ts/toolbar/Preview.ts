@@ -5,6 +5,9 @@ import {MenuItem} from "./MenuItem";
 export class Preview extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
+        if (vditor.options.mode === "wysiwyg") {
+            this.element.style.display = 'none'
+        }
         this.element.children[0].innerHTML = menuItem.icon || previewSVG;
         if (vditor.options.preview.mode === "preview") {
             this.element.children[0].className =

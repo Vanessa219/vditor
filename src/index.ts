@@ -29,6 +29,7 @@ import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
+import {WYSISYG} from "./ts/wysiwyg";
 
 class Vditor {
 
@@ -57,6 +58,7 @@ class Vditor {
             originalInnerHTML: document.getElementById(id).innerHTML,
             tip: new Tip(),
             undo: undefined,
+            wysiwyg: undefined
         };
 
         if (mergedOptions.counter > 0) {
@@ -88,6 +90,8 @@ class Vditor {
                 const upload = new Upload();
                 this.vditor.upload = upload;
             }
+
+            this.vditor.wysiwyg = new WYSISYG(this.vditor)
 
             const ui = new Ui(this.vditor);
 

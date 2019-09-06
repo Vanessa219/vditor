@@ -24,6 +24,7 @@ export class Options {
             duplicate: "⌘-d",
         },
         lang: "zh_CN",
+        mode: "wysiwyg",
         placeholder: "",
         preview: {
             delay: 1000,
@@ -140,6 +141,10 @@ export class Options {
         }, {
             name: "|",
         }, {
+            hotkey: "⌘-⇧-m",
+            name: "mode",
+            tipPosition: "nw",
+        }, {
             hotkey: "⌘-p",
             name: "both",
             tipPosition: "nw",
@@ -150,10 +155,6 @@ export class Options {
         }, {
             hotkey: "⌘-⇧-f",
             name: "format",
-            tipPosition: "nw",
-        }, {
-            hotkey: "⌘-⇧-m",
-            name: "mode",
             tipPosition: "nw",
         }, {
             name: "|",

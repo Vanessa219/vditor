@@ -137,6 +137,7 @@ interface IOptions {
     resize?: IResize;
     counter?: number;
     cache?: boolean;
+    mode?: string; // wysisyg, markdown
     preview?: IPreview;
     hint?: IHint;
     upload?: IUpload;
@@ -192,13 +193,17 @@ interface IVditor {
     };
     upload?: {
         element: HTMLElement
-        isUploading: boolean,
+        isUploading: boolean
     };
     undo: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void,
     };
+    wysiwyg: {
+        element: HTMLElement
+        range: Range
+    }
 }
 
 declare class IVditorConstructor {
