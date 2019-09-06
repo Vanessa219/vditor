@@ -26,7 +26,7 @@ export class Preview {
 
     public async render(vditor: IVditor, value?: string) {
         if (this.element.className === "vditor-preview vditor-preview--editor") {
-            if (vditor.upload && vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
+            if (this.element.getAttribute("data-type") === "renderPerformance") {
                 vditor.tip.hide();
             }
             return;
@@ -83,10 +83,10 @@ export class Preview {
             // https://github.com/b3log/vditor/issues/67
             vditor.tip.show(i18n[vditor.options.lang].performanceTip.replace("${x}",
                 time.toString()));
-            vditor.upload.element.setAttribute("data-type", "renderPerformance");
-        } else if (vditor.upload.element.getAttribute("data-type") === "renderPerformance") {
+            vditor.preview.element.setAttribute("data-type", "renderPerformance");
+        } else if (vditor.preview.element.getAttribute("data-type") === "renderPerformance") {
             vditor.tip.hide();
-            vditor.upload.element.removeAttribute("data-type");
+            vditor.preview.element.removeAttribute("data-type");
         }
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable,
