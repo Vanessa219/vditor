@@ -15,7 +15,7 @@ export class Record extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         let mediaRecorder: MediaRecorder;
-        this.element.children[0].addEventListener(getEventName(), () => {
+        this.element.children[0].addEventListener(getEventName(), (event) => {
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new MediaRecorder(mediaStream);
@@ -50,6 +50,7 @@ export class Record extends MenuItem {
                 vditor.editor.element.setAttribute("contenteditable", "false");
                 mediaRecorder.startRecordingNewWavFile();
             }
+            event.preventDefault()
         });
     }
 }
