@@ -152,6 +152,10 @@ export class Options {
             name: "format",
             tipPosition: "nw",
         }, {
+            hotkey: "⌘-⇧-m",
+            name: "mode",
+            tipPosition: "nw",
+        }, {
             name: "|",
         }, {
             hotkey: "⌘-'",
