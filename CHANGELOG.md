@@ -13,8 +13,9 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.2 / 2019-09-05
+### v1.8.3 / 2019-09-05
 
+* [125](https://github.com/b3log/vditor/issues/125) Image 添加最大宽度 `feature`
 * [124](https://github.com/b3log/vditor/issues/124) 菜单栏按钮在 iPhone 中无法正常工作 `bug`
 * [123](https://github.com/b3log/vditor/issues/123) 添加 format 功能 `feature`
 * [122](https://github.com/b3log/vditor/issues/122) 添加 emojiRender 和 highlightRender 接口 `feature`
