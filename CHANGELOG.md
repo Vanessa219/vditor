@@ -15,6 +15,7 @@
 
 ### v1.8.3 / 2019-09-05
 
+* [126](https://github.com/b3log/vditor/issues/126) /src/ts/preview/index.ts 29 行报错 `bug`
 * [125](https://github.com/b3log/vditor/issues/125) Image 添加最大宽度 `feature`
 * [124](https://github.com/b3log/vditor/issues/124) 菜单栏按钮在 iPhone 中无法正常工作 `bug`
 * [123](https://github.com/b3log/vditor/issues/123) 添加 format 功能 `feature`
