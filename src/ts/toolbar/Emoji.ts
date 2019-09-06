@@ -38,7 +38,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
     }
 
     public _bindEvent(emojiPanelElement: HTMLElement, vditor: IVditor) {
-        this.element.children[0].addEventListener(getEventName(), () => {
+        this.element.children[0].addEventListener(getEventName(), (event) => {
             if (emojiPanelElement.style.display === "block") {
                 emojiPanelElement.style.display = "none";
             } else {
@@ -52,6 +52,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
             if (vditor.hint) {
                vditor.hint.element.style.display = "none";
            }
+            event.preventDefault()
         });
 
         emojiPanelElement.querySelectorAll(".vditor-emojis span").forEach((element) => {
@@ -59,6 +60,7 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"),
                     "", true);
                 emojiPanelElement.style.display = "none";
+                event.preventDefault()
             });
             element.addEventListener("mouseover", (event: Event) => {
                 emojiPanelElement.querySelector(".vditor-emojis__tip").innerHTML =

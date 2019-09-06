@@ -27,9 +27,10 @@ export class MenuItem {
     }
 
     public bindEvent(replace: boolean = false) {
-        this.element.children[0].addEventListener(getEventName(), () => {
+        this.element.children[0].addEventListener(getEventName(), (event) => {
             insertText(this.vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                 replace, true);
+            event.preventDefault()
         });
     }
 }

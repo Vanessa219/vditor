@@ -25,7 +25,7 @@ export class Headings extends MenuItem {
     }
 
     public _bindEvent(headingsPanelElement: HTMLElement, vditor: IVditor) {
-        this.element.children[0].addEventListener(getEventName(), () => {
+        this.element.children[0].addEventListener(getEventName(), (event) => {
             if (headingsPanelElement.style.display === "block") {
                 headingsPanelElement.style.display = "none";
             } else {
@@ -38,6 +38,7 @@ export class Headings extends MenuItem {
             if (vditor.hint) {
                 vditor.hint.element.style.display = "none";
             }
+            event.preventDefault()
         });
 
         for (let i = 0; i < 6; i++) {
@@ -45,6 +46,7 @@ export class Headings extends MenuItem {
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                     false, true);
                 headingsPanelElement.style.display = "none";
+                event.preventDefault()
             });
         }
     }
