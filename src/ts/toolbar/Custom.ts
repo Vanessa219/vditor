@@ -7,7 +7,7 @@ export class Custom extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon;
         this.element.children[0].addEventListener(getEventName(), (event) => {
             menuItem.click();
-            event.preventDefault()
+            event.preventDefault();
         });
     }
 }

@@ -30,7 +30,7 @@ export class MenuItem {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             insertText(this.vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                 replace, true);
-            event.preventDefault()
+            event.preventDefault();
         });
     }
 }

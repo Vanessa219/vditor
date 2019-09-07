@@ -38,7 +38,7 @@ export class Headings extends MenuItem {
             if (vditor.hint) {
                 vditor.hint.element.style.display = "none";
             }
-            event.preventDefault()
+            event.preventDefault();
         });
 
         for (let i = 0; i < 6; i++) {
@@ -46,7 +46,7 @@ export class Headings extends MenuItem {
                 insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                     false, true);
                 headingsPanelElement.style.display = "none";
-                event.preventDefault()
+                event.preventDefault();
             });
         }
     }
