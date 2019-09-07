@@ -12,9 +12,11 @@
 ### TODO
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
+* [128](https://github.com/b3log/vditor/issues/128) customEmoji 在代码块中不应该被转换 `enhancement`
 
-### v1.8.3 / 2019-09-05
+### v1.8.4 / 2019-09-07
 
+* [130](https://github.com/b3log/vditor/issues/130) 代码部分支持长代码拖动预览 `enhancement`
 * [126](https://github.com/b3log/vditor/issues/126) /src/ts/preview/index.ts 29 行报错 `bug`
 * [125](https://github.com/b3log/vditor/issues/125) Image 添加最大宽度 `feature`
 * [124](https://github.com/b3log/vditor/issues/124) 菜单栏按钮在 iPhone 中无法正常工作 `bug`
