@@ -39,15 +39,6 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
 };
 
 export const md2htmlByVditor = async (mdText: string, vditor: IVditor) => {
-    if (typeof Lute === "undefined") {
-        await loadLuteJs();
-    }
-    if (!vditor.lute) {
-        vditor.lute = Lute.New();
-        vditor.lute.PutEmojis(vditor.options.hint.emoji);
-        vditor.lute.SetEmojiSite(vditor.options.hint.emojiPath);
-    }
     const md = await vditor.lute.MarkdownStr("", mdText);
-
     return md[1] || md[0];
 };
