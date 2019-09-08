@@ -3,25 +3,25 @@
 ### 升级
 
 * v1.8
-  * getHTML 方法移除参数
-  * md2html 仅保留第一个参数
+  * `getHTML` 方法移除参数
+  * `md2html` 静态方法参数修改为 `(mdText: string, options?: IPreviewOptions)`
 * v1.7
   * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
-  * 移除 option.editorName
+  * 移除 `option.editorName`
 
 ### TODO
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
-* [128](https://github.com/b3log/vditor/issues/128) customEmoji 在代码块中不应该被转换 `enhancement`
 
 ### v1.8.4 / 2019-09-07
 
 * [130](https://github.com/b3log/vditor/issues/130) 代码部分支持长代码拖动预览 `enhancement`
+* [128](https://github.com/b3log/vditor/issues/128) customEmoji 在代码块中不应该被转换 `enhancement`
 * [126](https://github.com/b3log/vditor/issues/126) /src/ts/preview/index.ts 29 行报错 `bug`
 * [125](https://github.com/b3log/vditor/issues/125) Image 添加最大宽度 `feature`
 * [124](https://github.com/b3log/vditor/issues/124) 菜单栏按钮在 iPhone 中无法正常工作 `bug`
 * [123](https://github.com/b3log/vditor/issues/123) 添加 format 功能 `feature`
-* [122](https://github.com/b3log/vditor/issues/122) 添加 emojiRender 和 highlightRender 接口 `feature`
+* [122](https://github.com/b3log/vditor/issues/122) 添加 ~~emojiRender~~ 和 highlightRender 接口 `feature`
 * [120](https://github.com/b3log/vditor/issues/120) markdown-it 切换为 lute `enhancement`
 * [119](https://github.com/b3log/vditor/issues/119) 提供服务端返回数据格式化接口 `feature`
 * [117](https://github.com/b3log/vditor/issues/117) 支持站点、视频、音频解析 `feature`

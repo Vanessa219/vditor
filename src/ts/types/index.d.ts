@@ -25,11 +25,18 @@ interface ITurndownRule {
     replacement(content: string, node?: HTMLElement): string;
 }
 
-declare const lute: {
-    markdown(text: string): string
-    getEmojis(path: string): { [key: string]: string }
-    format(text: string): string,
-};
+interface ILute {
+    New(options: {
+        emojis?: { [key: string]: string },
+        emojiSite: string,
+    }): ILute;
+
+    MarkdownStr(error: string, text: string): string[];
+
+    GetEmojis(): { [key: string]: string };
+
+    FormatStr(error: string, text: string): string[];
+}
 
 declare var webkitAudioContext: {
     prototype: AudioContext
@@ -125,6 +132,7 @@ interface IPreviewOptions {
     enableHighlight?: boolean;
     customEmoji?: { [key: string]: string };
     lang?: (keyof II18nLang);
+    emojiPath?: string;
 }
 
 interface IOptions {
@@ -161,6 +169,7 @@ interface IVditor {
     id: string;
     options: IOptions;
     originalInnerHTML: string;
+    lute: ILute;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };
@@ -215,11 +224,9 @@ declare class IVditorConstructor {
 
     public static abcRender(element?: HTMLElement | Document): void;
 
-    public static emojiRender(text: string, customEmoji?: { [key: string]: string }): string;
-
     public static mediaRender(element: HTMLElement): void;
 
-    public static md2html(mdText: string): string;
+    public static md2html(mdText: string, options?: IPreviewOptions): string;
 
     public static preview(element: HTMLTextAreaElement, options?: IPreviewOptions): void;
 
