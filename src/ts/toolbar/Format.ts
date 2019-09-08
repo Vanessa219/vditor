@@ -13,9 +13,10 @@ export class Format extends MenuItem {
         }
         this.element.children[0].innerHTML = menuItem.icon || formatSVG;
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            formatRender(vditor, lute.format(getText(vditor.editor.element)),
+            const formatResult = vditor.lute.FormatStr("", getText(vditor.editor.element));
+            formatRender(vditor, formatResult[0] || formatResult[1],
                 getSelectPosition(vditor.editor.element, vditor.editor.range));
-            event.preventDefault()
+            event.preventDefault();
         });
     }
 }

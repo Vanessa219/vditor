@@ -47,8 +47,7 @@ export class Hint {
                 }, this.vditor.options.hint.delay);
             }
             if (!isAt) {
-                const emojiHint = key === "" ? this.vditor.options.hint.emoji : Object.assign(
-                    lute.getEmojis(this.vditor.options.hint.emojiPath), this.vditor.options.hint.emoji);
+                const emojiHint = key === "" ? this.vditor.options.hint.emoji : this.vditor.lute.GetEmojis();
                 const matchEmojiData: IHintData[] = [];
                 Object.keys(emojiHint).forEach((keyName) => {
                     if (keyName.indexOf(key.toLowerCase()) === 0) {

@@ -13,7 +13,7 @@ class Upload {
     }
 }
 
-const validateFile = (vditor: IVditor, files: File[]): File[] => {
+const validateFile = (vditor: IVditor, files: File[]) => {
     vditor.tip.hide();
     const uploadFileList = [];
     let errorTip = "";
@@ -73,7 +73,10 @@ const validateFile = (vditor: IVditor, files: File[]): File[] => {
         insertText(vditor, uploadingStr, "");
     }
 
-    return uploadFileList;
+    return {
+        uploadFileList,
+        uploadingStr,
+    };
 };
 
 const genUploadedLabel =
@@ -146,8 +149,8 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         }
     }
 
-    const uploadFileList = validateFile(vditor, fileList);
-    if (uploadFileList.length === 0) {
+    const validateResult = validateFile(vditor, fileList);
+    if (validateResult.uploadFileList.length === 0) {
         if (element) {
             element.value = "";
         }
@@ -155,8 +158,8 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     }
 
     const formData = new FormData();
-    for (let i = 0, iMax = uploadFileList.length; i < iMax; i++) {
-        formData.append("file[]", uploadFileList[i]);
+    for (let i = 0, iMax = validateResult.uploadFileList.length; i < iMax; i++) {
+        formData.append("file[]", validateResult.uploadFileList[i]);
     }
 
     const xhr = new XMLHttpRequest();
@@ -190,7 +193,13 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
                     vditor.options.upload.error(xhr.responseText);
                 } else {
                     vditor.tip.show(xhr.responseText);
-                    document.execCommand("undo");
+                    validateResult.uploadingStr.split("\n").forEach((str) => {
+                        if (!str) {
+                            return;
+                        }
+                        setSelectionByInlineText(str, vditor.editor.element.childNodes);
+                        insertText(vditor,  "", "", true);
+                    });
                 }
             }
             vditor.upload.element.style.display = "none";

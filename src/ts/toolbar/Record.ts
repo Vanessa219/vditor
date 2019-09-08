@@ -50,7 +50,7 @@ export class Record extends MenuItem {
                 vditor.editor.element.setAttribute("contenteditable", "false");
                 mediaRecorder.startRecordingNewWavFile();
             }
-            event.preventDefault()
+            event.preventDefault();
         });
     }
 }

@@ -3,10 +3,9 @@ import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
-import {emojiRender} from "../markdown/emojiRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
-import {md2htmlByText} from "../markdown/md2html";
+import {md2htmlByVditor} from "../markdown/md2html";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 
@@ -68,8 +67,8 @@ export class Preview {
                 }));
             }, vditor.options.preview.delay);
         } else {
-            const html = await md2htmlByText(getText(vditor.editor.element));
-            this.element.children[0].innerHTML = emojiRender(html, vditor.options.hint.emoji);
+            const html = await md2htmlByVditor(getText(vditor.editor.element), vditor);
+            this.element.children[0].innerHTML = html;
             this.afterRender(vditor, renderStartTime);
         }
     }
