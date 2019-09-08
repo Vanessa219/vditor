@@ -28,9 +28,9 @@ interface ITurndownRule {
 interface ILute {
     New(): ILute;
 
-    PutEmojis(emojis: { [key: string]: string }): void
+    PutEmojis(emojis: { [key: string]: string }): void;
 
-    SetEmojiSite(emojiSite: string): void
+    SetEmojiSite(emojiSite: string): void;
 
     MarkdownStr(error: string, text: string): string[];
 

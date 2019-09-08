@@ -75,7 +75,7 @@ const validateFile = (vditor: IVditor, files: File[]) => {
 
     return {
         uploadFileList,
-        uploadingStr
+        uploadingStr,
     };
 };
 
@@ -193,13 +193,13 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
                     vditor.options.upload.error(xhr.responseText);
                 } else {
                     vditor.tip.show(xhr.responseText);
-                    validateResult.uploadingStr.split('\n').forEach((str) => {
+                    validateResult.uploadingStr.split("\n").forEach((str) => {
                         if (!str) {
-                            return
+                            return;
                         }
                         setSelectionByInlineText(str, vditor.editor.element.childNodes);
                         insertText(vditor,  "", "", true);
-                    })
+                    });
                 }
             }
             vditor.upload.element.style.display = "none";
