@@ -19,8 +19,9 @@ window.vditor = new Vditor('vditor', {
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
     filename (name) {
-      // ? \ / : | < > * [ ] white to -
-      return name.replace(/\?|\\|\/|:|\||<|>|\*|\[|\]|\s+/g, '-')
+      return  name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
+        replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
+        replace('/\\s/g', '')
     },
   },
   preview: {
