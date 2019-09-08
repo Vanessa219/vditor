@@ -77,7 +77,7 @@ class Vditor {
             this.vditor.toolbar = toolbar;
         }
 
-        loadLuteJs().then(() => {
+        loadLuteJs(this.vditor).then(() => {
             if (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both) {
                 const preview = new Preview(this.vditor);
                 this.vditor.preview = preview;

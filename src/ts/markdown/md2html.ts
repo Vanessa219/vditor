@@ -2,7 +2,7 @@ import {CDN_PATH, VDITOR_VERSION} from "../constants";
 
 declare const Lute: ILute;
 
-export const loadLuteJs = () => {
+export const loadLuteJs = (vditor?: IVditor) => {
     const scriptElement = document.createElement("script");
     scriptElement.type = "text/javascript";
     // scriptElement.src = `http://localhost:9000/src/js/lute/lute.min.js`;
@@ -11,6 +11,11 @@ export const loadLuteJs = () => {
 
     return new Promise((resolve) => {
         scriptElement.onload = () => {
+            if (vditor && !vditor.lute) {
+                vditor.lute = Lute.New();
+                vditor.lute.PutEmojis(vditor.options.hint.emoji);
+                vditor.lute.SetEmojiSite(vditor.options.hint.emojiPath);
+            }
             resolve();
         };
     });
