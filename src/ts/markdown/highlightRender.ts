@@ -22,6 +22,11 @@ export const highlightRender = async (hljsStyle: string, enableHighlight: boolea
         "school-book", "shades-of-purple", "solarized-dark", "solarized-light", "sunburst", "tomorrow-night",
         "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vs", "vs2015", "xcode", "xt256"];
 
+    const codes = element.querySelectorAll(".vditor-reset pre code")
+    if (codes.length === 0) {
+        return
+    }
+
     if (hljsThemes.includes(hljsStyle)) {
         addStyle(`${CDN_PATH}/vditor/dist/js/highlight.js/styles/${hljsStyle}.css`,
             "vditorHljsStyle");
