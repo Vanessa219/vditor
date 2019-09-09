@@ -6,7 +6,6 @@ import {getText} from "./ts/editor/getText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
 import {insertText} from "./ts/editor/insertText";
-import {selectIsEditor} from "./ts/editor/selectIsEditor";
 import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
@@ -225,24 +224,18 @@ class Vditor {
     }
 
     public deleteValue() {
-        if (selectIsEditor(this.vditor.editor.element)) {
             if (window.getSelection().isCollapsed) {
                 return;
             }
             insertText(this.vditor, "", "", true);
-        }
     }
 
     public updateValue(value: string) {
-        if (selectIsEditor(this.vditor.editor.element)) {
             insertText(this.vditor, value, "", true);
-        }
     }
 
     public insertValue(value: string) {
-        if (selectIsEditor(this.vditor.editor.element)) {
             insertText(this.vditor, value, "");
-        }
     }
 
     public setValue(value: string) {
