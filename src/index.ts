@@ -224,18 +224,18 @@ class Vditor {
     }
 
     public deleteValue() {
-            if (window.getSelection().isCollapsed) {
-                return;
-            }
-            insertText(this.vditor, "", "", true);
+        if (window.getSelection().isCollapsed) {
+            return;
+        }
+        insertText(this.vditor, "", "", true);
     }
 
     public updateValue(value: string) {
-            insertText(this.vditor, value, "", true);
+        insertText(this.vditor, value, "", true);
     }
 
     public insertValue(value: string) {
-            insertText(this.vditor, value, "");
+        insertText(this.vditor, value, "");
     }
 
     public setValue(value: string) {
