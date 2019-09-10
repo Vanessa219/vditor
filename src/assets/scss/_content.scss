@@ -132,6 +132,7 @@
     border-radius: 3px;
     font-size: 12px;
     user-select: none;
+    z-index: 2;
 
     &--error {
       color: $errorColor;
@@ -145,6 +146,7 @@
     user-select: none;
     position: absolute;
     width: 100%;
+    z-index: 2;
 
     &--top {
       top: -3px;

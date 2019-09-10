@@ -22,7 +22,7 @@ export const highlightRender = async (hljsStyle: string, enableHighlight: boolea
         "school-book", "shades-of-purple", "solarized-dark", "solarized-light", "sunburst", "tomorrow-night",
         "tomorrow-night-blue", "tomorrow-night-bright", "tomorrow-night-eighties", "vs", "vs2015", "xcode", "xt256"];
 
-    const codes = element.querySelectorAll(".vditor-reset pre code");
+    const codes = element.querySelectorAll("pre > code");
     if (codes.length === 0) {
         return;
     }
@@ -33,7 +33,7 @@ export const highlightRender = async (hljsStyle: string, enableHighlight: boolea
     }
 
     const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
-    element.querySelectorAll(".vditor-reset pre code").forEach((block) => {
+    element.querySelectorAll("pre > code").forEach((block) => {
         if (block.className.indexOf("language-mermaid") > -1 ||
             block.className.indexOf("language-abc") > -1 ||
             block.className.indexOf("language-echarts") > -1) {
