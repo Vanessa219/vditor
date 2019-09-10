@@ -142,7 +142,7 @@ export class Options {
             name: "|",
         }, {
             hotkey: "⌘-⇧-m",
-            name: "mode",
+            name: "wysiwyg",
             tipPosition: "nw",
         }, {
             hotkey: "⌘-p",

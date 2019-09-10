@@ -2,7 +2,7 @@ import editSVG from "../../assets/icons/edit.svg";
 import {getEventName} from "../util/getEventName";
 import {MenuItem} from "./MenuItem";
 
-export class Mode extends MenuItem {
+export class WYSIWYG extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
 

@@ -89,7 +89,9 @@ class Vditor {
                 this.vditor.upload = upload;
             }
 
-            this.vditor.wysiwyg = new WYSISYG(this.vditor)
+            if (this.vditor.toolbar.elements.wysiwyg && this.vditor.options.mode === 'wysiwyg') {
+                this.vditor.wysiwyg = new WYSISYG(this.vditor)
+            }
 
             const ui = new Ui(this.vditor);
 

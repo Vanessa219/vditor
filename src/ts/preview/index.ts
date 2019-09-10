@@ -43,12 +43,13 @@ export class Preview {
 
         clearTimeout(this.mdTimeoutId);
         const renderStartTime = new Date().getTime();
+        const markdownText = getText(vditor.editor.element)
         if (vditor.options.preview.url) {
             this.mdTimeoutId = window.setTimeout(async () => {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                xhr.onreadystatechange = () => {
+                xhr.onreadystatechange = async () => {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             const responseJSON = JSON.parse(xhr.responseText);
@@ -58,16 +59,18 @@ export class Preview {
                             }
                             this.element.children[0].innerHTML = responseJSON.data;
                             this.afterRender(vditor, renderStartTime);
+                        } else {
+                            const html = await md2htmlByVditor(markdownText, vditor);
+                            this.element.children[0].innerHTML = html;
+                            this.afterRender(vditor, renderStartTime);
                         }
                     }
                 };
 
-                xhr.send(JSON.stringify({
-                    markdownText: getText(vditor.editor.element),
-                }));
+                xhr.send(JSON.stringify({markdownText}));
             }, vditor.options.preview.delay);
         } else {
-            const html = await md2htmlByVditor(getText(vditor.editor.element), vditor);
+            const html = await md2htmlByVditor(markdownText, vditor);
             this.element.children[0].innerHTML = html;
             this.afterRender(vditor, renderStartTime);
         }

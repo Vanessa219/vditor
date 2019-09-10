@@ -25,7 +25,7 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {Mode} from "./Mode";
+import {WYSIWYG} from "./WYSIWYG";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -115,14 +115,19 @@ export class Toolbar {
                 case "format":
                     menuItemObj = new Format(vditor, menuItem);
                     break;
-                case "mode":
-                    menuItemObj = new Mode(vditor, menuItem);
+                case "wysiwyg":
+                    if (vditor.options.mode === 'wysiwyg') {
+                        menuItemObj = new WYSIWYG(vditor, menuItem);
+                    }
                     break;
                 default:
                     menuItemObj = new Custom(vditor, menuItem);
                     break;
             }
 
+            if (!menuItemObj) {
+                return
+            }
             let key = menuItem.name;
             if (key === "br" || key === "|") {
                 key = key + i;

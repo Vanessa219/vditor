@@ -25,8 +25,11 @@ export class Ui {
 
         const contentElement = document.createElement("div");
         contentElement.className = "vditor-content";
-        contentElement.appendChild(vditor.wysiwyg.element);
         contentElement.appendChild(vditor.editor.element);
+
+        if (vditor.wysiwyg) {
+            contentElement.appendChild(vditor.wysiwyg.element);
+        }
 
         if (vditor.preview) {
             contentElement.appendChild(vditor.preview.element);
