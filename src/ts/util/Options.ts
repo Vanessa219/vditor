@@ -24,7 +24,7 @@ export class Options {
             duplicate: "⌘-d",
         },
         lang: "zh_CN",
-        mode: "wysiwyg",
+        mode: "wysiwyg-show",
         placeholder: "",
         preview: {
             delay: 1000,

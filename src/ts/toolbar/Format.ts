@@ -8,7 +8,12 @@ import {MenuItem} from "./MenuItem";
 export class Format extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        if (vditor.options.mode === "wysiwyg") {
+        const hasWYSIWYG = vditor.options.toolbar.find((item: IMenuItem) => {
+            if (item.name === 'wysiwyg') {
+                return true
+            }
+        })
+        if (vditor.options.mode.indexOf("wysiwyg") > -1 && hasWYSIWYG) {
             this.element.style.display = 'none'
         }
         this.element.children[0].innerHTML = menuItem.icon || formatSVG;

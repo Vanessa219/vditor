@@ -10,7 +10,7 @@ export class Both extends MenuItem {
                 return true
             }
         })
-        if (vditor.options.mode === "wysiwyg" && hasWYSIWYG) {
+        if (vditor.options.mode.indexOf("wysiwyg") > -1 && hasWYSIWYG) {
             this.element.style.display = 'none'
         }
         this.element.children[0].innerHTML = menuItem.icon || bothSVG;

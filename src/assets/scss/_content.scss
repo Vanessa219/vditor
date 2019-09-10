@@ -40,12 +40,15 @@
     width: 100%;
     z-index: 1;
     background-color: $textareaBg;
+    box-sizing: border-box;
+
     &[contenteditable="false"] {
       opacity: 0.3;
       cursor: not-allowed;
     }
 
     &:focus {
+      outline: none;
       background-color: $textareaFocusBg;
     }
   }

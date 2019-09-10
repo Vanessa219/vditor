@@ -146,7 +146,7 @@ interface IOptions {
     resize?: IResize;
     counter?: number;
     cache?: boolean;
-    mode?: string; // wysisyg, markdown
+    mode?: string; // wysiwyg-show, markdown-show, wysisyg-only, markdown-only
     preview?: IPreview;
     hint?: IHint;
     upload?: IUpload;

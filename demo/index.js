@@ -19,7 +19,7 @@ window.vditor = new Vditor('vditor', {
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
     filename (name) {
-      return  name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
+      return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
         replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
         replace('/\\s/g', '')
     },
@@ -104,6 +104,10 @@ window.vditorTest = new Vditor('vditorTest', {
   toolbar: [
     {
       name: 'preview',
+      tipPosition: 'ne',
+    },
+    {
+      name: 'wysiwyg',
       tipPosition: 'ne',
     },
     {

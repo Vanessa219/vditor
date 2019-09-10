@@ -89,7 +89,7 @@ class Vditor {
                 this.vditor.upload = upload;
             }
 
-            if (this.vditor.toolbar.elements.wysiwyg && this.vditor.options.mode === 'wysiwyg') {
+            if (this.vditor.options.mode !== 'markdown-only') {
                 this.vditor.wysiwyg = new WYSISYG(this.vditor)
             }
 

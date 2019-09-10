@@ -25,11 +25,12 @@ export class Ui {
 
         const contentElement = document.createElement("div");
         contentElement.className = "vditor-content";
-        contentElement.appendChild(vditor.editor.element);
 
         if (vditor.wysiwyg) {
             contentElement.appendChild(vditor.wysiwyg.element);
         }
+
+        contentElement.appendChild(vditor.editor.element);
 
         if (vditor.preview) {
             contentElement.appendChild(vditor.preview.element);
@@ -60,6 +61,11 @@ export class Ui {
             height = vditor.options.height - 37;
         }
         vditor.editor.element.style.paddingBottom = height / 2 + "px";
+
+        if (vditor.wysiwyg) {
+            const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2
+            vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`
+        }
 
         const localValue = localStorage.getItem("vditor" + vditor.id);
         if (vditor.options.cache && localValue) {

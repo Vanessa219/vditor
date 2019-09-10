@@ -6,6 +6,9 @@ class WYSISYG {
         this.element = document.createElement("div");
         this.element.className = "vditor-reset vditor-wysiwyg";
         this.element.setAttribute("contenteditable", "true");
+        if (vditor.options.mode === 'markdown-show') {
+            this.element.style.display = 'none'
+        }
     }
 }
 

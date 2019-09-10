@@ -7,8 +7,14 @@ export class WYSIWYG extends MenuItem {
         super(vditor, menuItem);
 
         this.element.children[0].innerHTML = menuItem.icon || editSVG;
-        this.element.children[0].className =
-            `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
+        if (vditor.options.mode === 'markdown-show') {
+            this.element.children[0].className =
+                `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
+        } else {
+            this.element.children[0].className =
+                `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
+        }
+
         this._bindEvent(vditor, menuItem);
     }
 
