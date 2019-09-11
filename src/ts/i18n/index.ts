@@ -18,7 +18,6 @@ export const i18n: II18n = {
         "line": "Line",
         "link": "Link",
         "list": "List",
-        "wysiwyg": "WYSIWYG",
         "nameEmpty": "Name is empty",
         "ordered-list": "Order List",
         "over": "over",
@@ -34,6 +33,7 @@ export const i18n: II18n = {
         "undo": "Undo",
         "upload": "Upload image or file",
         "uploading": "uploading...",
+        "wysiwyg": "WYSIWYG",
     },
     zh_CN: {
         "bold": "粗体",
@@ -54,7 +54,6 @@ export const i18n: II18n = {
         "line": "分隔线",
         "link": "链接",
         "list": "无序列表",
-        "wysiwyg": "所见即所得",
         "nameEmpty": "文件名不能为空",
         "ordered-list": "有序列表",
         "over": "超过",
@@ -70,5 +69,6 @@ export const i18n: II18n = {
         "undo": "撤销",
         "upload": "上传图片或文件",
         "uploading": "上传中...",
+        "wysiwyg": "所见即所得",
     },
 };

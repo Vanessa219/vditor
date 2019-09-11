@@ -116,7 +116,7 @@ export class Toolbar {
                     menuItemObj = new Format(vditor, menuItem);
                     break;
                 case "wysiwyg":
-                    if (vditor.options.mode.indexOf('only') === -1) {
+                    if (vditor.options.mode.indexOf("only") === -1) {
                         menuItemObj = new WYSIWYG(vditor, menuItem);
                     }
                     break;
@@ -126,7 +126,7 @@ export class Toolbar {
             }
 
             if (!menuItemObj) {
-                return
+                return;
             }
             let key = menuItem.name;
             if (key === "br" || key === "|") {

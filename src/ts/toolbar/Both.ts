@@ -6,12 +6,12 @@ export class Both extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
         const hasWYSIWYG = vditor.options.toolbar.find((item: IMenuItem) => {
-            if (item.name === 'wysiwyg') {
-                return true
+            if (item.name === "wysiwyg") {
+                return true;
             }
-        })
+        });
         if (vditor.options.mode.indexOf("wysiwyg") > -1 && hasWYSIWYG) {
-            this.element.style.display = 'none'
+            this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || bothSVG;
         if (vditor.options.preview.mode === "both") {

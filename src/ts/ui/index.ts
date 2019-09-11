@@ -64,23 +64,23 @@ export class Ui {
         vditor.editor.element.style.paddingBottom = height / 2 + "px";
 
         if (vditor.wysiwyg) {
-            const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2
-            vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`
+            const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;
+            vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`;
         }
 
-        let initValue = localStorage.getItem("vditor" + vditor.id)
+        let initValue = localStorage.getItem("vditor" + vditor.id);
         if (!vditor.options.cache || !initValue) {
             initValue = await html2md(vditor, vditor.originalInnerHTML);
         }
         if (!initValue) {
-            return
+            return;
         }
 
-        if (vditor.options.mode.indexOf('wysiwyg') > -1) {
-            renderDomByMd(vditor, initValue)
+        if (vditor.options.mode.indexOf("wysiwyg") > -1) {
+            renderDomByMd(vditor, initValue);
         }
 
-        if (vditor.options.mode.indexOf('markdown') > -1) {
+        if (vditor.options.mode.indexOf("markdown") > -1) {
             formatRender(vditor, initValue, undefined, false);
         }
     }

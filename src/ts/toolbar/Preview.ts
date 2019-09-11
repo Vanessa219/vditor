@@ -6,12 +6,12 @@ export class Preview extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
         const hasWYSIWYG = vditor.options.toolbar.find((item: IMenuItem) => {
-            if (item.name === 'wysiwyg') {
-                return true
+            if (item.name === "wysiwyg") {
+                return true;
             }
-        })
+        });
         if (vditor.options.mode.indexOf("wysiwyg") > -1 && hasWYSIWYG) {
-            this.element.style.display = 'none'
+            this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || previewSVG;
         if (vditor.options.preview.mode === "preview") {
@@ -22,7 +22,7 @@ export class Preview extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener(getEventName(), function () {
+        this.element.children[0].addEventListener(getEventName(), function() {
             const vditorElement = document.getElementById(vditor.id);
             let className;
             if (vditor.preview.element.className === "vditor-preview vditor-preview--preview") {

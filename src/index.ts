@@ -56,7 +56,7 @@ class Vditor {
             originalInnerHTML: document.getElementById(id).innerHTML,
             tip: new Tip(),
             undo: undefined,
-            wysiwyg: undefined
+            wysiwyg: undefined,
         };
 
         if (mergedOptions.counter > 0) {
@@ -89,8 +89,8 @@ class Vditor {
                 this.vditor.upload = upload;
             }
 
-            if (this.vditor.options.mode !== 'markdown-only') {
-                this.vditor.wysiwyg = new WYSISYG(this.vditor)
+            if (this.vditor.options.mode !== "markdown-only") {
+                this.vditor.wysiwyg = new WYSISYG(this.vditor);
             }
 
             const ui = new Ui(this.vditor);

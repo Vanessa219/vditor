@@ -38,7 +38,7 @@ interface ILute {
 
     FormatStr(error: string, text: string): string[];
 
-    RenderVditorDOM(id: number, text: string): string[];
+    RenderVditorDOM(text: string): string[];
 
     VditorDOMMarkdown(html: string): string[];
 }
@@ -207,7 +207,7 @@ interface IVditor {
     };
     upload?: {
         element: HTMLElement
-        isUploading: boolean
+        isUploading: boolean,
     };
     undo: {
         redo(vditor: IVditor): void
@@ -216,8 +216,8 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement
-        range: Range
-    }
+        range: Range,
+    };
 }
 
 declare class IVditorConstructor {

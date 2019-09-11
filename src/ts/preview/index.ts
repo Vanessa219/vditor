@@ -43,7 +43,7 @@ export class Preview {
 
         clearTimeout(this.mdTimeoutId);
         const renderStartTime = new Date().getTime();
-        const markdownText = getText(vditor.editor.element)
+        const markdownText = getText(vditor.editor.element);
         if (vditor.options.preview.url) {
             this.mdTimeoutId = window.setTimeout(async () => {
                 const xhr = new XMLHttpRequest();

@@ -1,0 +1,35 @@
+.vditor-wysiwyg {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  background-color: $textareaBg;
+  box-sizing: border-box;
+  margin: 0;
+
+  &[contenteditable="false"] {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: $textareaFocusBg;
+  }
+
+  .marker {
+    height: 0;
+    width: 0;
+    display: inline-block;
+    overflow: hidden;
+    transition: color .15s ease-in-out;
+  }
+
+  .node--expand .marker {
+    width: auto;
+    height: auto;
+    display: inline;
+    color: #bbb;
+  }
+}
+
