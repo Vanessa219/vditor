@@ -27,7 +27,7 @@ import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
-import {WYSISYG} from "./ts/wysiwyg";
+import {WYSIWYG} from "./ts/wysiwyg";
 
 class Vditor {
 
@@ -50,6 +50,7 @@ class Vditor {
         const mergedOptions = getOptions.merge();
 
         this.vditor = {
+            currentEditorName: mergedOptions.mode.indexOf('wysiwyg') > -1 ? 'wysiwyg' : 'markdown',
             id,
             lute: undefined,
             options: mergedOptions,
@@ -64,8 +65,10 @@ class Vditor {
             this.vditor.counter = counter;
         }
 
-        const editor = new Editor(this.vditor);
-        this.vditor.editor = editor;
+        if (mergedOptions.mode !== "wysiwyg-only") {
+            this.vditor.editor = new Editor(this.vditor);
+        }
+
         this.vditor.undo = new Undo();
 
         if (mergedOptions.resize.enable) {
@@ -79,7 +82,7 @@ class Vditor {
         }
 
         loadLuteJs(this.vditor).then(() => {
-            if (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both) {
+            if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
                 const preview = new Preview(this.vditor);
                 this.vditor.preview = preview;
             }
@@ -90,15 +93,16 @@ class Vditor {
             }
 
             if (this.vditor.options.mode !== "markdown-only") {
-                this.vditor.wysiwyg = new WYSISYG(this.vditor);
+                this.vditor.wysiwyg = new WYSIWYG(this.vditor);
             }
-
-            const ui = new Ui(this.vditor);
 
             if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
                 const hint = new Hint(this.vditor);
                 this.vditor.hint = hint;
             }
+
+            const ui = new Ui(this.vditor);
+
             const hotkey = new Hotkey(this.vditor);
         });
     }

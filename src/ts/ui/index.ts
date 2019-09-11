@@ -3,6 +3,8 @@ import {html2md} from "../editor/html2md";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 
 export class Ui {
+    private contentElement: HTMLElement;
+
     constructor(vditor: IVditor) {
         const vditorElement = document.getElementById(vditor.id);
         vditorElement.innerHTML = "";
@@ -24,44 +26,53 @@ export class Ui {
 
         vditorElement.appendChild(toolbarElement);
 
-        const contentElement = document.createElement("div");
-        contentElement.className = "vditor-content";
+        this.contentElement = document.createElement("div");
+        this.contentElement.className = "vditor-content";
 
         if (vditor.wysiwyg) {
-            contentElement.appendChild(vditor.wysiwyg.element);
+            this.contentElement.appendChild(vditor.wysiwyg.element);
         }
 
-        contentElement.appendChild(vditor.editor.element);
+        if (vditor.editor) {
+            this.contentElement.appendChild(vditor.editor.element);
+        }
 
         if (vditor.preview) {
-            contentElement.appendChild(vditor.preview.element);
+            this.contentElement.appendChild(vditor.preview.element);
         }
 
         if (vditor.options.counter > 0) {
-            contentElement.appendChild(vditor.counter.element);
+            this.contentElement.appendChild(vditor.counter.element);
         }
 
         if (vditor.upload) {
-            contentElement.appendChild(vditor.upload.element);
+            this.contentElement.appendChild(vditor.upload.element);
         }
 
         if (vditor.options.resize.enable) {
-            contentElement.appendChild(vditor.resize.element);
+            this.contentElement.appendChild(vditor.resize.element);
         }
 
-        contentElement.appendChild(vditor.tip.element);
+        if (vditor.hint) {
+            this.contentElement.appendChild(vditor.hint.element);
+        }
 
-        vditorElement.appendChild(contentElement);
+        this.contentElement.appendChild(vditor.tip.element);
+
+        vditorElement.appendChild(this.contentElement);
 
         this.afterRender(vditor);
     }
 
     private async afterRender(vditor: IVditor) {
-        let height: number = Math.max(vditor.editor.element.parentElement.offsetHeight, 20);
+        let height: number = Math.max(this.contentElement.offsetHeight, 20);
         if (height < 21 && typeof vditor.options.height === "number") {
             height = vditor.options.height - 37;
         }
-        vditor.editor.element.style.paddingBottom = height / 2 + "px";
+
+        if (vditor.editor) {
+            vditor.editor.element.style.paddingBottom = height / 2 + "px";
+        }
 
         if (vditor.wysiwyg) {
             const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;

@@ -16,8 +16,6 @@ export class Hint {
 
         this.element = document.createElement("ul");
         this.element.className = "vditor-hint";
-
-        this.vditor.editor.element.parentElement.appendChild(this.element);
     }
 
     public render() {

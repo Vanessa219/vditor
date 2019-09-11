@@ -1,7 +1,8 @@
 import {setSelectionFocus} from "../editor/setSelection";
+import {getCursorPosition} from "../hint/getCursorPosition";
 
-class WYSISYG {
-    public element: HTMLElement;
+class WYSIWYG {
+    public element: HTMLPreElement;
     public range: Range;
 
     constructor(vditor: IVditor) {
@@ -63,7 +64,11 @@ class WYSISYG {
             this.setExpend();
         });
 
+        this.element.addEventListener("input", () => {
+            const position = getCursorPosition(this.element);
+        });
+
     }
 }
 
-export {WYSISYG};
+export {WYSIWYG};

@@ -12,8 +12,9 @@ export class Hotkey {
     constructor(vditor: IVditor) {
         this.hintElement = vditor.hint && vditor.hint.element;
         this.vditor = vditor;
-        this.bindHotkey();
-
+        if (vditor.editor) {
+            this.bindHotkey();
+        }
     }
 
     private processKeymap(hotkey: string, event: KeyboardEvent, action: () => void) {

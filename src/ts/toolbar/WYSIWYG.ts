@@ -37,6 +37,7 @@ export class WYSIWYG extends MenuItem {
                 }
                 const wysiwygHTML = vditor.lute.VditorDOMMarkdown(vditor.wysiwyg.element.innerHTML);
                 formatRender(vditor, wysiwygHTML[0] || wysiwygHTML[1], undefined, false);
+                vditor.currentEditorName = "markdown";
             } else {
                 this.className = this.className + " vditor-menu--current";
                 vditor.wysiwyg.element.style.display = "block";
@@ -49,8 +50,17 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "none";
                 }
-
                 renderDomByMd(vditor, getText(vditor.editor.element));
+                vditor.currentEditorName = "wysiwyg";
+            }
+            if (vditor.hint) {
+                vditor.hint.element.style.display = "none";
+            }
+            if (vditor.toolbar.elements.headings) {
+                (vditor.toolbar.elements.headings.children[1] as HTMLElement).style.display = "none";
+            }
+            if (vditor.toolbar.elements.emoji) {
+                (vditor.toolbar.elements.emoji.children[1] as HTMLElement).style.display = "none";
             }
             event.preventDefault();
         });

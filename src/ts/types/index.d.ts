@@ -101,7 +101,7 @@ interface IMenuItem {
 interface IPreview {
     delay?: number;
     maxWidth?: number;
-    mode?: string; // "both" | "preview" | "editor"
+    mode?: "both" | "preview" | "editor";
     url?: string;
     hljs?: {
         style?: string,
@@ -150,7 +150,7 @@ interface IOptions {
     resize?: IResize;
     counter?: number;
     cache?: boolean;
-    mode?: string; // wysiwyg-show, markdown-show, wysisyg-only, markdown-only
+    mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only";
     preview?: IPreview;
     hint?: IHint;
     upload?: IUpload;
@@ -176,6 +176,7 @@ interface IVditor {
     options: IOptions;
     originalInnerHTML: string;
     lute: ILute;
+    currentEditorName: "markdown" | "wysiwyg";
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };
