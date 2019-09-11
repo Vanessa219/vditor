@@ -1,6 +1,9 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {getEventName} from "../util/getEventName";
 import {MenuItem} from "./MenuItem";
+import {renderDomByMd} from "../wysiwyg/renderDomByMd";
+import {getText} from "../editor/getText";
+import {formatRender} from "../editor/formatRender";
 
 export class WYSIWYG extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -32,6 +35,8 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = 'block'
                 }
+                const wysiwygHTML = vditor.lute.VditorDOMMarkdown(vditor.wysiwyg.element.innerHTML)
+                formatRender(vditor, wysiwygHTML[0] || wysiwygHTML[1], undefined, false)
             } else {
                 this.className = this.className + ' vditor-menu--current'
                 vditor.wysiwyg.element.style.display = 'block'
@@ -44,6 +49,8 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = 'none'
                 }
+
+                renderDomByMd(vditor, getText(vditor.editor.element))
             }
             event.preventDefault()
         });

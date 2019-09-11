@@ -37,6 +37,10 @@ interface ILute {
     GetEmojis(): { [key: string]: string };
 
     FormatStr(error: string, text: string): string[];
+
+    RenderVditorDOM(id: number, text: string): string[];
+
+    VditorDOMMarkdown(html: string): string[];
 }
 
 declare var webkitAudioContext: {

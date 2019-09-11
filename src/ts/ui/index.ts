@@ -1,5 +1,6 @@
 import {formatRender} from "../editor/formatRender";
 import {html2md} from "../editor/html2md";
+import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 
 export class Ui {
     constructor(vditor: IVditor) {
@@ -67,15 +68,20 @@ export class Ui {
             vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`
         }
 
-        const localValue = localStorage.getItem("vditor" + vditor.id);
-        if (vditor.options.cache && localValue) {
-            formatRender(vditor, localValue, undefined, false);
-        } else {
-            if (!vditor.originalInnerHTML.trim()) {
-                return;
-            }
-            const mdValue = await html2md(vditor, vditor.originalInnerHTML);
-            formatRender(vditor, mdValue, undefined, false);
+        let initValue = localStorage.getItem("vditor" + vditor.id)
+        if (!vditor.options.cache || !initValue) {
+            initValue = await html2md(vditor, vditor.originalInnerHTML);
+        }
+        if (!initValue) {
+            return
+        }
+
+        if (vditor.options.mode.indexOf('wysiwyg') > -1) {
+            renderDomByMd(vditor, initValue)
+        }
+
+        if (vditor.options.mode.indexOf('markdown') > -1) {
+            formatRender(vditor, initValue, undefined, false);
         }
     }
 }

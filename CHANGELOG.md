@@ -13,8 +13,11 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.4 / 2019-09-08
+### v1.8.5 / 2019-09-11
 
+* [134](https://github.com/b3log/vditor/issues/134) 数学公式问题 `question`
+* [133](https://github.com/b3log/vditor/issues/133) Inline Katex `question`
+* [132](https://github.com/b3log/vditor/issues/132) emoji and table `question`
 * [131](https://github.com/b3log/vditor/issues/131) 上传失败时，内容没有清空 `bug`
 * [130](https://github.com/b3log/vditor/issues/130) 代码部分支持长代码拖动预览 `enhancement`
 * [128](https://github.com/b3log/vditor/issues/128) customEmoji 在代码块中不应该被转换 `enhancement`
