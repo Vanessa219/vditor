@@ -1,6 +1,6 @@
 import {selectIsEditor} from "./selectIsEditor";
 
-export const getSelectPosition = (editorElement: HTMLPreElement, range?: Range) => {
+export const getSelectPosition = (editorElement: HTMLElement, range?: Range) => {
     const position = {
         end: 0,
         start: 0,

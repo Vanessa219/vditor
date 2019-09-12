@@ -1,9 +1,11 @@
-import {setSelectionFocus} from "../editor/setSelection";
+import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {getCursorPosition} from "../hint/getCursorPosition";
+import {getParentBlock} from "./getParentBlock";
+import {getSelectPosition} from "../editor/getSelectPosition";
 
 class WYSIWYG {
     public element: HTMLPreElement;
-    public range: Range;
+    public range: IWYSIWYGRange;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
@@ -13,7 +15,14 @@ class WYSIWYG {
             this.element.style.display = "none";
         }
 
-        this.bindEvent();
+        this.range = {
+            startElement: undefined,
+            startIndex: 0,
+            endElement: undefined,
+            endIndex: 0
+        }
+
+        this.bindEvent(vditor);
     }
 
     private setExpend() {
@@ -55,7 +64,7 @@ class WYSIWYG {
         }
     }
 
-    private bindEvent() {
+    private bindEvent(vditor: IVditor) {
         this.element.addEventListener("mouseup", () => {
             this.setExpend();
         });
@@ -65,7 +74,41 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("input", () => {
-            const position = getCursorPosition(this.element);
+            let range = getSelection().getRangeAt(0).cloneRange()
+            const blockElements = []
+            const ancestorElement = range.commonAncestorContainer as HTMLElement;
+            if (!range.collapsed && ancestorElement.nodeType !== 3) {
+                ancestorElement.querySelectorAll("[data-mtype='0']").forEach((e: HTMLElement) => {
+                    if (getSelection().containsNode(e, true)) {
+                        blockElements.push(getParentBlock(e))
+                    }
+                });
+            } else {
+                blockElements.push(getParentBlock(range.startContainer as HTMLElement))
+            }
+
+            blockElements.forEach((blockElement: HTMLElement, index) => {
+                if (index === 0) {
+                    this.range.startElement = blockElement
+                    this.range.startIndex = getSelectPosition(blockElement, range).start
+                } else if (index === blockElements.length - 1) {
+                    this.range.endElement = blockElement
+                    this.range.endIndex = getSelectPosition(blockElement, range).start
+                }
+                const formatHTML = vditor.lute.SpinVditorDOM(blockElement.innerHTML)
+                blockElement.innerHTML = formatHTML[0] || formatHTML[1]
+                blockElement.querySelectorAll(".node").forEach((e) => {
+                    e.className = "node node--expand";
+                });
+            })
+
+            setSelectionByPosition(this.range.startIndex, this.range.startIndex, this.range.startElement)
+            if (!range.collapsed) {
+                // setSelectionByEnd(this.range)
+            }
+            console.log(this.range)
+            // setSelectionFocus(range)
+            // const position = getCursorPosition(this.element);
         });
 
     }

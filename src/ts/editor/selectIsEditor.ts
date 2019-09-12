@@ -1,4 +1,4 @@
-export const selectIsEditor = (editor: HTMLPreElement, range?: Range) => {
+export const selectIsEditor = (editor: HTMLElement, range?: Range) => {
     let isEditor = false;
     if (!range) {
         if (window.getSelection().rangeCount === 0) {

@@ -8,7 +8,7 @@ import {mermaidRender} from "../markdown/mermaidRender";
 
 export const renderDomByMd = (vditor: IVditor, md: string) => {
     const domHTML = vditor.lute.RenderVditorDOM(md);
-    vditor.wysiwyg.element.innerHTML = domHTML[1] || domHTML[0];
+    vditor.wysiwyg.element.innerHTML = domHTML[0] || domHTML[1];
     codeRender(vditor.wysiwyg.element, vditor.options.lang);
     highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable,
         vditor.wysiwyg.element);

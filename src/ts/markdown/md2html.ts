@@ -35,10 +35,10 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
     lute.SetEmojiSite(options.emojiPath);
     const md = await lute.MarkdownStr("", mdText);
 
-    return md[1] || md[0];
+    return md[0] || md[1];
 };
 
 export const md2htmlByVditor = async (mdText: string, vditor: IVditor) => {
     const md = await vditor.lute.MarkdownStr("", mdText);
-    return md[1] || md[0];
+    return md[0] || md[1];
 };

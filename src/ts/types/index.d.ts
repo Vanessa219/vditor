@@ -41,6 +41,8 @@ interface ILute {
     RenderVditorDOM(text: string): string[];
 
     VditorDOMMarkdown(html: string): string[];
+
+    SpinVditorDOM(html: string): string[];
 }
 
 declare var webkitAudioContext: {
@@ -217,8 +219,15 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement
-        range: Range,
+        range: IWYSIWYGRange,
     };
+}
+
+interface IWYSIWYGRange {
+    startElement: HTMLElement,
+    startIndex: number,
+    endElement: HTMLElement,
+    endIndex: number
 }
 
 declare class IVditorConstructor {

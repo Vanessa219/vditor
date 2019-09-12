@@ -4,7 +4,7 @@ export const setSelectionFocus = (range: Range) => {
     selection.addRange(range);
 };
 
-export const setSelectionByPosition = (start: number, end: number, editor: HTMLPreElement) => {
+export const setSelectionByPosition = (start: number, end: number, editor: HTMLElement) => {
     let charIndex = 0;
     let line = 0;
     let pNode = editor.childNodes[line];
