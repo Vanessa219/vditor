@@ -28,9 +28,9 @@ interface ITurndownRule {
 interface ILute {
     New(): ILute;
 
-    PutEmojis(emojis: { [key: string]: string }): void;
-
     SetEmojiSite(emojiSite: string): void;
+
+    PutEmojis(emojis: { [key: string]: string }): void;
 
     MarkdownStr(error: string, text: string): string[];
 
@@ -42,7 +42,7 @@ interface ILute {
 
     VditorDOMMarkdown(html: string): string[];
 
-    SpinVditorDOM(html: string): string[];
+    // SpinVditorDOM(html: string): string[];
 }
 
 declare var webkitAudioContext: {

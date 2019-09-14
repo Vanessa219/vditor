@@ -1,16 +1,20 @@
-import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
+import {setSelectionByPosition, setSelectionByWYSIWYG, setSelectionFocus} from "../editor/setSelection";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {getParentBlock} from "./getParentBlock";
 import {getSelectPosition} from "../editor/getSelectPosition";
+import {insertText} from "../editor/insertText";
+import {expandByOffset} from "./expandByOffset";
 
 class WYSIWYG {
     public element: HTMLPreElement;
     public range: IWYSIWYGRange;
+    private id:string ='vditorb1';
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
         this.element.className = "vditor-reset vditor-wysiwyg";
         this.element.setAttribute("contenteditable", "true");
+        this.element.innerHTML = `<p id="${this.id}" data-mtype="0"></p>`
         if (vditor.options.mode === "markdown-show") {
             this.element.style.display = "none";
         }
@@ -26,6 +30,7 @@ class WYSIWYG {
     }
 
     private setExpend() {
+        // Test: __123__**456** **789*
         const range = getSelection().getRangeAt(0);
         const startNodeElement = range.startContainer.parentElement.closest(".node");
         const endNodeElement = range.endContainer.parentElement.closest(".node");
@@ -36,8 +41,10 @@ class WYSIWYG {
         });
         if (!startNodeElement) {
             if (range.collapsed && range.startContainer.nodeType === 3 &&
+                range.startOffset === range.startContainer.textContent.length &&
                 range.startContainer.parentElement.nextElementSibling &&
                 range.startContainer.parentElement.nextElementSibling.className === "node") {
+                // 光标在普通文本和节点前，**789*
                 range.startContainer.parentElement.nextElementSibling.className = "node node--expand";
                 range.setStart(range.startContainer.parentElement.nextElementSibling.firstChild.childNodes[0], 0);
                 setSelectionFocus(range);
@@ -50,9 +57,11 @@ class WYSIWYG {
             range.startContainer.parentElement.className.indexOf("marker") > -1 &&
             !range.startContainer.parentElement.nextElementSibling &&
             startNodeElement.nextElementSibling && startNodeElement.nextElementSibling.className === "node") {
+            // 光标在两个节点中间，__123__**456**
             startNodeElement.nextElementSibling.className = "node node--expand";
         }
         if (!range.collapsed) {
+            // 展开多选中的节点
             const ancestorElement = range.commonAncestorContainer as HTMLElement;
             if (ancestorElement.nodeType !== 3 && ancestorElement.tagName !== "SPAN") {
                 ancestorElement.querySelectorAll(".node").forEach((e) => {
@@ -73,7 +82,13 @@ class WYSIWYG {
             this.setExpend();
         });
 
-        this.element.addEventListener("input", () => {
+        this.element.addEventListener("keypress", (event: KeyboardEvent) => {
+            if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
+                // this.key = event.key
+            }
+        });
+
+        this.element.addEventListener("input", (event: KeyboardEvent) => {
             let range = getSelection().getRangeAt(0).cloneRange()
             const blockElements = []
             const ancestorElement = range.commonAncestorContainer as HTMLElement;
@@ -95,22 +110,18 @@ class WYSIWYG {
                     this.range.endElement = blockElement
                     this.range.endIndex = getSelectPosition(blockElement, range).start
                 }
-                const formatHTML = vditor.lute.SpinVditorDOM(blockElement.innerHTML)
-                blockElement.innerHTML = formatHTML[0] || formatHTML[1]
-                blockElement.querySelectorAll(".node").forEach((e) => {
-                    e.className = "node node--expand";
-                });
+                const formatHTML = vditor.lute.RenderVditorDOM(blockElement.textContent)
+                const newElement = document.createElement('div')
+                newElement.innerHTML = formatHTML[0] || formatHTML[1]
+                expandByOffset(newElement, this.range.startIndex)
+                blockElement.innerHTML =  newElement.innerHTML
             })
 
-            setSelectionByPosition(this.range.startIndex, this.range.startIndex, this.range.startElement)
-            if (!range.collapsed) {
-                // setSelectionByEnd(this.range)
-            }
+            setSelectionByWYSIWYG(this.range)
             console.log(this.range)
             // setSelectionFocus(range)
             // const position = getCursorPosition(this.element);
         });
-
     }
 }
 

@@ -8,13 +8,14 @@ import {mermaidRender} from "../markdown/mermaidRender";
 
 export const renderDomByMd = (vditor: IVditor, md: string) => {
     const domHTML = vditor.lute.RenderVditorDOM(md);
-    vditor.wysiwyg.element.innerHTML = domHTML[0] || domHTML[1];
-    codeRender(vditor.wysiwyg.element, vditor.options.lang);
+    const blockElement = vditor.wysiwyg.element.firstElementChild as HTMLElement
+    blockElement.innerHTML = domHTML[0] || domHTML[1];
+    codeRender(blockElement, vditor.options.lang);
     highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable,
-        vditor.wysiwyg.element);
-    mathRender(vditor.wysiwyg.element, vditor.options.lang);
-    mermaidRender(vditor.wysiwyg.element);
-    chartRender(vditor.wysiwyg.element);
-    abcRender(vditor.wysiwyg.element);
-    mediaRender(vditor.wysiwyg.element);
+        blockElement);
+    mathRender(blockElement, vditor.options.lang);
+    mermaidRender(blockElement);
+    chartRender(blockElement);
+    abcRender(blockElement);
+    mediaRender(blockElement);
 };

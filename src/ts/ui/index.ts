@@ -79,6 +79,7 @@ export class Ui {
             vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`;
         }
 
+        // set default value
         let initValue = localStorage.getItem("vditor" + vditor.id);
         if (!vditor.options.cache || !initValue) {
             initValue = await html2md(vditor, vditor.originalInnerHTML);

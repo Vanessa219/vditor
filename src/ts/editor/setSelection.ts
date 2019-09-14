@@ -81,3 +81,55 @@ export const setSelectionByInlineText = (text: string, childNodes: NodeListOf<Ch
     range.setEnd(childNodes[offset].childNodes[0], startIndex + text.length);
     setSelectionFocus(range);
 };
+
+
+export const setSelectionByWYSIWYG = (customRange: IWYSIWYGRange) => {
+    let charIndex = 0
+    let range = customRange.startElement.ownerDocument.createRange();
+    range.setStart(customRange.startElement, 0);
+    range.collapse(true);
+
+    let startStack = [customRange.startElement]
+    let startNode
+    let foundStart = false
+    let endStack = [customRange.endElement]
+    let endNode
+    let foundEnd = false;
+
+    while (!foundStart && (startNode = startStack.pop())) {
+        if (startNode.nodeType == 3) {
+            let nextCharIndex = charIndex + startNode.textContent.length;
+            if (!foundStart && customRange.startIndex >= charIndex && customRange.startIndex <= nextCharIndex) {
+                range.setStart(startNode, customRange.startIndex - charIndex);
+                foundStart = true;
+            }
+            charIndex = nextCharIndex;
+        } else {
+            let i = startNode.childNodes.length;
+            while (i--) {
+                startStack.push(startNode.childNodes[i] as HTMLElement);
+            }
+        }
+    }
+
+    if (customRange.endElement) {
+        while (!foundEnd && (endNode = endStack.pop())) {
+            if (startNode.nodeType == 3) {
+                let nextCharIndex = charIndex + endNode.textContent.length;
+
+                if (foundStart && customRange.endIndex >= charIndex && customRange.endIndex <= nextCharIndex) {
+                    range.setEnd(endNode, customRange.endIndex - charIndex);
+                    foundEnd = true;
+                }
+                charIndex = nextCharIndex;
+            } else {
+                let i = endNode.childNodes.length;
+                while (i--) {
+                    endStack.push(endNode.childNodes[i] as HTMLElement);
+                }
+            }
+        }
+    }
+
+    setSelectionFocus(range)
+};

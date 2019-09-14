@@ -31,5 +31,13 @@
     display: inline;
     color: #bbb;
   }
+
+  p:empty:after {
+    content:  '\200b';
+  }
+
+  li p {
+    display: inline-block;
+  }
 }
 
