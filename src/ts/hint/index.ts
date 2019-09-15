@@ -22,9 +22,11 @@ export class Hint {
         if (!window.getSelection().focusNode) {
             return;
         }
-        const position = getSelectPosition(this.vditor.editor.element);
-        const currentLineValue = getText(this.vditor.editor.element).substring(0, position.end).split("\n")
-            .slice(-1).pop();
+        const position = getSelectPosition(this.vditor.currentEditorName === 'wysiwyg' ?
+            this.vditor.wysiwyg.element : this.vditor.editor.element);
+        const currentLineValue = this.vditor.currentEditorName === 'wysiwyg' ?
+            getSelection().getRangeAt(0).startContainer.textContent.split("\n")[0] :
+            getText(this.vditor.editor.element).substring(0, position.end).split("\n").slice(-1).pop();
 
         let key = this.getKey(currentLineValue, ":");
         let isAt = false;
@@ -41,7 +43,9 @@ export class Hint {
             if (isAt && this.vditor.options.hint.at) {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
-                    this.genHTML(this.vditor.options.hint.at(key), key, this.vditor.editor.element);
+                    this.genHTML(this.vditor.options.hint.at(key), key,
+                        this.vditor.currentEditorName === 'wysiwyg' ?
+                        this.vditor.wysiwyg.element : this.vditor.editor.element);
                 }, this.vditor.options.hint.delay);
             }
             if (!isAt) {
@@ -62,12 +66,14 @@ export class Hint {
                         }
                     }
                 });
-                this.genHTML(matchEmojiData, key, this.vditor.editor.element);
+                this.genHTML(matchEmojiData, key, this.vditor.currentEditorName === 'wysiwyg' ?
+                    this.vditor.wysiwyg.element : this.vditor.editor.element);
             }
         }
     }
 
     public fillEmoji = (element: HTMLElement) => {
+        // TODO wysiwyg
         this.element.style.display = "none";
 
         const value = element.getAttribute("data-value");
@@ -105,13 +111,13 @@ export class Hint {
         return key;
     }
 
-    private genHTML(data: IHintData[], key: string, editorElement: HTMLPreElement) {
+    private genHTML(data: IHintData[], key: string, editorElement: HTMLElement) {
         if (data.length === 0) {
             this.element.style.display = "none";
             return;
         }
 
-        const textareaPosition = getCursorPosition(this.vditor.editor.element);
+        const textareaPosition = getCursorPosition(editorElement);
         const x = textareaPosition.left;
         const y = textareaPosition.top;
         let hintsHTML = "";

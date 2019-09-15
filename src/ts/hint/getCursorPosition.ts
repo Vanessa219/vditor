@@ -1,6 +1,6 @@
 import {isSafari} from "../util/isSafari";
 
-export const getCursorPosition = (editor: HTMLPreElement) => {
+export const getCursorPosition = (editor: HTMLElement) => {
     const parentRect = editor.parentElement.getBoundingClientRect();
     const range = window.getSelection().getRangeAt(0);
     const startNode = range.startContainer.childNodes[range.startOffset] as HTMLElement;

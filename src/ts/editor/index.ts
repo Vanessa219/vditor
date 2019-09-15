@@ -4,6 +4,7 @@ import {getText} from "./getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
+import {focusEvent, copyEvent, scrollCenter, hotkeyEvent} from "../util/editorCommenEvent";
 
 class Editor {
     public element: HTMLPreElement;
@@ -16,9 +17,26 @@ class Editor {
         this.element.setAttribute("contenteditable", "true");
         this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
         this.bindEvent(vditor);
+
+        focusEvent(vditor, this.element)
+        copyEvent(vditor, this.element)
+        hotkeyEvent(vditor, this.element)
     }
 
     private bindEvent(vditor: IVditor) {
+
+        this.element.addEventListener("keyup", (event: KeyboardEvent) => {
+            this.range = window.getSelection().getRangeAt(0).cloneRange();
+        });
+
+        this.element.addEventListener("keypress", (event: KeyboardEvent) => {
+            if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
+                insertText(vditor, "\n", "", true);
+                scrollCenter(this.element)
+                event.preventDefault();
+            }
+        });
+
         this.element.addEventListener("input", () => {
             inputEvent(vditor);
             // 选中多行后输入任意字符，br 后无 \n
@@ -27,20 +45,6 @@ class Editor {
                     br.insertAdjacentHTML("afterend", '<span style="display: none">\n</span>');
                 }
             });
-        });
-
-        this.element.addEventListener("focus", () => {
-            if (vditor.options.focus) {
-                vditor.options.focus(getText(this.element));
-            }
-            if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
-                const emojiPanel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
-                emojiPanel.style.display = "none";
-            }
-            if (vditor.toolbar.elements.headings && vditor.toolbar.elements.headings.children[1]) {
-                const headingsPanel = vditor.toolbar.elements.headings.children[1] as HTMLElement;
-                headingsPanel.style.display = "none";
-            }
         });
 
         this.element.addEventListener("blur", () => {

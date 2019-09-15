@@ -9,7 +9,6 @@ import {insertText} from "./ts/editor/insertText";
 import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
-import {Hotkey} from "./ts/hotkey/index";
 import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
@@ -102,8 +101,6 @@ class Vditor {
             }
 
             const ui = new Ui(this.vditor);
-
-            const hotkey = new Hotkey(this.vditor);
         });
     }
 
@@ -144,7 +141,11 @@ class Vditor {
     }
 
     public getCursorPosition() {
-        return getCursorPosition(this.vditor.editor.element);
+        if (this.vditor.currentEditorName === 'wysiwyg') {
+            return getCursorPosition(this.vditor.wysiwyg.element);
+        } else {
+            return getCursorPosition(this.vditor.editor.element);
+        }
     }
 
     public isUploading() {

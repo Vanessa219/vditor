@@ -2,6 +2,8 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {expandByOffset} from "./expandByOffset";
 import {getParentBlock} from "./getParentBlock";
+import {getSelectText} from "../editor/getSelectText";
+import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -15,6 +17,10 @@ class WYSIWYG {
         }
 
         this.bindEvent(vditor);
+
+        focusEvent(vditor, this.element)
+        copyEvent(vditor, this.element)
+        hotkeyEvent(vditor, this.element)
     }
 
     private setExpand() {
@@ -92,8 +98,18 @@ class WYSIWYG {
     }
 
     private bindEvent(vditor: IVditor) {
+        // TODO drap upload file & paste
         this.element.addEventListener("mouseup", () => {
             this.setExpand();
+
+            if (vditor.options.select) {
+                const range = window.getSelection().getRangeAt(0).cloneRange();
+                const selectText = getSelectText(this.element);
+                if (selectText === "") {
+                    return;
+                }
+                vditor.options.select(selectText);
+            }
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent) => {
@@ -124,6 +140,7 @@ class WYSIWYG {
             }
 
             if (!startSpace && !endSpace) {
+                // 使用 lute 进行渲染
                 range.insertNode(document.createTextNode(String.fromCharCode(7)));
                 const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent.replace(String.fromCharCode(7),
                     '<span data-caret="RenderVditorDOM"></span>'));
@@ -134,6 +151,10 @@ class WYSIWYG {
 
                 range.setStartBefore(this.element.querySelector('[data-caret="RenderVditorDOM"]'));
                 setSelectionFocus(range);
+            }
+
+            if (vditor.hint) {
+                vditor.hint.render();
             }
         });
 
@@ -159,7 +180,8 @@ class WYSIWYG {
             }
 
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
-                // newline
+                // TODO: newline
+                scrollCenter(this.element)
             }
         });
     }
