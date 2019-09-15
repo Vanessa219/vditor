@@ -218,16 +218,8 @@ interface IVditor {
         addToUndoStack(vditor: IVditor): void,
     };
     wysiwyg: {
-        element: HTMLElement
-        range: IWYSIWYGRange,
+        element: HTMLElement,
     };
-}
-
-interface IWYSIWYGRange {
-    startElement: HTMLElement,
-    startIndex: number,
-    endElement: HTMLElement,
-    endIndex: number
 }
 
 declare class IVditorConstructor {

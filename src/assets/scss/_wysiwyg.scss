@@ -25,6 +25,10 @@
     transition: color .15s ease-in-out;
   }
 
+  .newline {
+    display: none;
+  }
+
   .node--expand .marker {
     width: auto;
     height: auto;

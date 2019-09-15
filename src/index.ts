@@ -50,7 +50,7 @@ class Vditor {
         const mergedOptions = getOptions.merge();
 
         this.vditor = {
-            currentEditorName: mergedOptions.mode.indexOf('wysiwyg') > -1 ? 'wysiwyg' : 'markdown',
+            currentEditorName: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",
             id,
             lute: undefined,
             options: mergedOptions,
