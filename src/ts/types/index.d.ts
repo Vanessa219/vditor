@@ -200,7 +200,7 @@ interface IVditor {
     hint?: {
         timeId: number
         element: HTMLUListElement
-        fillEmoji(element: HTMLElement): void
+        fillEmoji(element: HTMLElement, currentEditorName: string): void
         render(): void,
     };
     tip: {

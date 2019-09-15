@@ -1,10 +1,10 @@
 import {uploadFiles} from "../upload/index";
+import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
 import {getSelectText} from "./getSelectText";
 import {getText} from "./getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
-import {focusEvent, copyEvent, scrollCenter, hotkeyEvent} from "../util/editorCommenEvent";
 
 class Editor {
     public element: HTMLPreElement;
@@ -18,9 +18,9 @@ class Editor {
         this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
         this.bindEvent(vditor);
 
-        focusEvent(vditor, this.element)
-        copyEvent(vditor, this.element)
-        hotkeyEvent(vditor, this.element)
+        focusEvent(vditor, this.element);
+        copyEvent(vditor, this.element);
+        hotkeyEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -32,7 +32,7 @@ class Editor {
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
                 insertText(vditor, "\n", "", true);
-                scrollCenter(this.element)
+                scrollCenter(this.element);
                 event.preventDefault();
             }
         });

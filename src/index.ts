@@ -141,7 +141,7 @@ class Vditor {
     }
 
     public getCursorPosition() {
-        if (this.vditor.currentEditorName === 'wysiwyg') {
+        if (this.vditor.currentEditorName === "wysiwyg") {
             return getCursorPosition(this.vditor.wysiwyg.element);
         } else {
             return getCursorPosition(this.vditor.editor.element);

@@ -28,11 +28,6 @@ window.vditor = new Vditor('vditor', {
   preview: {
     mode: 'both',
   },
-  esc: (val) => {
-    console.log(`esc: ${val}`)
-    console.log(
-      `cursor position:${JSON.stringify(vditor.getCursorPosition())}`)
-  },
 })
 
 window.vditorTest = new Vditor('vditorTest', {

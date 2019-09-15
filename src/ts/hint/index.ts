@@ -22,9 +22,9 @@ export class Hint {
         if (!window.getSelection().focusNode) {
             return;
         }
-        const position = getSelectPosition(this.vditor.currentEditorName === 'wysiwyg' ?
+        const position = getSelectPosition(this.vditor.currentEditorName === "wysiwyg" ?
             this.vditor.wysiwyg.element : this.vditor.editor.element);
-        const currentLineValue = this.vditor.currentEditorName === 'wysiwyg' ?
+        const currentLineValue = this.vditor.currentEditorName === "wysiwyg" ?
             getSelection().getRangeAt(0).startContainer.textContent.split("\n")[0] :
             getText(this.vditor.editor.element).substring(0, position.end).split("\n").slice(-1).pop();
 
@@ -44,8 +44,8 @@ export class Hint {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
                     this.genHTML(this.vditor.options.hint.at(key), key,
-                        this.vditor.currentEditorName === 'wysiwyg' ?
-                        this.vditor.wysiwyg.element : this.vditor.editor.element);
+                        this.vditor.currentEditorName === "wysiwyg" ?
+                            this.vditor.wysiwyg.element : this.vditor.editor.element);
                 }, this.vditor.options.hint.delay);
             }
             if (!isAt) {
@@ -66,31 +66,34 @@ export class Hint {
                         }
                     }
                 });
-                this.genHTML(matchEmojiData, key, this.vditor.currentEditorName === 'wysiwyg' ?
+                this.genHTML(matchEmojiData, key, this.vditor.currentEditorName === "wysiwyg" ?
                     this.vditor.wysiwyg.element : this.vditor.editor.element);
             }
         }
     }
 
-    public fillEmoji = (element: HTMLElement) => {
-        // TODO wysiwyg
+    public fillEmoji = (element: HTMLElement, currentEditorName: string) => {
         this.element.style.display = "none";
 
         const value = element.getAttribute("data-value");
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
-        let range: Range = window.getSelection().getRangeAt(0);
-        if (!selectIsEditor(this.vditor.editor.element, range)) {
-            range = this.vditor.editor.range;
+        if (currentEditorName === "wysiwyg") {
+            // TODO wysiwyg
+        } else {
+            let range: Range = window.getSelection().getRangeAt(0);
+            if (!selectIsEditor(this.vditor.editor.element, range)) {
+                range = this.vditor.editor.range;
+            }
+            const position = getSelectPosition(this.vditor.editor.element, range);
+            const text = getText(this.vditor.editor.element);
+            const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
+            formatRender(this.vditor, preText + value + text.substring(position.start),
+                {
+                    end: (preText + value).length,
+                    start: (preText + value).length,
+                });
         }
-        const position = getSelectPosition(this.vditor.editor.element, range);
-        const text = getText(this.vditor.editor.element);
-        const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
-        formatRender(this.vditor, preText + value + text.substring(position.start),
-            {
-                end: (preText + value).length,
-                start: (preText + value).length,
-            });
     }
 
     private getKey(currentLineValue: string, splitChar: string) {
@@ -151,7 +154,7 @@ export class Hint {
 
         this.element.querySelectorAll("li").forEach((element) => {
             element.addEventListener("click", () => {
-                this.fillEmoji(element);
+                this.fillEmoji(element, this.vditor.currentEditorName);
             });
         });
         // hint 展现在上部

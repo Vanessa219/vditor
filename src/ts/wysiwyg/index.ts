@@ -1,9 +1,9 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
+import {getSelectText} from "../editor/getSelectText";
 import {setSelectionFocus} from "../editor/setSelection";
+import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
 import {expandByOffset} from "./expandByOffset";
 import {getParentBlock} from "./getParentBlock";
-import {getSelectText} from "../editor/getSelectText";
-import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -18,9 +18,9 @@ class WYSIWYG {
 
         this.bindEvent(vditor);
 
-        focusEvent(vditor, this.element)
-        copyEvent(vditor, this.element)
-        hotkeyEvent(vditor, this.element)
+        focusEvent(vditor, this.element);
+        copyEvent(vditor, this.element);
+        hotkeyEvent(vditor, this.element);
     }
 
     private setExpand() {
@@ -74,7 +74,7 @@ class WYSIWYG {
         }
 
         // 记录光标位置
-        this.element.querySelectorAll('[data-caret="start"]').forEach((e) => {
+        this.element.querySelectorAll("[data-caret]").forEach((e) => {
             e.removeAttribute("data-caret");
             e.removeAttribute("data-caretoffset");
         });
@@ -181,7 +181,7 @@ class WYSIWYG {
 
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
                 // TODO: newline
-                scrollCenter(this.element)
+                scrollCenter(this.element);
             }
         });
     }

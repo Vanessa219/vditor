@@ -1,17 +1,17 @@
-import {getText} from "../editor/getText";
-import {getCursorPosition} from "../hint/getCursorPosition";
-import {getSelectPosition} from "../editor/getSelectPosition";
-import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {formatRender} from "../editor/formatRender";
+import {getSelectPosition} from "../editor/getSelectPosition";
+import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
+import {getCursorPosition} from "../hint/getCursorPosition";
+import {getCurrentLinePosition} from "./getCurrentLinePosition";
 
 const getContent = (vditor: IVditor, editorElement: HTMLElement) => {
-    if (vditor.currentEditorName === 'wysiwyg') {
-        return editorElement.textContent
+    if (vditor.currentEditorName === "wysiwyg") {
+        return editorElement.textContent;
     } else {
-        return getText(editorElement)
+        return getText(editorElement);
     }
-}
+};
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -28,8 +28,7 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
     });
 
-}
-
+};
 
 export const copyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("copy", async (event: ClipboardEvent) => {
@@ -37,7 +36,7 @@ export const copyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         event.preventDefault();
         event.clipboardData.setData("text/plain", getContent(vditor, editorElement));
     });
-}
+};
 
 export const scrollCenter = (editorElement: HTMLElement) => {
     const cursorTop = getCursorPosition(editorElement).top;
@@ -45,7 +44,7 @@ export const scrollCenter = (editorElement: HTMLElement) => {
     if (cursorTop > center) {
         editorElement.scrollTop = editorElement.scrollTop + (cursorTop - center);
     }
-}
+};
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     const processKeymap = (hotkey: string, event: KeyboardEvent, action: () => void) => {
@@ -60,7 +59,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 event.stopPropagation();
             }
         }
-    }
+    };
 
     const hint = (event: KeyboardEvent, hintElement: HTMLElement) => {
         if (!hintElement) {
@@ -96,9 +95,9 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         } else if (event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
-            vditor.hint.fillEmoji(currentHintElement);
+            vditor.hint.fillEmoji(currentHintElement, vditor.currentEditorName);
         }
-    }
+    };
 
     editorElement.addEventListener("keydown", (event: KeyboardEvent) => {
         const hintElement = vditor.hint && vditor.hint.element;
@@ -251,4 +250,4 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
     });
 
-}
+};
