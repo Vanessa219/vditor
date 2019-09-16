@@ -11,6 +11,10 @@ export const mathRenderByLute = (element: HTMLElement) => {
     import(/* webpackChunkName: "katex" */ "katex").then((katex) => {
         addStyle(`${CDN_PATH}/vditor/dist/js/katex/katex.min.css`, "vditorKatexStyle");
         mathElements.forEach((mathElement) => {
+            if (mathElement.getAttribute("data-math")) {
+                return;
+            }
+
             const math = code160to32(mathElement.textContent);
             mathElement.setAttribute("data-math", math);
             try {

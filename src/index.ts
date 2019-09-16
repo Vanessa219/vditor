@@ -79,9 +79,9 @@ class Vditor {
         }
 
         if (this.vditor.toolbar.elements.devtools) {
-            const devtoolsPanelElement = document.createElement('div')
-            devtoolsPanelElement.className = 'vditor-devtools'
-            this.vditor.devtools = devtoolsPanelElement
+            const devtoolsPanelElement = document.createElement("div");
+            devtoolsPanelElement.className = "vditor-devtools";
+            this.vditor.devtools = devtoolsPanelElement;
         }
 
         loadLuteJs(this.vditor).then(() => {
