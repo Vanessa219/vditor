@@ -80,23 +80,6 @@
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
 
-    &--editor {
-      display: none;
-    }
-
-    &--both {
-      display: block;
-    }
-
-    &--preview {
-      position: absolute;
-      top: 0;
-      left: -1px;
-      bottom: 0;
-      right: 0;
-      display: block;
-    }
-
     & > div::-webkit-scrollbar {
       display: none;
     }
@@ -108,12 +91,9 @@
 
   &-devtools {
     display: none;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    z-index: 6;
     background-color: $previewBg;
     overflow: auto;
+    flex: 1;
   }
 
   &-counter {

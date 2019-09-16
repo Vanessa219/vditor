@@ -10,7 +10,7 @@ export class Both extends MenuItem {
                 return true;
             }
         });
-        if (vditor.options.mode.indexOf("wysiwyg") > -1 && hasWYSIWYG) {
+        if (vditor.currentMode === 'wysiwyg' && hasWYSIWYG) {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || bothSVG;
@@ -22,7 +22,7 @@ export class Both extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener(getEventName(), function() {
+        this.element.children[0].addEventListener(getEventName(), function () {
             const vditorElement = document.getElementById(vditor.id);
             let className;
             if (vditor.preview.element.className === "vditor-preview vditor-preview--both") {

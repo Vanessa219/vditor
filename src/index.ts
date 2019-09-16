@@ -51,7 +51,8 @@ class Vditor {
         const mergedOptions = getOptions.merge();
 
         this.vditor = {
-            currentEditorName: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",
+            currentPreviewMode: mergedOptions.preview.mode,
+            currentMode: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",
             id,
             lute: undefined,
             options: mergedOptions,
@@ -150,7 +151,7 @@ class Vditor {
     }
 
     public getCursorPosition() {
-        if (this.vditor.currentEditorName === "wysiwyg") {
+        if (this.vditor.currentMode === "wysiwyg") {
             return getCursorPosition(this.vditor.wysiwyg.element);
         } else {
             return getCursorPosition(this.vditor.editor.element);

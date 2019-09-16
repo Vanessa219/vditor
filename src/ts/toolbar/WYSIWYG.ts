@@ -10,7 +10,7 @@ export class WYSIWYG extends MenuItem {
         super(vditor, menuItem);
 
         this.element.children[0].innerHTML = menuItem.icon || editSVG;
-        if (vditor.options.mode === "markdown-show") {
+        if (vditor.currentMode === "markdown") {
             this.element.children[0].className =
                 `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
         } else {
@@ -37,7 +37,7 @@ export class WYSIWYG extends MenuItem {
                 }
                 const wysiwygHTML = vditor.lute.VditorDOMMarkdown(vditor.wysiwyg.element.innerHTML);
                 formatRender(vditor, wysiwygHTML[0] || wysiwygHTML[1], undefined, false);
-                vditor.currentEditorName = "markdown";
+                vditor.currentMode = "markdown";
             } else {
                 this.className = this.className + " vditor-menu--current";
                 vditor.wysiwyg.element.style.display = "block";
@@ -51,8 +51,9 @@ export class WYSIWYG extends MenuItem {
                     vditor.toolbar.elements.preview.style.display = "none";
                 }
                 renderDomByMd(vditor, getText(vditor.editor.element));
-                vditor.currentEditorName = "wysiwyg";
+                vditor.currentMode = "wysiwyg";
             }
+
             if (vditor.hint) {
                 vditor.hint.element.style.display = "none";
             }
@@ -62,6 +63,7 @@ export class WYSIWYG extends MenuItem {
             if (vditor.toolbar.elements.emoji) {
                 (vditor.toolbar.elements.emoji.children[1] as HTMLElement).style.display = "none";
             }
+
             event.preventDefault();
         });
     }

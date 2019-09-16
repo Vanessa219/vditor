@@ -1,13 +1,14 @@
 import bugSVG from "../../assets/icons/bug.svg";
 import {getText} from "../editor/getText";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/getEventName";
 
 export class Devtools extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
         this.element.children[0].innerHTML = menuItem.icon || bugSVG;
 
-        this.element.addEventListener("click", () => {
+        this.element.addEventListener(getEventName(), () => {
             if (this.element.children[0].className.indexOf("vditor-menu--current") > -1) {
                 this.element.children[0].className =
                     this.element.children[0].className.replace(" vditor-menu--current", "");

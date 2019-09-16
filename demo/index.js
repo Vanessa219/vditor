@@ -2,7 +2,7 @@ import Vditor from '../src/index'
 import '../src/assets/scss/classic.scss'
 
 window.vditor = new Vditor('vditor', {
-  mode: 'wysiwyg-only',
+  mode: 'wysiwyg-show',
   counter: 100,
   height: 300,
   hint: {

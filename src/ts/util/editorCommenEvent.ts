@@ -6,7 +6,7 @@ import {getCursorPosition} from "../hint/getCursorPosition";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 
 const getContent = (vditor: IVditor, editorElement: HTMLElement) => {
-    if (vditor.currentEditorName === "wysiwyg") {
+    if (vditor.currentMode === "wysiwyg") {
         return editorElement.textContent;
     } else {
         return getText(editorElement);
@@ -95,7 +95,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         } else if (event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
-            vditor.hint.fillEmoji(currentHintElement, vditor.currentEditorName);
+            vditor.hint.fillEmoji(currentHintElement, vditor.currentMode);
         }
     };
 

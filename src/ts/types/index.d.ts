@@ -34,7 +34,7 @@ interface ILute {
 
     MarkdownStr(error: string, text: string): string[];
 
-    GetEmojis(): { [key: string]: string};
+    GetEmojis(): { [key: string]: string };
 
     FormatStr(error: string, text: string): string[];
 
@@ -180,7 +180,8 @@ interface IVditor {
     options: IOptions;
     originalInnerHTML: string;
     lute: ILute;
-    currentEditorName: "markdown" | "wysiwyg";
+    currentMode: "markdown" | "wysiwyg";
+    currentPreviewMode: "both" | "preview" | "editor";
     devtools?: HTMLElement;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
@@ -203,7 +204,7 @@ interface IVditor {
     hint?: {
         timeId: number
         element: HTMLUListElement
-        fillEmoji(element: HTMLElement, currentEditorName: string): void
+        fillEmoji(element: HTMLElement, currentMode: string): void
         render(): void,
     };
     tip: {

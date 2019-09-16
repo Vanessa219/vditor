@@ -22,9 +22,9 @@ export class Hint {
         if (!window.getSelection().focusNode) {
             return;
         }
-        const position = getSelectPosition(this.vditor.currentEditorName === "wysiwyg" ?
+        const position = getSelectPosition(this.vditor.currentMode === "wysiwyg" ?
             this.vditor.wysiwyg.element : this.vditor.editor.element);
-        const currentLineValue = this.vditor.currentEditorName === "wysiwyg" ?
+        const currentLineValue = this.vditor.currentMode === "wysiwyg" ?
             getSelection().getRangeAt(0).startContainer.textContent.split("\n")[0] :
             getText(this.vditor.editor.element).substring(0, position.end).split("\n").slice(-1).pop();
 
@@ -44,7 +44,7 @@ export class Hint {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
                     this.genHTML(this.vditor.options.hint.at(key), key,
-                        this.vditor.currentEditorName === "wysiwyg" ?
+                        this.vditor.currentMode === "wysiwyg" ?
                             this.vditor.wysiwyg.element : this.vditor.editor.element);
                 }, this.vditor.options.hint.delay);
             }
@@ -66,19 +66,19 @@ export class Hint {
                         }
                     }
                 });
-                this.genHTML(matchEmojiData, key, this.vditor.currentEditorName === "wysiwyg" ?
+                this.genHTML(matchEmojiData, key, this.vditor.currentMode === "wysiwyg" ?
                     this.vditor.wysiwyg.element : this.vditor.editor.element);
             }
         }
     }
 
-    public fillEmoji = (element: HTMLElement, currentEditorName: string) => {
+    public fillEmoji = (element: HTMLElement, currentMode: string) => {
         this.element.style.display = "none";
 
         const value = element.getAttribute("data-value");
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
-        if (currentEditorName === "wysiwyg") {
+        if (currentMode === "wysiwyg") {
             // TODO wysiwyg
         } else {
             let range: Range = window.getSelection().getRangeAt(0);
@@ -154,7 +154,7 @@ export class Hint {
 
         this.element.querySelectorAll("li").forEach((element) => {
             element.addEventListener("click", () => {
-                this.fillEmoji(element, this.vditor.currentEditorName);
+                this.fillEmoji(element, this.vditor.currentMode);
             });
         });
         // hint 展现在上部
