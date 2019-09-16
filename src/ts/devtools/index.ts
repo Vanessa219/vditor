@@ -7,16 +7,24 @@ export class DevTools {
     constructor() {
         this.element = document.createElement("div");
         this.element.className = "vditor-devtools";
+        this.element.innerHTML = '<div class="vditor--error"></div><div style="height: 100%;"></div>';
     }
 
-    public renderEchart(vditor: IVditor) {
+    public async renderEchart(vditor: IVditor) {
         if (vditor.devtools.element.style.display !== "block") {
             return;
+        }
+
+        if (!this.ASTChart) {
+            const {default: echarts} = await import(/* webpackChunkName: "echarts" */ "echarts");
+            this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
         }
 
         const data = vditor.lute.RenderEChartsJSON(vditor.currentMode === "wysiwyg" ?
             vditor.wysiwyg.element.textContent : getText(vditor.editor.element));
         try {
+            (this.element.lastElementChild as HTMLElement).style.display = "block";
+            this.element.firstElementChild.innerHTML = "";
             this.ASTChart.setOption({
                 series: [
                     {
@@ -39,7 +47,7 @@ export class DevTools {
                     },
                 ],
                 toolbox: {
-                    bottom: 20,
+                    bottom: 25,
                     emphasis: {
                         iconStyle: {
                             color: "#4285f4",
@@ -53,14 +61,13 @@ export class DevTools {
                             show: true,
                         },
                     },
-                    right: 20,
+                    right: 15,
                     show: true,
                 },
             });
-            this.element.className = "vditor-devtools";
         } catch (e) {
-            this.element.innerHTML = e;
-            this.element.className = "vditor-devtools vditor--error";
+            (this.element.lastElementChild as HTMLElement).style.display = "none";
+            this.element.firstElementChild.innerHTML = e;
         }
     }
 }

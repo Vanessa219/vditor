@@ -39,6 +39,10 @@ export class Both extends MenuItem {
                 vditor.toolbar.elements.preview.children[0].className =
                     vditor.toolbar.elements.preview.children[0].className.replace(" vditor-menu--current", "");
             }
+
+            if (vditor.devtools) {
+                vditor.devtools.ASTChart.resize();
+            }
         });
     }
 }

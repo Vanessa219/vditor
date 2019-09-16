@@ -26,7 +26,7 @@ export class Preview extends MenuItem {
             if (vditor.currentPreviewMode === "preview") {
                 vditor.preview.element.style.display = "none";
                 vditor.editor.element.style.display = "block";
-                this.className =  this.className.replace(" vditor-menu--current", "");
+                this.className = this.className.replace(" vditor-menu--current", "");
                 vditor.currentPreviewMode = "editor";
             } else {
                 this.className = this.className + " vditor-menu--current";
@@ -40,6 +40,10 @@ export class Preview extends MenuItem {
                 vditor.toolbar.elements.both.children[0].className.indexOf("vditor-menu--current") > -1) {
                 vditor.toolbar.elements.both.children[0].className =
                     vditor.toolbar.elements.both.children[0].className.replace(" vditor-menu--current", "");
+            }
+
+            if (vditor.devtools) {
+                vditor.devtools.ASTChart.resize();
             }
         });
     }

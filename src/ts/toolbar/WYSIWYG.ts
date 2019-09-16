@@ -75,6 +75,9 @@ export class WYSIWYG extends MenuItem {
             if (vditor.toolbar.elements.emoji) {
                 (vditor.toolbar.elements.emoji.children[1] as HTMLElement).style.display = "none";
             }
+            if (vditor.devtools) {
+                vditor.devtools.ASTChart.resize();
+            }
 
             event.preventDefault();
         });

@@ -27,11 +27,6 @@ export class Devtools extends MenuItem {
                     vditor.wysiwyg.element.style.paddingLeft = `${Math.max(10, padding)}px`;
                     vditor.wysiwyg.element.style.paddingRight = `${Math.max(10, padding)}px`;
                 }
-                if (vditor.devtools.ASTChart) {
-                    return;
-                }
-                const {default: echarts} = await import(/* webpackChunkName: "echarts" */ "echarts");
-                vditor.devtools.ASTChart = echarts.init(vditor.devtools.element);
                 vditor.devtools.renderEchart(vditor);
             }
         });
