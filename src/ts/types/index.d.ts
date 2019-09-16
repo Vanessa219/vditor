@@ -34,9 +34,11 @@ interface ILute {
 
     MarkdownStr(error: string, text: string): string[];
 
-    GetEmojis(): { [key: string]: string };
+    GetEmojis(): { [key: string]: string};
 
     FormatStr(error: string, text: string): string[];
+
+    RenderEChartsJSON(text: string):string[];
 
     RenderVditorDOM(text: string): string[];
 
@@ -179,6 +181,7 @@ interface IVditor {
     originalInnerHTML: string;
     lute: ILute;
     currentEditorName: "markdown" | "wysiwyg";
+    devtools?: HTMLElement;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };
@@ -228,7 +231,9 @@ declare class IVditorConstructor {
 
     public static highlightRender(hljsStyle: string, enableHighlight: boolean, element?: HTMLElement | Document): void;
 
-    public static mathRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+    public static mathRenderByLute(element: HTMLElement): void;
+
+    public static mathRender(element: HTMLElement): void;
 
     public static mermaidRender(element: HTMLElement): void;
 

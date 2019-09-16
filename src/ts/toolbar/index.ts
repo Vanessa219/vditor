@@ -4,6 +4,7 @@ import {Br} from "./Br";
 import {Check} from "./Check";
 import {Code} from "./Code";
 import {Custom} from "./Custom";
+import {Devtools} from "./Devtools";
 import {Divider} from "./Divider";
 import {Emoji} from "./Emoji";
 import {Format} from "./Format";
@@ -119,6 +120,9 @@ export class Toolbar {
                     if (vditor.options.mode.indexOf("only") === -1) {
                         menuItemObj = new WYSIWYG(vditor, menuItem);
                     }
+                    break;
+                case "devtools":
+                    menuItemObj = new Devtools(vditor, menuItem);
                     break;
                 default:
                     menuItemObj = new Custom(vditor, menuItem);

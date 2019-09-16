@@ -13,8 +13,10 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.5 / 2019-09-11
+### v1.8.6 / 2019-09-16
 
+* [136](https://github.com/b3log/vditor/issues/136) 添加 AST 展示 `feature`
+* [135](https://github.com/b3log/vditor/issues/135) 数学公式错误打印到预览区域 `feature`
 * [134](https://github.com/b3log/vditor/issues/134) 数学公式问题 `question`
 * [133](https://github.com/b3log/vditor/issues/133) Inline Katex `question`
 * [132](https://github.com/b3log/vditor/issues/132) emoji and table `question`

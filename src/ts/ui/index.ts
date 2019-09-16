@@ -41,6 +41,10 @@ export class Ui {
             this.contentElement.appendChild(vditor.preview.element);
         }
 
+        if (vditor.toolbar.elements.devtools) {
+            contentElement.appendChild(vditor.devtools);
+        }
+
         if (vditor.options.counter > 0) {
             this.contentElement.appendChild(vditor.counter.element);
         }

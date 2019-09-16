@@ -106,6 +106,16 @@
     }
   }
 
+  &-devtools {
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 6;
+    background-color: $previewBg;
+    overflow: auto;
+  }
+
   &-counter {
     padding: 0 3px;
     position: absolute;
