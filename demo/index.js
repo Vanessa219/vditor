@@ -31,6 +31,7 @@ window.vditor = new Vditor('vditor', {
 })
 
 window.vditorTest = new Vditor('vditorTest', {
+  tab: '\t',
   cache: true,
   height: 200,
   width: 500,

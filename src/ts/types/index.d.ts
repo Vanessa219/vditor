@@ -38,7 +38,7 @@ interface ILute {
 
     FormatStr(error: string, text: string): string[];
 
-    RenderEChartsJSON(text: string):string[];
+    RenderEChartsJSON(text: string): string[];
 
     RenderVditorDOM(text: string): string[];
 

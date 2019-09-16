@@ -117,132 +117,135 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // if (vditor.options.tab && event.key === "Tab") {
-        //     event.preventDefault();
-        //     event.stopPropagation();
-        //
-        //     const position = getSelectPosition(this.vditor.editor.element);
-        //     const text = getText(this.vditor.editor.element);
-        //     const selectLinePosition = getCurrentLinePosition(position, text);
-        //     const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
-        //
-        //     if (event.shiftKey) {
-        //         let shiftCount = 0;
-        //         let startIsShift = false;
-        //         const selectionShiftResult = selectLineList.map((value, index) => {
-        //             let shiftLineValue = value;
-        //             if (value.indexOf(vditor.options.tab) === 0) {
-        //                 if (index === 0) {
-        //                     startIsShift = true;
-        //                 }
-        //                 shiftCount++;
-        //                 shiftLineValue = value.replace(vditor.options.tab, "");
-        //             }
-        //             return shiftLineValue;
-        //         }).join("\n");
-        //
-        //         formatRender(this.vditor, text.substring(0, selectLinePosition.start) +
-        //             selectionShiftResult + text.substring(selectLinePosition.end - 1),
-        //             {
-        //                 end: position.end - shiftCount * vditor.options.tab.length,
-        //                 start: position.start - (startIsShift ? vditor.options.tab.length : 0),
-        //             });
-        //         return;
-        //     }
-        //
-        //     if (position.start === position.end) {
-        //         insertText(this.vditor, vditor.options.tab, "");
-        //         return;
-        //     }
-        //     const selectionResult = selectLineList.map((value) => {
-        //         return vditor.options.tab + value;
-        //     }).join("\n");
-        //     formatRender(this.vditor, text.substring(0, selectLinePosition.start) + selectionResult +
-        //         text.substring(selectLinePosition.end - 1),
-        //         {
-        //             end: position.end + selectLineList.length * vditor.options.tab.length,
-        //             start: position.start + vditor.options.tab.length,
-        //         });
-        //     return;
-        // }
-        //
-        // if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.keyCode === 8) {
-        //     const position = getSelectPosition(this.vditor.editor.element);
-        //     if (position.start !== position.end) {
-        //         insertText(this.vditor, "", "", true);
-        //     } else {
-        //         const text = getText(this.vditor.editor.element);
-        //         const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}][\u{2000}-\u{206F}][\u{2700}-\u{27BF}]|([\u{1F900}-\u{1F9FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F600}-\u{1F64F}])[\u{2000}-\u{206F}][\u{2600}-\u{26FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
-        //         const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
-        //         formatRender(this.vditor,
-        //             text.substring(0, position.start - deleteChar) + text.substring(position.start),
-        //             {
-        //                 end: position.start - deleteChar,
-        //                 start: position.start - deleteChar,
-        //             });
-        //     }
-        //     event.preventDefault();
-        //     event.stopPropagation();
-        //     return;
-        // }
-        //
-        // // editor actions
-        // if (vditor.options.keymap.deleteLine) {
-        //     this.processKeymap(vditor.options.keymap.deleteLine, event, () => {
-        //         const position = getSelectPosition(this.vditor.editor.element);
-        //         const text = getText(this.vditor.editor.element);
-        //         const linePosition = getCurrentLinePosition(position, text);
-        //         const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
-        //         const startIndex = Math.min(deletedText.length, position.start);
-        //         formatRender(this.vditor, deletedText, {
-        //             end: startIndex,
-        //             start: startIndex,
-        //         });
-        //     });
-        // }
-        //
-        // if (vditor.options.keymap.duplicate) {
-        //     this.processKeymap(vditor.options.keymap.duplicate, event, () => {
-        //         const position = getSelectPosition(this.vditor.editor.element);
-        //         const text = getText(this.vditor.editor.element);
-        //         let lineText = text.substring(position.start, position.end);
-        //         if (position.start === position.end) {
-        //             const linePosition = getCurrentLinePosition(position, text);
-        //             lineText = text.substring(linePosition.start, linePosition.end);
-        //             formatRender(this.vditor,
-        //                 text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
-        //                 {
-        //                     end: position.end + lineText.length,
-        //                     start: position.start + lineText.length,
-        //                 });
-        //         } else {
-        //             formatRender(this.vditor,
-        //                 text.substring(0, position.end) + lineText + text.substring(position.end),
-        //                 {
-        //                     end: position.end + lineText.length,
-        //                     start: position.start + lineText.length,
-        //                 });
-        //         }
-        //     });
-        // }
-        //
-        // // toolbar action
-        // vditor.options.toolbar.forEach((menuItem: IMenuItem) => {
-        //     if (!menuItem.hotkey) {
-        //         return;
-        //     }
-        //     this.processKeymap(menuItem.hotkey, event, () => {
-        //         (this.vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
-        //     });
-        // });
-        // if (!this.vditor.toolbar.elements.undo && (event.metaKey || event.ctrlKey) && event.key === "z") {
-        //     this.vditor.undo.undo(this.vditor);
-        //     event.preventDefault();
-        // }
-        // if (!this.vditor.toolbar.elements.redo && (event.metaKey || event.ctrlKey) && event.key === "y") {
-        //     this.vditor.undo.redo(this.vditor);
-        //     event.preventDefault();
-        // }
+        // TODO: WYSIWYG
+        if (vditor.options.mode === 'markdown-only') {
+            if (vditor.options.tab && event.key === "Tab") {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const position = getSelectPosition(editorElement);
+                const text = getText(editorElement);
+                const selectLinePosition = getCurrentLinePosition(position, text);
+                const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
+
+                if (event.shiftKey) {
+                    let shiftCount = 0;
+                    let startIsShift = false;
+                    const selectionShiftResult = selectLineList.map((value, index) => {
+                        let shiftLineValue = value;
+                        if (value.indexOf(vditor.options.tab) === 0) {
+                            if (index === 0) {
+                                startIsShift = true;
+                            }
+                            shiftCount++;
+                            shiftLineValue = value.replace(vditor.options.tab, "");
+                        }
+                        return shiftLineValue;
+                    }).join("\n");
+
+                    formatRender(vditor, text.substring(0, selectLinePosition.start) +
+                        selectionShiftResult + text.substring(selectLinePosition.end - 1),
+                        {
+                            end: position.end - shiftCount * vditor.options.tab.length,
+                            start: position.start - (startIsShift ? vditor.options.tab.length : 0),
+                        });
+                    return;
+                }
+
+                if (position.start === position.end) {
+                    insertText(vditor, vditor.options.tab, "");
+                    return;
+                }
+                const selectionResult = selectLineList.map((value) => {
+                    return vditor.options.tab + value;
+                }).join("\n");
+                formatRender(vditor, text.substring(0, selectLinePosition.start) + selectionResult +
+                    text.substring(selectLinePosition.end - 1),
+                    {
+                        end: position.end + selectLineList.length * vditor.options.tab.length,
+                        start: position.start + vditor.options.tab.length,
+                    });
+                return;
+            }
+
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.keyCode === 8) {
+                const position = getSelectPosition(editorElement);
+                if (position.start !== position.end) {
+                    insertText(vditor, "", "", true);
+                } else {
+                    const text = getText(editorElement);
+                    const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}][\u{2000}-\u{206F}][\u{2700}-\u{27BF}]|([\u{1F900}-\u{1F9FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F600}-\u{1F64F}])[\u{2000}-\u{206F}][\u{2600}-\u{26FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
+                    const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
+                    formatRender(vditor,
+                        text.substring(0, position.start - deleteChar) + text.substring(position.start),
+                        {
+                            end: position.start - deleteChar,
+                            start: position.start - deleteChar,
+                        });
+                }
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+            }
+
+            // editor actions
+            if (vditor.options.keymap.deleteLine) {
+                processKeymap(vditor.options.keymap.deleteLine, event, () => {
+                    const position = getSelectPosition(editorElement);
+                    const text = getText(editorElement);
+                    const linePosition = getCurrentLinePosition(position, text);
+                    const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
+                    const startIndex = Math.min(deletedText.length, position.start);
+                    formatRender(vditor, deletedText, {
+                        end: startIndex,
+                        start: startIndex,
+                    });
+                });
+            }
+
+            if (vditor.options.keymap.duplicate) {
+                processKeymap(vditor.options.keymap.duplicate, event, () => {
+                    const position = getSelectPosition(editorElement);
+                    const text = getText(editorElement);
+                    let lineText = text.substring(position.start, position.end);
+                    if (position.start === position.end) {
+                        const linePosition = getCurrentLinePosition(position, text);
+                        lineText = text.substring(linePosition.start, linePosition.end);
+                        formatRender(vditor,
+                            text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
+                            {
+                                end: position.end + lineText.length,
+                                start: position.start + lineText.length,
+                            });
+                    } else {
+                        formatRender(vditor,
+                            text.substring(0, position.end) + lineText + text.substring(position.end),
+                            {
+                                end: position.end + lineText.length,
+                                start: position.start + lineText.length,
+                            });
+                    }
+                });
+            }
+
+            // toolbar action
+            vditor.options.toolbar.forEach((menuItem: IMenuItem) => {
+                if (!menuItem.hotkey) {
+                    return;
+                }
+                processKeymap(menuItem.hotkey, event, () => {
+                    (vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
+                });
+            });
+            if (!vditor.toolbar.elements.undo && (event.metaKey || event.ctrlKey) && event.key === "z") {
+                vditor.undo.undo(vditor);
+                event.preventDefault();
+            }
+            if (!vditor.toolbar.elements.redo && (event.metaKey || event.ctrlKey) && event.key === "y") {
+                vditor.undo.redo(vditor);
+                event.preventDefault();
+            }
+        }
 
         // hint: 上下选择
         if (vditor.options.hint.at || vditor.toolbar.elements.emoji) {

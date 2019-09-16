@@ -85,7 +85,7 @@ class Vditor {
         if (this.vditor.toolbar.elements.devtools) {
             const devtoolsPanelElement = document.createElement("div");
             devtoolsPanelElement.className = "vditor-devtools";
-            devtoolsPanelElement.innerHTML = "<div style=\"height: 100%;\"></div>"
+            devtoolsPanelElement.innerHTML = "<div style=\"height: 100%;\"></div>";
             this.vditor.devtools = devtoolsPanelElement;
         }
 

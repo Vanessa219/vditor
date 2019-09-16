@@ -1,6 +1,6 @@
 import bugSVG from "../../assets/icons/bug.svg";
-import {MenuItem} from "./MenuItem";
 import {getText} from "../editor/getText";
+import {MenuItem} from "./MenuItem";
 
 export class Devtools extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -12,7 +12,7 @@ export class Devtools extends MenuItem {
                 this.element.children[0].className =
                     this.element.children[0].className.replace(" vditor-menu--current", "");
                 vditor.devtools.style.display = "none";
-                vditor.devtools.innerHTML = '<div style="height: 100%;"></div>'
+                vditor.devtools.innerHTML = '<div style="height: 100%;"></div>';
             } else {
                 this.element.children[0].className += " vditor-menu--current";
                 vditor.devtools.style.display = "block";
@@ -23,7 +23,7 @@ export class Devtools extends MenuItem {
 
     private async renderEchart(vditor: IVditor) {
         const {default: echarts} = await import(/* webpackChunkName: "echarts" */ "echarts");
-        const data = vditor.lute.RenderEChartsJSON(getText(vditor.editor.element))
+        const data = vditor.lute.RenderEChartsJSON(getText(vditor.editor.element));
         echarts.init(vditor.devtools.firstElementChild).setOption({
             series: [
                 {
