@@ -31,7 +31,6 @@ window.vditor = new Vditor('vditor', {
 })
 
 window.vditorTest = new Vditor('vditorTest', {
-  mode: 'markdown-only',
   cache: true,
   height: 200,
   width: 500,
@@ -108,6 +107,7 @@ window.vditorTest = new Vditor('vditorTest', {
       name: 'preview',
       tipPosition: 'ne',
     },
+    'both',
     {
       name: 'wysiwyg',
       tipPosition: 'ne',
@@ -121,6 +121,8 @@ window.vditorTest = new Vditor('vditorTest', {
       name: 'emoji',
     },
     'strike',
+    'devtools',
+    'fullscreen',
     {
       name: 'download',
       tipPosition: 'nw',

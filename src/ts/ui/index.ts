@@ -42,7 +42,7 @@ export class Ui {
         }
 
         if (vditor.toolbar.elements.devtools) {
-            contentElement.appendChild(vditor.devtools);
+            this.contentElement.appendChild(vditor.devtools);
         }
 
         if (vditor.options.counter > 0) {
