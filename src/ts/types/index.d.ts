@@ -34,9 +34,11 @@ interface ILute {
 
     MarkdownStr(error: string, text: string): string[];
 
-    GetEmojis(): { [key: string]: string };
+    GetEmojis(): { [key: string]: string};
 
     FormatStr(error: string, text: string): string[];
+
+    RenderEChartsJSON(text: string):string[];
 }
 
 declare var webkitAudioContext: {

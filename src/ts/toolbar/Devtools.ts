@@ -1,5 +1,6 @@
 import bugSVG from "../../assets/icons/bug.svg";
 import {MenuItem} from "./MenuItem";
+import {getText} from "../editor/getText";
 
 export class Devtools extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -11,80 +12,22 @@ export class Devtools extends MenuItem {
                 this.element.children[0].className =
                     this.element.children[0].className.replace(" vditor-menu--current", "");
                 vditor.devtools.style.display = "none";
+                vditor.devtools.innerHTML = '<div style="height: 100%;"></div>'
             } else {
                 this.element.children[0].className += " vditor-menu--current";
                 vditor.devtools.style.display = "block";
-                this.renderEchart(vditor.devtools);
+                this.renderEchart(vditor);
             }
         });
     }
 
-    private async renderEchart(element: HTMLElement) {
+    private async renderEchart(vditor: IVditor) {
         const {default: echarts} = await import(/* webpackChunkName: "echarts" */ "echarts");
-        echarts.init(element).setOption({
+        const data = vditor.lute.RenderEChartsJSON(getText(vditor.editor.element))
+        echarts.init(vditor.devtools.firstElementChild).setOption({
             series: [
                 {
-                    data: [
-                        {
-                            children: [
-                                {
-                                    children: [
-                                        {
-                                            name: "Text\n'简介'",
-                                        },
-                                    ],
-                                    name: "Heading\nh2",
-                                },
-                                {
-                                    children: [
-                                        {
-                                            name: "Text\n'一款'",
-                                        },
-                                        {
-                                            children: [
-                                                {
-                                                    name: "Text\n'Markdown'",
-                                                },
-                                            ],
-                                            name: "Emph\nem",
-                                        },
-                                        {
-                                            name: "Text\n'引擎'",
-                                        },
-                                    ],
-                                    name: "Paragraph\np",
-                                },
-                                {
-                                    children: [
-                                        {
-                                            name: "Text\n'特性'",
-                                        },
-                                    ],
-                                    name: "Heading\nh2",
-                                },
-                                {
-                                    children: [
-                                        {
-                                            children: [{
-                                                children: [{name: "Text\n'实现'"}],
-                                                name: "Paragrap\np",
-                                            }, {
-                                                children: [{name: "Text\n'GFM'"}],
-                                                name: "Emph\nem",
-                                            }],
-                                            name: "Item\nli",
-                                        },
-                                        {
-                                            children: [{name: "Paragrap\np", children: [{name: "Text\n'非常快'"}]}],
-                                            name: "Item\nli",
-                                        },
-                                    ],
-                                    name: "List\nul",
-                                },
-                            ],
-                            name: "Document",
-                        },
-                    ],
+                    data: JSON.parse(data[0]) || data[1],
                     initialTreeDepth: -1,
                     label: {
                         align: "left",

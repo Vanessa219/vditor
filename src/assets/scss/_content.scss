@@ -112,7 +112,8 @@
     width: 100%;
     position: absolute;
     z-index: 6;
-    background: $previewBg;
+    background-color: $previewBg;
+    overflow: auto;
   }
 
   &-counter {
