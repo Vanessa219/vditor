@@ -217,6 +217,8 @@ declare class IVditorConstructor {
 
     public static highlightRender(hljsStyle: string, enableHighlight: boolean, element?: HTMLElement | Document): void;
 
+    public static mathRenderByLute(element: HTMLElement, lang?: (keyof II18nLang)): void;
+
     public static mathRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
     public static mermaidRender(element: HTMLElement): void;

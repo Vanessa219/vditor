@@ -7,11 +7,13 @@ import {md2htmlByPreview} from "./ts/markdown/md2html";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {previewRender} from "./ts/markdown/previewRender";
+import {mathRenderByLute} from "./ts/markdown/mathRenderByLute";
 
 class Vditor {
 
     public static codeRender = codeRender;
     public static highlightRender = highlightRender;
+    public static mathRenderByLute = mathRenderByLute;
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;
     public static chartRender = chartRender;

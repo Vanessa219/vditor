@@ -14,7 +14,6 @@ import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
-import {mathRender} from "./ts/markdown/mathRender";
 import {loadLuteJs, md2htmlByPreview, md2htmlByVditor} from "./ts/markdown/md2html";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
@@ -27,11 +26,14 @@ import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
+import {mathRenderByLute} from "./ts/markdown/mathRenderByLute";
+import {mathRender} from "./ts/markdown/mathRender";
 
 class Vditor {
 
     public static codeRender = codeRender;
     public static highlightRender = highlightRender;
+    public static mathRenderByLute = mathRenderByLute;
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;
     public static chartRender = chartRender;
