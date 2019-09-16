@@ -171,6 +171,7 @@ interface IVditor {
     options: IOptions;
     originalInnerHTML: string;
     lute: ILute;
+    devtools?: HTMLElement;
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };

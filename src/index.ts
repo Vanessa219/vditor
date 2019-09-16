@@ -78,6 +78,12 @@ class Vditor {
             this.vditor.toolbar = toolbar;
         }
 
+        if (this.vditor.toolbar.elements.devtools) {
+            const devtoolsPanelElement = document.createElement('div')
+            devtoolsPanelElement.className = 'vditor-devtools'
+            this.vditor.devtools = devtoolsPanelElement
+        }
+
         loadLuteJs(this.vditor).then(() => {
             if (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both) {
                 const preview = new Preview(this.vditor);
