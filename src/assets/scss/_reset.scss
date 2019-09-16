@@ -191,10 +191,6 @@
       display: block;
     }
 
-    .katex:hover div.vditor-copy {
-      display: inline;
-    }
-
     kbd {
       display: inline-block;
       padding: 3px 5px;
@@ -229,11 +225,6 @@
     ol:last-child,
     hr:last-child {
       margin-bottom: 0;
-    }
-
-    // 当预览内容很长时，就会溢出 vditor，把页面撑高
-    .katex {
-      position: relative;
     }
 
     .language-echarts {

@@ -29,7 +29,7 @@ export const previewRender = async (element: HTMLTextAreaElement, options?: IPre
     element.remove();
     codeRender(divElement, options.lang);
     highlightRender(options.hljsStyle, options.enableHighlight, divElement);
-    mathRenderByLute(divElement, options.lang);
+    mathRenderByLute(divElement);
     mermaidRender(divElement);
     chartRender(divElement);
     abcRender(divElement);

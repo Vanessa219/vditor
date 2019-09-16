@@ -13,8 +13,10 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.4 / 2019-09-08
+### v1.8.6 / 2019-09-16
 
+* [136](https://github.com/b3log/vditor/issues/136) 添加 AST 展示 `feature`
+* [135](https://github.com/b3log/vditor/issues/135) 数学公式错误打印到预览区域 `feature`
 * [131](https://github.com/b3log/vditor/issues/131) 上传失败时，内容没有清空 `bug`
 * [130](https://github.com/b3log/vditor/issues/130) 代码部分支持长代码拖动预览 `enhancement`
 * [128](https://github.com/b3log/vditor/issues/128) customEmoji 在代码块中不应该被转换 `enhancement`

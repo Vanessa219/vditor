@@ -95,7 +95,7 @@ class Editor {
             });
         }
 
-        this.element.addEventListener("copy", async (event: ClipboardEvent) => {
+        this.element.addEventListener("copy", (event: ClipboardEvent) => {
             event.stopPropagation();
             event.preventDefault();
             event.clipboardData.setData("text/plain", getSelectText(this.element));
