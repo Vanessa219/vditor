@@ -3,10 +3,10 @@ import {abcRender} from "./abcRender";
 import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
 import {highlightRender} from "./highlightRender";
+import {mathRenderByLute} from "./mathRenderByLute";
 import {md2htmlByPreview} from "./md2html";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
-import {mathRenderByLute} from "./mathRenderByLute";
 
 export const previewRender = async (element: HTMLTextAreaElement, options?: IPreviewOptions) => {
     const defaultOption = {

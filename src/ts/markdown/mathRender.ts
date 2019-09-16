@@ -19,11 +19,12 @@ export const mathRender = (element: HTMLElement) => {
                     });
 
                     element.querySelectorAll(".katex").forEach((mathElement: HTMLElement) => {
-                        mathElement.addEventListener('copy', (event: ClipboardEvent) => {
+                        mathElement.addEventListener("copy", (event: ClipboardEvent) => {
                             event.stopPropagation();
                             event.preventDefault();
                             event.clipboardData.setData("text/plain",
-                                (event.currentTarget as HTMLElement).closest('.katex').querySelector("annotation").textContent);
+                                (event.currentTarget as HTMLElement).closest(".katex").
+                                querySelector("annotation").textContent);
                         });
                     });
                 });

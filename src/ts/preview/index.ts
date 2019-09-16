@@ -4,10 +4,10 @@ import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {highlightRender} from "../markdown/highlightRender";
+import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {md2htmlByVditor} from "../markdown/md2html";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
-import {mathRenderByLute} from "../markdown/mathRenderByLute";
 
 export class Preview {
     public element: HTMLElement;
