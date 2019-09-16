@@ -74,6 +74,7 @@
   &-preview {
     flex: 1;
     background-color: $previewBg;
+    margin-left: -1px;
     overflow: auto;
     padding: 10px;
     box-shadow: inset 1px 0 $borderColor;
@@ -94,6 +95,9 @@
     background-color: $previewBg;
     overflow: auto;
     flex: 1;
+    box-shadow: inset 1px 0 $borderColor;
+    box-sizing: border-box;
+    border-radius: 0 0 3px 0;
   }
 
   &-counter {

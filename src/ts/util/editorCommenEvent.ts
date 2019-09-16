@@ -95,7 +95,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         } else if (event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
-            vditor.hint.fillEmoji(currentHintElement, vditor.currentMode);
+            vditor.hint.fillEmoji(currentHintElement, vditor);
         }
     };
 
@@ -118,7 +118,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // TODO: WYSIWYG
-        if (vditor.options.mode === 'markdown-only') {
+        if (vditor.currentMode === 'markdown') {
             if (vditor.options.tab && event.key === "Tab") {
                 event.preventDefault();
                 event.stopPropagation();

@@ -24,7 +24,7 @@ export const mathRenderByLute = (element: HTMLElement) => {
                 });
             } catch (e) {
                 mathElement.innerHTML = e.message;
-                mathElement.className = "vditor-math vditor-math--error";
+                mathElement.className = "vditor-math vditor--error";
             }
 
             mathElement.addEventListener("copy", (event: ClipboardEvent) => {

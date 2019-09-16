@@ -18,26 +18,22 @@ export class Both extends MenuItem {
             this.element.children[0].className =
                 `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
         }
-        this._bindEvent(vditor, menuItem);
+        this._bindEvent(vditor);
     }
 
-    public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
+    public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), function () {
-            const vditorElement = document.getElementById(vditor.id);
-            let className;
-            if (vditor.preview.element.className === "vditor-preview vditor-preview--both") {
-                vditor.preview.element.className = "vditor-preview vditor-preview--editor";
-                className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
+            vditor.editor.element.style.display = 'block'
+            if (vditor.currentPreviewMode === "both") {
+                vditor.preview.element.style.display = 'none'
+                this.className =  this.className.replace(" vditor-menu--current", "");
+                vditor.currentPreviewMode = 'editor'
             } else {
-                vditor.preview.element.className = "vditor-preview vditor-preview--both";
-                className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
+                this.className = this.className + " vditor-menu--current";
+                vditor.preview.element.style.display = "block";
                 vditor.preview.render(vditor);
+                vditor.currentPreviewMode = 'both'
             }
-            if (vditorElement.className.indexOf("vditor--fullscreen") > -1) {
-                className = className.replace("__n", "__s");
-            }
-            this.className = className;
-
             if (vditor.toolbar.elements.preview &&
                 vditor.toolbar.elements.preview.children[0].className.indexOf("vditor-menu--current") > -1) {
                 vditor.toolbar.elements.preview.children[0].className =

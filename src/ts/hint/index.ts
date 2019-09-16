@@ -7,26 +7,23 @@ import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
     public timeId: number;
-    public vditor: IVditor;
     public element: HTMLUListElement;
 
-    constructor(vditor: IVditor) {
+    constructor() {
         this.timeId = -1;
-        this.vditor = vditor;
-
         this.element = document.createElement("ul");
         this.element.className = "vditor-hint";
     }
 
-    public render() {
+    public render(vditor:IVditor) {
         if (!window.getSelection().focusNode) {
             return;
         }
-        const position = getSelectPosition(this.vditor.currentMode === "wysiwyg" ?
-            this.vditor.wysiwyg.element : this.vditor.editor.element);
-        const currentLineValue = this.vditor.currentMode === "wysiwyg" ?
+        const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
+            vditor.wysiwyg.element : vditor.editor.element);
+        const currentLineValue = vditor.currentMode === "wysiwyg" ?
             getSelection().getRangeAt(0).startContainer.textContent.split("\n")[0] :
-            getText(this.vditor.editor.element).substring(0, position.end).split("\n").slice(-1).pop();
+            getText(vditor.editor.element).substring(0, position.end).split("\n").slice(-1).pop();
 
         let key = this.getKey(currentLineValue, ":");
         let isAt = false;
@@ -40,16 +37,16 @@ export class Hint {
             this.element.style.display = "none";
             clearTimeout(this.timeId);
         } else {
-            if (isAt && this.vditor.options.hint.at) {
+            if (isAt && vditor.options.hint.at) {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
-                    this.genHTML(this.vditor.options.hint.at(key), key,
-                        this.vditor.currentMode === "wysiwyg" ?
-                            this.vditor.wysiwyg.element : this.vditor.editor.element);
-                }, this.vditor.options.hint.delay);
+                    this.genHTML(vditor.options.hint.at(key), key,
+                        vditor.currentMode === "wysiwyg" ?
+                            vditor.wysiwyg.element : vditor.editor.element, vditor);
+                }, vditor.options.hint.delay);
             }
             if (!isAt) {
-                const emojiHint = key === "" ? this.vditor.options.hint.emoji : this.vditor.lute.GetEmojis();
+                const emojiHint = key === "" ? vditor.options.hint.emoji : vditor.lute.GetEmojis();
                 const matchEmojiData: IHintData[] = [];
                 Object.keys(emojiHint).forEach((keyName) => {
                     if (keyName.indexOf(key.toLowerCase()) === 0) {
@@ -66,29 +63,29 @@ export class Hint {
                         }
                     }
                 });
-                this.genHTML(matchEmojiData, key, this.vditor.currentMode === "wysiwyg" ?
-                    this.vditor.wysiwyg.element : this.vditor.editor.element);
+                this.genHTML(matchEmojiData, key, vditor.currentMode === "wysiwyg" ?
+                    vditor.wysiwyg.element : vditor.editor.element, vditor);
             }
         }
     }
 
-    public fillEmoji = (element: HTMLElement, currentMode: string) => {
+    public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
         this.element.style.display = "none";
 
         const value = element.getAttribute("data-value");
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
 
-        if (currentMode === "wysiwyg") {
+        if (vditor.currentMode === "wysiwyg") {
             // TODO wysiwyg
         } else {
             let range: Range = window.getSelection().getRangeAt(0);
-            if (!selectIsEditor(this.vditor.editor.element, range)) {
-                range = this.vditor.editor.range;
+            if (!selectIsEditor(vditor.editor.element, range)) {
+                range = vditor.editor.range;
             }
-            const position = getSelectPosition(this.vditor.editor.element, range);
-            const text = getText(this.vditor.editor.element);
+            const position = getSelectPosition(vditor.editor.element, range);
+            const text = getText(vditor.editor.element);
             const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
-            formatRender(this.vditor, preText + value + text.substring(position.start),
+            formatRender(vditor, preText + value + text.substring(position.start),
                 {
                     end: (preText + value).length,
                     start: (preText + value).length,
@@ -114,7 +111,7 @@ export class Hint {
         return key;
     }
 
-    private genHTML(data: IHintData[], key: string, editorElement: HTMLElement) {
+    private genHTML(data: IHintData[], key: string, editorElement: HTMLElement, vditor:IVditor) {
         if (data.length === 0) {
             this.element.style.display = "none";
             return;
@@ -154,7 +151,7 @@ export class Hint {
 
         this.element.querySelectorAll("li").forEach((element) => {
             element.addEventListener("click", () => {
-                this.fillEmoji(element, this.vditor.currentMode);
+                this.fillEmoji(element, vditor);
             });
         });
         // hint 展现在上部

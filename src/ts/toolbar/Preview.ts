@@ -14,31 +14,28 @@ export class Preview extends MenuItem {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || previewSVG;
-        if (vditor.options.preview.mode === "preview") {
+        if (vditor.currentPreviewMode === "preview") {
             this.element.children[0].className =
                 `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
         }
-        this._bindEvent(vditor, menuItem);
+        this._bindEvent(vditor);
     }
 
-    public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
+    public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), function () {
-            const vditorElement = document.getElementById(vditor.id);
-            let className;
-            if (vditor.preview.element.className === "vditor-preview vditor-preview--preview") {
-                vditor.preview.element.className = "vditor-preview vditor-preview--editor";
-                className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
+            if (vditor.currentPreviewMode === 'preview') {
+                vditor.preview.element.style.display = 'none'
+                vditor.editor.element.style.display = 'block'
+                this.className =  this.className.replace(" vditor-menu--current", "");
+                vditor.currentPreviewMode = 'editor'
             } else {
-                vditor.preview.element.className = "vditor-preview vditor-preview--preview";
-                className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
+                this.className = this.className + " vditor-menu--current";
+                vditor.preview.element.style.display = "block";
                 vditor.preview.render(vditor);
                 vditor.editor.element.blur();
+                vditor.editor.element.style.display = 'none'
+                vditor.currentPreviewMode = 'preview'
             }
-            if (vditorElement.className.indexOf("vditor--fullscreen") > -1) {
-                className = className.replace("__n", "__s");
-            }
-            this.className = className;
-
             if (vditor.toolbar.elements.both &&
                 vditor.toolbar.elements.both.children[0].className.indexOf("vditor-menu--current") > -1) {
                 vditor.toolbar.elements.both.children[0].className =

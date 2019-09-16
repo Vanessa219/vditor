@@ -32,6 +32,10 @@ export class Fullscreen extends MenuItem {
                     }
                 });
             }
+
+            if (vditor.devtools && vditor.devtools.element.style.display === 'block') {
+                vditor.devtools.ASTChart.resize()
+            }
         });
     }
 }

@@ -12,7 +12,7 @@ class WYSIWYG {
         this.element = document.createElement("pre");
         this.element.className = "vditor-reset vditor-wysiwyg";
         this.element.setAttribute("contenteditable", "true");
-        if (vditor.options.mode === "markdown-show") {
+        if (vditor.currentMode === "markdown") {
             this.element.style.display = "none";
         }
 
@@ -154,7 +154,11 @@ class WYSIWYG {
             }
 
             if (vditor.hint) {
-                vditor.hint.render();
+                vditor.hint.render(vditor);
+            }
+
+            if (vditor.devtools) {
+                vditor.devtools.renderEchart(vditor)
             }
         });
 

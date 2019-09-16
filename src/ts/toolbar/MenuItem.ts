@@ -5,12 +5,9 @@ import {getEventName} from "../util/getEventName";
 export class MenuItem {
     public element: HTMLElement;
     public menuItem: IMenuItem;
-    public vditor: IVditor;
 
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         this.menuItem = menuItem;
-        this.vditor = vditor;
-
         this.element = document.createElement("div");
         const iconElement = document.createElement("div");
         iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
@@ -26,9 +23,9 @@ export class MenuItem {
         this.element.appendChild(iconElement);
     }
 
-    public bindEvent(replace: boolean = false) {
+    public bindEvent(vditor:IVditor, replace: boolean = false) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            insertText(this.vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
+            insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                 replace, true);
             event.preventDefault();
         });

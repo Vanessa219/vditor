@@ -28,6 +28,7 @@ import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 import {WYSIWYG} from "./ts/wysiwyg";
+import {DevTools} from "./ts/devtools";
 
 class Vditor {
 
@@ -84,10 +85,7 @@ class Vditor {
         }
 
         if (this.vditor.toolbar.elements.devtools) {
-            const devtoolsPanelElement = document.createElement("div");
-            devtoolsPanelElement.className = "vditor-devtools";
-            devtoolsPanelElement.innerHTML = "<div style=\"height: 100%;\"></div>";
-            this.vditor.devtools = devtoolsPanelElement;
+            this.vditor.devtools = new DevTools();
         }
 
         loadLuteJs(this.vditor).then(() => {
@@ -106,7 +104,7 @@ class Vditor {
             }
 
             if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
-                const hint = new Hint(this.vditor);
+                const hint = new Hint();
                 this.vditor.hint = hint;
             }
 

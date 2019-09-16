@@ -16,6 +16,11 @@ class Editor {
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
         this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
+
+        if (vditor.currentMode === 'wysiwyg' || vditor.currentPreviewMode === 'preview') {
+            this.element.style.display = 'none'
+        }
+
         this.bindEvent(vditor);
 
         focusEvent(vditor, this.element);

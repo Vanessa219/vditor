@@ -18,14 +18,22 @@ export class WYSIWYG extends MenuItem {
                 `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition} vditor-menu--current`;
         }
 
-        this._bindEvent(vditor, menuItem);
+        this._bindEvent(vditor);
     }
 
-    public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener(getEventName(), function(event) {
+    public _bindEvent(vditor: IVditor) {
+        this.element.children[0].addEventListener(getEventName(), function (event) {
             if (this.className.indexOf("vditor-menu--current") > -1) {
                 this.className = this.className.replace(" vditor-menu--current", "");
                 vditor.wysiwyg.element.style.display = "none";
+                if (vditor.currentPreviewMode === 'both') {
+                    vditor.editor.element.style.display = 'block'
+                    vditor.preview.element.style.display = 'block'
+                } else if (vditor.currentPreviewMode === 'preview') {
+                    vditor.preview.element.style.display = 'block'
+                } else if (vditor.currentPreviewMode === 'editor') {
+                    vditor.editor.element.style.display = 'block'
+                }
                 if (vditor.toolbar.elements.format) {
                     vditor.toolbar.elements.format.style.display = "block";
                 }
@@ -37,10 +45,14 @@ export class WYSIWYG extends MenuItem {
                 }
                 const wysiwygHTML = vditor.lute.VditorDOMMarkdown(vditor.wysiwyg.element.innerHTML);
                 formatRender(vditor, wysiwygHTML[0] || wysiwygHTML[1], undefined, false);
+
                 vditor.currentMode = "markdown";
             } else {
                 this.className = this.className + " vditor-menu--current";
+                vditor.editor.element.style.display = 'none'
+                vditor.preview.element.style.display = 'none'
                 vditor.wysiwyg.element.style.display = "block";
+
                 if (vditor.toolbar.elements.format) {
                     vditor.toolbar.elements.format.style.display = "none";
                 }

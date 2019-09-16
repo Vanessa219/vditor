@@ -5,10 +5,6 @@ export class InlineCode extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
         this.element.children[0].innerHTML = menuItem.icon || inlineCodeSVG;
-        this.bindEvent();
-    }
-
-    public bindEvent() {
-        super.bindEvent();
+        super.bindEvent(vditor);
     }
 }

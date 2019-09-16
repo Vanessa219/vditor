@@ -15,10 +15,13 @@ export class Preview {
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("div");
-        this.element.className = `vditor-preview vditor-preview--${vditor.options.preview.mode}`;
+        this.element.className = `vditor-preview`;
         const previewElement = document.createElement("div");
         previewElement.className = vditor.options.classes.preview ? vditor.options.classes.preview : "vditor-reset";
         previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
+        if (vditor.currentMode === 'wysiwyg' || vditor.currentPreviewMode === 'editor') {
+            this.element.style.display = 'none'
+        }
         this.element.appendChild(previewElement);
         this.render(vditor);
     }

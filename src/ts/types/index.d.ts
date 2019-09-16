@@ -2,8 +2,6 @@ declare module "*.svg";
 
 declare module "*.png";
 
-declare module "echarts";
-
 declare module "highlight.js";
 
 declare module "mermaid";
@@ -182,7 +180,11 @@ interface IVditor {
     lute: ILute;
     currentMode: "markdown" | "wysiwyg";
     currentPreviewMode: "both" | "preview" | "editor";
-    devtools?: HTMLElement;
+    devtools?: {
+        element: HTMLDivElement,
+        ASTChart: echarts.ECharts
+        renderEchart(vditor: IVditor): void
+    };
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
     };
@@ -204,8 +206,8 @@ interface IVditor {
     hint?: {
         timeId: number
         element: HTMLUListElement
-        fillEmoji(element: HTMLElement, currentMode: string): void
-        render(): void,
+        fillEmoji(element: HTMLElement, vditor: IVditor): void
+        render(vditor: IVditor): void,
     };
     tip: {
         element: HTMLElement
