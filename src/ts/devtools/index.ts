@@ -2,7 +2,7 @@ import {getText} from "../editor/getText";
 
 export class DevTools {
     public element: HTMLDivElement;
-    public ASTChart: echarts.ECharts
+    public ASTChart: echarts.ECharts;
 
     constructor() {
         this.element = document.createElement("div");
@@ -10,11 +10,12 @@ export class DevTools {
     }
 
     public renderEchart(vditor: IVditor) {
-        if (vditor.devtools.element.style.display !== 'block') {
-            return
+        if (vditor.devtools.element.style.display !== "block") {
+            return;
         }
 
-        const data = vditor.lute.RenderEChartsJSON(vditor.currentMode === 'wysiwyg' ? vditor.wysiwyg.element.textContent : getText(vditor.editor.element));
+        const data = vditor.lute.RenderEChartsJSON(vditor.currentMode === "wysiwyg" ?
+            vditor.wysiwyg.element.textContent : getText(vditor.editor.element));
         try {
             this.ASTChart.setOption({
                 series: [
@@ -56,10 +57,10 @@ export class DevTools {
                     show: true,
                 },
             });
-            this.element.className = 'vditor-devtools'
+            this.element.className = "vditor-devtools";
         } catch (e) {
-            this.element.innerHTML = e
-            this.element.className = 'vditor-devtools vditor--error'
+            this.element.innerHTML = e;
+            this.element.className = "vditor-devtools vditor--error";
         }
     }
 }

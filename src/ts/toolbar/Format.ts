@@ -13,7 +13,7 @@ export class Format extends MenuItem {
                 return true;
             }
         });
-        if (vditor.currentMode === 'wysiwyg' && hasWYSIWYG) {
+        if (vditor.currentMode === "wysiwyg" && hasWYSIWYG) {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || formatSVG;

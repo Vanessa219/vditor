@@ -1,5 +1,6 @@
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
+import {DevTools} from "./ts/devtools";
 import {formatRender} from "./ts/editor/formatRender";
 import {getSelectText} from "./ts/editor/getSelectText";
 import {getText} from "./ts/editor/getText";
@@ -28,7 +29,6 @@ import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 import {WYSIWYG} from "./ts/wysiwyg";
-import {DevTools} from "./ts/devtools";
 
 class Vditor {
 
@@ -52,8 +52,8 @@ class Vditor {
         const mergedOptions = getOptions.merge();
 
         this.vditor = {
-            currentPreviewMode: mergedOptions.preview.mode,
             currentMode: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",
+            currentPreviewMode: mergedOptions.preview.mode,
             id,
             lute: undefined,
             options: mergedOptions,

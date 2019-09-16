@@ -15,7 +15,7 @@ export class Hint {
         this.element.className = "vditor-hint";
     }
 
-    public render(vditor:IVditor) {
+    public render(vditor: IVditor) {
         if (!window.getSelection().focusNode) {
             return;
         }
@@ -111,7 +111,7 @@ export class Hint {
         return key;
     }
 
-    private genHTML(data: IHintData[], key: string, editorElement: HTMLElement, vditor:IVditor) {
+    private genHTML(data: IHintData[], key: string, editorElement: HTMLElement, vditor: IVditor) {
         if (data.length === 0) {
             this.element.style.display = "none";
             return;

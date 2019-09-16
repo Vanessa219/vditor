@@ -118,7 +118,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // TODO: WYSIWYG
-        if (vditor.currentMode === 'markdown') {
+        if (vditor.currentMode === "markdown") {
             if (vditor.options.tab && event.key === "Tab") {
                 event.preventDefault();
                 event.stopPropagation();

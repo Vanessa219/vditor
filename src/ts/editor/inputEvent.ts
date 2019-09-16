@@ -20,6 +20,6 @@ export const inputEvent = (vditor: IVditor, addUndo: boolean = true) => {
     }
 
     if (vditor.devtools) {
-        vditor.devtools.renderEchart(vditor)
+        vditor.devtools.renderEchart(vditor);
     }
 };

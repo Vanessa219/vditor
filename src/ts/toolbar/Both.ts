@@ -10,7 +10,7 @@ export class Both extends MenuItem {
                 return true;
             }
         });
-        if (vditor.currentMode === 'wysiwyg' && hasWYSIWYG) {
+        if (vditor.currentMode === "wysiwyg" && hasWYSIWYG) {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || bothSVG;
@@ -22,17 +22,17 @@ export class Both extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor) {
-        this.element.children[0].addEventListener(getEventName(), function () {
-            vditor.editor.element.style.display = 'block'
+        this.element.children[0].addEventListener(getEventName(), function() {
+            vditor.editor.element.style.display = "block";
             if (vditor.currentPreviewMode === "both") {
-                vditor.preview.element.style.display = 'none'
+                vditor.preview.element.style.display = "none";
                 this.className =  this.className.replace(" vditor-menu--current", "");
-                vditor.currentPreviewMode = 'editor'
+                vditor.currentPreviewMode = "editor";
             } else {
                 this.className = this.className + " vditor-menu--current";
                 vditor.preview.element.style.display = "block";
                 vditor.preview.render(vditor);
-                vditor.currentPreviewMode = 'both'
+                vditor.currentPreviewMode = "both";
             }
             if (vditor.toolbar.elements.preview &&
                 vditor.toolbar.elements.preview.children[0].className.indexOf("vditor-menu--current") > -1) {

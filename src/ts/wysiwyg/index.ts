@@ -158,7 +158,7 @@ class WYSIWYG {
             }
 
             if (vditor.devtools) {
-                vditor.devtools.renderEchart(vditor)
+                vditor.devtools.renderEchart(vditor);
             }
         });
 

@@ -23,7 +23,7 @@ export class MenuItem {
         this.element.appendChild(iconElement);
     }
 
-    public bindEvent(vditor:IVditor, replace: boolean = false) {
+    public bindEvent(vditor: IVditor, replace: boolean = false) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                 replace, true);

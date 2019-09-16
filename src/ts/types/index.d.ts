@@ -183,7 +183,7 @@ interface IVditor {
     devtools?: {
         element: HTMLDivElement,
         ASTChart: echarts.ECharts
-        renderEchart(vditor: IVditor): void
+        renderEchart(vditor: IVditor): void,
     };
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
