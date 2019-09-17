@@ -42,7 +42,7 @@ export class Preview extends MenuItem {
                     vditor.toolbar.elements.both.children[0].className.replace(" vditor-menu--current", "");
             }
 
-            if (vditor.devtools) {
+            if (vditor.devtools &&  vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
                 vditor.devtools.ASTChart.resize();
             }
         });

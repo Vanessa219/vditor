@@ -40,7 +40,7 @@ export class Both extends MenuItem {
                     vditor.toolbar.elements.preview.children[0].className.replace(" vditor-menu--current", "");
             }
 
-            if (vditor.devtools) {
+            if (vditor.devtools &&  vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
                 vditor.devtools.ASTChart.resize();
             }
         });
