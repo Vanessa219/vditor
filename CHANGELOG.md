@@ -13,7 +13,7 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.6 / 2019-09-16
+### v1.8.6 / 2019-09-17
 
 * [136](https://github.com/b3log/vditor/issues/136) 添加 AST 展示 `feature`
 * [135](https://github.com/b3log/vditor/issues/135) 数学公式错误打印到预览区域 `feature`
