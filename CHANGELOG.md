@@ -5,6 +5,7 @@
 * v1.8
   * `getHTML` 方法移除参数
   * `md2html` 静态方法参数修改为 `(mdText: string, options?: IPreviewOptions)`
+  * `mathRender` 方法移除最后一个参数
 * v1.7
   * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
   * 移除 `option.editorName`
