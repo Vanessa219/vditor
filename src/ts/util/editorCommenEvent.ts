@@ -4,6 +4,7 @@ import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
+import {getSelectText} from "../editor/getSelectText";
 
 const getContent = (vditor: IVditor, editorElement: HTMLElement) => {
     if (vditor.currentMode === "wysiwyg") {
@@ -30,11 +31,11 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
 };
 
-export const copyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+export const copyEvent = (editorElement: HTMLElement) => {
     editorElement.addEventListener("copy", async (event: ClipboardEvent) => {
         event.stopPropagation();
         event.preventDefault();
-        event.clipboardData.setData("text/plain", getContent(vditor, editorElement));
+        event.clipboardData.setData("text/plain", getSelectText(editorElement));
     });
 };
 

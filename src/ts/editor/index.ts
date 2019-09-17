@@ -24,7 +24,7 @@ class Editor {
         this.bindEvent(vditor);
 
         focusEvent(vditor, this.element);
-        copyEvent(vditor, this.element);
+        copyEvent(this.element);
         hotkeyEvent(vditor, this.element);
     }
 
@@ -103,12 +103,6 @@ class Editor {
                 uploadFiles(vditor, files);
             });
         }
-
-        this.element.addEventListener("copy", (event: ClipboardEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-            event.clipboardData.setData("text/plain", getSelectText(this.element));
-        });
 
         this.element.addEventListener("paste", async (event: ClipboardEvent) => {
             const textHTML = event.clipboardData.getData("text/html");

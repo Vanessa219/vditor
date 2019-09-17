@@ -19,7 +19,7 @@ class WYSIWYG {
         this.bindEvent(vditor);
 
         focusEvent(vditor, this.element);
-        copyEvent(vditor, this.element);
+        copyEvent(this.element);
         hotkeyEvent(vditor, this.element);
     }
 

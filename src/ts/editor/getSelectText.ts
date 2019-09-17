@@ -1,6 +1,6 @@
 import {selectIsEditor} from "./selectIsEditor";
 
-export const getSelectText = (editor: HTMLPreElement, range?: Range) => {
+export const getSelectText = (editor: HTMLElement, range?: Range) => {
     if (!range) {
         if (window.getSelection().rangeCount === 0) {
             return "";
