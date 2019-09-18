@@ -19,7 +19,7 @@ export const mathRender = (element: HTMLElement) => {
                     });
 
                     element.querySelectorAll(".katex").forEach((mathElement: HTMLElement) => {
-                        mathElement.addEventListener("copy", function (event: ClipboardEvent) {
+                        mathElement.addEventListener("copy", function(event: ClipboardEvent) {
                             event.stopPropagation();
                             event.preventDefault();
                             event.clipboardData.setData("text/plain",
