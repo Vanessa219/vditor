@@ -22,9 +22,9 @@ export const mathRender = (element: HTMLElement) => {
                         mathElement.addEventListener("copy", (event: ClipboardEvent) => {
                             event.stopPropagation();
                             event.preventDefault();
-                            event.clipboardData.setData("text/plain",
-                                (event.currentTarget as HTMLElement).closest(".katex").
-                                querySelector("annotation").textContent);
+                            const mathElement = (event.currentTarget as HTMLElement).closest(".katex");
+                            event.clipboardData.setData("text/plain", mathElement.querySelector("annotation").textContent);
+                            event.clipboardData.setData("text/html", mathElement.querySelector(".katex").innerHTML);
                         });
                     });
                 });

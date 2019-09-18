@@ -30,8 +30,10 @@ export const mathRenderByLute = (element: HTMLElement) => {
             mathElement.addEventListener("copy", (event: ClipboardEvent) => {
                 event.stopPropagation();
                 event.preventDefault();
+                const vditorMathElement = (event.currentTarget as HTMLElement).closest(".vditor-math");
+                event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
                 event.clipboardData.setData("text/plain",
-                    (event.currentTarget as HTMLElement).closest(".vditor-math").getAttribute("data-math"));
+                    vditorMathElement.getAttribute("data-math"));
             });
         });
     });

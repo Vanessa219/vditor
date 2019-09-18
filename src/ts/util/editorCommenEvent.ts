@@ -1,10 +1,10 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
+import {getSelectText} from "../editor/getSelectText";
 import {getText} from "../editor/getText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
-import {getSelectText} from "../editor/getSelectText";
 
 const getContent = (vditor: IVditor, editorElement: HTMLElement) => {
     if (vditor.currentMode === "wysiwyg") {
