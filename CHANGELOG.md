@@ -15,7 +15,7 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.9 / 2019-09-18
+### v1.8.10 / 2019-09-18
 
 * [137](https://github.com/b3log/vditor/issues/137) 整理 highlight.js 和 chroma，以便统一 preview.hljs.style 的设置 `enhancement`
 * [136](https://github.com/b3log/vditor/issues/136) 添加 AST 展示 `feature`
