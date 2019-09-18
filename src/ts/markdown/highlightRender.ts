@@ -1,4 +1,4 @@
-import {CDN_PATH} from "../constants";
+import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
 
 export const highlightRender = async (hljsStyle: string, enableHighlight: boolean,
@@ -12,7 +12,7 @@ export const highlightRender = async (hljsStyle: string, enableHighlight: boolea
     if (!hljsThemes.includes(hljsStyle)) {
         hljsStyle = 'github'
     }
-    addStyle(`${CDN_PATH}/vditor/dist/js/highlight.js/styles/${hljsStyle}.css`,
+    addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js/styles/${hljsStyle}.css`,
         "vditorHljsStyle");
 
     if (!enableHighlight) {
