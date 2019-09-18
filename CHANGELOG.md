@@ -5,7 +5,8 @@
 * v1.8
   * `getHTML` 方法移除参数
   * `md2html` 静态方法参数修改为 `(mdText: string, options?: IPreviewOptions)`
-  * `mathRender` 方法移除最后一个参数
+  * `mathRender` 参数修改为 `(element: HTMLElement)`
+  * `preview.hljs.style` 默认值修改为 `github`，可选值参见[chroma](https://xyproto.github.io/splash/docs/longer/all.html)
 * v1.7
   * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
   * 移除 `option.editorName`
@@ -14,8 +15,9 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.7 / 2019-09-17
+### v1.8.8 / 2019-09-17
 
+* [137](https://github.com/b3log/vditor/issues/137) 整理 highlight.js 和 chroma，以便统一 preview.hljs.style 的设置 `enhancement`
 * [136](https://github.com/b3log/vditor/issues/136) 添加 AST 展示 `feature`
 * [135](https://github.com/b3log/vditor/issues/135) 数学公式错误打印到预览区域 `feature`
 * [134](https://github.com/b3log/vditor/issues/134) 数学公式问题 `question`

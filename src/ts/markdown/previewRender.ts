@@ -13,7 +13,7 @@ export const previewRender = async (element: HTMLTextAreaElement, options?: IPre
         customEmoji: {},
         emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
         enableHighlight: true,
-        hljsStyle: "atom-one-light",
+        hljsStyle: "github",
         lang: "zh_CN",
     };
     options = Object.assign(defaultOption, options);
