@@ -19,12 +19,12 @@ export const mathRender = (element: HTMLElement) => {
                     });
 
                     element.querySelectorAll(".katex").forEach((mathElement: HTMLElement) => {
-                        mathElement.addEventListener("copy", (event: ClipboardEvent) => {
+                        mathElement.addEventListener("copy", function (event: ClipboardEvent) {
                             event.stopPropagation();
                             event.preventDefault();
-                            const mathElement = (event.currentTarget as HTMLElement).closest(".katex");
-                            event.clipboardData.setData("text/plain", mathElement.querySelector("annotation").textContent);
-                            event.clipboardData.setData("text/html", mathElement.querySelector(".katex").innerHTML);
+                            event.clipboardData.setData("text/plain",
+                                this.querySelector("annotation").textContent);
+                            event.clipboardData.setData("text/html", this.innerHTML);
                         });
                     });
                 });
