@@ -35,7 +35,9 @@
 ## ✨  特性
 
 * 所见即所得编辑模式（正在实现中）
-* 支持任务列表、at、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://github.com/b3log/vditor/issues/117?utm_source=hacpai.com#issuecomment-526986052)
+* 支持任务列表、at、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://github.com/b3log/vditor/issues/117?utm_source=hacpai.com#issuecomment-526986052)渲染
+* 支持自定义 duplicate、delete 快捷键操作
+* 支持 Markdown 格式化， Markdown 语法树实时渲染
 * 表情自动补全，设置常用表情，支持表情自定义
 * 自定义工具栏按钮、提示、插入字符、快捷键，支持工具栏添加按钮
 * 可使用拖拽、剪切板粘贴上传，显示实时上传进度，支持 CORS 跨域上传
@@ -44,12 +46,11 @@
 * 粘贴 HTML 自动转换为 Markdown，如粘贴中包含外链图片可通过指定接口上传到服务器
 * 提供实时预览、滚动同步定位
 * 支持主窗口大小拖拽、字符计数
-* 支持自定义 duplicate、delete 快捷键操作
 * 多主题支持、内置黑白两套
 * 多语言支持、内置中英文
 * 支持主流浏览器和移动端
 
-![demo](https://user-images.githubusercontent.com/970828/64320104-624fac00-cff0-11e9-8727-0ad51a6f71c0.png)
+![demo](https://user-images.githubusercontent.com/970828/65253329-070fd480-db2d-11e9-896a-807392723485.png)
 ![render](https://user-images.githubusercontent.com/970828/64341072-30ebd600-d01a-11e9-8e8a-b30c24364b58.png)
 
 ## 🗃 案例
