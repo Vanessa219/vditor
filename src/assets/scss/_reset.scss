@@ -4,7 +4,7 @@
     font-family: $font-family-base;
     word-wrap: break-word;
     overflow: auto;
-    line-height: 1.65;
+    line-height: 1.5;
     font-size: 16px;
     word-break: break-word;
 
@@ -135,35 +135,32 @@
 
     table {
       width: 100%;
-      border: 1px solid #dedede;
-      margin: 15px auto;
       border-collapse: collapse;
       empty-cells: show;
-    }
+      margin-bottom: 16px;
+      display: block;
+      overflow: auto;
+      border-spacing: 0;
 
-    thead {
-      text-align: center;
-    }
+      tr {
+        background-color: #fff;
+        border-top: 1px solid #c6cbd1
+      }
 
-    td,
-    th {
-      height: 35px;
-      border: 1px solid #dedede;
-      padding: 0 10px;
-    }
+      td,
+      th {
+        padding: 6px 13px;
+        border: 1px solid #dfe2e5;
+        word-break: normal;
+      }
 
-    th {
-      font-weight: bold;
-      text-align: center !important;
-      background: rgba(158, 188, 226, 0.2);
-    }
+      th {
+        font-weight: 600;
+      }
 
-    tbody tr:nth-child(2n) {
-      background: rgba(158, 188, 226, 0.12);
-    }
-
-    tr:hover {
-      background: #efefef;
+      tbody tr:nth-child(2n) {
+        background-color: #f6f8fa;
+      }
     }
 
     code:not(.hljs):not(.highlight-chroma) {

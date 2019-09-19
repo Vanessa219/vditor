@@ -15,8 +15,9 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.10 / 2019-09-18
+### v1.8.11 / 2019-09-19
 
+* [138](https://github.com/b3log/vditor/issues/138) markdown 中长表格支持滚动预览 `enhancement`
 * [137](https://github.com/b3log/vditor/issues/137) 整理 highlight.js 和 chroma，以便统一 preview.hljs.style 的设置 `enhancement`
 * [136](https://github.com/b3log/vditor/issues/136) 添加 AST 展示 `feature`
 * [135](https://github.com/b3log/vditor/issues/135) 数学公式错误打印到预览区域 `feature`
