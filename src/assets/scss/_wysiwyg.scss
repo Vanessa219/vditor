@@ -34,10 +34,11 @@
   }
 
   p:empty:after {
-    content:  '\200b';
+    content: '\200b';
   }
 
-  li p {
+  li p,
+  blockquote p {
     display: inline-block;
   }
 }
