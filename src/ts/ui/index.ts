@@ -97,7 +97,7 @@ export class Ui {
         }
 
         if (vditor.options.mode.indexOf("markdown") > -1) {
-            formatRender(vditor, initValue, undefined, false);
+            formatRender(vditor, initValue, undefined, true);
         }
     }
 }

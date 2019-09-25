@@ -221,7 +221,8 @@ interface IVditor {
     undo: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
-        addToUndoStack(vditor: IVditor): void,
+        addToUndoStack(vditor: IVditor): void
+        recordFirstPosition(vditor: IVditor): void,
     };
     wysiwyg: {
         element: HTMLElement,

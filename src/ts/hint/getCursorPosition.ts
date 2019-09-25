@@ -10,6 +10,8 @@ export const getCursorPosition = (editor: HTMLElement) => {
             cursorRect = startNode.nextElementSibling.getClientRects()[0];
         } else if (startNode.getClientRects) {
             cursorRect = startNode.getClientRects()[0];
+        } else if (startNode.parentElement) {
+            cursorRect = startNode.parentElement.getClientRects()[0];
         }
     } else {
         const startOffset = range.startOffset;

@@ -2,6 +2,7 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {getText} from "../editor/getText";
+import {scrollCenter} from "../util/editorCommenEvent";
 
 class Undo {
     private undoStack: Array<{ patchList: patch_obj[], end: number }>;
@@ -21,7 +22,16 @@ class Undo {
         this.hasUndo = false;
     }
 
+    public recordFirstPosition(vditor: IVditor) {
+        if (this.undoStack.length === 1) {
+            this.undoStack[0].end = getSelectPosition(vditor.editor.element).end;
+        }
+    }
+
     public undo(vditor: IVditor) {
+        if (this.undoStack.length < 2) {
+            return;
+        }
         const state = this.undoStack.pop();
         if (!state || !state.patchList) {
             return;
@@ -41,14 +51,9 @@ class Undo {
     }
 
     public addToUndoStack(vditor: IVditor) {
-        const text = getText(vditor.editor.element);
-        if (vditor.toolbar.elements.undo) {
-            vditor.toolbar.elements.undo.children[0].className =
-                vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
-        }
-
         clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
+            const text = getText(vditor.editor.element);
             const diff = this.dmp.diff_main(text, this.lastText, true);
             const patchList = this.dmp.patch_make(text, this.lastText, diff);
             if (patchList.length === 0) {
@@ -69,6 +74,11 @@ class Undo {
                             redoClassName + " vditor-menu--disabled";
                     }
                 }
+            }
+
+            if (vditor.toolbar.elements.undo && this.undoStack.length > 1) {
+                vditor.toolbar.elements.undo.children[0].className =
+                    vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
             }
         }, 500);
     }
@@ -100,11 +110,13 @@ class Undo {
 
         this.lastText = text;
 
-        formatRender(vditor, text,  positoin, false);
+        formatRender(vditor, text, positoin, false);
+
+        scrollCenter(vditor.editor.element);
 
         if (vditor.toolbar.elements.undo) {
             const undoClassName = vditor.toolbar.elements.undo.children[0].className;
-            if (this.undoStack.length !== 0) {
+            if (this.undoStack.length > 1) {
                 vditor.toolbar.elements.undo.children[0].className =
                     undoClassName.replace(" vditor-menu--disabled", "");
             } else if (undoClassName.indexOf(" vditor-menu--disabled") === -1) {

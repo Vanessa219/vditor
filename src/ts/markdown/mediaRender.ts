@@ -49,12 +49,12 @@ const iframeRender = (element: HTMLElement, url: string) => {
 
 export const mediaRender = (element: HTMLElement) => {
     if (!element) {
-        return
+        return;
     }
     element.querySelectorAll("a").forEach((aElement) => {
         const url = aElement.getAttribute("href");
         if (!url) {
-            return
+            return;
         }
         if (url.match(/^.+.(mp4|m4v|ogg|ogv|webm)$/)) {
             videoRender(aElement, url);

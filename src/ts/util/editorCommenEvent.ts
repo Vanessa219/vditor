@@ -103,6 +103,8 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("keydown", (event: KeyboardEvent) => {
         const hintElement = vditor.hint && vditor.hint.element;
 
+        vditor.undo.recordFirstPosition(vditor);
+
         if ((event.metaKey || event.ctrlKey) && vditor.options.ctrlEnter && event.key === "Enter") {
             vditor.options.ctrlEnter(getContent(vditor, editorElement));
             return;
