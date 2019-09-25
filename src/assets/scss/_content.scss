@@ -75,6 +75,7 @@
     flex: 1;
     background-color: $previewBg;
     overflow: auto;
+    margin-left: -1px;
     padding: 10px;
     box-shadow: inset 1px 0 $borderColor;
     box-sizing: border-box;
