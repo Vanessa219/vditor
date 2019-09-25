@@ -141,9 +141,8 @@ class WYSIWYG {
 
             if (!startSpace && !endSpace) {
                 // 使用 lute 进行渲染
-                range.insertNode(document.createTextNode(String.fromCharCode(7)));
-                const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent.replace(String.fromCharCode(7),
-                    '<span data-caret="RenderVditorDOM"></span>'));
+                const caret = getSelectPosition(this.element)
+                const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
                 const newElement = document.createElement("div");
                 newElement.innerHTML = formatHTML[0] || formatHTML[1];
                 expandByOffset(newElement);

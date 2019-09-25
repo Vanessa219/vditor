@@ -38,7 +38,7 @@ interface ILute {
 
     RenderEChartsJSON(text: string): string[];
 
-    RenderVditorDOM(text: string): string[];
+    RenderVditorDOM(text: string, start: number, end: number): string[];
 
     VditorDOMMarkdown(html: string): string[];
 
