@@ -15,8 +15,9 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.12 / 2019-09-25
+### v1.8.13 / 2019-09-28
 
+* [141](https://github.com/b3log/vditor/issues/141) Safari 中代码块换行 `bug`
 * [140](https://github.com/b3log/vditor/issues/140) Scroll to the cursor position after pasting `bug`
 * [139](https://github.com/b3log/vditor/issues/139) The cursor position is incorrect when ctrl+z is pressed `bug`
 * [138](https://github.com/b3log/vditor/issues/138) markdown 中长表格支持滚动预览 `enhancement`

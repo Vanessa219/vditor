@@ -26,6 +26,7 @@ class WYSIWYG {
     private setExpand() {
         const range = getSelection().getRangeAt(0);
 
+        // TODO
         const caretRenderElement = this.element.querySelector('[data-caret="RenderVditorDOM"]');
         if (caretRenderElement) {
             // 渲染后不需要对元素展开
@@ -143,12 +144,16 @@ class WYSIWYG {
                 // 使用 lute 进行渲染
                 const caret = getSelectPosition(this.element)
                 const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
-                const newElement = document.createElement("div");
-                newElement.innerHTML = formatHTML[0] || formatHTML[1];
-                expandByOffset(newElement);
-                this.element.innerHTML = newElement.innerHTML;
-
-                range.setStartBefore(this.element.querySelector('[data-caret="RenderVditorDOM"]'));
+                this.element.innerHTML = formatHTML[0] || formatHTML[1];
+                console.log(this.element.textContent, caret.start, caret.end, formatHTML[0])
+                const startElement = this.element.querySelector('[data-caret="startText"]') ||
+                    this.element.querySelector('[data-caret="start"]')
+                const endElement = this.element.querySelector('[data-caret="endText"]') ||
+                    this.element.querySelector('[data-caret="end"]')
+                range.setStart(startElement.childNodes[0], parseInt(startElement.getAttribute('data-caretoffset'), 10))
+                if (endElement) {
+                    range.setEnd(endElement, parseInt(endElement.getAttribute('data-caretoffset'), 10))
+                }
                 setSelectionFocus(range);
             }
 
