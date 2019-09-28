@@ -142,17 +142,16 @@ class WYSIWYG {
 
             if (!startSpace && !endSpace) {
                 // 使用 lute 进行渲染
-                const caret = getSelectPosition(this.element)
+                const caret = getSelectPosition(this.element);
                 const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
                 this.element.innerHTML = formatHTML[0] || formatHTML[1];
-                console.log(this.element.textContent, caret.start, caret.end, formatHTML[0])
                 const startElement = this.element.querySelector('[data-caret="startText"]') ||
-                    this.element.querySelector('[data-caret="start"]')
+                    this.element.querySelector('[data-caret="start"]');
                 const endElement = this.element.querySelector('[data-caret="endText"]') ||
-                    this.element.querySelector('[data-caret="end"]')
-                range.setStart(startElement.childNodes[0], parseInt(startElement.getAttribute('data-caretoffset'), 10))
+                    this.element.querySelector('[data-caret="end"]');
+                range.setStart(startElement.childNodes[0], parseInt(startElement.getAttribute("data-caretoffset"), 10));
                 if (endElement) {
-                    range.setEnd(endElement, parseInt(endElement.getAttribute('data-caretoffset'), 10))
+                    range.setEnd(endElement, parseInt(endElement.getAttribute("data-caretoffset"), 10));
                 }
                 setSelectionFocus(range);
             }
