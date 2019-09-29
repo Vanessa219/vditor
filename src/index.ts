@@ -29,6 +29,7 @@ import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 import {WYSIWYG} from "./ts/wysiwyg";
+import {setPreviewMode} from "./ts/util/setPreviewMode";
 
 class Vditor {
 
@@ -184,62 +185,8 @@ class Vditor {
         this.vditor.tip.show(text, time);
     }
 
-    public setPreviewMode(mode: string) {
-        let toolbarItemClassName;
-        switch (mode) {
-            case "both":
-                if (!this.vditor.toolbar.elements.both) {
-                    return;
-                }
-                toolbarItemClassName = this.vditor.toolbar.elements.both.children[0].className;
-                if (toolbarItemClassName.indexOf("vditor-menu--current") === -1) {
-                    this.vditor.preview.element.className = "vditor-preview vditor-preview--both";
-                    this.vditor.toolbar.elements.both.children[0].className =
-                        `${toolbarItemClassName} vditor-menu--current`;
-                    if (!this.vditor.toolbar.elements.preview) {
-                        return;
-                    }
-                    this.vditor.toolbar.elements.preview.children[0].className =
-                        this.vditor.toolbar.elements.preview.children[0].className.replace(" vditor-menu--current", "");
-                }
-                break;
-            case "editor":
-                if (!this.vditor.preview) {
-                    return;
-                }
-                if (this.vditor.preview.element.className !== "vditor-preview vditor-preview--editor") {
-                    this.vditor.preview.element.className = "vditor-preview vditor-preview--editor";
-                    if (this.vditor.toolbar.elements.preview) {
-                        this.vditor.toolbar.elements.preview.children[0].className =
-                            this.vditor.toolbar.elements.preview.children[0].className
-                                .replace(" vditor-menu--current", "");
-                    }
-                    if (this.vditor.toolbar.elements.both) {
-                        this.vditor.toolbar.elements.both.children[0].className =
-                            this.vditor.toolbar.elements.both.children[0].className
-                                .replace(" vditor-menu--current", "");
-                    }
-                }
-                break;
-            case "preview":
-                if (!this.vditor.toolbar.elements.preview) {
-                    return;
-                }
-                toolbarItemClassName = this.vditor.toolbar.elements.preview.children[0].className;
-                if (toolbarItemClassName.indexOf("vditor-menu--current") === -1) {
-                    this.vditor.preview.element.className = "vditor-preview vditor-preview--preview";
-                    this.vditor.toolbar.elements.preview.children[0].className =
-                        `${toolbarItemClassName} vditor-menu--current`;
-                    if (!this.vditor.toolbar.elements.both) {
-                        return;
-                    }
-                    this.vditor.toolbar.elements.both.children[0].className =
-                        this.vditor.toolbar.elements.both.children[0].className.replace(" vditor-menu--current", "");
-                }
-                break;
-            default:
-                break;
-        }
+    public setPreviewMode(mode: keyof IPreviewMode) {
+        setPreviewMode(mode, this.vditor)
     }
 
     public deleteValue() {

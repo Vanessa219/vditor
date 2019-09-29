@@ -100,10 +100,16 @@ interface IMenuItem {
     click?(): void;
 }
 
+interface IPreviewMode {
+    both: string
+    preview: string
+    editor: string
+}
+
 interface IPreview {
     delay?: number;
     maxWidth?: number;
-    mode?: "both" | "preview" | "editor";
+    mode?: keyof IPreviewMode;
     url?: string;
     hljs?: {
         style?: string,
@@ -179,7 +185,7 @@ interface IVditor {
     originalInnerHTML: string;
     lute: ILute;
     currentMode: "markdown" | "wysiwyg";
-    currentPreviewMode: "both" | "preview" | "editor";
+    currentPreviewMode: keyof IPreviewMode;
     devtools?: {
         element: HTMLDivElement,
         ASTChart: echarts.ECharts

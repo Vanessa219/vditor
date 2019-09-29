@@ -15,8 +15,9 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.13 / 2019-09-28
+### v1.8.14 / 2019-09-29
 
+* [142](https://github.com/b3log/vditor/issues/142) setPreviewMode 方法失效 `bug`
 * [141](https://github.com/b3log/vditor/issues/141) Safari 中代码块换行 `bug`
 * [140](https://github.com/b3log/vditor/issues/140) Scroll to the cursor position after pasting `bug`
 * [139](https://github.com/b3log/vditor/issues/139) The cursor position is incorrect when ctrl+z is pressed `bug`
