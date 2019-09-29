@@ -81,7 +81,12 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     }
 
     if (isCode) {
-        return "```\n" + (textPlain || textHTML) + "\n```";
+        const code = textPlain || textHTML
+        if (/\n/.test(code)) {
+            return "```\n" + code + "\n```";
+        } else {
+            return "`" + code + "`";
+        }
     } else {
         return markdownStr;
     }
