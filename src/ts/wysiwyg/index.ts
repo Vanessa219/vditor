@@ -2,7 +2,6 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
-import {expandByOffset} from "./expandByOffset";
 import {getParentBlock} from "./getParentBlock";
 
 class WYSIWYG {
@@ -26,75 +25,45 @@ class WYSIWYG {
     private setExpand() {
         const range = getSelection().getRangeAt(0);
 
-        // TODO
-        const caretRenderElement = this.element.querySelector('[data-caret="RenderVditorDOM"]');
-        if (caretRenderElement) {
-            // 渲染后不需要对元素展开
-            caretRenderElement.remove();
-        } else {
-            // Test: __123__**456** **789*
-            const startNodeElement = range.startContainer.parentElement.closest(".node");
-            const endNodeElement = range.endContainer.parentElement.closest(".node");
-            this.element.querySelectorAll(".node--expand").forEach((e) => {
-                if (!e.isEqualNode(startNodeElement) || !e.isEqualNode(endNodeElement)) {
-                    e.className = "node";
-                }
-            });
-            if (!startNodeElement) {
-                if (range.collapsed && range.startContainer.nodeType === 3 &&
-                    range.startOffset === range.startContainer.textContent.length &&
-                    range.startContainer.parentElement.nextElementSibling &&
-                    range.startContainer.parentElement.nextElementSibling.className === "node") {
-                    // 光标在普通文本和节点前，**789*
-                    range.startContainer.parentElement.nextElementSibling.className = "node node--expand";
-                    range.setStart(range.startContainer.parentElement.nextElementSibling.firstChild.childNodes[0], 0);
-                    setSelectionFocus(range);
-                }
-            } else if (startNodeElement.className.indexOf("node--expand") === -1) {
-                startNodeElement.className = "node node--expand";
+        // Test: __123__**456** **789*
+        const startNodeElement = range.startContainer.parentElement.closest(".node");
+        const endNodeElement = range.endContainer.parentElement.closest(".node");
+        this.element.querySelectorAll(".node--expand").forEach((e) => {
+            if (!e.isEqualNode(startNodeElement) || !e.isEqualNode(endNodeElement)) {
+                e.className = "node";
             }
-            if (range.startContainer.nodeType === 3 &&
-                range.startContainer.textContent.length === range.startOffset &&
-                range.startContainer.parentElement.className.indexOf("marker") > -1 &&
-                !range.startContainer.parentElement.nextElementSibling &&
-                startNodeElement.nextElementSibling && startNodeElement.nextElementSibling.className === "node") {
-                // 光标在两个节点中间，__123__**456**
-                startNodeElement.nextElementSibling.className = "node node--expand";
-            }
-            if (!range.collapsed) {
-                // 展开多选中的节点
-                const ancestorElement = range.commonAncestorContainer as HTMLElement;
-                if (ancestorElement.nodeType !== 3 && ancestorElement.tagName !== "SPAN") {
-                    ancestorElement.querySelectorAll(".node").forEach((e) => {
-                        if (getSelection().containsNode(e, true)) {
-                            e.className = "node node--expand";
-                        }
-                    });
-                }
-            }
-        }
-
-        // 记录光标位置
-        this.element.querySelectorAll("[data-caret]").forEach((e) => {
-            e.removeAttribute("data-caret");
-            e.removeAttribute("data-caretoffset");
         });
-        let caretElement = range.startContainer as HTMLElement;
-        if (range.startContainer.nodeType === 3) {
-            caretElement = range.startContainer.parentElement;
-            caretElement.setAttribute("data-caret", "startText");
-        } else {
-            caretElement.setAttribute("data-caret", "start");
-        }
-        caretElement.setAttribute("data-caretoffset", range.startOffset.toString());
-        if (!range.collapsed) {
-            if (range.endContainer.nodeType === 3) {
-                caretElement = range.endContainer.parentElement;
-                caretElement.setAttribute("data-caret", "endText");
-            } else {
-                caretElement.setAttribute("data-caret", "end");
+        if (!startNodeElement) {
+            if (range.collapsed && range.startContainer.nodeType === 3 &&
+                range.startOffset === range.startContainer.textContent.length &&
+                range.startContainer.parentElement.nextElementSibling &&
+                range.startContainer.parentElement.nextElementSibling.className === "node") {
+                // 光标在普通文本和节点前，**789*
+                range.startContainer.parentElement.nextElementSibling.className = "node node--expand";
+                range.setStart(range.startContainer.parentElement.nextElementSibling.firstChild.childNodes[0], 0);
+                setSelectionFocus(range);
             }
-            caretElement.setAttribute("data-caretoffset", range.endOffset.toString());
+        } else if (startNodeElement.className.indexOf("node--expand") === -1) {
+            startNodeElement.className = "node node--expand";
+        }
+        if (range.startContainer.nodeType === 3 &&
+            range.startContainer.textContent.length === range.startOffset &&
+            range.startContainer.parentElement.className.indexOf("marker") > -1 &&
+            !range.startContainer.parentElement.nextElementSibling &&
+            startNodeElement.nextElementSibling && startNodeElement.nextElementSibling.className === "node") {
+            // 光标在两个节点中间，__123__**456**
+            startNodeElement.nextElementSibling.className = "node node--expand";
+        }
+        if (!range.collapsed) {
+            // 展开多选中的节点
+            const ancestorElement = range.commonAncestorContainer as HTMLElement;
+            if (ancestorElement.nodeType !== 3 && ancestorElement.tagName !== "SPAN") {
+                ancestorElement.querySelectorAll(".node").forEach((e) => {
+                    if (getSelection().containsNode(e, true)) {
+                        e.className = "node node--expand";
+                    }
+                });
+            }
         }
     }
 
@@ -104,7 +73,6 @@ class WYSIWYG {
             this.setExpand();
 
             if (vditor.options.select) {
-                const range = window.getSelection().getRangeAt(0).cloneRange();
                 const selectText = getSelectText(this.element);
                 if (selectText === "") {
                     return;
@@ -144,15 +112,12 @@ class WYSIWYG {
                 // 使用 lute 进行渲染
                 const caret = getSelectPosition(this.element);
                 const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
+                console.log(this.element.textContent, caret.start, caret.end, formatHTML);
                 this.element.innerHTML = formatHTML[0] || formatHTML[1];
-                const startElement = this.element.querySelector('[data-caret="startText"]') ||
-                    this.element.querySelector('[data-caret="start"]');
-                const endElement = this.element.querySelector('[data-caret="endText"]') ||
-                    this.element.querySelector('[data-caret="end"]');
-                range.setStart(startElement.childNodes[0], parseInt(startElement.getAttribute("data-caretoffset"), 10));
-                if (endElement) {
-                    range.setEnd(endElement, parseInt(endElement.getAttribute("data-caretoffset"), 10));
-                }
+                const startElement = this.element.querySelector('[data-cso]')
+                const endElement = this.element.querySelector('[data-ceo]')
+                range.setStart(startElement.childNodes[0], parseInt(startElement.getAttribute("data-cso"), 10));
+                range.setEnd(endElement.childNodes[0], parseInt(endElement.getAttribute("data-ceo"), 10));
                 setSelectionFocus(range);
             }
 
