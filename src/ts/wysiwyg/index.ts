@@ -85,7 +85,10 @@ class WYSIWYG {
             this.setExpand();
         });
 
-        this.element.addEventListener("input", (event: KeyboardEvent) => {
+        this.element.addEventListener("input", (event: IHTMLInputEvent) => {
+            if (event.isComposing) {
+                return
+            }
             const range = getSelection().getRangeAt(0).cloneRange();
             const blockElement = getParentBlock(range.startContainer as HTMLElement);
             const startOffset = getSelectPosition(blockElement, range).start;
@@ -131,6 +134,7 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
+            const range = getSelection().getRangeAt(0).cloneRange();
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && event.shiftKey) {
                 // 软换行
                 const brNode = document.createElement("span");
@@ -152,8 +156,14 @@ class WYSIWYG {
             }
 
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
-                // TODO: newline
+                const blockElement = getParentBlock(range.startContainer as HTMLElement);
+                const newLineHTML = vditor.lute.VditorNewline(blockElement.getAttribute('data-ntype'));
+                blockElement.insertAdjacentHTML('afterend', newLineHTML[0] || newLineHTML[1])
+                range.setStart(blockElement.nextElementSibling, 0);
+                range.collapse();
+                setSelectionFocus(range);
                 scrollCenter(this.element);
+                event.preventDefault();
             }
         });
     }

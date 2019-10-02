@@ -42,6 +42,8 @@ interface ILute {
 
     VditorDOMMarkdown(html: string): string[];
 
+    VditorNewline(ntype: string): string[];
+
     // SpinVditorDOM(html: string): string[];
 }
 
@@ -52,6 +54,7 @@ declare var webkitAudioContext: {
 
 interface IHTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
+    isComposing: boolean;
 }
 
 interface II18nLang {
