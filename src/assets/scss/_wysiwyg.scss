@@ -3,6 +3,7 @@
   box-sizing: border-box;
   flex: 1;
   margin: 0;
+  white-space: pre-wrap;
 
   &[contenteditable="false"] {
     opacity: 0.3;
@@ -20,26 +21,33 @@
     display: inline-block;
     overflow: hidden;
     transition: color .15s ease-in-out;
+    font-size: initial;
   }
 
   .newline {
     display: none;
   }
 
-  .node--expand .marker {
-    width: auto;
-    height: auto;
-    display: inline;
-    color: #bbb;
+  & > .node {
+    display: -webkit-box;
+  }
+
+  .node--expand {
+    .marker {
+      width: auto;
+      height: auto;
+      display: inline;
+      color: #bbb;
+    }
+
+    blockquote,
+    blockquote > p {
+      display: inline-block;
+    }
   }
 
   p:empty:after {
     content: '\200b';
-  }
-
-  li p,
-  blockquote p {
-    display: inline-block;
   }
 }
 

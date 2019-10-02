@@ -81,7 +81,7 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
     }
 
     if (isCode) {
-        const code = textPlain || textHTML
+        const code = textPlain || textHTML;
         if (/\n/.test(code)) {
             return "```\n" + code + "\n```";
         } else {

@@ -1,7 +1,7 @@
 import bothSVG from "../../assets/icons/both.svg";
 import {getEventName} from "../util/getEventName";
-import {MenuItem} from "./MenuItem";
 import {setPreviewMode} from "../util/setPreviewMode";
+import {MenuItem} from "./MenuItem";
 
 export class Both extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -23,11 +23,11 @@ export class Both extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor) {
-        this.element.children[0].addEventListener(getEventName(), function() {
+        this.element.children[0].addEventListener(getEventName(), () => {
             if (vditor.currentPreviewMode === "both") {
-                setPreviewMode("editor", vditor)
+                setPreviewMode("editor", vditor);
             } else {
-                setPreviewMode("both", vditor)
+                setPreviewMode("both", vditor);
             }
         });
     }

@@ -1,4 +1,4 @@
-export const setPreviewMode = (mode: keyof IPreviewMode, vditor:IVditor) =>{
+export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
     if (vditor.currentPreviewMode === mode) {
         return;
     }
@@ -11,7 +11,7 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor:IVditor) =>{
             vditor.preview.render(vditor);
 
             if (vditor.toolbar.elements.both) {
-                vditor.toolbar.elements.both.children[0].className += ' vditor-menu--current';
+                vditor.toolbar.elements.both.children[0].className += " vditor-menu--current";
             }
 
             if (vditor.toolbar.elements.preview) {
@@ -43,7 +43,7 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor:IVditor) =>{
             vditor.editor.element.blur();
 
             if (vditor.toolbar.elements.preview) {
-                vditor.toolbar.elements.preview.children[0].className +=" vditor-menu--current"
+                vditor.toolbar.elements.preview.children[0].className += " vditor-menu--current";
             }
             if (vditor.toolbar.elements.both) {
                 vditor.toolbar.elements.both.children[0].className =
@@ -59,4 +59,4 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor:IVditor) =>{
     if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
         vditor.devtools.ASTChart.resize();
     }
-}
+};

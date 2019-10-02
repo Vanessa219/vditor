@@ -6,7 +6,7 @@ export const loadLuteJs = (vditor?: IVditor) => {
     const scriptElement = document.createElement("script");
     scriptElement.type = "text/javascript";
     // scriptElement.src = `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/lute/lute.min.js`;
-    scriptElement.src = `http://192.168.80.19:9090/lute.min.js?${new Date().getTime()}`;
+    scriptElement.src = `http://192.168.80.28:9090/lute.min.js?${new Date().getTime()}`;
     document.getElementsByTagName("head")[0].appendChild(scriptElement);
 
     return new Promise((resolve) => {

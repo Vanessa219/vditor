@@ -70,7 +70,7 @@ class WYSIWYG {
     private bindEvent(vditor: IVditor) {
         // TODO drap upload file & paste
         this.element.addEventListener("mouseup", () => {
-            this.setExpand();
+            // TODO this.setExpand();
 
             if (vditor.options.select) {
                 const selectText = getSelectText(this.element);
@@ -87,7 +87,7 @@ class WYSIWYG {
 
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
             if (event.isComposing) {
-                return
+                return;
             }
             const range = getSelection().getRangeAt(0).cloneRange();
             const blockElement = getParentBlock(range.startContainer as HTMLElement);
@@ -117,8 +117,8 @@ class WYSIWYG {
                 const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
                 console.log(this.element.textContent, caret.start, caret.end, formatHTML[0]);
                 this.element.innerHTML = formatHTML[0] || formatHTML[1];
-                const startElement = this.element.querySelector('[data-cso]')
-                const endElement = this.element.querySelector('[data-ceo]')
+                const startElement = this.element.querySelector("[data-cso]");
+                const endElement = this.element.querySelector("[data-ceo]");
                 range.setStart(startElement.childNodes[0], parseInt(startElement.getAttribute("data-cso"), 10));
                 range.setEnd(endElement.childNodes[0], parseInt(endElement.getAttribute("data-ceo"), 10));
                 setSelectionFocus(range);
@@ -135,15 +135,13 @@ class WYSIWYG {
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             const range = getSelection().getRangeAt(0).cloneRange();
+            const blockElement = getParentBlock(range.startContainer as HTMLElement);
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && event.shiftKey) {
                 // 软换行
                 const brNode = document.createElement("span");
                 brNode.innerHTML = '<br><span class="newline">\n</span>';
 
-                const range = getSelection().getRangeAt(0);
-
                 // 末尾需两个换行
-                const blockElement = getParentBlock(range.startContainer as HTMLElement);
                 const startOffset = getSelectPosition(blockElement, range).start;
                 if (startOffset === blockElement.textContent.length - 2) {
                     brNode.innerHTML = '<br><span class="newline">\n</span><br><span class="newline">\n</span>';
@@ -156,9 +154,8 @@ class WYSIWYG {
             }
 
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
-                const blockElement = getParentBlock(range.startContainer as HTMLElement);
-                const newLineHTML = vditor.lute.VditorNewline(blockElement.getAttribute('data-ntype'));
-                blockElement.insertAdjacentHTML('afterend', newLineHTML[0] || newLineHTML[1])
+                const newLineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"));
+                blockElement.insertAdjacentHTML("afterend", newLineHTML[0] || newLineHTML[1]);
                 range.setStart(blockElement.nextElementSibling, 0);
                 range.collapse();
                 setSelectionFocus(range);

@@ -28,8 +28,8 @@ import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
-import {WYSIWYG} from "./ts/wysiwyg";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
+import {WYSIWYG} from "./ts/wysiwyg";
 
 class Vditor {
 
@@ -186,7 +186,7 @@ class Vditor {
     }
 
     public setPreviewMode(mode: keyof IPreviewMode) {
-        setPreviewMode(mode, this.vditor)
+        setPreviewMode(mode, this.vditor);
     }
 
     public deleteValue() {

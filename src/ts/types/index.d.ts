@@ -104,9 +104,9 @@ interface IMenuItem {
 }
 
 interface IPreviewMode {
-    both: string
-    preview: string
-    editor: string
+    both: string;
+    preview: string;
+    editor: string;
 }
 
 interface IPreview {
