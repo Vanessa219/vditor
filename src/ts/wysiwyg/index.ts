@@ -102,7 +102,7 @@ class WYSIWYG {
             // 结尾可以输入空格
             let endSpace = true;
             for (let i = startOffset - 1; i < blockElement.textContent.length; i++) {
-                if (blockElement.textContent.charAt(i) !== " ") {
+                if (blockElement.textContent.charAt(i) !== " " && blockElement.textContent.charAt(i) !== "\n") {
                     endSpace = false;
                     break;
                 }
@@ -112,7 +112,7 @@ class WYSIWYG {
                 // 使用 lute 进行渲染
                 const caret = getSelectPosition(this.element);
                 const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
-                console.log(this.element.textContent, caret.start, caret.end, formatHTML);
+                console.log(this.element.textContent, caret.start, caret.end, formatHTML[0]);
                 this.element.innerHTML = formatHTML[0] || formatHTML[1];
                 const startElement = this.element.querySelector('[data-cso]')
                 const endElement = this.element.querySelector('[data-ceo]')
