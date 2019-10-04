@@ -15,7 +15,7 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.14 / 2019-09-29
+### v1.8.15 / 2019-10-04
 
 * [142](https://github.com/b3log/vditor/issues/142) setPreviewMode 方法失效 `bug`
 * [141](https://github.com/b3log/vditor/issues/141) Safari 中代码块换行 `bug`
