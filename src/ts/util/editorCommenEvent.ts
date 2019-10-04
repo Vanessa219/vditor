@@ -248,6 +248,13 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 vditor.undo.redo(vditor);
                 event.preventDefault();
             }
+        } else {
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.keyCode === 8) {
+                if (getContent(vditor, editorElement) === '\n\n') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
         }
 
         // hint: 上下选择

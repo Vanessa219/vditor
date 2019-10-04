@@ -30,7 +30,7 @@ class WYSIWYG {
         const endNodeElement = range.endContainer.parentElement.closest(".node");
         this.element.querySelectorAll(".node--expand").forEach((e) => {
             if (!e.isEqualNode(startNodeElement) || !e.isEqualNode(endNodeElement)) {
-                e.className = "node";
+                e.className =  e.className.replace(" node--expand", "");
             }
         });
         if (!startNodeElement) {
@@ -39,12 +39,12 @@ class WYSIWYG {
                 range.startContainer.parentElement.nextElementSibling &&
                 range.startContainer.parentElement.nextElementSibling.className === "node") {
                 // 光标在普通文本和节点前，**789*
-                range.startContainer.parentElement.nextElementSibling.className = "node node--expand";
+                range.startContainer.parentElement.nextElementSibling.className += " node--expand";
                 range.setStart(range.startContainer.parentElement.nextElementSibling.firstChild.childNodes[0], 0);
                 setSelectionFocus(range);
             }
         } else if (startNodeElement.className.indexOf("node--expand") === -1) {
-            startNodeElement.className = "node node--expand";
+            startNodeElement.className += " node--expand";
         }
         if (range.startContainer.nodeType === 3 &&
             range.startContainer.textContent.length === range.startOffset &&
@@ -52,7 +52,7 @@ class WYSIWYG {
             !range.startContainer.parentElement.nextElementSibling &&
             startNodeElement.nextElementSibling && startNodeElement.nextElementSibling.className === "node") {
             // 光标在两个节点中间，__123__**456**
-            startNodeElement.nextElementSibling.className = "node node--expand";
+            startNodeElement.nextElementSibling.className += " node--expand";
         }
         if (!range.collapsed) {
             // 展开多选中的节点
@@ -60,7 +60,7 @@ class WYSIWYG {
             if (ancestorElement.nodeType !== 3 && ancestorElement.tagName !== "SPAN") {
                 ancestorElement.querySelectorAll(".node").forEach((e) => {
                     if (getSelection().containsNode(e, true)) {
-                        e.className = "node node--expand";
+                        e.className += " node--expand";
                     }
                 });
             }

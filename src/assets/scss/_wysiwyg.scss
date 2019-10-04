@@ -22,27 +22,30 @@
     overflow: hidden;
     transition: color .15s ease-in-out;
     font-size: initial;
+    font-weight: normal;
   }
 
   .newline {
     display: none;
   }
 
-  & > .node {
-    display: -webkit-box;
-  }
+  .node {
+    &--block {
+      position: relative;
 
-  .node--expand {
-    .marker {
-      width: auto;
-      height: auto;
-      display: inline;
-      color: #bbb;
+      & > .marker {
+        position: absolute;
+        left: -13px;
+      }
     }
 
-    blockquote,
-    blockquote > p {
-      display: inline-block;
+    &--expand {
+      & > .marker {
+        width: auto;
+        height: auto;
+        display: inline;
+        color: #bbb;
+      }
     }
   }
 
