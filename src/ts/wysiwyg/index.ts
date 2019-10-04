@@ -30,7 +30,7 @@ class WYSIWYG {
         const endNodeElement = range.endContainer.parentElement.closest(".node");
         this.element.querySelectorAll(".node--expand").forEach((e) => {
             if (!e.isEqualNode(startNodeElement) || !e.isEqualNode(endNodeElement)) {
-                e.className =  e.className.replace(" node--expand", "");
+                e.className = e.className.replace(" node--expand", "");
             }
         });
         if (!startNodeElement) {
@@ -101,6 +101,9 @@ class WYSIWYG {
                     break;
                 }
             }
+            if (startOffset === 0) {
+                startSpace = false;
+            }
 
             // 结尾可以输入空格
             let endSpace = true;
@@ -119,8 +122,9 @@ class WYSIWYG {
                 this.element.innerHTML = formatHTML[0] || formatHTML[1];
                 const startElement = this.element.querySelector("[data-cso]");
                 const endElement = this.element.querySelector("[data-ceo]");
-                range.setStart(startElement.childNodes[0], parseInt(startElement.getAttribute("data-cso"), 10));
-                range.setEnd(endElement.childNodes[0], parseInt(endElement.getAttribute("data-ceo"), 10));
+                range.setStart(startElement.childNodes[0] || startElement,
+                    parseInt(startElement.getAttribute("data-cso"), 10));
+                range.setEnd(endElement.childNodes[0] || endElement, parseInt(endElement.getAttribute("data-ceo"), 10));
                 setSelectionFocus(range);
             }
 
@@ -149,11 +153,12 @@ class WYSIWYG {
 
                 range.insertNode(brNode);
                 range.collapse(false);
-                setSelectionFocus(getSelection().getRangeAt(0));
+                setSelectionFocus(range);
                 event.preventDefault();
             }
 
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
+                // 换行
                 const newLineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"));
                 blockElement.insertAdjacentHTML("afterend", newLineHTML[0] || newLineHTML[1]);
                 range.setStart(blockElement.nextElementSibling, 0);
