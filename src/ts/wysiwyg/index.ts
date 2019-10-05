@@ -35,24 +35,27 @@ class WYSIWYG {
         });
         if (!startNodeElement) {
             if (range.collapsed && range.startContainer.nodeType === 3 &&
-                range.startOffset === range.startContainer.textContent.length &&
-                range.startContainer.parentElement.nextElementSibling &&
-                range.startContainer.parentElement.nextElementSibling.className === "node") {
+                range.startContainer.textContent.length === range.startOffset &&
+                range.startContainer.nextSibling &&
+                (range.startContainer.nextSibling as HTMLElement).className.indexOf("node") > -1) {
                 // 光标在普通文本和节点前，**789*
-                range.startContainer.parentElement.nextElementSibling.className += " node--expand";
-                range.setStart(range.startContainer.parentElement.nextElementSibling.firstChild.childNodes[0], 0);
-                setSelectionFocus(range);
+                (range.startContainer.nextSibling as HTMLElement).className += " node--expand";
             }
-        } else if (startNodeElement.className.indexOf("node--expand") === -1) {
-            startNodeElement.className += " node--expand";
-        }
-        if (range.startContainer.nodeType === 3 &&
-            range.startContainer.textContent.length === range.startOffset &&
-            range.startContainer.parentElement.className.indexOf("marker") > -1 &&
-            !range.startContainer.parentElement.nextElementSibling &&
-            startNodeElement.nextElementSibling && startNodeElement.nextElementSibling.className === "node") {
-            // 光标在两个节点中间，__123__**456**
-            startNodeElement.nextElementSibling.className += " node--expand";
+        } else {
+            if (startNodeElement.className.indexOf("node--expand") === -1) {
+                // 光标在节点内
+                startNodeElement.className += " node--expand";
+            }
+            if (range.startContainer.nodeType === 3 &&
+                range.startContainer.textContent.length === range.startOffset &&
+                range.startContainer.parentElement.className.indexOf("marker") > -1 &&
+                startNodeElement.nextSibling &&
+                startNodeElement.nextSibling.isEqualNode(startNodeElement.nextElementSibling) &&
+                !range.startContainer.parentElement.nextElementSibling &&
+                startNodeElement.nextElementSibling && startNodeElement.nextElementSibling.className.indexOf("node") > -1) {
+                // 光标在两个节点中间，__123__**456**
+                startNodeElement.nextElementSibling.className += " node--expand";
+            }
         }
         if (!range.collapsed) {
             // 展开多选中的节点
@@ -64,6 +67,27 @@ class WYSIWYG {
                     }
                 });
             }
+        }
+    }
+
+    private luteRender(vditor: IVditor, range: Range) {
+        const caret = getSelectPosition(this.element, range);
+        const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
+        console.log(this.element.textContent, caret.start, caret.end, formatHTML[0]);
+        this.element.innerHTML = formatHTML[0] || formatHTML[1];
+        const startElement = this.element.querySelector("[data-cso]");
+        const endElement = this.element.querySelector("[data-ceo]");
+        range.setStart(startElement.childNodes[0] || startElement,
+            parseInt(startElement.getAttribute("data-cso"), 10));
+        range.setEnd(endElement.childNodes[0] || endElement, parseInt(endElement.getAttribute("data-ceo"), 10));
+        setSelectionFocus(range);
+
+        if (vditor.hint) {
+            vditor.hint.render(vditor);
+        }
+
+        if (vditor.devtools) {
+            vditor.devtools.renderEchart(vditor);
         }
     }
 
@@ -115,55 +139,27 @@ class WYSIWYG {
             }
 
             if (!startSpace && !endSpace) {
-                // 使用 lute 进行渲染
-                const caret = getSelectPosition(this.element);
-                const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
-                console.log(this.element.textContent, caret.start, caret.end, formatHTML[0]);
-                this.element.innerHTML = formatHTML[0] || formatHTML[1];
-                const startElement = this.element.querySelector("[data-cso]");
-                const endElement = this.element.querySelector("[data-ceo]");
-                range.setStart(startElement.childNodes[0] || startElement,
-                    parseInt(startElement.getAttribute("data-cso"), 10));
-                range.setEnd(endElement.childNodes[0] || endElement, parseInt(endElement.getAttribute("data-ceo"), 10));
-                setSelectionFocus(range);
-            }
-
-            if (vditor.hint) {
-                vditor.hint.render(vditor);
-            }
-
-            if (vditor.devtools) {
-                vditor.devtools.renderEchart(vditor);
+                this.luteRender(vditor, range)
             }
         });
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
-            const range = getSelection().getRangeAt(0).cloneRange();
-            const blockElement = getParentBlock(range.startContainer as HTMLElement);
-            if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && event.shiftKey) {
-                // 软换行
+            if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
+                const range = getSelection().getRangeAt(0).cloneRange();
                 const brNode = document.createElement("span");
-                brNode.innerHTML = '<br><span class="newline">\n</span>';
-
-                // 末尾需两个换行
-                const startOffset = getSelectPosition(blockElement, range).start;
-                if (startOffset === blockElement.textContent.length - 2) {
-                    brNode.innerHTML = '<br><span class="newline">\n</span><br><span class="newline">\n</span>';
+                if (event.shiftKey) {
+                    // 软换行
+                    brNode.innerHTML = '\n';
+                    range.insertNode(brNode.childNodes[0]);
+                    range.collapse(false);
+                    setSelectionFocus(range);
+                } else {
+                    // 分段
+                    brNode.innerHTML = '\n\n';
+                    range.insertNode(brNode.childNodes[0]);
+                    range.collapse(false);
+                    this.luteRender(vditor, range)
                 }
-
-                range.insertNode(brNode);
-                range.collapse(false);
-                setSelectionFocus(range);
-                event.preventDefault();
-            }
-
-            if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && !event.shiftKey) {
-                // 换行
-                const newLineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"));
-                blockElement.insertAdjacentHTML("afterend", newLineHTML[0] || newLineHTML[1]);
-                range.setStart(blockElement.nextElementSibling, 0);
-                range.collapse();
-                setSelectionFocus(range);
                 scrollCenter(this.element);
                 event.preventDefault();
             }
