@@ -23,6 +23,7 @@
     transition: color .15s ease-in-out;
     font-size: initial;
     font-weight: normal;
+    line-height: 24px;
   }
 
   .newline {
@@ -35,7 +36,7 @@
 
       & > .marker {
         position: absolute;
-        left: -17px;
+        left: 3px;
       }
     }
 
@@ -47,6 +48,10 @@
         color: #bbb;
       }
     }
+  }
+
+  li.node--expand .marker {
+    left: -9px;
   }
 
   p:empty:after {
