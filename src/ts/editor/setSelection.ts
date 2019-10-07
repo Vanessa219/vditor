@@ -14,7 +14,7 @@ export const setSelectionByPosition = (start: number, end: number, editor: HTMLE
     end = Math.max(0, end);
 
     const range = editor.ownerDocument.createRange();
-    range.setStart(pNode, 0);
+    range.setStart(pNode || editor, 0);
     range.collapse(true);
 
     while (!stop && pNode) {
