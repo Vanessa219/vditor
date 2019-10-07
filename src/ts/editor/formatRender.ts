@@ -8,6 +8,14 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
     const textList = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
     let html = "";
     const newLine = '<span><br><span style="display: none">\n</span></span>';
+    
+    // 当 textList 为 [""] 或 ["", ""]，把编辑器内部元素置空。显示 placeholder 文字
+    if(textList.length <= 2 && textList[0] === ""){
+        vditor.editor.element.innerHTML = "";
+        inputEvent(vditor, addUndo);
+        return;
+    }
+
     textList.forEach((text, index) => {
         if (index === textList.length - 1 && text === "") {
             return;

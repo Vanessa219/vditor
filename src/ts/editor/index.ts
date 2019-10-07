@@ -15,7 +15,6 @@ class Editor {
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
-        this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
 
         if (vditor.currentMode === "wysiwyg" || vditor.currentPreviewMode === "preview") {
             this.element.style.display = "none";
@@ -42,7 +41,20 @@ class Editor {
             }
         });
 
+        const initInput = (() => {
+            let isInitInput = false;
+            return () => {
+                if(this.element.innerHTML === ""){
+                    isInitInput = false;
+                } else if(!isInitInput) {
+                    isInitInput = true;
+                    this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>'
+                }
+            }
+        })();
+
         this.element.addEventListener("input", () => {
+            initInput();
             inputEvent(vditor);
             // 选中多行后输入任意字符，br 后无 \n
             this.element.querySelectorAll("br").forEach((br) => {
