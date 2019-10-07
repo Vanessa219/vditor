@@ -41,17 +41,11 @@ class Editor {
             }
         });
 
-        const initInput = (() => {
-            let isInitInput = false;
-            return () => {
-                if (this.element.innerHTML === "") {
-                    isInitInput = false;
-                } else if (!isInitInput) {
-                    isInitInput = true;
-                    this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
-                }
-            };
-        })();
+        const initInput = () => {
+            if (this.element.innerHTML === "") {
+                this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
+            }
+        };
 
         this.element.addEventListener("input", () => {
             initInput();
