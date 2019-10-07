@@ -34,7 +34,8 @@ export class Resize {
                     vditorElement.style.height = Math.max(minHeight, height + (moveEvent.clientY - y)) + "px";
                 }
                 if (vditor.options.typewriterMode) {
-                    vditor.editor.element.style.paddingBottom = vditor.editor.element.parentElement.offsetHeight / 2 + "px";
+                    vditor.editor.element.style.paddingBottom =
+                        vditor.editor.element.parentElement.offsetHeight / 2 + "px";
                 }
             };
 

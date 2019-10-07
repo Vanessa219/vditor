@@ -236,7 +236,7 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement,
-        setExpand():void
+        setExpand(): void,
     };
 }
 

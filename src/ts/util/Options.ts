@@ -40,7 +40,6 @@ export class Options {
             enable: false,
             position: "bottom",
         },
-        typewriterMode: false,
         toolbar: [{
             hotkey: "⌘-e",
             name: "emoji",
@@ -176,6 +175,7 @@ export class Options {
         }, {
             name: "br",
         }],
+        typewriterMode: false,
         upload: {
             filename: (name: string) => name.replace(/\W/g, ""),
             linkToImgUrl: "",

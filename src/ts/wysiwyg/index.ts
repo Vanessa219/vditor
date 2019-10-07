@@ -52,7 +52,8 @@ class WYSIWYG {
                 startNodeElement.nextSibling &&
                 startNodeElement.nextSibling.isEqualNode(startNodeElement.nextElementSibling) &&
                 !range.startContainer.parentElement.nextElementSibling &&
-                startNodeElement.nextElementSibling && startNodeElement.nextElementSibling.className.indexOf("node") > -1) {
+                startNodeElement.nextElementSibling &&
+                startNodeElement.nextElementSibling.className.indexOf("node") > -1) {
                 // 光标在两个节点中间，__123__**456**
                 startNodeElement.nextElementSibling.className += " node--expand";
             }
@@ -139,10 +140,10 @@ class WYSIWYG {
             }
 
             if (!startSpace && !endSpace) {
-                if (blockElement.lastElementChild.className !== 'newline') {
-                    blockElement.insertAdjacentHTML("beforeend", "<span class='newline'>\n\n</span>")
+                if (blockElement.lastElementChild.className !== "newline") {
+                    blockElement.insertAdjacentHTML("beforeend", "<span class='newline'>\n\n</span>");
                 }
-                this.luteRender(vditor, range)
+                this.luteRender(vditor, range);
             }
         });
 
@@ -152,29 +153,29 @@ class WYSIWYG {
                 const brNode = document.createElement("span");
                 if (event.shiftKey) {
                     // 软换行
-                    brNode.innerHTML = '\n';
+                    brNode.innerHTML = "\n";
                     range.insertNode(brNode.childNodes[0]);
                     range.collapse(false);
                     setSelectionFocus(range);
                 } else {
-                    const blockElement = getParentBlock(range.startContainer as HTMLElement)
+                    const blockElement = getParentBlock(range.startContainer as HTMLElement);
                     const caret = getSelectPosition(blockElement, range);
-                    const newlineHTML = vditor.lute.VditorNewline(blockElement.getAttribute('data-ntype'))
+                    const newlineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"));
                     if (caret.start === 0) {
                         // 段前换行
-                        blockElement.insertAdjacentHTML("beforebegin", newlineHTML[0] || newlineHTML[1])
-                    } else if (caret.end === blockElement.textContent.replace(/\n\n$/, '').length) {
+                        blockElement.insertAdjacentHTML("beforebegin", newlineHTML[0] || newlineHTML[1]);
+                    } else if (caret.end === blockElement.textContent.replace(/\n\n$/, "").length) {
                         // 段末换行
-                        blockElement.insertAdjacentHTML("afterend", newlineHTML[0] || newlineHTML[1])
-                        range.setEnd(blockElement.nextSibling, 0)
-                        range.collapse(false)
-                        setSelectionFocus(range)
+                        blockElement.insertAdjacentHTML("afterend", newlineHTML[0] || newlineHTML[1]);
+                        range.setEnd(blockElement.nextSibling, 0);
+                        range.collapse(false);
+                        setSelectionFocus(range);
                     } else {
                         // 分段
-                        brNode.innerHTML = '\n\n';
+                        brNode.innerHTML = "\n\n";
                         range.insertNode(brNode.childNodes[0]);
                         range.collapse(false);
-                        this.luteRender(vditor, range)
+                        this.luteRender(vditor, range);
                     }
                 }
                 scrollCenter(this.element);
