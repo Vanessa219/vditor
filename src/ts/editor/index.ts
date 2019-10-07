@@ -44,13 +44,13 @@ class Editor {
         const initInput = (() => {
             let isInitInput = false;
             return () => {
-                if(this.element.innerHTML === ""){
+                if (this.element.innerHTML === "") {
                     isInitInput = false;
-                } else if(!isInitInput) {
+                } else if (!isInitInput) {
                     isInitInput = true;
-                    this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>'
+                    this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
                 }
-            }
+            };
         })();
 
         this.element.addEventListener("input", () => {
