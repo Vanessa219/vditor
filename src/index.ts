@@ -118,11 +118,20 @@ class Vditor {
     }
 
     public focus() {
-        this.vditor.editor.element.focus();
+        if (this.vditor.currentMode === 'markdown') {
+            this.vditor.editor.element.focus();
+        } else {
+            this.vditor.wysiwyg.element.focus();
+            this.vditor.wysiwyg.setExpand()
+        }
     }
 
     public blur() {
-        this.vditor.editor.element.blur();
+        if (this.vditor.currentMode === 'markdown') {
+            this.vditor.editor.element.blur();
+        } else {
+            this.vditor.wysiwyg.element.blur();
+        }
     }
 
     public disabled() {

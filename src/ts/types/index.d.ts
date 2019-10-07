@@ -152,6 +152,7 @@ interface IPreviewOptions {
 }
 
 interface IOptions {
+    typewriterMode?: boolean;
     keymap?: { [key: string]: string };
     height?: number | string;
     width?: number | string;
@@ -235,6 +236,7 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement,
+        setExpand():void
     };
 }
 

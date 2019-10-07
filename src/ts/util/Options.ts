@@ -40,6 +40,7 @@ export class Options {
             enable: false,
             position: "bottom",
         },
+        typewriterMode: false,
         toolbar: [{
             hotkey: "⌘-e",
             name: "emoji",

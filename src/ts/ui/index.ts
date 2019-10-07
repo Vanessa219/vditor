@@ -74,13 +74,17 @@ export class Ui {
             height = vditor.options.height - 37;
         }
 
-        if (vditor.editor) {
+        if (vditor.editor && vditor.options.typewriterMode) {
             vditor.editor.element.style.paddingBottom = height / 2 + "px";
         }
 
         if (vditor.wysiwyg) {
             const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;
-            vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`;
+            if (vditor.options.typewriterMode) {
+                vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`;
+            } else {
+                vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px 10px`;
+            }
         }
 
         // set default value

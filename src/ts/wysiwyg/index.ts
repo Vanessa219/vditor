@@ -22,7 +22,7 @@ class WYSIWYG {
         hotkeyEvent(vditor, this.element);
     }
 
-    private setExpand() {
+    public setExpand() {
         const range = getSelection().getRangeAt(0);
 
         // Test: __123__**456** **789*
@@ -94,7 +94,7 @@ class WYSIWYG {
     private bindEvent(vditor: IVditor) {
         // TODO drap upload file & paste
         this.element.addEventListener("mouseup", () => {
-            // TODO this.setExpand();
+            this.setExpand();
 
             if (vditor.options.select) {
                 const selectText = getSelectText(this.element);

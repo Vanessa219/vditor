@@ -15,8 +15,9 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.15 / 2019-10-04
+### v1.8.16 / 2019-10-06
 
+* [143](https://github.com/b3log/vditor/issues/143) 为编辑器底部空白添加配置项 `enhancement`
 * [142](https://github.com/b3log/vditor/issues/142) setPreviewMode 方法失效 `bug`
 * [141](https://github.com/b3log/vditor/issues/141) Safari 中代码块换行 `bug`
 * [140](https://github.com/b3log/vditor/issues/140) Scroll to the cursor position after pasting `bug`
