@@ -74,10 +74,11 @@ class WYSIWYG {
 
     private luteRender(vditor: IVditor, range: Range) {
         const caret = getSelectPosition(this.element, range);
+        console.log(this.element.textContent, caret.start, caret.end);
         const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
-        console.log(this.element.textContent, caret.start, caret.end, formatHTML[0]);
+        console.log(formatHTML[0]);
         this.element.innerHTML = formatHTML[0] || formatHTML[1];
-        setRange(this.element, range)
+        setRange(this.element, range);
 
         if (vditor.hint) {
             vditor.hint.render(vditor);
@@ -156,16 +157,16 @@ class WYSIWYG {
                 } else {
                     const blockElement = getParentBlock(range.startContainer as HTMLElement);
                     const caret = getSelectPosition(blockElement, range);
-                    const isLi = blockElement.tagName === "LI"
+                    const isLi = blockElement.tagName === "LI";
                     const newlineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"),
-                        isLi && {marker: blockElement.querySelector('.marker').textContent});
+                        isLi && {marker: blockElement.querySelector(".marker").textContent});
                     if (caret.start === 0) {
                         // 段前换行
                         blockElement.insertAdjacentHTML("beforebegin", newlineHTML[0] || newlineHTML[1]);
-                    } else if (caret.end === blockElement.textContent.replace(/\n\n$/, "").length) {
+                    } else if (caret.end === blockElement.textContent.replace(/\n{1,2}$/, "").length) {
                         // 段末换行
                         blockElement.insertAdjacentHTML("afterend", newlineHTML[0] || newlineHTML[1]);
-                        setRange(this.element, range)
+                        setRange(this.element, range);
                     } else {
                         // 分段
                         brNode.innerHTML = "\n\n";

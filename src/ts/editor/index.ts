@@ -41,14 +41,7 @@ class Editor {
             }
         });
 
-        const initInput = () => {
-            if (this.element.innerHTML === "") {
-                this.element.innerHTML = '<span><br><span style="display: none">\n</span></span>';
-            }
-        };
-
         this.element.addEventListener("input", () => {
-            initInput();
             inputEvent(vditor);
             // 选中多行后输入任意字符，br 后无 \n
             this.element.querySelectorAll("br").forEach((br) => {

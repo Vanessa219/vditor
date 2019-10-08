@@ -9,17 +9,17 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
     let html = "";
     const newLine = '<span><br><span style="display: none">\n</span></span>';
 
-    // 当 textList 为 [""] 或 ["", ""]，把编辑器内部元素置空。显示 placeholder 文字
-    if (textList.length <= 2 && textList[0] === "") {
-        vditor.editor.element.innerHTML = "";
-        inputEvent(vditor, addUndo);
-        return;
-    }
-
+    let isEmpty = true;
     textList.forEach((text, index) => {
+        if (text !== "") {
+            isEmpty = false;
+        }
+
         if (index === textList.length - 1 && text === "") {
+            // 空行行末尾不需要
             return;
         }
+
         if (text) {
             html += `<span>${code160to32(text.replace(/&/g, "&amp;").replace(/</g, "&lt;"))}</span>${newLine}`;
         } else {
@@ -27,8 +27,13 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
         }
     });
 
-    // TODO: 使用虚拟 Dom
-    vditor.editor.element.innerHTML = html || newLine;
+    if (textList.length <= 2 && isEmpty) {
+        // 当内容等于空或 \n 时把编辑器内部元素置空，显示 placeholder 文字
+        vditor.editor.element.innerHTML = "";
+    } else {
+        // TODO: 使用虚拟 Dom
+        vditor.editor.element.innerHTML = html || newLine;
+    }
 
     if (position) {
         setSelectionByPosition(position.start, position.end, vditor.editor.element);
