@@ -2,7 +2,7 @@ import Vditor from '../src/index'
 import '../src/assets/scss/classic.scss'
 
 window.vditor = new Vditor('vditor', {
-  typewriterMode:true,
+  typewriterMode: true,
   counter: 100,
   height: 300,
   hint: {
@@ -24,12 +24,12 @@ window.vditor = new Vditor('vditor', {
         replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
         replace('/\\s/g', '')
     },
-  }
+  },
 })
 
 window.vditorTest = new Vditor('vditorTest', {
   tab: '\t',
-  cache: true,
+  cache: false,
   height: 200,
   width: 500,
   counter: 100,
