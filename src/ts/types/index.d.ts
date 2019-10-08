@@ -42,7 +42,7 @@ interface ILute {
 
     VditorDOMMarkdown(html: string): string[];
 
-    VditorNewline(ntype: string): string[];
+    VditorNewline(ntype: string, param?: object): string[];
 
     // SpinVditorDOM(html: string): string[];
 }

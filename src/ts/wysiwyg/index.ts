@@ -3,6 +3,7 @@ import {getSelectText} from "../editor/getSelectText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
 import {getParentBlock} from "./getParentBlock";
+import {setRange} from "./setRange";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -76,12 +77,7 @@ class WYSIWYG {
         const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
         console.log(this.element.textContent, caret.start, caret.end, formatHTML[0]);
         this.element.innerHTML = formatHTML[0] || formatHTML[1];
-        const startElement = this.element.querySelector("[data-cso]");
-        const endElement = this.element.querySelector("[data-ceo]");
-        range.setStart(startElement.childNodes[0] || startElement,
-            parseInt(startElement.getAttribute("data-cso"), 10));
-        range.setEnd(endElement.childNodes[0] || endElement, parseInt(endElement.getAttribute("data-ceo"), 10));
-        setSelectionFocus(range);
+        setRange(this.element, range)
 
         if (vditor.hint) {
             vditor.hint.render(vditor);
@@ -95,7 +91,7 @@ class WYSIWYG {
     private bindEvent(vditor: IVditor) {
         // TODO drap upload file & paste
         this.element.addEventListener("mouseup", () => {
-            this.setExpand();
+            // this.setExpand();
 
             if (vditor.options.select) {
                 const selectText = getSelectText(this.element);
@@ -160,16 +156,16 @@ class WYSIWYG {
                 } else {
                     const blockElement = getParentBlock(range.startContainer as HTMLElement);
                     const caret = getSelectPosition(blockElement, range);
-                    const newlineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"));
+                    const isLi = blockElement.tagName === "LI"
+                    const newlineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"),
+                        isLi && {marker: blockElement.querySelector('.marker').textContent});
                     if (caret.start === 0) {
                         // 段前换行
                         blockElement.insertAdjacentHTML("beforebegin", newlineHTML[0] || newlineHTML[1]);
                     } else if (caret.end === blockElement.textContent.replace(/\n\n$/, "").length) {
                         // 段末换行
                         blockElement.insertAdjacentHTML("afterend", newlineHTML[0] || newlineHTML[1]);
-                        range.setEnd(blockElement.nextSibling, 0);
-                        range.collapse(false);
-                        setSelectionFocus(range);
+                        setRange(this.element, range)
                     } else {
                         // 分段
                         brNode.innerHTML = "\n\n";
