@@ -18,7 +18,7 @@
 
 ### v1.8.16 / 2019-10-08
 
-* [144](https://github.com/b3log/vditor/issues/143) 编辑器内容为空时，placeholder 不显示 `bug`
+* [144](https://github.com/b3log/vditor/issues/144) 编辑器内容为空时，placeholder 不显示 `bug`
 * [143](https://github.com/b3log/vditor/issues/143) 为编辑器底部空白添加配置项 `enhancement`
 * [142](https://github.com/b3log/vditor/issues/142) setPreviewMode 方法失效 `bug`
 * [141](https://github.com/b3log/vditor/issues/141) Safari 中代码块换行 `bug`
