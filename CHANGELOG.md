@@ -7,6 +7,7 @@
   * `md2html` 静态方法参数修改为 `(mdText: string, options?: IPreviewOptions)`
   * `mathRender` 参数修改为 `(element: HTMLElement)`
   * `preview.hljs.style` 默认值修改为 `github`，可选值参见[chroma](https://xyproto.github.io/splash/docs/longer/all.html)
+  * 添加 `typewriterMode` 配置，默认值为 false。1.7 版本用户需要手动开启该功能
 * v1.7
   * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
   * 移除 `option.editorName`
