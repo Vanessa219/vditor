@@ -16,7 +16,7 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.8.16 / 2019-10-06
+### v1.8.16 / 2019-10-08
 
 * [144](https://github.com/b3log/vditor/issues/143) 编辑器内容为空时，placeholder 不显示 `bug`
 * [143](https://github.com/b3log/vditor/issues/143) 为编辑器底部空白添加配置项 `enhancement`
