@@ -43,8 +43,7 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "block";
                 }
-                const wysiwygHTML = vditor.lute.VditorDOMMarkdown(vditor.wysiwyg.element.innerHTML);
-                formatRender(vditor, wysiwygHTML[0] || wysiwygHTML[1], undefined, false);
+                formatRender(vditor, vditor.wysiwyg.element.textContent, undefined, false);
 
                 vditor.currentMode = "markdown";
             } else {

@@ -41,6 +41,10 @@ class WYSIWYG {
                 range.startContainer.parentElement.nextElementSibling.className.indexOf("node") > -1) {
                 // 光标在普通文本和节点前，**789*
                 range.startContainer.parentElement.nextElementSibling.className += " node--expand";
+            } else if (range.collapsed && range.startContainer.nodeType === 1 &&
+                (range.startContainer as HTMLElement).className.indexOf("node") > -1) {
+                // 光标在* 后
+                (range.startContainer as HTMLElement).className += " node--expand";
             }
         } else {
             if (startNodeElement.className.indexOf("node--expand") === -1) {
@@ -74,8 +78,12 @@ class WYSIWYG {
 
     private luteRender(vditor: IVditor, range: Range) {
         const caret = getSelectPosition(this.element, range);
-        console.log(this.element.textContent, caret.start, caret.end);
-        const formatHTML = vditor.lute.RenderVditorDOM(this.element.textContent, caret.start, caret.end);
+        const content = this.element.textContent.replace(/\n{1,2}$/, "")
+        if (content === '*') {
+            return
+        }
+        console.log(content, caret.start, caret.end);
+        const formatHTML = vditor.lute.RenderVditorDOM(content, caret.start, caret.end);
         console.log(formatHTML[0]);
         this.element.innerHTML = formatHTML[0] || formatHTML[1];
         setRange(this.element, range);
@@ -137,9 +145,9 @@ class WYSIWYG {
             }
 
             if (!startSpace && !endSpace) {
-                if (blockElement.lastElementChild.className !== "newline") {
-                    blockElement.insertAdjacentHTML("beforeend", "<span class='newline'>\n\n</span>");
-                }
+                // if (blockElement.lastElementChild.className !== "newline") {
+                //     blockElement.insertAdjacentHTML("beforeend", "<span class='newline'>\n\n</span>");
+                // }
                 this.luteRender(vditor, range);
             }
         });
@@ -160,12 +168,13 @@ class WYSIWYG {
                     const isLi = blockElement.tagName === "LI";
                     const newlineHTML = vditor.lute.VditorNewline(blockElement.getAttribute("data-ntype"),
                         isLi && {marker: blockElement.querySelector(".marker").textContent});
-                    if (caret.start === 0) {
-                        // 段前换行
-                        blockElement.insertAdjacentHTML("beforebegin", newlineHTML[0] || newlineHTML[1]);
-                    } else if (caret.end === blockElement.textContent.replace(/\n{1,2}$/, "").length) {
+                    if (caret.end === blockElement.textContent.replace(/\n{1,2}$/, "").length) {
                         // 段末换行
                         blockElement.insertAdjacentHTML("afterend", newlineHTML[0] || newlineHTML[1]);
+                        setRange(this.element, range);
+                    } else if (caret.start === 0) {
+                        // 段前换行
+                        blockElement.insertAdjacentHTML("beforebegin", newlineHTML[0] || newlineHTML[1]);
                         setRange(this.element, range);
                     } else {
                         // 分段

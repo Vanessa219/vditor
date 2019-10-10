@@ -40,8 +40,6 @@ interface ILute {
 
     RenderVditorDOM(text: string, start: number, end: number): string[];
 
-    VditorDOMMarkdown(html: string): string[];
-
     VditorNewline(ntype: string, param?: object): string[];
 
     // SpinVditorDOM(html: string): string[];

@@ -77,6 +77,7 @@ export class Hint {
 
         if (vditor.currentMode === "wysiwyg") {
             // TODO wysiwyg
+            
         } else {
             let range: Range = window.getSelection().getRangeAt(0);
             if (!selectIsEditor(vditor.editor.element, range)) {
