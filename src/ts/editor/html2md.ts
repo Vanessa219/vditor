@@ -79,6 +79,10 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
         // IDE
         isCode = true;
     }
+    if (textHTML.indexOf('\n<p class="p1">') === 0) {
+        // Xcode
+        isCode = true;
+    }
 
     if (isCode) {
         const code = textPlain || textHTML;
