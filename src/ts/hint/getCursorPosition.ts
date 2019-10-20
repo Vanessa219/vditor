@@ -17,7 +17,7 @@ export const getCursorPosition = (editor: HTMLElement) => {
         const startOffset = range.startOffset;
         // fix Safari
         if (isSafari()) {
-            range.setStart(range.startContainer, startOffset - 1);
+            range.setStart(range.startContainer, Math.max(0, startOffset - 1));
         }
         cursorRect = range.getBoundingClientRect();
         // fix Safari

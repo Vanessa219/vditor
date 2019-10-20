@@ -36,7 +36,7 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
     }
 
     if (position) {
-        setSelectionByPosition(position.start, position.end, vditor.editor.element);
+       setSelectionByPosition(position.start, position.end, vditor.editor.element);
     }
 
     inputEvent(vditor, addUndo);

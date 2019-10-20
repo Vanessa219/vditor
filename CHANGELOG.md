@@ -16,11 +16,12 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.9.1 / 2019-10-20
+### v1.9.0 / 2019-10-20
 
 * [153](https://github.com/b3log/vditor/issues/153) Markdown 渲染空格问题 `bug`
 * [152](https://github.com/b3log/vditor/issues/152) 直接调用 getHTML 抛错 `bug`
 * [151](https://github.com/b3log/vditor/issues/151) Xcode 复制粘贴后换行增加 `bug`
+* [150](https://github.com/b3log/vditor/issues/150) 加粗、斜体、删除线等功能按钮无法对选中的内容进行修改 `bug`
 
 ### v1.8.16 / 2019-10-08
 

@@ -78,9 +78,9 @@ class WYSIWYG {
 
     private luteRender(vditor: IVditor, range: Range) {
         const caret = getSelectPosition(this.element, range);
-        const content = this.element.textContent.replace(/\n{1,2}$/, "")
-        if (content === '*') {
-            return
+        const content = this.element.textContent.replace(/\n{1,2}$/, "");
+        if (content === "*") {
+            return;
         }
         console.log(content, caret.start, caret.end);
         const formatHTML = vditor.lute.RenderVditorDOM(content, caret.start, caret.end);
@@ -99,6 +99,7 @@ class WYSIWYG {
 
     private bindEvent(vditor: IVditor) {
         // TODO drap upload file & paste
+        // TODO use editor/index.ts selectionchange instead of mouseup
         this.element.addEventListener("mouseup", () => {
             // this.setExpand();
 
@@ -111,6 +112,7 @@ class WYSIWYG {
             }
         });
 
+        // TODO use editor/index.ts selectionchange instead of keyup
         this.element.addEventListener("keyup", (event: KeyboardEvent) => {
             this.setExpand();
         });

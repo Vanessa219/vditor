@@ -5,6 +5,7 @@ import {getText} from "./getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
+import {selectIsEditor} from "./selectIsEditor";
 
 class Editor {
     public element: HTMLPreElement;
@@ -28,11 +29,6 @@ class Editor {
     }
 
     private bindEvent(vditor: IVditor) {
-
-        this.element.addEventListener("keyup", (event: KeyboardEvent) => {
-            this.range = window.getSelection().getRangeAt(0).cloneRange();
-        });
-
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
                 insertText(vditor, "\n", "", true);
@@ -52,24 +48,23 @@ class Editor {
         });
 
         this.element.addEventListener("blur", () => {
-            if (navigator.userAgent.indexOf("Firefox") === -1) {
-                this.range = window.getSelection().getRangeAt(0).cloneRange();
-            }
             if (vditor.options.blur) {
                 vditor.options.blur(getText(this.element));
             }
         });
 
-        if (vditor.options.select) {
-            this.element.addEventListener("mouseup", () => {
+        document.addEventListener("selectionchange", () => {
+            if (selectIsEditor(this.element, window.getSelection().getRangeAt(0))) {
                 this.range = window.getSelection().getRangeAt(0).cloneRange();
-                const selectText = getSelectText(this.element);
-                if (selectText === "") {
-                    return;
+                if (vditor.options.select) {
+                    const selectText = getSelectText(this.element);
+                    if (selectText === "") {
+                        return;
+                    }
+                    vditor.options.select(selectText);
                 }
-                vditor.options.select(selectText);
-            });
-        }
+            }
+        });
 
         this.element.addEventListener("scroll", () => {
             if (!vditor.preview && (vditor.preview.element.className === "vditor-preview vditor-preview--editor" ||
