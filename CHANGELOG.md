@@ -16,6 +16,10 @@
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
+### v1.9.1 / 2019-10-20
+
+* [152](https://github.com/b3log/vditor/issues/152) 直接调用 getHTML 抛错 `bug`
+
 ### v1.8.16 / 2019-10-08
 
 * [144](https://github.com/b3log/vditor/issues/144) 编辑器内容为空时，placeholder 不显示 `bug`
