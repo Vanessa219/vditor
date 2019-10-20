@@ -18,6 +18,7 @@
 
 ### v1.9.1 / 2019-10-20
 
+* [153](https://github.com/b3log/vditor/issues/153) Markdown 渲染空格问题 `bug`
 * [152](https://github.com/b3log/vditor/issues/152) 直接调用 getHTML 抛错 `bug`
 
 ### v1.8.16 / 2019-10-08

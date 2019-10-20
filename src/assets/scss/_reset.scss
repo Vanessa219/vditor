@@ -27,7 +27,7 @@
       margin-bottom: 16px;
     }
 
-    li {
+    li + li {
       margin-top: 0.25em;
     }
 
@@ -238,12 +238,10 @@
 
   &-task {
     list-style: none;
-    margin-left: -1.4em;
-    display: flex;
-    align-items: center;
 
     input {
-      margin-right: 5px;
+      margin: 0 .2em .25em -1.6em;
+      vertical-align: middle;
     }
   }
 
