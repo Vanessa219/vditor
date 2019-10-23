@@ -53,19 +53,6 @@ class Editor {
             }
         });
 
-        document.addEventListener("selectionchange", () => {
-            if (selectIsEditor(this.element, window.getSelection().getRangeAt(0))) {
-                this.range = window.getSelection().getRangeAt(0).cloneRange();
-                if (vditor.options.select) {
-                    const selectText = getSelectText(this.element);
-                    if (selectText === "") {
-                        return;
-                    }
-                    vditor.options.select(selectText);
-                }
-            }
-        });
-
         this.element.addEventListener("scroll", () => {
             if (!vditor.preview && (vditor.preview.element.className === "vditor-preview vditor-preview--editor" ||
                 vditor.preview.element.className === "vditor-preview vditor-preview--preview")) {

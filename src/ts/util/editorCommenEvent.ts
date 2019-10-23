@@ -255,5 +255,4 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             hint(event, hintElement);
         }
     });
-
 };

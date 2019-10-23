@@ -40,7 +40,7 @@ interface ILute {
 
     RenderVditorDOM(text: string, start: number, end: number): string[];
 
-    VditorNewline(ntype: string, param?: object): string[];
+    VditorOperation(text: string, startOffset: number, endOffset: number, operation: string): string[];
 
     // SpinVditorDOM(html: string): string[];
 }
@@ -234,7 +234,6 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement,
-        setExpand(): void,
     };
 }
 

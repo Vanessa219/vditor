@@ -30,6 +30,7 @@ import {Upload} from "./ts/upload/index";
 import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
+import {setExpand} from "./ts/wysiwyg/setExpand";
 
 class Vditor {
 
@@ -122,7 +123,7 @@ class Vditor {
             this.vditor.editor.element.focus();
         } else {
             this.vditor.wysiwyg.element.focus();
-            this.vditor.wysiwyg.setExpand();
+            setExpand(this.vditor.wysiwyg.element);
         }
     }
 
