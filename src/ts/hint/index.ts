@@ -1,6 +1,6 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {getText} from "../editor/getText";
+import {getText} from "../util/getText";
 import {selectIsEditor} from "../editor/selectIsEditor";
 import {code160to32} from "../util/code160to32";
 import {getCursorPosition} from "./getCursorPosition";
@@ -23,7 +23,7 @@ export class Hint {
             vditor.wysiwyg.element : vditor.editor.element);
         const currentLineValue = vditor.currentMode === "wysiwyg" ?
             getSelection().getRangeAt(0).startContainer.textContent.split("\n")[0] :
-            getText(vditor.editor.element).substring(0, position.end).split("\n").slice(-1).pop();
+            getText(vditor.editor.element, vditor.currentMode).substring(0, position.end).split("\n").slice(-1).pop();
 
         let key = this.getKey(currentLineValue, ":");
         let isAt = false;
@@ -84,7 +84,7 @@ export class Hint {
                 range = vditor.editor.range;
             }
             const position = getSelectPosition(vditor.editor.element, range);
-            const text = getText(vditor.editor.element);
+            const text = getText(vditor.editor.element, vditor.currentMode);
             const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
             formatRender(vditor, preText + value + text.substring(position.start),
                 {

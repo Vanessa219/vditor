@@ -40,6 +40,11 @@
       }
     }
 
+    &--hr .marker {
+      left: -22px;
+      top: -8px;
+    }
+
     &--expand {
       & > .marker {
         width: auto;
@@ -56,6 +61,10 @@
 
   p:empty:after {
     content: '\200b';
+  }
+
+  hr:last-child {
+    margin-bottom: 24px;
   }
 }
 

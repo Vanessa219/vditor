@@ -1,4 +1,4 @@
-import {getText} from "../editor/getText";
+import {getText} from "../util/getText";
 
 export class DevTools {
     public element: HTMLDivElement;
@@ -20,8 +20,7 @@ export class DevTools {
             this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
         }
 
-        const data = vditor.lute.RenderEChartsJSON(vditor.currentMode === "wysiwyg" ?
-            vditor.wysiwyg.element.textContent : getText(vditor.editor.element));
+        const data = vditor.lute.RenderEChartsJSON(getText(vditor.editor.element, vditor.currentMode));
         try {
             (this.element.lastElementChild as HTMLElement).style.display = "block";
             this.element.firstElementChild.innerHTML = "";

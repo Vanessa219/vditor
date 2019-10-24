@@ -9,18 +9,22 @@ export const setExpand = (element: HTMLElement) => {
     });
 
     let nodeElement = range.startContainer as Element;
+    if (nodeElement && nodeElement.className && nodeElement.className.indexOf('node') > -1 &&
+        nodeElement.className.indexOf("node--expand") === -1) {
+        // 光标的所在位置为 node 节点
+        nodeElement.className += " node--expand";
+    }
     while (nodeElement) {
         if (nodeElement.nodeType === 3) {
             nodeElement = nodeElement.parentElement.closest(".node");
+        } else if (nodeElement.closest(".node") &&
+            nodeElement.closest(".node").isEqualNode(nodeElement)) {
+            nodeElement = nodeElement.parentElement.closest(".node");
         } else {
-            if (nodeElement.closest(".node") &&
-                nodeElement.closest(".node").isEqualNode(nodeElement)) {
-                nodeElement = nodeElement.parentElement.closest(".node");
-            } else {
-                nodeElement = nodeElement.closest(".node");
-            }
+            nodeElement = nodeElement.closest(".node");
         }
-        if (nodeElement && nodeElement.className.indexOf("node--expand") === -1) {
+        if (nodeElement && nodeElement.className.indexOf("node--expand") === -1 &&
+            nodeElement.className.indexOf('node') > -1) {
             // 光标的所有父节点
             nodeElement.className += " node--expand";
         }

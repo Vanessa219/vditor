@@ -1,6 +1,6 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {formatRender} from "../editor/formatRender";
-import {getText} from "../editor/getText";
+import {getText} from "../util/getText";
 import {getEventName} from "../util/getEventName";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
@@ -43,7 +43,7 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "block";
                 }
-                formatRender(vditor, vditor.wysiwyg.element.textContent, undefined, false);
+                formatRender(vditor, getText(vditor.wysiwyg.element, vditor.currentMode), undefined, false);
 
                 vditor.currentMode = "markdown";
             } else {
@@ -61,7 +61,7 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "none";
                 }
-                renderDomByMd(vditor, getText(vditor.editor.element));
+                renderDomByMd(vditor, getText(vditor.editor.element, vditor.currentMode));
                 vditor.currentMode = "wysiwyg";
             }
 

@@ -1,6 +1,6 @@
 import {formatRender} from "./formatRender";
 import {getSelectPosition} from "./getSelectPosition";
-import {getText} from "./getText";
+import {getText} from "../util/getText";
 import {selectIsEditor} from "./selectIsEditor";
 
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
@@ -17,7 +17,7 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
     }
 
     const position = getSelectPosition(vditor.editor.element, range);
-    const content = getText(vditor.editor.element);
+    const content = getText(vditor.editor.element, vditor.currentMode);
 
     // select none || select something and need replace
     if (range.collapsed || (!range.collapsed && replace)) {

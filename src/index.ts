@@ -3,7 +3,7 @@ import {Counter} from "./ts/counter/index";
 import {DevTools} from "./ts/devtools";
 import {formatRender} from "./ts/editor/formatRender";
 import {getSelectText} from "./ts/editor/getSelectText";
-import {getText} from "./ts/editor/getText";
+import {getText} from "./ts/util/getText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
 import {insertText} from "./ts/editor/insertText";
@@ -115,7 +115,7 @@ class Vditor {
     }
 
     public getValue() {
-        return getText(this.vditor.editor.element);
+        return getText(this.vditor.editor.element, this.vditor.currentMode);
     }
 
     public focus() {
@@ -188,7 +188,7 @@ class Vditor {
     }
 
     public getHTML() {
-        return md2htmlByVditor(getText(this.vditor.editor.element), this.vditor);
+        return md2htmlByVditor(getText(this.vditor.editor.element, this.vditor.currentMode), this.vditor);
     }
 
     public tip(text: string, time?: number) {

@@ -1,4 +1,4 @@
-import {getText} from "../editor/getText";
+import {getText} from "../util/getText";
 import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
@@ -39,14 +39,14 @@ export class Preview {
             return;
         }
 
-        if (getText(vditor.editor.element).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
+        if (getText(vditor.editor.element, vditor.currentMode).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
             this.element.children[0].innerHTML = "";
             return;
         }
 
         clearTimeout(this.mdTimeoutId);
         const renderStartTime = new Date().getTime();
-        const markdownText = getText(vditor.editor.element);
+        const markdownText = getText(vditor.editor.element, vditor.currentMode);
         if (vditor.options.preview.url) {
             this.mdTimeoutId = window.setTimeout(async () => {
                 const xhr = new XMLHttpRequest();

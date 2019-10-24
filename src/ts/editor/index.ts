@@ -1,11 +1,9 @@
 import {uploadFiles} from "../upload/index";
 import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
-import {getSelectText} from "./getSelectText";
-import {getText} from "./getText";
+import {getText} from "../util/getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
-import {selectIsEditor} from "./selectIsEditor";
 
 class Editor {
     public element: HTMLPreElement;
@@ -49,7 +47,7 @@ class Editor {
 
         this.element.addEventListener("blur", () => {
             if (vditor.options.blur) {
-                vditor.options.blur(getText(this.element));
+                vditor.options.blur(getText(this.element, vditor.currentMode));
             }
         });
 

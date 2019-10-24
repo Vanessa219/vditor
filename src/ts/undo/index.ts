@@ -1,7 +1,7 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {getText} from "../editor/getText";
+import {getText} from "../util/getText";
 import {scrollCenter} from "../util/editorCommenEvent";
 
 class Undo {
@@ -53,7 +53,7 @@ class Undo {
     public addToUndoStack(vditor: IVditor) {
         clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
-            const text = getText(vditor.editor.element);
+            const text = getText(vditor.editor.element, vditor.currentMode);
             const diff = this.dmp.diff_main(text, this.lastText, true);
             const patchList = this.dmp.patch_make(text, this.lastText, diff);
             if (patchList.length === 0) {

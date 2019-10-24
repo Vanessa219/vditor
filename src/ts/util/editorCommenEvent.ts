@@ -1,7 +1,7 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
-import {getText} from "../editor/getText";
+import {getText} from "../util/getText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
@@ -10,7 +10,7 @@ const getContent = (vditor: IVditor, editorElement: HTMLElement) => {
     if (vditor.currentMode === "wysiwyg") {
         return editorElement.textContent;
     } else {
-        return getText(editorElement);
+        return getText(editorElement, vditor.currentMode);
     }
 };
 
@@ -127,7 +127,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 event.stopPropagation();
 
                 const position = getSelectPosition(editorElement);
-                const text = getText(editorElement);
+                const text = getText(editorElement, vditor.currentMode);
                 const selectLinePosition = getCurrentLinePosition(position, text);
                 const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
 
@@ -176,7 +176,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 if (position.start !== position.end) {
                     insertText(vditor, "", "", true);
                 } else {
-                    const text = getText(editorElement);
+                    const text = getText(editorElement, vditor.currentMode);
                     const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}][\u{2000}-\u{206F}][\u{2700}-\u{27BF}]|([\u{1F900}-\u{1F9FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F600}-\u{1F64F}])[\u{2000}-\u{206F}][\u{2600}-\u{26FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
                     const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
                     formatRender(vditor,
@@ -195,7 +195,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (vditor.options.keymap.deleteLine) {
                 processKeymap(vditor.options.keymap.deleteLine, event, () => {
                     const position = getSelectPosition(editorElement);
-                    const text = getText(editorElement);
+                    const text = getText(editorElement, vditor.currentMode);
                     const linePosition = getCurrentLinePosition(position, text);
                     const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
                     const startIndex = Math.min(deletedText.length, position.start);
@@ -209,7 +209,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (vditor.options.keymap.duplicate) {
                 processKeymap(vditor.options.keymap.duplicate, event, () => {
                     const position = getSelectPosition(editorElement);
-                    const text = getText(editorElement);
+                    const text = getText(editorElement, vditor.currentMode);
                     let lineText = text.substring(position.start, position.end);
                     if (position.start === position.end) {
                         const linePosition = getCurrentLinePosition(position, text);
