@@ -4,7 +4,8 @@ export const inputEvent = (vditor: IVditor, addUndo: boolean = true) => {
         vditor.counter.render(getText(vditor.editor.element, vditor.currentMode).length, vditor.options.counter);
     }
     if (typeof vditor.options.input === "function") {
-        vditor.options.input(getText(vditor.editor.element, vditor.currentMode), vditor.preview && vditor.preview.element);
+        vditor.options.input(getText(vditor.editor.element, vditor.currentMode),
+            vditor.preview && vditor.preview.element);
     }
     if (vditor.hint) {
         vditor.hint.render(vditor);

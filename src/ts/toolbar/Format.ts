@@ -1,8 +1,8 @@
 import formatSVG from "../../assets/icons/format.svg";
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {getText} from "../util/getText";
 import {getEventName} from "../util/getEventName";
+import {getText} from "../util/getText";
 import {MenuItem} from "./MenuItem";
 
 export class Format extends MenuItem {

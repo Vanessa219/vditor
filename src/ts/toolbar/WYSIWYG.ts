@@ -1,7 +1,7 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {formatRender} from "../editor/formatRender";
-import {getText} from "../util/getText";
 import {getEventName} from "../util/getEventName";
+import {getText} from "../util/getText";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 

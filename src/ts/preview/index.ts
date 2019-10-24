@@ -1,4 +1,3 @@
-import {getText} from "../util/getText";
 import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
@@ -8,6 +7,7 @@ import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {md2htmlByVditor} from "../markdown/md2html";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {getText} from "../util/getText";
 
 export class Preview {
     public element: HTMLElement;
@@ -39,7 +39,8 @@ export class Preview {
             return;
         }
 
-        if (getText(vditor.editor.element, vditor.currentMode).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
+        if (getText(vditor.editor.element, vditor.currentMode)
+            .replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
             this.element.children[0].innerHTML = "";
             return;
         }

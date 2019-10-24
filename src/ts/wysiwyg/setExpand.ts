@@ -9,7 +9,7 @@ export const setExpand = (element: HTMLElement) => {
     });
 
     let nodeElement = range.startContainer as Element;
-    if (nodeElement && nodeElement.className && nodeElement.className.indexOf('node') > -1 &&
+    if (nodeElement && nodeElement.className && nodeElement.className.indexOf("node") > -1 &&
         nodeElement.className.indexOf("node--expand") === -1) {
         // 光标的所在位置为 node 节点
         nodeElement.className += " node--expand";
@@ -24,7 +24,7 @@ export const setExpand = (element: HTMLElement) => {
             nodeElement = nodeElement.closest(".node");
         }
         if (nodeElement && nodeElement.className.indexOf("node--expand") === -1 &&
-            nodeElement.className.indexOf('node') > -1) {
+            nodeElement.className.indexOf("node") > -1) {
             // 光标的所有父节点
             nodeElement.className += " node--expand";
         }

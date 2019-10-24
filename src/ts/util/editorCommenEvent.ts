@@ -1,9 +1,9 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
-import {getText} from "../util/getText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
+import {getText} from "../util/getText";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 
 const getContent = (vditor: IVditor, editorElement: HTMLElement) => {

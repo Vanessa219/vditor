@@ -1,8 +1,8 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {getText} from "../util/getText";
 import {selectIsEditor} from "../editor/selectIsEditor";
 import {code160to32} from "../util/code160to32";
+import {getText} from "../util/getText";
 import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {

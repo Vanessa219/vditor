@@ -1,8 +1,8 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {getText} from "../util/getText";
 import {scrollCenter} from "../util/editorCommenEvent";
+import {getText} from "../util/getText";
 
 class Undo {
     private undoStack: Array<{ patchList: patch_obj[], end: number }>;

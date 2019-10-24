@@ -2,9 +2,9 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
+import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
 import {setRange} from "./setRange";
-import {getText} from "../util/getText";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -79,7 +79,7 @@ class WYSIWYG {
                     return;
                 }
                 const formatHTML = vditor.lute.RenderVditorDOM(content, caret.start, caret.end);
-                console.log(content, caret)
+                console.log(content, caret);
                 this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
             }
         });
@@ -97,8 +97,8 @@ class WYSIWYG {
                 } else {
                     const caret = getSelectPosition(this.element, range);
                     console.log("enter caret", caret);
-                    const formatHTML = vditor.lute.VditorOperation(getText(this.element, vditor.currentMode), caret.start, caret.end,
-                        "newline");
+                    const formatHTML = vditor.lute.VditorOperation(getText(this.element, vditor.currentMode),
+                        caret.start, caret.end, "newline");
                     this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
                     // if (caret.end === blockElement.textContent.replace(/\n{1,2}$/, "").length) {
                     //     // 段末换行

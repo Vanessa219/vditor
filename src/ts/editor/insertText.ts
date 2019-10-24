@@ -1,6 +1,6 @@
+import {getText} from "../util/getText";
 import {formatRender} from "./formatRender";
 import {getSelectPosition} from "./getSelectPosition";
-import {getText} from "../util/getText";
 import {selectIsEditor} from "./selectIsEditor";
 
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
