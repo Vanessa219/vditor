@@ -53,6 +53,10 @@
         color: #bbb;
       }
     }
+
+    & > [data-hidden]::after {
+      content: attr(data-hidden);
+    }
   }
 
   li.node--expand .marker {

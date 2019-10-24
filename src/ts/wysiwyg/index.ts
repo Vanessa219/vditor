@@ -1,5 +1,4 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {getSelectText} from "../editor/getSelectText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
@@ -70,16 +69,13 @@ class WYSIWYG {
             }
 
             if (!startSpace && !endSpace) {
-                // if (blockElement.lastElementChild.className !== "newline") {
-                //     blockElement.insertAdjacentHTML("beforeend", "<span class='newline'>\n\n</span>");
-                // }
                 const caret = getSelectPosition(this.element, range);
                 const content = getText(this.element, vditor.currentMode).replace(/\n{1,2}$/, "");
                 if (content === "*") {
                     return;
                 }
                 const formatHTML = vditor.lute.RenderVditorDOM(content, caret.start, caret.end);
-                console.log(content, caret);
+                console.log('input', content, caret);
                 this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
             }
         });
@@ -96,26 +92,10 @@ class WYSIWYG {
                     setSelectionFocus(range);
                 } else {
                     const caret = getSelectPosition(this.element, range);
-                    console.log("enter caret", caret);
+                    console.log("newline", getText(this.element, vditor.currentMode), caret);
                     const formatHTML = vditor.lute.VditorOperation(getText(this.element, vditor.currentMode),
                         caret.start, caret.end, "newline");
                     this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
-                    // if (caret.end === blockElement.textContent.replace(/\n{1,2}$/, "").length) {
-                    //     // 段末换行
-                    //     blockElement.insertAdjacentHTML("afterend", newlineHTML[0] || newlineHTML[1]);
-                    //     setRange(this.element, range);
-                    // } else if (caret.start === 0) {
-                    //     // 段前换行
-                    //     blockElement.insertAdjacentHTML("beforebegin", newlineHTML[0] || newlineHTML[1]);
-                    //     setRange(this.element, range);
-                    // } else {
-                    //     // 分段
-                    //     brNode.innerHTML = "\n\n";
-                    //     range.insertNode(brNode.childNodes[0]);
-                    //     range.collapse(false);
-                    //     this.luteRender(vditor, range);
-                    // }
-
                 }
                 scrollCenter(this.element);
                 event.preventDefault();
