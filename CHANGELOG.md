@@ -20,6 +20,7 @@
 
 ### v1.9.1 / 2019-11-04
 
+* [156](https://github.com/b3log/vditor/issues/156) 语法高亮添加行号 `feature`
 * [155](https://github.com/b3log/vditor/issues/155) preview 方法支持多次渲染 `enhancement`
 * [153](https://github.com/b3log/vditor/issues/153) Markdown 渲染空格问题 `bug`
 * [152](https://github.com/b3log/vditor/issues/152) 直接调用 getHTML 抛错 `bug`

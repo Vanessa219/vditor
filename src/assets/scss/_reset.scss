@@ -248,6 +248,7 @@
   &-copy {
     position: relative;
     display: none;
+    z-index: 1;
 
     textarea {
       position: absolute;
@@ -274,6 +275,35 @@
       width: 14px !important;
       display: block;
       fill: currentColor;
+    }
+  }
+
+  &-linenumber {
+    padding-left: 4em !important;
+    position: relative;
+
+    &__rows {
+      position: absolute;
+      pointer-events: none;
+      top: 0.5em;
+      left: 0;
+      width: 3em; /* works for line-numbers below 1000 lines */
+      user-select: none;
+      counter-reset: linenumber;
+
+      & > span {
+        pointer-events: none;
+        display: block;
+
+        &::before {
+          counter-increment: linenumber;
+          content: counter(linenumber);
+          color: rgba(158, 150, 150, 0.38);
+          display: block;
+          padding-right: 1em;
+          text-align: right;
+        }
+      }
     }
   }
 

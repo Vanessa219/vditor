@@ -13,11 +13,17 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         className: 'vditor-reset',
         customEmoji: {},
         emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
-        enableHighlight: true,
-        hljsStyle: "github",
         lang: "zh_CN",
+        hljs: {
+            lineNumber: false,
+            style: 'github',
+            enable: true,
+        }
     };
     options = Object.assign(defaultOption, options);
+    if (options.hljs) {
+        options.hljs = Object.assign({}, defaultOption.hljs, options.hljs);
+    }
 
     const html =
         await md2htmlByPreview(markdown, options);
@@ -26,7 +32,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     previewElement.className = options.className;
 
     codeRender(previewElement, options.lang);
-    highlightRender(options.hljsStyle, options.enableHighlight, previewElement);
+    highlightRender(options.hljs, previewElement);
     mathRenderByLute(previewElement);
     mermaidRender(previewElement);
     chartRender(previewElement);

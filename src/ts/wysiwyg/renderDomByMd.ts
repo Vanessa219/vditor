@@ -14,8 +14,7 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
     blockElement.innerHTML = domHTML[0] || domHTML[1];
     setRange(blockElement);
     codeRender(blockElement, vditor.options.lang);
-    highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable,
-        blockElement);
+    highlightRender(vditor.options.preview.hljs, blockElement);
     mathRender(blockElement);
     mermaidRender(blockElement);
     chartRender(blockElement);

@@ -13,6 +13,13 @@ window.vditor = new Vditor('vditor', {
       'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
     },
   },
+  preview: {
+    delay: 1000,
+    hljs: {
+      style: 'solarized-dark256',
+      lineNumber: true,
+    },
+  },
   tab: '\t',
   upload: {
     accept: 'image/*,.wav',

@@ -95,8 +95,7 @@ export class Preview {
             vditor.preview.element.removeAttribute("data-type");
         }
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
-        highlightRender(vditor.options.preview.hljs.style, vditor.options.preview.hljs.enable,
-            vditor.preview.element.children[0] as HTMLElement);
+        highlightRender(vditor.options.preview.hljs, vditor.preview.element.children[0] as HTMLElement);
         mathRenderByLute(vditor.preview.element.children[0] as HTMLElement);
         mermaidRender(vditor.preview.element.children[0] as HTMLElement);
         chartRender(vditor.preview.element.children[0] as HTMLElement);
