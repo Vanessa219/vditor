@@ -10,15 +10,15 @@ import {mermaidRender} from "./mermaidRender";
 
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
-        className: 'vditor-reset',
+        className: "vditor-reset",
         customEmoji: {},
         emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
-        lang: "zh_CN",
         hljs: {
-            lineNumber: false,
-            style: 'github',
             enable: true,
-        }
+            lineNumber: false,
+            style: "github",
+        },
+        lang: "zh_CN",
     };
     options = Object.assign(defaultOption, options);
     if (options.hljs) {

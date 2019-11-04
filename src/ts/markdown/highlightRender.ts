@@ -33,35 +33,35 @@ export const highlightRender = async (hljsOption?: IHljs, element: HTMLElement |
         hljs.highlightBlock(block);
 
         if (!hljsOption.lineNumber) {
-            return
+            return;
         }
 
-        block.className += ' vditor-linenumber'
-        let linenNumberTemp: HTMLDivElement = block.querySelector('.vditor-linenumber__temp');
+        block.className += " vditor-linenumber";
+        let linenNumberTemp: HTMLDivElement = block.querySelector(".vditor-linenumber__temp");
         if (!linenNumberTemp) {
-            linenNumberTemp = document.createElement('div')
-            linenNumberTemp.className = 'vditor-linenumber__temp'
-            block.insertAdjacentElement('beforeend', linenNumberTemp)
+            linenNumberTemp = document.createElement("div");
+            linenNumberTemp.className = "vditor-linenumber__temp";
+            block.insertAdjacentElement("beforeend", linenNumberTemp);
         }
-        const whiteSpace = getComputedStyle(block).whiteSpace
-        let isSoftWrap = false
-        if (whiteSpace === 'pre-wrap' || whiteSpace === 'pre-line') {
-            isSoftWrap = true
+        const whiteSpace = getComputedStyle(block).whiteSpace;
+        let isSoftWrap = false;
+        if (whiteSpace === "pre-wrap" || whiteSpace === "pre-line") {
+            isSoftWrap = true;
         }
-        let lineNumberHTML = ''
-        const lineList = block.textContent.split(/\r\n|\r|\n/g)
-        lineList.pop()
+        let lineNumberHTML = "";
+        const lineList = block.textContent.split(/\r\n|\r|\n/g);
+        lineList.pop();
         lineList.map((line) => {
-            let lineHeight = '';
+            let lineHeight = "";
             if (isSoftWrap) {
-                linenNumberTemp.textContent = line || '\n';
+                linenNumberTemp.textContent = line || "\n";
                 lineHeight = ` style="height:${linenNumberTemp.getBoundingClientRect().height}px"`;
             }
-            lineNumberHTML += `<span${lineHeight}></span>`
-        })
+            lineNumberHTML += `<span${lineHeight}></span>`;
+        });
 
-        linenNumberTemp.style.display = 'none'
-        lineNumberHTML = `<span class="vditor-linenumber__rows">${lineNumberHTML}</span>`
-        block.insertAdjacentHTML('beforeend', lineNumberHTML)
+        linenNumberTemp.style.display = "none";
+        lineNumberHTML = `<span class="vditor-linenumber__rows">${lineNumberHTML}</span>`;
+        block.insertAdjacentHTML("beforeend", lineNumberHTML);
     });
 };

@@ -108,9 +108,9 @@ interface IPreviewMode {
 }
 
 interface IHljs {
-    lineNumber?: boolean,
-    style?: string,
-    enable?: boolean,
+    lineNumber?: boolean;
+    style?: string;
+    enable?: boolean;
 }
 
 interface IPreview {
@@ -118,7 +118,7 @@ interface IPreview {
     maxWidth?: number;
     mode?: keyof IPreviewMode;
     url?: string;
-    hljs?:IHljs;
+    hljs?: IHljs;
 
     parse?(element: HTMLElement): void;
 }
@@ -145,15 +145,15 @@ interface IResize {
 }
 
 interface IPreviewOptions {
-    className?:string;
+    className?: string;
     customEmoji?: { [key: string]: string };
     lang?: (keyof II18nLang);
     emojiPath?: string;
-    hljs?:IHljs
+    hljs?: IHljs;
 }
 
 interface IOptions {
-    after?: Function
+    after?: () => void;
     typewriterMode?: boolean;
     keymap?: { [key: string]: string };
     height?: number | string;
@@ -245,7 +245,7 @@ declare class IVditorConstructor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
-    public static highlightRender(hljs?:IHljs, element?: HTMLElement | Document): void;
+    public static highlightRender(hljs?: IHljs, element?: HTMLElement | Document): void;
 
     public static mathRenderByLute(element: HTMLElement): void;
 

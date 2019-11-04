@@ -31,8 +31,8 @@ export class Options {
         preview: {
             delay: 1000,
             hljs: {
-                lineNumber: false,
                 enable: true,
+                lineNumber: false,
                 style: "github",
             },
             maxWidth: 768,
@@ -224,7 +224,8 @@ export class Options {
             if (this.options.preview) {
                 this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview);
                 if (this.options.preview.hljs) {
-                    this.options.preview.hljs = Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
+                    this.options.preview.hljs =
+                        Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
                 }
             }
 

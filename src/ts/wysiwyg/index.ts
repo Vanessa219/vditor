@@ -75,7 +75,7 @@ class WYSIWYG {
                     return;
                 }
                 const formatHTML = vditor.lute.RenderVditorDOM(content, caret.start, caret.end);
-                console.log('input', content, caret);
+                console.log("input", content, caret);
                 this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
             }
         });
