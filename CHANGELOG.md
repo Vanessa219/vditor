@@ -14,9 +14,10 @@
 
 ### TODO
 
+* [155](https://github.com/b3log/vditor/issues/155) preview 方法支持多次渲染 `enhancement`
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
-### v1.9.0 / 2019-10-20
+### v1.9.1 / 2019-11-04
 
 * [153](https://github.com/b3log/vditor/issues/153) Markdown 渲染空格问题 `bug`
 * [152](https://github.com/b3log/vditor/issues/152) 直接调用 getHTML 抛错 `bug`

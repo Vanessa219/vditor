@@ -63,6 +63,10 @@
     left: -9px;
   }
 
+  li.node--expand.vditor-task .marker {
+    left: -46px;
+  }
+
   p:empty:after {
     content: '\200b';
   }

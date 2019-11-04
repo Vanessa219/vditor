@@ -5,6 +5,6 @@ export const getText = (element: HTMLElement, mode: string) => {
     if (mode === "markdown") {
         return code160to32(`${element.textContent}\n`.replace(/\n\n$/, "\n"));
     } else {
-        return element.textContent;
+        return element.textContent.replace(/\n\n+$/, "\n\n");
     }
 };
