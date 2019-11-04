@@ -3,18 +3,18 @@
 ### 升级
 
 * v1.9
-  * preview 静态方法参数修改为 `(element: HTMLDivElement, markdown: string, options?: IPreviewOptions)`，其中参数 `IPreviewOptions` 修改为
-```ts
-   className?: string;
-   customEmoji?: { [key: string]: string };
-   lang?: (keyof II18nLang);
-   emojiPath?: string;
-   hljs?: {
-      lineNumber?: boolean;
-      style?: string;
-      enable?: boolean;
-   };
-```
+  * preview 静态方法参数修改为 `(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions)`，其中参数 `IPreviewOptions` 修改为
+    ```ts
+       className?: string;
+       customEmoji?: { [key: string]: string };
+       lang?: (keyof II18nLang);
+       emojiPath?: string;
+       hljs?: {
+          lineNumber?: boolean;
+          style?: string;
+          enable?: boolean;
+       };
+    ```
   * highlightRender 参数修改为 `(hljs?: IHljs, element?: HTMLElement | Document)`
 * v1.8
   * `getHTML` 方法移除参数

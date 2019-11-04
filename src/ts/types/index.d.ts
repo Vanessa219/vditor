@@ -245,7 +245,7 @@ declare class IVditorConstructor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
-    public static highlightRender(hljs?: IHljs, element?: HTMLElement | Document): void;
+    public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document): void;
 
     public static mathRenderByLute(element: HTMLElement): void;
 
@@ -261,7 +261,7 @@ declare class IVditorConstructor {
 
     public static md2html(mdText: string, options?: IPreviewOptions): string;
 
-    public static preview(element: HTMLDivElement, markdown: string, options?: IPreviewOptions): void;
+    public static preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions): void;
 
     public readonly version: string;
     public vditor: IVditor;
