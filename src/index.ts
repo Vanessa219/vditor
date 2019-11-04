@@ -111,6 +111,11 @@ class Vditor {
             }
 
             const ui = new Ui(this.vditor);
+
+
+           if (mergedOptions.after) {
+               mergedOptions.after()
+           }
         });
     }
 

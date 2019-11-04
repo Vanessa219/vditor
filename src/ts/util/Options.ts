@@ -3,6 +3,7 @@ import {CDN_PATH} from "../constants";
 export class Options {
     public options: IOptions;
     private defaultOptions: IOptions = {
+        after: undefined,
         cache: true,
         classes: {
             preview: "",

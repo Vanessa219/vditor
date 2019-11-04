@@ -153,6 +153,7 @@ interface IPreviewOptions {
 }
 
 interface IOptions {
+    after?: Function
     typewriterMode?: boolean;
     keymap?: { [key: string]: string };
     height?: number | string;
