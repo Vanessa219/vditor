@@ -34,12 +34,20 @@
     <meta name="twitter:url" content="https://github.com/b3log/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
+    <style>
+        .preview {
+            max-width: 90%;
+            width: 600px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
 <h2><a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">Doc</a></h2>
 <h2><a href="index.html">Vditor for you</a></h2>
 <h2>Vditor for Preview</h2>
-<textarea id="vditorPreview" class="vditor-reset" style="max-width: 90%;width: 600px;margin: 0 auto;display: none">## Guide
+<div id="preview"></div>
+<textarea id="markdownText" class="preview" style="display:none;">## Guide
 
 这是一篇讲解如何正确使用 **Markdown** 的排版示例，学会这个很有必要，能让你的文章有更佳清晰的排版。
 
@@ -196,7 +204,21 @@ public class HelloWorld {
 
 ### 数学公式
 
-$$a^2 + b^2 = \color{red}c^2$$
+多行公式块：
+
+$$
+\frac{1}{
+  \Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{
+  \frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {
+    1+\frac{e^{-6\pi}}
+    {1+\frac{e^{-8\pi}}{1+\cdots}}
+  }
+}
+$$
+
+行内公式：
+
+公式 $a^2 + b^2 = \color{red}c^2$ 是行内。
 
 ### 流程图
 
@@ -298,7 +320,6 @@ https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html
 
 ## 快捷键
 
-我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://hacpai.com/article/1474030007391)（或者按 "`?` ":smirk_cat:）
-</textarea>
+我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://hacpai.com/article/1474030007391)（或者按 "`?` ":smirk_cat:）</textarea>
 </body>
 </html>

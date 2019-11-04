@@ -2,6 +2,8 @@
 
 ### 升级
 
+* v1.9
+  * preview 静态方法参数修改为 `(element: HTMLDivElement, markdown: string, options?: IPreviewOptions)`
 * v1.8
   * `getHTML` 方法移除参数
   * `md2html` 静态方法参数修改为 `(mdText: string, options?: IPreviewOptions)`
@@ -14,11 +16,11 @@
 
 ### TODO
 
-* [155](https://github.com/b3log/vditor/issues/155) preview 方法支持多次渲染 `enhancement`
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 
 ### v1.9.1 / 2019-11-04
 
+* [155](https://github.com/b3log/vditor/issues/155) preview 方法支持多次渲染 `enhancement`
 * [153](https://github.com/b3log/vditor/issues/153) Markdown 渲染空格问题 `bug`
 * [152](https://github.com/b3log/vditor/issues/152) 直接调用 getHTML 抛错 `bug`
 * [151](https://github.com/b3log/vditor/issues/151) Xcode 复制粘贴后换行增加 `bug`

@@ -142,6 +142,7 @@ interface IResize {
 }
 
 interface IPreviewOptions {
+    className?:string;
     hljsStyle?: string;
     enableHighlight?: boolean;
     customEmoji?: { [key: string]: string };
@@ -257,7 +258,7 @@ declare class IVditorConstructor {
 
     public static md2html(mdText: string, options?: IPreviewOptions): string;
 
-    public static preview(element: HTMLTextAreaElement, options?: IPreviewOptions): void;
+    public static preview(element: HTMLDivElement, markdown: string, options?: IPreviewOptions): void;
 
     public readonly version: string;
     public vditor: IVditor;

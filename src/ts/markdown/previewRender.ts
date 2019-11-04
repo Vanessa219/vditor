@@ -8,8 +8,9 @@ import {md2htmlByPreview} from "./md2html";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 
-export const previewRender = async (element: HTMLTextAreaElement, options?: IPreviewOptions) => {
+export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
+        className: 'vditor-reset',
         customEmoji: {},
         emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
         enableHighlight: true,
@@ -17,21 +18,18 @@ export const previewRender = async (element: HTMLTextAreaElement, options?: IPre
         lang: "zh_CN",
     };
     options = Object.assign(defaultOption, options);
+
     const html =
-        await md2htmlByPreview(element.textContent, options);
-    const divElement = document.createElement("div");
-    divElement.innerHTML = html;
-    divElement.className = element.className;
-    divElement.id = element.id;
-    divElement.setAttribute("style", element.getAttribute("style"));
-    divElement.style.display = "block";
-    element.after(divElement);
-    element.remove();
-    codeRender(divElement, options.lang);
-    highlightRender(options.hljsStyle, options.enableHighlight, divElement);
-    mathRenderByLute(divElement);
-    mermaidRender(divElement);
-    chartRender(divElement);
-    abcRender(divElement);
-    mediaRender(divElement);
+        await md2htmlByPreview(markdown, options);
+
+    previewElement.innerHTML = html;
+    previewElement.className = options.className;
+
+    codeRender(previewElement, options.lang);
+    highlightRender(options.hljsStyle, options.enableHighlight, previewElement);
+    mathRenderByLute(previewElement);
+    mermaidRender(previewElement);
+    chartRender(previewElement);
+    abcRender(previewElement);
+    mediaRender(previewElement);
 };
