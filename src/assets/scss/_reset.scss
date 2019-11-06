@@ -307,6 +307,31 @@
     }
   }
 
+  &-speech {
+    position: absolute;
+    display: none;
+    background-color: $toolbarBg;
+    border: 1px solid $borderColor;
+    border-radius: 3px;
+    padding: 3px;
+    cursor: pointer;
+    color: $toolbarIcon;
+
+    &:hover,
+    &--current {
+      color: $toolbarIconHover;
+    }
+
+    svg {
+      height: 14px;
+      width: 14px;
+      fill: currentColor;
+      display: block;
+      stroke-width: 0;
+      stroke: currentColor;
+    }
+  }
+
   &--error {
     color: $errorColor;
     font-size: 12px;

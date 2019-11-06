@@ -7,6 +7,7 @@ import {mathRenderByLute} from "./mathRenderByLute";
 import {md2htmlByPreview} from "./md2html";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
+import {speechRender} from "./speechRender";
 
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
@@ -38,4 +39,5 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     chartRender(previewElement);
     abcRender(previewElement);
     mediaRender(previewElement);
+    speechRender(previewElement,  options.lang);
 };
