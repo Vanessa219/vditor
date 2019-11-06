@@ -29,12 +29,16 @@
 ### TODO
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
+* [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
 
-### v1.9.1 / 2019-11-04
+### v1.9.2 / 2019-11-06
 
+* [160](https://github.com/b3log/vditor/issues/160) 添加 `speechRender` 方法 `feature`
+* [159](https://github.com/b3log/vditor/issues/159) Vditor.preview方法在页面中渲染textarea内markdown代码无效 `invalid`
 * [157](https://github.com/b3log/vditor/issues/157) 初始化后添加回调方法 `options.after` `feature`
 * [156](https://github.com/b3log/vditor/issues/156) 语法高亮添加行号配置 `options.preview.hljs.lineNumber` `feature`
 * [155](https://github.com/b3log/vditor/issues/155) preview 方法支持多次渲染 `enhancement`
+* [154](https://github.com/b3log/vditor/issues/154) 流程图写代码对新手来说太难了建议 `question`
 * [153](https://github.com/b3log/vditor/issues/153) Markdown 渲染空格问题 `bug`
 * [152](https://github.com/b3log/vditor/issues/152) 直接调用 getHTML 抛错 `bug`
 * [151](https://github.com/b3log/vditor/issues/151) Xcode 复制粘贴后换行增加 `bug`
