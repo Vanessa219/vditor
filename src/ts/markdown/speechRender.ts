@@ -91,7 +91,7 @@ export const speechRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh
         speechDom.setAttribute("data-text", text);
     });
 
-    element.addEventListener("click", () => {
+    document.addEventListener("click", () => {
         resetSpeedDom(true);
     });
 };
