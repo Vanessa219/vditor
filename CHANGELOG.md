@@ -31,7 +31,7 @@
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 * [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
 
-### v1.9.2 / 2019-11-06
+### v1.9.3 / 2019-11-07
 
 * [160](https://github.com/b3log/vditor/issues/160) 添加 `speechRender` 方法 `feature`
 * [159](https://github.com/b3log/vditor/issues/159) Vditor.preview方法在页面中渲染textarea内markdown代码无效 `invalid`

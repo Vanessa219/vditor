@@ -19,6 +19,7 @@ import {loadLuteJs, md2htmlByPreview, md2htmlByVditor} from "./ts/markdown/md2ht
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {previewRender} from "./ts/markdown/previewRender";
+import {speechRender} from "./ts/markdown/speechRender";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
@@ -42,6 +43,7 @@ class Vditor {
     public static chartRender = chartRender;
     public static abcRender = abcRender;
     public static mediaRender = mediaRender;
+    public static speechRender = speechRender;
     public static md2html = md2htmlByPreview;
     public static preview = previewRender;
     public readonly version: string;

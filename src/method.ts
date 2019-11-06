@@ -8,6 +8,7 @@ import {md2htmlByPreview} from "./ts/markdown/md2html";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {previewRender} from "./ts/markdown/previewRender";
+import {speechRender} from "./ts/markdown/speechRender";
 
 class Vditor {
 
@@ -19,6 +20,7 @@ class Vditor {
     public static chartRender = chartRender;
     public static abcRender = abcRender;
     public static mediaRender = mediaRender;
+    public static speechRender = speechRender;
     public static md2html = md2htmlByPreview;
     public static preview = previewRender;
 }

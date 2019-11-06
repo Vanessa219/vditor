@@ -259,6 +259,8 @@ declare class IVditorConstructor {
 
     public static mediaRender(element: HTMLElement): void;
 
+    public static speechRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+
     public static md2html(mdText: string, options?: IPreviewOptions): string;
 
     public static preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions): void;
