@@ -5,6 +5,12 @@ import {selectIsEditor} from "../editor/selectIsEditor";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setExpand} from "../wysiwyg/setExpand";
 
+declare global {
+    interface Window {
+        vditorSelectionChangeInit: boolean;
+    }
+}
+
 export class Ui {
     private contentElement: HTMLElement;
 
@@ -89,25 +95,27 @@ export class Ui {
                 vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px 10px`;
             }
         }
-
-        document.addEventListener("selectionchange", () => {
-            const range = window.getSelection().getRangeAt(0);
-            const element = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
-            if (selectIsEditor(element, range)) {
-                vditor.editor.range = range.cloneRange();
-                if (vditor.options.select) {
-                    const selectText = getSelectText(element);
-                    if (selectText === "") {
-                        return;
+        if (!window.vditorSelectionChangeInit) {
+            document.addEventListener("selectionchange", () => {
+                const range = window.getSelection().getRangeAt(0);
+                const element = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
+                if (selectIsEditor(element, range)) {
+                    vditor.editor.range = range.cloneRange();
+                    if (vditor.options.select) {
+                        const selectText = getSelectText(element);
+                        if (selectText === "") {
+                            return;
+                        }
+                        vditor.options.select(selectText);
                     }
-                    vditor.options.select(selectText);
                 }
-            }
 
-            if (vditor.currentMode === "wysiwyg") {
-                setExpand(vditor.wysiwyg.element);
-            }
-        });
+                if (vditor.currentMode === "wysiwyg") {
+                    setExpand(vditor.wysiwyg.element);
+                }
+            });
+            window.vditorSelectionChangeInit = true;
+        }
 
         // set default value
         let initValue = localStorage.getItem("vditor" + vditor.id);

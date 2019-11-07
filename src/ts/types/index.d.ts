@@ -52,6 +52,7 @@ declare var webkitAudioContext: {
 
 interface IHTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
+    screenX: number;
     isComposing: boolean;
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "1.9.23",
+  "version": "1.9.3",
   "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
