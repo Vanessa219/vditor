@@ -48,8 +48,8 @@ export class Preview {
         clearTimeout(this.mdTimeoutId);
         const renderStartTime = new Date().getTime();
         const markdownText = getText(vditor.editor.element, vditor.currentMode);
-        if (vditor.options.preview.url) {
-            this.mdTimeoutId = window.setTimeout(async () => {
+        this.mdTimeoutId = window.setTimeout(async () => {
+            if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -72,12 +72,12 @@ export class Preview {
                 };
 
                 xhr.send(JSON.stringify({markdownText}));
-            }, vditor.options.preview.delay);
-        } else {
-            const html = await md2htmlByVditor(markdownText, vditor);
-            this.element.children[0].innerHTML = html;
-            this.afterRender(vditor, renderStartTime);
-        }
+            } else {
+                const html = await md2htmlByVditor(markdownText, vditor);
+                this.element.children[0].innerHTML = html;
+                this.afterRender(vditor, renderStartTime);
+            }
+        }, vditor.options.preview.delay);
     }
 
     private afterRender(vditor: IVditor, startTime: number) {

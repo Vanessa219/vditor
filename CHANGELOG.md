@@ -36,6 +36,7 @@
 
 ### v1.9.4 / 2019-11-08
 
+* [162](https://github.com/b3log/vditor/issues/162) 没有使用后端渲染时，编辑器卡顿 `bug`
 * [160](https://github.com/b3log/vditor/issues/160) 添加 `speechRender` 方法 `feature`
 * [159](https://github.com/b3log/vditor/issues/159) Vditor.preview方法在页面中渲染textarea内markdown代码无效 `invalid`
 * [157](https://github.com/b3log/vditor/issues/157) 初始化后添加回调方法 `options.after` `feature`
