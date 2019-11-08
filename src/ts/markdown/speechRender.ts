@@ -80,9 +80,11 @@ export const speechRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh
     element.addEventListener("mouseup", (event: IHTMLInputEvent) => {
         const text = getSelection().toString().trim();
         speechSynthesis.cancel();
-        if (getSelection().toString().trim() === "" && speechDom.style.display === "block") {
-            speechDom.className = "vditor-speech";
-            speechDom.style.display = "none";
+        if (getSelection().toString().trim() === "") {
+            if (speechDom.style.display === "block") {
+                speechDom.className = "vditor-speech";
+                speechDom.style.display = "none";
+            }
             return;
         }
         window.vditorSpeechRange = getSelection().getRangeAt(0).cloneRange();

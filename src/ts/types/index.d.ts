@@ -151,6 +151,9 @@ interface IPreviewOptions {
     lang?: (keyof II18nLang);
     emojiPath?: string;
     hljs?: IHljs;
+    speech?: {
+        enable?: boolean,
+    };
 }
 
 interface IOptions {

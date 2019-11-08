@@ -8,4 +8,7 @@ VditorPreview.preview(document.getElementById('preview'),
       'sd': '💔',
       'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
     },
+    speech: {
+      enable: true,
+    },
   })

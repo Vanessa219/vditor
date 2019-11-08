@@ -20,10 +20,16 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
             style: "github",
         },
         lang: "zh_CN",
+        speech: {
+            enable: false,
+        },
     };
     options = Object.assign(defaultOption, options);
     if (options.hljs) {
         options.hljs = Object.assign({}, defaultOption.hljs, options.hljs);
+    }
+    if (options.speech) {
+        options.speech = Object.assign({}, defaultOption.speech, options.speech);
     }
 
     const html =
@@ -39,5 +45,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     chartRender(previewElement);
     abcRender(previewElement);
     mediaRender(previewElement);
-    speechRender(previewElement,  options.lang);
+    if (options.speech.enable) {
+        speechRender(previewElement,  options.lang);
+    }
 };
