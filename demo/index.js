@@ -3,6 +3,7 @@ import '../src/assets/scss/classic.scss'
 
 window.vditor = new Vditor('vditor', {
   // mode: "wysiwyg-show",
+  typewriterMode: true,
   counter: 100,
   height: 300,
   hint: {
@@ -11,13 +12,6 @@ window.vditor = new Vditor('vditor', {
     emoji: {
       'sd': '💔',
       'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
-    },
-  },
-  preview: {
-    delay: 1000,
-    hljs: {
-      style: 'solarized-dark256',
-      lineNumber: true,
     },
   },
   tab: '\t',
@@ -53,6 +47,10 @@ window.vditorTest = new Vditor('vditorTest', {
     url: '/api/markdown',
     parse: (element) => {
       LazyLoadImage()
+    },
+    hljs: {
+      style: 'solarized-dark256',
+      lineNumber: true,
     },
   },
   hint: {
