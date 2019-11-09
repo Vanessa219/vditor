@@ -28,6 +28,8 @@ interface ILute {
 
     SetEmojiSite(emojiSite: string): void;
 
+    SetHeadingAnchor(enable: boolean): void;
+
     PutEmojis(emojis: { [key: string]: string }): void;
 
     MarkdownStr(error: string, text: string): string[];
@@ -41,8 +43,6 @@ interface ILute {
     RenderVditorDOM(text: string, start: number, end: number): string[];
 
     VditorOperation(text: string, startOffset: number, endOffset: number, operation: string): string[];
-
-    // SpinVditorDOM(html: string): string[];
 }
 
 declare var webkitAudioContext: {
@@ -120,8 +120,19 @@ interface IPreview {
     mode?: keyof IPreviewMode;
     url?: string;
     hljs?: IHljs;
-
     parse?(element: HTMLElement): void;
+}
+
+interface IPreviewOptions {
+    className?: string;
+    customEmoji?: { [key: string]: string };
+    lang?: (keyof II18nLang);
+    emojiPath?: string;
+    hljs?: IHljs;
+    speech?: {
+        enable?: boolean,
+    };
+    anchor?:boolean;
 }
 
 interface IHintData {
@@ -143,17 +154,6 @@ interface IResize {
     enable?: boolean;
 
     after?(height: number): void;
-}
-
-interface IPreviewOptions {
-    className?: string;
-    customEmoji?: { [key: string]: string };
-    lang?: (keyof II18nLang);
-    emojiPath?: string;
-    hljs?: IHljs;
-    speech?: {
-        enable?: boolean,
-    };
 }
 
 interface IOptions {

@@ -8,10 +8,11 @@ import {md2htmlByPreview} from "./md2html";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 import {speechRender} from "./speechRender";
+import {anchorRender} from "./anchorRender";
 
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
-        className: "vditor-reset",
+        className: options.anchor ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
         customEmoji: {},
         emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
         hljs: {
@@ -23,6 +24,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         speech: {
             enable: false,
         },
+        anchor: false,
     };
     options = Object.assign(defaultOption, options);
     if (options.hljs) {
@@ -47,5 +49,8 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     mediaRender(previewElement);
     if (options.speech.enable) {
         speechRender(previewElement,  options.lang);
+    }
+    if (options.anchor) {
+        anchorRender()
     }
 };

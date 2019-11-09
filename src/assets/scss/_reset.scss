@@ -1,5 +1,9 @@
 .vditor {
   &-reset {
+    &--anchor {
+      padding-left: 20px;
+    }
+
     font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -64,6 +68,10 @@
       margin-bottom: 16px;
       font-weight: 600;
       line-height: 1.25;
+
+      &:hover .vditor-anchor svg {
+        visibility: visible;
+      }
     }
 
     h1 {
@@ -329,6 +337,26 @@
       display: block;
       stroke-width: 0;
       stroke: currentColor;
+    }
+  }
+
+  &-anchor {
+    float: left;
+    padding-right: 4px;
+    margin-left: -20px;
+
+    svg {
+      visibility: hidden;
+    }
+
+    &:hover {
+      svg {
+        visibility: visible;
+      }
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 

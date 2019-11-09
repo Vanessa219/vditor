@@ -5,9 +5,8 @@ declare const Lute: ILute;
 export const loadLuteJs = (vditor?: IVditor) => {
     const scriptElement = document.createElement("script");
     scriptElement.type = "text/javascript";
-    scriptElement.src = `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/lute/lute.min.js`;
-    // scriptElement.src = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
-    // scriptElement.src = `js/lute/lute.min1.js?${new Date().getTime()}`;
+    // scriptElement.src = `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/lute/lute.min.js`;
+    scriptElement.src = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
     document.getElementsByTagName("head")[0].appendChild(scriptElement);
 
     return new Promise((resolve) => {
@@ -34,6 +33,7 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
     const lute: ILute = Lute.New();
     lute.PutEmojis(options.customEmoji);
     lute.SetEmojiSite(options.emojiPath);
+    lute.SetHeadingAnchor(options.anchor);
     const md = lute.MarkdownStr("", mdText);
 
     return md[0] || md[1];
