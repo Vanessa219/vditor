@@ -26,6 +26,8 @@ interface ITurndownRule {
 interface ILute {
     New(): ILute;
 
+    SetParallelParsing(enable: boolean): void;
+
     SetEmojiSite(emojiSite: string): void;
 
     SetHeadingAnchor(enable: boolean): void;
@@ -132,7 +134,7 @@ interface IPreviewOptions {
     speech?: {
         enable?: boolean,
     };
-    anchor?:boolean;
+    anchor?: boolean;
 }
 
 interface IHintData {

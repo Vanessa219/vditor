@@ -15,6 +15,7 @@ export const loadLuteJs = (vditor?: IVditor) => {
                 vditor.lute = Lute.New();
                 vditor.lute.PutEmojis(vditor.options.hint.emoji);
                 vditor.lute.SetEmojiSite(vditor.options.hint.emojiPath);
+                vditor.lute.SetParallelParsing(false);
             }
             resolve();
         };
@@ -34,8 +35,8 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
     lute.PutEmojis(options.customEmoji);
     lute.SetEmojiSite(options.emojiPath);
     lute.SetHeadingAnchor(options.anchor);
+    lute.SetParallelParsing(false);
     const md = lute.MarkdownStr("", mdText);
-
     return md[0] || md[1];
 };
 
