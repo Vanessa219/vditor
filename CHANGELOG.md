@@ -5,6 +5,7 @@
 * v1.9
   * preview 静态方法参数修改为 `(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions)`，其中参数 `IPreviewOptions` 修改为
     ```ts
+       anchor?: boolean;
        className?: string;
        customEmoji?: { [key: string]: string };
        lang?: (keyof II18nLang);
