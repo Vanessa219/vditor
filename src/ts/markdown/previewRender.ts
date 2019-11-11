@@ -13,7 +13,7 @@ import {speechRender} from "./speechRender";
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
         anchor: false,
-        className: options.anchor ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
+        className: (options && options.anchor) ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
         customEmoji: {},
         emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
         hljs: {

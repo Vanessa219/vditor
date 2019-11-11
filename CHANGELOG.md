@@ -35,7 +35,7 @@
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 * [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
 
-### v1.9.6 / 2019-11-11
+### v1.9.7 / 2019-11-11
 
 * [163](https://github.com/b3log/vditor/issues/163) 为标题添加锚点 `feature`
 * [162](https://github.com/b3log/vditor/issues/162) 没有使用后端渲染时，编辑器卡顿 `bug`
