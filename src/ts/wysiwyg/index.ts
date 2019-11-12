@@ -7,6 +7,7 @@ import {setRange} from "./setRange";
 
 class WYSIWYG {
     public element: HTMLPreElement;
+    public range: Range;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");

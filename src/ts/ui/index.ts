@@ -100,7 +100,11 @@ export class Ui {
                 const range = window.getSelection().getRangeAt(0);
                 const element = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
                 if (selectIsEditor(element, range)) {
-                    vditor.editor.range = range.cloneRange();
+                    if (vditor.currentMode === "wysiwyg") {
+                        vditor.wysiwyg.range = range.cloneRange();
+                    } else {
+                        vditor.editor.range = range.cloneRange();
+                    }
                     if (vditor.options.select) {
                         const selectText = getSelectText(element);
                         if (selectText === "") {

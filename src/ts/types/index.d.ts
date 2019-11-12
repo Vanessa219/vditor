@@ -122,6 +122,7 @@ interface IPreview {
     mode?: keyof IPreviewMode;
     url?: string;
     hljs?: IHljs;
+
     parse?(element: HTMLElement): void;
 }
 
@@ -244,6 +245,7 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement,
+        range: Range
     };
 }
 
