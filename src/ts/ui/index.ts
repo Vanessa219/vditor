@@ -4,10 +4,11 @@ import {html2md} from "../editor/html2md";
 import {selectIsEditor} from "../editor/selectIsEditor";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setExpand} from "../wysiwyg/setExpand";
+import {getText} from "../util/getText";
 
 declare global {
     interface Window {
-        vditorSelectionChangeInit: boolean;
+        vditorObjects: IVditor[];
     }
 }
 
@@ -95,31 +96,41 @@ export class Ui {
                 vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px 10px`;
             }
         }
-        if (!window.vditorSelectionChangeInit) {
+        if (!window.vditorObjects) {
+            window.vditorObjects = []
             document.addEventListener("selectionchange", () => {
                 const range = window.getSelection().getRangeAt(0);
-                const element = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
-                if (selectIsEditor(element, range)) {
-                    if (vditor.currentMode === "wysiwyg") {
-                        vditor.wysiwyg.range = range.cloneRange();
-                    } else {
-                        vditor.editor.range = range.cloneRange();
+
+                let vditorObject: IVditor
+
+                window.vditorObjects.forEach((v) => {
+                    if (document.getElementById(v.id).contains(range.commonAncestorContainer)) {
+                        vditorObject = v
                     }
-                    if (vditor.options.select) {
+                })
+
+                const element = vditorObject.currentMode === "wysiwyg" ? vditorObject.wysiwyg.element : vditorObject.editor.element;
+                if (selectIsEditor(element, range)) {
+                    if (vditorObject.currentMode === "wysiwyg") {
+                        vditorObject.wysiwyg.range = range.cloneRange();
+                    } else {
+                        vditorObject.editor.range = range.cloneRange();
+                    }
+                    if (vditorObject.options.select) {
                         const selectText = getSelectText(element);
                         if (selectText === "") {
                             return;
                         }
-                        vditor.options.select(selectText);
+                        vditorObject.options.select(selectText);
                     }
                 }
 
-                if (vditor.currentMode === "wysiwyg") {
-                    setExpand(vditor.wysiwyg.element);
+                if (vditorObject.currentMode === "wysiwyg") {
+                    setExpand(vditorObject.wysiwyg.element);
                 }
             });
-            window.vditorSelectionChangeInit = true;
         }
+        window.vditorObjects.push(vditor)
 
         // set default value
         let initValue = localStorage.getItem("vditor" + vditor.id);
@@ -132,6 +143,9 @@ export class Ui {
 
         if (vditor.options.mode.indexOf("wysiwyg") > -1) {
             renderDomByMd(vditor, initValue);
+            if (vditor.options.counter > 0) {
+                vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length, vditor.options.counter);
+            }
         }
 
         if (vditor.options.mode.indexOf("markdown") > -1) {

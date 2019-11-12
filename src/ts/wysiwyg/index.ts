@@ -44,6 +44,23 @@ class WYSIWYG {
             if (event.isComposing) {
                 return;
             }
+
+            if (vditor.options.counter > 0) {
+                vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length, vditor.options.counter);
+            }
+
+            if (typeof vditor.options.input === "function") {
+                vditor.options.input(getText(vditor.wysiwyg.element, vditor.currentMode));
+            }
+
+            if (vditor.options.cache) {
+                localStorage.setItem(`vditor${vditor.id}`, getText(vditor.wysiwyg.element, vditor.currentMode));
+            }
+
+            if (vditor.devtools) {
+                vditor.devtools.renderEchart(vditor);
+            }
+
             const range = getSelection().getRangeAt(0).cloneRange();
             const blockElement = getParentBlock(range.startContainer as HTMLElement);
             const startOffset = getSelectPosition(blockElement, range).start;
@@ -99,6 +116,23 @@ class WYSIWYG {
                     this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
                 }
                 scrollCenter(this.element);
+
+                if (vditor.options.counter > 0) {
+                    vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length, vditor.options.counter);
+                }
+
+                if (typeof vditor.options.input === "function") {
+                    vditor.options.input(getText(vditor.wysiwyg.element, vditor.currentMode));
+                }
+
+                if (vditor.options.cache) {
+                    localStorage.setItem(`vditor${vditor.id}`, getText(vditor.wysiwyg.element, vditor.currentMode));
+                }
+
+                if (vditor.devtools) {
+                    vditor.devtools.renderEchart(vditor);
+                }
+
                 event.preventDefault();
             }
         });

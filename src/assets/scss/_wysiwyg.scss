@@ -54,8 +54,13 @@
       }
     }
 
-    & > [data-hidden]::after {
-      content: attr(data-hidden);
+    & > [data-hidden] {
+      background-size: contain;
+      background-position: left center;
+      background-repeat: no-repeat;
+      &::after {
+        content: attr(data-hidden);
+      }
     }
   }
 

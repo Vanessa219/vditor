@@ -20,7 +20,9 @@ export class DevTools {
             this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
         }
 
-        const data = vditor.lute.RenderEChartsJSON(getText(vditor.editor.element, vditor.currentMode));
+        const data = vditor.lute.RenderEChartsJSON(getText(
+            vditor.currentMode === 'markdown' ? vditor.editor.element : vditor.wysiwyg.element,
+            vditor.currentMode));
         try {
             (this.element.lastElementChild as HTMLElement).style.display = "block";
             this.element.firstElementChild.innerHTML = "";

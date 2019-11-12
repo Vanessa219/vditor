@@ -8,18 +8,6 @@ export const selectIsEditor = (editor: HTMLElement, range?: Range) => {
         }
     }
     let container = range.commonAncestorContainer;
-    while (container) {
-        if (editor.isEqualNode(container)) {
-            isEditor = true;
-            container = undefined;
-        }
-        if (container) {
-            if (container.nodeName === "BODY") {
-                container = undefined;
-            } else {
-                container = container.parentElement;
-            }
-        }
-    }
-    return isEditor;
+
+    return editor.isEqualNode(container) || editor.contains(container);
 };
