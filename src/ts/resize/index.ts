@@ -25,7 +25,7 @@ export class Resize {
                 window.captureEvents();
             }
 
-            this.element.className = this.element.className + " vditor-resize--selected";
+            this.element.classList.add("vditor-resize--selected");
 
             documentSelf.onmousemove = (moveEvent: MouseEvent) => {
                 if (vditor.options.resize.position === "top") {
@@ -52,7 +52,7 @@ export class Resize {
                 documentSelf.ondragstart = null;
                 documentSelf.onselectstart = null;
                 documentSelf.onselect = null;
-                this.element.className = this.element.className.replace(/ vditor-resize--selected/g, "");
+                this.element.classList.remove("vditor-resize--selected");
             };
         });
     }

@@ -2,9 +2,9 @@ import {formatRender} from "../editor/formatRender";
 import {getSelectText} from "../editor/getSelectText";
 import {html2md} from "../editor/html2md";
 import {selectIsEditor} from "../editor/selectIsEditor";
+import {getText} from "../util/getText";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setExpand} from "../wysiwyg/setExpand";
-import {getText} from "../util/getText";
 
 declare global {
     interface Window {
@@ -97,19 +97,20 @@ export class Ui {
             }
         }
         if (!window.vditorObjects) {
-            window.vditorObjects = []
+            window.vditorObjects = [];
             document.addEventListener("selectionchange", () => {
                 const range = window.getSelection().getRangeAt(0);
 
-                let vditorObject: IVditor
+                let vditorObject: IVditor;
 
                 window.vditorObjects.forEach((v) => {
                     if (document.getElementById(v.id).contains(range.commonAncestorContainer)) {
-                        vditorObject = v
+                        vditorObject = v;
                     }
-                })
+                });
 
-                const element = vditorObject.currentMode === "wysiwyg" ? vditorObject.wysiwyg.element : vditorObject.editor.element;
+                const element = vditorObject.currentMode === "wysiwyg" ?
+                    vditorObject.wysiwyg.element : vditorObject.editor.element;
                 if (selectIsEditor(element, range)) {
                     if (vditorObject.currentMode === "wysiwyg") {
                         vditorObject.wysiwyg.range = range.cloneRange();
@@ -130,7 +131,7 @@ export class Ui {
                 }
             });
         }
-        window.vditorObjects.push(vditor)
+        window.vditorObjects.push(vditor);
 
         // set default value
         let initValue = localStorage.getItem("vditor" + vditor.id);
@@ -144,7 +145,8 @@ export class Ui {
         if (vditor.options.mode.indexOf("wysiwyg") > -1) {
             renderDomByMd(vditor, initValue);
             if (vditor.options.counter > 0) {
-                vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length, vditor.options.counter);
+                vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length,
+                    vditor.options.counter);
             }
         }
 

@@ -21,7 +21,7 @@ export class DevTools {
         }
 
         const data = vditor.lute.RenderEChartsJSON(getText(
-            vditor.currentMode === 'markdown' ? vditor.editor.element : vditor.wysiwyg.element,
+            vditor.currentMode === "markdown" ? vditor.editor.element : vditor.wysiwyg.element,
             vditor.currentMode));
         try {
             (this.element.lastElementChild as HTMLElement).style.display = "block";

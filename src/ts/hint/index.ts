@@ -1,10 +1,10 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {selectIsEditor} from "../editor/selectIsEditor";
+import {setSelectionFocus} from "../editor/setSelection";
 import {code160to32} from "../util/code160to32";
 import {getText} from "../util/getText";
 import {getCursorPosition} from "./getCursorPosition";
-import {setSelectionFocus} from "../editor/setSelection";
 
 export class Hint {
     public timeId: number;
@@ -81,8 +81,8 @@ export class Hint {
             if (!selectIsEditor(vditor.wysiwyg.element, range)) {
                 range = vditor.wysiwyg.range;
             }
-            range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar))
-            range.deleteContents()
+            range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
+            range.deleteContents();
             const emojiNode = document.createElement("span");
             emojiNode.innerHTML = value;
             range.insertNode(emojiNode.childNodes[0]);

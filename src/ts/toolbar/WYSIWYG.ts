@@ -24,7 +24,7 @@ export class WYSIWYG extends MenuItem {
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), function(event) {
             if (this.className.indexOf("vditor-menu--current") > -1) {
-                this.className = this.className.replace(" vditor-menu--current", "");
+                this.classList.remove("vditor-menu--current");
                 vditor.wysiwyg.element.style.display = "none";
                 if (vditor.currentPreviewMode === "both") {
                     vditor.editor.element.style.display = "block";
@@ -47,7 +47,7 @@ export class WYSIWYG extends MenuItem {
 
                 vditor.currentMode = "markdown";
             } else {
-                this.className = this.className + " vditor-menu--current";
+                this.classList.add("vditor-menu--current");
                 vditor.editor.element.style.display = "none";
                 vditor.preview.element.style.display = "none";
                 vditor.wysiwyg.element.style.display = "block";

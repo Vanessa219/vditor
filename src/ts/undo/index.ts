@@ -68,17 +68,14 @@ class Undo {
                 this.redoStack = [];
                 this.hasUndo = false;
                 if (vditor.toolbar.elements.redo) {
-                    const redoClassName = vditor.toolbar.elements.redo.children[0].className;
-                    if (redoClassName.indexOf(" vditor-menu--disabled") === -1) {
-                        vditor.toolbar.elements.redo.children[0].className =
-                            redoClassName + " vditor-menu--disabled";
+                    if (!vditor.toolbar.elements.redo.children[0].classList.contains("vditor-menu--disabled")) {
+                        vditor.toolbar.elements.redo.children[0].classList.add("vditor-menu--disabled");
                     }
                 }
             }
 
             if (vditor.toolbar.elements.undo && this.undoStack.length > 1) {
-                vditor.toolbar.elements.undo.children[0].className =
-                    vditor.toolbar.elements.undo.children[0].className.replace(" vditor-menu--disabled", "");
+                vditor.toolbar.elements.undo.children[0].classList.remove("vditor-menu--disabled");
             }
         }, 500);
     }
@@ -115,24 +112,18 @@ class Undo {
         scrollCenter(vditor.editor.element);
 
         if (vditor.toolbar.elements.undo) {
-            const undoClassName = vditor.toolbar.elements.undo.children[0].className;
             if (this.undoStack.length > 1) {
-                vditor.toolbar.elements.undo.children[0].className =
-                    undoClassName.replace(" vditor-menu--disabled", "");
-            } else if (undoClassName.indexOf(" vditor-menu--disabled") === -1) {
-                vditor.toolbar.elements.undo.children[0].className =
-                    undoClassName + " vditor-menu--disabled";
+                vditor.toolbar.elements.undo.children[0].classList.remove("vditor-menu--disabled");
+            } else if (!vditor.toolbar.elements.undo.children[0].classList.contains("vditor-menu--disabled")) {
+                vditor.toolbar.elements.undo.children[0].classList.add("vditor-menu--disabled");
             }
         }
 
         if (vditor.toolbar.elements.redo) {
-            const redoClassName = vditor.toolbar.elements.redo.children[0].className;
             if (this.redoStack.length !== 0) {
-                vditor.toolbar.elements.redo.children[0].className =
-                    redoClassName.replace(" vditor-menu--disabled", "");
-            } else if (redoClassName.indexOf(" vditor-menu--disabled") === -1) {
-                vditor.toolbar.elements.redo.children[0].className =
-                    redoClassName + " vditor-menu--disabled";
+                vditor.toolbar.elements.redo.children[0].classList.remove("vditor-menu--disabled");
+            } else if (!vditor.toolbar.elements.redo.children[0].classList.contains("vditor-menu--disabled")) {
+                vditor.toolbar.elements.redo.children[0].classList.add("vditor-menu--disabled");
             }
         }
     }

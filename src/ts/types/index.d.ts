@@ -245,7 +245,7 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement,
-        range: Range
+        range: Range,
     };
 }
 

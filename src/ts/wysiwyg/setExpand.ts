@@ -5,14 +5,14 @@ export const setExpand = (element: HTMLElement) => {
 
     // rm node--expand
     element.querySelectorAll(".node--expand").forEach((e) => {
-        e.className = e.className.replace(" node--expand", "");
+        e.classList.remove("node--expand");
     });
 
     let nodeElement = range.startContainer as Element;
     if (nodeElement && nodeElement.className && nodeElement.className.indexOf("node") > -1 &&
         nodeElement.className.indexOf("node--expand") === -1) {
         // 光标的所在位置为 node 节点
-        nodeElement.className += " node--expand";
+        nodeElement.classList.add("node--expand");
     }
     while (nodeElement) {
         if (nodeElement.nodeType === 3) {
@@ -26,7 +26,7 @@ export const setExpand = (element: HTMLElement) => {
         if (nodeElement && nodeElement.className.indexOf("node--expand") === -1 &&
             nodeElement.className.indexOf("node") > -1) {
             // 光标的所有父节点
-            nodeElement.className += " node--expand";
+            nodeElement.classList.add("node--expand");
         }
     }
 
@@ -35,7 +35,7 @@ export const setExpand = (element: HTMLElement) => {
         range.startContainer.parentElement.nextElementSibling &&
         range.startContainer.parentElement.nextElementSibling.className.indexOf("node") > -1) {
         // 光标在普通文本和节点前，**789*
-        range.startContainer.parentElement.nextElementSibling.className += " node--expand";
+        range.startContainer.parentElement.nextElementSibling.classList.add("node--expand");
     } else {
         const startNodeElement = range.startContainer.parentElement.closest(".node");
         if (range.startContainer.nodeType === 3 &&
@@ -48,7 +48,7 @@ export const setExpand = (element: HTMLElement) => {
             startNodeElement.nextElementSibling &&
             startNodeElement.nextElementSibling.className.indexOf("node") > -1) {
             // 光标在两个节点中间，__123__**456**
-            startNodeElement.nextElementSibling.className += " node--expand";
+            startNodeElement.nextElementSibling.classList.add("node--expand");
         }
     }
 
@@ -58,7 +58,7 @@ export const setExpand = (element: HTMLElement) => {
         if (ancestorElement.nodeType !== 3 && ancestorElement.tagName !== "SPAN") {
             ancestorElement.querySelectorAll(".node").forEach((e) => {
                 if (getSelection().containsNode(e, true)) {
-                    e.className += " node--expand";
+                    e.classList.add("node--expand");
                 }
             });
         }

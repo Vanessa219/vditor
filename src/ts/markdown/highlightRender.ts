@@ -36,7 +36,7 @@ export const highlightRender = async (hljsOption?: IHljs, element: HTMLElement |
             return;
         }
 
-        block.className += " vditor-linenumber";
+        block.classList.add("vditor-linenumber");
         let linenNumberTemp: HTMLDivElement = block.querySelector(".vditor-linenumber__temp");
         if (!linenNumberTemp) {
             linenNumberTemp = document.createElement("div");

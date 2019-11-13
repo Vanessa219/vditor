@@ -15,7 +15,7 @@ export class Fullscreen extends MenuItem {
             const vditorElement = document.getElementById(vditor.id);
             if (vditorElement.className.indexOf("vditor--fullscreen") > -1) {
                 this.innerHTML = menuItem.icon || fullscreenSVG;
-                vditorElement.className = vditorElement.className.replace(" vditor--fullscreen", "");
+                vditorElement.classList.remove("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement  = vditor.toolbar.elements[key].firstChild as HTMLElement;
                     if (svgElement) {
@@ -24,7 +24,7 @@ export class Fullscreen extends MenuItem {
                 });
             } else {
                 this.innerHTML = menuItem.icon || contractSVG;
-                vditorElement.className = vditorElement.className + " vditor--fullscreen";
+                vditorElement.classList.add("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;
                     if (svgElement) {

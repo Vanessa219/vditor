@@ -11,12 +11,11 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
             vditor.preview.render(vditor);
 
             if (vditor.toolbar.elements.both) {
-                vditor.toolbar.elements.both.children[0].className += " vditor-menu--current";
+                vditor.toolbar.elements.both.children[0].classList.add("vditor-menu--current");
             }
 
             if (vditor.toolbar.elements.preview) {
-                vditor.toolbar.elements.preview.children[0].className =
-                    vditor.toolbar.elements.preview.children[0].className.replace(" vditor-menu--current", "");
+                vditor.toolbar.elements.preview.children[0].classList.remove("vditor-menu--current");
             }
 
             break;
@@ -25,14 +24,10 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
             vditor.preview.element.style.display = "none";
 
             if (vditor.toolbar.elements.preview) {
-                vditor.toolbar.elements.preview.children[0].className =
-                    vditor.toolbar.elements.preview.children[0].className
-                        .replace(" vditor-menu--current", "");
+                vditor.toolbar.elements.preview.children[0].classList.remove("vditor-menu--current");
             }
             if (vditor.toolbar.elements.both) {
-                vditor.toolbar.elements.both.children[0].className =
-                    vditor.toolbar.elements.both.children[0].className
-                        .replace(" vditor-menu--current", "");
+                vditor.toolbar.elements.both.children[0].classList.remove("vditor-menu--current");
             }
 
             break;
@@ -43,12 +38,10 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
             vditor.editor.element.blur();
 
             if (vditor.toolbar.elements.preview) {
-                vditor.toolbar.elements.preview.children[0].className += " vditor-menu--current";
+                vditor.toolbar.elements.preview.children[0].classList.add("vditor-menu--current");
             }
             if (vditor.toolbar.elements.both) {
-                vditor.toolbar.elements.both.children[0].className =
-                    vditor.toolbar.elements.both.children[0].className
-                        .replace(" vditor-menu--current", "");
+                vditor.toolbar.elements.both.children[0].classList.remove("vditor-menu--current");
             }
 
             break;
