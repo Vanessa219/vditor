@@ -13,11 +13,11 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
     const blockElement = vditor.wysiwyg.element;
     blockElement.innerHTML = domHTML[0] || domHTML[1];
     setRange(blockElement);
-    codeRender(blockElement, vditor.options.lang);
-    highlightRender(vditor.options.preview.hljs, blockElement);
-    mathRender(blockElement);
-    mermaidRender(blockElement);
-    chartRender(blockElement);
-    abcRender(blockElement);
-    mediaRender(blockElement);
+    // codeRender(blockElement, vditor.options.lang);
+    // highlightRender(vditor.options.preview.hljs, blockElement);
+    // mathRender(blockElement);
+    // mermaidRender(blockElement);
+    // chartRender(blockElement);
+    // abcRender(blockElement);
+    // mediaRender(blockElement);
 };

@@ -4,6 +4,7 @@ import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCo
 import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
 import {setRange} from "./setRange";
+import {highlightRender} from "../markdown/highlightRender";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -57,11 +58,11 @@ class WYSIWYG {
                 localStorage.setItem(`vditor${vditor.id}`, getText(vditor.wysiwyg.element, vditor.currentMode));
             }
 
+            const range = getSelection().getRangeAt(0).cloneRange();
             if (vditor.devtools) {
                 vditor.devtools.renderEchart(vditor);
             }
 
-            const range = getSelection().getRangeAt(0).cloneRange();
             const blockElement = getParentBlock(range.startContainer as HTMLElement);
             const startOffset = getSelectPosition(blockElement, range).start;
 
@@ -101,10 +102,23 @@ class WYSIWYG {
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
                 const range = getSelection().getRangeAt(0).cloneRange();
-                const brNode = document.createElement("span");
-                if (event.shiftKey) {
+
+                let isCode = false
+                vditor.wysiwyg.element.querySelectorAll('pre > code').forEach((element) => {
+                    if (element.contains(range.commonAncestorContainer)) {
+                        isCode = true
+                    }
+                })
+
+                if (event.shiftKey || isCode) {
                     // 软换行
-                    brNode.innerHTML = "\n";
+                    const brNode = document.createElement("span");
+                    if (isCode && range.startContainer.textContent.length === range.startOffset) {
+                        // 代码片段末尾换行
+                        brNode.innerHTML = "\n\n";
+                    } else {
+                        brNode.innerHTML = "\n";
+                    }
                     range.insertNode(brNode.childNodes[0]);
                     range.collapse(false);
                     setSelectionFocus(range);

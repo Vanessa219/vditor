@@ -6,12 +6,16 @@ export const getCursorPosition = (editor: HTMLElement) => {
     const startNode = range.startContainer.childNodes[range.startOffset] as HTMLElement;
     let cursorRect;
     if (startNode) {
-        if (startNode.nodeType === 3 && startNode.textContent === "") {
+        if (startNode.nodeType === 3 && startNode.textContent === "" && startNode.nextElementSibling &&
+            startNode.nextElementSibling.getClientRects().length > 0) {
             cursorRect = startNode.nextElementSibling.getClientRects()[0];
-        } else if (startNode.getClientRects) {
-            cursorRect = startNode.getClientRects()[0];
-        } else if (startNode.parentElement) {
-            cursorRect = startNode.parentElement.getClientRects()[0];
+        } else {
+            let parentElement = startNode
+            while (!parentElement.getClientRects ||
+            (parentElement.getClientRects && parentElement.getClientRects().length === 0)) {
+                parentElement = parentElement.parentElement
+            }
+            cursorRect = parentElement.getClientRects()[0];
         }
     } else {
         const startOffset = range.startOffset;

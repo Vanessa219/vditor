@@ -115,13 +115,17 @@ class Vditor {
             const ui = new Ui(this.vditor);
 
             if (mergedOptions.after) {
-               mergedOptions.after();
-           }
+                mergedOptions.after();
+            }
         });
     }
 
     public getValue() {
-        return getText(this.vditor.editor.element, this.vditor.currentMode);
+        if (this.vditor.currentMode === "markdown") {
+            return getText(this.vditor.editor.element, this.vditor.currentMode);
+        } else {
+            return getText(this.vditor.wysiwyg.element, this.vditor.currentMode);
+        }
     }
 
     public focus() {

@@ -20,12 +20,12 @@ export const getSelectPosition = (editorElement: HTMLElement, range?: Range) => 
         } else {
             preSelectionRange.selectNodeContents(editorElement);
         }
-        if (range.startContainer.childNodes.length === 1 && range.startContainer.textContent.trim() === "" &&
-            editorElement.childNodes[0].childNodes[0]) {
-            preSelectionRange.setEnd(editorElement.childNodes[0].childNodes[0], 0);
-        } else {
+        // if (range.startContainer.childNodes.length === 1 && range.startContainer.textContent.trim() === "" &&
+        //     editorElement.childNodes[0].childNodes[0]) {
+        //     preSelectionRange.setEnd(editorElement.childNodes[0].childNodes[0], 0);
+        // } else {
             preSelectionRange.setEnd(range.startContainer, range.startOffset);
-        }
+        // }
         position.start = preSelectionRange.toString().length;
         position.end = position.start + range.toString().length;
     }
