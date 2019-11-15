@@ -38,7 +38,7 @@
 
 ### v1.10.0 / 2019-11-15
 
-* [166](https://github.com/b3log/vditor/issues/166) 1个数学公式支持有问题 `question`
+* [166](https://github.com/b3log/vditor/issues/166) typewriterMode 为 false 时，preview 区域不会同步滚动 `bug`
 
 ### v1.9.7 / 2019-11-11
 
