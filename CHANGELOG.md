@@ -35,8 +35,15 @@
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
 * [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
 
+
+### v1.10.0 / 2019-11-15
+
+* [166](https://github.com/b3log/vditor/issues/166) 1个数学公式支持有问题 `question`
+
 ### v1.9.7 / 2019-11-11
 
+* [165](https://github.com/b3log/vditor/issues/165) 1个数学公式支持有问题 `question`
+* [164](https://github.com/b3log/vditor/issues/164) 当文本内容过多时，卡顿的问题 `duplicate`
 * [163](https://github.com/b3log/vditor/issues/163) 为标题添加锚点 `feature`
 * [162](https://github.com/b3log/vditor/issues/162) 没有使用后端渲染时，编辑器卡顿 `bug`
 * [160](https://github.com/b3log/vditor/issues/160) 添加 `speechRender` 方法 `feature`

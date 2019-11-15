@@ -8,7 +8,7 @@ import {mermaidRender} from "../markdown/mermaidRender";
 import {setRange} from "./setRange";
 
 export const renderDomByMd = (vditor: IVditor, md: string) => {
-    const domHTML = vditor.lute.RenderVditorDOM(md, md.length, md.length);
+    const domHTML = vditor.lute.MarkdownStr("", md);
     console.log(domHTML[0], md, md.length, md.length);
     const blockElement = vditor.wysiwyg.element;
     blockElement.innerHTML = domHTML[0] || domHTML[1];
