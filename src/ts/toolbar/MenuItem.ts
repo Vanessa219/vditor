@@ -25,7 +25,7 @@ export class MenuItem {
 
     public bindEvent(vditor: IVditor, replace: boolean = false) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (vditor.currentMode === 'wysiwyg') {
+            if (vditor.currentMode === "wysiwyg") {
                 // TODO: document.execCommand('italic', false);
                 // vditor.wysiwyg.element.focus()
             } else {

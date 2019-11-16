@@ -10,7 +10,7 @@ export const getCursorPosition = (editor: HTMLElement) => {
         }
         cursorRect = parentElement.getClientRects()[0];
     } else {
-        cursorRect = range.getClientRects()[0]
+        cursorRect = range.getClientRects()[0];
     }
 
     return {

@@ -23,6 +23,8 @@
     width: 100%;
     box-sizing: border-box;
     text-align: left;
+    margin: 0;
+    background-color: transparent;
     &:last-child {
       border-bottom: 0;
     }
@@ -30,7 +32,7 @@
 
   &--current,
   button:hover {
-    background-color: $hoverBg;
+    background-color: $hoverBg !important;
     color: $hoverColor;
   }
 

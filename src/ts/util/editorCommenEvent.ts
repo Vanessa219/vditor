@@ -259,7 +259,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
 export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     if (!vditor.options.select) {
-        return
+        return;
     }
     editorElement.addEventListener("selectstart", () => {
         editorElement.onmouseup = () => {
@@ -267,6 +267,6 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 vditor.wysiwyg.element : vditor.editor.element;
             const selectText = getSelectText(element);
             vditor.options.select(selectText);
-        }
+        };
     });
 };

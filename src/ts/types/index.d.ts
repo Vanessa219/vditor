@@ -42,13 +42,11 @@ interface ILute {
 
     RenderEChartsJSON(text: string): string[];
 
-    RenderVditorDOM(text: string, start: number, end: number): string[];
-
     VditorOperation(text: string, startOffset: number, endOffset: number, operation: string): string[];
 
     RenderVditorDOM(html: string): string[];
 
-    Html2Md(html:string): string[];
+    Html2Md(html: string): string[];
 }
 
 declare var webkitAudioContext: {

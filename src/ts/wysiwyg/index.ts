@@ -1,10 +1,9 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
-import {highlightRender} from "../markdown/highlightRender";
-import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
+import {copyEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
-import {setRange} from "./setRange";
+import {highlightToolbar} from "./highlightToolbar";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -34,7 +33,8 @@ class WYSIWYG {
             }
 
             if (vditor.options.counter > 0) {
-                vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length, vditor.options.counter);
+                vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length,
+                    vditor.options.counter);
             }
 
             if (typeof vditor.options.input === "function") {
@@ -77,26 +77,26 @@ class WYSIWYG {
 
             if (!startSpace && !endSpace) {
                 // 保存光标
-                this.element.querySelectorAll('wbr').forEach(wbr => {
-                    wbr.remove()
-                })
+                this.element.querySelectorAll("wbr").forEach((wbr) => {
+                    wbr.remove();
+                });
                 const wbrNode = document.createElement("span");
-                wbrNode.innerHTML = '<wbr/>';
+                wbrNode.innerHTML = "<wbr/>";
                 range.insertNode(wbrNode.childNodes[0]);
 
                 // markdown 纠正
-                const formatHTMLTemp = vditor.lute.RenderVditorDOM(this.element.innerHTML.replace(/&gt;/g, '>'));
-                const formatHTML = formatHTMLTemp[0] || formatHTMLTemp[1]
-                console.log(`RenderVditorDOM:arg[${this.element.innerHTML.replace(/&gt;/g, '>')}];result[${formatHTML}]`);
+                const formatHTMLTemp = vditor.lute.RenderVditorDOM(this.element.innerHTML.replace(/&gt;/g, ">"));
+                const formatHTML = formatHTMLTemp[0] || formatHTMLTemp[1];
+                console.log(`RenderVditorDOM:arg[${this.element.innerHTML.replace(/&gt;/g, ">")}];result[${formatHTML}]`);
                 this.element.innerHTML = formatHTML;
 
                 // 设置光标
-                const wbrElement = this.element.querySelector('wbr')
+                const wbrElement = this.element.querySelector("wbr");
                 if (wbrElement.previousSibling) {
-                    range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length)
+                    range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
                 } else {
                     // 内容为空
-                    range.setStartBefore(wbrElement)
+                    range.setStartBefore(wbrElement);
                 }
                 setSelectionFocus(range);
 
@@ -111,20 +111,8 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("click", (event) => {
-            const range = getSelection().getRangeAt(0);
-            let typeElement = range.startContainer
-            if (range.startContainer.nodeType === 3) {
-                typeElement = range.startContainer.parentElement
-            }
-
-            switch (typeElement.nodeName) {
-                case 'EM':
-                    vditor.toolbar.elements.italic.children[0].classList.add('vditor-menu--current')
-                    break;
-                default:
-                    break;
-            }
-        })
+            highlightToolbar(vditor);
+        });
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             // if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {

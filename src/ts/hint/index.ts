@@ -22,12 +22,13 @@ export class Hint {
         }
         const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
             vditor.wysiwyg.element : vditor.editor.element);
-        let currentLineValue: string
+        let currentLineValue: string;
         if (vditor.currentMode === "wysiwyg") {
-            const wbrNode = vditor.wysiwyg.element.querySelector('wbr')
-            currentLineValue = (wbrNode.previousSibling && wbrNode.previousSibling.textContent) || ''
+            const wbrNode = vditor.wysiwyg.element.querySelector("wbr");
+            currentLineValue = (wbrNode.previousSibling && wbrNode.previousSibling.textContent) || "";
         } else {
-            currentLineValue = getText(vditor.editor.element, vditor.currentMode).substring(0, position.end).split("\n").slice(-1).pop()
+            currentLineValue = getText(vditor.editor.element, vditor.currentMode)
+                .substring(0, position.end).split("\n").slice(-1).pop();
         }
 
         let key = this.getKey(currentLineValue, ":");
@@ -79,7 +80,7 @@ export class Hint {
 
         const value = element.getAttribute("data-value");
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
-        let range: Range = window.getSelection().getRangeAt(0);
+        const range: Range = window.getSelection().getRangeAt(0);
 
         if (vditor.currentMode === "wysiwyg") {
             range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
@@ -147,7 +148,8 @@ export class Hint {
                     html = html.substr(0, lastIndex) + replaceHtml;
                 }
             }
-            hintsHTML += `<button data-value="${hintData.value} " ${i === 0 ? "class='vditor-hint--current'" : ''}> ${html}</button>`;
+            hintsHTML += `<button data-value="${hintData.value} "
+${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         });
 
         this.element.innerHTML = hintsHTML;
