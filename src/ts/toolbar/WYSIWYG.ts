@@ -43,9 +43,8 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "block";
                 }
-                formatRender(vditor, getText(vditor.wysiwyg.element, vditor.currentMode), undefined, false);
-
                 vditor.currentMode = "markdown";
+                formatRender(vditor, getText(vditor.wysiwyg.element, vditor.currentMode), undefined, false);
             } else {
                 this.classList.add("vditor-menu--current");
                 vditor.editor.element.style.display = "none";
@@ -61,8 +60,8 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "none";
                 }
-                renderDomByMd(vditor, getText(vditor.editor.element, vditor.currentMode));
                 vditor.currentMode = "wysiwyg";
+                renderDomByMd(vditor, getText(vditor.editor.element, vditor.currentMode));
             }
 
             if (vditor.hint) {

@@ -92,11 +92,23 @@ class WYSIWYG {
 
                 // 设置光标
                 const wbrElement = this.element.querySelector("wbr");
-                if (wbrElement.previousSibling) {
-                    range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
+                if (!wbrElement.previousElementSibling) {
+                    if (wbrElement.previousSibling) {
+                        // text<wbr>
+                        range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
+                    } else {
+                        // 内容为空
+                        range.setStartBefore(wbrElement);
+                    }
                 } else {
-                    // 内容为空
-                    range.setStartBefore(wbrElement);
+                    if (wbrElement.previousElementSibling.isEqualNode(wbrElement.previousSibling)) {
+                        // <em>text</em><wbr>
+                        range.setStart(wbrElement.previousElementSibling.lastChild,
+                            wbrElement.previousElementSibling.lastChild.textContent.length);
+                    } else {
+                        // <em>text</em>text<wbr>
+                        range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
+                    }
                 }
                 setSelectionFocus(range);
 
@@ -110,60 +122,19 @@ class WYSIWYG {
             }
         });
 
-        this.element.addEventListener("click", (event) => {
+        this.element.addEventListener("click", (event:IHTMLInputEvent) => {
             highlightToolbar(vditor);
+            if (event.target.tagName === 'INPUT') {
+                if (event.target.checked) {
+                    event.target.setAttribute('checked', 'checked')
+                } else {
+                    event.target.removeAttribute('checked')
+                }
+            }
         });
 
-        this.element.addEventListener("keypress", (event: KeyboardEvent) => {
-            // if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
-            //     const range = getSelection().getRangeAt(0).cloneRange();
-            //
-            //     let isCode = false
-            //     vditor.wysiwyg.element.querySelectorAll('pre > code').forEach((element) => {
-            //         if (element.contains(range.commonAncestorContainer)) {
-            //             isCode = true
-            //         }
-            //     })
-            //
-            //     if (event.shiftKey || isCode) {
-            //         // 软换行
-            //         const brNode = document.createElement("span");
-            //         if (isCode && range.startContainer.textContent.length === range.startOffset) {
-            //             // 代码片段末尾换行
-            //             brNode.innerHTML = "\n\n";
-            //         } else {
-            //             brNode.innerHTML = "\n";
-            //         }
-            //         range.insertNode(brNode.childNodes[0]);
-            //         range.collapse(false);
-            //         setSelectionFocus(range);
-            //     } else {
-            //         const caret = getSelectPosition(this.element, range);
-            //         console.log("newline", getText(this.element, vditor.currentMode), caret);
-            //         const formatHTML = vditor.lute.VditorOperation(getText(this.element, vditor.currentMode),
-            //             caret.start, caret.end, "newline");
-            //         this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
-            //     }
-            //     scrollCenter(this.element);
-            //
-            //     if (vditor.options.counter > 0) {
-            //         vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length, vditor.options.counter);
-            //     }
-            //
-            //     if (typeof vditor.options.input === "function") {
-            //         vditor.options.input(getText(vditor.wysiwyg.element, vditor.currentMode));
-            //     }
-            //
-            //     if (vditor.options.cache) {
-            //         localStorage.setItem(`vditor${vditor.id}`, getText(vditor.wysiwyg.element, vditor.currentMode));
-            //     }
-            //
-            //     if (vditor.devtools) {
-            //         vditor.devtools.renderEchart(vditor);
-            //     }
-            //
-            //     event.preventDefault();
-            // }
+        this.element.addEventListener("keyup", (event: KeyboardEvent) => {
+            highlightToolbar(vditor);
         });
     }
 }

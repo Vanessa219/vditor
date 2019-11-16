@@ -11,18 +11,22 @@
     padding: 0 5px;
     border-radius: 3px 3px 0 0;
 
-    button {
+    & > div {
       padding: 10px 5px;
       float: left;
       line-height: 14px;
       height: 36px;
       box-sizing: border-box;
-      border: 0;
-      margin: 0;
-      background-color: transparent;
 
-      &:focus {
-        outline: none;
+      button {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+
+        &:focus {
+          outline: none;
+        }
       }
     }
 
@@ -84,7 +88,7 @@
       height: 0 !important;
     }
 
-    &--disabled  svg {
+    &--disabled svg {
       color: rgba($toolbarIcon, .6);
       cursor: not-allowed;
     }
@@ -93,6 +97,7 @@
   &-emojis {
     display: inline-block;
     overflow: auto;
+
     &::-webkit-scrollbar {
       display: none;
     }
