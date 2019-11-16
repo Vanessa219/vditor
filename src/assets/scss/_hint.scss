@@ -14,18 +14,22 @@
   min-width: 80px;
   display: none;
 
-  li {
-    cursor: pointer;
+  button {
+    display: block;
     padding: 3px 10px;
+    border: 0;
     border-bottom: 1px solid $borderColor;
     line-height: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
     &:last-child {
       border-bottom: 0;
     }
   }
 
   &--current,
-  li:hover {
+  button:hover {
     background-color: $hoverBg;
     color: $hoverColor;
   }

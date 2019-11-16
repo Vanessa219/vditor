@@ -11,12 +11,17 @@
     padding: 0 5px;
     border-radius: 3px 3px 0 0;
 
-    & > div {
+    button {
       padding: 10px 5px;
       float: left;
       line-height: 14px;
       height: 36px;
       box-sizing: border-box;
+      border: 0;
+
+      &:focus {
+        outline: none;
+      }
     }
 
     svg {

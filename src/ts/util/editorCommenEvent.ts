@@ -32,7 +32,7 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const copyEvent = (editorElement: HTMLElement) => {
-    editorElement.addEventListener("copy", async (event: ClipboardEvent) => {
+    editorElement.addEventListener("copy", (event: ClipboardEvent) => {
         event.stopPropagation();
         event.preventDefault();
         event.clipboardData.setData("text/plain", getSelectText(editorElement));
@@ -67,7 +67,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        if (hintElement.querySelectorAll("li").length === 0 ||
+        if (hintElement.querySelectorAll("button").length === 0 ||
             hintElement.style.display === "none") {
             return;
         }
@@ -253,6 +253,20 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         // hint: 上下选择
         if (vditor.options.hint.at || vditor.toolbar.elements.emoji) {
             hint(event, hintElement);
+        }
+    });
+};
+
+export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    if (!vditor.options.select) {
+        return
+    }
+    editorElement.addEventListener("selectstart", () => {
+        editorElement.onmouseup = () => {
+            const element = vditor.currentMode === "wysiwyg" ?
+                vditor.wysiwyg.element : vditor.editor.element;
+            const selectText = getSelectText(element);
+            vditor.options.select(selectText);
         }
     });
 };

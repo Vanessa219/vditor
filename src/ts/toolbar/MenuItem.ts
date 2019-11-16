@@ -9,7 +9,7 @@ export class MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         this.menuItem = menuItem;
         this.element = document.createElement("div");
-        const iconElement = document.createElement("div");
+        const iconElement = document.createElement("button");
         iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
 
         let hotkey = this.menuItem.hotkey ? ` <${this.menuItem.hotkey}>` : "";
@@ -25,8 +25,13 @@ export class MenuItem {
 
     public bindEvent(vditor: IVditor, replace: boolean = false) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
-                replace, true);
+            if (vditor.currentMode === 'wysiwyg') {
+                // TODO: document.execCommand('italic', false);
+                // vditor.wysiwyg.element.focus()
+            } else {
+                insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
+                    replace, true);
+            }
             event.preventDefault();
         });
     }

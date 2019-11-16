@@ -1,5 +1,5 @@
 import {uploadFiles} from "../upload/index";
-import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
+import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
@@ -24,6 +24,7 @@ class Editor {
         focusEvent(vditor, this.element);
         copyEvent(this.element);
         hotkeyEvent(vditor, this.element);
+        selectEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {

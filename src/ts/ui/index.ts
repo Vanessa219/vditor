@@ -1,16 +1,7 @@
 import {formatRender} from "../editor/formatRender";
-import {getSelectText} from "../editor/getSelectText";
 import {html2md} from "../editor/html2md";
-import {selectIsEditor} from "../editor/selectIsEditor";
 import {getText} from "../util/getText";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
-import {setExpand} from "../wysiwyg/setExpand";
-
-declare global {
-    interface Window {
-        vditorObjects: IVditor[];
-    }
-}
 
 export class Ui {
     private contentElement: HTMLElement;
@@ -96,42 +87,6 @@ export class Ui {
                 vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px 10px`;
             }
         }
-        if (!window.vditorObjects) {
-            window.vditorObjects = [];
-            document.addEventListener("selectionchange", () => {
-                const range = window.getSelection().getRangeAt(0);
-
-                let vditorObject: IVditor;
-
-                window.vditorObjects.forEach((v) => {
-                    if (document.getElementById(v.id).contains(range.commonAncestorContainer)) {
-                        vditorObject = v;
-                    }
-                });
-
-                const element = vditorObject.currentMode === "wysiwyg" ?
-                    vditorObject.wysiwyg.element : vditorObject.editor.element;
-                if (selectIsEditor(element, range)) {
-                    if (vditorObject.currentMode === "wysiwyg") {
-                        vditorObject.wysiwyg.range = range.cloneRange();
-                    } else {
-                        vditorObject.editor.range = range.cloneRange();
-                    }
-                    if (vditorObject.options.select) {
-                        const selectText = getSelectText(element);
-                        if (selectText === "") {
-                            return;
-                        }
-                        vditorObject.options.select(selectText);
-                    }
-                }
-
-                if (vditorObject.currentMode === "wysiwyg") {
-                    setExpand(vditorObject.wysiwyg.element);
-                }
-            });
-        }
-        window.vditorObjects.push(vditor);
 
         // set default value
         let initValue = localStorage.getItem("vditor" + vditor.id);

@@ -1,7 +1,7 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {highlightRender} from "../markdown/highlightRender";
-import {copyEvent, focusEvent, hotkeyEvent, scrollCenter} from "../util/editorCommenEvent";
+import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
 import {setRange} from "./setRange";
@@ -23,26 +23,12 @@ class WYSIWYG {
         focusEvent(vditor, this.element);
         copyEvent(this.element);
         hotkeyEvent(vditor, this.element);
-    }
-
-    private luteRender(vditor: IVditor, range: Range, formatHTML: string) {
-        this.element.innerHTML = formatHTML;
-        console.log(formatHTML);
-        setRange(this.element, range);
-
-        if (vditor.hint) {
-            vditor.hint.render(vditor);
-        }
-
-        if (vditor.devtools) {
-            vditor.devtools.renderEchart(vditor);
-        }
+        selectEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {
         // TODO drap upload file & paste
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
-            console.log(event);
             if (event.isComposing) {
                 return;
             }
@@ -64,6 +50,7 @@ class WYSIWYG {
                 vditor.devtools.renderEchart(vditor);
             }
 
+            // 前后空格处理
             const blockElement = getParentBlock(range.startContainer as HTMLElement);
             const startOffset = getSelectPosition(blockElement, range).start;
 
@@ -89,16 +76,55 @@ class WYSIWYG {
             }
 
             if (!startSpace && !endSpace) {
-                const caret = getSelectPosition(this.element, range);
-                const content = getText(this.element, vditor.currentMode).replace(/\n{1,2}$/, "");
-                if (content === "*") {
-                    return;
+                // 保存光标
+                this.element.querySelectorAll('wbr').forEach(wbr => {
+                    wbr.remove()
+                })
+                const wbrNode = document.createElement("span");
+                wbrNode.innerHTML = '<wbr/>';
+                range.insertNode(wbrNode.childNodes[0]);
+
+                // markdown 纠正
+                const formatHTMLTemp = vditor.lute.RenderVditorDOM(this.element.innerHTML.replace(/&gt;/g, '>'));
+                const formatHTML = formatHTMLTemp[0] || formatHTMLTemp[1]
+                console.log(`RenderVditorDOM:arg[${this.element.innerHTML.replace(/&gt;/g, '>')}];result[${formatHTML}]`);
+                this.element.innerHTML = formatHTML;
+
+                // 设置光标
+                const wbrElement = this.element.querySelector('wbr')
+                if (wbrElement.previousSibling) {
+                    range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length)
+                } else {
+                    // 内容为空
+                    range.setStartBefore(wbrElement)
                 }
-                const formatHTML = vditor.lute.MarkdownStr("", this.element.innerHTML);
-                console.log("input",  this.element.innerHTML, content, caret);
-                this.luteRender(vditor, range, formatHTML[0] || formatHTML[1]);
+                setSelectionFocus(range);
+
+                if (vditor.hint) {
+                    vditor.hint.render(vditor);
+                }
+
+                if (vditor.devtools) {
+                    vditor.devtools.renderEchart(vditor);
+                }
             }
         });
+
+        this.element.addEventListener("click", (event) => {
+            const range = getSelection().getRangeAt(0);
+            let typeElement = range.startContainer
+            if (range.startContainer.nodeType === 3) {
+                typeElement = range.startContainer.parentElement
+            }
+
+            switch (typeElement.nodeName) {
+                case 'EM':
+                    vditor.toolbar.elements.italic.children[0].classList.add('vditor-menu--current')
+                    break;
+                default:
+                    break;
+            }
+        })
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             // if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {

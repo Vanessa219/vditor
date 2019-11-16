@@ -7,13 +7,9 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
                            toggle: boolean = false) => {
     let range: Range = window.getSelection().rangeCount === 0 ? undefined : window.getSelection().getRangeAt(0);
     if (!selectIsEditor(vditor.editor.element)) {
-        if (vditor.editor.range) {
-            range = vditor.editor.range;
-        } else {
-            range = vditor.editor.element.ownerDocument.createRange();
-            range.setStart(vditor.editor.element, 0);
-            range.collapse(true);
-        }
+        range = vditor.editor.element.ownerDocument.createRange();
+        range.setStart(vditor.editor.element, 0);
+        range.collapse(true);
     }
 
     const position = getSelectPosition(vditor.editor.element, range);

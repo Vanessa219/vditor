@@ -45,6 +45,10 @@ interface ILute {
     RenderVditorDOM(text: string, start: number, end: number): string[];
 
     VditorOperation(text: string, startOffset: number, endOffset: number, operation: string): string[];
+
+    RenderVditorDOM(html: string): string[];
+
+    Html2Md(html:string): string[];
 }
 
 declare var webkitAudioContext: {
@@ -213,7 +217,6 @@ interface IVditor {
     };
     editor?: {
         element: HTMLPreElement,
-        range: Range,
     };
     counter?: {
         element: HTMLElement
@@ -224,7 +227,7 @@ interface IVditor {
     };
     hint?: {
         timeId: number
-        element: HTMLUListElement
+        element: HTMLDivElement
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
     };
@@ -245,7 +248,6 @@ interface IVditor {
     };
     wysiwyg: {
         element: HTMLElement,
-        range: Range,
     };
 }
 

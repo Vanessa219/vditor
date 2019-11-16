@@ -8,11 +8,11 @@ import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
     public timeId: number;
-    public element: HTMLUListElement;
+    public element: HTMLDivElement;
 
     constructor() {
         this.timeId = -1;
-        this.element = document.createElement("ul");
+        this.element = document.createElement("div");
         this.element.className = "vditor-hint";
     }
 
@@ -22,9 +22,13 @@ export class Hint {
         }
         const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
             vditor.wysiwyg.element : vditor.editor.element);
-        const currentLineValue = vditor.currentMode === "wysiwyg" ?
-            getSelection().getRangeAt(0).startContainer.textContent.split("\n")[0] :
-            getText(vditor.editor.element, vditor.currentMode).substring(0, position.end).split("\n").slice(-1).pop();
+        let currentLineValue: string
+        if (vditor.currentMode === "wysiwyg") {
+            const wbrNode = vditor.wysiwyg.element.querySelector('wbr')
+            currentLineValue = (wbrNode.previousSibling && wbrNode.previousSibling.textContent) || ''
+        } else {
+            currentLineValue = getText(vditor.editor.element, vditor.currentMode).substring(0, position.end).split("\n").slice(-1).pop()
+        }
 
         let key = this.getKey(currentLineValue, ":");
         let isAt = false;
@@ -78,9 +82,6 @@ export class Hint {
         let range: Range = window.getSelection().getRangeAt(0);
 
         if (vditor.currentMode === "wysiwyg") {
-            if (!selectIsEditor(vditor.wysiwyg.element, range)) {
-                range = vditor.wysiwyg.range;
-            }
             range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
             range.deleteContents();
             const emojiNode = document.createElement("span");
@@ -89,9 +90,6 @@ export class Hint {
             range.collapse(false);
             setSelectionFocus(range);
         } else {
-            if (!selectIsEditor(vditor.editor.element, range)) {
-                range = vditor.editor.range;
-            }
             const position = getSelectPosition(vditor.editor.element, range);
             const text = getText(vditor.editor.element, vditor.currentMode);
             const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
@@ -149,7 +147,7 @@ export class Hint {
                     html = html.substr(0, lastIndex) + replaceHtml;
                 }
             }
-            hintsHTML += `<li data-value="${hintData.value} " class="${i || "vditor-hint--current"}"> ${html}</li>`;
+            hintsHTML += `<button data-value="${hintData.value} " ${i === 0 ? "class='vditor-hint--current'" : ''}> ${html}</button>`;
         });
 
         this.element.innerHTML = hintsHTML;
@@ -159,7 +157,7 @@ export class Hint {
         this.element.style.left = `${x}px`;
         this.element.style.display = "block";
 
-        this.element.querySelectorAll("li").forEach((element) => {
+        this.element.querySelectorAll("button").forEach((element) => {
             element.addEventListener("click", () => {
                 this.fillEmoji(element, vditor);
             });

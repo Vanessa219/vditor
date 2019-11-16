@@ -20,7 +20,7 @@ export class Format extends MenuItem {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             const formatResult = vditor.lute.FormatStr("", getText(vditor.editor.element, vditor.currentMode));
             formatRender(vditor, formatResult[0] || formatResult[1],
-                getSelectPosition(vditor.editor.element, vditor.editor.range));
+                getSelectPosition(vditor.editor.element, getSelection().getRangeAt(0)));
             event.preventDefault();
         });
     }
