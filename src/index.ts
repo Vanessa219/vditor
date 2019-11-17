@@ -121,11 +121,7 @@ class Vditor {
     }
 
     public getValue() {
-        if (this.vditor.currentMode === "markdown") {
-            return getText(this.vditor.editor.element, this.vditor.currentMode);
-        } else {
-            return getText(this.vditor.wysiwyg.element, this.vditor.currentMode);
-        }
+        return getText(this.vditor);
     }
 
     public focus() {
@@ -198,7 +194,7 @@ class Vditor {
     }
 
     public getHTML() {
-        return md2htmlByVditor(getText(this.vditor.editor.element, this.vditor.currentMode), this.vditor);
+        return md2htmlByVditor(getText(this.vditor), this.vditor);
     }
 
     public tip(text: string, time?: number) {

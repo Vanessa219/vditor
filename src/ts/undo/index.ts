@@ -53,7 +53,7 @@ class Undo {
     public addToUndoStack(vditor: IVditor) {
         clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
-            const text = getText(vditor.editor.element, vditor.currentMode);
+            const text = getText(vditor);
             const diff = this.dmp.diff_main(text, this.lastText, true);
             const patchList = this.dmp.patch_make(text, this.lastText, diff);
             if (patchList.length === 0) {

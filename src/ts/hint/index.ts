@@ -27,7 +27,7 @@ export class Hint {
             const wbrNode = vditor.wysiwyg.element.querySelector("wbr");
             currentLineValue = (wbrNode.previousSibling && wbrNode.previousSibling.textContent) || "";
         } else {
-            currentLineValue = getText(vditor.editor.element, vditor.currentMode)
+            currentLineValue = getText(vditor)
                 .substring(0, position.end).split("\n").slice(-1).pop();
         }
 
@@ -92,7 +92,7 @@ export class Hint {
             setSelectionFocus(range);
         } else {
             const position = getSelectPosition(vditor.editor.element, range);
-            const text = getText(vditor.editor.element, vditor.currentMode);
+            const text = getText(vditor);
             const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
             formatRender(vditor, preText + value + text.substring(position.start),
                 {

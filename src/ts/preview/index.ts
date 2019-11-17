@@ -39,7 +39,7 @@ export class Preview {
             return;
         }
 
-        if (getText(vditor.editor.element, vditor.currentMode)
+        if (getText(vditor)
             .replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
             this.element.children[0].innerHTML = "";
             return;
@@ -47,7 +47,7 @@ export class Preview {
 
         clearTimeout(this.mdTimeoutId);
         const renderStartTime = new Date().getTime();
-        const markdownText = getText(vditor.editor.element, vditor.currentMode);
+        const markdownText = getText(vditor);
         this.mdTimeoutId = window.setTimeout(async () => {
             if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();

@@ -48,7 +48,7 @@ class Editor {
 
         this.element.addEventListener("blur", () => {
             if (vditor.options.blur) {
-                vditor.options.blur(getText(this.element, vditor.currentMode));
+                vditor.options.blur(getText(vditor));
             }
         });
 

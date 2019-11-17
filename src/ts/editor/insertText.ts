@@ -13,7 +13,7 @@ export const insertText = (vditor: IVditor, prefix: string, suffix: string, repl
     }
 
     const position = getSelectPosition(vditor.editor.element, range);
-    const content = getText(vditor.editor.element, vditor.currentMode);
+    const content = getText(vditor);
 
     // select none || select something and need replace
     if (range.collapsed || (!range.collapsed && replace)) {

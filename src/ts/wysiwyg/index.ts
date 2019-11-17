@@ -33,22 +33,19 @@ class WYSIWYG {
             }
 
             if (vditor.options.counter > 0) {
-                vditor.counter.render(getText(vditor.wysiwyg.element, vditor.currentMode).length,
+                vditor.counter.render(getText(vditor).length,
                     vditor.options.counter);
             }
 
             if (typeof vditor.options.input === "function") {
-                vditor.options.input(getText(vditor.wysiwyg.element, vditor.currentMode));
+                vditor.options.input(getText(vditor));
             }
 
             if (vditor.options.cache) {
-                localStorage.setItem(`vditor${vditor.id}`, getText(vditor.wysiwyg.element, vditor.currentMode));
+                localStorage.setItem(`vditor${vditor.id}`, getText(vditor));
             }
 
             const range = getSelection().getRangeAt(0).cloneRange();
-            if (vditor.devtools) {
-                vditor.devtools.renderEchart(vditor);
-            }
 
             // 前后空格处理
             const blockElement = getParentBlock(range.startContainer as HTMLElement);
@@ -85,9 +82,10 @@ class WYSIWYG {
                 range.insertNode(wbrNode.childNodes[0]);
 
                 // markdown 纠正
+                console.log(`RenderVditorDOM-argument:[${this.element.innerHTML.replace(/&gt;/g, ">")}]`);
                 const formatHTMLTemp = vditor.lute.RenderVditorDOM(this.element.innerHTML.replace(/&gt;/g, ">"));
                 const formatHTML = formatHTMLTemp[0] || formatHTMLTemp[1];
-                console.log(`RenderVditorDOM:arg[${this.element.innerHTML.replace(/&gt;/g, ">")}];result[${formatHTML}]`);
+                console.log(`RenderVditorDOM-result:[${formatHTML}]`);
                 this.element.innerHTML = formatHTML;
 
                 // 设置光标
@@ -122,19 +120,62 @@ class WYSIWYG {
             }
         });
 
-        this.element.addEventListener("click", (event:IHTMLInputEvent) => {
+        this.element.addEventListener("click", (event: IHTMLInputEvent) => {
             highlightToolbar(vditor);
-            if (event.target.tagName === 'INPUT') {
+            if (event.target.tagName === "INPUT") {
                 if (event.target.checked) {
-                    event.target.setAttribute('checked', 'checked')
+                    event.target.setAttribute("checked", "checked");
                 } else {
-                    event.target.removeAttribute('checked')
+                    event.target.removeAttribute("checked");
                 }
             }
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent) => {
             highlightToolbar(vditor);
+        });
+
+        this.element.addEventListener("keypress", (event: KeyboardEvent) => {
+            if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
+                const range = getSelection().getRangeAt(0).cloneRange();
+
+                if (event.shiftKey) {
+                    // 软换行
+                    const brNode = document.createElement("span");
+                    if (range.startContainer.textContent.length === range.startOffset) {
+                        // 代码片段末尾换行
+                        brNode.innerHTML = "\n\n";
+                    } else {
+                        brNode.innerHTML = "\n";
+                    }
+                    range.insertNode(brNode.childNodes[0]);
+                    range.collapse(false);
+                    setSelectionFocus(range);
+                } else {
+                    const caret = getSelectPosition(this.element, range);
+                    console.log("newline", getText(vditor), caret);
+                    const formatHTML = vditor.lute.VditorOperation(getText(vditor),
+                        caret.start, caret.end, "newline");
+                }
+
+                if (vditor.options.counter > 0) {
+                    vditor.counter.render(getText(vditor).length, vditor.options.counter);
+                }
+
+                if (typeof vditor.options.input === "function") {
+                    vditor.options.input(getText(vditor));
+                }
+
+                if (vditor.options.cache) {
+                    localStorage.setItem(`vditor${vditor.id}`, getText(vditor));
+                }
+
+                if (vditor.devtools) {
+                    vditor.devtools.renderEchart(vditor);
+                }
+
+                event.preventDefault();
+            }
         });
     }
 }
