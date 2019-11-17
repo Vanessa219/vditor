@@ -6,18 +6,10 @@ import {getCursorPosition} from "../hint/getCursorPosition";
 import {getText} from "../util/getText";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 
-const getContent = (vditor: IVditor, editorElement: HTMLElement) => {
-    if (vditor.currentMode === "wysiwyg") {
-        return editorElement.textContent;
-    } else {
-        return getText(vditor);
-    }
-};
-
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
         if (vditor.options.focus) {
-            vditor.options.focus(getContent(vditor, editorElement));
+            vditor.options.focus(getText(vditor));
         }
         if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
             const emojiPanel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
@@ -106,13 +98,13 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         vditor.undo.recordFirstPosition(vditor);
 
         if ((event.metaKey || event.ctrlKey) && vditor.options.ctrlEnter && event.key === "Enter") {
-            vditor.options.ctrlEnter(getContent(vditor, editorElement));
+            vditor.options.ctrlEnter(getText(vditor));
             return;
         }
 
         if (event.key === "Escape") {
             if (vditor.options.esc) {
-                vditor.options.esc(getContent(vditor, editorElement));
+                vditor.options.esc(getText(vditor));
             }
             if (hintElement && hintElement.style.display === "block") {
                 hintElement.style.display = "none";
