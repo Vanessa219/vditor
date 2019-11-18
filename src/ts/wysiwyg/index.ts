@@ -1,11 +1,11 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
+import {getCursorPosition} from "../hint/getCursorPosition";
+import {i18n} from "../i18n";
 import {copyEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
-import {getCursorPosition} from "../hint/getCursorPosition";
-import {i18n} from "../i18n";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -136,24 +136,24 @@ class WYSIWYG {
             }
 
             if (event.target.tagName === "IMG") {
-                const clientRect = event.target.getClientRects()[0]
-                const editorRect = this.element.parentElement.getBoundingClientRect()
+                const clientRect = event.target.getClientRects()[0];
+                const editorRect = this.element.parentElement.getBoundingClientRect();
                 const position = {
                     left: clientRect.left - editorRect.left,
-                    top: clientRect.top - editorRect.top
-                }
-                const btn = document.createElement('button')
-                btn.textContent = i18n[vditor.options.lang].update
+                    top: clientRect.top - editorRect.top,
+                };
+                const btn = document.createElement("button");
+                btn.textContent = i18n[vditor.options.lang].update;
                 btn.onclick = () => {
-                    event.target.setAttribute('href', (btn.previousElementSibling as HTMLInputElement).value)
-                    vditor.popover.style.display = 'none'
-                }
-                vditor.popover.innerHTML = `<input value="${event.target.getAttribute('src')}">`
-                vditor.popover.insertAdjacentElement('beforeend', btn)
+                    event.target.setAttribute("href", (btn.previousElementSibling as HTMLInputElement).value);
+                    vditor.popover.style.display = "none";
+                };
+                vditor.popover.innerHTML = `<input value="${event.target.getAttribute("src")}">`;
+                vditor.popover.insertAdjacentElement("beforeend", btn);
 
-                vditor.popover.style.top = position.top + 'px'
-                vditor.popover.style.left = position.left + 'px'
-                vditor.popover.style.display = 'block'
+                vditor.popover.style.top = position.top + "px";
+                vditor.popover.style.left = position.left + "px";
+                vditor.popover.style.display = "block";
             }
         });
 

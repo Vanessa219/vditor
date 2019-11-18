@@ -10,25 +10,25 @@ export const highlightToolbar = (vditor: IVditor) => {
     }
 
     let toolbarName = typeElement.nodeName;
-    if (toolbarName === 'CODE' && typeElement.parentElement.nodeName === 'PRE') {
-        toolbarName = ''
+    if (toolbarName === "CODE" && typeElement.parentElement.nodeName === "PRE") {
+        toolbarName = "";
     }
     if (/^H[1-6]$/.test(toolbarName)) {
-        toolbarName = 'H'
+        toolbarName = "H";
     }
 
     const tagToolbar: { [key: string]: string } = {
-        'A': "link",
-        'CODE': "inline-code",
-        'S': "strike",
-        'EM': "italic",
-        'H': "headings",
-        'STRONG': "bold",
+        A: "link",
+        CODE: "inline-code",
+        S: "strike",
+        EM: "italic",
+        H: "headings",
+        STRONG: "bold",
     };
 
     // 工具栏高亮
     Object.keys(tagToolbar).forEach((key) => {
-        const value = tagToolbar[key]
+        const value = tagToolbar[key];
         if (toolbarName === key) {
             vditor.toolbar.elements[value] &&
             vditor.toolbar.elements[value].children[0].classList.add("vditor-menu--current");
@@ -39,21 +39,21 @@ export const highlightToolbar = (vditor: IVditor) => {
     });
 
     // a 标签链接处理
-    if (toolbarName === 'A') {
-        const position = getCursorPosition(vditor.wysiwyg.element)
-        const btn = document.createElement('button')
-        btn.textContent = i18n[vditor.options.lang].update
+    if (toolbarName === "A") {
+        const position = getCursorPosition(vditor.wysiwyg.element);
+        const btn = document.createElement("button");
+        btn.textContent = i18n[vditor.options.lang].update;
         btn.onclick = () => {
-            typeElement.setAttribute('href', (btn.previousElementSibling as HTMLInputElement).value)
-            vditor.popover.style.display = 'none'
-        }
-        vditor.popover.innerHTML = `<input value="${typeElement.getAttribute('href')}">`
-        vditor.popover.insertAdjacentElement('beforeend', btn)
+            typeElement.setAttribute("href", (btn.previousElementSibling as HTMLInputElement).value);
+            vditor.popover.style.display = "none";
+        };
+        vditor.popover.innerHTML = `<input value="${typeElement.getAttribute("href")}">`;
+        vditor.popover.insertAdjacentElement("beforeend", btn);
 
-        vditor.popover.style.top = position.top + 'px'
-        vditor.popover.style.left = position.left + 'px'
-        vditor.popover.style.display = 'block'
+        vditor.popover.style.top = position.top + "px";
+        vditor.popover.style.left = position.left + "px";
+        vditor.popover.style.display = "block";
     } else {
-        vditor.popover.style.display = 'none'
+        vditor.popover.style.display = "none";
     }
 };

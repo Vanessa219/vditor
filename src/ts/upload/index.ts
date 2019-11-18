@@ -168,7 +168,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         xhr.setRequestHeader("X-Upload-Token", vditor.options.upload.token);
     }
     if (vditor.options.upload.withCredentials) {
-        xhr.withCredentials = true
+        xhr.withCredentials = true;
     }
     vditor.upload.isUploading = true;
     vditor.editor.element.setAttribute("contenteditable", "false");

@@ -55,13 +55,13 @@ class Vditor {
         const getOptions = new Options(options);
         const mergedOptions = getOptions.merge();
 
-        if (!(mergedOptions.lang === 'en_US' || mergedOptions.lang === 'zh_CN')) {
-            console.error('options.lang error, see https://hacpai.com/article/1549638745630#toc_h4_10')
-            return
+        if (!(mergedOptions.lang === "en_US" || mergedOptions.lang === "zh_CN")) {
+            console.error("options.lang error, see https://hacpai.com/article/1549638745630#toc_h4_10");
+            return;
         }
 
-        const popover = document.createElement('div')
-        popover.className = 'vditor-popover'
+        const popover = document.createElement("div");
+        popover.className = "vditor-popover";
 
         this.vditor = {
             currentMode: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",
@@ -70,10 +70,10 @@ class Vditor {
             lute: undefined,
             options: mergedOptions,
             originalInnerHTML: document.getElementById(id).innerHTML,
+            popover,
             tip: new Tip(),
             undo: undefined,
             wysiwyg: undefined,
-            popover: popover
         };
 
         if (mergedOptions.counter > 0) {

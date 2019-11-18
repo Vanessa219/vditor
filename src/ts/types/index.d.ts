@@ -81,7 +81,7 @@ interface IUpload {
     linkToImgUrl?: string;
     token?: string;
     accept?: string;
-    withCredentials? :boolean;
+    withCredentials?: boolean;
 
     success?(editor: HTMLPreElement, msg: string): void;
 
@@ -249,7 +249,7 @@ interface IVditor {
     wysiwyg: {
         element: HTMLElement,
     };
-    popover: HTMLElement
+    popover: HTMLElement;
 }
 
 declare class IVditorConstructor {

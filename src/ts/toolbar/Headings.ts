@@ -26,11 +26,11 @@ export class Headings extends MenuItem {
 
     public _bindEvent(headingsPanelElement: HTMLElement, vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            const actionBtn = this.element.children[0]
-            if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains('vditor-menu--current')) {
-                document.execCommand('formatBlock', false, 'p');
-                actionBtn.classList.remove('vditor-menu--current')
-                return
+            const actionBtn = this.element.children[0];
+            if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
+                document.execCommand("formatBlock", false, "p");
+                actionBtn.classList.remove("vditor-menu--current");
+                return;
             }
 
             if (headingsPanelElement.style.display === "block") {
