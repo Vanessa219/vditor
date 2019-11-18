@@ -63,6 +63,7 @@ export class Ui {
         }
 
         this.contentElement.appendChild(vditor.tip.element);
+        this.contentElement.appendChild(vditor.popover);
 
         vditorElement.appendChild(this.contentElement);
 

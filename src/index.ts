@@ -60,6 +60,9 @@ class Vditor {
             return
         }
 
+        const popover = document.createElement('div')
+        popover.className = 'vditor-popover'
+
         this.vditor = {
             currentMode: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",
             currentPreviewMode: mergedOptions.preview.mode,
@@ -70,6 +73,7 @@ class Vditor {
             tip: new Tip(),
             undo: undefined,
             wysiwyg: undefined,
+            popover: popover
         };
 
         if (mergedOptions.counter > 0) {

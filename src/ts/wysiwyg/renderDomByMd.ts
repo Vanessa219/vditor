@@ -5,7 +5,6 @@ import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
-import {setRange} from "./setRange";
 
 export const renderDomByMd = (vditor: IVditor, md: string) => {
     const domHTML = vditor.lute.RenderVditorDOM(md);

@@ -4,6 +4,8 @@ import {copyEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCom
 import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
+import {getCursorPosition} from "../hint/getCursorPosition";
+import {i18n} from "../i18n";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -72,7 +74,10 @@ class WYSIWYG {
                 }
             }
 
-            if (!startSpace && !endSpace) {
+            if (!startSpace && !endSpace && event.inputType !== "formatItalic" && event.inputType !== "formatBold"
+                && event.inputType !== "formatRemove"
+                && event.inputType !== ""   // document.execCommand('unlink', false)
+            ) {
                 // 保存光标
                 this.element.querySelectorAll("wbr").forEach((wbr) => {
                     wbr.remove();
@@ -129,6 +134,27 @@ class WYSIWYG {
                     event.target.removeAttribute("checked");
                 }
             }
+
+            if (event.target.tagName === "IMG") {
+                const clientRect = event.target.getClientRects()[0]
+                const editorRect = this.element.parentElement.getBoundingClientRect()
+                const position = {
+                    left: clientRect.left - editorRect.left,
+                    top: clientRect.top - editorRect.top
+                }
+                const btn = document.createElement('button')
+                btn.textContent = i18n[vditor.options.lang].update
+                btn.onclick = () => {
+                    event.target.setAttribute('href', (btn.previousElementSibling as HTMLInputElement).value)
+                    vditor.popover.style.display = 'none'
+                }
+                vditor.popover.innerHTML = `<input value="${event.target.getAttribute('src')}">`
+                vditor.popover.insertAdjacentElement('beforeend', btn)
+
+                vditor.popover.style.top = position.top + 'px'
+                vditor.popover.style.left = position.left + 'px'
+                vditor.popover.style.display = 'block'
+            }
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent) => {
@@ -136,27 +162,19 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
-            if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
+            if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && event.shiftKey) {
+                // 软换行
                 const range = getSelection().getRangeAt(0).cloneRange();
-
-                if (event.shiftKey) {
-                    // 软换行
-                    const brNode = document.createElement("span");
-                    if (range.startContainer.textContent.length === range.startOffset) {
-                        // 代码片段末尾换行
-                        brNode.innerHTML = "\n\n";
-                    } else {
-                        brNode.innerHTML = "\n";
-                    }
-                    range.insertNode(brNode.childNodes[0]);
-                    range.collapse(false);
-                    setSelectionFocus(range);
+                const brNode = document.createElement("span");
+                if (range.startContainer.textContent.length === range.startOffset) {
+                    // 代码片段末尾换行
+                    brNode.innerHTML = "\n\n";
                 } else {
-                    const caret = getSelectPosition(this.element, range);
-                    console.log("newline", getText(vditor), caret);
-                    const formatHTML = vditor.lute.VditorOperation(getText(vditor),
-                        caret.start, caret.end, "newline");
+                    brNode.innerHTML = "\n";
                 }
+                range.insertNode(brNode.childNodes[0]);
+                range.collapse(false);
+                setSelectionFocus(range);
 
                 if (vditor.options.counter > 0) {
                     vditor.counter.render(getText(vditor).length, vditor.options.counter);
@@ -174,7 +192,7 @@ class WYSIWYG {
                     vditor.devtools.renderEchart(vditor);
                 }
 
-                event.preventDefault();
+                // event.preventDefault();
             }
         });
     }

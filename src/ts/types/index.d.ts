@@ -58,6 +58,7 @@ interface IHTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
     screenX: number;
     isComposing: boolean;
+    inputType: string;
 }
 
 interface II18nLang {
@@ -247,6 +248,7 @@ interface IVditor {
     wysiwyg: {
         element: HTMLElement,
     };
+    popover: HTMLElement
 }
 
 declare class IVditorConstructor {
