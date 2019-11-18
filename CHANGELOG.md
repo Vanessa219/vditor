@@ -33,11 +33,14 @@
 ### TODO
 
 * [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
+* [146](https://github.com/b3log/vditor/issues/146) 编辑预览同步滚动改进 `enhancement`
+* [148](https://github.com/b3log/vditor/issues/148) 添加支持思维导图的功能 `feature`
 * [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
 
 
-### v1.10.0 / 2019-11-15
+### v1.10.0 / 2019-11-18
 
+* [167](https://github.com/b3log/vditor/issues/167) withCredentials（跨域传递 cookie） `feature`
 * [166](https://github.com/b3log/vditor/issues/166) typewriterMode 为 false 时，preview 区域不会同步滚动 `bug`
 
 ### v1.9.7 / 2019-11-11

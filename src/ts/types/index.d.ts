@@ -81,6 +81,7 @@ interface IUpload {
     linkToImgUrl?: string;
     token?: string;
     accept?: string;
+    withCredentials? :boolean;
 
     success?(editor: HTMLPreElement, msg: string): void;
 
