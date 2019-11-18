@@ -46,6 +46,7 @@ export class WYSIWYG extends MenuItem {
                 const wysiwygMD = getText(vditor);
                 vditor.currentMode = "markdown";
                 formatRender(vditor, wysiwygMD, undefined, false);
+                // TODO remove disabled toolbar
             } else {
                 this.classList.add("vditor-menu--current");
                 vditor.editor.element.style.display = "none";

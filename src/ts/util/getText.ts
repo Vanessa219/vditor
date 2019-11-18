@@ -5,7 +5,7 @@ export const getText = (vditor: IVditor) => {
         // last char must be a `\n`.
         return code160to32(`${vditor.editor.element.textContent}\n`.replace(/\n\n$/, "\n"));
     } else if (vditor.wysiwyg) {
-        const md = vditor.lute.Html2Md(vditor.wysiwyg.element.innerHTML.replace("<wbr>", ""));
+        const md = vditor.lute.VditorDOM2Md(vditor.wysiwyg.element.innerHTML.replace("<wbr>", ""));
         return md[0] || md[1];
     }
     return "";

@@ -14,5 +14,9 @@
     outline: none;
     background-color: $textareaFocusBg;
   }
+
+  blockquote:empty::before {
+    content: ' ';
+  }
 }
 

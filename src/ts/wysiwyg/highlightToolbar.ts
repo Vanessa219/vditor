@@ -1,5 +1,6 @@
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {i18n} from "../i18n";
+import {hasClosest} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
     // TODO 多层嵌套
@@ -16,11 +17,20 @@ export const highlightToolbar = (vditor: IVditor) => {
     if (/^H[1-6]$/.test(toolbarName)) {
         toolbarName = "H";
     }
+    if (toolbarName === 'B') {
+        toolbarName = 'STRONG'
+    }
+    if (toolbarName === 'I') {
+        toolbarName = 'EM'
+    }
+    if (toolbarName === 'S') {
+        toolbarName = 'STRIKE'
+    }
 
     const tagToolbar: { [key: string]: string } = {
         A: "link",
         CODE: "inline-code",
-        S: "strike",
+        STRIKE: "strike",
         EM: "italic",
         H: "headings",
         STRONG: "bold",
@@ -38,22 +48,50 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
     });
 
+    if (hasClosest(typeElement, 'H')) {
+        vditor.toolbar.elements.bold &&
+        vditor.toolbar.elements.bold.children[0].classList.add("vditor-menu--disabled");
+    } else {
+        vditor.toolbar.elements.bold &&
+        vditor.toolbar.elements.bold.children[0].classList.remove("vditor-menu--disabled");
+    }
+
+    if (hasClosest(typeElement, 'UL')) {
+        vditor.toolbar.elements.list &&
+        vditor.toolbar.elements.list.children[0].classList.add("vditor-menu--current");
+    } else {
+        vditor.toolbar.elements.list &&
+        vditor.toolbar.elements.list.children[0].classList.remove("vditor-menu--current");
+    }
+    if (hasClosest(typeElement, 'OL')) {
+        vditor.toolbar.elements['ordered-list'] &&
+        vditor.toolbar.elements['ordered-list'].children[0].classList.add("vditor-menu--current");
+    } else {
+        vditor.toolbar.elements['ordered-list'] &&
+        vditor.toolbar.elements['ordered-list'].children[0].classList.remove("vditor-menu--current");
+    }
+
+    showAPopover(typeElement, vditor)
+};
+
+
+export const showAPopover = (element: HTMLElement, vditor: IVditor) => {
     // a 标签链接处理
-    if (toolbarName === "A") {
+    if (element.nodeName === "A") {
         const position = getCursorPosition(vditor.wysiwyg.element);
         const btn = document.createElement("button");
         btn.textContent = i18n[vditor.options.lang].update;
         btn.onclick = () => {
-            typeElement.setAttribute("href", (btn.previousElementSibling as HTMLInputElement).value);
+            element.setAttribute("href", (btn.previousElementSibling as HTMLInputElement).value);
             vditor.popover.style.display = "none";
         };
-        vditor.popover.innerHTML = `<input value="${typeElement.getAttribute("href")}">`;
+        vditor.popover.innerHTML = `<input value="${element.getAttribute("href") || ''}">`;
         vditor.popover.insertAdjacentElement("beforeend", btn);
 
-        vditor.popover.style.top = position.top + "px";
+        vditor.popover.style.top = (position.top - 40) + "px";
         vditor.popover.style.left = position.left + "px";
         vditor.popover.style.display = "block";
     } else {
         vditor.popover.style.display = "none";
     }
-};
+}

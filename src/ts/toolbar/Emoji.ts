@@ -2,6 +2,7 @@ import emojiSVG from "../../assets/icons/emoji.svg";
 import {insertText} from "../editor/insertText";
 import {getEventName} from "../util/getEventName";
 import {MenuItem} from "./MenuItem";
+import {setSelectionFocus} from "../editor/setSelection";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;
@@ -17,10 +18,10 @@ export class Emoji extends MenuItem {
         Object.keys(vditor.options.hint.emoji).forEach((key) => {
             const emojiValue = vditor.options.hint.emoji[key];
             if (emojiValue.indexOf(".") > -1) {
-                commonEmojiHTML += `<span data-value=":${key}: " data-key=":${key}:"><img
-data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
+                commonEmojiHTML += `<button data-value=":${key}: " data-key=":${key}:"><img
+data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></button>`;
             } else {
-                commonEmojiHTML += `<span data-value="${emojiValue} " data-key="${key}">${emojiValue}</span>`;
+                commonEmojiHTML += `<button data-value="${emojiValue} " data-key="${key}">${emojiValue}</button>`;
             }
         });
 
@@ -55,10 +56,19 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></span>`;
             event.preventDefault();
         });
 
-        emojiPanelElement.querySelectorAll(".vditor-emojis span").forEach((element) => {
+        emojiPanelElement.querySelectorAll(".vditor-emojis button").forEach((element) => {
             element.addEventListener(getEventName(), (event: Event) => {
-                insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"),
-                    "", true);
+                const value =  (event.target as HTMLElement).getAttribute("data-value")
+                if (vditor.currentMode === 'wysiwyg') {
+                    const range = getSelection().getRangeAt(0)
+                    const emojiNode = document.createElement("span");
+                    emojiNode.innerHTML = value;
+                    range.insertNode(emojiNode.childNodes[0]);
+                    range.collapse(false);
+                    setSelectionFocus(range);
+                } else {
+                    insertText(vditor, value, "", true);
+                }
                 emojiPanelElement.style.display = "none";
                 event.preventDefault();
             });

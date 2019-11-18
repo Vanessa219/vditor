@@ -47,6 +47,8 @@ interface ILute {
     RenderVditorDOM(html: string): string[];
 
     Html2Md(html: string): string[];
+
+    VditorDOM2Md(html: string): string[];
 }
 
 declare var webkitAudioContext: {

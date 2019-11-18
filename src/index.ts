@@ -61,7 +61,7 @@ class Vditor {
         }
 
         const popover = document.createElement("div");
-        popover.className = "vditor-popover";
+        popover.className = "vditor-panel";
 
         this.vditor = {
             currentMode: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",

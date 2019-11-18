@@ -216,21 +216,4 @@
       }
     }
   }
-
-  &-popover {
-    background-color: $layerBg;
-    position: absolute;
-    box-shadow: $layerShadow;
-    border-radius: 3px;
-    padding: 5px 0;
-    z-index: 3;
-    line-height: 20px;
-    list-style: none;
-    color: $textareaColor;
-    font-size: 12px;
-    margin: 0;
-    max-width: 250px;
-    min-width: 80px;
-    display: none;
-  }
 }

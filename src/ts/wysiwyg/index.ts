@@ -76,6 +76,9 @@ class WYSIWYG {
 
             if (!startSpace && !endSpace && event.inputType !== "formatItalic" && event.inputType !== "formatBold"
                 && event.inputType !== "formatRemove"
+                && event.inputType !== "formatStrikeThrough"
+                && event.inputType !== "insertUnorderedList"
+                && event.inputType !== "insertOrderedList"
                 && event.inputType !== ""   // document.execCommand('unlink', false)
             ) {
                 // 保存光标

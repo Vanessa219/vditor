@@ -18,7 +18,7 @@
       height: 36px;
       box-sizing: border-box;
 
-      button {
+      & > button {
         border: 0;
         margin: 0;
         padding: 0;
@@ -128,7 +128,7 @@
       }
     }
 
-    span {
+    button {
       cursor: pointer;
       border-radius: 3px;
       float: left;
@@ -140,6 +140,13 @@
       box-sizing: border-box;
       font-size: 16px;
       transition: $transition;
+      border: 0;
+      margin: 0;
+      background-color: transparent;
+
+      &:focus {
+        outline: none;
+      }
 
       &:hover {
         transform: scale(1.2);
