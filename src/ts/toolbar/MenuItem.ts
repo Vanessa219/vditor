@@ -128,8 +128,9 @@ export class MenuItem {
                         }
                     } else if (commandName === "table") {
                         document.execCommand("insertHTML", false,
-                            "<table><tr><th>col1</th><th>col2</th><th>col3</th></tr><tr><td></td><td></td><td>"
-                            + "</td></tr><tr><td></td><td></td><td></td></tr></table>");
+                            "<table><thead><tr><th>col1</th><th>col2</th><th>col3</th></tr></thead>"
+                            + "<tbody><tr><td></td><td></td><td>"
+                            + "</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>");
                     } else {
                         document.execCommand(commandName, false, "");
                     }

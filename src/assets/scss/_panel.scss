@@ -34,8 +34,10 @@
     animation-timing-function: cubic-bezier(.2, 0, .13, 1.5);
 
     &--none {
+      color: $toolbarIconHover;
       padding: 0;
       animation: none;
+      background-color: $textareaBg;
     }
 
     h1, h2, h3, h4, h5, h6 {

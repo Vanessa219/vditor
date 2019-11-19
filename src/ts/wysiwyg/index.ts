@@ -1,7 +1,7 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n";
-import {copyEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
+import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
@@ -78,8 +78,6 @@ class WYSIWYG {
                     break;
                 }
             }
-
-            return;
 
             if (!startSpace && !endSpace && event.inputType !== "formatItalic" && event.inputType !== "formatBold"
                 && event.inputType !== "formatRemove"
@@ -207,6 +205,7 @@ class WYSIWYG {
 
                 event.preventDefault();
             }
+            scrollCenter(this.element);
         });
     }
 }
