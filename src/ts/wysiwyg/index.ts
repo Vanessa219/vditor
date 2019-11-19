@@ -1,6 +1,5 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
-import {getCursorPosition} from "../hint/getCursorPosition";
 import {i18n} from "../i18n";
 import {copyEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
@@ -9,7 +8,7 @@ import {highlightToolbar} from "./highlightToolbar";
 
 class WYSIWYG {
     public element: HTMLPreElement;
-    public range: Range;
+    public popover: HTMLDivElement;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
@@ -18,6 +17,12 @@ class WYSIWYG {
         if (vditor.currentMode === "markdown") {
             this.element.style.display = "none";
         }
+
+        const popover = document.createElement("div");
+        popover.className = "vditor-panel vditor-panel--none";
+        popover.setAttribute("contenteditable", "false");
+        this.popover = popover;
+        this.element.insertAdjacentElement("beforeend", popover);
 
         this.bindEvent(vditor);
 
@@ -74,6 +79,8 @@ class WYSIWYG {
                 }
             }
 
+            return;
+
             if (!startSpace && !endSpace && event.inputType !== "formatItalic" && event.inputType !== "formatBold"
                 && event.inputType !== "formatRemove"
                 && event.inputType !== "formatStrikeThrough"
@@ -85,9 +92,8 @@ class WYSIWYG {
                 this.element.querySelectorAll("wbr").forEach((wbr) => {
                     wbr.remove();
                 });
-                const wbrNode = document.createElement("span");
-                wbrNode.innerHTML = "<wbr/>";
-                range.insertNode(wbrNode.childNodes[0]);
+                const wbrNode = document.createElement("wbr");
+                range.insertNode(wbrNode);
 
                 // markdown 纠正
                 console.log(`RenderVditorDOM-argument:[${this.element.innerHTML.replace(/&gt;/g, ">")}]`);
@@ -108,9 +114,15 @@ class WYSIWYG {
                     }
                 } else {
                     if (wbrElement.previousElementSibling.isEqualNode(wbrElement.previousSibling)) {
-                        // <em>text</em><wbr>
-                        range.setStart(wbrElement.previousElementSibling.lastChild,
-                            wbrElement.previousElementSibling.lastChild.textContent.length);
+                        if (wbrElement.previousElementSibling.lastChild) {
+                            // <em>text</em><wbr>
+                            range.setStart(wbrElement.previousElementSibling.lastChild,
+                                wbrElement.previousElementSibling.lastChild.textContent.length);
+                        } else {
+                            // <br><wbr>
+                            range.setStartAfter(wbrElement.previousElementSibling);
+                        }
+
                     } else {
                         // <em>text</em>text<wbr>
                         range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
@@ -149,14 +161,14 @@ class WYSIWYG {
                 btn.textContent = i18n[vditor.options.lang].update;
                 btn.onclick = () => {
                     event.target.setAttribute("href", (btn.previousElementSibling as HTMLInputElement).value);
-                    vditor.popover.style.display = "none";
+                    this.popover.style.display = "none";
                 };
-                vditor.popover.innerHTML = `<input value="${event.target.getAttribute("src")}">`;
-                vditor.popover.insertAdjacentElement("beforeend", btn);
+                this.popover.innerHTML = `<input value="${event.target.getAttribute("src")}">`;
+                this.popover.insertAdjacentElement("beforeend", btn);
 
-                vditor.popover.style.top = position.top + "px";
-                vditor.popover.style.left = position.left + "px";
-                vditor.popover.style.display = "block";
+                this.popover.style.top = position.top + "px";
+                this.popover.style.left = position.left + "px";
+                this.popover.style.display = "block";
             }
         });
 
@@ -168,14 +180,12 @@ class WYSIWYG {
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter" && event.shiftKey) {
                 // 软换行
                 const range = getSelection().getRangeAt(0).cloneRange();
-                const brNode = document.createElement("span");
+                let br = "\n";
                 if (range.startContainer.textContent.length === range.startOffset) {
                     // 代码片段末尾换行
-                    brNode.innerHTML = "\n\n";
-                } else {
-                    brNode.innerHTML = "\n";
+                    br = "\n\n";
                 }
-                range.insertNode(brNode.childNodes[0]);
+                range.insertNode(document.createTextNode(br));
                 range.collapse(false);
                 setSelectionFocus(range);
 
@@ -195,7 +205,7 @@ class WYSIWYG {
                     vditor.devtools.renderEchart(vditor);
                 }
 
-                // event.preventDefault();
+                event.preventDefault();
             }
         });
     }

@@ -249,9 +249,9 @@ interface IVditor {
         recordFirstPosition(vditor: IVditor): void,
     };
     wysiwyg: {
-        element: HTMLElement,
+        element: HTMLPreElement,
+        popover: HTMLDivElement,
     };
-    popover: HTMLElement;
 }
 
 declare class IVditorConstructor {

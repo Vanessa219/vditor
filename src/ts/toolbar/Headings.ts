@@ -50,8 +50,8 @@ export class Headings extends MenuItem {
 
         for (let i = 0; i < 6; i++) {
             headingsPanelElement.children.item(i).addEventListener(getEventName(), (event: Event) => {
-                if (vditor.currentMode === 'wysiwyg') {
-                    document.execCommand('formatblock', false, (event.target as HTMLElement).tagName.toLowerCase())
+                if (vditor.currentMode === "wysiwyg") {
+                    document.execCommand("formatblock", false, (event.target as HTMLElement).tagName.toLowerCase());
                 } else {
                     insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                         false, true);

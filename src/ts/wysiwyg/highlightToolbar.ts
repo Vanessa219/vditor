@@ -1,9 +1,7 @@
-import {getCursorPosition} from "../hint/getCursorPosition";
 import {i18n} from "../i18n";
-import {hasClosest} from "../util/hasClosest";
+import {hasClosest, hasClosestClassName} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
-    // TODO 多层嵌套
     const range = getSelection().getRangeAt(0);
     let typeElement = range.startContainer as HTMLElement;
     if (range.startContainer.nodeType === 3) {
@@ -17,22 +15,22 @@ export const highlightToolbar = (vditor: IVditor) => {
     if (/^H[1-6]$/.test(toolbarName)) {
         toolbarName = "H";
     }
-    if (toolbarName === 'B') {
-        toolbarName = 'STRONG'
+    if (toolbarName === "B") {
+        toolbarName = "STRONG";
     }
-    if (toolbarName === 'I') {
-        toolbarName = 'EM'
+    if (toolbarName === "I") {
+        toolbarName = "EM";
     }
-    if (toolbarName === 'S') {
-        toolbarName = 'STRIKE'
+    if (toolbarName === "S") {
+        toolbarName = "STRIKE";
     }
 
     const tagToolbar: { [key: string]: string } = {
         A: "link",
         CODE: "inline-code",
-        STRIKE: "strike",
         EM: "italic",
         H: "headings",
+        STRIKE: "strike",
         STRONG: "bold",
     };
 
@@ -40,58 +38,142 @@ export const highlightToolbar = (vditor: IVditor) => {
     Object.keys(tagToolbar).forEach((key) => {
         const value = tagToolbar[key];
         if (toolbarName === key) {
-            vditor.toolbar.elements[value] &&
-            vditor.toolbar.elements[value].children[0].classList.add("vditor-menu--current");
+            if (vditor.toolbar.elements[value]) {
+                vditor.toolbar.elements[value].children[0].classList.add("vditor-menu--current");
+            }
         } else {
-            vditor.toolbar.elements[value] &&
-            vditor.toolbar.elements[value].children[0].classList.remove("vditor-menu--current");
+            if (vditor.toolbar.elements[value]) {
+                vditor.toolbar.elements[value].children[0].classList.remove("vditor-menu--current");
+            }
         }
     });
 
-    if (hasClosest(typeElement, 'H')) {
-        vditor.toolbar.elements.bold &&
-        vditor.toolbar.elements.bold.children[0].classList.add("vditor-menu--disabled");
+    if (hasClosest(typeElement, "H")) {
+        if (vditor.toolbar.elements.bold) {
+            vditor.toolbar.elements.bold.children[0].classList.add("vditor-menu--disabled");
+        }
     } else {
-        vditor.toolbar.elements.bold &&
-        vditor.toolbar.elements.bold.children[0].classList.remove("vditor-menu--disabled");
+        if (vditor.toolbar.elements.bold) {
+            vditor.toolbar.elements.bold.children[0].classList.remove("vditor-menu--disabled");
+        }
     }
 
-    if (hasClosest(typeElement, 'UL')) {
-        vditor.toolbar.elements.list &&
-        vditor.toolbar.elements.list.children[0].classList.add("vditor-menu--current");
+    if (hasClosest(typeElement, "UL")) {
+        if (vditor.toolbar.elements.list) {
+            vditor.toolbar.elements.list.children[0].classList.add("vditor-menu--current");
+        }
     } else {
-        vditor.toolbar.elements.list &&
-        vditor.toolbar.elements.list.children[0].classList.remove("vditor-menu--current");
+        if (vditor.toolbar.elements.list) {
+            vditor.toolbar.elements.list.children[0].classList.remove("vditor-menu--current");
+        }
     }
-    if (hasClosest(typeElement, 'OL')) {
-        vditor.toolbar.elements['ordered-list'] &&
-        vditor.toolbar.elements['ordered-list'].children[0].classList.add("vditor-menu--current");
+    if (hasClosest(typeElement, "OL")) {
+        if (vditor.toolbar.elements["ordered-list"]) {
+            vditor.toolbar.elements["ordered-list"].children[0].classList.add("vditor-menu--current");
+        }
     } else {
-        vditor.toolbar.elements['ordered-list'] &&
-        vditor.toolbar.elements['ordered-list'].children[0].classList.remove("vditor-menu--current");
+        if (vditor.toolbar.elements["ordered-list"]) {
+            vditor.toolbar.elements["ordered-list"].children[0].classList.remove("vditor-menu--current");
+        }
     }
 
-    showAPopover(typeElement, vditor)
+    // a popover
+    if (typeElement.nodeName === "A") {
+        vditor.wysiwyg.popover.innerHTML = "";
+
+        const updateHref = () => {
+            typeElement.setAttribute("href", input.value);
+        };
+
+        const input = document.createElement("input");
+        input.className = "vditor-input";
+        input.setAttribute("placeholder", i18n[vditor.options.lang].link);
+        input.value = typeElement.getAttribute("href") || "";
+        input.onblur = updateHref;
+        input.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateHref();
+            }
+        };
+
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+
+        setPopoverPosition(vditor, typeElement);
+    }
+
+    // pre popover
+    const preElement = hasClosest(typeElement, "PRE");
+    if (preElement) {
+        vditor.wysiwyg.popover.innerHTML = "";
+
+        const updateLanguage = () => {
+            preElement.firstElementChild.className = `language-${input.value}`;
+        };
+        const input = document.createElement("input");
+        input.className = "vditor-input";
+        input.setAttribute("placeholder", "language");
+        input.value =
+            preElement.firstElementChild.className.indexOf("language-") > -1 ?
+                preElement.firstElementChild.className.split("-")[1].split(" ")[0] : "";
+        input.onblur = updateLanguage;
+        input.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateLanguage();
+            }
+        };
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+        setPopoverPosition(vditor, preElement);
+    }
+
+    // table popover
+    const tableElement = hasClosest(typeElement, "TABLE");
+    if (tableElement) {
+        vditor.wysiwyg.popover.innerHTML = "";
+        const updateTable = () => {
+            const row = 1;
+        };
+        const input = document.createElement("input");
+        input.className = "vditor-input";
+        input.style.width = "30px";
+        input.style.textAlign = "center";
+        input.setAttribute("placeholder", "row");
+        input.value = tableElement.querySelectorAll("tr").length.toString();
+        input.onblur = updateTable;
+        input.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateTable();
+            }
+        };
+
+        const input2 = document.createElement("input");
+        input2.className = "vditor-input";
+        input2.style.width = "30px";
+        input2.style.textAlign = "center";
+        input2.setAttribute("placeholder", "column");
+        input2.value = tableElement.querySelector("tr").querySelectorAll("th").length.toString();
+        input2.onblur = updateTable;
+        input2.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateTable();
+            }
+        };
+
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+        vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2);
+        setPopoverPosition(vditor, tableElement);
+    }
+
+    if (!tableElement && !preElement && typeElement.nodeName !== "A"
+        && !hasClosestClassName(typeElement, "vditor-panel")) {
+        vditor.wysiwyg.popover.style.display = "none";
+    }
 };
 
-
-export const showAPopover = (element: HTMLElement, vditor: IVditor) => {
-    // a 标签链接处理
-    if (element.nodeName === "A") {
-        const position = getCursorPosition(vditor.wysiwyg.element);
-        const btn = document.createElement("button");
-        btn.textContent = i18n[vditor.options.lang].update;
-        btn.onclick = () => {
-            element.setAttribute("href", (btn.previousElementSibling as HTMLInputElement).value);
-            vditor.popover.style.display = "none";
-        };
-        vditor.popover.innerHTML = `<input value="${element.getAttribute("href") || ''}">`;
-        vditor.popover.insertAdjacentElement("beforeend", btn);
-
-        vditor.popover.style.top = (position.top - 40) + "px";
-        vditor.popover.style.left = position.left + "px";
-        vditor.popover.style.display = "block";
-    } else {
-        vditor.popover.style.display = "none";
-    }
-}
+const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
+    const preRect = element.getBoundingClientRect();
+    const editorRect = vditor.wysiwyg.element.getBoundingClientRect();
+    vditor.wysiwyg.popover.style.top = (preRect.top - editorRect.top - 25) + "px";
+    vditor.wysiwyg.popover.style.left = (preRect.left - editorRect.left) + "px";
+    vditor.wysiwyg.popover.style.display = "block";
+};

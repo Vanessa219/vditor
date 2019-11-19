@@ -85,9 +85,7 @@ export class Hint {
         if (vditor.currentMode === "wysiwyg") {
             range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
             range.deleteContents();
-            const emojiNode = document.createElement("span");
-            emojiNode.innerHTML = value;
-            range.insertNode(emojiNode.childNodes[0]);
+            range.insertNode(document.createTextNode(value));
             range.collapse(false);
             setSelectionFocus(range);
         } else {

@@ -63,7 +63,6 @@ export class Ui {
         }
 
         this.contentElement.appendChild(vditor.tip.element);
-        this.contentElement.appendChild(vditor.popover);
 
         vditorElement.appendChild(this.contentElement);
 
@@ -83,9 +82,9 @@ export class Ui {
         if (vditor.wysiwyg) {
             const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;
             if (vditor.options.typewriterMode) {
-                vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px ${height / 2}px`;
+                vditor.wysiwyg.element.style.padding = `30px ${Math.max(10, padding)}px ${height / 2}px`;
             } else {
-                vditor.wysiwyg.element.style.padding = `10px ${Math.max(10, padding)}px 10px`;
+                vditor.wysiwyg.element.style.padding = `30px ${Math.max(10, padding)}px 10px`;
             }
         }
 

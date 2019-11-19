@@ -8,10 +8,9 @@ import {mermaidRender} from "../markdown/mermaidRender";
 
 export const renderDomByMd = (vditor: IVditor, md: string) => {
     const domHTML = vditor.lute.RenderVditorDOM(md);
-    console.log(domHTML[0], md, md.length, md.length);
     const blockElement = vditor.wysiwyg.element;
     blockElement.innerHTML = domHTML[0] || domHTML[1];
-    // setRange(blockElement);
+    vditor.wysiwyg.element.insertAdjacentElement("beforeend", vditor.wysiwyg.popover);
     // codeRender(blockElement, vditor.options.lang);
     // highlightRender(vditor.options.preview.hljs, blockElement);
     // mathRender(blockElement);
