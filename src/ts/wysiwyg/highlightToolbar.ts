@@ -1,8 +1,8 @@
+import indentSVG from "../../assets/icons/indent.svg";
+import outdentSVG from "../../assets/icons/outdent.svg";
+import trashcanSVG from "../../assets/icons/trashcan.svg";
 import {i18n} from "../i18n";
 import {hasClosest, hasClosestClassName} from "../util/hasClosest";
-import trashcanSVG from '../../assets/icons/trashcan.svg'
-import outdentSVG from '../../assets/icons/outdent.svg'
-import indentSVG from '../../assets/icons/indent.svg'
 
 export const highlightToolbar = (vditor: IVditor) => {
     const range = getSelection().getRangeAt(0);
@@ -124,13 +124,13 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLanguage();
             }
         };
-        const close = document.createElement('span')
-        close.innerHTML = trashcanSVG
-        close.className = 'vditor-icon'
+        const close = document.createElement("span");
+        close.innerHTML = trashcanSVG;
+        close.className = "vditor-icon";
         close.onclick = () => {
-            preElement.remove()
-            vditor.wysiwyg.popover.style.display = 'none'
-        }
+            preElement.remove();
+            vditor.wysiwyg.popover.style.display = "none";
+        };
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
         setPopoverPosition(vditor, preElement);
@@ -141,47 +141,47 @@ export const highlightToolbar = (vditor: IVditor) => {
     if (tableElement) {
         vditor.wysiwyg.popover.innerHTML = "";
         const updateTable = () => {
-            const row = parseInt(input.value, 10)
-            const column = parseInt(input2.value, 10)
-            const oldRow = tableElement.rows.length
+            const row = parseInt(input.value, 10);
+            const column = parseInt(input2.value, 10);
+            const oldRow = tableElement.rows.length;
             const oldColumn = tableElement.rows[0].cells.length;
 
             if (row === oldRow && oldColumn === column) {
-                return
+                return;
             }
 
             if (oldColumn !== column) {
-                const columnDiff = column - oldColumn
+                const columnDiff = column - oldColumn;
                 for (let i = 0; i < tableElement.rows.length; i++) {
                     if (columnDiff > 0) {
                         for (let j = 0; j < columnDiff; j++) {
                             if (i === 0) {
-                                tableElement.rows[i].lastElementChild.insertAdjacentHTML('afterend', '<th></th>')
+                                tableElement.rows[i].lastElementChild.insertAdjacentHTML("afterend", "<th></th>");
                             } else {
                                 tableElement.rows[i].insertCell();
                             }
                         }
                     } else {
                         for (let k = oldColumn - 1; k >= column; k--) {
-                            tableElement.rows[i].cells[k].remove()
+                            tableElement.rows[i].cells[k].remove();
                         }
                     }
                 }
             }
 
             if (oldRow !== row) {
-                const rowDiff = row - oldRow
+                const rowDiff = row - oldRow;
                 if (rowDiff > 0) {
-                    let rowHTML = '<tr>'
+                    let rowHTML = "<tr>";
                     for (let m = 0; m < column; m++) {
-                        rowHTML += '<td></td>'
+                        rowHTML += "<td></td>";
                     }
                     for (let l = 0; l < rowDiff; l++) {
-                        tableElement.querySelector('tbody').insertAdjacentHTML('beforeend', rowHTML)
+                        tableElement.querySelector("tbody").insertAdjacentHTML("beforeend", rowHTML);
                     }
                 } else {
                     for (let m = oldRow - 1; m >= row; m--) {
-                        tableElement.rows[m].remove()
+                        tableElement.rows[m].remove();
                     }
                 }
             }
@@ -192,7 +192,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         input.style.width = "42px";
         input.style.textAlign = "center";
         input.setAttribute("placeholder", "row");
-        input.value = tableElement.rows.length.toString()
+        input.value = tableElement.rows.length.toString();
         input.onblur = updateTable;
         input.onkeypress = (event) => {
             if (event.key === "Enter") {
@@ -213,13 +213,13 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
         };
 
-        const close = document.createElement('sapn')
-        close.innerHTML = trashcanSVG
-        close.className = 'vditor-icon'
+        const close = document.createElement("sapn");
+        close.innerHTML = trashcanSVG;
+        close.className = "vditor-icon";
         close.onclick = () => {
-            tableElement.remove()
-            vditor.wysiwyg.popover.style.display = 'none'
-        }
+            tableElement.remove();
+            vditor.wysiwyg.popover.style.display = "none";
+        };
 
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
         vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
@@ -229,23 +229,23 @@ export const highlightToolbar = (vditor: IVditor) => {
     }
 
     // ul popover
-    const ulElement = hasClosest(typeElement, "UL") as HTMLElement
+    const ulElement = hasClosest(typeElement, "UL") as HTMLElement;
     if (ulElement) {
         vditor.wysiwyg.popover.innerHTML = "";
 
-        const outdent = document.createElement('sapn')
-        outdent.innerHTML = outdentSVG
-        outdent.className = 'vditor-icon'
+        const outdent = document.createElement("sapn");
+        outdent.innerHTML = outdentSVG;
+        outdent.className = "vditor-icon";
         outdent.onclick = () => {
-            document.execCommand('outdent', false)
-        }
+            document.execCommand("outdent", false);
+        };
 
-        const indent = document.createElement('sapn')
-        indent.innerHTML = indentSVG
-        indent.className = 'vditor-icon'
+        const indent = document.createElement("sapn");
+        indent.innerHTML = indentSVG;
+        indent.className = "vditor-icon";
         indent.onclick = () => {
-            document.execCommand('indent', false)
-        }
+            document.execCommand("indent", false);
+        };
 
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);

@@ -33,7 +33,7 @@ export class Record extends MenuItem {
                     mediaRecorder.startRecordingNewWavFile();
                     vditor.tip.show(i18n[vditor.options.lang].recording);
                     vditor.editor.element.setAttribute("contenteditable", "false");
-                    this.element.children[0].classList.add('vditor-menu--current')
+                    this.element.children[0].classList.add("vditor-menu--current");
                 }).catch(() => {
                     vditor.tip.show(i18n[vditor.options.lang]["record-tip"]);
                 });
@@ -46,12 +46,12 @@ export class Record extends MenuItem {
                 const file: File = new File([mediaRecorder.buildWavFileBlob()],
                     `record${(new Date()).getTime()}.wav`, {type: "video/webm"});
                 uploadFiles(vditor, [file]);
-                this.element.children[0].classList.remove('vditor-menu--current')
+                this.element.children[0].classList.remove("vditor-menu--current");
             } else {
                 vditor.tip.show(i18n[vditor.options.lang].recording);
                 vditor.editor.element.setAttribute("contenteditable", "false");
                 mediaRecorder.startRecordingNewWavFile();
-                this.element.children[0].classList.add('vditor-menu--current')
+                this.element.children[0].classList.add("vditor-menu--current");
             }
             event.preventDefault();
         });
