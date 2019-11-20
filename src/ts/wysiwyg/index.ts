@@ -84,6 +84,8 @@ class WYSIWYG {
                 && event.inputType !== "formatStrikeThrough"
                 && event.inputType !== "insertUnorderedList"
                 && event.inputType !== "insertOrderedList"
+                && event.inputType !== "formatOutdent"
+                && event.inputType !== "formatIndent"
                 && event.inputType !== ""   // document.execCommand('unlink', false)
             ) {
                 // 保存光标
@@ -99,6 +101,7 @@ class WYSIWYG {
                 const formatHTML = formatHTMLTemp[0] || formatHTMLTemp[1];
                 console.log(`RenderVditorDOM-result:[${formatHTML}]`);
                 this.element.innerHTML = formatHTML;
+                this.element.insertAdjacentElement("beforeend", this.popover);
 
                 // 设置光标
                 const wbrElement = this.element.querySelector("wbr");

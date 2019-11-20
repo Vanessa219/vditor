@@ -1,5 +1,8 @@
 import {i18n} from "../i18n";
 import {hasClosest, hasClosestClassName} from "../util/hasClosest";
+import trashcanSVG from '../../assets/icons/trashcan.svg'
+import outdentSVG from '../../assets/icons/outdent.svg'
+import indentSVG from '../../assets/icons/indent.svg'
 
 export const highlightToolbar = (vditor: IVditor) => {
     const range = getSelection().getRangeAt(0);
@@ -121,7 +124,15 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLanguage();
             }
         };
+        const close = document.createElement('span')
+        close.innerHTML = trashcanSVG
+        close.className = 'vditor-icon'
+        close.onclick = () => {
+            preElement.remove()
+            vditor.wysiwyg.popover.style.display = 'none'
+        }
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
         setPopoverPosition(vditor, preElement);
     }
 
@@ -165,7 +176,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     for (let m = 0; m < column; m++) {
                         rowHTML += '<td></td>'
                     }
-                    for (let l = 0; l < rowDiff;l++)  {
+                    for (let l = 0; l < rowDiff; l++) {
                         tableElement.querySelector('tbody').insertAdjacentHTML('beforeend', rowHTML)
                     }
                 } else {
@@ -202,13 +213,47 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
         };
 
+        const close = document.createElement('sapn')
+        close.innerHTML = trashcanSVG
+        close.className = 'vditor-icon'
+        close.onclick = () => {
+            tableElement.remove()
+            vditor.wysiwyg.popover.style.display = 'none'
+        }
+
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
         vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
         setPopoverPosition(vditor, tableElement);
     }
 
-    if (!tableElement && !preElement && typeElement.nodeName !== "A"
+    // ul popover
+    const ulElement = hasClosest(typeElement, "UL") as HTMLElement
+    if (ulElement) {
+        vditor.wysiwyg.popover.innerHTML = "";
+
+        const outdent = document.createElement('sapn')
+        outdent.innerHTML = outdentSVG
+        outdent.className = 'vditor-icon'
+        outdent.onclick = () => {
+            document.execCommand('outdent', false)
+        }
+
+        const indent = document.createElement('sapn')
+        indent.innerHTML = indentSVG
+        indent.className = 'vditor-icon'
+        indent.onclick = () => {
+            document.execCommand('indent', false)
+        }
+
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);
+
+        setPopoverPosition(vditor, ulElement);
+    }
+
+    if (!ulElement && !tableElement && !preElement && typeElement.nodeName !== "A"
         && !hasClosestClassName(typeElement, "vditor-panel")) {
         vditor.wysiwyg.popover.style.display = "none";
     }

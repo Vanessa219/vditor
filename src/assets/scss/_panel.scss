@@ -37,7 +37,8 @@
       color: $toolbarIconHover;
       padding: 0;
       animation: none;
-      background-color: $textareaBg;
+      background-color: $toolbarBg;
+      min-width: auto;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -58,9 +59,30 @@
     border: 0;
     padding: 5px;
     background-color: $textareaBg;
+
     &:focus {
       background-color: $textareaFocusBg;
       outline: none;
+    }
+  }
+
+  &-icon {
+    color: $toolbarIcon;
+    cursor: pointer;
+    float: left;
+    padding: 5px;
+    height: 15px;
+    width: 15px;
+
+    &:hover {
+      color: $toolbarIconHover;
+    }
+
+    svg {
+      height: 15px !important;
+      width: 15px !important;
+      float: left;
+      fill: currentColor;
     }
   }
 }
