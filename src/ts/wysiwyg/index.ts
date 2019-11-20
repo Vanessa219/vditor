@@ -37,8 +37,8 @@ class WYSIWYG {
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
             const range = getSelection().getRangeAt(0).cloneRange();
 
-            if (range.commonAncestorContainer.nodeType !==3
-                &&(range.commonAncestorContainer as HTMLElement).classList.contains('vditor-panel--none')) {
+            if (range.commonAncestorContainer.nodeType !== 3
+                && (range.commonAncestorContainer as HTMLElement).classList.contains("vditor-panel--none")) {
                 event.preventDefault();
                 return;
             }

@@ -38,8 +38,9 @@
 * [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
 
 
-### v1.10.0 / 2019-11-18
+### v1.10.1 / 2019-11-20
 
+* [170](https://github.com/b3log/vditor/issues/170) 新增内联数学公式开关 `enhancement`
 * [168](https://github.com/b3log/vditor/issues/168) highlightRender报错 `invalid`
 * [167](https://github.com/b3log/vditor/issues/167) withCredentials（跨域传递 cookie） `feature`
 * [166](https://github.com/b3log/vditor/issues/166) typewriterMode 为 false 时，preview 区域不会同步滚动 `bug`

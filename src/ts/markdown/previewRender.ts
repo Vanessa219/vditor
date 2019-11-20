@@ -25,6 +25,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         speech: {
             enable: false,
         },
+        inlineMathDigit: false
     };
     options = Object.assign(defaultOption, options);
     if (options.hljs) {

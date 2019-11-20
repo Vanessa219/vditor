@@ -32,6 +32,8 @@ interface ILute {
 
     SetHeadingAnchor(enable: boolean): void;
 
+    SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
+
     PutEmojis(emojis: { [key: string]: string }): void;
 
     MarkdownStr(error: string, text: string): string[];
@@ -128,6 +130,7 @@ interface IPreview {
     mode?: keyof IPreviewMode;
     url?: string;
     hljs?: IHljs;
+    inlineMathDigit?: boolean;
 
     parse?(element: HTMLElement): void;
 }
@@ -142,6 +145,7 @@ interface IPreviewOptions {
         enable?: boolean,
     };
     anchor?: boolean;
+    inlineMathDigit?: boolean;
 }
 
 interface IHintData {

@@ -35,6 +35,7 @@ export class Options {
                 lineNumber: false,
                 style: "github",
             },
+            inlineMathDigit: false,
             maxWidth: 768,
             mode: "both",
         },
