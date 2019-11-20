@@ -35,6 +35,14 @@ class WYSIWYG {
     private bindEvent(vditor: IVditor) {
         // TODO drap upload file & paste
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
+            const range = getSelection().getRangeAt(0).cloneRange();
+
+            if (range.commonAncestorContainer.nodeType !==3
+                &&(range.commonAncestorContainer as HTMLElement).classList.contains('vditor-panel--none')) {
+                event.preventDefault();
+                return;
+            }
+
             if (event.isComposing) {
                 return;
             }
@@ -51,8 +59,6 @@ class WYSIWYG {
             if (vditor.options.cache) {
                 localStorage.setItem(`vditor${vditor.id}`, getText(vditor));
             }
-
-            const range = getSelection().getRangeAt(0).cloneRange();
 
             // 前后空格处理
             const blockElement = getParentBlock(range.startContainer as HTMLElement);
@@ -79,7 +85,9 @@ class WYSIWYG {
                 }
             }
 
-            if (!startSpace && !endSpace && event.inputType !== "formatItalic" && event.inputType !== "formatBold"
+            if (!startSpace && !endSpace
+                && event.inputType !== "formatItalic"
+                && event.inputType !== "formatBold"
                 && event.inputType !== "formatRemove"
                 && event.inputType !== "formatStrikeThrough"
                 && event.inputType !== "insertUnorderedList"
