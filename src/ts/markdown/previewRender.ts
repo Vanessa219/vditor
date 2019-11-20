@@ -21,11 +21,11 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
             lineNumber: false,
             style: "github",
         },
+        inlineMathDigit: false,
         lang: "zh_CN",
         speech: {
             enable: false,
         },
-        inlineMathDigit: false
     };
     options = Object.assign(defaultOption, options);
     if (options.hljs) {
