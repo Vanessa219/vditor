@@ -61,10 +61,16 @@ export class Preview {
                                 alert(responseJSON.msg);
                                 return;
                             }
+                            if (vditor.options.preview.transform) {
+                                responseJSON.data = vditor.options.preview.transform(responseJSON.data)
+                            }
                             this.element.children[0].innerHTML = responseJSON.data;
                             this.afterRender(vditor, renderStartTime);
                         } else {
-                            const html = await md2htmlByVditor(markdownText, vditor);
+                            let html = await md2htmlByVditor(markdownText, vditor);
+                            if (vditor.options.preview.transform) {
+                                html = vditor.options.preview.transform(html)
+                            }
                             this.element.children[0].innerHTML = html;
                             this.afterRender(vditor, renderStartTime);
                         }
@@ -73,7 +79,10 @@ export class Preview {
 
                 xhr.send(JSON.stringify({markdownText}));
             } else {
-                const html = await md2htmlByVditor(markdownText, vditor);
+                let html = await md2htmlByVditor(markdownText, vditor);
+                if (vditor.options.preview.transform) {
+                    html = vditor.options.preview.transform(html)
+                }
                 this.element.children[0].innerHTML = html;
                 this.afterRender(vditor, renderStartTime);
             }
@@ -85,7 +94,7 @@ export class Preview {
             vditor.options.preview.parse(this.element);
         }
         const time = (new Date().getTime() - startTime);
-        if ((new Date().getTime() - startTime) > 2000) {
+        if ((new Date().getTime() - startTime) > 2600) {
             // https://github.com/b3log/vditor/issues/67
             vditor.tip.show(i18n[vditor.options.lang].performanceTip.replace("${x}",
                 time.toString()));

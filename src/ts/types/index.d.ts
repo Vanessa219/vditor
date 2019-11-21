@@ -133,6 +133,7 @@ interface IPreview {
     inlineMathDigit?: boolean;
 
     parse?(element: HTMLElement): void;
+    transform?(html: string): string;
 }
 
 interface IPreviewOptions {
@@ -146,6 +147,8 @@ interface IPreviewOptions {
     };
     anchor?: boolean;
     inlineMathDigit?: boolean;
+
+    transform?(html: string): string;
 }
 
 interface IHintData {

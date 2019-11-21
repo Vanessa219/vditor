@@ -1,6 +1,5 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
-import {i18n} from "../i18n";
 import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 import {getParentBlock} from "./getParentBlock";
@@ -26,6 +25,8 @@ class WYSIWYG {
 
         this.bindEvent(vditor);
 
+        document.execCommand("DefaultParagraphSeparator", false, "p");
+
         focusEvent(vditor, this.element);
         copyEvent(this.element);
         hotkeyEvent(vditor, this.element);
@@ -33,6 +34,7 @@ class WYSIWYG {
     }
 
     private bindEvent(vditor: IVditor) {
+
         // TODO drap upload file & paste
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
             const range = getSelection().getRangeAt(0).cloneRange();
@@ -157,27 +159,6 @@ class WYSIWYG {
                 } else {
                     event.target.removeAttribute("checked");
                 }
-            }
-
-            if (event.target.tagName === "IMG") {
-                const clientRect = event.target.getClientRects()[0];
-                const editorRect = this.element.parentElement.getBoundingClientRect();
-                const position = {
-                    left: clientRect.left - editorRect.left,
-                    top: clientRect.top - editorRect.top,
-                };
-                const btn = document.createElement("button");
-                btn.textContent = i18n[vditor.options.lang].update;
-                btn.onclick = () => {
-                    event.target.setAttribute("href", (btn.previousElementSibling as HTMLInputElement).value);
-                    this.popover.style.display = "none";
-                };
-                this.popover.innerHTML = `<input value="${event.target.getAttribute("src")}">`;
-                this.popover.insertAdjacentElement("beforeend", btn);
-
-                this.popover.style.top = position.top + "px";
-                this.popover.style.left = position.left + "px";
-                this.popover.style.display = "block";
             }
         });
 

@@ -2,9 +2,12 @@ import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import {i18n} from "../i18n";
-import {hasClosest, hasClosestClassName} from "../util/hasClosest";
+import {hasClosestByTag, hasClosestByClassName, hasTopClosestByTag} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
+    if (getSelection().rangeCount === 0) {
+        return
+    }
     const range = getSelection().getRangeAt(0);
     let typeElement = range.startContainer as HTMLElement;
     if (range.startContainer.nodeType === 3) {
@@ -51,7 +54,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
     });
 
-    if (hasClosest(typeElement, "H")) {
+    if (hasClosestByTag(typeElement, "H")) {
         if (vditor.toolbar.elements.bold) {
             vditor.toolbar.elements.bold.children[0].classList.add("vditor-menu--disabled");
         }
@@ -61,7 +64,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
     }
 
-    if (hasClosest(typeElement, "UL")) {
+    if (hasClosestByTag(typeElement, "UL")) {
         if (vditor.toolbar.elements.list) {
             vditor.toolbar.elements.list.children[0].classList.add("vditor-menu--current");
         }
@@ -70,7 +73,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.toolbar.elements.list.children[0].classList.remove("vditor-menu--current");
         }
     }
-    if (hasClosest(typeElement, "OL")) {
+    if (hasClosestByTag(typeElement, "OL")) {
         if (vditor.toolbar.elements["ordered-list"]) {
             vditor.toolbar.elements["ordered-list"].children[0].classList.add("vditor-menu--current");
         }
@@ -80,32 +83,33 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
     }
 
-    // a popover
-    if (typeElement.nodeName === "A") {
+    // ul popover
+    const topUlElement = hasTopClosestByTag(typeElement, "UL") as HTMLElement;
+    if (topUlElement) {
         vditor.wysiwyg.popover.innerHTML = "";
 
-        const updateHref = () => {
-            typeElement.setAttribute("href", input.value);
+        const outdent = document.createElement("sapn");
+        outdent.innerHTML = outdentSVG;
+        outdent.className = "vditor-icon";
+        outdent.onclick = () => {
+            document.execCommand("outdent", false);
         };
 
-        const input = document.createElement("input");
-        input.className = "vditor-input";
-        input.setAttribute("placeholder", i18n[vditor.options.lang].link);
-        input.value = typeElement.getAttribute("href") || "";
-        input.onblur = updateHref;
-        input.onkeypress = (event) => {
-            if (event.key === "Enter") {
-                updateHref();
-            }
+        const indent = document.createElement("sapn");
+        indent.innerHTML = indentSVG;
+        indent.className = "vditor-icon";
+        indent.onclick = () => {
+            document.execCommand("indent", false);
         };
 
-        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);
 
-        setPopoverPosition(vditor, typeElement);
+        setPopoverPosition(vditor, topUlElement);
     }
 
     // pre popover
-    const preElement = hasClosest(typeElement, "PRE");
+    const preElement = hasClosestByTag(typeElement, "PRE");
     if (preElement) {
         vditor.wysiwyg.popover.innerHTML = "";
 
@@ -137,7 +141,7 @@ export const highlightToolbar = (vditor: IVditor) => {
     }
 
     // table popover
-    const tableElement = hasClosest(typeElement, "TABLE") as HTMLTableElement;
+    const tableElement = hasClosestByTag(typeElement, "TABLE") as HTMLTableElement;
     if (tableElement) {
         vditor.wysiwyg.popover.innerHTML = "";
         const updateTable = () => {
@@ -228,33 +232,115 @@ export const highlightToolbar = (vditor: IVditor) => {
         setPopoverPosition(vditor, tableElement);
     }
 
-    // ul popover
-    const ulElement = hasClosest(typeElement, "UL") as HTMLElement;
-    if (ulElement) {
+    // a popover
+    if (typeElement.nodeName === "A") {
         vditor.wysiwyg.popover.innerHTML = "";
 
-        const outdent = document.createElement("sapn");
-        outdent.innerHTML = outdentSVG;
-        outdent.className = "vditor-icon";
-        outdent.onclick = () => {
-            document.execCommand("outdent", false);
+        const updateA = () => {
+            typeElement.setAttribute("href", input.value);
+            typeElement.setAttribute("title", input2.value);
         };
 
-        const indent = document.createElement("sapn");
-        indent.innerHTML = indentSVG;
-        indent.className = "vditor-icon";
-        indent.onclick = () => {
-            document.execCommand("indent", false);
+        const input = document.createElement("input");
+        input.className = "vditor-input";
+        input.setAttribute("placeholder", i18n[vditor.options.lang].link);
+        input.value = typeElement.getAttribute("href") || "";
+        input.onblur = updateA;
+        input.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateA();
+            }
         };
 
-        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
-        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);
+        const input2 = document.createElement("input");
+        input2.className = "vditor-input";
+        input2.setAttribute("placeholder", 'title');
+        input2.style.width = '52px';
+        input2.value = typeElement.getAttribute("title") || "";
+        input2.onblur = updateA;
+        input2.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateA();
+            }
+        };
 
-        setPopoverPosition(vditor, ulElement);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2);
+
+        setPopoverPosition(vditor, typeElement);
     }
 
-    if (!ulElement && !tableElement && !preElement && typeElement.nodeName !== "A"
-        && !hasClosestClassName(typeElement, "vditor-panel")) {
+    // img popover
+    let imgElement: HTMLImageElement
+    if (range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset
+        && range.startContainer.childNodes[range.startOffset].nodeName === 'IMG') {
+        imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement
+        vditor.wysiwyg.popover.innerHTML = "";
+        const updateImg = () => {
+            imgElement.setAttribute("src", input.value);
+            imgElement.setAttribute("alt", alt.value);
+            if (aHref.value === '') {
+                if (imgElement.parentElement.nodeName === 'A') {
+                    imgElement.parentElement.replaceWith(imgElement)
+                }
+            } else {
+                if (imgElement.parentElement.nodeName === 'A') {
+                    imgElement.parentElement.setAttribute('href', aHref.value)
+                } else {
+                    let link = document.createElement('a');
+                    link.innerHTML = imgElement.outerHTML;
+                    link.setAttribute('href', aHref.value);
+
+                    const linkElement = imgElement.parentNode.insertBefore(link, imgElement);
+                    imgElement.remove();
+                    imgElement = linkElement.querySelector('img')
+                }
+            }
+        };
+
+        const input = document.createElement("input");
+        input.className = "vditor-input";
+        input.setAttribute("placeholder", i18n[vditor.options.lang].imageURL);
+        input.value = imgElement.getAttribute("src") || "";
+        input.onblur = updateImg;
+        input.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateImg();
+            }
+        };
+
+        const alt = document.createElement("input");
+        alt.className = "vditor-input";
+        alt.setAttribute("placeholder", 'alt');
+        alt.style.width = '52px';
+        alt.value = imgElement.getAttribute("alt") || "";
+        alt.onblur = updateImg;
+        alt.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateImg();
+            }
+        };
+
+        const aHref = document.createElement("input");
+        aHref.className = "vditor-input";
+        aHref.setAttribute("placeholder", i18n[vditor.options.lang].link);
+        aHref.value = imgElement.parentElement.nodeName === 'A' ? imgElement.parentElement.getAttribute("href") : "";
+        aHref.onblur = updateImg;
+        aHref.onkeypress = (event) => {
+            if (event.key === "Enter") {
+                updateImg();
+            }
+        };
+
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", alt);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", aHref);
+
+        setPopoverPosition(vditor, imgElement);
+    }
+
+    if (!imgElement && !topUlElement && !tableElement && !preElement && typeElement.nodeName !== "A"
+        && !hasClosestByClassName(typeElement, "vditor-panel")) {
         vditor.wysiwyg.popover.style.display = "none";
     }
 };

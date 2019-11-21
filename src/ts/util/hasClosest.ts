@@ -1,4 +1,4 @@
-export const hasClosest = (element: HTMLElement, nodeName: string) => {
+export const hasClosestByTag = (element: HTMLElement, nodeName: string) => {
     let e = element;
     let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
@@ -11,7 +11,7 @@ export const hasClosest = (element: HTMLElement, nodeName: string) => {
     return isClosest && e;
 };
 
-export const hasClosestClassName = (element: HTMLElement, className: string) => {
+export const hasClosestByClassName = (element: HTMLElement, className: string) => {
     let e = element;
     let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
@@ -23,3 +23,18 @@ export const hasClosestClassName = (element: HTMLElement, className: string) => 
     }
     return isClosest && e;
 };
+
+export const hasTopClosestByTag = (element: HTMLElement, nodeName: string) => {
+    let closest = hasClosestByTag(element, nodeName)
+    let parentClosest = hasClosestByTag(closest.parentElement, nodeName)
+    let findTop = false
+    while (closest && !closest.classList.contains("vditor-wysiwyg") && !findTop) {
+        if (parentClosest) {
+            closest = hasClosestByTag(closest.parentElement, nodeName)
+            parentClosest = hasClosestByTag(closest.parentElement, nodeName)
+        } else {
+            findTop = true
+        }
+    }
+    return closest || false;
+}

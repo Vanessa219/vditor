@@ -35,9 +35,11 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         options.speech = Object.assign({}, defaultOption.speech, options.speech);
     }
 
-    const html =
+    let html =
         await md2htmlByPreview(markdown, options);
-
+    if (options.transform) {
+        html = options.transform(html)
+    }
     previewElement.innerHTML = html;
     previewElement.className = options.className;
 
@@ -49,7 +51,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     abcRender(previewElement);
     mediaRender(previewElement);
     if (options.speech.enable) {
-        speechRender(previewElement,  options.lang);
+        speechRender(previewElement, options.lang);
     }
     if (options.anchor) {
         anchorRender();

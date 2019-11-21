@@ -38,8 +38,9 @@
 * [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
 
 
-### v1.10.1 / 2019-11-20
+### v1.10.2 / 2019-11-21
 
+* [171](https://github.com/b3log/vditor/issues/171) 编辑器在生成 preview 之前，添加处理函数  `feature`
 * [170](https://github.com/b3log/vditor/issues/170) 新增内联数学公式开关 `enhancement`
 * [168](https://github.com/b3log/vditor/issues/168) highlightRender报错 `invalid`
 * [167](https://github.com/b3log/vditor/issues/167) withCredentials（跨域传递 cookie） `feature`
