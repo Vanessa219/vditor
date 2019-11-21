@@ -38,7 +38,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     let html =
         await md2htmlByPreview(markdown, options);
     if (options.transform) {
-        html = options.transform(html)
+        html = options.transform(html);
     }
     previewElement.innerHTML = html;
     previewElement.className = options.className;

@@ -25,16 +25,16 @@ export const hasClosestByClassName = (element: HTMLElement, className: string) =
 };
 
 export const hasTopClosestByTag = (element: HTMLElement, nodeName: string) => {
-    let closest = hasClosestByTag(element, nodeName)
-    let parentClosest = hasClosestByTag(closest.parentElement, nodeName)
-    let findTop = false
+    let closest = hasClosestByTag(element, nodeName);
+    let parentClosest = hasClosestByTag(closest.parentElement, nodeName);
+    let findTop = false;
     while (closest && !closest.classList.contains("vditor-wysiwyg") && !findTop) {
         if (parentClosest) {
-            closest = hasClosestByTag(closest.parentElement, nodeName)
-            parentClosest = hasClosestByTag(closest.parentElement, nodeName)
+            closest = hasClosestByTag(closest.parentElement, nodeName);
+            parentClosest = hasClosestByTag(closest.parentElement, nodeName);
         } else {
-            findTop = true
+            findTop = true;
         }
     }
     return closest || false;
-}
+};

@@ -62,14 +62,14 @@ export class Preview {
                                 return;
                             }
                             if (vditor.options.preview.transform) {
-                                responseJSON.data = vditor.options.preview.transform(responseJSON.data)
+                                responseJSON.data = vditor.options.preview.transform(responseJSON.data);
                             }
                             this.element.children[0].innerHTML = responseJSON.data;
                             this.afterRender(vditor, renderStartTime);
                         } else {
                             let html = await md2htmlByVditor(markdownText, vditor);
                             if (vditor.options.preview.transform) {
-                                html = vditor.options.preview.transform(html)
+                                html = vditor.options.preview.transform(html);
                             }
                             this.element.children[0].innerHTML = html;
                             this.afterRender(vditor, renderStartTime);
@@ -81,7 +81,7 @@ export class Preview {
             } else {
                 let html = await md2htmlByVditor(markdownText, vditor);
                 if (vditor.options.preview.transform) {
-                    html = vditor.options.preview.transform(html)
+                    html = vditor.options.preview.transform(html);
                 }
                 this.element.children[0].innerHTML = html;
                 this.afterRender(vditor, renderStartTime);

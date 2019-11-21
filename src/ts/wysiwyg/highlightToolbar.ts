@@ -2,11 +2,11 @@ import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import {i18n} from "../i18n";
-import {hasClosestByTag, hasClosestByClassName, hasTopClosestByTag} from "../util/hasClosest";
+import {hasClosestByClassName, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
     if (getSelection().rangeCount === 0) {
-        return
+        return;
     }
     const range = getSelection().getRangeAt(0);
     let typeElement = range.startContainer as HTMLElement;
@@ -254,8 +254,8 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         const input2 = document.createElement("input");
         input2.className = "vditor-input";
-        input2.setAttribute("placeholder", 'title');
-        input2.style.width = '52px';
+        input2.setAttribute("placeholder", "title");
+        input2.style.width = "52px";
         input2.value = typeElement.getAttribute("title") || "";
         input2.onblur = updateA;
         input2.onkeypress = (event) => {
@@ -271,29 +271,29 @@ export const highlightToolbar = (vditor: IVditor) => {
     }
 
     // img popover
-    let imgElement: HTMLImageElement
+    let imgElement: HTMLImageElement;
     if (range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset
-        && range.startContainer.childNodes[range.startOffset].nodeName === 'IMG') {
-        imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement
+        && range.startContainer.childNodes[range.startOffset].nodeName === "IMG") {
+        imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement;
         vditor.wysiwyg.popover.innerHTML = "";
         const updateImg = () => {
             imgElement.setAttribute("src", input.value);
             imgElement.setAttribute("alt", alt.value);
-            if (aHref.value === '') {
-                if (imgElement.parentElement.nodeName === 'A') {
-                    imgElement.parentElement.replaceWith(imgElement)
+            if (aHref.value === "") {
+                if (imgElement.parentElement.nodeName === "A") {
+                    imgElement.parentElement.replaceWith(imgElement);
                 }
             } else {
-                if (imgElement.parentElement.nodeName === 'A') {
-                    imgElement.parentElement.setAttribute('href', aHref.value)
+                if (imgElement.parentElement.nodeName === "A") {
+                    imgElement.parentElement.setAttribute("href", aHref.value);
                 } else {
-                    let link = document.createElement('a');
+                    const link = document.createElement("a");
                     link.innerHTML = imgElement.outerHTML;
-                    link.setAttribute('href', aHref.value);
+                    link.setAttribute("href", aHref.value);
 
                     const linkElement = imgElement.parentNode.insertBefore(link, imgElement);
                     imgElement.remove();
-                    imgElement = linkElement.querySelector('img')
+                    imgElement = linkElement.querySelector("img");
                 }
             }
         };
@@ -311,8 +311,8 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         const alt = document.createElement("input");
         alt.className = "vditor-input";
-        alt.setAttribute("placeholder", 'alt');
-        alt.style.width = '52px';
+        alt.setAttribute("placeholder", "alt");
+        alt.style.width = "52px";
         alt.value = imgElement.getAttribute("alt") || "";
         alt.onblur = updateImg;
         alt.onkeypress = (event) => {
@@ -324,7 +324,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         const aHref = document.createElement("input");
         aHref.className = "vditor-input";
         aHref.setAttribute("placeholder", i18n[vditor.options.lang].link);
-        aHref.value = imgElement.parentElement.nodeName === 'A' ? imgElement.parentElement.getAttribute("href") : "";
+        aHref.value = imgElement.parentElement.nodeName === "A" ? imgElement.parentElement.getAttribute("href") : "";
         aHref.onblur = updateImg;
         aHref.onkeypress = (event) => {
             if (event.key === "Enter") {
