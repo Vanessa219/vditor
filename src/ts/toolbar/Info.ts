@@ -8,7 +8,7 @@ export class Info extends MenuItem {
         super(vditor, menuItem);
         this.element.children[0].innerHTML = menuItem.icon || infoSVG;
         this.element.children[0].addEventListener(getEventName(), () => {
-            openURL("https://github.com/b3log/vditor");
+            openURL("https://github.com/Vanessa219/vditor");
         });
     }
 }

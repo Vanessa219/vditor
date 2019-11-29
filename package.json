@@ -57,9 +57,9 @@
     "webpack-dev-server": "^3.7.2"
   },
   "license": "MIT",
-  "repository": "git://github.com/b3log/vditor.git",
+  "repository": "git://github.com/Vanessa219/vditor.git",
   "bugs": {
-    "url": "https://github.com/b3log/vditor/issues"
+    "url": "https://github.com/Vanessa219/vditor/issues"
   },
   "scripts": {
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",

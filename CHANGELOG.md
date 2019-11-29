@@ -32,10 +32,10 @@
 
 ### TODO
 
-* [121](https://github.com/b3log/vditor/issues/121) 所见即所得 `feature`
-* [146](https://github.com/b3log/vditor/issues/146) 编辑预览同步滚动改进 `enhancement`
-* [148](https://github.com/b3log/vditor/issues/148) 添加支持思维导图的功能 `feature`
-* [161](https://github.com/b3log/vditor/issues/161) 在工具栏上添加语音转文字功能 `feature`
+* [1](https://github.com/Vanessa219/vditor/issues/1) 上传时支持 xhr.setRequestHeader 设置 `enhancement`
+* [2](https://github.com/Vanessa219/vditor/issues/2) 所见即所得 `enhancement`
+* [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
+* [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 * 文档更新 
    * public static mermaidRender(element: HTMLElement, className?: string)
    * hotkey 和 setSelection 方法不支持 wysiwyg
