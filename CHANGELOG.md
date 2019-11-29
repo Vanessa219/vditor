@@ -36,6 +36,7 @@
 * [2](https://github.com/Vanessa219/vditor/issues/2) 所见即所得 `enhancement`
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
+* [9](https://github.com/Vanessa219/vditor/issues/9) 没有预览界面时依旧出现预览耗时提示 `bug`
 * 文档更新 
    * public static mermaidRender(element: HTMLElement, className?: string)
    * hotkey 和 setSelection 方法不支持 wysiwyg
