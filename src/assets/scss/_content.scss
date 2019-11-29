@@ -1,0 +1,219 @@
+@keyframes slideInDown {
+  from {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.vditor {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $borderColor;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-family: $font-family-base;
+
+  &--fullscreen {
+    position: fixed;
+    top: 0;
+    width: 100% !important;
+    left: 0;
+    height: 100vh !important;
+    z-index: 90;
+    background-color: $fullscreenBg;
+  }
+
+  &-content {
+    display: flex;
+    min-height: 60px;
+    flex: 1;
+    position: relative;
+  }
+
+  &-textarea {
+    font-family: $font-family-base;
+    margin: 0 1px 0 0;
+    height: 100%;
+    overflow: auto;
+    width: 100%;
+    flex: 1;
+    border: 0;
+    resize: none;
+    padding: 10px 9px 10px 10px;
+    box-sizing: border-box;
+    background-color: $textareaBg;
+    outline: 0 none;
+    font-size: 16px;
+    line-height: 22px;
+    color: $textareaColor;
+    border-radius: 0 0 3px 3px;
+    font-variant-ligatures: no-common-ligatures;
+    white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
+
+    &[contenteditable="false"] {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    &:focus {
+      background-color: $textareaFocusBg;
+    }
+
+    &:empty::before {
+      content: attr(placeholder);
+      color: rgba($textareaColor, .68);
+    }
+  }
+
+  &-preview {
+    flex: 1;
+    background-color: $previewBg;
+    overflow: auto;
+    margin-left: -1px;
+    padding: 10px;
+    box-shadow: inset 1px 0 $borderColor;
+    box-sizing: border-box;
+    border-radius: 0 0 3px 0;
+
+    & > div::-webkit-scrollbar {
+      display: none;
+    }
+
+    & > .vditor-reset {
+      margin: 0 auto;
+    }
+  }
+
+  &-devtools {
+    display: none;
+    background-color: $previewBg;
+    overflow: auto;
+    flex: 1;
+    box-shadow: inset 1px 0 $borderColor;
+    box-sizing: border-box;
+    border-radius: 0 0 3px 0;
+    padding: 10px;
+  }
+
+  &-counter {
+    padding: 0 3px;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    color: $textareaColor;
+    background-color: rgba($fullscreenBg, 0.6);
+    border-radius: 3px;
+    font-size: 12px;
+    user-select: none;
+    z-index: 2;
+
+    &--error {
+      color: $errorColor;
+      background-color: rgba($errorColor, 0.1);
+    }
+  }
+
+  &-resize {
+    padding: 3px 0;
+    cursor: row-resize;
+    user-select: none;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+
+    &--top {
+      top: -3px;
+    }
+
+    &--bottom {
+      bottom: -3px;
+    }
+
+    & > div {
+      height: 3px;
+      background-color: $resizeBg;
+      transition: $transition;
+    }
+
+    &:hover,
+    &--selected {
+      & > div {
+        background-color: $resizeHoverBg;
+      }
+
+      svg {
+        color: $hoverColor;
+      }
+    }
+
+    svg {
+      fill: currentColor;
+      stroke-width: 0;
+      stroke: currentColor;
+      width: 13px;
+      height: 3px;
+      display: block;
+      margin: 0 auto;
+      color: $toolbarIcon;
+    }
+  }
+
+  &-upload {
+    position: absolute;
+    height: 3px;
+    left: 0;
+    top: -2px;
+    transition: $transition;
+    background-color: rgba($hoverBg, 0.8);
+  }
+
+  &-tip {
+    position: absolute;
+    font-size: 12px;
+    top: 10px;
+    color: #fff;
+    animation-duration: .15s;
+    animation-fill-mode: both;
+    width: 100%;
+    text-align: center;
+
+    &--show {
+      display: block;
+      animation-name: slideInDown;
+    }
+
+    &__content {
+      text-align: left;
+      display: inline-block;
+      line-height: 16px;
+      padding: 3px 10px;
+      border-radius: 3px;
+      background: rgba($hoverBg, 0.8);
+      position: relative;
+
+      ul {
+        margin: 2px 0;
+        padding: 0 0 0 18px;
+      }
+    }
+
+    &__close {
+      position: absolute;
+      color: $toolbarIcon;
+      top: -7px;
+      right: -15px;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        color: $toolbarIconHover;
+      }
+    }
+  }
+}

@@ -1,0 +1,161 @@
+/**
+ * toolbar.
+ *
+ * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
+ * @version 0.1.2.0, Jun 20, 2019
+ */
+.vditor {
+  &-toolbar {
+    background-color: $toolbarBg;
+    border-bottom: 1px solid $borderColor;
+    padding: 0 5px;
+    border-radius: 3px 3px 0 0;
+
+    & > div {
+      float: left;
+      & > button {
+        border: 0;
+        margin: 0;
+        padding: 10px 5px;
+        background-color: transparent;
+        height: 35px;
+        width: 25px;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    svg {
+      fill: currentColor;
+      display: inline-block;
+      stroke-width: 0;
+      stroke: currentColor;
+      width: 15px;
+      height: 15px;
+    }
+
+    .vditor-tooltipped {
+      color: $toolbarIcon;
+
+      &:hover {
+        color: $toolbarIconHover;
+      }
+    }
+
+    label {
+      overflow: hidden;
+      position: relative;
+      height: 14px;
+      width: 15px;
+      display: block;
+      cursor: pointer;
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      input {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        top: 0;
+        left: 0;
+        opacity: .001;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &-menu {
+    &--current svg {
+      color: $toolbarIconHover;
+    }
+
+    &__divider {
+      width: 10px;
+      height: 35px;
+    }
+
+    &__br {
+      width: 100%;
+      padding: 0 !important;
+      height: 0 !important;
+    }
+
+    &--disabled svg {
+      color: rgba($toolbarIcon, .6);
+      cursor: not-allowed;
+    }
+  }
+
+  &-emojis {
+    display: inline-block;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__tip {
+      flex: 1;
+      width: 200px;
+      margin-right: 10px;
+      color: $toolbarIcon;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    &__tail {
+      margin-top: 5px;
+      font-size: 12px;
+      color: $toolbarIcon;
+      display: flex;
+
+      a {
+        text-decoration: none;
+        color: $toolbarIcon;
+
+        &:hover {
+          color: $hoverBg;
+        }
+      }
+    }
+
+    button {
+      cursor: pointer;
+      border-radius: 3px;
+      float: left;
+      height: 30px;
+      width: 30px;
+      text-align: center;
+      line-height: 26px;
+      padding: 3px;
+      box-sizing: border-box;
+      font-size: 16px;
+      transition: $transition;
+      border: 0;
+      margin: 0;
+      background-color: transparent;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+
+    img {
+      height: 20px;
+      width: 20px;
+      float: left;
+      margin: 3px 0 0 3px;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "vditor",
+  "description": "A markdown editor written in TypeScript",
+  "main": "dist/index.min.js",
+  "authors": [
+    "Vanessa <v@b3log.org> (http://vanessa.b3log.org)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "editor",
+    "markdown",
+    "b3log"
+  ],
+  "homepage": "https://github.com/b3log/vditor"
+}

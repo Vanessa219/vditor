@@ -1,0 +1,76 @@
+{
+  "name": "vditor",
+  "version": "1.10.2",
+  "cdn": "https://cdn.jsdelivr.net/npm",
+  "description": "A markdown editor written in TypeScript",
+  "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
+  "homepage": "https://hacpai.com/tag/vditor",
+  "jsdelivr": "dist/index.min.js",
+  "main": "dist/index.min.js",
+  "funding": "https://hacpai.com/sponsor",
+  "files": [
+    "dist/*",
+    "src/index.ts",
+    "src/ts/*",
+    "src/assets/*"
+  ],
+  "dependencies": {
+    "abcjs": "^5.8.0",
+    "diff-match-patch": "^1.0.4",
+    "echarts": "^4.2.1",
+    "highlight.js": "^9.15.9",
+    "katex": "^0.11.0",
+    "mermaid": "^8.2.3",
+    "turndown": "^5.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@types/diff-match-patch": "^1.0.32",
+    "@types/echarts": "^4.1.12",
+    "@types/jest": "^24.0.17",
+    "@types/puppeteer": "^1.19.0",
+    "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.1.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.8.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.12.0",
+    "on-build-webpack": "^0.1.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-loader": "^3.0.0",
+    "puppeteer": "^1.19.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^1.0.0",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^6.0.4",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.1",
+    "webpack-bundle-analyzer": "^3.4.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "license": "MIT",
+  "repository": "git://github.com/b3log/vditor.git",
+  "bugs": {
+    "url": "https://github.com/b3log/vditor/issues"
+  },
+  "scripts": {
+    "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",
+    "test:watch": "jest --watch",
+    "test": "jest --coverage",
+    "start": "webpack-dev-server --config webpack.start.js",
+    "build": "webpack"
+  },
+  "keywords": [
+    "editor",
+    "markdown",
+    "b3log"
+  ]
+}

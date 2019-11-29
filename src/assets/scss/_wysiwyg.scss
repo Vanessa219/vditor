@@ -1,0 +1,34 @@
+.vditor {
+  &-wysiwyg {
+    background-color: $textareaBg;
+    box-sizing: border-box;
+    flex: 1;
+    margin: 0;
+    white-space: pre-wrap;
+    position: relative;
+
+    &[contenteditable="false"] {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    &:focus {
+      outline: none;
+      background-color: $textareaFocusBg;
+    }
+
+    blockquote:empty::before {
+      content: ' ';
+    }
+
+    &__block {
+      pre {
+        margin-bottom: 1em !important;
+      }
+    }
+
+    &__preview {
+      display: none;
+    }
+  }
+}

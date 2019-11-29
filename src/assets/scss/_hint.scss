@@ -1,0 +1,51 @@
+.vditor-hint {
+  background-color: $layerBg;
+  position: absolute;
+  box-shadow: $layerShadow;
+  border-radius: 3px;
+  padding: 5px 0;
+  z-index: 3;
+  line-height: 20px;
+  list-style: none;
+  color: $textareaColor;
+  font-size: 12px;
+  margin: 0;
+  max-width: 250px;
+  min-width: 80px;
+  display: none;
+
+  button {
+    display: block;
+    padding: 3px 10px;
+    border: 0;
+    border-bottom: 1px solid $borderColor;
+    line-height: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    margin: 0;
+    background-color: transparent;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &--current,
+  button:hover {
+    background-color: $hoverBg !important;
+    color: $hoverColor;
+  }
+
+  &__emoji {
+    font-size: 16px;
+    float: left;
+    margin-right: 3px;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    float: left;
+    margin-right: 3px;
+  }
+}
