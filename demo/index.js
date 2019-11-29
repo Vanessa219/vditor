@@ -2,7 +2,6 @@ import Vditor from '../src/index'
 import '../src/assets/scss/classic.scss'
 
 window.vditor = new Vditor('vditor', {
-  mode: "wysiwyg-show",
   typewriterMode: true,
   counter: 100,
   height: 300,
