@@ -174,7 +174,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     }
     const editorElement = vditor.currentMode === "markdown" ? vditor.editor.element : vditor.wysiwyg.element;
 
-    vditor.upload.range = getRange(editorElement)
+    vditor.upload.range = getRange(editorElement);
 
     const validateResult = validateFile(vditor, fileList);
     if (validateResult.length === 0) {

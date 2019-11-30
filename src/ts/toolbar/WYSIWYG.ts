@@ -74,7 +74,7 @@ export class WYSIWYG extends MenuItem {
                 vditor.currentMode = "wysiwyg";
                 renderDomByMd(vditor, editorMD);
                 vditor.wysiwyg.element.focus();
-                vditor.wysiwyg.popover.style.display = 'none'
+                vditor.wysiwyg.popover.style.display = "none";
             }
 
             if (vditor.hint) {
