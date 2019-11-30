@@ -8,7 +8,11 @@ export class Redo extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || redoSVG;
         this.element.children[0].classList.add("vditor-menu--disabled");
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            vditor.undo.redo(vditor);
+            if (vditor.currentMode === "markdown") {
+                vditor.undo.redo(vditor);
+            } else {
+                vditor.wysiwygUndo.redo(vditor);
+            }
             event.preventDefault();
         });
     }

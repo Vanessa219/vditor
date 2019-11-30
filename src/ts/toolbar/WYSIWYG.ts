@@ -45,8 +45,16 @@ export class WYSIWYG extends MenuItem {
                 }
                 const wysiwygMD = getText(vditor);
                 vditor.currentMode = "markdown";
-                formatRender(vditor, wysiwygMD, undefined, false);
-                // TODO remove disabled toolbar
+                formatRender(vditor, wysiwygMD, undefined);
+                vditor.editor.element.focus();
+
+                ["headings", "bold", "italic", "strike", "list", "ordered-list", "link", "inline-code"]
+                    .forEach((key) => {
+                        if (vditor.toolbar.elements[key].children[0]) {
+                            vditor.toolbar.elements[key].children[0].classList.remove("vditor-menu--current");
+                            vditor.toolbar.elements[key].children[0].classList.remove("vditor-menu--disabled");
+                        }
+                    });
             } else {
                 this.classList.add("vditor-menu--current");
                 vditor.editor.element.style.display = "none";
@@ -65,6 +73,8 @@ export class WYSIWYG extends MenuItem {
                 const editorMD = getText(vditor);
                 vditor.currentMode = "wysiwyg";
                 renderDomByMd(vditor, editorMD);
+                vditor.wysiwyg.element.focus();
+                vditor.wysiwyg.popover.style.display = "none";
             }
 
             if (vditor.hint) {
@@ -76,7 +86,7 @@ export class WYSIWYG extends MenuItem {
             if (vditor.toolbar.elements.emoji) {
                 (vditor.toolbar.elements.emoji.children[1] as HTMLElement).style.display = "none";
             }
-            if (vditor.devtools &&  vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
+            if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
                 vditor.devtools.ASTChart.resize();
             }
 

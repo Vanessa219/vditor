@@ -38,14 +38,12 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
     lute.SetHeadingAnchor(options.anchor);
     lute.SetParallelParsing(false);
     lute.SetInlineMathAllowDigitAfterOpenMarker(options.inlineMathDigit);
-    const md = lute.MarkdownStr("", mdText);
-    return md[0] || md[1];
+    return lute.Md2HTML(mdText);
 };
 
 export const md2htmlByVditor = async (mdText: string, vditor: IVditor) => {
     if (typeof vditor.lute === "undefined") {
         await loadLuteJs();
     }
-    const md = vditor.lute.MarkdownStr("", mdText);
-    return md[0] || md[1];
+    return vditor.lute.Md2HTML(mdText);
 };

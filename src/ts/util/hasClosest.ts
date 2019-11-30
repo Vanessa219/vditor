@@ -12,7 +12,7 @@ export const hasClosestByTag = (element: HTMLElement, nodeName: string) => {
 };
 
 export const hasClosestByClassName = (element: HTMLElement, className: string) => {
-    let e = element;
+    let e = element.nodeType === 3 ? element.parentElement : element;
     let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
         if (e.classList.contains(className)) {

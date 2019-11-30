@@ -16,7 +16,7 @@ window.vditor = new Vditor('vditor', {
   },
   tab: '\t',
   upload: {
-    accept: 'image/*,.wav',
+    accept: 'image/*,.mp3',
     token: 'test',
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',

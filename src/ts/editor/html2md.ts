@@ -1,15 +1,23 @@
+import {processPasteCode} from "../util/processPasteCode";
 import {insertText} from "./insertText";
 import {setSelectionByInlineText} from "./setSelection";
 import {gfm} from "./turndown-plugin-gfm";
 
 export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
-    const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
-
     // process word
     const doc = new DOMParser().parseFromString(textHTML, "text/html");
     if (doc.body) {
         textHTML = doc.body.innerHTML;
     }
+
+    // process copy from IDE
+    const code = processPasteCode(textHTML, textPlain);
+
+    if (code) {
+        return code;
+    }
+
+    const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
 
     // no escape
     TurndownService.prototype.escape = (name: string) => {
@@ -47,6 +55,7 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
                                 return;
                             }
                             const original = responseJSON.data.originalURL;
+                            // TODO wysiwyg
                             setSelectionByInlineText(original, vditor.editor.element.childNodes);
                             insertText(vditor, responseJSON.data.url, "", true);
                         } else {
@@ -63,38 +72,6 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
 
     turndownService.use(gfm);
 
-    // TODO
-    // const markdownTemp = vditor.lute.Html2Md(textHTML);
-    // const markdownStr = markdownTemp[0] || markdownTemp[1];
-    const markdownStr = turndownService.turndown(textHTML);
-
-    // process copy from IDE
-    const tempElement = document.createElement("div");
-    tempElement.innerHTML = textHTML;
-    let isCode = false;
-    if (tempElement.childElementCount === 1 &&
-        (tempElement.lastElementChild as HTMLElement).style.fontFamily.indexOf("monospace") > -1) {
-        // VS Code
-        isCode = true;
-    }
-    const pres = tempElement.querySelectorAll("pre");
-    if (tempElement.childElementCount === 1 && pres.length === 1 && pres[0].className !== "vditor-textarea") {
-        // IDE
-        isCode = true;
-    }
-    if (textHTML.indexOf('\n<p class="p1">') === 0) {
-        // Xcode
-        isCode = true;
-    }
-
-    if (isCode) {
-        const code = textPlain || textHTML;
-        if (/\n/.test(code)) {
-            return "```\n" + code + "\n```";
-        } else {
-            return "`" + code + "`";
-        }
-    } else {
-        return markdownStr;
-    }
+    // TODO return vditor.lute.HTML2Md(textHTML);
+    return turndownService.turndown(textHTML);
 };

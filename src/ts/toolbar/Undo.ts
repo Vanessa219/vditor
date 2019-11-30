@@ -8,7 +8,11 @@ export class Undo extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || undoSVG;
         this.element.children[0].classList.add("vditor-menu--disabled");
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            vditor.undo.undo(vditor);
+            if (vditor.currentMode === "markdown") {
+                vditor.undo.undo(vditor);
+            } else {
+                vditor.wysiwygUndo.undo(vditor);
+            }
             event.preventDefault();
         });
     }

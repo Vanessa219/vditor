@@ -1,6 +1,6 @@
 {
   "name": "vditor",
-  "version": "1.10.2",
+  "version": "1.10.4",
   "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
@@ -57,9 +57,9 @@
     "webpack-dev-server": "^3.7.2"
   },
   "license": "MIT",
-  "repository": "git://github.com/b3log/vditor.git",
+  "repository": "git://github.com/Vanessa219/vditor.git",
   "bugs": {
-    "url": "https://github.com/b3log/vditor/issues"
+    "url": "https://github.com/Vanessa219/vditor/issues"
   },
   "scripts": {
     "lint": "tslint --fix -c tslint.json 'src/**/*.ts'",

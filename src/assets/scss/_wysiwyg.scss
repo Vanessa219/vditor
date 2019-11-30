@@ -20,5 +20,15 @@
     blockquote:empty::before {
       content: ' ';
     }
+
+    &__block {
+      pre {
+        margin-bottom: 1em !important;
+      }
+    }
+
+    &__preview {
+      display: none;
+    }
   }
 }

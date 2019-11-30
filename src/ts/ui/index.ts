@@ -90,7 +90,7 @@ export class Ui {
 
         // set default value
         let initValue = localStorage.getItem("vditor" + vditor.id);
-        if (!vditor.options.cache || !initValue) {
+        if ((!vditor.options.cache || !initValue) && vditor.originalInnerHTML) {
             initValue = await html2md(vditor, vditor.originalInnerHTML);
         }
         if (!initValue) {
@@ -106,7 +106,7 @@ export class Ui {
         }
 
         if (vditor.options.mode.indexOf("markdown") > -1) {
-            formatRender(vditor, initValue, undefined, true);
+            formatRender(vditor, initValue, undefined);
         }
     }
 }

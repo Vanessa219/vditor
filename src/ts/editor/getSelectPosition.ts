@@ -20,13 +20,7 @@ export const getSelectPosition = (editorElement: HTMLElement, range?: Range) => 
         } else {
             preSelectionRange.selectNodeContents(editorElement);
         }
-        // TODO 没找到进这个 if 的条件，先注释了，没问题 2.0 删除
-        // if (range.startContainer.childNodes.length === 1 && range.startContainer.textContent.trim() === "" &&
-        //     editorElement.childNodes[0].childNodes[0]) {
-        //     preSelectionRange.setEnd(editorElement.childNodes[0].childNodes[0], 0);
-        // } else {
         preSelectionRange.setEnd(range.startContainer, range.startOffset);
-        // }
         position.start = preSelectionRange.toString().length;
         position.end = position.start + range.toString().length;
     }

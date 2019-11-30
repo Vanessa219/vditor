@@ -6,7 +6,7 @@ describe('use puppeteer to test methods', () => {
     let browser: any
     let page: any
     const defaultValue = `下一代的 Markdown 编辑器，为未来而构建
-[Vditor](https://github.com/b3log/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。`
+[Vditor](https://github.com/Vanessa219/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。`
     const insertValue = '于是，Vditor 就这样诞生了。'
     const updateValue = '* [Vditor 使用指南](https://hacpai.com/article/1549638745630?r=Vanessa)'
 
@@ -23,7 +23,7 @@ describe('use puppeteer to test methods', () => {
     it('method: getValue', async () => {
         const result = await page.evaluate(() => {
             vditorTest.setValue(`下一代的 Markdown 编辑器，为未来而构建
-[Vditor](https://github.com/b3log/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。`)
+[Vditor](https://github.com/Vanessa219/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。`)
             return vditorTest.getValue()
         })
         expect(result).toBe(defaultValue + '\n')
@@ -74,7 +74,7 @@ describe('use puppeteer to test methods', () => {
             vditorTest.setSelection(25, 66)
             return vditorTest.getSelection()
         })
-        expect(result).toBe('[Vditor](https://github.com/b3log/vditor)')
+        expect(result).toBe('[Vditor](https://github.com/Vanessa219/vditor)')
     })
 
     it('method: setValue', async () => {

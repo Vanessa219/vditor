@@ -1,7 +1,18 @@
+import afterSVG from "../../assets/icons/after.svg";
+import beforeSVG from "../../assets/icons/before.svg";
+import editSVG from "../../assets/icons/edit.svg";
 import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
+import previewSVG from "../../assets/icons/preview.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
+import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n";
+import {abcRender} from "../markdown/abcRender";
+import {chartRender} from "../markdown/chartRender";
+import {codeRender} from "../markdown/codeRender";
+import {highlightRender} from "../markdown/highlightRender";
+import {mathRenderByLute} from "../markdown/mathRenderByLute";
+import {mermaidRender} from "../markdown/mermaidRender";
 import {hasClosestByClassName, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
@@ -15,7 +26,8 @@ export const highlightToolbar = (vditor: IVditor) => {
     }
 
     let toolbarName = typeElement.nodeName;
-    if (toolbarName === "CODE" && typeElement.parentElement.nodeName === "PRE") {
+    if (toolbarName === "CODE" &&
+        (typeElement.parentElement.nodeName === "PRE" || typeElement.getAttribute("data-type"))) {
         toolbarName = "";
     }
     if (/^H[1-6]$/.test(toolbarName)) {
@@ -108,36 +120,19 @@ export const highlightToolbar = (vditor: IVditor) => {
         setPopoverPosition(vditor, topUlElement);
     }
 
-    // pre popover
-    const preElement = hasClosestByTag(typeElement, "PRE");
-    if (preElement) {
+    // quote popover
+    let blockquoteElement = hasClosestByTag(typeElement, "BLOCKQUOTE") as HTMLTableElement;
+    if (blockquoteElement && !(topUlElement && blockquoteElement.contains(topUlElement))) {
         vditor.wysiwyg.popover.innerHTML = "";
-
-        const updateLanguage = () => {
-            preElement.firstElementChild.className = `language-${input.value}`;
-        };
-        const input = document.createElement("input");
-        input.className = "vditor-input";
-        input.setAttribute("placeholder", "language");
-        input.value =
-            preElement.firstElementChild.className.indexOf("language-") > -1 ?
-                preElement.firstElementChild.className.split("-")[1].split(" ")[0] : "";
-        input.onblur = updateLanguage;
-        input.onkeypress = (event) => {
-            if (event.key === "Enter") {
-                updateLanguage();
-            }
-        };
-        const close = document.createElement("span");
-        close.innerHTML = trashcanSVG;
-        close.className = "vditor-icon";
-        close.onclick = () => {
-            preElement.remove();
-            vditor.wysiwyg.popover.style.display = "none";
-        };
-        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
+        const insertBefore = genInsertBefore(range, blockquoteElement);
+        const insertAfter = genInsertAfter(range, blockquoteElement);
+        const close = genClose(vditor.wysiwyg.popover, blockquoteElement);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
-        setPopoverPosition(vditor, preElement);
+        setPopoverPosition(vditor, blockquoteElement);
+    } else {
+        blockquoteElement = undefined;
     }
 
     // table popover
@@ -339,14 +334,160 @@ export const highlightToolbar = (vditor: IVditor) => {
         setPopoverPosition(vditor, imgElement);
     }
 
-    if (!imgElement && !topUlElement && !tableElement && !preElement && typeElement.nodeName !== "A"
-        && !hasClosestByClassName(typeElement, "vditor-panel")) {
+    const blockElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+    // block popover: math-inline, math-block, html-block, html-inline, code-block
+    if (blockElement) {
+        const blockType = blockElement.getAttribute("data-type");
+        vditor.wysiwyg.popover.innerHTML = "";
+
+        const language = document.createElement("input");
+        if (blockType.indexOf("block") > -1) {
+            const insertBefore = genInsertBefore(range, blockElement);
+            const insertAfter = genInsertAfter(range, blockElement);
+            const close = genClose(vditor.wysiwyg.popover, blockElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+
+            if (blockType === "code-block") {
+                const codeElement = blockElement.firstElementChild.firstElementChild;
+
+                const updateLanguage = () => {
+                    codeElement.className = `language-${language.value}`;
+                };
+                language.className = "vditor-input";
+                language.setAttribute("placeholder", "language");
+                language.value = codeElement.className.indexOf("language-") > -1 ?
+                    codeElement.className.split("-")[1].split(" ")[0] : "";
+                language.onblur = updateLanguage;
+                language.onkeypress = (event) => {
+                    if (event.key === "Enter") {
+                        updateLanguage();
+                    }
+                };
+                vditor.wysiwyg.popover.insertAdjacentElement("beforeend", language);
+            }
+        }
+
+        const previewObj = genPreview(() => {
+            if (blockType === "code-block") {
+                previewObj.previewPanel.innerHTML =
+                    `<pre>${blockElement.firstElementChild.innerHTML}</pre>`;
+                if (language.value === "abc") {
+                    abcRender(previewObj.previewPanel);
+                } else if (language.value === "mermaid") {
+                    mermaidRender(previewObj.previewPanel, ".vditor-wysiwyg__preview .language-mermaid");
+                } else if (language.value === "echarts") {
+                    chartRender(previewObj.previewPanel);
+                } else {
+                    highlightRender(vditor.options.preview.hljs, previewObj.previewPanel);
+                    codeRender(previewObj.previewPanel, vditor.options.lang);
+                }
+            } else if (blockType.indexOf("html") > -1) {
+                previewObj.previewPanel.innerHTML = blockElement.firstElementChild.innerHTML;
+            } else if (blockType.indexOf("math") > -1) {
+                const tagName = blockType === "math-block" ? "div" : "span";
+                previewObj.previewPanel.innerHTML =
+                    `<${tagName} class="vditor-math">${blockElement.firstChild.textContent}</${tagName}>`;
+                mathRenderByLute(previewObj.previewPanel);
+            }
+        }, blockElement, blockType.indexOf("block") > -1 ? "div" : "span");
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", previewObj.preview);
+        setPopoverPosition(vditor, blockElement);
+    }
+
+    if (!blockquoteElement && !imgElement && !topUlElement && !tableElement && !blockElement
+        && typeElement.nodeName !== "A" && !hasClosestByClassName(typeElement, "vditor-panel")) {
         vditor.wysiwyg.popover.style.display = "none";
     }
 };
 
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
-    vditor.wysiwyg.popover.style.top = (element.offsetTop - 25) + "px";
+    vditor.wysiwyg.popover.style.top = (element.offsetTop - 27) + "px";
     vditor.wysiwyg.popover.style.left = element.offsetLeft + "px";
     vditor.wysiwyg.popover.style.display = "block";
+};
+
+const genInsertBefore = (range: Range, element: HTMLElement) => {
+    const insertBefore = document.createElement("span");
+    insertBefore.innerHTML = beforeSVG;
+    insertBefore.className = "vditor-icon";
+    insertBefore.onclick = () => {
+        range.setStartBefore(element);
+        setSelectionFocus(range);
+        const node = document.createElement("p");
+        node.innerHTML = "\n";
+        range.insertNode(node);
+        range.collapse(true);
+        setSelectionFocus(range);
+    };
+    return insertBefore;
+};
+
+const genInsertAfter = (range: Range, element: HTMLElement) => {
+    const insertAfter = document.createElement("span");
+    insertAfter.innerHTML = afterSVG;
+    insertAfter.className = "vditor-icon";
+    insertAfter.onclick = () => {
+        range.setStartAfter(element);
+        setSelectionFocus(range);
+        const node = document.createElement("p");
+        node.innerHTML = "\n";
+        range.insertNode(node);
+        range.collapse(true);
+        setSelectionFocus(range);
+    };
+    return insertAfter;
+};
+
+const genClose = (popover: HTMLElement, element: HTMLElement) => {
+    const close = document.createElement("span");
+    close.innerHTML = trashcanSVG;
+    close.className = "vditor-icon";
+    close.onclick = () => {
+        element.remove();
+        popover.style.display = "none";
+    };
+    return close;
+};
+
+const genPreview = (clickEvent: () => void, element: HTMLElement, tagName: string) => {
+    let previewPanel: HTMLElement = element.querySelector(".vditor-wysiwyg__preview");
+    if (!previewPanel) {
+        element.insertAdjacentHTML("beforeend", `<${tagName} class="vditor-wysiwyg__preview"></${tagName}>`);
+        previewPanel = element.querySelector(".vditor-wysiwyg__preview");
+        previewPanel.setAttribute("contenteditable", "false");
+        previewPanel.setAttribute("data-render", "false");
+    }
+    const preview = document.createElement("span");
+    preview.innerHTML = previewSVG;
+    preview.className = "vditor-icon";
+    preview.onclick = () => {
+        let display = "block";
+        if (tagName === "span") {
+            display = "inline";
+        }
+
+        if (previewPanel.style.display === "block" || previewPanel.style.display === "inline") {
+            preview.innerHTML = previewSVG;
+            previewPanel.style.display = "none";
+            element.firstElementChild.setAttribute("style", `display: ${display}`);
+        } else {
+            preview.innerHTML = editSVG;
+            previewPanel.style.display = display;
+            element.firstElementChild.setAttribute("style", "display: none");
+            clickEvent();
+        }
+    };
+
+    if (previewPanel.style.display === "block") {
+        preview.innerHTML = editSVG;
+    } else {
+        preview.innerHTML = previewSVG;
+    }
+
+    return {
+        preview,
+        previewPanel,
+    };
 };

@@ -27,7 +27,9 @@ export class Preview {
     }
 
     public async render(vditor: IVditor, value?: string) {
-        if (this.element.className === "vditor-preview vditor-preview--editor") {
+        clearTimeout(this.mdTimeoutId);
+
+        if (this.element.style.display === "none") {
             if (this.element.getAttribute("data-type") === "renderPerformance") {
                 vditor.tip.hide();
             }
@@ -45,7 +47,6 @@ export class Preview {
             return;
         }
 
-        clearTimeout(this.mdTimeoutId);
         const renderStartTime = new Date().getTime();
         const markdownText = getText(vditor);
         this.mdTimeoutId = window.setTimeout(async () => {

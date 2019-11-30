@@ -25,9 +25,8 @@ export const highlightRender = async (hljsOption?: IHljs, element: HTMLElement |
 
     const {default: hljs} = await import(/* webpackChunkName: "highlight.js" */ "highlight.js");
     element.querySelectorAll("pre > code").forEach((block) => {
-        if (block.className.indexOf("language-mermaid") > -1 ||
-            block.className.indexOf("language-abc") > -1 ||
-            block.className.indexOf("language-echarts") > -1) {
+        if (block.classList.contains("language-mermaid") || block.classList.contains("language-echarts")
+            || block.classList.contains("language-abc")) {
             return;
         }
         hljs.highlightBlock(block);

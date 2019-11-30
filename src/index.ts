@@ -6,7 +6,7 @@ import {getSelectText} from "./ts/editor/getSelectText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
 import {insertText} from "./ts/editor/insertText";
-import {setSelectionByPosition} from "./ts/editor/setSelection";
+import {setSelectionByPosition, setSelectionFocus} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
 import {abcRender} from "./ts/markdown/abcRender";
@@ -26,12 +26,13 @@ import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
+import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {getText} from "./ts/util/getText";
 import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
-import {setExpand} from "./ts/wysiwyg/setExpand";
+import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 
 class Vditor {
 
@@ -70,6 +71,7 @@ class Vditor {
             tip: new Tip(),
             undo: undefined,
             wysiwyg: undefined,
+            wysiwygUndo: undefined,
         };
 
         if (mergedOptions.counter > 0) {
@@ -79,9 +81,8 @@ class Vditor {
 
         if (mergedOptions.mode !== "wysiwyg-only") {
             this.vditor.editor = new Editor(this.vditor);
+            this.vditor.undo = new Undo();
         }
-
-        this.vditor.undo = new Undo();
 
         if (mergedOptions.resize.enable) {
             const resize = new Resize(this.vditor);
@@ -110,6 +111,7 @@ class Vditor {
 
             if (this.vditor.options.mode !== "markdown-only") {
                 this.vditor.wysiwyg = new WYSIWYG(this.vditor);
+                this.vditor.wysiwygUndo = new WysiwygUndo();
             }
 
             if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
@@ -134,7 +136,6 @@ class Vditor {
             this.vditor.editor.element.focus();
         } else {
             this.vditor.wysiwyg.element.focus();
-            setExpand(this.vditor.wysiwyg.element);
         }
     }
 
@@ -147,27 +148,45 @@ class Vditor {
     }
 
     public disabled() {
-        this.vditor.editor.element.setAttribute("contenteditable", "false");
+        if (this.vditor.currentMode === "markdown") {
+            this.vditor.editor.element.setAttribute("contenteditable", "false");
+        } else {
+            this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
+        }
     }
 
     public enable() {
-        this.vditor.editor.element.setAttribute("contenteditable", "true");
+        if (this.vditor.currentMode === "markdown") {
+            this.vditor.editor.element.setAttribute("contenteditable", "true");
+        } else {
+            this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
+        }
     }
 
     public setSelection(start: number, end: number) {
-        setSelectionByPosition(start, end, this.vditor.editor.element);
+        if (this.vditor.currentMode === "wysiwyg") {
+            console.error("所见即所得模式暂不支持该方法");
+        } else {
+            setSelectionByPosition(start, end, this.vditor.editor.element);
+        }
     }
 
     public getSelection() {
         let selectText = "";
         if (window.getSelection().rangeCount !== 0) {
-            selectText = getSelectText(this.vditor.editor.element);
+            if (this.vditor.currentMode === "wysiwyg") {
+                selectText = getSelectText(this.vditor.wysiwyg.element);
+            } else {
+                selectText = getSelectText(this.vditor.editor.element);
+            }
         }
         return selectText;
     }
 
     public renderPreview(value?: string) {
-        this.vditor.preview.render(this.vditor, value);
+        if (this.vditor.currentMode === "markdown") {
+            this.vditor.preview.render(this.vditor, value);
+        }
     }
 
     public getCursorPosition() {
@@ -199,7 +218,11 @@ class Vditor {
     }
 
     public getHTML() {
-        return md2htmlByVditor(getText(this.vditor), this.vditor);
+        if (this.vditor.currentMode === "markdown") {
+            return md2htmlByVditor(getText(this.vditor), this.vditor);
+        } else {
+            return this.vditor.lute.VditorDOM2HTML(this.vditor.wysiwyg.element.innerHTML);
+        }
     }
 
     public tip(text: string, time?: number) {
@@ -214,23 +237,42 @@ class Vditor {
         if (window.getSelection().isCollapsed) {
             return;
         }
-        insertText(this.vditor, "", "", true);
+        if (this.vditor.currentMode === "markdown") {
+            insertText(this.vditor, "", "", true);
+        } else {
+            document.execCommand("delete", false);
+        }
     }
 
     public updateValue(value: string) {
-        insertText(this.vditor, value, "", true);
+        if (this.vditor.currentMode === "markdown") {
+            insertText(this.vditor, value, "", true);
+        } else {
+            document.execCommand("insertHTML", false, value);
+        }
     }
 
     public insertValue(value: string) {
-        insertText(this.vditor, value, "");
+        if (this.vditor.currentMode === "markdown") {
+            insertText(this.vditor, value, "");
+        } else {
+            const range = getSelection().getRangeAt(0);
+            range.collapse(false);
+            setSelectionFocus(range);
+            document.execCommand("insertHTML", false, value);
+        }
     }
 
-    public setValue(value: string) {
-        formatRender(this.vditor, value, {
-            end: value.length,
-            start: value.length,
-        });
-        if (!value) {
+    public setValue(markdown: string) {
+        if (this.vditor.currentMode === "markdown") {
+            formatRender(this.vditor, markdown, {
+                end: markdown.length,
+                start: markdown.length,
+            });
+        } else {
+            renderDomByMd(this.vditor, markdown);
+        }
+        if (!markdown) {
             localStorage.removeItem("vditor" + this.vditor.id);
         }
     }

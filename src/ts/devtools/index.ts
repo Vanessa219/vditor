@@ -20,14 +20,13 @@ export class DevTools {
             this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
         }
 
-        const data = vditor.lute.RenderEChartsJSON(getText(vditor));
         try {
             (this.element.lastElementChild as HTMLElement).style.display = "block";
             this.element.firstElementChild.innerHTML = "";
             this.ASTChart.setOption({
                 series: [
                     {
-                        data: JSON.parse(data[0]) || data[1],
+                        data: JSON.parse(vditor.lute.RenderEChartsJSON(getText(vditor))),
                         initialTreeDepth: -1,
                         label: {
                             align: "left",

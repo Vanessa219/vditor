@@ -1,10 +1,12 @@
 import {insertText} from "../editor/insertText";
-import {setSelectionByInlineText} from "../editor/setSelection";
+import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
+import {getRange} from "../util/getRange";
 
 class Upload {
     public element: HTMLElement;
     public isUploading: boolean;
+    public range: Range;
 
     constructor() {
         this.isUploading = false;
@@ -61,57 +63,79 @@ const validateFile = (vditor: IVditor, files: File[]) => {
 
         if (validate) {
             uploadFileList.push(file);
-            uploadingStr += `${file.type.indexOf("image") === -1 ? "" : "!"}[${filename}](${i18n[lang].uploading})\n`;
+            uploadingStr += `<li>${filename} ${i18n[lang].uploading}</li>`;
         }
     }
 
-    if (errorTip !== "") {
-        vditor.tip.show(`<ul>${errorTip}</ul>`);
-    }
+    vditor.tip.show(`<ul>${errorTip}${uploadingStr}</ul>`);
 
-    if (uploadingStr !== "") {
-        insertText(vditor, uploadingStr, "");
-    }
-
-    return {
-        uploadFileList,
-        uploadingStr,
-    };
+    return uploadFileList;
 };
 
-const genUploadedLabel =
-    (editorElement: HTMLPreElement, responseText: string, vditor: IVditor) => {
-        editorElement.focus();
-        const response = JSON.parse(responseText);
+const genUploadedLabel = (responseText: string, vditor: IVditor) => {
+    const editorElement = vditor.currentMode === "markdown" ? vditor.editor.element : vditor.wysiwyg.element;
+    editorElement.focus();
+    const response = JSON.parse(responseText);
+    let errorTip: string = "";
 
-        if (response.code === 1) {
-            vditor.tip.show(response.msg);
-        }
+    if (response.code === 1) {
+        errorTip = `${response.msg}`;
+    }
 
-        if (response.data.errFiles) {
-            response.data.errFiles.forEach((data: string) => {
-                const lastIndex = data.lastIndexOf(".");
-                const filename = vditor.options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
-                const original = `[${filename}](${i18n[vditor.options.lang].uploading})`;
-                setSelectionByInlineText(original, editorElement.childNodes);
-                insertText(vditor, "", "", true);
-            });
-        }
-
-        Object.keys(response.data.succMap).forEach((key) => {
-            const path = response.data.succMap[key];
-            const lastIndex = key.lastIndexOf(".");
-            const filename = vditor.options.upload.filename(key.substr(0, lastIndex)) + key.substr(lastIndex);
-            const original = `[${filename}](${i18n[vditor.options.lang].uploading})`;
-            if (path.indexOf(".wav") === path.length - 4) {
-                setSelectionByInlineText(original, editorElement.childNodes);
-                insertText(vditor, `<audio controls="controls" src="${path}"></audio>\n`, "", true);
-                return;
-            }
-            setSelectionByInlineText(original, editorElement.childNodes);
-            insertText(vditor, `[${filename}](${path})`, "", true);
+    if (response.data.errFiles && response.data.errFiles.length > 0) {
+        errorTip = `<ul><li>${errorTip}</li>`;
+        response.data.errFiles.forEach((data: string) => {
+            const lastIndex = data.lastIndexOf(".");
+            const filename = vditor.options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
+            errorTip += `<li>${filename} ${i18n[vditor.options.lang].uploadError}</li>`;
         });
-    };
+        errorTip += "</ul>";
+    }
+
+    if (errorTip) {
+        vditor.tip.show(errorTip);
+    } else {
+        vditor.tip.hide();
+    }
+
+    let succFileText = "";
+    Object.keys(response.data.succMap).forEach((key) => {
+        const path = response.data.succMap[key];
+        const lastIndex = key.lastIndexOf(".");
+        let type = key.substr(lastIndex);
+        const filename = vditor.options.upload.filename(key.substr(0, lastIndex)) + type;
+        type = type.toLowerCase();
+        if (type === ".wav" || type === ".mp3" || type === ".ogg") {
+            succFileText += `<audio controls="controls" src="${path}"></audio>\n`;
+        } else if (type === ".apng"
+            || type === ".bmp"
+            || type === ".gif"
+            || type === ".ico" || type === ".cur"
+            || type === ".jpg" || type === ".jpeg" || type === ".jfif" || type === ".pjp" || type === ".pjpeg"
+            || type === ".png"
+            || type === ".svg"
+            || type === ".webp") {
+            if (vditor.currentMode === "wysiwyg") {
+                succFileText += `<img title="${filename}" src="${path}">`;
+            } else {
+                succFileText += `![${filename}](${path})\n`;
+            }
+        } else {
+            if (vditor.currentMode === "wysiwyg") {
+                succFileText += `<a href="${path}">${filename}</a>`;
+            } else {
+                succFileText += `[${filename}](${path})\n`;
+            }
+        }
+    });
+    setSelectionFocus(vditor.upload.range);
+    if (vditor.currentMode === "wysiwyg") {
+        document.execCommand("insertHTML", false, succFileText);
+    } else {
+        insertText(vditor, succFileText, "", true);
+    }
+    vditor.upload.range = getSelection().getRangeAt(0).cloneRange();
+};
 
 const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
     // FileList | DataTransferItemList | File[] => File[]
@@ -148,9 +172,12 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             return;
         }
     }
+    const editorElement = vditor.currentMode === "markdown" ? vditor.editor.element : vditor.wysiwyg.element;
+
+    vditor.upload.range = getRange(editorElement);
 
     const validateResult = validateFile(vditor, fileList);
-    if (validateResult.uploadFileList.length === 0) {
+    if (validateResult.length === 0) {
         if (element) {
             element.value = "";
         }
@@ -158,8 +185,8 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     }
 
     const formData = new FormData();
-    for (let i = 0, iMax = validateResult.uploadFileList.length; i < iMax; i++) {
-        formData.append("file[]", validateResult.uploadFileList[i]);
+    for (let i = 0, iMax = validateResult.length; i < iMax; i++) {
+        formData.append("file[]", validateResult[i]);
     }
 
     const xhr = new XMLHttpRequest();
@@ -170,8 +197,13 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     if (vditor.options.upload.withCredentials) {
         xhr.withCredentials = true;
     }
+    if (vditor.options.upload.headers) {
+        Object.keys(vditor.options.upload.headers).forEach((key) => {
+            xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
+        });
+    }
     vditor.upload.isUploading = true;
-    vditor.editor.element.setAttribute("contenteditable", "false");
+    editorElement.setAttribute("contenteditable", "false");
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -179,30 +211,23 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             if (element) {
                 element.value = "";
             }
-            vditor.editor.element.setAttribute("contenteditable", "true");
+            editorElement.setAttribute("contenteditable", "true");
 
             if (xhr.status === 200) {
                 if (vditor.options.upload.success) {
-                    vditor.options.upload.success(vditor.editor.element, xhr.responseText);
+                    vditor.options.upload.success(editorElement, xhr.responseText);
                 } else {
                     let responseText = xhr.responseText;
                     if (vditor.options.upload.format) {
                         responseText = vditor.options.upload.format(files as File [], xhr.responseText);
                     }
-                    genUploadedLabel(vditor.editor.element, responseText, vditor);
+                    genUploadedLabel(responseText, vditor);
                 }
             } else {
                 if (vditor.options.upload.error) {
                     vditor.options.upload.error(xhr.responseText);
                 } else {
                     vditor.tip.show(xhr.responseText);
-                    validateResult.uploadingStr.split("\n").forEach((str) => {
-                        if (!str) {
-                            return;
-                        }
-                        setSelectionByInlineText(str, vditor.editor.element.childNodes);
-                        insertText(vditor,  "", "", true);
-                    });
                 }
             }
             vditor.upload.element.style.display = "none";

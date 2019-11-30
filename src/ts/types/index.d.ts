@@ -28,29 +28,41 @@ interface ILute {
 
     SetParallelParsing(enable: boolean): void;
 
-    SetEmojiSite(emojiSite: string): void;
-
     SetHeadingAnchor(enable: boolean): void;
 
     SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
-    PutEmojis(emojis: { [key: string]: string }): void;
+    SetEmojiSite(emojiSite: string): void;
 
-    MarkdownStr(error: string, text: string): string[];
+    PutEmojis(emojis: { [key: string]: string }): void;
 
     GetEmojis(): { [key: string]: string };
 
-    FormatStr(error: string, text: string): string[];
+    FormatMd(markdown: string): string;
 
-    RenderEChartsJSON(text: string): string[];
+    // debugger md
+    RenderEChartsJSON(text: string): string;
 
-    VditorOperation(text: string, startOffset: number, endOffset: number, operation: string): string[];
+    // md 转换为 html
+    Md2HTML(markdown: string): string;
 
-    RenderVditorDOM(html: string): string[];
+    // 粘贴时将 html 转换为 md TODO: 图片处理
+    HTML2Md(html: string): string;
 
-    Html2Md(html: string): string[];
+    // wysiwyg 转换为 html
+    VditorDOM2HTML(vhtml: string): string;
 
-    VditorDOM2Md(html: string): string[];
+    // wysiwyg 输入渲染
+    SpinVditorDOM(html: string): string;
+
+    // 粘贴时将 html 转换为 wysiwyg TODO: 图片处理
+    HTML2VditorDOM(html: string): string;
+
+    // 将 wysiwyg 转换为 md
+    VditorDOM2Md(html: string): string;
+
+    // 将 md 转换为 wysiwyg
+    Md2VditorDOM(markdown: string): string;
 }
 
 declare var webkitAudioContext: {
@@ -86,6 +98,7 @@ interface IUpload {
     token?: string;
     accept?: string;
     withCredentials?: boolean;
+    headers?: { [key: string]: string };
 
     success?(editor: HTMLPreElement, msg: string): void;
 
@@ -133,6 +146,7 @@ interface IPreview {
     inlineMathDigit?: boolean;
 
     parse?(element: HTMLElement): void;
+
     transform?(html: string): string;
 }
 
@@ -247,13 +261,19 @@ interface IVditor {
     };
     upload?: {
         element: HTMLElement
-        isUploading: boolean,
+        isUploading: boolean
+        range: Range,
     };
     undo: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
         recordFirstPosition(vditor: IVditor): void,
+    };
+    wysiwygUndo: {
+        redo(vditor: IVditor): void
+        undo(vditor: IVditor): void
+        addToUndoStack(vditor: IVditor): void,
     };
     wysiwyg: {
         element: HTMLPreElement,
@@ -271,7 +291,7 @@ declare class IVditorConstructor {
 
     public static mathRender(element: HTMLElement): void;
 
-    public static mermaidRender(element: HTMLElement): void;
+    public static mermaidRender(element: HTMLElement, className?: string): void;
 
     public static chartRender(element?: HTMLElement | Document): void;
 
@@ -306,7 +326,7 @@ declare class IVditorConstructor {
 
     public getSelection(): string;
 
-    public setValue(text: string): void;
+    public setValue(markdown: string): void;
 
     public renderPreview(value?: string): void;
 
