@@ -53,8 +53,7 @@ class Editor {
         });
 
         this.element.addEventListener("scroll", () => {
-            if (!vditor.preview && (vditor.preview.element.className === "vditor-preview vditor-preview--editor" ||
-                vditor.preview.element.className === "vditor-preview vditor-preview--preview")) {
+            if (!vditor.preview || (vditor.preview && vditor.preview.element.style.display === "none")) {
                 return;
             }
             const textScrollTop = this.element.scrollTop;
@@ -116,7 +115,6 @@ class Editor {
                 return;
             }
             insertText(vditor, textPlain, "", true);
-            scrollCenter(this.element);
         });
     }
 }

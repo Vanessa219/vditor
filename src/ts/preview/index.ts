@@ -29,7 +29,7 @@ export class Preview {
     public async render(vditor: IVditor, value?: string) {
         clearTimeout(this.mdTimeoutId);
 
-        if (this.element.className === "vditor-preview vditor-preview--editor") {
+        if (this.element.style.display === "none") {
             if (this.element.getAttribute("data-type") === "renderPerformance") {
                 vditor.tip.hide();
             }

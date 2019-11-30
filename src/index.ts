@@ -70,8 +70,8 @@ class Vditor {
             originalInnerHTML: document.getElementById(id).innerHTML,
             tip: new Tip(),
             undo: undefined,
-            wysiwygUndo: undefined,
             wysiwyg: undefined,
+            wysiwygUndo: undefined,
         };
 
         if (mergedOptions.counter > 0) {

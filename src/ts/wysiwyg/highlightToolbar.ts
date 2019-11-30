@@ -27,7 +27,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
     let toolbarName = typeElement.nodeName;
     if (toolbarName === "CODE" &&
-        (typeElement.parentElement.nodeName === "PRE" || typeElement.getAttribute('data-type'))) {
+        (typeElement.parentElement.nodeName === "PRE" || typeElement.getAttribute("data-type"))) {
         toolbarName = "";
     }
     if (/^H[1-6]$/.test(toolbarName)) {
@@ -337,11 +337,11 @@ export const highlightToolbar = (vditor: IVditor) => {
     const blockElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
     // block popover: math-inline, math-block, html-block, html-inline, code-block
     if (blockElement) {
-        const blockType = blockElement.getAttribute("data-type")
+        const blockType = blockElement.getAttribute("data-type");
         vditor.wysiwyg.popover.innerHTML = "";
 
         const language = document.createElement("input");
-        if (blockType.indexOf('block') > -1) {
+        if (blockType.indexOf("block") > -1) {
             const insertBefore = genInsertBefore(range, blockElement);
             const insertAfter = genInsertAfter(range, blockElement);
             const close = genClose(vditor.wysiwyg.popover, blockElement);
@@ -349,7 +349,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 
-            if (blockType === 'code-block') {
+            if (blockType === "code-block") {
                 const codeElement = blockElement.firstElementChild.firstElementChild;
 
                 const updateLanguage = () => {
@@ -370,7 +370,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         const previewObj = genPreview(() => {
-            if (blockType === 'code-block') {
+            if (blockType === "code-block") {
                 previewObj.previewPanel.innerHTML =
                     `<pre>${blockElement.firstElementChild.innerHTML}</pre>`;
                 if (language.value === "abc") {
@@ -383,14 +383,15 @@ export const highlightToolbar = (vditor: IVditor) => {
                     highlightRender(vditor.options.preview.hljs, previewObj.previewPanel);
                     codeRender(previewObj.previewPanel, vditor.options.lang);
                 }
-            } else if (blockType.indexOf('html') > -1) {
-                previewObj.previewPanel.innerHTML = blockElement.firstElementChild.innerHTML
-            } else if (blockType.indexOf('math') > -1) {
-                const tagName = blockType === "math-block" ? 'div' : 'span'
-                previewObj.previewPanel.innerHTML = `<${tagName} class="vditor-math">${blockElement.firstChild.textContent}</${tagName}>`;
+            } else if (blockType.indexOf("html") > -1) {
+                previewObj.previewPanel.innerHTML = blockElement.firstElementChild.innerHTML;
+            } else if (blockType.indexOf("math") > -1) {
+                const tagName = blockType === "math-block" ? "div" : "span";
+                previewObj.previewPanel.innerHTML =
+                    `<${tagName} class="vditor-math">${blockElement.firstChild.textContent}</${tagName}>`;
                 mathRenderByLute(previewObj.previewPanel);
             }
-        }, blockElement, blockType.indexOf('block') > -1 ? 'div' : 'span');
+        }, blockElement, blockType.indexOf("block") > -1 ? "div" : "span");
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", previewObj.preview);
         setPopoverPosition(vditor, blockElement);
     }
@@ -462,19 +463,19 @@ const genPreview = (clickEvent: () => void, element: HTMLElement, tagName: strin
     preview.innerHTML = previewSVG;
     preview.className = "vditor-icon";
     preview.onclick = () => {
-        let display = 'block'
-        if (tagName === 'span') {
-            display = 'inline'
+        let display = "block";
+        if (tagName === "span") {
+            display = "inline";
         }
 
         if (previewPanel.style.display === "block" || previewPanel.style.display === "inline") {
             preview.innerHTML = previewSVG;
             previewPanel.style.display = "none";
-            element.firstElementChild.setAttribute('style', `display: ${display}`)
+            element.firstElementChild.setAttribute("style", `display: ${display}`);
         } else {
             preview.innerHTML = editSVG;
             previewPanel.style.display = display;
-            element.firstElementChild.setAttribute('style', 'display: none')
+            element.firstElementChild.setAttribute("style", "display: none");
             clickEvent();
         }
     };

@@ -1,5 +1,4 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {insertText} from "../editor/insertText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
