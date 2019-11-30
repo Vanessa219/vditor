@@ -115,7 +115,6 @@ class Editor {
                 return;
             }
             insertText(vditor, textPlain, "", true);
-            scrollCenter(this.element);
         });
     }
 }
