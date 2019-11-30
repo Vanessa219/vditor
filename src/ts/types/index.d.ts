@@ -98,6 +98,7 @@ interface IUpload {
     token?: string;
     accept?: string;
     withCredentials?: boolean;
+    headers?: { [key: string]: string };
 
     success?(editor: HTMLPreElement, msg: string): void;
 

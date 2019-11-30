@@ -1,6 +1,7 @@
 import {insertText} from "../editor/insertText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
+import {getRange} from "../util/getRange";
 
 class Upload {
     public element: HTMLElement;
@@ -171,8 +172,9 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             return;
         }
     }
+    const editorElement = vditor.currentMode === "markdown" ? vditor.editor.element : vditor.wysiwyg.element;
 
-    vditor.upload.range = getSelection().getRangeAt(0);
+    vditor.upload.range = getRange(editorElement)
 
     const validateResult = validateFile(vditor, fileList);
     if (validateResult.length === 0) {
@@ -195,8 +197,13 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     if (vditor.options.upload.withCredentials) {
         xhr.withCredentials = true;
     }
+    if (vditor.options.upload.headers) {
+        Object.keys(vditor.options.upload.headers).forEach((key) => {
+            xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
+        });
+    }
     vditor.upload.isUploading = true;
-    vditor.editor.element.setAttribute("contenteditable", "false");
+    editorElement.setAttribute("contenteditable", "false");
 
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -204,11 +211,11 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             if (element) {
                 element.value = "";
             }
-            vditor.editor.element.setAttribute("contenteditable", "true");
+            editorElement.setAttribute("contenteditable", "true");
 
             if (xhr.status === 200) {
                 if (vditor.options.upload.success) {
-                    vditor.options.upload.success(vditor.editor.element, xhr.responseText);
+                    vditor.options.upload.success(editorElement, xhr.responseText);
                 } else {
                     let responseText = xhr.responseText;
                     if (vditor.options.upload.format) {

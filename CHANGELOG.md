@@ -32,7 +32,6 @@
 
 ### TODO
 
-* [1](https://github.com/Vanessa219/vditor/issues/1) 上传时支持 xhr.setRequestHeader 设置 `enhancement`
 * [2](https://github.com/Vanessa219/vditor/issues/2) 所见即所得 `enhancement`
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
@@ -41,9 +40,11 @@
    * public static mermaidRender(element: HTMLElement, className?: string)
    * hotkey 和 setSelection 方法不支持 wysiwyg
    * setValue 参数改为 markdown
+   * 添加 options.upload.headers
 
-### v1.10.3 / 2019-11-24
+### v1.10.3 / 2019-11-30
 
+* [1](https://github.com/Vanessa219/vditor/issues/1) 上传时支持 xhr.setRequestHeader 设置 `enhancement`
 * [172](https://github.com/b3log/vditor/issues/172) 上传改进  `enhancement`
 * [171](https://github.com/b3log/vditor/issues/171) 编辑器在生成 preview 之前，添加处理函数  `feature`
 * [170](https://github.com/b3log/vditor/issues/170) 新增内联数学公式开关 `enhancement`
