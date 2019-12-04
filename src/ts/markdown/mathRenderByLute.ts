@@ -1,15 +1,15 @@
-import {CDN_PATH} from "../constants";
+import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
 
-export const mathRenderByLute = (element: HTMLElement) => {
+export const mathRenderByLute = (element: HTMLElement, cdn?: string) => {
     const mathElements = element.querySelectorAll(".vditor-math");
 
     if (mathElements.length === 0) {
         return;
     }
     import(/* webpackChunkName: "katex" */ "katex").then((katex) => {
-        addStyle(`${CDN_PATH}/vditor/dist/js/katex/katex.min.css`, "vditorKatexStyle");
+        addStyle(`${cdn || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
         mathElements.forEach((mathElement) => {
             if (mathElement.getAttribute("data-math")) {
                 return;

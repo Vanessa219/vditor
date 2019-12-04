@@ -380,7 +380,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 } else if (language.value === "echarts") {
                     chartRender(previewObj.previewPanel);
                 } else {
-                    highlightRender(vditor.options.preview.hljs, previewObj.previewPanel);
+                    highlightRender(vditor.options.preview.hljs, previewObj.previewPanel, vditor.options.cdn);
                     codeRender(previewObj.previewPanel, vditor.options.lang);
                 }
             } else if (blockType.indexOf("html") > -1) {
@@ -389,7 +389,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 const tagName = blockType === "math-block" ? "div" : "span";
                 previewObj.previewPanel.innerHTML =
                     `<${tagName} class="vditor-math">${blockElement.firstChild.textContent}</${tagName}>`;
-                mathRenderByLute(previewObj.previewPanel);
+                mathRenderByLute(previewObj.previewPanel, vditor.options.cdn);
             }
         }, blockElement, blockType.indexOf("block") > -1 ? "div" : "span");
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", previewObj.preview);

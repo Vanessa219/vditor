@@ -161,6 +161,7 @@ interface IPreviewOptions {
     };
     anchor?: boolean;
     inlineMathDigit?: boolean;
+    cdn?: string;
 
     transform?(html: string): string;
 }
@@ -203,7 +204,7 @@ interface IOptions {
     hint?: IHint;
     upload?: IUpload;
     classes?: IClasses;
-
+    cdn?: string;
     tab?: string;
 
     input?(value: string, previewElement?: HTMLElement): void;
@@ -285,11 +286,11 @@ declare class IVditorConstructor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
-    public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document): void;
+    public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document, cdn?: string): void;
 
-    public static mathRenderByLute(element: HTMLElement): void;
+    public static mathRenderByLute(element: HTMLElement, cdn?: string): void;
 
-    public static mathRender(element: HTMLElement): void;
+    public static mathRender(element: HTMLElement, cdn?: string): void;
 
     public static mermaidRender(element: HTMLElement, className?: string): void;
 
