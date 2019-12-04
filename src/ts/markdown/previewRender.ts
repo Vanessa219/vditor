@@ -1,4 +1,4 @@
-import {CDN_PATH} from "../constants";
+import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -13,9 +13,10 @@ import {speechRender} from "./speechRender";
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
         anchor: false,
+        cdn: "",
         className: (options && options.anchor) ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
         customEmoji: {},
-        emojiPath: `${CDN_PATH}/vditor/dist/images/emoji`,
+        emojiPath: `${(options && options.cdn) || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/images/emoji`,
         hljs: {
             enable: true,
             lineNumber: false,
@@ -44,8 +45,8 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     previewElement.className = options.className;
 
     codeRender(previewElement, options.lang);
-    highlightRender(options.hljs, previewElement);
-    mathRenderByLute(previewElement);
+    highlightRender(options.hljs, previewElement, options.cdn);
+    mathRenderByLute(previewElement,  options.cdn);
     mermaidRender(previewElement);
     chartRender(previewElement);
     abcRender(previewElement);

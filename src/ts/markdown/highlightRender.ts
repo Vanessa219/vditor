@@ -1,7 +1,7 @@
 import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
 
-export const highlightRender = async (hljsOption?: IHljs, element: HTMLElement | Document = document) => {
+export const highlightRender = async (hljsOption?: IHljs, element: HTMLElement | Document = document, cdn?: string) => {
 
     const hljsThemes = ["abap", "algol", "algol_nu", "arduino", "autumn", "borland", "bw", "colorful", "dracula",
         "emacs", "friendly", "fruity", "github", "igor", "lovelace", "manni", "monokai", "monokailight", "murphy",
@@ -11,7 +11,7 @@ export const highlightRender = async (hljsOption?: IHljs, element: HTMLElement |
     if (!hljsThemes.includes(hljsOption.style)) {
         hljsOption.style = "github";
     }
-    addStyle(`${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js/styles/${hljsOption.style}.css`,
+    addStyle(`${cdn || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/highlight.js/styles/${hljsOption.style}.css`,
         "vditorHljsStyle");
 
     if (!hljsOption.enable) {

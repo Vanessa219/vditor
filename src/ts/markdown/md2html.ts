@@ -5,7 +5,7 @@ declare const Lute: ILute;
 export const loadLuteJs = (vditor?: IVditor) => {
     const scriptElement = document.createElement("script");
     scriptElement.type = "text/javascript";
-    scriptElement.src = `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/lute/lute.min.js`;
+    scriptElement.src = `${vditor.options.cdn || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/lute/lute.min.js`;
     // scriptElement.src = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
     document.getElementsByTagName("head")[0].appendChild(scriptElement);
 
@@ -28,7 +28,7 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
         await loadLuteJs();
     }
     options = Object.assign({
-        emojiSite: `${CDN_PATH}/vditor/dist/images/emoji`,
+        emojiSite: `${(options && options.cdn) || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/images/emoji`,
         emojis: {},
     }, options);
 
