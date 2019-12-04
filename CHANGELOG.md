@@ -36,9 +36,10 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 
-### v1.10.5 / 2019-12-04
+### v1.10.6 / 2019-12-04
 
 * [11](https://github.com/Vanessa219/vditor/issues/11) 添加 CDN 配置  `enhancement`
+* [10](https://github.com/Vanessa219/vditor/issues/10) block code 拷贝后变为 inline code `bug`
 * [9](https://github.com/Vanessa219/vditor/issues/9) 没有预览界面时依旧出现预览耗时提示 `bug`
 * [1](https://github.com/Vanessa219/vditor/issues/1) 上传时支持 xhr.setRequestHeader 设置 `enhancement`
 * [172](https://github.com/b3log/vditor/issues/172) 上传改进  `enhancement`
