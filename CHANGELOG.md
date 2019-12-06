@@ -38,6 +38,7 @@
 
 ### v1.10.6 / 2019-12-04
 
+* [12](https://github.com/Vanessa219/vditor/issues/12) 代码渲染问题，抛出KaTeX的错误信息。 `question`
 * [11](https://github.com/Vanessa219/vditor/issues/11) 添加 CDN 配置  `enhancement`
 * [10](https://github.com/Vanessa219/vditor/issues/10) block code 拷贝后变为 inline code `bug`
 * [9](https://github.com/Vanessa219/vditor/issues/9) 没有预览界面时依旧出现预览耗时提示 `bug`
