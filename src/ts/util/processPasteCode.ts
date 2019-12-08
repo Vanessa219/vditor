@@ -22,7 +22,7 @@ export const processPasteCode = (html: string, text: string, type: string = "mar
         if (type === "wysiwyg") {
             return `${code}`;
         }
-        if (/\n/.test(code)) {
+        if (/\n/.test(code) || pres.length === 1) {
             return "```\n" + code + "\n```";
         } else {
             return `\`${code}\``;
