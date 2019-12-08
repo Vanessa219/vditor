@@ -36,8 +36,9 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 
-### v1.10.6 / 2019-12-04
+### v1.10.6 / 2019-12-08
 
+* [13](https://github.com/Vanessa219/vditor/issues/13) 编辑到最底部时，回车不会滚动到最下面 `bug`
 * [12](https://github.com/Vanessa219/vditor/issues/12) 代码渲染问题，抛出KaTeX的错误信息。 `question`
 * [11](https://github.com/Vanessa219/vditor/issues/11) 添加 CDN 配置  `enhancement`
 * [10](https://github.com/Vanessa219/vditor/issues/10) block code 拷贝后变为 inline code `bug`
