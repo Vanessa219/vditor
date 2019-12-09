@@ -16,6 +16,7 @@ export class Record extends MenuItem {
     public _bindEvent(vditor: IVditor) {
         let mediaRecorder: MediaRecorder;
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new MediaRecorder(mediaStream);
@@ -53,7 +54,6 @@ export class Record extends MenuItem {
                 mediaRecorder.startRecordingNewWavFile();
                 this.element.children[0].classList.add("vditor-menu--current");
             }
-            event.preventDefault();
         });
     }
 }

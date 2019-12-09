@@ -38,6 +38,7 @@
 
 ### v1.10.8 / 2019-12-09
 
+* [18](https://github.com/Vanessa219/vditor/issues/18) 菜单栏上的按钮会触发 form 提交事件 `bug`
 * [17](https://github.com/Vanessa219/vditor/issues/17) tip 会遮挡住输入框的上部 `enhancement`
 * [16](https://github.com/Vanessa219/vditor/issues/16) 复制代码按钮错误 `bug`
 * [14](https://github.com/Vanessa219/vditor/issues/14) Vditor.preview不能渲染 `bug`

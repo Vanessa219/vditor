@@ -11,7 +11,8 @@ export class Fullscreen extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener(getEventName(), function() {
+        this.element.children[0].addEventListener(getEventName(), function(event) {
+            event.preventDefault();
             const vditorElement = document.getElementById(vditor.id);
             if (vditorElement.className.indexOf("vditor--fullscreen") > -1) {
                 this.innerHTML = menuItem.icon || fullscreenSVG;

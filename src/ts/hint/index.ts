@@ -1,6 +1,5 @@
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {selectIsEditor} from "../editor/selectIsEditor";
 import {setSelectionFocus} from "../editor/setSelection";
 import {code160to32} from "../util/code160to32";
 import {getText} from "../util/getText";
@@ -158,8 +157,9 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         this.element.style.display = "block";
 
         this.element.querySelectorAll("button").forEach((element) => {
-            element.addEventListener("click", () => {
+            element.addEventListener("click", (event) => {
                 this.fillEmoji(element, vditor);
+                event.preventDefault();
             });
         });
         // hint 展现在上部

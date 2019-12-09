@@ -23,12 +23,13 @@ export class Both extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor) {
-        this.element.children[0].addEventListener(getEventName(), () => {
+        this.element.children[0].addEventListener(getEventName(), (event) => {
             if (vditor.currentPreviewMode === "both") {
                 setPreviewMode("editor", vditor);
             } else {
                 setPreviewMode("both", vditor);
             }
+            event.preventDefault();
         });
     }
 }
