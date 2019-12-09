@@ -20,11 +20,14 @@ export const codeRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh_C
 
         const divElement = document.createElement("div");
         divElement.className = "vditor-copy";
-        divElement.innerHTML = `<textarea>${code160to32(e.innerText)}</textarea><span aria-label="${i18n[lang].copy}"
+        divElement.innerHTML = `<span aria-label="${i18n[lang].copy}"
 onmouseover="this.setAttribute('aria-label', '${i18n[lang].copy}')"
 class="vditor-tooltipped vditor-tooltipped__w"
 onclick="this.previousElementSibling.select();document.execCommand('copy');` +
             `this.setAttribute('aria-label', '${i18n[lang].copied}')">${copySVG}</span>`;
+        const textarea = document.createElement("textarea");
+        textarea.value = code160to32(e.innerText);
+        divElement.insertAdjacentElement("afterbegin", textarea);
 
         e.before(divElement);
         e.style.maxHeight = (window.outerHeight - 40) + "px";

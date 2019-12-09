@@ -5,7 +5,7 @@ declare const Lute: ILute;
 export const loadLuteJs = (vditor: IVditor | string) => {
     const scriptElement = document.createElement("script");
     scriptElement.type = "text/javascript";
-    let cdn = CDN_PATH
+    let cdn = CDN_PATH;
     if (typeof vditor === "string" && vditor) {
         cdn = vditor;
     } else if (typeof vditor === "object" && vditor.options.cdn) {
