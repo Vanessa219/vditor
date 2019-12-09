@@ -202,6 +202,11 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
         });
     }
+    if (vditor.options.upload.data) {
+        Object.keys(vditor.options.upload.data).forEach((key) => {
+            formData.append(key, vditor.options.upload.data[key]);
+        });
+    }
     vditor.upload.isUploading = true;
     editorElement.setAttribute("contenteditable", "false");
 
