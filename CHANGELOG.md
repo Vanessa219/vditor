@@ -38,6 +38,7 @@
 
 ### v1.10.8 / 2019-12-09
 
+* [17](https://github.com/Vanessa219/vditor/issues/17) tip 会遮挡住输入框的上部 `enhancement`
 * [16](https://github.com/Vanessa219/vditor/issues/16) 复制代码按钮错误 `bug`
 * [14](https://github.com/Vanessa219/vditor/issues/14) Vditor.preview不能渲染 `bug`
 * [13](https://github.com/Vanessa219/vditor/issues/13) 编辑到最底部时，回车不会滚动到最下面 `bug`

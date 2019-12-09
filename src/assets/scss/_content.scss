@@ -180,8 +180,7 @@
     color: #fff;
     animation-duration: .15s;
     animation-fill-mode: both;
-    width: 100%;
-    text-align: center;
+    left: 50%;
 
     &--show {
       display: block;
@@ -196,6 +195,7 @@
       border-radius: 3px;
       background: rgba($hoverBg, 0.8);
       position: relative;
+      margin-left: -50%;
 
       ul {
         margin: 2px 0;
