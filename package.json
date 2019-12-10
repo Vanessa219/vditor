@@ -24,7 +24,7 @@
     "@types/puppeteer": "^2.0.0",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
-    "copy-webpack-plugin": "^5.0.4",
+    "copy-webpack-plugin": "^5.1.0",
     "css-loader": "^3.2.0",
     "file-loader": "^4.1.0",
     "html-loader": "^0.5.5",
