@@ -2,19 +2,12 @@ declare module "*.svg";
 
 declare module "*.png";
 
-declare module "highlight.js";
-
-declare module "mermaid";
-
-declare module "abcjs/src/api/abc_tunebook_svg";
-
-declare module "katex";
-declare module "katex/contrib/auto-render/auto-render";
-
-declare module "turndown";
-
 interface ITurndown {
     addRule(key: string, rule: ITurndownRule): ITurndown;
+
+    use(gfm: (turndownService: ITurndown) => void): void;
+
+    turndown(html: string): string;
 }
 
 interface ITurndownRule {
@@ -65,7 +58,7 @@ interface ILute {
     Md2VditorDOM(markdown: string): string;
 }
 
-declare var webkitAudioContext: {
+declare const webkitAudioContext: {
     prototype: AudioContext
     new(contextOptions?: AudioContextOptions): AudioContext,
 };
@@ -220,6 +213,11 @@ interface IOptions {
     select?(value: string): void;
 }
 
+interface IEChart {
+    setOption(option: any): void;
+    resize(): void;
+}
+
 interface IVditor {
     id: string;
     options: IOptions;
@@ -229,7 +227,7 @@ interface IVditor {
     currentPreviewMode: keyof IPreviewMode;
     devtools?: {
         element: HTMLDivElement,
-        ASTChart: echarts.ECharts
+        ASTChart: IEChart,
         renderEchart(vditor: IVditor): void,
     };
     toolbar?: {

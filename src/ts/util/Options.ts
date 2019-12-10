@@ -1,11 +1,9 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
-
 export class Options {
     public options: IOptions;
     private defaultOptions: IOptions = {
         after: undefined,
         cache: true,
-        cdn: "",
+        cdn: "..",
         classes: {
             preview: "",
         },
@@ -19,7 +17,7 @@ export class Options {
                 "cold_sweat": "😰",
                 "heart": "❤️",
             },
-            emojiPath: `${CDN_PATH}/vditor@${VDITOR_VERSION}/dist/images/emoji`,
+            emojiPath: `../dist/images/emoji`,
         },
         keymap: {
             deleteLine: "⌘-Backspace",

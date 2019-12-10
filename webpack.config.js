@@ -8,7 +8,6 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const WebpackOnBuildPlugin = require('on-build-webpack')
@@ -42,6 +41,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 `,
   entryOnly: true,
+})
+
+const rimraf = require('rimraf')
+
+rimraf.sync('./dist', {},() => {
+  console.log('rm dist')
 })
 
 module.exports = [
@@ -89,8 +94,6 @@ module.exports = [
       ],
     },
     plugins: [
-      new CleanWebpackPlugin(
-        {cleanOnceBeforeBuildPatterns: [path.join(__dirname, 'dist')]}),
       banner,
       new MiniCssExtractPlugin({
         filename: '[name].css',
@@ -109,16 +112,15 @@ module.exports = [
     output: {
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
-      chunkFilename: '[name].bundle.js',
-      // pkg.cdn: https://static.hacpai.com/js/lib | https://unpkg.com | https://cdn.jsdelivr.net/npm
-      publicPath: `${pkg.cdn}/vditor@${pkg.version}/dist/`,
+      // chunkFilename: '[name].bundle.js',
+      // publicPath: `${pkg.cdn}/vditor@${pkg.version}/dist/`,
       libraryTarget: 'umd',
       library: 'Vditor',
       libraryExport: 'default',
     },
     entry: {
       'index.min': './src/index.ts',
-      'method.min': './src/method.ts'
+      'method.min': './src/method.ts',
     },
     resolve: {
       extensions: ['.js', '.ts', '.svg', 'png'],
@@ -180,20 +182,19 @@ module.exports = [
       // new BundleAnalyzerPlugin(),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
-        CDN_PATH: JSON.stringify(pkg.cdn),
       }),
       banner,
     ],
-    optimization: {
-      namedModules: true,
-      namedChunks: true,
-      splitChunks: {
-        cacheGroups: {
-          default: false,
-          vendors: {
-            test: /null/,
-          },
-        },
-      },
-    },
+    // optimization: {
+    //   namedModules: true,
+    //   namedChunks: true,
+    //   splitChunks: {
+    //     cacheGroups: {
+    //       default: false,
+    //       vendors: {
+    //         test: /null/,
+    //       },
+    //     },
+    //   },
+    // },
   }]

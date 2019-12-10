@@ -1,7 +1,6 @@
 {
   "name": "vditor",
   "version": "1.10.8",
-  "cdn": "https://cdn.jsdelivr.net/npm",
   "description": "A markdown editor written in TypeScript",
   "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://hacpai.com/tag/vditor",
@@ -15,24 +14,16 @@
     "src/assets/*"
   ],
   "dependencies": {
-    "abcjs": "^5.8.0",
-    "diff-match-patch": "^1.0.4",
-    "echarts": "^4.2.1",
-    "highlight.js": "^9.15.9",
-    "katex": "^0.11.0",
-    "mermaid": "^8.2.3",
-    "turndown": "^5.0.3"
+    "diff-match-patch": "^1.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
     "@types/diff-match-patch": "^1.0.32",
-    "@types/echarts": "^4.1.12",
     "@types/jest": "^24.0.17",
-    "@types/puppeteer": "^1.19.0",
+    "@types/puppeteer": "^2.0.0",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "file-loader": "^4.1.0",
@@ -45,16 +36,17 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "puppeteer": "^1.19.0",
+    "rimraf": "^3.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^1.0.0",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.4",
     "tslint": "^5.18.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.39.1",
-    "webpack-bundle-analyzer": "^3.4.1",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack": "^4.41.2",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "license": "MIT",
   "repository": "git://github.com/Vanessa219/vditor.git",
