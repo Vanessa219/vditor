@@ -6,7 +6,7 @@ declare const hljs: {
 };
 
 export const highlightRender =
-    (hljsOption?: IHljs, element: HTMLElement | Document = document, cdn: string = "..") => {
+    (hljsOption?: IHljs, element: HTMLElement | Document = document, cdn = "..") => {
         const hljsThemes = ["abap", "algol", "algol_nu", "arduino", "autumn", "borland", "bw", "colorful", "dracula",
             "emacs", "friendly", "fruity", "github", "igor", "lovelace", "manni", "monokai", "monokailight", "murphy",
             "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments", "rainbow_dash", "rrt",

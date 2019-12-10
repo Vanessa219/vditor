@@ -76,7 +76,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
     const editorElement = vditor.currentMode === "markdown" ? vditor.editor.element : vditor.wysiwyg.element;
     editorElement.focus();
     const response = JSON.parse(responseText);
-    let errorTip: string = "";
+    let errorTip = "";
 
     if (response.code === 1) {
         errorTip = `${response.msg}`;

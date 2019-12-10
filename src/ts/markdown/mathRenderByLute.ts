@@ -9,7 +9,7 @@ declare const katex: {
     }): string;
 };
 
-export const mathRenderByLute = (element: HTMLElement, cdn: string = "..") => {
+export const mathRenderByLute = (element: HTMLElement, cdn = "..") => {
     const mathElements = element.querySelectorAll(".vditor-math");
 
     if (mathElements.length === 0) {

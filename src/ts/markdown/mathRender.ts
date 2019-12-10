@@ -6,7 +6,7 @@ declare const renderMathInElement: (element: Element, option: {
     delimiters: Array<{ left: string, right: string, display: boolean }>;
 }) => void;
 
-export const mathRender = (element: HTMLElement, cdn: string = "..") => {
+export const mathRender = (element: HTMLElement, cdn = "..") => {
     const text = code160to32(element.innerText);
     if (text.split("$").length > 2 || (text.split("\\(").length > 1 && text.split("\\)").length > 1)) {
 

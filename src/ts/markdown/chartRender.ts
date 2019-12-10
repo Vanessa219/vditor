@@ -4,7 +4,7 @@ declare const echarts: {
     init(element: HTMLElement): IEChart;
 };
 
-export const chartRender = (element: (HTMLElement | Document) = document, cdn: string = "..") => {
+export const chartRender = (element: (HTMLElement | Document) = document, cdn = "..") => {
     const echartsElements = element.querySelectorAll(".language-echarts");
     if (echartsElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript");

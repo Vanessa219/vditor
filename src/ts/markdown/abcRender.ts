@@ -4,7 +4,7 @@ declare const ABCJS: {
     renderAbc(element: HTMLElement, text: string): void;
 };
 
-export const abcRender = (element: (HTMLElement | Document) = document, cdn: string = "..") => {
+export const abcRender = (element: (HTMLElement | Document) = document, cdn = "..") => {
     const abcElements = element.querySelectorAll(".language-abc");
     if (abcElements.length > 0) {
         addScript(`${cdn}/dist/js/abcjs/abcjs_basic.min.js`, "vditorAbcjsScript");
