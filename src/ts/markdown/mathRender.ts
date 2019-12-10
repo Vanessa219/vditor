@@ -2,11 +2,9 @@ import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
 
-declare const renderMathInElement: {
-    default(element: Element, option: {
-        delimiters: Array<{ left: string, right: string, display: boolean }>;
-    }): void;
-};
+declare const renderMathInElement: (element: Element, option: {
+    delimiters: Array<{ left: string, right: string, display: boolean }>;
+}) => void;
 
 export const mathRender = (element: HTMLElement, cdn: string = "..") => {
     const text = code160to32(element.innerText);
@@ -17,7 +15,7 @@ export const mathRender = (element: HTMLElement, cdn: string = "..") => {
 
         addStyle(`${cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
 
-        renderMathInElement.default(element, {
+        renderMathInElement(element, {
             delimiters: [
                 {left: "$$", right: "$$", display: true},
                 {left: "\\(", right: "\\)", display: false},
