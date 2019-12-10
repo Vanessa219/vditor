@@ -1,7 +1,15 @@
+import {addScript} from "../util/addScript";
 import {processPasteCode} from "../util/processPasteCode";
 import {insertText} from "./insertText";
 import {setSelectionByInlineText} from "./setSelection";
 import {gfm} from "./turndown-plugin-gfm";
+
+declare const TurndownService: {
+    prototype: {
+        escape(name: string): string;
+    }
+    new({}): ITurndown,
+};
 
 export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
     // process word
@@ -17,7 +25,8 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
         return code;
     }
 
-    const {default: TurndownService} = await import(/* webpackChunkName: "turndown" */ "turndown");
+    await addScript(`${vditor.options.cdn}/dist/js/turndown/turndown.js`,
+        "vditorTurndownScript");
 
     // no escape
     TurndownService.prototype.escape = (name: string) => {

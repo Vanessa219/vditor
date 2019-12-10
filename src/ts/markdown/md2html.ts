@@ -1,33 +1,24 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
+import {addScript} from "../util/addScript";
 
 declare const Lute: ILute;
 
-export const loadLuteJs = (vditor: IVditor | string) => {
-    const scriptElement = document.createElement("script");
-    scriptElement.type = "text/javascript";
-    let cdn = CDN_PATH;
+export const loadLuteJs = async (vditor: IVditor | string) => {
+    let cdn = "..";
     if (typeof vditor === "string" && vditor) {
         cdn = vditor;
     } else if (typeof vditor === "object" && vditor.options.cdn) {
         cdn = vditor.options.cdn;
     }
-    scriptElement.src = `${cdn}/vditor@${VDITOR_VERSION}/dist/js/lute/lute.min.js`;
+    addScript(`${cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript");
+    // addScript(`http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`, 'vditorLuteScript')
 
-    // scriptElement.src = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
-    document.getElementsByTagName("head")[0].appendChild(scriptElement);
-
-    return new Promise((resolve) => {
-        scriptElement.onload = () => {
-            if (vditor && typeof vditor === "object" && !vditor.lute) {
-                vditor.lute = Lute.New();
-                vditor.lute.PutEmojis(vditor.options.hint.emoji);
-                vditor.lute.SetEmojiSite(vditor.options.hint.emojiPath);
-                vditor.lute.SetParallelParsing(false);
-                vditor.lute.SetInlineMathAllowDigitAfterOpenMarker(vditor.options.preview.inlineMathDigit);
-            }
-            resolve();
-        };
-    });
+    if (vditor && typeof vditor === "object" && !vditor.lute) {
+        vditor.lute = Lute.New();
+        vditor.lute.PutEmojis(vditor.options.hint.emoji);
+        vditor.lute.SetEmojiSite(vditor.options.hint.emojiPath);
+        vditor.lute.SetParallelParsing(false);
+        vditor.lute.SetInlineMathAllowDigitAfterOpenMarker(vditor.options.preview.inlineMathDigit);
+    }
 };
 
 export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions) => {
@@ -35,7 +26,7 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
         await loadLuteJs(options && options.cdn);
     }
     options = Object.assign({
-        emojiSite: `${(options && options.cdn) || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/images/emoji`,
+        emojiSite: `${(options && options.cdn) || ".."}/dist/images/emoji`,
         emojis: {},
     }, options);
 

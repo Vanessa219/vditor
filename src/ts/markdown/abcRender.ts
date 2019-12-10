@@ -1,11 +1,17 @@
-export const abcRender = async (element: (HTMLElement | Document) = document) => {
+import {addScript} from "../util/addScript";
+
+declare const ABCJS: {
+    renderAbc(element: HTMLElement, text: string): void;
+};
+
+export const abcRender = (element: (HTMLElement | Document) = document, cdn: string = "..") => {
     const abcElements = element.querySelectorAll(".language-abc");
     if (abcElements.length > 0) {
-        const {default: abcjs} = await import(/* webpackChunkName: "abcjs" */ "abcjs/src/api/abc_tunebook_svg");
+        addScript(`${cdn}/dist/js/abcjs/abcjs_basic.min.js`, "vditorAbcjsScript");
         abcElements.forEach((e: HTMLDivElement) => {
             const divElement = document.createElement("div");
             e.parentNode.parentNode.replaceChild(divElement, e.parentNode);
-            abcjs(divElement, e.textContent.trim(), {});
+            ABCJS.renderAbc(divElement, e.textContent.trim());
             divElement.style.overflowX = "auto";
         });
     }

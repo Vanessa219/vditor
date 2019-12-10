@@ -1,8 +1,13 @@
+import {addScript} from "../util/addScript";
 import {getText} from "../util/getText";
+
+declare const echarts: {
+    init(element: HTMLElement): IEChart;
+};
 
 export class DevTools {
     public element: HTMLDivElement;
-    public ASTChart: echarts.ECharts;
+    public ASTChart: IEChart;
 
     constructor() {
         this.element = document.createElement("div");
@@ -16,7 +21,7 @@ export class DevTools {
         }
 
         if (!this.ASTChart) {
-            const {default: echarts} = await import(/* webpackChunkName: "echarts" */ "echarts");
+            addScript(`${vditor.options.cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript");
             this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
         }
 

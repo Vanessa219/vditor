@@ -1,33 +1,39 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
+import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
 
-export const mathRender = (element: HTMLElement, cdn?: string) => {
+declare const renderMathInElement: {
+    default(element: Element, option: {
+        delimiters: Array<{ left: string, right: string, display: boolean }>;
+    }): void;
+};
+
+export const mathRender = (element: HTMLElement, cdn: string = "..") => {
     const text = code160to32(element.innerText);
     if (text.split("$").length > 2 || (text.split("\\(").length > 1 && text.split("\\)").length > 1)) {
-        import(/* webpackChunkName: "katex" */ "katex").then(() => {
-            import(/* webpackChunkName: "katex" */ "katex/contrib/auto-render/auto-render")
-                .then((renderMathInElement) => {
-                    addStyle(`${cdn || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/js/katex/katex.min.css`,
-                        "vditorKatexStyle");
-                    renderMathInElement.default(element, {
-                        delimiters: [
-                            {left: "$$", right: "$$", display: true},
-                            {left: "\\(", right: "\\)", display: false},
-                            {left: "$", right: "$", display: false},
-                        ],
-                    });
 
-                    element.querySelectorAll(".katex").forEach((mathElement: HTMLElement) => {
-                        mathElement.addEventListener("copy", function(event: ClipboardEvent) {
-                            event.stopPropagation();
-                            event.preventDefault();
-                            event.clipboardData.setData("text/plain",
-                                this.querySelector("annotation").textContent);
-                            event.clipboardData.setData("text/html", this.innerHTML);
-                        });
-                    });
-                });
+        addScript(`${cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript");
+        addScript(`${cdn}/dist/js/katex/auto-render.min.js`, "vditorKatexAutoRenderScript");
+
+        addStyle(`${cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
+
+        renderMathInElement.default(element, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "\\(", right: "\\)", display: false},
+                {left: "$", right: "$", display: false},
+            ],
         });
+
+        element.querySelectorAll(".katex").forEach((mathElement: HTMLElement) => {
+            mathElement.addEventListener("copy", function(event: ClipboardEvent) {
+                event.stopPropagation();
+                event.preventDefault();
+                event.clipboardData.setData("text/plain",
+                    this.querySelector("annotation").textContent);
+                event.clipboardData.setData("text/html", this.innerHTML);
+            });
+        });
+
     }
 };

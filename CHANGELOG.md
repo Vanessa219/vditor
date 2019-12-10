@@ -60,7 +60,7 @@
   * hotkey 和 setSelection 方法不支持 wysiwyg
   * setValue 参数改为 markdown
   * 添加 options.upload.headers
-  * 为 options, IPreviewOptions, highlightRender, mathRenderByLute, mathRender 添加 cdn
+  * 为 options, IPreviewOptions, highlightRender, mathRenderByLute, mathRender, abcRender, chartRender, mermaidRender 添加 cdn
 
 ### v1.9.7 / 2019-11-11
 

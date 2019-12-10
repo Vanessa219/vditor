@@ -1,4 +1,3 @@
-import {CDN_PATH, VDITOR_VERSION} from "../constants";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -13,10 +12,10 @@ import {speechRender} from "./speechRender";
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
         anchor: false,
-        cdn: "",
+        cdn: "..",
         className: (options && options.anchor) ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
         customEmoji: {},
-        emojiPath: `${(options && options.cdn) || CDN_PATH}/vditor@${VDITOR_VERSION}/dist/images/emoji`,
+        emojiPath: `${(options && options.cdn) || ".."}/dist/images/emoji`,
         hljs: {
             enable: true,
             lineNumber: false,
