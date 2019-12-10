@@ -17,7 +17,7 @@ export class Options {
                 "cold_sweat": "😰",
                 "heart": "❤️",
             },
-            emojiPath: `../dist/images/emoji`,
+            emojiPath: "../dist/images/emoji",
         },
         keymap: {
             deleteLine: "⌘-Backspace",
