@@ -374,11 +374,12 @@ export const highlightToolbar = (vditor: IVditor) => {
                 previewObj.previewPanel.innerHTML =
                     `<pre>${blockElement.firstElementChild.innerHTML}</pre>`;
                 if (language.value === "abc") {
-                    abcRender(previewObj.previewPanel);
+                    abcRender(previewObj.previewPanel, vditor.options.cdn);
                 } else if (language.value === "mermaid") {
-                    mermaidRender(previewObj.previewPanel, ".vditor-wysiwyg__preview .language-mermaid");
+                    mermaidRender(previewObj.previewPanel, ".vditor-wysiwyg__preview .language-mermaid",
+                        vditor.options.cdn);
                 } else if (language.value === "echarts") {
-                    chartRender(previewObj.previewPanel);
+                    chartRender(previewObj.previewPanel, vditor.options.cdn);
                 } else {
                     highlightRender(vditor.options.preview.hljs, previewObj.previewPanel, vditor.options.cdn);
                     codeRender(previewObj.previewPanel, vditor.options.lang);

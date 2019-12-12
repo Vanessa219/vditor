@@ -1,9 +1,11 @@
+import {VDITOR_VERSION} from "../constants";
+
 export class Options {
     public options: IOptions;
     private defaultOptions: IOptions = {
         after: undefined,
         cache: true,
-        cdn: "..",
+        cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
         classes: {
             preview: "",
         },

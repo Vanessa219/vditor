@@ -1,3 +1,4 @@
+import {VDITOR_VERSION} from "../constants";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -12,10 +13,11 @@ import {speechRender} from "./speechRender";
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
         anchor: false,
-        cdn: "..",
+        cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
         className: (options && options.anchor) ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
         customEmoji: {},
-        emojiPath: `${(options && options.cdn) || ".."}/dist/images/emoji`,
+        emojiPath: `${(options && options.cdn) ||
+        `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`}/dist/images/emoji`,
         hljs: {
             enable: true,
             lineNumber: false,
@@ -45,10 +47,10 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
 
     codeRender(previewElement, options.lang);
     highlightRender(options.hljs, previewElement, options.cdn);
-    mathRenderByLute(previewElement,  options.cdn);
-    mermaidRender(previewElement);
-    chartRender(previewElement);
-    abcRender(previewElement);
+    mathRenderByLute(previewElement, options.cdn);
+    mermaidRender(previewElement, ".language-mermaid", options.cdn);
+    chartRender(previewElement, options.cdn);
+    abcRender(previewElement, options.cdn);
     mediaRender(previewElement);
     if (options.speech.enable) {
         speechRender(previewElement, options.lang);

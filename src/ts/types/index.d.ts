@@ -215,6 +215,7 @@ interface IOptions {
 
 interface IEChart {
     setOption(option: any): void;
+
     resize(): void;
 }
 
@@ -290,11 +291,11 @@ declare class IVditorConstructor {
 
     public static mathRender(element: HTMLElement, cdn?: string): void;
 
-    public static mermaidRender(element: HTMLElement, className?: string): void;
+    public static mermaidRender(element: HTMLElement, className?: string, cdn?: string): void;
 
-    public static chartRender(element?: HTMLElement | Document): void;
+    public static chartRender(element?: HTMLElement | Document, cdn?: string): void;
 
-    public static abcRender(element?: HTMLElement | Document): void;
+    public static abcRender(element?: HTMLElement | Document, cdn?: string): void;
 
     public static mediaRender(element: HTMLElement): void;
 

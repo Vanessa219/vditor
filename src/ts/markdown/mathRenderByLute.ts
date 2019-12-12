@@ -1,3 +1,4 @@
+import {VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
@@ -9,7 +10,8 @@ declare const katex: {
     }): string;
 };
 
-export const mathRenderByLute = (element: HTMLElement, cdn = "..") => {
+export const mathRenderByLute = (element: HTMLElement,
+                                 cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
     const mathElements = element.querySelectorAll(".vditor-math");
 
     if (mathElements.length === 0) {

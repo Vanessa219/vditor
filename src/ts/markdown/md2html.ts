@@ -1,9 +1,10 @@
+import {VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare const Lute: ILute;
 
 export const loadLuteJs = async (vditor: IVditor | string) => {
-    let cdn = "..";
+    let cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
     if (typeof vditor === "string" && vditor) {
         cdn = vditor;
     } else if (typeof vditor === "object" && vditor.options.cdn) {
@@ -26,7 +27,8 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
         await loadLuteJs(options && options.cdn);
     }
     options = Object.assign({
-        emojiSite: `${(options && options.cdn) || ".."}/dist/images/emoji`,
+        emojiSite: `${(options && options.cdn) ||
+        `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`}/dist/images/emoji`,
         emojis: {},
     }, options);
 

@@ -38,6 +38,7 @@
 
 ### v1.10.9 / 2019-12-10
 
+* [20](https://github.com/Vanessa219/vditor/issues/20) 报错:Lute is not defined `bug`
 * [19](https://github.com/Vanessa219/vditor/issues/19) CDN 切换优化 `enhancement`
 * [18](https://github.com/Vanessa219/vditor/issues/18) 菜单栏上的按钮会触发 form 提交事件 `bug`
 * [17](https://github.com/Vanessa219/vditor/issues/17) tip 会遮挡住输入框的上部 `enhancement`

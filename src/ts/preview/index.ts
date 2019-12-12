@@ -108,9 +108,9 @@ export class Preview {
         highlightRender(vditor.options.preview.hljs, vditor.preview.element.children[0] as HTMLElement,
             vditor.options.cdn);
         mathRenderByLute(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
-        mermaidRender(vditor.preview.element.children[0] as HTMLElement);
-        chartRender(vditor.preview.element.children[0] as HTMLElement);
-        abcRender(vditor.preview.element.children[0] as HTMLElement);
+        mermaidRender(vditor.preview.element.children[0] as HTMLElement, ".language-mermaid", vditor.options.cdn);
+        chartRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
+        abcRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.children[0] as HTMLElement);
     }
 }
