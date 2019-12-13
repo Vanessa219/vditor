@@ -19,9 +19,10 @@ export class Emoji extends MenuItem {
             const emojiValue = vditor.options.hint.emoji[key];
             if (emojiValue.indexOf(".") > -1) {
                 commonEmojiHTML += `<button data-value=":${key}: " data-key=":${key}:"><img
-data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></button>`;
+data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${emojiValue}"/></button>`;
             } else {
-                commonEmojiHTML += `<button data-value="${emojiValue} " data-key="${key}">${emojiValue}</button>`;
+                commonEmojiHTML += `<button data-value="${emojiValue} "
+ data-key="${key}"><span class="vditor-emojis__icon">${emojiValue}</span></button>`;
             }
         });
 
@@ -51,14 +52,15 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></button>`;
             }
 
             if (vditor.hint) {
-               vditor.hint.element.style.display = "none";
-           }
+                vditor.hint.element.style.display = "none";
+            }
             event.preventDefault();
         });
 
         emojiPanelElement.querySelectorAll(".vditor-emojis button").forEach((element) => {
             element.addEventListener(getEventName(), (event: Event) => {
-                const value =  (event.target as HTMLElement).getAttribute("data-value");
+                event.preventDefault();
+                const value = element.getAttribute("data-value");
                 if (vditor.currentMode === "wysiwyg") {
                     const range = getSelection().getRangeAt(0);
                     range.insertNode(document.createTextNode(value));
@@ -68,7 +70,6 @@ data-value=":${key}: " data-key=":${key}:" src="${emojiValue}"/></button>`;
                     insertText(vditor, value, "", true);
                 }
                 emojiPanelElement.style.display = "none";
-                event.preventDefault();
             });
             element.addEventListener("mouseover", (event: Event) => {
                 emojiPanelElement.querySelector(".vditor-emojis__tip").innerHTML =

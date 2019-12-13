@@ -13,17 +13,28 @@
 
     & > div {
       float: left;
-      & > button {
+
+      & > .vditor-tooltipped {
         border: 0;
         margin: 0;
         padding: 10px 5px;
         background-color: transparent;
         height: 35px;
         width: 25px;
+        box-sizing: border-box;
 
         &:focus {
           outline: none;
         }
+      }
+    }
+
+
+    .vditor-tooltipped {
+      color: $toolbarIcon;
+
+      &:hover {
+        color: $toolbarIconHover;
       }
     }
 
@@ -36,37 +47,15 @@
       height: 15px;
     }
 
-    .vditor-tooltipped {
-      color: $toolbarIcon;
-
-      &:hover {
-        color: $toolbarIconHover;
-      }
-    }
-
-    label {
-      overflow: hidden;
-      position: relative;
-      height: 14px;
-      width: 15px;
-      display: block;
+    input {
+      position: absolute;
+      width: 25px;
+      height: 35px;
+      top: 0;
+      left: 0;
       cursor: pointer;
-
-      svg {
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-
-      input {
-        position: absolute;
-        width: 15px;
-        height: 15px;
-        top: 0;
-        left: 0;
-        opacity: .001;
-        overflow: hidden;
-      }
+      opacity: .001;
+      overflow: hidden;
     }
   }
 
@@ -141,12 +130,14 @@
       border: 0;
       margin: 0;
       background-color: transparent;
+      overflow: hidden;
 
       &:focus {
         outline: none;
       }
 
-      &:hover {
+      &:hover .vditor-emojis__icon {
+        display: inline-block;
         transform: scale(1.2);
       }
     }

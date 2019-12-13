@@ -10,7 +10,7 @@ export class MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         this.menuItem = menuItem;
         this.element = document.createElement("div");
-        const iconElement = document.createElement("button");
+        const iconElement = document.createElement(menuItem.name === "upload" ? "div" : "button");
         iconElement.setAttribute("data-type", menuItem.name);
         iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
 

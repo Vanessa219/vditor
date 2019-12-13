@@ -5,11 +5,11 @@ import {MenuItem} from "./MenuItem";
 export class Upload extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        let inputHTML = '<input multiple="multiple" type="file"></label>';
+        let inputHTML = '<input multiple="multiple" type="file">';
         if (vditor.options.upload.accept) {
-            inputHTML = `<input multiple="multiple" type="file" accept="${vditor.options.upload.accept}"></label>`;
+            inputHTML = `<input multiple="multiple" type="file" accept="${vditor.options.upload.accept}">`;
         }
-        this.element.children[0].innerHTML = `<label>${(menuItem.icon || uploadSVG)}${inputHTML}</label>`;
+        this.element.children[0].innerHTML = `${(menuItem.icon || uploadSVG)}${inputHTML}`;
         this._bindEvent(vditor);
     }
 
