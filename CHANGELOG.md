@@ -36,7 +36,7 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 
-### v1.10.9 / 2019-12-10
+### v1.10.10 / 2019-12-12
 
 * [20](https://github.com/Vanessa219/vditor/issues/20) 报错:Lute is not defined `bug`
 * [19](https://github.com/Vanessa219/vditor/issues/19) CDN 切换优化 `enhancement`
