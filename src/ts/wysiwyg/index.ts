@@ -181,7 +181,7 @@ class WYSIWYG {
             }
         });
 
-        this.element.addEventListener("keyup", (event: KeyboardEvent) => {
+        this.element.addEventListener("keyup", () => {
             highlightToolbar(vditor);
         });
 
@@ -192,7 +192,7 @@ class WYSIWYG {
             if (!event.metaKey && !event.ctrlKey && event.shiftKey) {
                 // 软换行
                 const range = getSelection().getRangeAt(0).cloneRange();
-                range.insertNode(document.createTextNode("\n"));
+                range.insertNode(document.createTextNode("\n\n"));
                 range.collapse(false);
                 setSelectionFocus(range);
 
