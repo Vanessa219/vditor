@@ -17,13 +17,19 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
         if (wbrElement.previousElementSibling.isEqualNode(wbrElement.previousSibling)) {
             if (wbrElement.previousElementSibling.lastChild) {
                 // <em>text</em><wbr>
-                range.setStart(wbrElement.previousElementSibling.lastChild,
-                    wbrElement.previousElementSibling.lastChild.textContent.length);
+                range.setStartBefore(wbrElement);
+                setSelectionFocus(range);
+                // fix Chrome set range bug
+                if (wbrElement.previousElementSibling.tagName === "EM") {
+                    document.execCommand("italic", false, "");
+                } else if (wbrElement.previousElementSibling.tagName === "STRONG") {
+                    document.execCommand("bold", false, "");
+                }
+                return;
             } else {
                 // <br><wbr>
                 range.setStartAfter(wbrElement.previousElementSibling);
             }
-
         } else {
             // <em>text</em>text<wbr>
             range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
