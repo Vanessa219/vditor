@@ -19,7 +19,7 @@ export class Options {
                 "cold_sweat": "😰",
                 "heart": "❤️",
             },
-            emojiPath: "../dist/images/emoji",
+            emojiPath: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji`,
         },
         keymap: {
             deleteLine: "⌘-Backspace",

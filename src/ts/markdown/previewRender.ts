@@ -16,7 +16,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
         className: (options && options.anchor) ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
         customEmoji: {},
-        emojiPath: `${(options && options.cdn) ||
+        emojiPath: `${(options && options.emojiPath) ||
         `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`}/dist/images/emoji`,
         hljs: {
             enable: true,
