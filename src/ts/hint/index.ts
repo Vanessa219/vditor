@@ -24,7 +24,7 @@ export class Hint {
         let currentLineValue: string;
         if (vditor.currentMode === "wysiwyg") {
             const wbrNode = vditor.wysiwyg.element.querySelector("wbr");
-            currentLineValue = (wbrNode.previousSibling && wbrNode.previousSibling.textContent) || "";
+            currentLineValue = (wbrNode && wbrNode.previousSibling && wbrNode.previousSibling.textContent) || "";
         } else {
             currentLineValue = getText(vditor)
                 .substring(0, position.end).split("\n").slice(-1).pop();

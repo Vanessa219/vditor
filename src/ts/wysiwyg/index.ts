@@ -7,6 +7,7 @@ import {processPasteCode} from "../util/processPasteCode";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
+import {processPreCode} from "./processPreCode";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
@@ -130,7 +131,17 @@ class WYSIWYG {
                 htmlElement = undefined;
             }
 
-            if (!startSpace && !endSpace
+            let typeElement = range.startContainer as HTMLElement;
+            if (range.startContainer.nodeType === 3) {
+                typeElement = range.startContainer.parentElement;
+            }
+            const preCodeElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+
+            this.element.querySelectorAll("pre").forEach((preElement) => {
+                preElement.setAttribute("data-code", encodeURIComponent(preElement.textContent));
+            });
+
+            if (!preCodeElement && !startSpace && !endSpace
                 && !htmlElement
                 && event.inputType !== "formatItalic"
                 && event.inputType !== "formatBold"
@@ -150,13 +161,14 @@ class WYSIWYG {
                 range.insertNode(wbrNode);
 
                 // markdown 纠正
-                console.log(`SpinVditorDOM-argument:[${this.element.innerHTML}]`);
+                console.log(`SpinVditorDOM-argument:[${this.element.innerHTML.split('<div class="vditor-panel vditor-panel--none"')[0]}]`);
                 this.element.innerHTML = vditor.lute.SpinVditorDOM(this.element.innerHTML);
                 console.log(`SpinVditorDOM-result:[${this.element.innerHTML}]`);
                 this.element.insertAdjacentElement("beforeend", this.popover);
 
                 // 设置光标
                 setRangeByWbr(this.element, range);
+                processPreCode(blockElement);
 
                 if (vditor.hint) {
                     vditor.hint.render(vditor);
@@ -189,9 +201,15 @@ class WYSIWYG {
             if (event.key !== "Enter") {
                 return;
             }
-            if (!event.metaKey && !event.ctrlKey && event.shiftKey) {
+            const range = getSelection().getRangeAt(0).cloneRange();
+            let typeElement = range.startContainer as HTMLElement;
+            if (range.startContainer.nodeType === 3) {
+                typeElement = range.startContainer.parentElement;
+            }
+            const preCodeElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+            if ((!event.metaKey && !event.ctrlKey && event.shiftKey) ||
+                (!event.metaKey && !event.ctrlKey && !event.shiftKey && preCodeElement)) {
                 // 软换行
-                const range = getSelection().getRangeAt(0).cloneRange();
                 range.insertNode(document.createTextNode("\n\n"));
                 range.collapse(false);
                 setSelectionFocus(range);
@@ -200,6 +218,7 @@ class WYSIWYG {
 
                 event.preventDefault();
             }
+
             scrollCenter(this.element);
         });
     }
