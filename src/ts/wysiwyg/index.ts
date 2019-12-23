@@ -135,13 +135,14 @@ class WYSIWYG {
             if (range.startContainer.nodeType === 3) {
                 typeElement = range.startContainer.parentElement;
             }
-            const preCodeElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
 
-            this.element.querySelectorAll("pre").forEach((preElement) => {
-                preElement.setAttribute("data-code", encodeURIComponent(preElement.textContent));
+            const hasCodeElement = hasClosestByTag(typeElement, "CODE");
+
+            this.element.querySelectorAll("code").forEach((codeElement) => {
+                codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
             });
 
-            if (!preCodeElement && !startSpace && !endSpace
+            if (!hasCodeElement && !startSpace && !endSpace
                 && !htmlElement
                 && event.inputType !== "formatItalic"
                 && event.inputType !== "formatBold"
@@ -161,9 +162,14 @@ class WYSIWYG {
                 range.insertNode(wbrNode);
 
                 // markdown 纠正
-                console.log(`SpinVditorDOM-argument:[${this.element.innerHTML.split('<div class="vditor-panel vditor-panel--none"')[0]}]`);
-                this.element.innerHTML = vditor.lute.SpinVditorDOM(this.element.innerHTML);
-                console.log(`SpinVditorDOM-result:[${this.element.innerHTML}]`);
+                // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
+                const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="[\*\*|__]">/g, "")
+                    .replace(/<\/em><em data-marker="[\*|_]">/g, "")
+                    .replace(/<\/s><s data-marker="~+">/g, "");
+                console.log(`SpinVditorDOM-argument:[${
+                    vditorHTML.split('<div class="vditor-panel vditor-panel--none"')[0]}]`);
+                this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
+                console.log(`SpinVditorDOM-result:[${this.element.innerHTML}]`)
                 this.element.insertAdjacentElement("beforeend", this.popover);
 
                 // 设置光标
@@ -210,7 +216,7 @@ class WYSIWYG {
             if ((!event.metaKey && !event.ctrlKey && event.shiftKey) ||
                 (!event.metaKey && !event.ctrlKey && !event.shiftKey && preCodeElement)) {
                 // 软换行
-                range.insertNode(document.createTextNode("\n\n"));
+                range.insertNode(document.createTextNode("\n"));
                 range.collapse(false);
                 setSelectionFocus(range);
 

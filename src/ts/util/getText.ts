@@ -5,9 +5,9 @@ export const getText = (vditor: IVditor) => {
         // last char must be a `\n`.
         return code160to32(`${vditor.editor.element.textContent}\n`.replace(/\n\n$/, "\n"));
     } else if (vditor.wysiwyg) {
-        vditor.wysiwyg.element.querySelectorAll("pre").forEach((preElement) => {
-            preElement.setAttribute("data-code",
-                decodeURIComponent(preElement.getAttribute("data-code")));
+        vditor.wysiwyg.element.querySelectorAll("code").forEach((codeElement) => {
+            codeElement.setAttribute("data-code",
+                decodeURIComponent(codeElement.getAttribute("data-code")));
         });
         return vditor.lute.VditorDOM2Md(vditor.wysiwyg.element.innerHTML);
     }
