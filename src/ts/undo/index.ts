@@ -1,6 +1,8 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
+import {disableToolbar} from "../toolbar/disableToolbar";
+import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 
@@ -67,15 +69,11 @@ class Undo {
             if (this.hasUndo) {
                 this.redoStack = [];
                 this.hasUndo = false;
-                if (vditor.toolbar.elements.redo) {
-                    if (!vditor.toolbar.elements.redo.children[0].classList.contains("vditor-menu--disabled")) {
-                        vditor.toolbar.elements.redo.children[0].classList.add("vditor-menu--disabled");
-                    }
-                }
+                disableToolbar(vditor.toolbar.elements, ["redo"]);
             }
 
-            if (vditor.toolbar.elements.undo && this.undoStack.length > 1) {
-                vditor.toolbar.elements.undo.children[0].classList.remove("vditor-menu--disabled");
+            if (this.undoStack.length > 1) {
+                enableToolbar(vditor.toolbar.elements, ["undo"]);
             }
         }, 500);
     }
@@ -111,20 +109,16 @@ class Undo {
 
         scrollCenter(vditor.editor.element);
 
-        if (vditor.toolbar.elements.undo) {
-            if (this.undoStack.length > 1) {
-                vditor.toolbar.elements.undo.children[0].classList.remove("vditor-menu--disabled");
-            } else if (!vditor.toolbar.elements.undo.children[0].classList.contains("vditor-menu--disabled")) {
-                vditor.toolbar.elements.undo.children[0].classList.add("vditor-menu--disabled");
-            }
+        if (this.undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["undo"]);
         }
 
-        if (vditor.toolbar.elements.redo) {
-            if (this.redoStack.length !== 0) {
-                vditor.toolbar.elements.redo.children[0].classList.remove("vditor-menu--disabled");
-            } else if (!vditor.toolbar.elements.redo.children[0].classList.contains("vditor-menu--disabled")) {
-                vditor.toolbar.elements.redo.children[0].classList.add("vditor-menu--disabled");
-            }
+        if (this.redoStack.length !== 0) {
+            enableToolbar(vditor.toolbar.elements, ["redo"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["redo"]);
         }
     }
 }

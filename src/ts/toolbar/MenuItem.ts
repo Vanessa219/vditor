@@ -2,6 +2,7 @@ import {insertText} from "../editor/insertText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
 import {getEventName} from "../util/getEventName";
+import {removeCurrentToolbar} from "./removeCurrentToolbar";
 
 export class MenuItem {
     public element: HTMLElement;
@@ -32,11 +33,10 @@ export class MenuItem {
                 if (actionBtn.classList.contains("vditor-menu--disabled")) {
                     return;
                 }
+                const range = getSelection().getRangeAt(0);
                 let commandName = actionBtn.getAttribute("data-type");
                 if (actionBtn.classList.contains("vditor-menu--current")) {
-                    if (commandName === "inline-code") {
-                        commandName = "removeFormat";
-                    } else if (commandName === "link") {
+                    if (commandName === "link") {
                         commandName = "unlink";
                     } else if (commandName === "strike") {
                         commandName = "strikeThrough";
@@ -45,8 +45,20 @@ export class MenuItem {
                     } else if (commandName === "ordered-list") {
                         commandName = "insertOrderedList";
                     }
-
-                    document.execCommand(commandName, false, "");
+                    if (commandName === "quote") {
+                        // const quoteElement = hasClosestByTag(range.commonAncestorContainer.nodeType === 3 ? range.commonAncestorContainer.parentElement : range.commonAncestorContainer as HTMLElement, 'BLOCKQUOTE')
+                        // const origalRange = range.cloneRange()
+                        // range.selectNode(quoteElement)
+                        document.execCommand("formatBlock", false, "P");
+                        // setSelectionFocus(origalRange)
+                    } else if (commandName === "inline-code") {
+                        range.selectNode(range.startContainer.nodeType === 3 ?
+                            range.startContainer.parentElement : range.startContainer.childNodes[range.startOffset]);
+                        document.execCommand("removeFormat", false, "");
+                    } else {
+                        document.execCommand(commandName, false, "");
+                    }
+                    vditor.wysiwyg.element.focus();
                     actionBtn.classList.remove("vditor-menu--current");
                 } else {
                     if (commandName === "line") {
@@ -55,28 +67,14 @@ export class MenuItem {
                         commandName = "strikeThrough";
                     } else if (commandName === "list") {
                         commandName = "insertUnorderedList";
-                        if (vditor.toolbar.elements["ordered-list"]) {
-                            vditor.toolbar.elements["ordered-list"].children[0].classList
-                                .remove("vditor-menu--current");
-                        }
+                        removeCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
                     } else if (commandName === "ordered-list") {
                         commandName = "insertOrderedList";
-                        if (vditor.toolbar.elements.list) {
-                            vditor.toolbar.elements.list.children[0].classList.remove("vditor-menu--current");
-                        }
+                        removeCurrentToolbar(vditor.toolbar.elements, ["list"]);
                     }
 
-                    const range = getSelection().getRangeAt(0);
-
                     if (commandName === "quote") {
-                        if (range.collapsed) {
-                            document.execCommand("insertHTML", false, "<blockquote></blockquote>");
-                        } else {
-                            const node = document.createElement("blockquote");
-                            range.surroundContents(node);
-                            range.insertNode(node);
-                            setSelectionFocus(range);
-                        }
+                        document.execCommand("formatBlock", false, "BLOCKQUOTE");
                     } else if (commandName === "check") {
                         if (range.collapsed) {
                             document.execCommand("insertHTML", false,
@@ -100,14 +98,16 @@ export class MenuItem {
                             const node = document.createElement("code");
                             range.surroundContents(node);
                             range.insertNode(node);
+                            actionBtn.classList.add("vditor-menu--current");
                         }
                         setSelectionFocus(range);
                     } else if (commandName === "code") {
                         if (range.collapsed) {
-                            document.execCommand("insertHTML", false, "<pre><code>\n</code></pre>");
+                            document.execCommand("insertHTML", false,
+                                "<div class='vditor-wysiwyg__block' data-type='code-block'><pre><code>\n</code></pre></div>");
                         } else {
-                            const node = document.createElement("pre");
-                            node.innerHTML = `<code>${range.toString()}</code>`;
+                            const node = document.createElement("div");
+                            node.innerHTML = `<pre><code>${range.toString()}</code></pre>`;
                             range.deleteContents();
                             range.insertNode(node);
                             range.selectNodeContents(node);
@@ -133,11 +133,12 @@ export class MenuItem {
                             + "</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>");
                     } else {
                         document.execCommand(commandName, false, "");
+                        vditor.wysiwyg.element.focus();
                     }
 
-                    if (commandName !== "insertHorizontalRule"
-                        && commandName !== "check" && commandName !== "quote"
-                        && commandName !== "code" && commandName !== "table") {
+                    if (commandName !== "insertHorizontalRule" && commandName !== "link"
+                        && commandName !== "inline-code"
+                        && commandName !== "check" && commandName !== "code" && commandName !== "table") {
                         actionBtn.classList.add("vditor-menu--current");
                     }
                 }

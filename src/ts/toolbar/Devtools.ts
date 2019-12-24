@@ -9,7 +9,7 @@ export class Devtools extends MenuItem {
 
         this.element.addEventListener(getEventName(), async (event) => {
             event.preventDefault();
-            if (this.element.children[0].className.indexOf("vditor-menu--current") > -1) {
+            if (this.element.children[0].classList.contains("vditor-menu--current")) {
                 this.element.children[0].classList.remove("vditor-menu--current");
                 vditor.devtools.element.style.display = "none";
                 if (vditor.wysiwyg) {

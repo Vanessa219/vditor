@@ -169,11 +169,12 @@ class WYSIWYG {
                 console.log(`SpinVditorDOM-argument:[${
                     vditorHTML.split('<div class="vditor-panel vditor-panel--none"')[0]}]`);
                 this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
-                console.log(`SpinVditorDOM-result:[${this.element.innerHTML}]`)
+                console.log(`SpinVditorDOM-result:[${this.element.innerHTML}]`);
                 this.element.insertAdjacentElement("beforeend", this.popover);
 
                 // 设置光标
                 setRangeByWbr(this.element, range);
+                // 处理 code 转义问题
                 processPreCode(blockElement);
 
                 if (vditor.hint) {

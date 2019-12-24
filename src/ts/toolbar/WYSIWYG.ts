@@ -3,7 +3,9 @@ import {formatRender} from "../editor/formatRender";
 import {getEventName} from "../util/getEventName";
 import {getText} from "../util/getText";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
+import {enableToolbar} from "./enableToolbar";
 import {MenuItem} from "./MenuItem";
+import {removeCurrentToolbar} from "./removeCurrentToolbar";
 
 export class WYSIWYG extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -23,7 +25,7 @@ export class WYSIWYG extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), function(event) {
-            if (this.className.indexOf("vditor-menu--current") > -1) {
+            if (this.classList.contains("vditor-menu--current")) {
                 this.classList.remove("vditor-menu--current");
                 vditor.wysiwyg.element.style.display = "none";
                 if (vditor.currentPreviewMode === "both") {
@@ -48,13 +50,11 @@ export class WYSIWYG extends MenuItem {
                 formatRender(vditor, wysiwygMD, undefined);
                 vditor.editor.element.focus();
 
-                ["headings", "bold", "italic", "strike", "list", "ordered-list", "link", "inline-code"]
-                    .forEach((key) => {
-                        if (vditor.toolbar.elements[key].children[0]) {
-                            vditor.toolbar.elements[key].children[0].classList.remove("vditor-menu--current");
-                            vditor.toolbar.elements[key].children[0].classList.remove("vditor-menu--disabled");
-                        }
-                    });
+                removeCurrentToolbar(vditor.toolbar.elements,  ["headings", "bold", "italic", "strike", "line", "quote",
+                    "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+                enableToolbar(vditor.toolbar.elements,
+                    ["headings", "bold", "italic", "strike", "line", "quote",
+                        "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
             } else {
                 this.classList.add("vditor-menu--current");
                 vditor.editor.element.style.display = "none";

@@ -13,6 +13,10 @@ import {codeRender} from "../markdown/codeRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {disableToolbar} from "../toolbar/disableToolbar";
+import {enableToolbar} from "../toolbar/enableToolbar";
+import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
+import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {hasClosestByClassName, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
@@ -26,13 +30,6 @@ export const highlightToolbar = (vditor: IVditor) => {
     }
 
     let toolbarName = typeElement.nodeName;
-    if (toolbarName === "CODE" &&
-        (typeElement.parentElement.nodeName === "PRE" || typeElement.getAttribute("data-type"))) {
-        toolbarName = "";
-    }
-    if (/^H[1-6]$/.test(toolbarName)) {
-        toolbarName = "H";
-    }
     if (toolbarName === "B") {
         toolbarName = "STRONG";
     }
@@ -44,10 +41,8 @@ export const highlightToolbar = (vditor: IVditor) => {
     }
 
     const tagToolbar: { [key: string]: string } = {
-        A: "link",
         CODE: "inline-code",
         EM: "italic",
-        H: "headings",
         STRIKE: "strike",
         STRONG: "bold",
     };
@@ -56,43 +51,21 @@ export const highlightToolbar = (vditor: IVditor) => {
     Object.keys(tagToolbar).forEach((key) => {
         const value = tagToolbar[key];
         if (toolbarName === key) {
-            if (vditor.toolbar.elements[value]) {
-                vditor.toolbar.elements[value].children[0].classList.add("vditor-menu--current");
-            }
+            setCurrentToolbar(vditor.toolbar.elements, [value]);
         } else {
-            if (vditor.toolbar.elements[value]) {
-                vditor.toolbar.elements[value].children[0].classList.remove("vditor-menu--current");
-            }
+            removeCurrentToolbar(vditor.toolbar.elements, [value]);
         }
     });
 
-    if (hasClosestByTag(typeElement, "H")) {
-        if (vditor.toolbar.elements.bold) {
-            vditor.toolbar.elements.bold.children[0].classList.add("vditor-menu--disabled");
-        }
-    } else {
-        if (vditor.toolbar.elements.bold) {
-            vditor.toolbar.elements.bold.children[0].classList.remove("vditor-menu--disabled");
-        }
-    }
-
     if (hasClosestByTag(typeElement, "UL")) {
-        if (vditor.toolbar.elements.list) {
-            vditor.toolbar.elements.list.children[0].classList.add("vditor-menu--current");
-        }
+        setCurrentToolbar(vditor.toolbar.elements, ["list"]);
     } else {
-        if (vditor.toolbar.elements.list) {
-            vditor.toolbar.elements.list.children[0].classList.remove("vditor-menu--current");
-        }
+        removeCurrentToolbar(vditor.toolbar.elements, ["list"]);
     }
     if (hasClosestByTag(typeElement, "OL")) {
-        if (vditor.toolbar.elements["ordered-list"]) {
-            vditor.toolbar.elements["ordered-list"].children[0].classList.add("vditor-menu--current");
-        }
+        setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
     } else {
-        if (vditor.toolbar.elements["ordered-list"]) {
-            vditor.toolbar.elements["ordered-list"].children[0].classList.remove("vditor-menu--current");
-        }
+        removeCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
     }
 
     // ul popover
@@ -131,8 +104,10 @@ export const highlightToolbar = (vditor: IVditor) => {
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
         setPopoverPosition(vditor, blockquoteElement);
+        setCurrentToolbar(vditor.toolbar.elements, ["quote"]);
     } else {
         blockquoteElement = undefined;
+        removeCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
     }
 
     // table popover
@@ -263,6 +238,10 @@ export const highlightToolbar = (vditor: IVditor) => {
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2);
 
         setPopoverPosition(vditor, typeElement);
+
+        disableToolbar(vditor.toolbar.elements, ["link"]);
+    } else {
+        enableToolbar(vditor.toolbar.elements, ["link"]);
     }
 
     // img popover
@@ -395,6 +374,22 @@ export const highlightToolbar = (vditor: IVditor) => {
         }, blockElement, blockType.indexOf("block") > -1 ? "div" : "span");
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", previewObj.preview);
         setPopoverPosition(vditor, blockElement);
+    }
+
+    if (hasClosestByTag(typeElement, "CODE")) {
+        disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
+            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+    } else {
+        enableToolbar(vditor.toolbar.elements, ["headings", "italic", "strike", "line", "quote",
+            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+
+        if (hasClosestByTag(typeElement, "H")) {
+            disableToolbar(vditor.toolbar.elements, ["bold"]);
+            setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
+        } else {
+            removeCurrentToolbar(vditor.toolbar.elements, ["headings"]);
+            enableToolbar(vditor.toolbar.elements, ["bold"]);
+        }
     }
 
     if (!blockquoteElement && !imgElement && !topUlElement && !tableElement && !blockElement

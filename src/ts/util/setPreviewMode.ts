@@ -1,3 +1,6 @@
+import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
+import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
+
 export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
     if (vditor.currentPreviewMode === mode) {
         return;
@@ -10,25 +13,16 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
             vditor.preview.element.style.display = "block";
             vditor.preview.render(vditor);
 
-            if (vditor.toolbar.elements.both) {
-                vditor.toolbar.elements.both.children[0].classList.add("vditor-menu--current");
-            }
-
-            if (vditor.toolbar.elements.preview) {
-                vditor.toolbar.elements.preview.children[0].classList.remove("vditor-menu--current");
-            }
+            setCurrentToolbar(vditor.toolbar.elements, ["both"]);
+            removeCurrentToolbar(vditor.toolbar.elements, ["preview"]);
 
             break;
         case "editor":
             vditor.editor.element.style.display = "block";
             vditor.preview.element.style.display = "none";
 
-            if (vditor.toolbar.elements.preview) {
-                vditor.toolbar.elements.preview.children[0].classList.remove("vditor-menu--current");
-            }
-            if (vditor.toolbar.elements.both) {
-                vditor.toolbar.elements.both.children[0].classList.remove("vditor-menu--current");
-            }
+            removeCurrentToolbar(vditor.toolbar.elements, ["preview"]);
+            removeCurrentToolbar(vditor.toolbar.elements, ["both"]);
 
             break;
         case "preview":
@@ -37,12 +31,8 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
             vditor.preview.render(vditor);
             vditor.editor.element.blur();
 
-            if (vditor.toolbar.elements.preview) {
-                vditor.toolbar.elements.preview.children[0].classList.add("vditor-menu--current");
-            }
-            if (vditor.toolbar.elements.both) {
-                vditor.toolbar.elements.both.children[0].classList.remove("vditor-menu--current");
-            }
+            setCurrentToolbar(vditor.toolbar.elements, ["preview"]);
+            removeCurrentToolbar(vditor.toolbar.elements, ["both"]);
 
             break;
         default:
