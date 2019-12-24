@@ -10,9 +10,14 @@ export const processPreCode = (editor: HTMLElement) => {
             || "\n");
 
         if (isFocus) {
-            // 解决在 `` 中输入字符后光标错误
             const range = editor.ownerDocument.createRange();
-            range.setStart(codeElement.childNodes[0], codeElement.innerText.length);
+            if (codeElement.childNodes[0].nodeType === 3) {
+                // 解决在 `` 中输入字符后光标错误
+                range.setStart(codeElement.childNodes[0], codeElement.innerText.length);
+            } else {
+                // 输入 ```
+                range.setStartAfter(codeElement.childNodes[0]);
+            }
             range.collapse(true);
             setSelectionFocus(range);
         }

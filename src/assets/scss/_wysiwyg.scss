@@ -17,7 +17,8 @@
       background-color: $textareaFocusBg;
     }
 
-    blockquote:empty::before {
+    blockquote:empty::before,
+    pre > code:empty::before{
       content: ' ';
     }
 

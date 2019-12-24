@@ -1,6 +1,7 @@
 import headingsSVG from "../../assets/icons/headings.svg";
 import {insertText} from "../editor/insertText";
 import {getEventName} from "../util/getEventName";
+import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {MenuItem} from "./MenuItem";
 
 export class Headings extends MenuItem {
@@ -28,18 +29,20 @@ export class Headings extends MenuItem {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             const actionBtn = this.element.children[0];
             if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
+                if (vditor.wysiwyg.element.querySelector("wbr")) {
+                    vditor.wysiwyg.element.querySelector("wbr").remove();
+                }
                 document.execCommand("formatBlock", false, "p");
-                actionBtn.classList.remove("vditor-menu--current");
-                return;
-            }
-
-            if (headingsPanelElement.style.display === "block") {
-                headingsPanelElement.style.display = "none";
+                highlightToolbar(vditor);
             } else {
-                headingsPanelElement.style.display = "block";
-                if (vditor.toolbar.elements.emoji) {
-                    const panel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
-                    panel.style.display = "none";
+                if (headingsPanelElement.style.display === "block") {
+                    headingsPanelElement.style.display = "none";
+                } else {
+                    headingsPanelElement.style.display = "block";
+                    if (vditor.toolbar.elements.emoji) {
+                        const panel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
+                        panel.style.display = "none";
+                    }
                 }
             }
             if (vditor.hint) {
@@ -52,6 +55,7 @@ export class Headings extends MenuItem {
             headingsPanelElement.children.item(i).addEventListener(getEventName(), (event: Event) => {
                 if (vditor.currentMode === "wysiwyg") {
                     document.execCommand("formatblock", false, (event.target as HTMLElement).tagName.toLowerCase());
+                    highlightToolbar(vditor);
                 } else {
                     insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                         false, true);

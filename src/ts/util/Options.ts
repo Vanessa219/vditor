@@ -71,16 +71,10 @@ export class Options {
             suffix: "~~",
             tipPosition: "ne",
         }, {
-            name: "|",
-        }, {
-            hotkey: "⌘-⇧-d",
-            name: "line",
-            prefix: "---",
-            tipPosition: "n",
-        }, {
-            hotkey: "⌘-.",
-            name: "quote",
-            prefix: "> ",
+            hotkey: "⌘-k",
+            name: "link",
+            prefix: "[",
+            suffix: "](https://)",
             tipPosition: "n",
         }, {
             name: "|",
@@ -102,6 +96,16 @@ export class Options {
         }, {
             name: "|",
         }, {
+            hotkey: "⌘-.",
+            name: "quote",
+            prefix: "> ",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-d",
+            name: "line",
+            prefix: "---",
+            tipPosition: "n",
+        }, {
             hotkey: "⌘-u",
             name: "code",
             prefix: "```\n",
@@ -116,23 +120,10 @@ export class Options {
         }, {
             name: "|",
         }, {
-            hotkey: "⌘-z",
-            name: "undo",
-            tipPosition: "n",
-        }, {
-            hotkey: "⌘-y",
-            name: "redo",
-            tipPosition: "n",
-        }, {
-            name: "|",
-        }, {
             name: "upload",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-k",
-            name: "link",
-            prefix: "[",
-            suffix: "](https://)",
+            name: "record",
             tipPosition: "n",
         }, {
             hotkey: "⌘-m",
@@ -141,7 +132,14 @@ export class Options {
             suffix: " | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |",
             tipPosition: "n",
         }, {
-            name: "record",
+            name: "|",
+        }, {
+            hotkey: "⌘-z",
+            name: "undo",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-y",
+            name: "redo",
             tipPosition: "n",
         }, {
             name: "|",

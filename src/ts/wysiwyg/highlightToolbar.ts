@@ -17,60 +17,79 @@ import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
-import {hasClosestByClassName, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
+import {hasClosestByClassName, hasClosestByMatchTag, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
     if (getSelection().rangeCount === 0) {
         return;
     }
+
+    const allToolbar = ["headings", "bold", "italic", "strike", "line", "quote",
+        "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"];
+    removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
+    enableToolbar(vditor.toolbar.elements, allToolbar);
+
     const range = getSelection().getRangeAt(0);
     let typeElement = range.startContainer as HTMLElement;
     if (range.startContainer.nodeType === 3) {
         typeElement = range.startContainer.parentElement;
     }
 
-    let toolbarName = typeElement.nodeName;
-    if (toolbarName === "B") {
-        toolbarName = "STRONG";
-    }
-    if (toolbarName === "I") {
-        toolbarName = "EM";
-    }
-    if (toolbarName === "S") {
-        toolbarName = "STRIKE";
-    }
-
-    const tagToolbar: { [key: string]: string } = {
-        CODE: "inline-code",
-        EM: "italic",
-        STRIKE: "strike",
-        STRONG: "bold",
-    };
-
-    // 工具栏高亮
-    Object.keys(tagToolbar).forEach((key) => {
-        const value = tagToolbar[key];
-        if (toolbarName === key) {
-            setCurrentToolbar(vditor.toolbar.elements, [value]);
-        } else {
-            removeCurrentToolbar(vditor.toolbar.elements, [value]);
-        }
-    });
-
-    if (hasClosestByTag(typeElement, "UL")) {
-        setCurrentToolbar(vditor.toolbar.elements, ["list"]);
-    } else {
-        removeCurrentToolbar(vditor.toolbar.elements, ["list"]);
-    }
-    if (hasClosestByTag(typeElement, "OL")) {
+    // 工具栏高亮和禁用
+    if (hasClosestByMatchTag(typeElement, "OL")) {
         setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
-    } else {
-        removeCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
     }
 
-    // ul popover
-    const topUlElement = hasTopClosestByTag(typeElement, "UL") as HTMLElement;
-    if (topUlElement) {
+    if (hasClosestByMatchTag(typeElement, "BLOCKQUOTE")) {
+        setCurrentToolbar(vditor.toolbar.elements, ["quote"]);
+    }
+
+    if (hasClosestByMatchTag(typeElement, "B") || hasClosestByMatchTag(typeElement, "STRONG")) {
+        setCurrentToolbar(vditor.toolbar.elements, ["bold"]);
+    }
+
+    if (hasClosestByMatchTag(typeElement, "EM") || hasClosestByMatchTag(typeElement, "I")) {
+        setCurrentToolbar(vditor.toolbar.elements, ["italic"]);
+    }
+
+    if (hasClosestByMatchTag(typeElement, "STRIKE") || hasClosestByMatchTag(typeElement, "S")) {
+        setCurrentToolbar(vditor.toolbar.elements, ["strike"]);
+    }
+
+    if (hasClosestByMatchTag(typeElement, "A")) {
+        setCurrentToolbar(vditor.toolbar.elements, ["link"]);
+    }
+    const ulElement = hasClosestByMatchTag(typeElement, "UL");
+    if (hasClosestByMatchTag(typeElement, "CODE")) {
+        if (hasClosestByMatchTag(typeElement, "PRE")) {
+            disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
+                "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+            setCurrentToolbar(vditor.toolbar.elements, ["code"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
+                "list", "ordered-list", "check", "code", "upload", "link", "table", "record"]);
+            setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
+        }
+    } else if (hasClosestByTag(typeElement, "H")) {
+        disableToolbar(vditor.toolbar.elements, ["bold"]);
+        setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
+    } else if (ulElement && !ulElement.querySelector("input")) {
+        setCurrentToolbar(vditor.toolbar.elements, ["list"]);
+    } else if (hasClosestByMatchTag(typeElement, "OL")) {
+        setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
+    }
+
+    // list popover
+    const topUlElement = hasTopClosestByTag(typeElement, "UL");
+    const topOlElement = hasTopClosestByTag(typeElement, "OL");
+    let topListElement = topUlElement;
+    if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
+        topListElement = topOlElement;
+    }
+    if (topListElement && topListElement.querySelector("input")) {
+        topListElement = false;
+    }
+    if (topListElement) {
         vditor.wysiwyg.popover.innerHTML = "";
 
         const outdent = document.createElement("sapn");
@@ -90,28 +109,26 @@ export const highlightToolbar = (vditor: IVditor) => {
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);
 
-        setPopoverPosition(vditor, topUlElement);
+        setPopoverPosition(vditor, topListElement);
     }
 
     // quote popover
     let blockquoteElement = hasClosestByTag(typeElement, "BLOCKQUOTE") as HTMLTableElement;
     if (blockquoteElement && !(topUlElement && blockquoteElement.contains(topUlElement))) {
         vditor.wysiwyg.popover.innerHTML = "";
-        const insertBefore = genInsertBefore(range, blockquoteElement);
-        const insertAfter = genInsertAfter(range, blockquoteElement);
-        const close = genClose(vditor.wysiwyg.popover, blockquoteElement);
+        const insertBefore = genInsertBefore(range, blockquoteElement, vditor);
+        const insertAfter = genInsertAfter(range, blockquoteElement, vditor);
+        const close = genClose(vditor.wysiwyg.popover, blockquoteElement, vditor);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
         setPopoverPosition(vditor, blockquoteElement);
-        setCurrentToolbar(vditor.toolbar.elements, ["quote"]);
     } else {
         blockquoteElement = undefined;
-        removeCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
     }
 
     // table popover
-    const tableElement = hasClosestByTag(typeElement, "TABLE") as HTMLTableElement;
+    const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
     if (tableElement) {
         vditor.wysiwyg.popover.innerHTML = "";
         const updateTable = () => {
@@ -187,14 +204,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
         };
 
-        const close = document.createElement("sapn");
-        close.innerHTML = trashcanSVG;
-        close.className = "vditor-icon";
-        close.onclick = () => {
-            tableElement.remove();
-            vditor.wysiwyg.popover.style.display = "none";
-        };
-
+        const close = genClose(vditor.wysiwyg.popover, tableElement, vditor);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input);
         vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2);
@@ -238,16 +248,12 @@ export const highlightToolbar = (vditor: IVditor) => {
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2);
 
         setPopoverPosition(vditor, typeElement);
-
-        disableToolbar(vditor.toolbar.elements, ["link"]);
-    } else {
-        enableToolbar(vditor.toolbar.elements, ["link"]);
     }
 
     // img popover
     let imgElement: HTMLImageElement;
-    if (range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset
-        && range.startContainer.childNodes[range.startOffset].nodeName === "IMG") {
+    if (range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset &&
+        range.startContainer.childNodes[range.startOffset].nodeName === "IMG") {
         imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement;
         vditor.wysiwyg.popover.innerHTML = "";
         const updateImg = () => {
@@ -321,9 +327,9 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         const language = document.createElement("input");
         if (blockType.indexOf("block") > -1) {
-            const insertBefore = genInsertBefore(range, blockElement);
-            const insertAfter = genInsertAfter(range, blockElement);
-            const close = genClose(vditor.wysiwyg.popover, blockElement);
+            const insertBefore = genInsertBefore(range, blockElement, vditor);
+            const insertAfter = genInsertAfter(range, blockElement, vditor);
+            const close = genClose(vditor.wysiwyg.popover, blockElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
@@ -376,23 +382,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         setPopoverPosition(vditor, blockElement);
     }
 
-    if (hasClosestByTag(typeElement, "CODE")) {
-        disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
-            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-    } else {
-        enableToolbar(vditor.toolbar.elements, ["headings", "italic", "strike", "line", "quote",
-            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-
-        if (hasClosestByTag(typeElement, "H")) {
-            disableToolbar(vditor.toolbar.elements, ["bold"]);
-            setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
-        } else {
-            removeCurrentToolbar(vditor.toolbar.elements, ["headings"]);
-            enableToolbar(vditor.toolbar.elements, ["bold"]);
-        }
-    }
-
-    if (!blockquoteElement && !imgElement && !topUlElement && !tableElement && !blockElement
+    if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockElement
         && typeElement.nodeName !== "A" && !hasClosestByClassName(typeElement, "vditor-panel")) {
         vditor.wysiwyg.popover.style.display = "none";
     }
@@ -404,7 +394,7 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     vditor.wysiwyg.popover.style.display = "block";
 };
 
-const genInsertBefore = (range: Range, element: HTMLElement) => {
+const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) => {
     const insertBefore = document.createElement("span");
     insertBefore.innerHTML = beforeSVG;
     insertBefore.className = "vditor-icon";
@@ -416,11 +406,12 @@ const genInsertBefore = (range: Range, element: HTMLElement) => {
         range.insertNode(node);
         range.collapse(true);
         setSelectionFocus(range);
+        highlightToolbar(vditor);
     };
     return insertBefore;
 };
 
-const genInsertAfter = (range: Range, element: HTMLElement) => {
+const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => {
     const insertAfter = document.createElement("span");
     insertAfter.innerHTML = afterSVG;
     insertAfter.className = "vditor-icon";
@@ -432,17 +423,19 @@ const genInsertAfter = (range: Range, element: HTMLElement) => {
         range.insertNode(node);
         range.collapse(true);
         setSelectionFocus(range);
+        highlightToolbar(vditor);
     };
     return insertAfter;
 };
 
-const genClose = (popover: HTMLElement, element: HTMLElement) => {
+const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) => {
     const close = document.createElement("span");
     close.innerHTML = trashcanSVG;
     close.className = "vditor-icon";
     close.onclick = () => {
         element.remove();
         popover.style.display = "none";
+        highlightToolbar(vditor);
     };
     return close;
 };

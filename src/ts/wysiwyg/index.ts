@@ -163,9 +163,9 @@ class WYSIWYG {
 
                 // markdown 纠正
                 // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-                const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="[\*\*|__]">/g, "")
-                    .replace(/<\/em><em data-marker="[\*|_]">/g, "")
-                    .replace(/<\/s><s data-marker="~+">/g, "");
+                const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
+                    .replace(/<\/em><em data-marker="\W{1}">/g, "")
+                    .replace(/<\/s><s data-marker="~{1,2}">/g, "");
                 console.log(`SpinVditorDOM-argument:[${
                     vditorHTML.split('<div class="vditor-panel vditor-panel--none"')[0]}]`);
                 this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
