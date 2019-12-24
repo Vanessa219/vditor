@@ -54,9 +54,10 @@ export class MenuItem {
                     }
                     if (commandName === "quote") {
                         const quoteElement = hasClosestByMatchTag(range.startContainer.nodeType === 3 ?
-                            range.startContainer.parentNode as HTMLElement : range.startContainer as HTMLElement, "BLOCKQUOTE");
-                        const tempELement = document.createElement('div')
-                        tempELement.innerHTML = quoteElement.innerHTML
+                            range.startContainer.parentNode as HTMLElement :
+                            range.startContainer as HTMLElement, "BLOCKQUOTE");
+                        const tempELement = document.createElement("div");
+                        tempELement.innerHTML = quoteElement.innerHTML;
                         quoteElement.parentNode.replaceChild(tempELement, quoteElement);
                     } else if (commandName === "inline-code") {
                         if (!range.collapsed) {
