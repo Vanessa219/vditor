@@ -6,7 +6,7 @@ export const processPreCode = (editor: HTMLElement) => {
         if (codeElement.innerHTML === "<wbr>") {
             isFocus = true;
         }
-        codeElement.innerText = decodeURIComponent(codeElement.getAttribute("data-code")
+        codeElement.textContent = decodeURIComponent(codeElement.getAttribute("data-code")
             || "\n");
 
         if (isFocus) {

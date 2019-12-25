@@ -63,9 +63,12 @@ class WYSIWYG {
             if (doc.body) {
                 textHTML = doc.body.innerHTML;
             }
+            // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
             if (code) {
                 const codeNode = document.createElement("div");
+                codeNode.className = "vditor-wysiwyg__block";
+                codeNode.setAttribute("data-type", "code-block");
                 codeNode.innerHTML = "<pre><code></code></pre>";
                 codeNode.querySelector("code").innerText = code;
                 const range = getSelection().getRangeAt(0);
@@ -81,11 +84,19 @@ class WYSIWYG {
             } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                 uploadFiles(vditor, event.clipboardData.files);
             } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                const textNode = document.createTextNode(textPlain);
+
+                const pasteElement = document.createElement("template");
+                pasteElement.innerHTML = vditor.lute.Md2VditorDOM(textPlain);
+
                 const range = getSelection().getRangeAt(0);
-                range.insertNode(textNode);
+                range.insertNode(pasteElement.content.cloneNode(true));
                 range.collapse(false);
+
+                this.element.insertAdjacentElement("beforeend", this.popover);
+                processPreCode(this.element);
             }
+
+            afterRenderEvent(vditor);
         });
 
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {

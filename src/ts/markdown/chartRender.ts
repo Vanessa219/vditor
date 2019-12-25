@@ -15,7 +15,7 @@ export const chartRender = (element: (HTMLElement | Document) = document,
                 if (e.getAttribute("data-processed") === "true") {
                     return;
                 }
-                const option = JSON.parse(e.innerHTML.trim());
+                const option = JSON.parse(e.innerText.trim());
                 echarts.init(e).setOption(option);
                 e.setAttribute("data-processed", "true");
             } catch (error) {

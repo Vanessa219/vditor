@@ -56,9 +56,9 @@ export class MenuItem {
                         const quoteElement = hasClosestByMatchTag(range.startContainer.nodeType === 3 ?
                             range.startContainer.parentNode as HTMLElement :
                             range.startContainer as HTMLElement, "BLOCKQUOTE");
-                        const tempELement = document.createElement("div");
-                        tempELement.innerHTML = quoteElement.innerHTML;
-                        quoteElement.parentNode.replaceChild(tempELement, quoteElement);
+                        const tempElement = document.createElement("div");
+                        tempElement.innerHTML = quoteElement.innerHTML;
+                        quoteElement.parentNode.replaceChild(tempElement, quoteElement);
                     } else if (commandName === "inline-code") {
                         if (!range.collapsed) {
                             document.execCommand("removeFormat", false, "");
