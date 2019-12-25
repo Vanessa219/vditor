@@ -24,6 +24,8 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
                     document.execCommand("italic", false, "");
                 } else if (wbrElement.previousElementSibling.tagName === "STRONG") {
                     document.execCommand("bold", false, "");
+                } else if (wbrElement.previousElementSibling.tagName === "S") {
+                    document.execCommand("strikeThrough", false, "");
                 }
                 return;
             } else {

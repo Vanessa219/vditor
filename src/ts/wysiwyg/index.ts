@@ -78,9 +78,7 @@ class WYSIWYG {
             }
 
             if (textHTML.trim() !== "") {
-                console.log(`HTML2VditorDOM-argument[${textHTML}]`);
                 document.execCommand("insertHTML", false, vditor.lute.HTML2VditorDOM(textHTML));
-                console.log(`HTML2VditorDOM-result[${vditor.lute.HTML2VditorDOM(textHTML)}]`);
             } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                 uploadFiles(vditor, event.clipboardData.files);
             } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
@@ -96,6 +94,29 @@ class WYSIWYG {
                 processPreCode(this.element);
             }
 
+            afterRenderEvent(vditor);
+        });
+
+        // 中文处理
+        this.element.addEventListener("compositionend", () => {
+            const range = getSelection().getRangeAt(0).cloneRange();
+            // 保存光标
+            this.element.querySelectorAll("wbr").forEach((wbr) => {
+                wbr.remove();
+            });
+            const wbrNode = document.createElement("wbr");
+            range.insertNode(wbrNode);
+
+            // markdown 纠正
+            // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
+            const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
+                .replace(/<\/em><em data-marker="\W{1}">/g, "")
+                .replace(/<\/s><s data-marker="~{1,2}">/g, "");
+            this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
+            this.element.insertAdjacentElement("beforeend", this.popover);
+
+            // 设置光标
+            setRangeByWbr(this.element, range);
             afterRenderEvent(vditor);
         });
 
