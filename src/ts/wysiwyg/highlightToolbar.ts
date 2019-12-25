@@ -478,7 +478,7 @@ const genPreview = (clickEvent: () => void, element: HTMLElement, tagName: strin
         }
     };
 
-    if (previewPanel.style.display === "block") {
+    if (previewPanel.style.display === "block" || previewPanel.style.display === "inline") {
         preview.innerHTML = editSVG;
     } else {
         preview.innerHTML = previewSVG;
