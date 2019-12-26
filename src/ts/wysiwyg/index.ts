@@ -19,6 +19,7 @@ class WYSIWYG {
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
         this.element.className = "vditor-reset vditor-wysiwyg";
+        // TODO: placeholder
         this.element.setAttribute("contenteditable", "true");
         if (vditor.currentMode === "markdown") {
             this.element.style.display = "none";
