@@ -5,11 +5,13 @@ export const getText = (vditor: IVditor) => {
         // last char must be a `\n`.
         return code160to32(`${vditor.editor.element.textContent}\n`.replace(/\n\n$/, "\n"));
     } else if (vditor.wysiwyg) {
-        vditor.wysiwyg.element.querySelectorAll("code").forEach((codeElement) => {
+        const cloneEditorElement = document.createElement("pre");
+        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
+        cloneEditorElement.querySelectorAll("code").forEach((codeElement) => {
             codeElement.setAttribute("data-code",
                 decodeURIComponent(codeElement.getAttribute("data-code")));
         });
-        return vditor.lute.VditorDOM2Md(vditor.wysiwyg.element.innerHTML);
+        return vditor.lute.VditorDOM2Md(cloneEditorElement.innerHTML);
     }
     return "";
 };

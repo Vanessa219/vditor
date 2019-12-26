@@ -1,6 +1,6 @@
 import {getText} from "../util/getText";
 
-export const afterRenderEvent = (vditor: IVditor) => {
+export const afterRenderEvent = (vditor: IVditor, isAddUndoStack = true) => {
     if (vditor.options.counter > 0) {
         vditor.counter.render(getText(vditor).length, vditor.options.counter);
     }
@@ -17,5 +17,7 @@ export const afterRenderEvent = (vditor: IVditor) => {
         vditor.devtools.renderEchart(vditor);
     }
 
-    vditor.wysiwygUndo.addToUndoStack(vditor);
+    if (isAddUndoStack) {
+        vditor.wysiwygUndo.addToUndoStack(vditor);
+    }
 };

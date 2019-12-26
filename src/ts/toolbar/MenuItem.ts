@@ -3,6 +3,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
 import {getEventName} from "../util/getEventName";
 import {hasClosestByMatchTag} from "../util/hasClosest";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 
 export class MenuItem {
@@ -168,6 +169,8 @@ export class MenuItem {
                 if (useHighlight) {
                     highlightToolbar(vditor);
                 }
+
+                afterRenderEvent(vditor);
             } else {
                 insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                     replace, true);

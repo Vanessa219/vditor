@@ -1,12 +1,14 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
-import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
+import { focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
+import {getText} from "../util/getText";
 import {hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
+import {insertHTML} from "./insertHTML";
 import {processPreCode} from "./processPreCode";
 import {setRangeByWbr} from "./setRangeByWbr";
 
@@ -34,7 +36,6 @@ class WYSIWYG {
         document.execCommand("DefaultParagraphSeparator", false, "p");
 
         focusEvent(vditor, this.element);
-        copyEvent(this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
     }
@@ -51,6 +52,12 @@ class WYSIWYG {
                 }
             });
         }
+
+        this.element.addEventListener("copy", (event: ClipboardEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+            event.clipboardData.setData("text/plain", getText(vditor));
+        });
 
         this.element.addEventListener("paste", async (event: ClipboardEvent) => {
             event.stopPropagation();
@@ -78,20 +85,19 @@ class WYSIWYG {
             }
 
             if (textHTML.trim() !== "") {
-                document.execCommand("insertHTML", false, vditor.lute.HTML2VditorDOM(textHTML));
+                const tempElement = document.createElement("div");
+                tempElement.innerHTML = textHTML;
+                tempElement.querySelectorAll("[style]").forEach((e) => {
+                    e.removeAttribute("style");
+                });
+                insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), {
+                    element: this.element,
+                    popover: this.popover,
+                });
             } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                 uploadFiles(vditor, event.clipboardData.files);
             } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-
-                const pasteElement = document.createElement("template");
-                pasteElement.innerHTML = vditor.lute.Md2VditorDOM(textPlain);
-
-                const range = getSelection().getRangeAt(0);
-                range.insertNode(pasteElement.content.cloneNode(true));
-                range.collapse(false);
-
-                this.element.insertAdjacentElement("beforeend", this.popover);
-                processPreCode(this.element);
+                insertHTML(vditor.lute.Md2VditorDOM(textPlain), {element: this.element, popover: this.popover});
             }
 
             afterRenderEvent(vditor);
@@ -198,10 +204,7 @@ class WYSIWYG {
                 const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
                     .replace(/<\/em><em data-marker="\W{1}">/g, "")
                     .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-                console.log(`SpinVditorDOM-argument:[${
-                    vditorHTML.split('<div class="vditor-panel vditor-panel--none"')[0]}]`);
                 this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
-                console.log(`SpinVditorDOM-result:[${this.element.innerHTML}]`);
                 this.element.insertAdjacentElement("beforeend", this.popover);
 
                 // 设置光标

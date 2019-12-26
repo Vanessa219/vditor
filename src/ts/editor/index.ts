@@ -1,6 +1,7 @@
 import {uploadFiles} from "../upload/index";
-import {copyEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
+import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
+import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
@@ -22,12 +23,17 @@ class Editor {
         this.bindEvent(vditor);
 
         focusEvent(vditor, this.element);
-        copyEvent(this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {
+        this.element.addEventListener("copy", (event: ClipboardEvent) => {
+            event.stopPropagation();
+            event.preventDefault();
+            event.clipboardData.setData("text/plain", getSelectText(this.element));
+        });
+
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
                 insertText(vditor, "\n", "", true);

@@ -23,14 +23,6 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
 };
 
-export const copyEvent = (editorElement: HTMLElement) => {
-    editorElement.addEventListener("copy", (event: ClipboardEvent) => {
-        event.stopPropagation();
-        event.preventDefault();
-        event.clipboardData.setData("text/plain", getSelectText(editorElement));
-    });
-};
-
 export const scrollCenter = (editorElement: HTMLElement) => {
     const cursorTop = getCursorPosition(editorElement).top;
     const center = editorElement.clientHeight / 2;
