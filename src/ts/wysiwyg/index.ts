@@ -124,6 +124,8 @@ class WYSIWYG {
 
             // 设置光标
             setRangeByWbr(this.element, range);
+            // 处理 code 转义问题
+            processPreCode(this.element);
             afterRenderEvent(vditor);
         });
 
@@ -205,13 +207,15 @@ class WYSIWYG {
                 const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
                     .replace(/<\/em><em data-marker="\W{1}">/g, "")
                     .replace(/<\/s><s data-marker="~{1,2}">/g, "");
+                console.log(vditorHTML);
+                console.log(vditor.lute.SpinVditorDOM(vditorHTML));
                 this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
                 this.element.insertAdjacentElement("beforeend", this.popover);
 
                 // 设置光标
                 setRangeByWbr(this.element, range);
                 // 处理 code 转义问题
-                processPreCode(blockElement);
+                processPreCode(this.element);
 
                 if (vditor.hint) {
                     vditor.hint.render(vditor);

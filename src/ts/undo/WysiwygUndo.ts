@@ -3,6 +3,7 @@ import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
+import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processPreCode} from "../wysiwyg/processPreCode";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
 
@@ -94,6 +95,7 @@ class WysiwygUndo {
         setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
         scrollCenter(vditor.wysiwyg.element);
         afterRenderEvent(vditor, false);
+        highlightToolbar(vditor);
 
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
