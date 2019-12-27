@@ -57,7 +57,17 @@ class WYSIWYG {
         this.element.addEventListener("copy", (event: ClipboardEvent) => {
             event.stopPropagation();
             event.preventDefault();
-            event.clipboardData.setData("text/plain", getText(vditor));
+
+            const tempElement = document.createElement("div");
+            tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
+
+            tempElement.querySelectorAll("code").forEach((codeElement) => {
+                codeElement.setAttribute("data-code",
+                    decodeURIComponent(codeElement.getAttribute("data-code")));
+            });
+
+            event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML));
+            event.clipboardData.setData("text/html", "");
         });
 
         this.element.addEventListener("paste", async (event: ClipboardEvent) => {
@@ -220,8 +230,6 @@ class WYSIWYG {
                 const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
                     .replace(/<\/em><em data-marker="\W{1}">/g, "")
                     .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-                console.log(vditorHTML);
-                console.log(vditor.lute.SpinVditorDOM(vditorHTML));
                 this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
                 this.element.insertAdjacentElement("beforeend", this.popover);
 
