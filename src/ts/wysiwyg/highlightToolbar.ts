@@ -394,7 +394,7 @@ const genBlockPopover = (blockElement: HTMLElement, vditor: IVditor, range: Rang
 };
 
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
-    vditor.wysiwyg.popover.style.top = (element.offsetTop - 27) + "px";
+    vditor.wysiwyg.popover.style.top = (element.offsetTop - 16) + "px";
     vditor.wysiwyg.popover.style.left = element.offsetLeft + "px";
     vditor.wysiwyg.popover.style.display = "block";
 };

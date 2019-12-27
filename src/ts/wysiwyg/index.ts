@@ -1,7 +1,7 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
-import { focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
+import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {getText} from "../util/getText";
 import {hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
@@ -107,25 +107,38 @@ class WYSIWYG {
         // 中文处理
         this.element.addEventListener("compositionend", () => {
             const range = getSelection().getRangeAt(0).cloneRange();
-            // 保存光标
-            this.element.querySelectorAll("wbr").forEach((wbr) => {
-                wbr.remove();
+
+            this.element.querySelectorAll("code").forEach((codeElement) => {
+                codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
             });
-            const wbrNode = document.createElement("wbr");
-            range.insertNode(wbrNode);
 
-            // markdown 纠正
-            // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-            const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
-                .replace(/<\/em><em data-marker="\W{1}">/g, "")
-                .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-            this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
-            this.element.insertAdjacentElement("beforeend", this.popover);
+            let typeElement = range.startContainer as HTMLElement;
+            if (range.startContainer.nodeType === 3) {
+                typeElement = range.startContainer.parentElement;
+            }
 
-            // 设置光标
-            setRangeByWbr(this.element, range);
-            // 处理 code 转义问题
-            processPreCode(this.element);
+            if (!hasClosestByTag(typeElement, "CODE")) {
+                // 保存光标
+                this.element.querySelectorAll("wbr").forEach((wbr) => {
+                    wbr.remove();
+                });
+                const wbrNode = document.createElement("wbr");
+                range.insertNode(wbrNode);
+
+                // markdown 纠正
+                // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
+                const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
+                    .replace(/<\/em><em data-marker="\W{1}">/g, "")
+                    .replace(/<\/s><s data-marker="~{1,2}">/g, "");
+                this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
+                this.element.insertAdjacentElement("beforeend", this.popover);
+
+                // 设置光标
+                setRangeByWbr(this.element, range);
+                // 处理 code 转义问题
+                processPreCode(this.element);
+            }
+
             afterRenderEvent(vditor);
         });
 
