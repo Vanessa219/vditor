@@ -2,7 +2,6 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
-import {getText} from "../util/getText";
 import {hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -84,14 +83,12 @@ class WYSIWYG {
             // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
             if (code) {
-                const codeNode = document.createElement("div");
-                codeNode.className = "vditor-wysiwyg__block";
-                codeNode.setAttribute("data-type", "code-block");
-                codeNode.innerHTML = "<pre><code></code></pre>";
-                codeNode.querySelector("code").innerText = code;
-                const range = getSelection().getRangeAt(0);
-                range.insertNode(codeNode.firstElementChild);
-                range.collapse(false);
+                insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code data-code="${
+                    encodeURIComponent(code)}"></code></pre></div>`, {
+                    element: this.element,
+                    popover: this.popover,
+                });
+                afterRenderEvent(vditor);
                 return;
             }
 

@@ -37,8 +37,9 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 
-### v2.0.0 / 2019-12-26
+### v2.0.2 / 2019-12-28
 
+* [23](https://github.com/Vanessa219/vditor/issues/23) When code copied and pasted.... `bug`
 * [2](https://github.com/Vanessa219/vditor/issues/2) 所见即所得 `enhancement`
 * 文档更新
   * 添加 option.mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only" 参数
