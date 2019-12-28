@@ -1,4 +1,4 @@
-import formatSVG from "../../assets/icons/format.svg";
+import formatSVG from "../../assets/icons/outdent.svg";
 import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {getEventName} from "../util/getEventName";

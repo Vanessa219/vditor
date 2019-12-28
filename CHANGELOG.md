@@ -36,9 +36,11 @@
 
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
+* [25](https://github.com/Vanessa219/vditor/issues/25) wysiwyg 表格添加居中居左居右 `enhancement`
 
-### v2.0.2 / 2019-12-28
+### v2.0.3 / 2019-12-28
 
+* [24](https://github.com/Vanessa219/vditor/issues/24) wysiwyg 块工具栏添加文字说明 `enhancement`
 * [23](https://github.com/Vanessa219/vditor/issues/23) When code copied and pasted.... `bug`
 * [2](https://github.com/Vanessa219/vditor/issues/2) 所见即所得 `enhancement`
 * 文档更新
