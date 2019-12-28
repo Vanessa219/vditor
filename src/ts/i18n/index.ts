@@ -1,5 +1,8 @@
 export const i18n: II18n = {
     en_US: {
+        "alignCenter": "Center",
+        "alignLeft": "Left",
+        "alignRight": "Right",
         "alternateText": "Alternate text",
         "bold": "Blod",
         "both": "editor & preview",
@@ -51,6 +54,9 @@ export const i18n: II18n = {
         "wysiwyg": "WYSIWYG",
     },
     zh_CN: {
+        "alignCenter": "居中",
+        "alignLeft": "居左",
+        "alignRight": "居右",
         "alternateText": "替代文本",
         "bold": "粗体",
         "both": "编辑 & 预览",

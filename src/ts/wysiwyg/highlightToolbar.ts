@@ -1,4 +1,5 @@
 import afterSVG from "../../assets/icons/after.svg";
+import alignCenterSVG from "../../assets/icons/align-center.svg";
 import beforeSVG from "../../assets/icons/before.svg";
 import editSVG from "../../assets/icons/edit.svg";
 import indentSVG from "../../assets/icons/indent.svg";
@@ -180,6 +181,73 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
         };
 
+        const close = genClose(vditor.wysiwyg.popover, tableElement, vditor);
+
+        const setAlign = (type: string) => {
+            const cell = getSelection().getRangeAt(0).startContainer.parentElement;
+
+            const columnCnt = tableElement.rows[0].cells.length;
+            const rowCnt = tableElement.rows.length;
+            let currentColumn = 0;
+
+            for (let i = 0; i < rowCnt; i++) {
+                for (let j = 0; j < columnCnt; j++) {
+                    if (tableElement.rows[i].cells[j].isEqualNode(cell)) {
+                        currentColumn = j;
+                        break;
+                    }
+                }
+            }
+            for (let k = 0; k < rowCnt; k++) {
+                tableElement.rows[k].cells[currentColumn].setAttribute("align", type);
+            }
+
+            if (type === "right") {
+                left.classList.remove("vditor-icon--current");
+                center.classList.remove("vditor-icon--current");
+                right.classList.add("vditor-icon--current");
+            } else if (type === "center") {
+                left.classList.remove("vditor-icon--current");
+                right.classList.remove("vditor-icon--current");
+                center.classList.add("vditor-icon--current");
+            } else {
+                center.classList.remove("vditor-icon--current");
+                right.classList.remove("vditor-icon--current");
+                left.classList.add("vditor-icon--current");
+            }
+        };
+
+        const td = hasClosestByMatchTag(typeElement, "TD")
+        const alignType = td ? (td.getAttribute("align") || "left") :
+            (hasClosestByMatchTag(typeElement, "TH").getAttribute("align") || "center");
+
+        const left = document.createElement("button");
+        left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft);
+        left.innerHTML = outdentSVG;
+        left.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
+            (alignType === "left" ? " vditor-icon--current" : "");
+        left.onclick = () => {
+            setAlign("left");
+        };
+
+        const center = document.createElement("button");
+        center.setAttribute("aria-label", i18n[vditor.options.lang].alignCenter);
+        center.innerHTML = alignCenterSVG;
+        center.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
+            (alignType === "center" ? " vditor-icon--current" : "");
+        center.onclick = () => {
+            setAlign("center");
+        };
+
+        const right = document.createElement("button");
+        right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight);
+        right.innerHTML = indentSVG;
+        right.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
+            (alignType === "right" ? " vditor-icon--current" : "");
+        right.onclick = () => {
+            setAlign("right");
+        };
+
         const inputWrap = document.createElement("span");
         inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].row);
         inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -216,8 +284,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             event.stopPropagation();
         };
 
-        const close = genClose(vditor.wysiwyg.popover, tableElement, vditor);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", left);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", center);
+        vditor.wysiwyg.popover.insertAdjacentElement("beforeend", right);
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
         vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
         vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
@@ -247,7 +317,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             event.preventDefault();
             event.stopPropagation();
         };
-
 
         const input2Wrap = document.createElement("span");
         input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].tooltipText);
@@ -319,7 +388,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         const alt = document.createElement("input");
         altWrap.appendChild(alt);
         alt.className = "vditor-input";
-        alt.setAttribute("placeholder",  i18n[vditor.options.lang].alternateText);
+        alt.setAttribute("placeholder", i18n[vditor.options.lang].alternateText);
         alt.style.width = "52px";
         alt.value = imgElement.getAttribute("alt") || "";
         alt.onblur = updateImg;
