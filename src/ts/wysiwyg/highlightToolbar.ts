@@ -18,6 +18,7 @@ import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
+import {getText} from "../util/getText";
 import {hasClosestByClassName, hasClosestByMatchTag, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
@@ -215,9 +216,13 @@ export const highlightToolbar = (vditor: IVditor) => {
                 right.classList.remove("vditor-icon--current");
                 left.classList.add("vditor-icon--current");
             }
+
+            if (vditor.options.cache) {
+                localStorage.setItem(`vditor${vditor.id}`, getText(vditor));
+            }
         };
 
-        const td = hasClosestByMatchTag(typeElement, "TD")
+        const td = hasClosestByMatchTag(typeElement, "TD");
         const alignType = td ? (td.getAttribute("align") || "left") :
             (hasClosestByMatchTag(typeElement, "TH").getAttribute("align") || "center");
 
