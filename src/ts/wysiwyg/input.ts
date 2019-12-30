@@ -1,7 +1,7 @@
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {setRangeByWbr} from "./setRangeByWbr";
 import {precessCodeRender} from "./processCodeRender";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => {
     let typeElement = range.startContainer as HTMLElement;
@@ -12,18 +12,23 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     let blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
     if (!blockElement) {
         // 使用工具栏无 data-code
-        blockElement = hasClosestBlock(typeElement)
+        blockElement = hasClosestBlock(typeElement);
         if (!blockElement) {
             blockElement = document.createElement("p");
+            blockElement.setAttribute("data-block", "0");
             range.insertNode(blockElement);
             range.selectNodeContents(blockElement);
         }
     }
 
-    const codeElement = hasClosestByTag(typeElement, "CODE")
+    const codeElement = hasClosestByTag(typeElement, "CODE");
     if (codeElement) {
         codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-        precessCodeRender(codeElement.parentElement.parentElement, vditor)
+        if (codeElement.getAttribute("data-type") === "math-inline") {
+            precessCodeRender(codeElement.parentElement, vditor);
+        } else {
+            precessCodeRender(codeElement.parentElement.parentElement, vditor);
+        }
     } else if (event.inputType !== "formatItalic"
         && event.inputType !== "formatBold"
         && event.inputType !== "formatRemove"
@@ -46,8 +51,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         const vditorHTML = blockElement.outerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-        console.log(vditorHTML)
-        console.log(vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>')
+        console.log(vditorHTML);
+        console.log(vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>');
         blockElement.outerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
 
         // 设置光标

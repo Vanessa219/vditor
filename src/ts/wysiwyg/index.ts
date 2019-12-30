@@ -9,6 +9,7 @@ import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
+import {precessCodeRender} from "./processCodeRender";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -108,6 +109,11 @@ class WYSIWYG {
             } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
                 insertHTML(vditor.lute.Md2VditorDOM(textPlain), {element: this.element, popover: this.popover});
             }
+
+            this.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
+                precessCodeRender(blockElement, vditor);
+                blockElement.firstElementChild.setAttribute("style", "display:none");
+            });
 
             afterRenderEvent(vditor);
         });

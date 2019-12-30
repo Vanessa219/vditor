@@ -14,8 +14,9 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
     editorElement.innerHTML = vditor.lute.Md2VditorDOM(md);
     processCodeData(editorElement);
 
-    editorElement.querySelectorAll(".vditor-wysiwyg__block").forEach((codeElement: HTMLElement) => {
-        precessCodeRender(codeElement, vditor);
+    editorElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
+        precessCodeRender(blockElement, vditor);
+        blockElement.firstElementChild.setAttribute("style", "display:none");
     });
 
     afterRenderEvent(vditor);

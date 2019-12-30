@@ -36,7 +36,8 @@ export const hasClosestBlock = (element: HTMLElement) => {
             e.tagName === "H6" ||
             e.tagName === "P" ||
             e.tagName === "BLOCKQUOTE" ||
-            e.tagName === "LI") {
+            e.tagName === "OL" ||
+            e.tagName === "UL") {
             isClosest = true;
         } else {
             e = e.parentElement;

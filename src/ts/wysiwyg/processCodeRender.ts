@@ -1,15 +1,18 @@
-import {abcRender} from "../markdown/abcRender";
-import {mermaidRender} from "../markdown/mermaidRender";
-import {chartRender} from "../markdown/chartRender";
-import {highlightRender} from "../markdown/highlightRender";
-import {codeRender} from "../markdown/codeRender";
-import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {setSelectionFocus} from "../editor/setSelection";
+import {abcRender} from "../markdown/abcRender";
+import {chartRender} from "../markdown/chartRender";
+import {codeRender} from "../markdown/codeRender";
+import {highlightRender} from "../markdown/highlightRender";
+import {mathRenderByLute} from "../markdown/mathRenderByLute";
+import {mermaidRender} from "../markdown/mermaidRender";
 
-// code block, math, abc, html, chart, mermaid
+// code block, math, math-inline, abc, html, chart, mermaid
 export const precessCodeRender = (blockElement: HTMLElement, vditor: IVditor) => {
     const blockType = blockElement.getAttribute("data-type");
-    const tagName = blockType.indexOf("block") > -1 ? "div" : "span"
+    if (!blockType) {
+        return;
+    }
+    const tagName = blockType.indexOf("block") > -1 ? "div" : "span";
     let previewPanel: HTMLElement = blockElement.querySelector(".vditor-wysiwyg__preview");
     if (!previewPanel) {
         blockElement.insertAdjacentHTML("beforeend", `<${tagName} class="vditor-wysiwyg__preview"></${tagName}>`);
@@ -17,18 +20,23 @@ export const precessCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         previewPanel.setAttribute("contenteditable", "false");
         previewPanel.setAttribute("data-render", "false");
         previewPanel.addEventListener("click", (event) => {
-            preElement.style.display = "block"
-            const range = preElement.ownerDocument.createRange()
-            range.selectNodeContents(preElement.querySelector('code'))
-            range.collapse(true)
-            setSelectionFocus(range)
+            const range = preElement.ownerDocument.createRange();
+            if (preElement.getAttribute("data-type") === "math-inline") {
+                preElement.style.display = "inline";
+                range.selectNodeContents(preElement);
+            } else {
+                preElement.style.display = "block";
+                range.selectNodeContents(preElement.querySelector("code"));
+            }
+            range.collapse(true);
+            setSelectionFocus(range);
         });
     }
 
-    const preElement = previewPanel.previousElementSibling as HTMLElement
-    const language = preElement.querySelector('code').className.replace('language-', '')
+    const preElement = previewPanel.previousElementSibling as HTMLElement;
 
     if (blockType === "code-block") {
+        const language = preElement.querySelector("code").className.replace("language-", "");
         previewPanel.innerHTML =
             `<pre>${blockElement.firstElementChild.innerHTML}</pre>`;
         if (language === "abc") {
@@ -50,4 +58,4 @@ export const precessCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
             `<${tagName} class="vditor-math">${blockElement.firstChild.textContent}</${tagName}>`;
         mathRenderByLute(previewPanel, vditor.options.cdn);
     }
-}
+};

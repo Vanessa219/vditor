@@ -22,14 +22,29 @@
       content: ' ';
     }
 
-    &__block > pre {
-      display: none;
-      margin-bottom: -1em;
+    &__block {
+      &[data-type="html-block"] > pre,
+      &[data-type="math-block"] > pre {
+        margin-bottom: 0;
+      }
+
+      & > pre {
+        margin-bottom: -1em;
+
+        & > code {
+          background-color: $hoverBg !important;
+          color: $hoverColor;
+          overflow: auto !important;
+        }
+      }
     }
 
-    &__preview pre {
+    &__preview {
       white-space: initial;
-      margin-bottom: 1em !important;
+
+      pre {
+        margin-bottom: 1em !important;
+      }
     }
   }
 }

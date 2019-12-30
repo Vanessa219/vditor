@@ -107,7 +107,7 @@ export class MenuItem {
                                 '<li class="vditor-task"><input type="checkbox" /> </li>');
                         } else {
                             document.execCommand("insertHTML", false,
-                                '<ul data-block="0"><li class="vditor-task" data-block="0"><input type="checkbox" /> </li></ul>');
+                                '<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> </li></ul>');
                         }
 
                     } else if (commandName === "inline-code") {

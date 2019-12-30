@@ -5,6 +5,7 @@ import {scrollCenter} from "../util/editorCommenEvent";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeData} from "../wysiwyg/processCodeData";
+import {precessCodeRender} from "../wysiwyg/processCodeRender";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
 
 class WysiwygUndo {
@@ -88,6 +89,9 @@ class WysiwygUndo {
 
         vditor.wysiwyg.element.innerHTML = text;
         processCodeData(vditor.wysiwyg.element);
+        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
+            precessCodeRender(blockElement, vditor);
+        });
         setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
         scrollCenter(vditor.wysiwyg.element);
         afterRenderEvent(vditor, false);

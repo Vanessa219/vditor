@@ -1,19 +1,11 @@
 import afterSVG from "../../assets/icons/after.svg";
 import alignCenterSVG from "../../assets/icons/align-center.svg";
 import beforeSVG from "../../assets/icons/before.svg";
-import editSVG from "../../assets/icons/edit.svg";
 import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
-import previewSVG from "../../assets/icons/preview.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n";
-import {abcRender} from "../markdown/abcRender";
-import {chartRender} from "../markdown/chartRender";
-import {codeRender} from "../markdown/codeRender";
-import {highlightRender} from "../markdown/highlightRender";
-import {mathRenderByLute} from "../markdown/mathRenderByLute";
-import {mermaidRender} from "../markdown/mermaidRender";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
@@ -273,6 +265,10 @@ export const highlightToolbar = (vditor: IVditor) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
+            input.onkeyup = (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+            };
 
             const input2Wrap = document.createElement("span");
             input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].column);
@@ -288,6 +284,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             input2.onblur = updateTable;
             input2.oninput = (event) => {
                 updateTable();
+                event.preventDefault();
+                event.stopPropagation();
+            };
+            input2.onkeyup = (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
@@ -325,6 +325,10 @@ export const highlightToolbar = (vditor: IVditor) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
+            input.onkeyup = (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+            };
 
             const input2Wrap = document.createElement("span");
             input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].tooltipText);
@@ -338,6 +342,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             input2.onblur = updateA;
             input2.oninput = (event) => {
                 updateA();
+                event.preventDefault();
+                event.stopPropagation();
+            };
+            input2.onkeyup = (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
@@ -390,6 +398,10 @@ export const highlightToolbar = (vditor: IVditor) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
+            input.onkeyup = (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+            };
             const altWrap = document.createElement("span");
             altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
             altWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -402,6 +414,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             alt.onblur = updateImg;
             alt.oninput = (event) => {
                 updateImg();
+                event.preventDefault();
+                event.stopPropagation();
+            };
+            alt.onkeyup = (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
@@ -418,6 +434,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             aHref.onblur = updateImg;
             aHref.oninput = (event) => {
                 updateImg();
+                event.preventDefault();
+                event.stopPropagation();
+            };
+            aHref.onkeyup = (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
@@ -461,7 +481,11 @@ export const highlightToolbar = (vditor: IVditor) => {
                     language.onblur = updateLanguage;
                     language.oninput = (event) => {
                         updateLanguage();
-                        precessCodeRender(blockElement, vditor)
+                        precessCodeRender(blockElement, vditor);
+                        event.preventDefault();
+                        event.stopPropagation();
+                    };
+                    language.onkeyup = (event) => {
                         event.preventDefault();
                         event.stopPropagation();
                     };
@@ -470,9 +494,13 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
             setPopoverPosition(vditor, blockElement);
         } else {
-            vditor.wysiwyg.element.querySelectorAll('.vditor-wysiwyg__block > pre').forEach((e: HTMLElement) => {
-                e.style.display = 'none'
-            })
+            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block")
+                .forEach((blockElementItem: HTMLElement) => {
+                    const codeElement = blockElementItem.firstElementChild as HTMLElement;
+                    if (codeElement.innerText.trim() !== "") {
+                        codeElement.style.display = "none";
+                    }
+                });
         }
 
         if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockElement
