@@ -7,13 +7,13 @@ import {processPasteCode} from "../util/processPasteCode";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
+import {input} from "./input";
 import {insertHTML} from "./insertHTML";
-import {processPreCode} from "./processPreCode";
-import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
     public element: HTMLPreElement;
     public popover: HTMLDivElement;
+    public timeoutId: number;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
@@ -112,41 +112,8 @@ class WYSIWYG {
         });
 
         // 中文处理
-        this.element.addEventListener("compositionend", () => {
-            const range = getSelection().getRangeAt(0).cloneRange();
-
-            this.element.querySelectorAll("code").forEach((codeElement) => {
-                codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-            });
-
-            let typeElement = range.startContainer as HTMLElement;
-            if (range.startContainer.nodeType === 3) {
-                typeElement = range.startContainer.parentElement;
-            }
-
-            if (!hasClosestByTag(typeElement, "CODE")) {
-                // 保存光标
-                this.element.querySelectorAll("wbr").forEach((wbr) => {
-                    wbr.remove();
-                });
-                const wbrNode = document.createElement("wbr");
-                range.insertNode(wbrNode);
-
-                // markdown 纠正
-                // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-                const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
-                    .replace(/<\/em><em data-marker="\W{1}">/g, "")
-                    .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-                this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
-                this.element.insertAdjacentElement("beforeend", this.popover);
-
-                // 设置光标
-                setRangeByWbr(this.element, range);
-                // 处理 code 转义问题
-                processPreCode(this.element);
-            }
-
-            afterRenderEvent(vditor);
+        this.element.addEventListener("compositionend", (event: IHTMLInputEvent) => {
+            input(event, vditor, getSelection().getRangeAt(0).cloneRange());
         });
 
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
@@ -187,60 +154,11 @@ class WYSIWYG {
                 }
             }
 
-            let htmlElement = hasClosestByClassName(range.startContainer as HTMLElement, "vditor-wysiwyg__block");
-            if (!htmlElement || htmlElement.getAttribute("data-type") !== "html") {
-                htmlElement = undefined;
+            if (startSpace || endSpace) {
+                return;
             }
 
-            let typeElement = range.startContainer as HTMLElement;
-            if (range.startContainer.nodeType === 3) {
-                typeElement = range.startContainer.parentElement;
-            }
-
-            const hasCodeElement = hasClosestByTag(typeElement, "CODE");
-
-            this.element.querySelectorAll("code").forEach((codeElement) => {
-                codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-            });
-
-            if (!hasCodeElement && !startSpace && !endSpace
-                && !htmlElement
-                && event.inputType !== "formatItalic"
-                && event.inputType !== "formatBold"
-                && event.inputType !== "formatRemove"
-                && event.inputType !== "formatStrikeThrough"
-                && event.inputType !== "insertUnorderedList"
-                && event.inputType !== "insertOrderedList"
-                && event.inputType !== "formatOutdent"
-                && event.inputType !== "formatIndent"
-                && event.inputType !== ""   // document.execCommand('unlink', false)
-            ) {
-                // 保存光标
-                this.element.querySelectorAll("wbr").forEach((wbr) => {
-                    wbr.remove();
-                });
-                const wbrNode = document.createElement("wbr");
-                range.insertNode(wbrNode);
-
-                // markdown 纠正
-                // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-                const vditorHTML = this.element.innerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
-                    .replace(/<\/em><em data-marker="\W{1}">/g, "")
-                    .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-                this.element.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML);
-                this.element.insertAdjacentElement("beforeend", this.popover);
-
-                // 设置光标
-                setRangeByWbr(this.element, range);
-                // 处理 code 转义问题
-                processPreCode(this.element);
-
-                if (vditor.hint) {
-                    vditor.hint.render(vditor);
-                }
-            }
-
-            afterRenderEvent(vditor);
+            input(event, vditor, range);
         });
 
         this.element.addEventListener("click", (event: IHTMLInputEvent) => {

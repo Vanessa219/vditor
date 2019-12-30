@@ -14,7 +14,6 @@ class WysiwygUndo {
     private dmp: diff_match_patch;
     private lastText: string;
     private hasUndo: boolean;
-    private timeout: number;
 
     constructor() {
         this.redoStack = [];
@@ -48,29 +47,27 @@ class WysiwygUndo {
     }
 
     public addToUndoStack(vditor: IVditor) {
-        clearTimeout(this.timeout);
-        this.timeout = window.setTimeout(() => {
-            const text = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
-            const diff = this.dmp.diff_main(text, this.lastText, true);
-            const patchList = this.dmp.patch_make(text, this.lastText, diff);
-            if (patchList.length === 0) {
-                return;
-            }
-            this.lastText = text;
-            this.undoStack.push(patchList);
-            if (this.undoStack.length > this.stackSize) {
-                this.undoStack.shift();
-            }
-            if (this.hasUndo) {
-                this.redoStack = [];
-                this.hasUndo = false;
-                disableToolbar(vditor.toolbar.elements, ["redo"]);
-            }
+        // wysiwyg/afterRenderEvent.ts 已经 debounce
+        const text = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
+        const diff = this.dmp.diff_main(text, this.lastText, true);
+        const patchList = this.dmp.patch_make(text, this.lastText, diff);
+        if (patchList.length === 0) {
+            return;
+        }
+        this.lastText = text;
+        this.undoStack.push(patchList);
+        if (this.undoStack.length > this.stackSize) {
+            this.undoStack.shift();
+        }
+        if (this.hasUndo) {
+            this.redoStack = [];
+            this.hasUndo = false;
+            disableToolbar(vditor.toolbar.elements, ["redo"]);
+        }
 
-            if (this.undoStack.length > 1) {
-                enableToolbar(vditor.toolbar.elements, ["undo"]);
-            }
-        }, 500);
+        if (this.undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        }
     }
 
     private renderDiff(state: patch_obj[], vditor: IVditor, isRedo: boolean = false) {
@@ -91,7 +88,6 @@ class WysiwygUndo {
 
         vditor.wysiwyg.element.innerHTML = text;
         processPreCode(vditor.wysiwyg.element);
-        vditor.wysiwyg.element.insertAdjacentElement("beforeend", vditor.wysiwyg.popover);
         setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
         scrollCenter(vditor.wysiwyg.element);
         afterRenderEvent(vditor, false);

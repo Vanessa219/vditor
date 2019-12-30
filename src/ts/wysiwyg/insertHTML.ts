@@ -10,7 +10,5 @@ export const insertHTML = (html: string, editor: {
     const range = getSelection().getRangeAt(0);
     range.insertNode(pasteElement.content.cloneNode(true));
     range.collapse(false);
-
-    editor.element.insertAdjacentElement("beforeend", editor.popover);
     processPreCode(editor.element);
 };

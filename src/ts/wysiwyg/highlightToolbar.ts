@@ -22,6 +22,7 @@ import {getText} from "../util/getText";
 import {hasClosestByClassName, hasClosestByMatchTag, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
 
 export const highlightToolbar = (vditor: IVditor) => {
+    // todo debounced
     if (getSelection().rangeCount === 0) {
         return;
     }
@@ -434,6 +435,10 @@ export const highlightToolbar = (vditor: IVditor) => {
     if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockElement
         && typeElement.nodeName !== "A" && !hasClosestByClassName(typeElement, "vditor-panel")) {
         vditor.wysiwyg.popover.style.display = "none";
+    }
+
+    if (!vditor.wysiwyg.element.contains(vditor.wysiwyg.popover)) {
+        vditor.wysiwyg.element.insertAdjacentElement("beforeend", vditor.wysiwyg.popover);
     }
 };
 

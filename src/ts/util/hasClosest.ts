@@ -11,6 +11,19 @@ export const hasClosestByTag = (element: HTMLElement, nodeName: string) => {
     return isClosest && e;
 };
 
+export const hasClosestByAttribute = (element: HTMLElement, attr: string, value: string) => {
+    let e = element;
+    let isClosest = false;
+    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+        if (e.getAttribute(attr) === value) {
+            isClosest = true;
+        } else {
+            e = e.parentElement;
+        }
+    }
+    return isClosest && e;
+};
+
 export const hasClosestByMatchTag = (element: HTMLElement, nodeName: string) => {
     let e = element;
     let isClosest = false;
