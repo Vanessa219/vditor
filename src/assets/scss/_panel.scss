@@ -72,12 +72,20 @@
     cursor: pointer;
     float: left;
     padding: 2px 5px;
-    height: 15px;
-    width: 15px;
+    height: 19px;
+    width: 25px;
+    background-color: transparent;
+    border: 0;
+    box-sizing: border-box;
 
-    &:hover {
+    &:hover,
+    &--current{
       color: $toolbarIconHover;
       background-color: transparent;
+    }
+
+    &:focus {
+      outline: none;
     }
 
     svg {
