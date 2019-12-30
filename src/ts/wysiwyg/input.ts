@@ -14,10 +14,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         // 使用工具栏无 data-code
         blockElement = hasClosestBlock(typeElement);
         if (!blockElement) {
-            blockElement = document.createElement("p");
-            blockElement.setAttribute("data-block", "0");
-            range.insertNode(blockElement);
-            range.selectNodeContents(blockElement);
+            // 使用顶级块元素，应使用 innerHTML
+            blockElement = vditor.wysiwyg.element;
         }
     }
 
@@ -47,13 +45,21 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         range.insertNode(wbrNode);
 
         // markdown 纠正
+        let vditorHTML;
+        if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
+            vditorHTML = blockElement.innerHTML;
+        } else {
+            vditorHTML = blockElement.outerHTML;
+        }
         // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-        const vditorHTML = blockElement.outerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
+        vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-        console.log(vditorHTML);
-        console.log(vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>');
-        blockElement.outerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+        if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
+            blockElement.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+        } else {
+            blockElement.outerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+        }
 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
