@@ -1,4 +1,4 @@
-import {processPreCode} from "./processPreCode";
+import {processCodeData} from "./processCodeData";
 
 export const insertHTML = (html: string, editor: {
     element: HTMLPreElement,
@@ -10,5 +10,5 @@ export const insertHTML = (html: string, editor: {
     const range = getSelection().getRangeAt(0);
     range.insertNode(pasteElement.content.cloneNode(true));
     range.collapse(false);
-    processPreCode(editor.element);
+    processCodeData(editor.element);
 };

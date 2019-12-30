@@ -18,19 +18,18 @@
     }
 
     blockquote:empty::before,
-    pre > code:empty::before{
+    pre > code:empty::before {
       content: ' ';
     }
 
-    &__block {
-      pre {
-        margin-bottom: 1em !important;
-      }
+    &__block > pre {
+      display: none;
+      margin-bottom: -1em;
     }
 
-    &__preview {
-      display: none;
+    &__preview pre {
       white-space: initial;
+      margin-bottom: 1em !important;
     }
   }
 }

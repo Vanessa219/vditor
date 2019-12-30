@@ -1,6 +1,7 @@
 import {setSelectionFocus} from "../editor/setSelection";
 
-export const processPreCode = (editor: HTMLElement) => {
+export const processCodeData = (editor: HTMLElement) => {
+    // code block, inline code, math, abc, html, chart, mermaid
     editor.querySelectorAll("code").forEach((codeElement: HTMLElement) => {
         let isFocus = false;
         if (codeElement.innerHTML === "<wbr>") {

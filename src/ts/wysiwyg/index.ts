@@ -13,7 +13,8 @@ import {insertHTML} from "./insertHTML";
 class WYSIWYG {
     public element: HTMLPreElement;
     public popover: HTMLDivElement;
-    public timeoutId: number;
+    public afterRenderTimeoutId: number;
+    public hlToolbarTimeoutId: number;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");

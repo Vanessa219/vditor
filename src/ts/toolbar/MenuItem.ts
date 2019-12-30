@@ -107,7 +107,7 @@ export class MenuItem {
                                 '<li class="vditor-task"><input type="checkbox" /> </li>');
                         } else {
                             document.execCommand("insertHTML", false,
-                                '<ul><li class="vditor-task"><input type="checkbox" /> </li></ul>');
+                                '<ul data-block="0"><li class="vditor-task" data-block="0"><input type="checkbox" /> </li></ul>');
                         }
 
                     } else if (commandName === "inline-code") {
@@ -127,7 +127,7 @@ export class MenuItem {
                             const node = document.createElement("div");
                             node.className = "vditor-wysiwyg__block";
                             node.setAttribute("data-type", "code-block");
-                            node.innerHTML = `<pre><code></code></pre>`;
+                            node.innerHTML = `<pre data-block="0"><code></code></pre>`;
                             range.insertNode(node);
                             range.selectNodeContents(node.firstChild.firstChild);
                             setSelectionFocus(range);
@@ -135,7 +135,7 @@ export class MenuItem {
                             const node = document.createElement("div");
                             node.className = "vditor-wysiwyg__block";
                             node.setAttribute("data-type", "code-block");
-                            node.innerHTML = `<pre><code>${range.toString()}</code></pre>`;
+                            node.innerHTML = `<pre data-block="0"><code>${range.toString()}</code></pre>`;
                             range.deleteContents();
                             range.insertNode(node);
                             range.selectNodeContents(node.firstChild.firstChild);
@@ -157,7 +157,7 @@ export class MenuItem {
                         setSelectionFocus(range);
                     } else if (commandName === "table") {
                         document.execCommand("insertHTML", false,
-                            "<table><thead><tr><th>col1</th><th>col2</th><th>col3</th></tr></thead>"
+                            "<table data-block=\"0\"><thead><tr><th>col1</th><th>col2</th><th>col3</th></tr></thead>"
                             + "<tbody><tr><td></td><td></td><td>"
                             + "</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>");
                     } else {

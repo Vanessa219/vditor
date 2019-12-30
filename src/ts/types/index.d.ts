@@ -278,7 +278,8 @@ interface IVditor {
     wysiwyg: {
         element: HTMLPreElement,
         popover: HTMLDivElement,
-        timeoutId: number,
+        afterRenderTimeoutId: number,
+        hlToolbarTimeoutId: number,
     };
 }
 

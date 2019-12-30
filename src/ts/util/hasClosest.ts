@@ -24,6 +24,27 @@ export const hasClosestByAttribute = (element: HTMLElement, attr: string, value:
     return isClosest && e;
 };
 
+export const hasClosestBlock = (element: HTMLElement) => {
+    let e = element;
+    let isClosest = false;
+    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+        if (e.tagName === "H1" ||
+            e.tagName === "H2" ||
+            e.tagName === "H3" ||
+            e.tagName === "H4" ||
+            e.tagName === "H5" ||
+            e.tagName === "H6" ||
+            e.tagName === "P" ||
+            e.tagName === "BLOCKQUOTE" ||
+            e.tagName === "LI") {
+            isClosest = true;
+        } else {
+            e = e.parentElement;
+        }
+    }
+    return isClosest && e;
+};
+
 export const hasClosestByMatchTag = (element: HTMLElement, nodeName: string) => {
     let e = element;
     let isClosest = false;

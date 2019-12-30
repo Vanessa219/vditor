@@ -1,21 +1,30 @@
-import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {precessCodeRender} from "./processCodeRender";
 
 export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => {
     let typeElement = range.startContainer as HTMLElement;
     if (range.startContainer.nodeType === 3) {
         typeElement = range.startContainer.parentElement;
     }
-    let element = hasClosestByAttribute(typeElement, "data-block", "0");
-    if (!element) {
-        element = document.createElement("p");
-        range.insertNode(element);
-        range.selectNodeContents(element);
+
+    let blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
+    if (!blockElement) {
+        // 使用工具栏无 data-code
+        blockElement = hasClosestBlock(typeElement)
+        if (!blockElement) {
+            blockElement = document.createElement("p");
+            range.insertNode(blockElement);
+            range.selectNodeContents(blockElement);
+        }
     }
 
-    if (!hasClosestByClassName(typeElement, "vditor-wysiwyg__block")
-        && event.inputType !== "formatItalic"
+    const codeElement = hasClosestByTag(typeElement, "CODE")
+    if (codeElement) {
+        codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
+        precessCodeRender(codeElement.parentElement.parentElement, vditor)
+    } else if (event.inputType !== "formatItalic"
         && event.inputType !== "formatBold"
         && event.inputType !== "formatRemove"
         && event.inputType !== "formatStrikeThrough"
@@ -34,18 +43,16 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
 
         // markdown 纠正
         // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-        const vditorHTML = element.outerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
+        const vditorHTML = blockElement.outerHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-        element.outerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+        console.log(vditorHTML)
+        console.log(vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>')
+        blockElement.outerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
-
-        if (vditor.hint) {
-            vditor.hint.render(vditor);
-        }
     }
 
-    afterRenderEvent(vditor);
+    afterRenderEvent(vditor, true, true);
 };
