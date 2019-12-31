@@ -77,7 +77,7 @@ class WYSIWYG {
             event.clipboardData.setData("text/html", "");
         });
 
-        this.element.addEventListener("paste", async (event: ClipboardEvent & { target: HTMLElement }) => {
+        this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "INPUT") {
                 return;
             }
@@ -98,30 +98,28 @@ class WYSIWYG {
                     encodeURIComponent(code)}"></code></pre></div>`, {
                     element: this.element,
                     popover: this.popover,
-                });
-                afterRenderEvent(vditor);
-                return;
-            }
-
-            if (textHTML.trim() !== "") {
-                const tempElement = document.createElement("div");
-                tempElement.innerHTML = textHTML;
-                tempElement.querySelectorAll("[style]").forEach((e) => {
-                    e.removeAttribute("style");
-                });
-                insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), {
-                    element: this.element,
-                    popover: this.popover,
-                });
-            } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
-                uploadFiles(vditor, event.clipboardData.files);
-            } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                insertHTML(vditor.lute.Md2VditorDOM(textPlain), {element: this.element, popover: this.popover});
+                }, event.target, textPlain);
+            } else {
+                if (textHTML.trim() !== "") {
+                    const tempElement = document.createElement("div");
+                    tempElement.innerHTML = textHTML;
+                    tempElement.querySelectorAll("[style]").forEach((e) => {
+                        e.removeAttribute("style");
+                    });
+                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), {
+                        element: this.element,
+                        popover: this.popover,
+                    }, event.target, textPlain);
+                } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
+                    uploadFiles(vditor, event.clipboardData.files);
+                } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
+                    insertHTML(vditor.lute.Md2VditorDOM(textPlain), {element: this.element, popover: this.popover},
+                        event.target, textPlain);
+                }
             }
 
             this.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
                 processCodeRender(blockElement, vditor);
-                blockElement.firstElementChild.setAttribute("style", "display:none");
             });
 
             afterRenderEvent(vditor);

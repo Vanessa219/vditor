@@ -23,8 +23,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     const codeElement = hasClosestByTag(typeElement, "CODE");
     if (codeElement) {
         codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-        const condeDataType = codeElement.getAttribute("data-type")
-        if (condeDataType === "math-inline" || !condeDataType) {
+        const codeDataType = codeElement.getAttribute("data-type");
+        if (codeDataType === "math-inline" || !codeDataType) {
             processCodeRender(codeElement.parentElement, vditor);
         } else {
             processCodeRender(codeElement.parentElement.parentElement, vditor);
@@ -62,7 +62,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
+        console.log(vditorHTML)
         vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+        console.log(vditorHTML)
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
             blockElement.innerHTML = vditorHTML;
         } else {
