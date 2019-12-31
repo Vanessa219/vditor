@@ -37,7 +37,7 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 
-### v2.0.4 / 2019-12-29
+### v2.0.4 / 2019-12-31
 
 * [28](https://github.com/Vanessa219/vditor/issues/28) wysiwyg 时代码块、流程图等直接进行渲染，不展示源码 `enhancement`
 * [26](https://github.com/Vanessa219/vditor/issues/26) wysiwyg 性能优化 `enhancement`

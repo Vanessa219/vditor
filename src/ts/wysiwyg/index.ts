@@ -26,6 +26,7 @@ class WYSIWYG {
             this.element.style.display = "none";
         }
 
+        this.element.innerHTML = '<p data-block="0"></p>';
         const popover = document.createElement("div");
         popover.className = "vditor-panel vditor-panel--none";
         popover.setAttribute("contenteditable", "false");
@@ -91,14 +92,16 @@ class WYSIWYG {
             if (doc.body) {
                 textHTML = doc.body.innerHTML;
             }
+
             // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
-            if (code) {
+            if (event.target.tagName === "CODE") {
+                // 粘贴在代码位置
+                insertHTML(textPlain, this.element);
+                event.target.setAttribute("data-code", encodeURIComponent(event.target.innerText));
+            } else if (code) {
                 insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code data-code="${
-                    encodeURIComponent(code)}"></code></pre></div>`, {
-                    element: this.element,
-                    popover: this.popover,
-                }, event.target, textPlain);
+                    encodeURIComponent(code)}"></code></pre></div>`, this.element);
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
@@ -106,15 +109,18 @@ class WYSIWYG {
                     tempElement.querySelectorAll("[style]").forEach((e) => {
                         e.removeAttribute("style");
                     });
-                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), {
-                        element: this.element,
-                        popover: this.popover,
-                    }, event.target, textPlain);
+                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), this.element);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                    insertHTML(vditor.lute.Md2VditorDOM(textPlain), {element: this.element, popover: this.popover},
-                        event.target, textPlain);
+                    let vditorDomHTML = vditor.lute.Md2VditorDOM(textPlain);
+                    const tempElement = document.createElement("div");
+                    tempElement.innerHTML = vditorDomHTML;
+                    const pElements = tempElement.querySelectorAll("p");
+                    if (pElements.length === 1) {
+                        vditorDomHTML = pElements[0].innerHTML;
+                    }
+                    insertHTML(vditorDomHTML, this.element);
                 }
             }
 

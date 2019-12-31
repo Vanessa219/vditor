@@ -61,9 +61,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-        console.log(vditorHTML);
         vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
-        console.log(vditorHTML);
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
             blockElement.innerHTML = vditorHTML;
         } else {
@@ -74,10 +72,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         setRangeByWbr(vditor.wysiwyg.element, range);
 
         blockElement = getBlockByRange(range);
-
-        // 对返回值中包含 inline-code, inline math 的进行 decode
-        const codeElements = blockElement.querySelectorAll("code");
-        if (codeElements.length > 0) {
+        if (blockElement && blockElement.querySelectorAll("code").length > 0) {
+            // 对返回值中包含 inline-code, inline math 的进行 decode
             processCodeData(blockElement);
         }
     }
