@@ -9,7 +9,7 @@ import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
-import {precessCodeRender} from "./processCodeRender";
+import {processCodeRender} from "./processCodeRender";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -47,16 +47,16 @@ class WYSIWYG {
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop",
                 (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                event.stopPropagation();
-                event.preventDefault();
-                if (event.target.tagName === "INPUT") {
-                    return;
-                }
-                const files = event.dataTransfer.items;
-                if (files.length > 0) {
-                    uploadFiles(vditor, files);
-                }
-            });
+                    event.stopPropagation();
+                    event.preventDefault();
+                    if (event.target.tagName === "INPUT") {
+                        return;
+                    }
+                    const files = event.dataTransfer.items;
+                    if (files.length > 0) {
+                        uploadFiles(vditor, files);
+                    }
+                });
         }
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
@@ -120,7 +120,7 @@ class WYSIWYG {
             }
 
             this.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
-                precessCodeRender(blockElement, vditor);
+                processCodeRender(blockElement, vditor);
                 blockElement.firstElementChild.setAttribute("style", "display:none");
             });
 
@@ -200,6 +200,29 @@ class WYSIWYG {
                 return;
             }
             highlightToolbar(vditor);
+
+            // 上下左右遇到块预览的处理
+            const range = getSelection().getRangeAt(0);
+            const element = range.startContainer.nodeType === 3 ?
+                range.startContainer.parentElement : range.startContainer as HTMLElement;
+            const previewElement = hasClosestByClassName(element, "vditor-wysiwyg__preview");
+            if (previewElement) {
+                if ((previewElement.previousElementSibling as HTMLElement).style.display === "none") {
+                    previewElement.click();
+                } else {
+                    if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+                        if (previewElement.parentElement.nextElementSibling &&
+                            previewElement.parentElement.nextElementSibling.classList
+                                .contains("vditor-panel")) {
+                            range.selectNodeContents(previewElement.previousElementSibling);
+                            range.collapse(false);
+                        } else {
+                            range.setStartAfter(previewElement.parentElement);
+                        }
+                        setSelectionFocus(range);
+                    }
+                }
+            }
         });
 
         this.element.addEventListener("keypress", (event: KeyboardEvent & { target: HTMLElement }) => {

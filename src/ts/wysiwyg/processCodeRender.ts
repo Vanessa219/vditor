@@ -7,7 +7,7 @@ import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {mermaidRender} from "../markdown/mermaidRender";
 
 // code block, math, math-inline, abc, html, chart, mermaid
-export const precessCodeRender = (blockElement: HTMLElement, vditor: IVditor) => {
+export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) => {
     const blockType = blockElement.getAttribute("data-type");
     if (!blockType) {
         return;
@@ -17,7 +17,6 @@ export const precessCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     if (!previewPanel) {
         blockElement.insertAdjacentHTML("beforeend", `<${tagName} class="vditor-wysiwyg__preview"></${tagName}>`);
         previewPanel = blockElement.querySelector(".vditor-wysiwyg__preview");
-        previewPanel.setAttribute("contenteditable", "false");
         previewPanel.setAttribute("data-render", "false");
         previewPanel.addEventListener("click", (event) => {
             const range = preElement.ownerDocument.createRange();

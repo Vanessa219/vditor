@@ -2,7 +2,7 @@ import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeData} from "./processCodeData";
-import {precessCodeRender} from "./processCodeRender";
+import {processCodeRender} from "./processCodeRender";
 
 export const renderDomByMd = (vditor: IVditor, md: string) => {
     const allToolbar = ["headings", "bold", "italic", "strike", "line", "quote",
@@ -15,7 +15,7 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
     processCodeData(editorElement);
 
     editorElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
-        precessCodeRender(blockElement, vditor);
+        processCodeRender(blockElement, vditor);
         blockElement.firstElementChild.setAttribute("style", "display:none");
     });
 

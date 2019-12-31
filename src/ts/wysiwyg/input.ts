@@ -1,6 +1,7 @@
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {precessCodeRender} from "./processCodeRender";
+import {processCodeData} from "./processCodeData";
+import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => {
@@ -22,10 +23,11 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     const codeElement = hasClosestByTag(typeElement, "CODE");
     if (codeElement) {
         codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-        if (codeElement.getAttribute("data-type") === "math-inline") {
-            precessCodeRender(codeElement.parentElement, vditor);
+        const condeDataType = codeElement.getAttribute("data-type")
+        if (condeDataType === "math-inline" || !condeDataType) {
+            processCodeRender(codeElement.parentElement, vditor);
         } else {
-            precessCodeRender(codeElement.parentElement.parentElement, vditor);
+            processCodeRender(codeElement.parentElement.parentElement, vditor);
         }
     } else if (event.inputType !== "formatItalic"
         && event.inputType !== "formatBold"
@@ -44,7 +46,12 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         const wbrNode = document.createElement("wbr");
         range.insertNode(wbrNode);
 
-        // markdown 纠正
+        // 修正 inline code, inline math 中删除第一个字符，range 不为 inline 的错误
+        const inlineCodeElement = blockElement.querySelector("CODE") as HTMLElement;
+        if (inlineCodeElement) {
+            inlineCodeElement.setAttribute("data-code", encodeURIComponent(inlineCodeElement.innerText));
+        }
+
         let vditorHTML;
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
             vditorHTML = blockElement.innerHTML;
@@ -55,14 +62,24 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
+        vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
-            blockElement.innerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+            blockElement.innerHTML = vditorHTML;
         } else {
-            blockElement.outerHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+            blockElement.outerHTML = vditorHTML;
         }
 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
+
+        // 对返回值中包含 inline-code, inline math 的进行 decode
+        const blockElements = range.startContainer.parentElement.querySelectorAll(".vditor-wysiwyg__block");
+        if (blockElements) {
+            processCodeData(range.startContainer.parentElement);
+            blockElements.forEach((blockItem: HTMLElement) => {
+                processCodeRender(blockItem, vditor);
+            });
+        }
     }
 
     afterRenderEvent(vditor, true, true);

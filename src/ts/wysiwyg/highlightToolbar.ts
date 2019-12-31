@@ -12,7 +12,7 @@ import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {getText} from "../util/getText";
 import {hasClosestByClassName, hasClosestByMatchTag, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
-import {precessCodeRender} from "./processCodeRender";
+import {processCodeRender} from "./processCodeRender";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -451,7 +451,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     language.onblur = updateLanguage;
                     language.oninput = (event) => {
                         updateLanguage();
-                        precessCodeRender(blockElement, vditor);
+                        processCodeRender(blockElement, vditor);
                         event.preventDefault();
                         event.stopPropagation();
                     };

@@ -82,9 +82,9 @@ export class Ui {
         if (vditor.wysiwyg) {
             const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;
             if (vditor.options.typewriterMode) {
-                vditor.wysiwyg.element.style.padding = `18px ${Math.max(10, padding)}px ${height / 2}px`;
+                vditor.wysiwyg.element.style.padding = `21px ${Math.max(10, padding)}px ${height / 2}px`;
             } else {
-                vditor.wysiwyg.element.style.padding = `18px ${Math.max(10, padding)}px 10px`;
+                vditor.wysiwyg.element.style.padding = `21px ${Math.max(10, padding)}px 10px`;
             }
         }
 

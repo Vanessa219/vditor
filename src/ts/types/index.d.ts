@@ -68,6 +68,7 @@ interface IHTMLInputEvent extends Event {
     screenX: number;
     isComposing: boolean;
     inputType: string;
+    key: string;
 }
 
 interface II18nLang {
