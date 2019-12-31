@@ -265,11 +265,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
-            input.onkeyup = (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-            };
-
             const input2Wrap = document.createElement("span");
             input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].column);
             input2Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -284,10 +279,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             input2.onblur = updateTable;
             input2.oninput = (event) => {
                 updateTable();
-                event.preventDefault();
-                event.stopPropagation();
-            };
-            input2.onkeyup = (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
@@ -325,10 +316,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
-            input.onkeyup = (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-            };
 
             const input2Wrap = document.createElement("span");
             input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].tooltipText);
@@ -342,10 +329,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             input2.onblur = updateA;
             input2.oninput = (event) => {
                 updateA();
-                event.preventDefault();
-                event.stopPropagation();
-            };
-            input2.onkeyup = (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
@@ -398,10 +381,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
-            input.onkeyup = (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-            };
             const altWrap = document.createElement("span");
             altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
             altWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -414,10 +393,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             alt.onblur = updateImg;
             alt.oninput = (event) => {
                 updateImg();
-                event.preventDefault();
-                event.stopPropagation();
-            };
-            alt.onkeyup = (event) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
@@ -437,11 +412,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                 event.preventDefault();
                 event.stopPropagation();
             };
-            aHref.onkeyup = (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-            };
-
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", aHrefWrap);
@@ -485,10 +455,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                         event.preventDefault();
                         event.stopPropagation();
                     };
-                    language.onkeyup = (event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    };
                     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
                 }
             }
@@ -515,7 +481,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 };
 
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
-    vditor.wysiwyg.popover.style.top = (element.offsetTop - 16) + "px";
+    vditor.wysiwyg.popover.style.top = (element.offsetTop - 21) + "px";
     vditor.wysiwyg.popover.style.left = element.offsetLeft + "px";
     vditor.wysiwyg.popover.style.display = "block";
 };

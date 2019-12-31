@@ -84,7 +84,10 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
     };
 
-    editorElement.addEventListener("keydown", (event: KeyboardEvent) => {
+    editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
+        if (event.target.tagName === "INPUT") {
+            return;
+        }
         const hintElement = vditor.hint && vditor.hint.element;
 
         vditor.undo.recordFirstPosition(vditor);
@@ -267,7 +270,10 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     if (!vditor.options.select) {
         return;
     }
-    editorElement.addEventListener("selectstart", () => {
+    editorElement.addEventListener("selectstart", (event: IHTMLInputEvent) => {
+        if (event.target.tagName === "INPUT") {
+            return;
+        }
         editorElement.onmouseup = () => {
             const element = vditor.currentMode === "wysiwyg" ?
                 vditor.wysiwyg.element : vditor.editor.element;

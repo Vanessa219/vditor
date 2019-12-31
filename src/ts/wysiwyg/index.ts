@@ -45,9 +45,13 @@ class WYSIWYG {
     private bindEvent(vditor: IVditor) {
 
         if (vditor.options.upload.url || vditor.options.upload.handler) {
-            this.element.addEventListener("drop", (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
+            this.element.addEventListener("drop",
+                (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
                 event.stopPropagation();
                 event.preventDefault();
+                if (event.target.tagName === "INPUT") {
+                    return;
+                }
                 const files = event.dataTransfer.items;
                 if (files.length > 0) {
                     uploadFiles(vditor, files);
@@ -55,10 +59,12 @@ class WYSIWYG {
             });
         }
 
-        this.element.addEventListener("copy", (event: ClipboardEvent) => {
+        this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
+            if (event.target.tagName === "INPUT") {
+                return;
+            }
             event.stopPropagation();
             event.preventDefault();
-
             const tempElement = document.createElement("div");
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
 
@@ -71,7 +77,10 @@ class WYSIWYG {
             event.clipboardData.setData("text/html", "");
         });
 
-        this.element.addEventListener("paste", async (event: ClipboardEvent) => {
+        this.element.addEventListener("paste", async (event: ClipboardEvent & { target: HTMLElement }) => {
+            if (event.target.tagName === "INPUT") {
+                return;
+            }
             event.stopPropagation();
             event.preventDefault();
             let textHTML = event.clipboardData.getData("text/html");
@@ -120,6 +129,9 @@ class WYSIWYG {
 
         // 中文处理
         this.element.addEventListener("compositionend", (event: IHTMLInputEvent) => {
+            if (event.target.tagName === "INPUT") {
+                return;
+            }
             input(event, vditor, getSelection().getRangeAt(0).cloneRange());
         });
 
@@ -183,11 +195,17 @@ class WYSIWYG {
             }
         });
 
-        this.element.addEventListener("keyup", () => {
+        this.element.addEventListener("keyup", (event: IHTMLInputEvent) => {
+            if (event.target.tagName === "INPUT") {
+                return;
+            }
             highlightToolbar(vditor);
         });
 
-        this.element.addEventListener("keypress", (event: KeyboardEvent) => {
+        this.element.addEventListener("keypress", (event: KeyboardEvent & { target: HTMLElement }) => {
+            if (event.target.tagName === "INPUT") {
+                return;
+            }
             if (event.key !== "Enter") {
                 return;
             }
