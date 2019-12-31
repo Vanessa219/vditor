@@ -5,6 +5,7 @@ import {getEventName} from "../util/getEventName";
 import {hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {setCurrentToolbar} from "./setCurrentToolbar";
 
 export class MenuItem {
     public element: HTMLElement;
@@ -109,19 +110,22 @@ export class MenuItem {
                             document.execCommand("insertHTML", false,
                                 '<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> </li></ul>');
                         }
-
                     } else if (commandName === "inline-code") {
                         if (range.collapsed) {
                             const node = document.createTextNode("``");
                             range.insertNode(node);
                             range.setStart(node, 1);
                             range.collapse(true);
-                        } else {
+                            setSelectionFocus(range);
+                        } else if (range.startContainer.nodeType === 3) {
                             const node = document.createElement("code");
                             range.surroundContents(node);
                             range.insertNode(node);
+                            node.setAttribute("data-code", encodeURIComponent(node.textContent));
+                            setSelectionFocus(range);
                         }
-                        setSelectionFocus(range);
+                        useHighlight = false;
+                        setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
                     } else if (commandName === "code") {
                         if (range.collapsed) {
                             const node = document.createElement("div");

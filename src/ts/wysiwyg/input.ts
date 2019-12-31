@@ -1,4 +1,4 @@
-import {hasClosestBlock, hasClosestByAttribute, hasClosestByTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeData} from "./processCodeData";
 import {processCodeRender} from "./processCodeRender";
@@ -23,11 +23,10 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     const codeElement = hasClosestByTag(typeElement, "CODE");
     if (codeElement) {
         codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-        const codeDataType = codeElement.getAttribute("data-type");
-        if (codeDataType === "math-inline" || !codeDataType) {
-            processCodeRender(codeElement.parentElement, vditor);
-        } else {
-            processCodeRender(codeElement.parentElement.parentElement, vditor);
+
+        const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+        if (blockRenderElement) {
+            processCodeRender(blockRenderElement, vditor);
         }
     } else if (event.inputType !== "formatItalic"
         && event.inputType !== "formatBold"
@@ -62,9 +61,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
-        console.log(vditorHTML)
+        console.log(vditorHTML);
         vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
-        console.log(vditorHTML)
+        console.log(vditorHTML);
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
             blockElement.innerHTML = vditorHTML;
         } else {
@@ -74,15 +73,28 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
 
+        blockElement = getBlockByRange(range);
+
         // 对返回值中包含 inline-code, inline math 的进行 decode
-        const blockElements = range.startContainer.parentElement.querySelectorAll(".vditor-wysiwyg__block");
-        if (blockElements) {
-            processCodeData(range.startContainer.parentElement);
-            blockElements.forEach((blockItem: HTMLElement) => {
-                processCodeRender(blockItem, vditor);
-            });
+        const codeElements = blockElement.querySelectorAll("code");
+        if (codeElements.length > 0) {
+            processCodeData(blockElement);
         }
     }
 
     afterRenderEvent(vditor, true, true);
+};
+
+const getBlockByRange = (range: Range) => {
+    let e =
+        range.startContainer.nodeType === 3 ? range.startContainer.parentElement : range.startContainer as HTMLElement;
+    let isClosest = false;
+    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+        if (e.getAttribute("data-block") === "0") {
+            isClosest = true;
+        } else {
+            e = e.parentElement;
+        }
+    }
+    return isClosest && e;
 };
