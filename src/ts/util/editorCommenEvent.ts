@@ -193,7 +193,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
                     if (range.startOffset === 0 && range.startContainer.parentElement.tagName === "CODE" &&
                         range.startContainer.parentElement.parentElement.parentElement.classList
-                            .contains("vditor-wysiwyg__block")) {
+                            .contains("vditor-wysiwyg__block") && !range.startContainer.previousSibling) {
                         // 光标位于渲染代码块内，仅删除代码块，内容保持不变
                         const text = document.createTextNode(range.startContainer.parentElement.textContent);
                         range.setStartBefore(range.startContainer.parentElement.parentElement.parentElement);
@@ -225,7 +225,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 }
 
                 const preElement = range.startContainer.childNodes[range.startOffset - 1] as HTMLElement;
-                if (preElement && preElement.classList.contains("vditor-wysiwyg__block")) {
+                if (preElement && preElement.nodeType !== 3 && preElement.classList.contains("vditor-wysiwyg__block")) {
                     // 光标从代码块移动到段落前后进行删除
                     (preElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
                     event.preventDefault();
