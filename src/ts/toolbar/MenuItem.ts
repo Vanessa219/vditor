@@ -5,8 +5,8 @@ import {getEventName} from "../util/getEventName";
 import {hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {setCurrentToolbar} from "./setCurrentToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
+import {setCurrentToolbar} from "./setCurrentToolbar";
 
 export class MenuItem {
     public element: HTMLElement;
@@ -99,6 +99,7 @@ export class MenuItem {
 
                     if (commandName === "quote") {
                         document.execCommand("formatBlock", false, "BLOCKQUOTE");
+                        getSelection().getRangeAt(0).startContainer.parentElement.setAttribute("data-block", "0");
                     } else if (commandName === "check") {
                         const liElement = hasClosestByMatchTag(range.startContainer.nodeType === 3 ?
                             range.startContainer.parentNode as HTMLElement : range.startContainer as HTMLElement, "LI");
@@ -147,6 +148,7 @@ export class MenuItem {
                             setSelectionFocus(range);
                         }
                         processCodeRender(node, vditor);
+                        (node.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
                     } else if (commandName === "link") {
                         if (range.collapsed) {
                             const textNode = document.createTextNode("[]()");

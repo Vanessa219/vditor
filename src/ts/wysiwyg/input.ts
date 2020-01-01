@@ -1,4 +1,5 @@
-import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {log} from "../util/log";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeData} from "./processCodeData";
 import {processCodeRender} from "./processCodeRender";
@@ -10,14 +11,10 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         typeElement = range.startContainer.parentElement;
     }
 
-    let blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
+    let blockElement = hasClosestBlock(typeElement);
     if (!blockElement) {
-        // 使用工具栏无 data-code
-        blockElement = hasClosestBlock(typeElement);
-        if (!blockElement) {
-            // 使用顶级块元素，应使用 innerHTML
-            blockElement = vditor.wysiwyg.element;
-        }
+        // 使用顶级块元素，应使用 innerHTML
+        blockElement = vditor.wysiwyg.element;
     }
 
     const codeElement = hasClosestByTag(typeElement, "CODE");
@@ -26,6 +23,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
 
         const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
         if (blockRenderElement) {
+            if (blockRenderElement.querySelector(".vditor-wysiwyg__preview code").isEqualNode(codeElement)) {
+                (blockRenderElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
+            }
             processCodeRender(blockRenderElement, vditor);
         }
     } else if (event.inputType !== "formatItalic"
@@ -61,7 +61,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
+        log("SpinVditorDOM", vditorHTML, "argument", vditor.options.debugger);
         vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML) || '<p data-block="0"></p>';
+        log("SpinVditorDOM", vditorHTML, "argument", vditor.options.debugger);
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
             blockElement.innerHTML = vditorHTML;
         } else {

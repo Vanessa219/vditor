@@ -495,6 +495,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
         range.setStartBefore(element);
         setSelectionFocus(range);
         const node = document.createElement("p");
+        node.setAttribute("data-block", "0");
         node.innerHTML = "\n";
         range.insertNode(node);
         range.collapse(true);
@@ -513,6 +514,7 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
         range.setStartAfter(element);
         setSelectionFocus(range);
         const node = document.createElement("p");
+        node.setAttribute("data-block", "0");
         node.innerHTML = "\n";
         range.insertNode(node);
         range.collapse(true);

@@ -8,7 +8,7 @@ export const processCodeData = (editor: HTMLElement) => {
             isFocus = true;
         }
         codeElement.textContent = decodeURIComponent(codeElement.getAttribute("data-code")
-            || "\n");
+            || "");
 
         if (isFocus) {
             const range = editor.ownerDocument.createRange();

@@ -25,6 +25,9 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
                 range.selectNodeContents(preElement);
             } else {
                 preElement.style.display = "block";
+                if (!preElement.firstElementChild.firstChild) {
+                    preElement.firstElementChild.appendChild(document.createTextNode(""));
+                }
                 range.setStart(preElement.firstElementChild.firstChild, 0);
             }
             range.collapse(true);
@@ -36,7 +39,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     }
 
     const preElement = previewPanel.previousElementSibling as HTMLElement;
-    const innerHTML = decodeURIComponent((blockElement.querySelector("code").getAttribute("data-code")) || '')
+    const innerHTML = decodeURIComponent(blockElement.querySelector("code").getAttribute("data-code") || "");
     if (blockType === "code-block") {
         const language = preElement.querySelector("code").className.replace("language-", "");
         previewPanel.innerHTML = `<pre><code>${innerHTML}</code></pre>`;

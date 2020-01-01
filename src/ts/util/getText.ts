@@ -9,7 +9,7 @@ export const getText = (vditor: IVditor) => {
         cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
         cloneEditorElement.querySelectorAll("code").forEach((codeElement) => {
             codeElement.setAttribute("data-code",
-                decodeURIComponent(codeElement.getAttribute("data-code")));
+                decodeURIComponent(codeElement.getAttribute("data-code") || ""));
         });
         return vditor.lute.VditorDOM2Md(cloneEditorElement.innerHTML);
     }

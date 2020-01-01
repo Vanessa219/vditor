@@ -2,11 +2,10 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
-import {hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
@@ -73,7 +72,7 @@ class WYSIWYG {
 
             tempElement.querySelectorAll("code").forEach((codeElement) => {
                 codeElement.setAttribute("data-code",
-                    decodeURIComponent(codeElement.getAttribute("data-code")));
+                    decodeURIComponent(codeElement.getAttribute("data-code") || ""));
             });
 
             event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
@@ -164,7 +163,7 @@ class WYSIWYG {
             }
 
             // 前后空格处理
-            const blockElement = getParentBlock(range.startContainer as HTMLElement);
+            const blockElement = hasClosestBlock(range.startContainer);
             const startOffset = getSelectPosition(blockElement, range).start;
 
             // 开始可以输入空格
@@ -245,7 +244,9 @@ class WYSIWYG {
                             // 下一节点依旧为代码渲染块
                             (blockRenderElement.nextElementSibling
                                 .querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
-                            range.setStart(blockRenderElement.nextElementSibling.firstElementChild.firstElementChild.firstChild, 0)
+                            range.setStart(
+                                blockRenderElement.nextElementSibling.firstElementChild.firstElementChild.firstChild,
+                                0);
                         } else {
                             // 跳过渲染块，光标移动到下一个节点
                             range.setStartAfter(blockRenderElement);

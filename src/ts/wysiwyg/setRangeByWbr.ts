@@ -37,5 +37,6 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
             range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
         }
     }
+    wbrElement.remove();
     setSelectionFocus(range);
 };
