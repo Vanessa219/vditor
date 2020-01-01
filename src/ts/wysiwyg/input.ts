@@ -66,7 +66,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         if (vditorHTML === '<hr data-block="0" />') {
             vditorHTML = '<hr data-block="0" /><p data-block="0">\n<wbr></p>';
         }
-        log("SpinVditorDOM", vditorHTML, "argument", vditor.options.debugger);
+        log("SpinVditorDOM", vditorHTML, "result", vditor.options.debugger);
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
             blockElement.innerHTML = vditorHTML;
         } else {

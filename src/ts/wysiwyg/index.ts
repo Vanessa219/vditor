@@ -2,7 +2,7 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
-import {hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -290,7 +290,12 @@ class WYSIWYG {
             if ((!event.metaKey && !event.ctrlKey && event.shiftKey) ||
                 (!event.metaKey && !event.ctrlKey && !event.shiftKey && preCodeElement)) {
                 // 软换行
-                range.insertNode(document.createTextNode("\n"));
+                const blockElement = hasClosestByAttribute(range.startContainer.parentElement, "data-block", "0");
+                if (blockElement && blockElement.tagName === "TABLE") {
+                    range.insertNode(document.createElement("br"));
+                } else {
+                    range.insertNode(document.createTextNode("\n"));
+                }
                 range.collapse(false);
                 setSelectionFocus(range);
 
