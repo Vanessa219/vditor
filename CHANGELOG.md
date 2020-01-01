@@ -4,6 +4,7 @@
 
 * v2.0
   * 默认为 WYSIWYG 模式，可根据需要修改 option.mode 参数
+  * 添加 options.debugger 
 * v1.9
   * preview 静态方法参数修改为 `(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions)`，其中参数 `IPreviewOptions` 修改为
     ```ts
@@ -47,6 +48,7 @@
 * [2](https://github.com/Vanessa219/vditor/issues/2) 所见即所得 `enhancement`
 * 文档更新
   * 添加 option.mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only" 参数
+  * 添加 options.debugger
 
 ### v1.10.11 / 2019-12-12
 

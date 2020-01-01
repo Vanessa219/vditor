@@ -75,6 +75,13 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         if (blockElement && blockElement.querySelectorAll("code").length > 0) {
             // 对返回值中包含 inline-code, inline math 的进行 decode
             processCodeData(blockElement);
+            // 对返回值中需要渲染的代码块进行处理
+            if (blockElement.classList.contains("vditor-wysiwyg__block")) {
+                processCodeRender(blockElement, vditor);
+            }
+            blockElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockRenderElement: HTMLElement) => {
+                processCodeRender(blockRenderElement, vditor);
+            });
         }
     }
 

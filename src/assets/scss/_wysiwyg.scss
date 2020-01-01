@@ -31,8 +31,8 @@
       margin-bottom: -1em;
 
       & > code {
-        background-color: $hoverBg !important;
-        color: $hoverColor;
+        background-color: #fff !important;
+        border: 1px solid $borderColor;
         overflow: auto !important;
       }
     }
@@ -41,6 +41,7 @@
   &__preview {
     cursor: pointer;
     white-space: initial;
+    min-height: 27px;
 
     pre {
       margin-bottom: 1em !important;
@@ -52,7 +53,8 @@
   h3:before,
   h4:before,
   h5:before,
-  h6:before {
+  h6:before,
+  div.vditor-wysiwyg__block:before {
     float: left;
     padding-right: 4px;
     margin-left: -20px;
@@ -81,5 +83,16 @@
 
   h6:before {
     content: 'h6';
+  }
+
+  div.vditor-wysiwyg__block {
+    &:before {
+      content: attr(data-type);
+      margin-left: -93px;
+    }
+  }
+
+  details {
+    white-space: initial;
   }
 }

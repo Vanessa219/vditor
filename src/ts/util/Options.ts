@@ -10,6 +10,7 @@ export class Options {
             preview: "",
         },
         counter: 0,
+        debugger: false,
         height: "auto",
         hint: {
             delay: 200,

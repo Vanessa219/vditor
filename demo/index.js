@@ -2,10 +2,11 @@ import Vditor from '../src/index'
 import '../src/assets/scss/classic.scss'
 
 window.vditor = new Vditor('vditor', {
+  debugger: true,
   typewriterMode: false,
   placeholder: 'placeholder',
   counter: 100,
-  height: 300,
+  height: 600,
   hint: {
     emojiPath: 'https://cdn.jsdelivr.net/npm/vditor@1.8.3/dist/images/emoji',
     emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',

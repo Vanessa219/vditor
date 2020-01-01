@@ -6,6 +6,7 @@ import {hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {setCurrentToolbar} from "./setCurrentToolbar";
+import {processCodeRender} from "../wysiwyg/processCodeRender";
 
 export class MenuItem {
     public element: HTMLElement;
@@ -127,8 +128,8 @@ export class MenuItem {
                         useHighlight = false;
                         setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
                     } else if (commandName === "code") {
+                        const node = document.createElement("div");
                         if (range.collapsed) {
-                            const node = document.createElement("div");
                             node.className = "vditor-wysiwyg__block";
                             node.setAttribute("data-type", "code-block");
                             node.innerHTML = `<pre data-block="0"><code></code></pre>`;
@@ -136,15 +137,16 @@ export class MenuItem {
                             range.selectNodeContents(node.firstChild.firstChild);
                             setSelectionFocus(range);
                         } else {
-                            const node = document.createElement("div");
                             node.className = "vditor-wysiwyg__block";
                             node.setAttribute("data-type", "code-block");
-                            node.innerHTML = `<pre data-block="0"><code>${range.toString()}</code></pre>`;
+                            node.innerHTML = `<pre data-block="0"><code data-code="${
+                                decodeURIComponent(range.toString())}">${range.toString()}</code></pre>`;
                             range.deleteContents();
                             range.insertNode(node);
                             range.selectNodeContents(node.firstChild.firstChild);
                             setSelectionFocus(range);
                         }
+                        processCodeRender(node, vditor);
                     } else if (commandName === "link") {
                         if (range.collapsed) {
                             const textNode = document.createTextNode("[]()");

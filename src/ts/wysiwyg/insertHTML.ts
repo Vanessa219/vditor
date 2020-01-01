@@ -1,6 +1,4 @@
-import {processCodeData} from "./processCodeData";
-
-export const insertHTML = (html: string, editor: HTMLElement) => {
+export const insertHTML = (html: string) => {
     const pasteElement = document.createElement("template");
     pasteElement.innerHTML = html;
 
@@ -10,6 +8,4 @@ export const insertHTML = (html: string, editor: HTMLElement) => {
     }
     range.insertNode(pasteElement.content.cloneNode(true));
     range.collapse(false);
-
-    processCodeData(editor);
 };

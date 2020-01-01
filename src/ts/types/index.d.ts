@@ -182,6 +182,7 @@ interface IResize {
 }
 
 interface IOptions {
+    debugger?: boolean;
     after?: () => void;
     typewriterMode?: boolean;
     keymap?: { [key: string]: string };

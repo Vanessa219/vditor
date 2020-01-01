@@ -1,14 +1,16 @@
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {setSelectionFocus} from "../editor/setSelection";
+import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {getParentBlock} from "./getParentBlock";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
+import {processCodeData} from "./processCodeData";
 import {processCodeRender} from "./processCodeRender";
 
 class WYSIWYG {
@@ -74,7 +76,7 @@ class WYSIWYG {
                     decodeURIComponent(codeElement.getAttribute("data-code")));
             });
 
-            event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML));
+            event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
             event.clipboardData.setData("text/html", "");
         });
 
@@ -97,11 +99,16 @@ class WYSIWYG {
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
             if (event.target.tagName === "CODE") {
                 // 粘贴在代码位置
-                insertHTML(textPlain, this.element);
-                event.target.setAttribute("data-code", encodeURIComponent(event.target.innerText));
+                const position = getSelectPosition(event.target);
+                event.target.textContent = event.target.textContent.substring(0, position.start)
+                    + textPlain + event.target.textContent.substring(position.end);
+                event.target.setAttribute("data-code", encodeURIComponent(event.target.textContent));
+                setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
+                    event.target.parentElement);
             } else if (code) {
                 insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code data-code="${
-                    encodeURIComponent(code)}"></code></pre></div>`, this.element);
+                    encodeURIComponent(code)}"></code></pre></div>`);
+                processCodeData(this.element);
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
@@ -109,18 +116,22 @@ class WYSIWYG {
                     tempElement.querySelectorAll("[style]").forEach((e) => {
                         e.removeAttribute("style");
                     });
-                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), this.element);
+                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML));
+                    processCodeData(this.element);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
+                    log("Md2VditorDOM", textPlain, "argument", vditor.options.debugger);
                     let vditorDomHTML = vditor.lute.Md2VditorDOM(textPlain);
+                    log("Md2VditorDOM", vditorDomHTML, "result", vditor.options.debugger);
                     const tempElement = document.createElement("div");
                     tempElement.innerHTML = vditorDomHTML;
                     const pElements = tempElement.querySelectorAll("p");
                     if (pElements.length === 1) {
                         vditorDomHTML = pElements[0].innerHTML;
                     }
-                    insertHTML(vditorDomHTML, this.element);
+                    insertHTML(vditorDomHTML);
+                    processCodeData(this.element);
                 }
             }
 
@@ -205,27 +216,46 @@ class WYSIWYG {
             }
             highlightToolbar(vditor);
 
+            if (event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "Backspace"
+                && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
+                return;
+            }
             // 上下左右遇到块预览的处理
             const range = getSelection().getRangeAt(0);
             const element = range.startContainer.nodeType === 3 ?
                 range.startContainer.parentElement : range.startContainer as HTMLElement;
             const previewElement = hasClosestByClassName(element, "vditor-wysiwyg__preview");
-            if (previewElement) {
-                if ((previewElement.previousElementSibling as HTMLElement).style.display === "none") {
-                    previewElement.click();
-                } else {
-                    if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-                        if (previewElement.parentElement.nextElementSibling &&
-                            previewElement.parentElement.nextElementSibling.classList
-                                .contains("vditor-panel")) {
-                            range.selectNodeContents(previewElement.previousElementSibling);
-                            range.collapse(false);
+            if (!previewElement) {
+                return;
+            }
+            if ((previewElement.previousElementSibling as HTMLElement).style.display === "none") {
+                previewElement.click();
+            } else {
+                if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+                    const blockRenderElement = previewElement.parentElement;
+                    if (blockRenderElement.nextElementSibling &&
+                        blockRenderElement.nextElementSibling.classList
+                            .contains("vditor-panel")) {
+                        // 渲染块处于末尾时，光标重置到该渲染块中的代码尾部
+                        range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
+                        range.collapse(false);
+                    } else {
+                        if (blockRenderElement.nextElementSibling &&
+                            blockRenderElement.nextElementSibling.classList.contains("vditor-wysiwyg__block")) {
+                            // 下一节点依旧为代码渲染块
+                            (blockRenderElement.nextElementSibling
+                                .querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
+                            range.setStart(blockRenderElement.nextElementSibling.firstElementChild.firstElementChild.firstChild, 0)
                         } else {
-                            range.setStartAfter(previewElement.parentElement);
+                            // 跳过渲染块，光标移动到下一个节点
+                            range.setStartAfter(blockRenderElement);
                         }
-                        setSelectionFocus(range);
                     }
+                } else {
+                    range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
+                    range.collapse(false);
                 }
+                setSelectionFocus(range);
             }
         });
 
