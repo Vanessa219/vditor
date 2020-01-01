@@ -27,7 +27,7 @@ class WYSIWYG {
             this.element.style.display = "none";
         }
 
-        this.element.innerHTML = '<p data-block="0"></p>';
+        this.element.innerHTML = '<p data-block="0">\n</p>';
         const popover = document.createElement("div");
         popover.className = "vditor-panel vditor-panel--none";
         popover.setAttribute("contenteditable", "false");
@@ -160,6 +160,20 @@ class WYSIWYG {
 
             if (event.isComposing) {
                 return;
+            }
+
+            // 没有被块元素包裹
+            if (range.startContainer.nodeType === 3 &&
+                range.startContainer.parentElement.classList.contains("vditor-wysiwyg")) {
+                vditor.wysiwyg.element.childNodes.forEach((node) => {
+                    if (node.nodeType === 3) {
+                        const pElement = document.createElement("p");
+                        pElement.setAttribute("data-block", "0");
+                        pElement.textContent = node.textContent;
+                        node.parentNode.insertBefore(pElement, node);
+                        node.remove();
+                    }
+                });
             }
 
             // 前后空格处理

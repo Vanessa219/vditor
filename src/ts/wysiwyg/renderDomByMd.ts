@@ -11,7 +11,7 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
     enableToolbar(vditor.toolbar.elements, allToolbar);
 
     const editorElement = vditor.wysiwyg.element;
-    editorElement.innerHTML = vditor.lute.Md2VditorDOM(md) || '<p data-block="0"></p>';
+    editorElement.innerHTML = vditor.lute.Md2VditorDOM(md) || '<p data-block="0">\n</p>';
     processCodeData(editorElement);
 
     editorElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
