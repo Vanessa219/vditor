@@ -1,5 +1,8 @@
-export const hasClosestByTag = (element: HTMLElement, nodeName: string) => {
-    let e = element;
+export const hasClosestByTag = (element: Node, nodeName: string) => {
+    if (element.nodeType === 3) {
+        element = element.parentElement;
+    }
+    let e = element as HTMLElement;
     let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
         if (e.nodeName.indexOf(nodeName) === 0) {
@@ -11,8 +14,11 @@ export const hasClosestByTag = (element: HTMLElement, nodeName: string) => {
     return isClosest && e;
 };
 
-export const hasClosestByAttribute = (element: HTMLElement, attr: string, value: string) => {
-    let e = element;
+export const hasClosestByAttribute = (element: Node, attr: string, value: string) => {
+    if (element.nodeType === 3) {
+        element = element.parentElement;
+    }
+    let e = element as HTMLElement;
     let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
         if (e.getAttribute(attr) === value) {
@@ -55,8 +61,11 @@ export const hasClosestBlock = (element: Node) => {
     return isClosest && e;
 };
 
-export const hasClosestByMatchTag = (element: HTMLElement, nodeName: string) => {
-    let e = element;
+export const hasClosestByMatchTag = (element: Node, nodeName: string) => {
+    if (element.nodeType === 3) {
+        element = element.parentElement;
+    }
+    let e = element as HTMLElement;
     let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
         if (e.nodeName === nodeName) {
@@ -68,8 +77,11 @@ export const hasClosestByMatchTag = (element: HTMLElement, nodeName: string) => 
     return isClosest && e;
 };
 
-export const hasClosestByClassName = (element: HTMLElement, className: string) => {
-    let e = element.nodeType === 3 ? element.parentElement : element;
+export const hasClosestByClassName = (element: Node, className: string) => {
+    if (element.nodeType === 3) {
+        element = element.parentElement;
+    }
+    let e = element as HTMLElement;
     let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
         if (e.classList.contains(className)) {

@@ -189,15 +189,16 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 event.stopPropagation();
             } else {
                 const range = getSelection().getRangeAt(0);
-                if (range.startContainer.nodeType === 3 && range.startOffset === 0) {
-                    // 光标位于第零个位置进行删除
+                const startContainer = range.startContainer as HTMLElement;
 
-                    if (range.startOffset === 0 && range.startContainer.parentElement.tagName === "CODE" &&
-                        range.startContainer.parentElement.parentElement.parentElement.classList
-                            .contains("vditor-wysiwyg__block") && !range.startContainer.previousSibling) {
+                if (startContainer.nodeType === 3 && range.startOffset === 0) {
+                    // 光标位于第零个位置进行删除
+                    if (startContainer.parentElement.tagName === "CODE" &&
+                        startContainer.parentElement.parentElement.parentElement.classList
+                            .contains("vditor-wysiwyg__block") && !startContainer.previousSibling) {
                         // 光标位于渲染代码块内，仅删除代码块，内容保持不变
-                        const text = document.createTextNode(range.startContainer.parentElement.textContent);
-                        range.setStartBefore(range.startContainer.parentElement.parentElement.parentElement);
+                        const text = document.createTextNode(startContainer.parentElement.textContent);
+                        range.setStartBefore(startContainer.parentElement.parentElement.parentElement);
                         range.insertNode(text);
                         range.collapse(true);
                         (vditor.wysiwyg.popover.firstElementChild as HTMLElement).click();
@@ -205,7 +206,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         return;
                     }
 
-                    const blockquoteElement = hasClosestByMatchTag(range.startContainer.parentElement, "BLOCKQUOTE");
+                    const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
                     if (blockquoteElement) {
                         // 光标位于引用中的第零个字符
                         blockquoteElement.outerHTML = `<p data-block="0">${blockquoteElement.innerHTML}</p>`;
@@ -213,8 +214,8 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         return;
                     }
 
-                    const liElement = hasClosestByMatchTag(range.startContainer.parentElement, "LI");
-                    const blockElement = hasClosestByAttribute(range.startContainer.parentElement, "data-block", "0");
+                    const liElement = hasClosestByMatchTag(startContainer, "LI");
+                    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
                     const blockRenderElement = blockElement.previousElementSibling as HTMLElement;
                     if (blockRenderElement && blockRenderElement.classList.contains("vditor-wysiwyg__block") &&
                         blockElement.tagName !== "TABLE" &&
@@ -224,34 +225,44 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         (blockRenderElement.lastElementChild as HTMLElement).click();
                         event.preventDefault();
                     }
-                }
+                } else if (startContainer.nodeType !== 3) {
+                    // 光标位于 table 前，table 前有内容
+                    const tableElemnt = startContainer.childNodes[range.startOffset] as HTMLElement;
+                    if (tableElemnt && range.startOffset > 0 &&
+                        tableElemnt.tagName === "TABLE") {
+                        range.selectNodeContents(tableElemnt.previousElementSibling);
+                        range.collapse(false);
+                        setSelectionFocus(range);
+                        event.preventDefault();
+                        return;
+                    }
 
-                const preElement = range.startContainer.childNodes[range.startOffset - 1] as HTMLElement;
-                if (preElement && preElement.nodeType !== 3 && preElement.classList.contains("vditor-wysiwyg__block")) {
-                    // 光标从代码块移动到段落前后进行删除
-                    (preElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                    // 段落前为代码渲染块，从段落中间开始删除，一直删除头再继续删除一次
+                    if (range.startOffset === 0 && startContainer.tagName === "P") {
+                        const pPrevElement = startContainer.previousElementSibling;
+                        if (pPrevElement && pPrevElement.classList.contains("vditor-wysiwyg__block")) {
+                            (pPrevElement.lastElementChild as HTMLElement).click();
+                            event.preventDefault();
+                        }
+                        return;
+                    }
 
-                // 段落前为代码渲染块，从段落中间开始删除，一直删除头再继续删除一次
-                const pElement = range.startContainer as HTMLElement;
-                if (pElement.nodeType !== 3 && range.startOffset === 0 && pElement.tagName === "P") {
-                    const pPrevElement = pElement.previousElementSibling;
-                    if (pPrevElement && pPrevElement.classList.contains("vditor-wysiwyg__block")) {
-                        (pPrevElement.lastElementChild as HTMLElement).click();
+                    // 渲染代码块为空
+                    if (startContainer.tagName === "CODE" &&
+                        startContainer.textContent === "" &&
+                        startContainer.parentElement.parentElement.classList.contains("vditor-wysiwyg__block")) {
+                        startContainer.parentElement.parentElement.outerHTML = '<p data-block="0">\n</p>';
+                        event.preventDefault();
+                        return;
+                    }
+
+                    const preElement = startContainer.childNodes[range.startOffset - 1] as HTMLElement;
+                    if (preElement && preElement.nodeType !== 3 &&
+                        preElement.classList.contains("vditor-wysiwyg__block")) {
+                        // 光标从代码块向后移动到下一个段落前，进行删除
+                        (preElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
                         event.preventDefault();
                     }
-                }
-
-                // 光标位于 table 前，table 前有内容
-                const tableElemnt = pElement.childNodes[range.startOffset] as HTMLElement;
-                if (tableElemnt && pElement.nodeType !== 3 && range.startOffset > 0 &&
-                    tableElemnt.tagName === "TABLE") {
-                    range.selectNodeContents(tableElemnt.previousElementSibling);
-                    range.collapse(false);
-                    setSelectionFocus(range);
-                    event.preventDefault();
                 }
             }
             return;

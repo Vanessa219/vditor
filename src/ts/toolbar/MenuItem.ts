@@ -56,9 +56,7 @@ export class MenuItem {
                         commandName = "insertOrderedList";
                     }
                     if (commandName === "quote") {
-                        const quoteElement = hasClosestByMatchTag(range.startContainer.nodeType === 3 ?
-                            range.startContainer.parentNode as HTMLElement :
-                            range.startContainer as HTMLElement, "BLOCKQUOTE");
+                        const quoteElement = hasClosestByMatchTag(range.startContainer, "BLOCKQUOTE");
                         const tempElement = document.createElement("div");
                         tempElement.innerHTML = quoteElement.innerHTML;
                         quoteElement.parentNode.replaceChild(tempElement, quoteElement);
@@ -101,8 +99,7 @@ export class MenuItem {
                         document.execCommand("formatBlock", false, "BLOCKQUOTE");
                         getSelection().getRangeAt(0).startContainer.parentElement.setAttribute("data-block", "0");
                     } else if (commandName === "check") {
-                        const liElement = hasClosestByMatchTag(range.startContainer.nodeType === 3 ?
-                            range.startContainer.parentNode as HTMLElement : range.startContainer as HTMLElement, "LI");
+                        const liElement = hasClosestByMatchTag(range.startContainer, "LI");
                         if (liElement) {
                             range.setStartAfter(liElement);
                             range.collapse(true);

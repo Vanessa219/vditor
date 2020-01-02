@@ -9,7 +9,6 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
-import {processCodeData} from "./processCodeData";
 import {processCodeRender} from "./processCodeRender";
 
 class WYSIWYG {
@@ -245,9 +244,7 @@ class WYSIWYG {
             }
             // 上下左右遇到块预览的处理
             const range = getSelection().getRangeAt(0);
-            const element = range.startContainer.nodeType === 3 ?
-                range.startContainer.parentElement : range.startContainer as HTMLElement;
-            const previewElement = hasClosestByClassName(element, "vditor-wysiwyg__preview");
+            const previewElement = hasClosestByClassName( range.startContainer, "vditor-wysiwyg__preview");
             if (!previewElement) {
                 return;
             }
@@ -292,15 +289,11 @@ class WYSIWYG {
                 return;
             }
             const range = getSelection().getRangeAt(0).cloneRange();
-            let typeElement = range.startContainer as HTMLElement;
-            if (range.startContainer.nodeType === 3) {
-                typeElement = range.startContainer.parentElement;
-            }
-            const preCodeElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+            const preCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
             if ((!event.metaKey && !event.ctrlKey && event.shiftKey) ||
                 (!event.metaKey && !event.ctrlKey && !event.shiftKey && preCodeElement)) {
                 // 软换行
-                const blockElement = hasClosestByAttribute(range.startContainer.parentElement, "data-block", "0");
+                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
                 if (blockElement && blockElement.tagName === "TABLE") {
                     range.insertNode(document.createElement("br"));
                 } else {

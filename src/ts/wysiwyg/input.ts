@@ -6,30 +6,25 @@ import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => {
-    let typeElement = range.startContainer as HTMLElement;
-    if (range.startContainer.nodeType === 3) {
-        typeElement = range.startContainer.parentElement;
-    }
-
-    let blockElement = hasClosestBlock(typeElement);
+    let blockElement = hasClosestBlock(range.startContainer);
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.wysiwyg.element;
     }
 
-    const previewCodeElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__preview");
+    const previewCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
 
     if (previewCodeElement) {
-        const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+        const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
         previewCodeElement.click();
         processCodeRender(blockRenderElement, vditor);
         return;
     }
 
-    const codeElement = hasClosestByTag(typeElement, "CODE");
+    const codeElement = hasClosestByTag(range.startContainer, "CODE");
     if (codeElement) {
         codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-        const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+        const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
         if (blockRenderElement) {
             processCodeRender(blockRenderElement, vditor);
         }

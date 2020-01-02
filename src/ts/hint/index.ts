@@ -3,6 +3,9 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {code160to32} from "../util/code160to32";
 import {getText} from "../util/getText";
+import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
+import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
@@ -23,8 +26,8 @@ export class Hint {
             vditor.wysiwyg.element : vditor.editor.element);
         let currentLineValue: string;
         if (vditor.currentMode === "wysiwyg") {
-            const wbrNode = vditor.wysiwyg.element.querySelector("wbr");
-            currentLineValue = (wbrNode && wbrNode.previousSibling && wbrNode.previousSibling.textContent) || "";
+            const range = getSelection().getRangeAt(0);
+            currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
         } else {
             currentLineValue = getText(vditor)
                 .substring(0, position.end).split("\n").slice(-1).pop();
@@ -87,6 +90,16 @@ export class Hint {
             range.insertNode(document.createTextNode(value));
             range.collapse(false);
             setSelectionFocus(range);
+
+            const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
+            if (codeElement) {
+                codeElement.setAttribute("data-code", encodeURIComponent(codeElement.textContent));
+            }
+            const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
+            if (blockRenderElement) {
+                processCodeRender(blockRenderElement, vditor);
+            }
+            afterRenderEvent(vditor, true, false);
         } else {
             const position = getSelectPosition(vditor.editor.element, range);
             const text = getText(vditor);
