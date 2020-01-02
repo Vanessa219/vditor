@@ -2,6 +2,7 @@ import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
+import {setSelectionFocus} from "../editor/setSelection";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {getText} from "../util/getText";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
@@ -241,6 +242,16 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         (pPrevElement.lastElementChild as HTMLElement).click();
                         event.preventDefault();
                     }
+                }
+
+                // 光标位于 table 前，table 前有内容
+                const tableElemnt = pElement.childNodes[range.startOffset] as HTMLElement;
+                if (tableElemnt && pElement.nodeType !== 3 && range.startOffset > 0 &&
+                    tableElemnt.tagName === "TABLE") {
+                    range.selectNodeContents(tableElemnt.previousElementSibling);
+                    range.collapse(false);
+                    setSelectionFocus(range);
+                    event.preventDefault();
                 }
             }
             return;

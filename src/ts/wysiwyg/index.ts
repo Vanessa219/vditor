@@ -162,22 +162,30 @@ class WYSIWYG {
                 return;
             }
 
-            // 没有被块元素包裹
-            if (range.startContainer.nodeType === 3 &&
-                range.startContainer.parentElement.classList.contains("vditor-wysiwyg")) {
-                vditor.wysiwyg.element.childNodes.forEach((node) => {
-                    if (node.nodeType === 3) {
-                        const pElement = document.createElement("p");
-                        pElement.setAttribute("data-block", "0");
-                        pElement.textContent = node.textContent;
-                        node.parentNode.insertBefore(pElement, node);
-                        node.remove();
-                    }
-                });
-            }
-
             // 前后空格处理
-            const blockElement = hasClosestBlock(range.startContainer);
+            let blockElement = hasClosestBlock(range.startContainer);
+
+            // 没有被块元素包裹
+            if (!blockElement) {
+                const pElement = document.createElement("p");
+                pElement.setAttribute("data-block", "0");
+                if (vditor.wysiwyg.element.childNodes.length === 0) {
+                    pElement.textContent = "\n";
+                    range.insertNode(pElement);
+                } else {
+                    vditor.wysiwyg.element.childNodes.forEach((node) => {
+                        if (node.nodeType === 3) {
+                            pElement.textContent = node.textContent;
+                            node.parentNode.insertBefore(pElement, node);
+                            node.remove();
+                        }
+                    });
+                }
+                range.selectNodeContents(pElement);
+                range.collapse(false);
+
+                blockElement = hasClosestBlock(range.startContainer);
+            }
             const startOffset = getSelectPosition(blockElement, range).start;
 
             // 开始可以输入空格
