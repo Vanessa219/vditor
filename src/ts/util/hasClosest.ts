@@ -43,14 +43,14 @@ export const hasClosestBlock = (element: Node) => {
     if (element.nodeType === 3) {
         element = element.parentElement;
     }
+    let e = element as HTMLElement;
+    let isClosest = false;
 
     const blockElement = hasClosestByAttribute(element as HTMLElement, "data-block", "0");
     if (blockElement) {
         return blockElement;
     }
 
-    let e = element as HTMLElement;
-    let isClosest = false;
     while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
         if (e.tagName === "H1" ||
             e.tagName === "H2" ||
