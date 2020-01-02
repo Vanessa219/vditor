@@ -1,5 +1,6 @@
 import {VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
+import {log} from "../util/log";
 
 declare const Lute: ILute;
 
@@ -45,5 +46,6 @@ export const md2htmlByVditor = async (mdText: string, vditor: IVditor) => {
     if (typeof vditor.lute === "undefined") {
         await loadLuteJs(vditor.options.cdn);
     }
+    log("Md2HTML", mdText, "arguments", vditor.options.debugger);
     return vditor.lute.Md2HTML(mdText);
 };
