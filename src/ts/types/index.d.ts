@@ -282,6 +282,7 @@ interface IVditor {
         popover: HTMLDivElement,
         afterRenderTimeoutId: number,
         hlToolbarTimeoutId: number,
+        preventInput: boolean,
     };
 }
 

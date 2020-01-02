@@ -99,10 +99,6 @@ export class Ui {
 
         if (vditor.options.mode.indexOf("wysiwyg") > -1) {
             renderDomByMd(vditor, initValue);
-            if (vditor.options.counter > 0) {
-                vditor.counter.render(getText(vditor).length,
-                    vditor.options.counter);
-            }
         }
 
         if (vditor.options.mode.indexOf("markdown") > -1) {

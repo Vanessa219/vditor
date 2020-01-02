@@ -11,7 +11,7 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
             range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
         } else {
             // 内容为空
-            range.setStartBefore(wbrElement);
+            range.setStart(wbrElement.parentElement, 0);
         }
     } else {
         if (wbrElement.previousElementSibling.isEqualNode(wbrElement.previousSibling)) {

@@ -17,6 +17,7 @@ class WYSIWYG {
     public popover: HTMLDivElement;
     public afterRenderTimeoutId: number;
     public hlToolbarTimeoutId: number;
+    public preventInput: boolean;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
@@ -106,8 +107,7 @@ class WYSIWYG {
                     event.target.parentElement);
             } else if (code) {
                 insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code data-code="${
-                    encodeURIComponent(code)}"></code></pre></div>`);
-                processCodeData(this.element);
+                    encodeURIComponent(code)}"></code></pre></div>`, vditor);
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
@@ -115,8 +115,7 @@ class WYSIWYG {
                     tempElement.querySelectorAll("[style]").forEach((e) => {
                         e.removeAttribute("style");
                     });
-                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML));
-                    processCodeData(this.element);
+                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
@@ -129,8 +128,7 @@ class WYSIWYG {
                     if (pElements.length === 1) {
                         vditorDomHTML = pElements[0].innerHTML;
                     }
-                    insertHTML(vditorDomHTML);
-                    processCodeData(this.element);
+                    insertHTML(vditorDomHTML, vditor);
                 }
             }
 
@@ -150,6 +148,10 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
+            if (this.preventInput) {
+                this.preventInput = false;
+                return;
+            }
             const range = getSelection().getRangeAt(0).cloneRange();
 
             if (range.commonAncestorContainer.nodeType !== 3
