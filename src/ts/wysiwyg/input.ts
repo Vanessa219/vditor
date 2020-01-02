@@ -17,7 +17,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     if (previewCodeElement) {
         const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
         previewCodeElement.click();
-        processCodeRender(blockRenderElement, vditor);
+        if (blockRenderElement) {
+            processCodeRender(blockRenderElement, vditor);
+        }
         return;
     }
 

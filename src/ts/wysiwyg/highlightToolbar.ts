@@ -218,8 +218,13 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const td = hasClosestByMatchTag(typeElement, "TD");
-            const alignType = td ? (td.getAttribute("align") || "left") :
-                (hasClosestByMatchTag(typeElement, "TH").getAttribute("align") || "center");
+            const th = hasClosestByMatchTag(typeElement, "TH");
+            let alignType = "left";
+            if (td) {
+                alignType = td.getAttribute("align") || "left";
+            } else if (th) {
+                alignType = th.getAttribute("align") || "center";
+            }
 
             const left = document.createElement("button");
             left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft);

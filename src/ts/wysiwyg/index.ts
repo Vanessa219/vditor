@@ -187,6 +187,11 @@ class WYSIWYG {
 
                 blockElement = hasClosestBlock(range.startContainer);
             }
+
+            if (!blockElement) {
+                return;
+            }
+
             const startOffset = getSelectPosition(blockElement, range).start;
 
             // 开始可以输入空格
@@ -244,7 +249,7 @@ class WYSIWYG {
             }
             // 上下左右遇到块预览的处理
             const range = getSelection().getRangeAt(0);
-            const previewElement = hasClosestByClassName( range.startContainer, "vditor-wysiwyg__preview");
+            const previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
             if (!previewElement) {
                 return;
             }

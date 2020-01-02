@@ -1,4 +1,7 @@
 export const hasClosestByTag = (element: Node, nodeName: string) => {
+    if (!element) {
+        return false;
+    }
     if (element.nodeType === 3) {
         element = element.parentElement;
     }
@@ -15,6 +18,9 @@ export const hasClosestByTag = (element: Node, nodeName: string) => {
 };
 
 export const hasClosestByAttribute = (element: Node, attr: string, value: string) => {
+    if (!element) {
+        return false;
+    }
     if (element.nodeType === 3) {
         element = element.parentElement;
     }
@@ -31,6 +37,9 @@ export const hasClosestByAttribute = (element: Node, attr: string, value: string
 };
 
 export const hasClosestBlock = (element: Node) => {
+    if (!element) {
+        return false;
+    }
     if (element.nodeType === 3) {
         element = element.parentElement;
     }
@@ -62,6 +71,9 @@ export const hasClosestBlock = (element: Node) => {
 };
 
 export const hasClosestByMatchTag = (element: Node, nodeName: string) => {
+    if (!element) {
+        return false;
+    }
     if (element.nodeType === 3) {
         element = element.parentElement;
     }
@@ -78,6 +90,9 @@ export const hasClosestByMatchTag = (element: Node, nodeName: string) => {
 };
 
 export const hasClosestByClassName = (element: Node, className: string) => {
+    if (!element) {
+        return false;
+    }
     if (element.nodeType === 3) {
         element = element.parentElement;
     }
@@ -95,12 +110,17 @@ export const hasClosestByClassName = (element: Node, className: string) => {
 
 export const hasTopClosestByTag = (element: HTMLElement, nodeName: string) => {
     let closest = hasClosestByTag(element, nodeName);
-    let parentClosest = hasClosestByTag(closest.parentElement, nodeName);
+    let parentClosest: boolean | HTMLElement = false;
+    if (closest) {
+        parentClosest = hasClosestByTag(closest.parentElement, nodeName);
+    }
     let findTop = false;
     while (closest && !closest.classList.contains("vditor-wysiwyg") && !findTop) {
         if (parentClosest) {
             closest = hasClosestByTag(closest.parentElement, nodeName);
-            parentClosest = hasClosestByTag(closest.parentElement, nodeName);
+            if (closest) {
+                parentClosest = hasClosestByTag(closest.parentElement, nodeName);
+            }
         } else {
             findTop = true;
         }

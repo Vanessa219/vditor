@@ -57,9 +57,11 @@ export class MenuItem {
                     }
                     if (commandName === "quote") {
                         const quoteElement = hasClosestByMatchTag(range.startContainer, "BLOCKQUOTE");
-                        const tempElement = document.createElement("div");
-                        tempElement.innerHTML = quoteElement.innerHTML;
-                        quoteElement.parentNode.replaceChild(tempElement, quoteElement);
+                        if (quoteElement) {
+                            const tempElement = document.createElement("div");
+                            tempElement.innerHTML = quoteElement.innerHTML;
+                            quoteElement.parentNode.replaceChild(tempElement, quoteElement);
+                        }
                     } else if (commandName === "inline-code") {
                         if (!range.collapsed) {
                             document.execCommand("removeFormat", false, "");

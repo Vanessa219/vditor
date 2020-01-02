@@ -216,14 +216,16 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
                     const liElement = hasClosestByMatchTag(startContainer, "LI");
                     const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
-                    const blockRenderElement = blockElement.previousElementSibling as HTMLElement;
-                    if (blockRenderElement && blockRenderElement.classList.contains("vditor-wysiwyg__block") &&
-                        blockElement.tagName !== "TABLE" &&
-                        (!liElement ||
-                            (liElement && liElement.isEqualNode(liElement.parentElement.firstElementChild)))) {
-                        // 删除后光标落在代码渲染块的预览部分且光标后有内容
-                        (blockRenderElement.lastElementChild as HTMLElement).click();
-                        event.preventDefault();
+                    if (blockElement) {
+                        const blockRenderElement = blockElement.previousElementSibling as HTMLElement;
+                        if (blockRenderElement && blockRenderElement.classList.contains("vditor-wysiwyg__block") &&
+                            blockElement.tagName !== "TABLE" &&
+                            (!liElement ||
+                                (liElement && liElement.isEqualNode(liElement.parentElement.firstElementChild)))) {
+                            // 删除后光标落在代码渲染块的预览部分且光标后有内容
+                            (blockRenderElement.lastElementChild as HTMLElement).click();
+                            event.preventDefault();
+                        }
                     }
                 } else if (startContainer.nodeType !== 3) {
                     // 光标位于 table 前，table 前有内容
