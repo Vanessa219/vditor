@@ -459,6 +459,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             }
             setPopoverPosition(vditor, blockElement);
+            blockElement.firstElementChild.removeAttribute("style");
         } else {
             vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block")
                 .forEach((blockElementItem: HTMLElement) => {

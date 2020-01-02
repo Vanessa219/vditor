@@ -17,15 +17,20 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         blockElement = vditor.wysiwyg.element;
     }
 
+    const previewCodeElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__preview");
+
+    if (previewCodeElement) {
+        const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+        previewCodeElement.click();
+        processCodeRender(blockRenderElement, vditor);
+        return;
+    }
+
     const codeElement = hasClosestByTag(typeElement, "CODE");
     if (codeElement) {
         codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-
         const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
         if (blockRenderElement) {
-            if (blockRenderElement.querySelector(".vditor-wysiwyg__preview code").isEqualNode(codeElement)) {
-                (blockRenderElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
-            }
             processCodeRender(blockRenderElement, vditor);
         }
     } else if (event.inputType !== "formatItalic"
