@@ -65,8 +65,20 @@ class WYSIWYG {
             if (event.target.tagName === "INPUT") {
                 return;
             }
+            const range = getSelection().getRangeAt(0);
+            if (range.collapsed) {
+                return;
+            }
             event.stopPropagation();
             event.preventDefault();
+
+            if (range.commonAncestorContainer.parentElement.tagName === "CODE") {
+                event.clipboardData.setData("text/plain", "`" +
+                    getSelection().getRangeAt(0).toString() + "`");
+                event.clipboardData.setData("text/html", "");
+                return;
+            }
+
             const tempElement = document.createElement("div");
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
 
@@ -125,7 +137,7 @@ class WYSIWYG {
                     tempElement.innerHTML = vditorDomHTML;
                     const pElements = tempElement.querySelectorAll("p");
                     if (pElements.length === 1) {
-                        vditorDomHTML = pElements[0].innerHTML;
+                        vditorDomHTML = pElements[0].innerHTML.trim();
                     }
                     insertHTML(vditorDomHTML, vditor);
                 }

@@ -57,7 +57,7 @@
   div.vditor-wysiwyg__block:before {
     float: left;
     padding-right: 4px;
-    margin-left: -20px;
+    margin-left: -25px;
     content: 'h1';
     font-size: 0.85rem;
     font-weight: normal;
@@ -87,8 +87,7 @@
 
   div.vditor-wysiwyg__block {
     &:before {
-      content: attr(data-type);
-      margin-left: -93px;
+      content: "</>";
     }
   }
 
