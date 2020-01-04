@@ -15,6 +15,7 @@ class Editor {
         this.element.className = "vditor-textarea";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
+        this.element.setAttribute("spellcheck", "false");
 
         if (vditor.currentMode === "wysiwyg" || vditor.currentPreviewMode === "preview") {
             this.element.style.display = "none";

@@ -23,6 +23,7 @@ class WYSIWYG {
         this.element.className = "vditor-reset vditor-wysiwyg";
         // TODO: placeholder
         this.element.setAttribute("contenteditable", "true");
+        this.element.setAttribute("spellcheck", "false");
         if (vditor.currentMode === "markdown") {
             this.element.style.display = "none";
         }
@@ -112,7 +113,7 @@ class WYSIWYG {
                     event.target.parentElement);
             } else if (code) {
                 insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code>${
-                    code}</code></pre></div>`, vditor);
+                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre></div>`, vditor);
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
