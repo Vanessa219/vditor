@@ -39,7 +39,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     }
 
     const preElement = previewPanel.previousElementSibling as HTMLElement;
-    const innerHTML = decodeURIComponent(blockElement.querySelector("code").getAttribute("data-code") || "");
+    const innerHTML = blockElement.firstElementChild.firstElementChild.innerHTML || "";
     if (blockType === "code-block") {
         const language = preElement.querySelector("code").className.replace("language-", "");
         previewPanel.innerHTML = `<pre><code>${innerHTML}</code></pre>`;

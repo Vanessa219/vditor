@@ -82,11 +82,6 @@ class WYSIWYG {
             const tempElement = document.createElement("div");
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
 
-            tempElement.querySelectorAll("code").forEach((codeElement) => {
-                codeElement.setAttribute("data-code",
-                    decodeURIComponent(codeElement.getAttribute("data-code") || ""));
-            });
-
             event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
             event.clipboardData.setData("text/html", "");
         });
@@ -113,12 +108,11 @@ class WYSIWYG {
                 const position = getSelectPosition(event.target);
                 event.target.textContent = event.target.textContent.substring(0, position.start)
                     + textPlain + event.target.textContent.substring(position.end);
-                event.target.setAttribute("data-code", encodeURIComponent(event.target.textContent));
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     event.target.parentElement);
             } else if (code) {
-                insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code data-code="${
-                    encodeURIComponent(code)}"></code></pre></div>`, vditor);
+                insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code>${
+                    code}</code></pre></div>`, vditor);
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");

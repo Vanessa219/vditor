@@ -1,7 +1,6 @@
 import {hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {processCodeData} from "./processCodeData";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
 
@@ -13,9 +12,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     }
 
     const previewCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
-
+    const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
     if (previewCodeElement) {
-        const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
         previewCodeElement.click();
         if (blockRenderElement) {
             processCodeRender(blockRenderElement, vditor);
@@ -24,12 +22,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     }
 
     const codeElement = hasClosestByTag(range.startContainer, "CODE");
-    if (codeElement) {
-        codeElement.setAttribute("data-code", encodeURIComponent(codeElement.innerText));
-        const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-        if (blockRenderElement) {
-            processCodeRender(blockRenderElement, vditor);
-        }
+    if (codeElement && blockRenderElement) {
+        processCodeRender(blockRenderElement, vditor);
     } else if (event.inputType !== "formatItalic"
         && event.inputType !== "formatBold"
         && event.inputType !== "formatRemove"
@@ -46,12 +40,6 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         });
         const wbrNode = document.createElement("wbr");
         range.insertNode(wbrNode);
-
-        // 修正 inline code, inline math 中删除第一个字符，range 不为 inline 的错误
-        const inlineCodeElement = blockElement.querySelector("CODE") as HTMLElement;
-        if (inlineCodeElement) {
-            inlineCodeElement.setAttribute("data-code", encodeURIComponent(inlineCodeElement.innerText));
-        }
 
         let vditorHTML;
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
@@ -80,14 +68,12 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
 
         blockElement = getBlockByRange(range);
         if (blockElement && blockElement.querySelectorAll("code").length > 0) {
-            // 对返回值中包含 inline-code, inline math 的进行 decode
-            processCodeData(blockElement);
             // 对返回值中需要渲染的代码块进行处理
             if (blockElement.classList.contains("vditor-wysiwyg__block")) {
                 processCodeRender(blockElement, vditor);
             }
-            blockElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockRenderElement: HTMLElement) => {
-                processCodeRender(blockRenderElement, vditor);
+            blockElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockRenderItem: HTMLElement) => {
+                processCodeRender(blockRenderItem, vditor);
             });
         }
     }

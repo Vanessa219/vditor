@@ -1,5 +1,3 @@
-import {processCodeData} from "./processCodeData";
-
 export const insertHTML = (html: string, vditor: IVditor) => {
     const pasteElement = document.createElement("template");
     pasteElement.innerHTML = html;
@@ -12,5 +10,4 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     }
     range.insertNode(pasteElement.content.cloneNode(true));
     range.collapse(false);
-    processCodeData(vditor.wysiwyg.element);
 };

@@ -122,7 +122,6 @@ export class MenuItem {
                             const node = document.createElement("code");
                             range.surroundContents(node);
                             range.insertNode(node);
-                            node.setAttribute("data-code", encodeURIComponent(node.textContent));
                             setSelectionFocus(range);
                         }
                         useHighlight = false;
@@ -139,8 +138,7 @@ export class MenuItem {
                         } else {
                             node.className = "vditor-wysiwyg__block";
                             node.setAttribute("data-type", "code-block");
-                            node.innerHTML = `<pre data-block="0"><code data-code="${
-                                decodeURIComponent(range.toString())}">${range.toString()}</code></pre>`;
+                            node.innerHTML = `<pre data-block="0"><code>${range.toString()}</code></pre>`;
                             range.deleteContents();
                             range.insertNode(node);
                             range.selectNodeContents(node.firstChild.firstChild);

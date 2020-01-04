@@ -91,10 +91,6 @@ export class Hint {
             range.collapse(false);
             setSelectionFocus(range);
 
-            const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
-            if (codeElement) {
-                codeElement.setAttribute("data-code", encodeURIComponent(codeElement.textContent));
-            }
             const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
             if (blockRenderElement) {
                 processCodeRender(blockRenderElement, vditor);

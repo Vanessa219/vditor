@@ -2,7 +2,6 @@ import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {log} from "../util/log";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {processCodeData} from "./processCodeData";
 import {processCodeRender} from "./processCodeRender";
 
 export const renderDomByMd = (vditor: IVditor, md: string) => {
@@ -16,7 +15,6 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
     log("Md2VditorDOM", md, "arguments", vditor.options.debugger);
     log("Md2VditorDOM", innerHTML, "result", vditor.options.debugger);
     editorElement.innerHTML = innerHTML;
-    processCodeData(editorElement);
 
     editorElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
         processCodeRender(blockElement, vditor);
