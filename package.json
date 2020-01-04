@@ -1,8 +1,8 @@
 {
   "name": "vditor",
   "version": "2.0.11",
-  "description": "A markdown editor written in TypeScript",
-  "author": " Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
+  "description": "♏ 一款浏览器端的 Markdown 编辑器。",
+  "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://hacpai.com/tag/vditor",
   "jsdelivr": "dist/index.min.js",
   "main": "dist/index.min.js",
