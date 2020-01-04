@@ -19,16 +19,16 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         previewPanel = blockElement.querySelector(".vditor-wysiwyg__preview");
         previewPanel.setAttribute("data-render", "false");
         const showCode = () => {
-            const range = preElement.ownerDocument.createRange();
-            if (preElement.getAttribute("data-type") === "math-inline") {
-                preElement.style.display = "inline";
-                range.selectNodeContents(preElement);
+            const range = codeElement.ownerDocument.createRange();
+            if (codeElement.parentElement.tagName !== "PRE") {
+                codeElement.style.display = "inline";
+                range.selectNodeContents(codeElement);
             } else {
-                preElement.style.display = "block";
-                if (!preElement.firstElementChild.firstChild) {
-                    preElement.firstElementChild.appendChild(document.createTextNode(""));
+                codeElement.parentElement.style.display = "block";
+                if (!codeElement.firstChild) {
+                    codeElement.appendChild(document.createTextNode(""));
                 }
-                range.setStart(preElement.firstElementChild.firstChild, 0);
+                range.setStart(codeElement.firstChild, 0);
             }
             range.collapse(true);
             setSelectionFocus(range);
@@ -38,12 +38,16 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         });
     }
 
-    const preElement = previewPanel.previousElementSibling as HTMLElement;
-    const innerHTML = blockElement.firstElementChild.firstElementChild.innerHTML || "";
+    let codeElement = previewPanel.previousElementSibling as HTMLElement;
+    if (codeElement.tagName === "PRE") {
+        codeElement = codeElement.firstElementChild as HTMLElement;
+    }
+    const innerHTML = codeElement.innerHTML || "";
     if (blockType === "code-block") {
-        const language = preElement.querySelector("code").className.replace("language-", "");
-        previewPanel.innerHTML = `<pre><code>${innerHTML}</code></pre>`;
+        const language = codeElement.className.replace("language-", "");
+        previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML}</code></pre>`;
         if (language === "abc") {
+            previewPanel.style.marginTop = "1em";
             abcRender(previewPanel, vditor.options.cdn);
         } else if (language === "mermaid") {
             mermaidRender(previewPanel, ".vditor-wysiwyg__preview .language-mermaid",
