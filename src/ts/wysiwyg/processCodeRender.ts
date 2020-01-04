@@ -55,7 +55,8 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         } else if (language === "echarts") {
             chartRender(previewPanel, vditor.options.cdn);
         } else {
-            highlightRender(vditor.options.preview.hljs, previewPanel, vditor.options.cdn);
+            highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),
+                previewPanel, vditor.options.cdn);
             codeRender(previewPanel, vditor.options.lang);
         }
     } else if (blockType.indexOf("html") > -1) {
