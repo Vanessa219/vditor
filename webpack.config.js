@@ -2,7 +2,7 @@
  * @fileoverview webpack.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.2.0.0, Aug 22, 2019
+ * @version 0.2.0.1, Jan 4, 2020
  */
 
 const path = require('path')
@@ -20,7 +20,7 @@ const banner = new webpack.BannerPlugin({
   
 MIT License
 
-Copyright (c) 2019 B3log 开源, b3log.org
+Copyright (c) 2018-present B3log 开源, b3log.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
