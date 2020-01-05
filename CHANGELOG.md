@@ -37,9 +37,11 @@
 
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
+* [31](https://github.com/Vanessa219/vditor/issues/31) merge list `bug`
 
-### v2.0.10 / 2020-01-04
+### v2.0.12 / 2020-01-05
 
+* [33](https://github.com/Vanessa219/vditor/issues/33) 插入链接优化 `improvement`
 * [30](https://github.com/Vanessa219/vditor/issues/30) 添加 option.value `enhancement`
 * [29](https://github.com/Vanessa219/vditor/issues/29) 添加 debugger，为开发时显示日志 `enhancement`
 * [28](https://github.com/Vanessa219/vditor/issues/28) wysiwyg 时代码块、流程图等直接进行渲染，不展示源码 `enhancement`

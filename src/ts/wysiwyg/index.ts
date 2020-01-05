@@ -181,7 +181,7 @@ class WYSIWYG {
                     pElement.textContent = "\n";
                     range.insertNode(pElement);
                 } else {
-                    vditor.wysiwyg.element.childNodes.forEach((node) => {
+                    vditor.wysiwyg.element.childNodes.forEach((node: HTMLElement) => {
                         if (node.nodeType === 3) {
                             pElement.textContent = node.textContent;
                             node.parentNode.insertBefore(pElement, node);

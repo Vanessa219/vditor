@@ -1,4 +1,4 @@
-import {hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
@@ -46,6 +46,22 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
             vditorHTML = blockElement.innerHTML;
         } else {
             vditorHTML = blockElement.outerHTML;
+            let listElement = hasClosestByMatchTag(range.startContainer, "UL");
+            if (!listElement) {
+                listElement = hasClosestByMatchTag(range.startContainer, "OL");
+            }
+            if (listElement) {
+                const listPrevElement = listElement.previousElementSibling;
+                const listNextElement = listElement.nextElementSibling;
+                if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
+                    vditorHTML = listPrevElement.outerHTML + vditorHTML;
+                    listPrevElement.remove();
+                }
+                if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
+                    vditorHTML = vditorHTML + listNextElement.outerHTML;
+                    listNextElement.remove();
+                }
+            }
         }
         // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
         vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
