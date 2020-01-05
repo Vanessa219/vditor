@@ -41,6 +41,7 @@
 
 ### v2.0.12 / 2020-01-05
 
+* [32](https://github.com/Vanessa219/vditor/issues/32) 反斜杠转义处理 `修复缺陷`
 * [33](https://github.com/Vanessa219/vditor/issues/33) 插入链接优化 `improvement`
 * [30](https://github.com/Vanessa219/vditor/issues/30) 添加 option.value `enhancement`
 * [29](https://github.com/Vanessa219/vditor/issues/29) 添加 debugger，为开发时显示日志 `enhancement`

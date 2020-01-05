@@ -254,6 +254,7 @@ class WYSIWYG {
                 && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
                 return;
             }
+
             // 上下左右遇到块预览的处理
             const range = getSelection().getRangeAt(0);
             const previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");

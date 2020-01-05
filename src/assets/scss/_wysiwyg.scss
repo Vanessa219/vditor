@@ -94,4 +94,10 @@
   details {
     white-space: initial;
   }
+
+  span[data-type="backslash"] > span {
+    display: none;
+    color: rgba($toolbarIcon, .36);
+  }
+
 }

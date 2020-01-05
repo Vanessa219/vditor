@@ -11,7 +11,13 @@ import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {getText} from "../util/getText";
-import {hasClosestByClassName, hasClosestByMatchTag, hasClosestByTag, hasTopClosestByTag} from "../util/hasClosest";
+import {
+    hasClosestByAttribute,
+    hasClosestByClassName,
+    hasClosestByMatchTag,
+    hasClosestByTag,
+    hasTopClosestByTag,
+} from "../util/hasClosest";
 import {processCodeRender} from "./processCodeRender";
 
 export const highlightToolbar = (vditor: IVditor) => {
@@ -495,6 +501,16 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (!vditor.wysiwyg.element.contains(vditor.wysiwyg.popover)) {
             vditor.wysiwyg.element.insertAdjacentElement("beforeend", vditor.wysiwyg.popover);
         }
+
+        // 反斜杠特殊处理
+        vditor.wysiwyg.element.querySelectorAll('span[data-type="backslash"] > span').forEach((item: HTMLElement) => {
+            item.style.display = "none";
+        });
+        const backslashElement = hasClosestByAttribute(range.startContainer, "data-type", "backslash");
+        if (backslashElement) {
+            backslashElement.querySelector("span").style.display = "inline";
+        }
+
     }, 500);
 };
 
