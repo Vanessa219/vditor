@@ -185,6 +185,7 @@ export class Options {
             url: "",
             withCredentials: false,
         },
+        value: "",
         width: "auto",
     };
 

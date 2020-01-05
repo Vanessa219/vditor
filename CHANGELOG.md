@@ -40,6 +40,7 @@
 
 ### v2.0.10 / 2020-01-04
 
+* [30](https://github.com/Vanessa219/vditor/issues/30) 添加 option.value `enhancement`
 * [29](https://github.com/Vanessa219/vditor/issues/29) 添加 debugger，为开发时显示日志 `enhancement`
 * [28](https://github.com/Vanessa219/vditor/issues/28) wysiwyg 时代码块、流程图等直接进行渲染，不展示源码 `enhancement`
 * [26](https://github.com/Vanessa219/vditor/issues/26) wysiwyg 性能优化 `enhancement`
@@ -50,6 +51,7 @@
 * 文档更新
   * 添加 option.mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only" 参数
   * 添加 options.debugger
+  * 添加 options.value
 
 ### v1.10.11 / 2019-12-12
 
