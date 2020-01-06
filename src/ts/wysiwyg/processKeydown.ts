@@ -1,7 +1,9 @@
 import {setSelectionFocus} from "../editor/setSelection";
-import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {processCodeRender} from "./processCodeRender";
+import {afterRenderEvent} from "./afterRenderEvent";
 
-export const deleteKey = (vditor: IVditor, event: Event) => {
+export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer as HTMLElement;
 
@@ -81,3 +83,33 @@ export const deleteKey = (vditor: IVditor, event: Event) => {
         }
     }
 };
+
+export const tabKey = (vditor: IVditor, event: KeyboardEvent) => {
+    const range = getSelection().getRangeAt(0)
+    const codeElement = hasClosestByMatchTag(range.startContainer, 'CODE')
+    if (event.shiftKey) {
+        if (codeElement) {
+            // TODO 代码块缩进
+        }
+    } else {
+        if (range.collapsed) {
+            range.insertNode(document.createTextNode(vditor.options.tab));
+            range.collapse(false);
+        } else {
+            if (codeElement) {
+                // TODO 代码块缩进
+            } else {
+                range.extractContents();
+                range.insertNode(document.createTextNode(vditor.options.tab));
+                range.collapse(false);
+            }
+        }
+    }
+
+    const blockRenderElement = hasClosestByClassName(range.startContainer, 'vditor-wysiwyg__block')
+    if (blockRenderElement) {
+        processCodeRender(blockRenderElement, vditor);
+    }
+
+    afterRenderEvent(vditor);
+}

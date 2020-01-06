@@ -4,7 +4,7 @@ import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {getText} from "../util/getText";
-import {deleteKey} from "../wysiwyg/processKeydown";
+import {deleteKey, tabKey} from "../wysiwyg/processKeydown";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {hasClosestByClassName} from "./hasClosest";
 
@@ -116,11 +116,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             event.preventDefault();
             event.stopPropagation();
             if (vditor.currentMode === "wysiwyg") {
-                if (event.shiftKey) {
-                    document.execCommand("outdent", false);
-                } else {
-                    document.execCommand("indent", false);
-                }
+                tabKey(vditor, event)
                 return;
             }
 

@@ -32,15 +32,17 @@
 * v1.7
   * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
   * 移除 `option.editorName`
-
+  
 ### TODO
 
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 * [31](https://github.com/Vanessa219/vditor/issues/31) merge list `bug`
+* [37](https://github.com/Vanessa219/vditor/issues/37) 为 wysiwyg 代码块添加快捷键 `引入特性`
 
 ### v2.0.12 / 2020-01-05
 
+* [36](https://github.com/Vanessa219/vditor/issues/36) two 'enter' at code block `修复缺陷`
 * [32](https://github.com/Vanessa219/vditor/issues/32) 反斜杠转义处理 `修复缺陷`
 * [33](https://github.com/Vanessa219/vditor/issues/33) 插入链接优化 `improvement`
 * [30](https://github.com/Vanessa219/vditor/issues/30) 添加 option.value `enhancement`
