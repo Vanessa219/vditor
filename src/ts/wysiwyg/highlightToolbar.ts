@@ -109,10 +109,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             indent.setAttribute("aria-label", i18n[vditor.options.lang].indent);
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
-                const cloneRange = getSelection().getRangeAt(0).cloneRange()
+                const cloneRange = getSelection().getRangeAt(0).cloneRange();
                 document.execCommand("indent", false);
                 // fix 空列表缩进光标会飘逸
-                setSelectionFocus(cloneRange)
+                setSelectionFocus(cloneRange);
             };
 
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);

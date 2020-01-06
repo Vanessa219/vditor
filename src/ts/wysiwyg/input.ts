@@ -3,7 +3,7 @@ import {
     hasClosestByClassName,
     hasClosestByMatchTag,
     hasClosestByTag,
-    hasTopClosestByTag
+    hasTopClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -21,7 +21,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         topListElement = topOlElement;
     }
     if (topListElement) {
-        blockElement = topListElement
+        blockElement = topListElement;
     }
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
