@@ -3,6 +3,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
 import {getEventName} from "../util/getEventName";
 import {hasClosestByMatchTag} from "../util/hasClosest";
+import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
@@ -19,12 +20,7 @@ export class MenuItem {
         iconElement.setAttribute("data-type", menuItem.name);
         iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
 
-        let hotkey = this.menuItem.hotkey ? ` <${this.menuItem.hotkey}>` : "";
-        if (/Mac/.test(navigator.platform)) {
-            hotkey = hotkey.replace("ctrl", "⌘");
-        } else {
-            hotkey = hotkey.replace("⌘", "ctrl");
-        }
+        const hotkey = updateHotkeyTip(this.menuItem.hotkey ? ` <${this.menuItem.hotkey}>` : "");
         iconElement.setAttribute("aria-label",
             this.menuItem.tip ? this.menuItem.tip + hotkey : i18n[vditor.options.lang][this.menuItem.name] + hotkey);
         this.element.appendChild(iconElement);

@@ -38,10 +38,11 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 * [31](https://github.com/Vanessa219/vditor/issues/31) merge list `bug`
-* [37](https://github.com/Vanessa219/vditor/issues/37) 为 wysiwyg 代码块添加快捷键 `引入特性`
+* [38](https://github.com/Vanessa219/vditor/issues/38) 有序列表顺序错误 `修复缺陷`
 
 ### v2.0.12 / 2020-01-05
 
+* [37](https://github.com/Vanessa219/vditor/issues/37) 为 wysiwyg 代码块添加快捷键 `引入特性`
 * [36](https://github.com/Vanessa219/vditor/issues/36) two 'enter' at code block `修复缺陷`
 * [35](https://github.com/Vanessa219/vditor/issues/35) no cursor after tab `修复缺陷`
 * [32](https://github.com/Vanessa219/vditor/issues/32) 反斜杠转义处理 `修复缺陷`

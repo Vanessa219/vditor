@@ -279,6 +279,27 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             });
         });
 
+        if (vditor.currentMode === "wysiwyg") {
+            processKeymap("⌘-⇧-x", event, () => {
+                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
+                if (itemElement) {
+                    itemElement.click();
+                }
+            });
+            processKeymap("⌘-⇧-e", event, () => {
+                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]');
+                if (itemElement) {
+                    itemElement.click();
+                }
+            });
+            processKeymap("⌘-⇧-s", event, () => {
+                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]');
+                if (itemElement) {
+                    itemElement.click();
+                }
+            });
+        }
+
         // hint: 上下选择
         if (vditor.options.hint.at || vditor.toolbar.elements.emoji) {
             hint(event, hintElement);

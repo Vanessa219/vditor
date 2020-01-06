@@ -18,6 +18,8 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
+import {updateHotkeyTip} from "../util/updateHotkeyTip";
+import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 
 export const highlightToolbar = (vditor: IVditor) => {
@@ -522,7 +524,9 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
 
 const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) => {
     const insertBefore = document.createElement("span");
-    insertBefore.setAttribute("aria-label", i18n[vditor.options.lang].insertBefore);
+    insertBefore.setAttribute("data-type", "insert-before");
+    insertBefore.setAttribute("aria-label", i18n[vditor.options.lang].insertBefore +
+        updateHotkeyTip("<⌘-⇧-s>"));
     insertBefore.innerHTML = beforeSVG;
     insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertBefore.onclick = () => {
@@ -535,13 +539,16 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
         range.collapse(true);
         setSelectionFocus(range);
         highlightToolbar(vditor);
+        afterRenderEvent(vditor);
     };
     return insertBefore;
 };
 
 const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => {
     const insertAfter = document.createElement("span");
-    insertAfter.setAttribute("aria-label", i18n[vditor.options.lang].insertAfter);
+    insertAfter.setAttribute("data-type", "insert-after");
+    insertAfter.setAttribute("aria-label", i18n[vditor.options.lang].insertAfter +
+        updateHotkeyTip("<⌘-⇧-e>"));
     insertAfter.innerHTML = afterSVG;
     insertAfter.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertAfter.onclick = () => {
@@ -554,19 +561,23 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
         range.collapse(true);
         setSelectionFocus(range);
         highlightToolbar(vditor);
+        afterRenderEvent(vditor);
     };
     return insertAfter;
 };
 
 const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) => {
     const close = document.createElement("span");
-    close.setAttribute("aria-label", i18n[vditor.options.lang].remove);
+    close.setAttribute("data-type", "remove");
+    close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
+        updateHotkeyTip("<⌘-⇧-x>"));
     close.innerHTML = trashcanSVG;
     close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     close.onclick = () => {
         element.remove();
         popover.style.display = "none";
         highlightToolbar(vditor);
+        afterRenderEvent(vditor);
     };
     return close;
 };
