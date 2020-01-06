@@ -108,7 +108,14 @@ export const hasClosestByClassName = (element: Node, className: string) => {
     return isClosest && e;
 };
 
-export const hasTopClosestByTag = (element: HTMLElement, nodeName: string) => {
+export const hasTopClosestByTag = (element: Node, nodeName: string) => {
+    if (!element) {
+        return false;
+    }
+    if (element.nodeType === 3) {
+        element = element.parentElement;
+    }
+
     let closest = hasClosestByTag(element, nodeName);
     let parentClosest: boolean | HTMLElement = false;
     if (closest) {

@@ -96,8 +96,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
         if (topListElement) {
             vditor.wysiwyg.popover.innerHTML = "";
-
-            const outdent = document.createElement("sapn");
+            const outdent = document.createElement("button");
             outdent.innerHTML = outdentSVG;
             outdent.setAttribute("aria-label", i18n[vditor.options.lang].unindent);
             outdent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
@@ -105,12 +104,15 @@ export const highlightToolbar = (vditor: IVditor) => {
                 document.execCommand("outdent", false);
             };
 
-            const indent = document.createElement("sapn");
+            const indent = document.createElement("button");
             indent.innerHTML = indentSVG;
             indent.setAttribute("aria-label", i18n[vditor.options.lang].indent);
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
+                const cloneRange = getSelection().getRangeAt(0).cloneRange()
                 document.execCommand("indent", false);
+                // fix 空列表缩进光标会飘逸
+                setSelectionFocus(cloneRange)
             };
 
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);

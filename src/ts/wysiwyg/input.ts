@@ -1,4 +1,10 @@
-import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag, hasClosestByTag} from "../util/hasClosest";
+import {
+    hasClosestBlock,
+    hasClosestByClassName,
+    hasClosestByMatchTag,
+    hasClosestByTag,
+    hasTopClosestByTag
+} from "../util/hasClosest";
 import {log} from "../util/log";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
@@ -6,6 +12,17 @@ import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => {
     let blockElement = hasClosestBlock(range.startContainer);
+
+    // 列表需要到最顶层
+    const topUlElement = hasTopClosestByTag(range.startContainer, "UL");
+    const topOlElement = hasTopClosestByTag(range.startContainer, "OL");
+    let topListElement = topUlElement;
+    if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
+        topListElement = topOlElement;
+    }
+    if (topListElement) {
+        blockElement = topListElement
+    }
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.wysiwyg.element;
