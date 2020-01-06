@@ -17,6 +17,7 @@ export class Record extends MenuItem {
         let mediaRecorder: MediaRecorder;
         this.element.children[0].addEventListener(getEventName(), (event) => {
             event.preventDefault();
+            const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new MediaRecorder(mediaStream);
@@ -33,7 +34,7 @@ export class Record extends MenuItem {
                     };
                     mediaRecorder.startRecordingNewWavFile();
                     vditor.tip.show(i18n[vditor.options.lang].recording);
-                    vditor.editor.element.setAttribute("contenteditable", "false");
+                    editorElement.setAttribute("contenteditable", "false");
                     this.element.children[0].classList.add("vditor-menu--current");
                 }).catch(() => {
                     vditor.tip.show(i18n[vditor.options.lang]["record-tip"]);
@@ -50,7 +51,7 @@ export class Record extends MenuItem {
                 this.element.children[0].classList.remove("vditor-menu--current");
             } else {
                 vditor.tip.show(i18n[vditor.options.lang].recording);
-                vditor.editor.element.setAttribute("contenteditable", "false");
+                editorElement.setAttribute("contenteditable", "false");
                 mediaRecorder.startRecordingNewWavFile();
                 this.element.children[0].classList.add("vditor-menu--current");
             }

@@ -60,7 +60,8 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
             codeRender(previewPanel, vditor.options.lang);
         }
     } else if (blockType.indexOf("html") > -1) {
-        previewPanel.innerHTML = innerHTML;
+        previewPanel.innerHTML = innerHTML.replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<") .replace(/&gt;/g, ">");
     } else if (blockType.indexOf("math") > -1) {
         previewPanel.innerHTML = `<${tagName} class="vditor-math">${innerHTML}</${tagName}>`;
         mathRenderByLute(previewPanel, vditor.options.cdn);

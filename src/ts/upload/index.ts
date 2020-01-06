@@ -106,7 +106,12 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         const filename = vditor.options.upload.filename(key.substr(0, lastIndex)) + type;
         type = type.toLowerCase();
         if (type === ".wav" || type === ".mp3" || type === ".ogg") {
-            succFileText += `<audio controls="controls" src="${path}"></audio>\n`;
+            if (vditor.currentMode === "wysiwyg") {
+                succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block"
+ data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre>`;
+            } else {
+                succFileText += `<audio controls="controls" src="${path}"></audio>\n`;
+            }
         } else if (type === ".apng"
             || type === ".bmp"
             || type === ".gif"
