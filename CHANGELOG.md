@@ -43,6 +43,7 @@
 ### v2.0.12 / 2020-01-05
 
 * [36](https://github.com/Vanessa219/vditor/issues/36) two 'enter' at code block `修复缺陷`
+* [35](https://github.com/Vanessa219/vditor/issues/35) no cursor after tab `修复缺陷`
 * [32](https://github.com/Vanessa219/vditor/issues/32) 反斜杠转义处理 `修复缺陷`
 * [33](https://github.com/Vanessa219/vditor/issues/33) 插入链接优化 `improvement`
 * [30](https://github.com/Vanessa219/vditor/issues/30) 添加 option.value `enhancement`
