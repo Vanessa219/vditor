@@ -106,9 +106,10 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
                 processCodeRender(blockElement, vditor);
             }
             // TODO: 目前为全局渲染。可优化为只选取当前列表、当前列表紧邻的前后列表；最顶层列表；当前块进行渲染
-            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockRenderItem: HTMLElement) => {
-                processCodeRender(blockRenderItem, vditor);
-            });
+            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
+                (blockRenderItem: HTMLElement) => {
+                    processCodeRender(blockRenderItem, vditor);
+                });
         }
     }
 
