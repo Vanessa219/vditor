@@ -116,7 +116,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             event.preventDefault();
             event.stopPropagation();
             if (vditor.currentMode === "wysiwyg") {
-                tabKey(vditor, event)
+                tabKey(vditor, event);
                 return;
             }
 

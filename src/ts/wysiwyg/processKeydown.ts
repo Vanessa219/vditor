@@ -1,7 +1,7 @@
 import {setSelectionFocus} from "../editor/setSelection";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {processCodeRender} from "./processCodeRender";
 import {afterRenderEvent} from "./afterRenderEvent";
+import {processCodeRender} from "./processCodeRender";
 
 export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
@@ -85,8 +85,8 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
 };
 
 export const tabKey = (vditor: IVditor, event: KeyboardEvent) => {
-    const range = getSelection().getRangeAt(0)
-    const codeElement = hasClosestByMatchTag(range.startContainer, 'CODE')
+    const range = getSelection().getRangeAt(0);
+    const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
     if (event.shiftKey) {
         if (codeElement) {
             // TODO 代码块缩进
@@ -106,10 +106,10 @@ export const tabKey = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    const blockRenderElement = hasClosestByClassName(range.startContainer, 'vditor-wysiwyg__block')
+    const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
     if (blockRenderElement) {
         processCodeRender(blockRenderElement, vditor);
     }
 
     afterRenderEvent(vditor);
-}
+};
