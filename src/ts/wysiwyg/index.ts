@@ -96,6 +96,14 @@ class WYSIWYG {
             let textHTML = event.clipboardData.getData("text/html");
             const textPlain = event.clipboardData.getData("text/plain");
 
+            // 浏览器地址栏拷贝处理
+            if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+                `<a href="${textPlain}">${textPlain}</a>` ||
+                textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+                `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
+                textHTML = '';
+            }
+
             // process word
             const doc = new DOMParser().parseFromString(textHTML, "text/html");
             if (doc.body) {
@@ -126,14 +134,8 @@ class WYSIWYG {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
                     log("Md2VditorDOM", textPlain, "argument", vditor.options.debugger);
-                    let vditorDomHTML = vditor.lute.Md2VditorDOM(textPlain);
+                    const vditorDomHTML = vditor.lute.Md2VditorDOM(textPlain);
                     log("Md2VditorDOM", vditorDomHTML, "result", vditor.options.debugger);
-                    const tempElement = document.createElement("div");
-                    tempElement.innerHTML = vditorDomHTML;
-                    const pElements = tempElement.querySelectorAll("p");
-                    if (pElements.length === 1) {
-                        vditorDomHTML = pElements[0].innerHTML.trim();
-                    }
                     insertHTML(vditorDomHTML, vditor);
                 }
             }
