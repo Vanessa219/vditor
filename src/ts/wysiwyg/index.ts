@@ -305,11 +305,17 @@ class WYSIWYG {
             const preCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
             if ((!event.metaKey && !event.ctrlKey && event.shiftKey) ||
                 (!event.metaKey && !event.ctrlKey && !event.shiftKey && preCodeElement)) {
-                // 软换行
+                // 软换行或者代码块中的换行
                 const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
                 if (blockElement && blockElement.tagName === "TABLE") {
                     range.insertNode(document.createElement("br"));
                 } else {
+                    if (range.startContainer.nodeType === 3 && range.startContainer.parentElement &&
+                        !range.startContainer.parentElement.textContent.endsWith("\n") &&
+                        (range.startContainer.parentElement.tagName === "LI" || preCodeElement)) {
+                        // 最后需要一个 \n，否则换行需按两次回车
+                        range.startContainer.parentElement.insertAdjacentText("beforeend", "\n");
+                    }
                     range.insertNode(document.createTextNode("\n"));
                 }
                 range.collapse(false);

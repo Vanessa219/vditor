@@ -42,12 +42,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     if (codeElement.tagName === "PRE") {
         codeElement = codeElement.firstElementChild as HTMLElement;
     }
-    let innerHTML = codeElement.innerHTML || "\n";
-    if (!innerHTML.endsWith("\n")) {
-        // 最后需要一个 \n，否则换行需按两次回车
-        codeElement.insertAdjacentText("beforeend", "\n");
-        innerHTML += "\n";
-    }
+    const innerHTML = codeElement.innerHTML || "\n";
     if (blockType === "code-block") {
         const language = codeElement.className.replace("language-", "");
         previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML}</code></pre>`;
