@@ -6,6 +6,7 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
+import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
@@ -21,6 +22,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         topListElement = topOlElement;
     }
     if (topListElement) {
+        addP2Li(topListElement);
         blockElement = topListElement;
     }
     if (!blockElement) {
@@ -71,10 +73,12 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
                 const listPrevElement = listElement.previousElementSibling;
                 const listNextElement = listElement.nextElementSibling;
                 if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
+                    addP2Li(listPrevElement);
                     vditorHTML = listPrevElement.outerHTML + vditorHTML;
                     listPrevElement.remove();
                 }
                 if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
+                    addP2Li(listNextElement);
                     vditorHTML = vditorHTML + listNextElement.outerHTML;
                     listNextElement.remove();
                 }

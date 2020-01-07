@@ -17,7 +17,7 @@ export class Record extends MenuItem {
         let mediaRecorder: MediaRecorder;
         this.element.children[0].addEventListener(getEventName(), (event) => {
             event.preventDefault();
-            const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element
+            const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new MediaRecorder(mediaStream);

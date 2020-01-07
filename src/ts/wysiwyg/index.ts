@@ -101,7 +101,7 @@ class WYSIWYG {
                 `<a href="${textPlain}">${textPlain}</a>` ||
                 textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
                 `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
-                textHTML = '';
+                textHTML = "";
             }
 
             // process word

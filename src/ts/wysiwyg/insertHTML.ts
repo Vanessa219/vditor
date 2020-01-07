@@ -1,7 +1,7 @@
 export const insertHTML = (html: string, vditor: IVditor) => {
     // 使用 lute 方法会添加 p 元素，只有一个 p 元素的时候进行删除
-    const tempElement = document.createElement('div')
-    tempElement.innerHTML = html
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = html;
     const pElements = tempElement.querySelectorAll("p");
     if (pElements.length === 1) {
         html = pElements[0].innerHTML.trim();
