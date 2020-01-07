@@ -36,6 +36,13 @@
         overflow: auto !important;
       }
     }
+
+    &[data-type=html-inline] .vditor-wysiwyg__preview svg {
+      fill: rgba($toolbarIcon, .36);
+      height: 12px;
+      cursor: pointer;
+      width: 12px;
+    }
   }
 
   &__preview {

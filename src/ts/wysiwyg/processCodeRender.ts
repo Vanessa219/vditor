@@ -5,6 +5,7 @@ import {codeRender} from "../markdown/codeRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {mermaidRender} from "../markdown/mermaidRender";
+import codeSVG from "../../assets/icons/code.svg";
 
 // html, math, math-inline, code block, abc, chart, mermaid
 export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) => {
@@ -60,6 +61,10 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
             codeRender(previewPanel, vditor.options.lang);
         }
     } else if (blockType.indexOf("html") > -1) {
+        if (blockType === 'html-inline') {
+            previewPanel.innerHTML = codeSVG;
+            return
+        }
         previewPanel.innerHTML = innerHTML.replace(/&amp;/g, "&")
             .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
     } else if (blockType.indexOf("math") > -1) {

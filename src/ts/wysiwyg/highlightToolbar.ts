@@ -112,7 +112,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 const cloneRange = getSelection().getRangeAt(0).cloneRange();
                 document.execCommand("indent", false);
                 // fix 空列表缩进光标会飘逸
-                setSelectionFocus(cloneRange);
+                if (!vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
+                    setSelectionFocus(cloneRange);
+                }
             };
 
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
