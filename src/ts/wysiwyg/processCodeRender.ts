@@ -42,7 +42,12 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     if (codeElement.tagName === "PRE") {
         codeElement = codeElement.firstElementChild as HTMLElement;
     }
-    const innerHTML = codeElement.innerHTML || "";
+    let innerHTML = codeElement.innerHTML || "\n";
+    if (!innerHTML.endsWith("\n")) {
+        // 最后需要一个 \n，否则换行需按两次回车
+        codeElement.insertAdjacentText("beforeend", "\n");
+        innerHTML += "\n";
+    }
     if (blockType === "code-block") {
         const language = codeElement.className.replace("language-", "");
         previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML}</code></pre>`;
@@ -61,7 +66,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         }
     } else if (blockType.indexOf("html") > -1) {
         previewPanel.innerHTML = innerHTML.replace(/&amp;/g, "&")
-            .replace(/&lt;/g, "<") .replace(/&gt;/g, ">");
+            .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
     } else if (blockType.indexOf("math") > -1) {
         previewPanel.innerHTML = `<${tagName} class="vditor-math">${innerHTML}</${tagName}>`;
         mathRenderByLute(previewPanel, vditor.options.cdn);
