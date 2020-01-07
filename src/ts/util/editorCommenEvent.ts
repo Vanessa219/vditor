@@ -3,9 +3,9 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
-import {getMarkdown} from "./getMarkdown";
 import {deleteKey, tabKey} from "../wysiwyg/processKeydown";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
+import {getMarkdown} from "./getMarkdown";
 import {hasClosestByClassName} from "./hasClosest";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
@@ -287,13 +287,15 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 }
             });
             processKeymap("⌘-⇧-e", event, () => {
-                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]');
+                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]')
+                || vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
                 if (itemElement) {
                     itemElement.click();
                 }
             });
             processKeymap("⌘-⇧-s", event, () => {
-                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]');
+                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]')
+                || vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
                 if (itemElement) {
                     itemElement.click();
                 }

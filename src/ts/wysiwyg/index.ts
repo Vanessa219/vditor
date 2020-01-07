@@ -5,12 +5,12 @@ import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editor
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
+import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender} from "./processCodeRender";
-import {addP2Li} from "./addP2Li";
 
 class WYSIWYG {
     public element: HTMLPreElement;

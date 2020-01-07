@@ -40,6 +40,7 @@
 
 ### v2.0.13 / 2020-01-06
 
+* [45](https://github.com/Vanessa219/vditor/issues/45) 为列表 indent 和 outdent 添加快捷键 `引入特性`
 * [44](https://github.com/Vanessa219/vditor/issues/44) Unorderlist + Link 会缩进 `修复缺陷`
 * [43](https://github.com/Vanessa219/vditor/issues/43) When copy & paste the link `修复缺陷`
 * [42](https://github.com/Vanessa219/vditor/issues/42) 在内联数学公式前进行删除操作会删除公式 `修复缺陷`

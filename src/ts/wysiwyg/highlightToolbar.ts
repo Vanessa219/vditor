@@ -98,7 +98,9 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.innerHTML = "";
             const outdent = document.createElement("button");
             outdent.innerHTML = outdentSVG;
-            outdent.setAttribute("aria-label", i18n[vditor.options.lang].unindent);
+            outdent.setAttribute("data-type", "outdent");
+            outdent.setAttribute("aria-label", i18n[vditor.options.lang].unindent +
+                updateHotkeyTip("<⌘-⇧-s>"));
             outdent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             outdent.onclick = () => {
                 document.execCommand("outdent", false);
@@ -106,7 +108,9 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             const indent = document.createElement("button");
             indent.innerHTML = indentSVG;
-            indent.setAttribute("aria-label", i18n[vditor.options.lang].indent);
+            indent.setAttribute("data-type", "indent");
+            indent.setAttribute("aria-label", i18n[vditor.options.lang].indent +
+                updateHotkeyTip("<⌘-⇧-e>"));
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
                 const cloneRange = getSelection().getRangeAt(0).cloneRange();
