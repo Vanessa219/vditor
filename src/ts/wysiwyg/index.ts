@@ -275,14 +275,12 @@ class WYSIWYG {
                         range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
                         range.collapse(false);
                     } else {
-                        if (blockRenderElement.nextElementSibling &&
-                            blockRenderElement.nextElementSibling.classList.contains("vditor-wysiwyg__block")) {
+                        const nextNode = blockRenderElement.nextSibling as HTMLElement;
+                        if (nextNode && nextNode.nodeType !== 3 &&
+                            nextNode.classList.contains("vditor-wysiwyg__block")) {
                             // 下一节点依旧为代码渲染块
-                            (blockRenderElement.nextElementSibling
-                                .querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
-                            range.setStart(
-                                blockRenderElement.nextElementSibling.firstElementChild.firstElementChild.firstChild,
-                                0);
+                            (nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
+                            range.setStart(nextNode.firstElementChild.firstElementChild.firstChild, 0);
                         } else {
                             // 跳过渲染块，光标移动到下一个节点
                             range.setStartAfter(blockRenderElement);

@@ -20,9 +20,9 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         previewPanel.setAttribute("data-render", "false");
         const showCode = () => {
             const range = codeElement.ownerDocument.createRange();
-            if (codeElement.parentElement.tagName !== "PRE") {
+            if (codeElement.parentElement && codeElement.parentElement.tagName !== "PRE") {
                 codeElement.style.display = "inline";
-                range.selectNodeContents(codeElement);
+                range.setStart(codeElement.firstChild, 1);
             } else {
                 codeElement.parentElement.style.display = "block";
                 if (!codeElement.firstChild) {

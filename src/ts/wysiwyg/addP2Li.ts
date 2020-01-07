@@ -13,7 +13,7 @@ export const addP2Li = (listElement: Element) => {
                 tempNodes.forEach((nodeItem) => {
                     pElement.appendChild(nodeItem);
                 });
-                node.insertAdjacentElement('beforebegin', pElement)
+                node.insertAdjacentElement("beforebegin", pElement);
                 tempNodes = [];
             }
 

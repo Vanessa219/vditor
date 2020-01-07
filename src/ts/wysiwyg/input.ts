@@ -60,6 +60,15 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         const wbrNode = document.createElement("wbr");
         range.insertNode(wbrNode);
 
+        // 修正光标位于 math inline 第0个字符时，按下删除按钮 code 中内容会被删除
+        blockElement.querySelectorAll('.vditor-wysiwyg__block[data-type="math-inline"]').forEach((math) => {
+            if (!math.querySelector("code")) {
+                const previewElement = math.querySelector(".vditor-wysiwyg__preview");
+                previewElement.insertAdjacentHTML("beforebegin", `<code data-type="math-inline">${
+                    math.querySelector(".vditor-math").getAttribute("data-math")}</code>`);
+            }
+        });
+
         let vditorHTML;
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
             vditorHTML = blockElement.innerHTML;
@@ -84,6 +93,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
                 }
             }
         }
+
         // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
         vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
