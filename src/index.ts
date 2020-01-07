@@ -28,7 +28,7 @@ import {Ui} from "./ts/ui/index";
 import {Undo} from "./ts/undo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
-import {getText} from "./ts/util/getText";
+import {getMarkdown} from "./ts/util/getMarkdown";
 import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
@@ -128,7 +128,7 @@ class Vditor {
     }
 
     public getValue() {
-        return getText(this.vditor);
+        return getMarkdown(this.vditor);
     }
 
     public focus() {
@@ -219,7 +219,7 @@ class Vditor {
 
     public getHTML() {
         if (this.vditor.currentMode === "markdown") {
-            return md2htmlByVditor(getText(this.vditor), this.vditor);
+            return md2htmlByVditor(getMarkdown(this.vditor), this.vditor);
         } else {
             return this.vditor.lute.VditorDOM2HTML(this.vditor.wysiwyg.element.innerHTML);
         }

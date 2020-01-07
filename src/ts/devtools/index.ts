@@ -1,5 +1,5 @@
 import {addScript} from "../util/addScript";
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 
 declare const echarts: {
     init(element: HTMLElement): IEChart;
@@ -31,7 +31,7 @@ export class DevTools {
             this.ASTChart.setOption({
                 series: [
                     {
-                        data: JSON.parse(vditor.lute.RenderEChartsJSON(getText(vditor))),
+                        data: JSON.parse(vditor.lute.RenderEChartsJSON(getMarkdown(vditor))),
                         initialTreeDepth: -1,
                         label: {
                             align: "left",

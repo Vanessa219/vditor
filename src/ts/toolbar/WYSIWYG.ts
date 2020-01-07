@@ -1,7 +1,7 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {formatRender} from "../editor/formatRender";
 import {getEventName} from "../util/getEventName";
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {enableToolbar} from "./enableToolbar";
 import {MenuItem} from "./MenuItem";
@@ -45,7 +45,7 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "block";
                 }
-                const wysiwygMD = getText(vditor);
+                const wysiwygMD = getMarkdown(vditor);
                 vditor.currentMode = "markdown";
                 formatRender(vditor, wysiwygMD, undefined);
                 vditor.editor.element.focus();
@@ -70,7 +70,7 @@ export class WYSIWYG extends MenuItem {
                 if (vditor.toolbar.elements.preview) {
                     vditor.toolbar.elements.preview.style.display = "none";
                 }
-                const editorMD = getText(vditor);
+                const editorMD = getMarkdown(vditor);
                 vditor.currentMode = "wysiwyg";
                 renderDomByMd(vditor, editorMD);
                 vditor.wysiwyg.element.focus();

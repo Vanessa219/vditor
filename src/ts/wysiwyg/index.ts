@@ -10,6 +10,7 @@ import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender} from "./processCodeRender";
+import {addP2Li} from "./addP2Li";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -83,6 +84,8 @@ class WYSIWYG {
             const tempElement = document.createElement("div");
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
 
+            addP2Li(tempElement);
+
             event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
             event.clipboardData.setData("text/html", "");
         });
@@ -129,6 +132,7 @@ class WYSIWYG {
                     tempElement.querySelectorAll("[style]").forEach((e) => {
                         e.removeAttribute("style");
                     });
+                    addP2Li(tempElement);
                     insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);

@@ -7,7 +7,7 @@ import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {md2htmlByVditor} from "../markdown/md2html";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 
 export class Preview {
     public element: HTMLElement;
@@ -41,14 +41,14 @@ export class Preview {
             return;
         }
 
-        if (getText(vditor)
+        if (getMarkdown(vditor)
             .replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
             this.element.children[0].innerHTML = "";
             return;
         }
 
         const renderStartTime = new Date().getTime();
-        const markdownText = getText(vditor);
+        const markdownText = getMarkdown(vditor);
         this.mdTimeoutId = window.setTimeout(async () => {
             if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();

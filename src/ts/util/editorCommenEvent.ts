@@ -3,7 +3,7 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
-import {getText} from "../util/getText";
+import {getMarkdown} from "./getMarkdown";
 import {deleteKey, tabKey} from "../wysiwyg/processKeydown";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {hasClosestByClassName} from "./hasClosest";
@@ -11,7 +11,7 @@ import {hasClosestByClassName} from "./hasClosest";
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
         if (vditor.options.focus) {
-            vditor.options.focus(getText(vditor));
+            vditor.options.focus(getMarkdown(vditor));
         }
         if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
             const emojiPanel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
@@ -97,13 +97,13 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         vditor.undo.recordFirstPosition(vditor);
 
         if ((event.metaKey || event.ctrlKey) && vditor.options.ctrlEnter && event.key === "Enter") {
-            vditor.options.ctrlEnter(getText(vditor));
+            vditor.options.ctrlEnter(getMarkdown(vditor));
             return;
         }
 
         if (event.key === "Escape") {
             if (vditor.options.esc) {
-                vditor.options.esc(getText(vditor));
+                vditor.options.esc(getMarkdown(vditor));
             }
             if (hintElement && hintElement.style.display === "block") {
                 hintElement.style.display = "none";
@@ -121,7 +121,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
 
             const position = getSelectPosition(editorElement);
-            const text = getText(vditor);
+            const text = getMarkdown(vditor);
             const selectLinePosition = getCurrentLinePosition(position, text);
             const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
 
@@ -173,7 +173,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                     insertText(vditor, "", "", true);
                 } else {
                     // delete emoji
-                    const text = getText(vditor);
+                    const text = getMarkdown(vditor);
                     const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}][\u{2000}-\u{206F}][\u{2700}-\u{27BF}]|([\u{1F900}-\u{1F9FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F600}-\u{1F64F}])[\u{2000}-\u{206F}][\u{2600}-\u{26FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
                     const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
                     formatRender(vditor,
@@ -228,7 +228,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if (vditor.options.keymap.deleteLine && vditor.currentMode === "markdown") {
             if (processKeymap(vditor.options.keymap.deleteLine, event, () => {
                 const position = getSelectPosition(editorElement);
-                const text = getText(vditor);
+                const text = getMarkdown(vditor);
                 const linePosition = getCurrentLinePosition(position, text);
                 const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
                 const startIndex = Math.min(deletedText.length, position.start);
@@ -245,7 +245,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if (vditor.options.keymap.duplicate && vditor.currentMode === "markdown") {
             if (processKeymap(vditor.options.keymap.duplicate, event, () => {
                 const position = getSelectPosition(editorElement);
-                const text = getText(vditor);
+                const text = getMarkdown(vditor);
                 let lineText = text.substring(position.start, position.end);
                 if (position.start === position.end) {
                     const linePosition = getCurrentLinePosition(position, text);

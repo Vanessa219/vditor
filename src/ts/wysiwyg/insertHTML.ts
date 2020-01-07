@@ -3,7 +3,7 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
     const pElements = tempElement.querySelectorAll("p");
-    if (pElements.length === 1) {
+    if (pElements.length === 1 && !pElements[0].previousSibling && !pElements[0].nextSibling) {
         html = pElements[0].innerHTML.trim();
     }
 

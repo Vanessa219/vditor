@@ -1,6 +1,6 @@
 import {uploadFiles} from "../upload/index";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
@@ -55,7 +55,7 @@ class Editor {
 
         this.element.addEventListener("blur", () => {
             if (vditor.options.blur) {
-                vditor.options.blur(getText(vditor));
+                vditor.options.blur(getMarkdown(vditor));
             }
         });
 

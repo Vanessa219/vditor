@@ -21,10 +21,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
         topListElement = topOlElement;
     }
-    if (topListElement) {
-        addP2Li(topListElement);
-        blockElement = topListElement;
-    }
+
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.wysiwyg.element;
@@ -68,6 +65,11 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
                     math.querySelector(".vditor-math").getAttribute("data-math")}</code>`);
             }
         });
+
+        if (topListElement) {
+            addP2Li(topListElement);
+            blockElement = topListElement;
+        }
 
         let vditorHTML;
         if (blockElement.isEqualNode(vditor.wysiwyg.element)) {

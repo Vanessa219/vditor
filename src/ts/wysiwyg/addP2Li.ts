@@ -19,5 +19,13 @@ export const addP2Li = (listElement: Element) => {
 
             node = node.nextSibling as HTMLElement;
         }
+
+        if (tempNodes.length > 0) {
+            const pElement = document.createElement("p");
+            tempNodes.forEach((nodeItem) => {
+                pElement.appendChild(nodeItem);
+            });
+            liElement.insertAdjacentElement("beforeend", pElement);
+        }
     });
 };

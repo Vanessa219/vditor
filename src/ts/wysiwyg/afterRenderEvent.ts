@@ -1,9 +1,9 @@
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 
 export const afterRenderEvent = (vditor: IVditor, isAddUndoStack = true, hint = false) => {
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
-        const text = getText(vditor);
+        const text = getMarkdown(vditor);
         if (vditor.options.counter > 0) {
             vditor.counter.render(text.length, vditor.options.counter);
         }

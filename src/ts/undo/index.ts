@@ -4,7 +4,7 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 
 class Undo {
     private undoStack: Array<{ patchList: patch_obj[], end: number }>;
@@ -55,7 +55,7 @@ class Undo {
     public addToUndoStack(vditor: IVditor) {
         clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
-            const text = getText(vditor);
+            const text = getMarkdown(vditor);
             const diff = this.dmp.diff_main(text, this.lastText, true);
             const patchList = this.dmp.patch_make(text, this.lastText, diff);
             if (patchList.length === 0) {

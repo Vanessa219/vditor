@@ -10,7 +10,7 @@ import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 import {
     hasClosestByAttribute,
     hasClosestByClassName,
@@ -223,7 +223,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
 
                 if (vditor.options.cache) {
-                    localStorage.setItem(`vditor${vditor.id}`, getText(vditor));
+                    localStorage.setItem(`vditor${vditor.id}`, getMarkdown(vditor));
                 }
             };
 

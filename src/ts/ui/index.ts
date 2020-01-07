@@ -1,6 +1,5 @@
 import {formatRender} from "../editor/formatRender";
 import {html2md} from "../editor/html2md";
-import {getText} from "../util/getText";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 
 export class Ui {

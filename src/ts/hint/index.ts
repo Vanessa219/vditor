@@ -2,7 +2,7 @@ import {formatRender} from "../editor/formatRender";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {code160to32} from "../util/code160to32";
-import {getText} from "../util/getText";
+import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
@@ -29,7 +29,7 @@ export class Hint {
             const range = getSelection().getRangeAt(0);
             currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
         } else {
-            currentLineValue = getText(vditor)
+            currentLineValue = getMarkdown(vditor)
                 .substring(0, position.end).split("\n").slice(-1).pop();
         }
 
@@ -98,7 +98,7 @@ export class Hint {
             afterRenderEvent(vditor, true, false);
         } else {
             const position = getSelectPosition(vditor.editor.element, range);
-            const text = getText(vditor);
+            const text = getMarkdown(vditor);
             const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
             formatRender(vditor, preText + value + text.substring(position.start),
                 {
