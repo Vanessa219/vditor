@@ -74,7 +74,8 @@ class WYSIWYG {
             event.stopPropagation();
             event.preventDefault();
 
-            if (range.commonAncestorContainer.parentElement.tagName === "CODE") {
+            if (range.commonAncestorContainer.parentElement.tagName === "CODE" &&
+                range.commonAncestorContainer.parentElement.parentElement.tagName !== "PRE") {
                 event.clipboardData.setData("text/plain", "`" +
                     getSelection().getRangeAt(0).toString() + "`");
                 event.clipboardData.setData("text/html", "");
@@ -133,7 +134,10 @@ class WYSIWYG {
                         e.removeAttribute("style");
                     });
                     addP2Li(tempElement);
-                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
+                    log("HTML2VditorDOM", tempElement.innerHTML, "argument", vditor.options.debugger);
+                    const pasteHTML = vditor.lute.HTML2VditorDOM(tempElement.innerHTML);
+                    log("HTML2VditorDOM", pasteHTML, "result", vditor.options.debugger);
+                    insertHTML(pasteHTML, vditor);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
