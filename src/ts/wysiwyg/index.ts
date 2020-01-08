@@ -7,7 +7,7 @@ import {
     hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
-    hasClosestByTag,
+    hasClosestByTag, hasTopClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
@@ -381,6 +381,20 @@ class WYSIWYG {
                     return;
                 }
 
+                // https://github.com/Vanessa219/vditor/issues/51
+                const topBQElement = hasTopClosestByTag(range.startContainer, 'BLOCKQUOTE')
+                if (topBQElement) {
+                    range.setStartAfter(topBQElement);
+                    setSelectionFocus(range);
+                    const node = document.createElement("p");
+                    node.setAttribute("data-block", "0");
+                    node.innerHTML = "\n";
+                    range.insertNode(node);
+                    range.collapse(true);
+                    setSelectionFocus(range);
+                    highlightToolbar(vditor);
+                    afterRenderEvent(vditor);
+                }
             }
             scrollCenter(this.element);
         });
