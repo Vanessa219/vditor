@@ -37,12 +37,12 @@
 
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
-* [46](https://github.com/Vanessa219/vditor/issues/46) how to add more cell without using the mouse
 
 ### v2.0.14 / 2020-01-08
 
 * [48](https://github.com/Vanessa219/vditor/issues/48) H6 回车 解析问题 `修复缺陷`
 * [47](https://github.com/Vanessa219/vditor/issues/47) <details> 改进 `功能改进`
+* [46](https://github.com/Vanessa219/vditor/issues/46) add row 添加快捷键 `引入特性`
 * [45](https://github.com/Vanessa219/vditor/issues/45) 为列表 indent 和 outdent 添加快捷键 `引入特性`
 * [44](https://github.com/Vanessa219/vditor/issues/44) Unorderlist + Link 会缩进 `修复缺陷`
 * [43](https://github.com/Vanessa219/vditor/issues/43) When copy & paste the link `修复缺陷`

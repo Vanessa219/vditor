@@ -339,6 +339,8 @@ class WYSIWYG {
                 afterRenderEvent(vditor);
 
                 event.preventDefault();
+                scrollCenter(this.element);
+                return;
             }
 
             // https://github.com/Vanessa219/vditor/issues/48
@@ -351,6 +353,24 @@ class WYSIWYG {
                 range.setStart(pElement, 0);
                 setSelectionFocus(range);
                 event.preventDefault();
+                scrollCenter(this.element);
+                return;
+            }
+
+            // https://github.com/Vanessa219/vditor/issues/46
+            const cellElement = hasClosestByMatchTag(range.startContainer, "TD") ||
+                hasClosestByMatchTag(range.startContainer, "TH");
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && cellElement) {
+                let rowHTML = "";
+                for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
+                    rowHTML += "<td></td>";
+                }
+                cellElement.parentElement.insertAdjacentHTML("afterend", rowHTML);
+                range.setStart(cellElement.parentElement.nextElementSibling.firstChild, 0);
+                setSelectionFocus(range);
+                event.preventDefault();
+                scrollCenter(this.element);
+                return;
             }
             scrollCenter(this.element);
         });
