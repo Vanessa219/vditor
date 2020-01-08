@@ -473,9 +473,18 @@ export const highlightToolbar = (vditor: IVditor) => {
                     language.oninput = (event) => {
                         updateLanguage();
                         processCodeRender(blockElement, vditor);
+                        afterRenderEvent(vditor);
                         event.preventDefault();
                         event.stopPropagation();
                     };
+                    language.onkeypress = (event: KeyboardEvent) => {
+                        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey) {
+                            range.setStart(codeElement.firstChild, 0)
+                            range.collapse(true)
+                            setSelectionFocus(range)
+                            event.preventDefault();
+                        }
+                    }
                     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
                 }
             }

@@ -317,8 +317,8 @@ class WYSIWYG {
             }
             const range = getSelection().getRangeAt(0).cloneRange();
             const preCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-            if ((!event.metaKey && !event.ctrlKey && event.shiftKey) ||
-                (!event.metaKey && !event.ctrlKey && !event.shiftKey && preCodeElement)) {
+            if ((!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey) ||
+                (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && preCodeElement)) {
                 // 软换行或者代码块中的换行
                 const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
                 if (blockElement && blockElement.tagName === "TABLE") {
@@ -357,20 +357,30 @@ class WYSIWYG {
                 return;
             }
 
-            // https://github.com/Vanessa219/vditor/issues/46
-            const cellElement = hasClosestByMatchTag(range.startContainer, "TD") ||
-                hasClosestByMatchTag(range.startContainer, "TH");
-            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && cellElement) {
-                let rowHTML = "";
-                for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
-                    rowHTML += "<td></td>";
+            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey) {
+                // https://github.com/Vanessa219/vditor/issues/46
+                const cellElement = hasClosestByMatchTag(range.startContainer, "TD") ||
+                    hasClosestByMatchTag(range.startContainer, "TH");
+                if (cellElement) {
+                    let rowHTML = "";
+                    for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
+                        rowHTML += "<td></td>";
+                    }
+                    cellElement.parentElement.insertAdjacentHTML("afterend", rowHTML);
+                    range.setStart(cellElement.parentElement.nextElementSibling.firstChild, 0);
+                    setSelectionFocus(range);
+                    event.preventDefault();
+                    return;
                 }
-                cellElement.parentElement.insertAdjacentHTML("afterend", rowHTML);
-                range.setStart(cellElement.parentElement.nextElementSibling.firstChild, 0);
-                setSelectionFocus(range);
-                event.preventDefault();
-                scrollCenter(this.element);
-                return;
+
+                // https://github.com/Vanessa219/vditor/issues/54
+                const codeBlockElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block")
+                if (codeBlockElement && range.startContainer.parentElement.tagName === 'CODE') {
+                    (this.popover.querySelector('.vditor-input') as HTMLElement).focus()
+                    event.preventDefault();
+                    return;
+                }
+
             }
             scrollCenter(this.element);
         });
