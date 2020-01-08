@@ -374,9 +374,9 @@ class WYSIWYG {
                 }
 
                 // https://github.com/Vanessa219/vditor/issues/54
-                const codeBlockElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block")
-                if (codeBlockElement && range.startContainer.parentElement.tagName === 'CODE') {
-                    (this.popover.querySelector('.vditor-input') as HTMLElement).focus()
+                const codeBlockElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block");
+                if (codeBlockElement && range.startContainer.parentElement.tagName === "CODE") {
+                    (this.popover.querySelector(".vditor-input") as HTMLElement).focus();
                     event.preventDefault();
                     return;
                 }

@@ -37,13 +37,13 @@
 
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
-* [52](https://github.com/Vanessa219/vditor/issues/52) Underscores not working `修复缺陷`
 
 ### v2.0.14 / 2020-01-08
 
 * [54](https://github.com/Vanessa219/vditor/issues/54) 代码块优化 `引入特性`
 * [53](https://github.com/Vanessa219/vditor/issues/53) 图片 title 丢失问题 `修复缺陷`
 * [52](https://github.com/Vanessa219/vditor/issues/52) 下划线强调标记符失效 `修复缺陷`
+* [51](https://github.com/Vanessa219/vditor/issues/51) 引用多层嵌套无法一次性回到最外层 `引入特性`
 * [50](https://github.com/Vanessa219/vditor/issues/50) 标题前的段落结尾为 `\n` 时，标题的选中和取消会关联到 `\n` `修复缺陷`
 * [48](https://github.com/Vanessa219/vditor/issues/48) H6 回车 解析问题 `修复缺陷`
 * [47](https://github.com/Vanessa219/vditor/issues/47) <details> 改进 `功能改进`
