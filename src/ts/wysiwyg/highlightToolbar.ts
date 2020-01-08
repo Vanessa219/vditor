@@ -491,19 +491,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 });
         }
 
-        // details popover
-        const detailsElement = hasClosestByMatchTag(typeElement, "DETAILS");
-        if (detailsElement) {
-            vditor.wysiwyg.popover.innerHTML = "";
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend",
-                genClose(vditor.wysiwyg.popover, detailsElement, vditor));
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", genInsertBefore(range, detailsElement, vditor));
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", genInsertAfter(range, detailsElement, vditor));
-
-            setPopoverPosition(vditor, typeElement);
-        }
-
-        if (!detailsElement && !blockquoteElement && !imgElement && !topListElement && !tableElement && !blockElement
+        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockElement
             && typeElement.nodeName !== "A" && !hasClosestByClassName(typeElement, "vditor-panel")) {
             vditor.wysiwyg.popover.style.display = "none";
         }
