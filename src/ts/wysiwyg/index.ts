@@ -2,7 +2,13 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
-import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {
+    hasClosestBlock,
+    hasClosestByAttribute,
+    hasClosestByClassName,
+    hasClosestByMatchTag,
+    hasClosestByTag,
+} from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
 import {addP2Li} from "./addP2Li";
@@ -320,7 +326,8 @@ class WYSIWYG {
                 } else {
                     if (range.startContainer.nodeType === 3 && range.startContainer.parentElement &&
                         !range.startContainer.parentElement.textContent.endsWith("\n") &&
-                        (range.startContainer.parentElement.tagName === "LI" || preCodeElement)) {
+                        (range.startContainer.parentElement.tagName === "LI" || preCodeElement ||
+                            range.startContainer.parentElement.tagName.indexOf("H") === 0)) {
                         // 最后需要一个 \n，否则换行需按两次回车
                         range.startContainer.parentElement.insertAdjacentText("beforeend", "\n");
                     }
@@ -334,6 +341,17 @@ class WYSIWYG {
                 event.preventDefault();
             }
 
+            // https://github.com/Vanessa219/vditor/issues/48
+            const h6Element = hasClosestByMatchTag(range.startContainer, "H6");
+            if (h6Element && range.startContainer.textContent.length === range.startOffset) {
+                const pElement = document.createElement("p");
+                pElement.textContent = "\n";
+                pElement.setAttribute("data-block", "0");
+                range.startContainer.parentElement.insertAdjacentElement("afterend", pElement);
+                range.setStart(pElement, 0);
+                setSelectionFocus(range);
+                event.preventDefault();
+            }
             scrollCenter(this.element);
         });
     }
