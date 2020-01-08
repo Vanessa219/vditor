@@ -382,7 +382,7 @@ class WYSIWYG {
                 }
 
                 // https://github.com/Vanessa219/vditor/issues/51
-                const topBQElement = hasTopClosestByTag(range.startContainer, 'BLOCKQUOTE')
+                const topBQElement = hasTopClosestByTag(range.startContainer, "BLOCKQUOTE");
                 if (topBQElement) {
                     range.setStartAfter(topBQElement);
                     setSelectionFocus(range);
