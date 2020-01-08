@@ -33,6 +33,11 @@ export class Headings extends MenuItem {
                     vditor.wysiwyg.element.querySelector("wbr").remove();
                 }
                 document.execCommand("formatBlock", false, "p");
+                // https://github.com/Vanessa219/vditor/issues/50
+                const range = getSelection().getRangeAt(0);
+                if (!range.collapsed && !range.startContainer.isEqualNode(range.endContainer)) {
+                    range.setStart(range.endContainer, 0);
+                }
                 highlightToolbar(vditor);
             } else {
                 if (headingsPanelElement.style.display === "block") {
@@ -55,6 +60,11 @@ export class Headings extends MenuItem {
             headingsPanelElement.children.item(i).addEventListener(getEventName(), (event: Event) => {
                 if (vditor.currentMode === "wysiwyg") {
                     document.execCommand("formatblock", false, (event.target as HTMLElement).tagName.toLowerCase());
+                    // https://github.com/Vanessa219/vditor/issues/50
+                    const range = getSelection().getRangeAt(0);
+                    if (!range.collapsed && !range.startContainer.isEqualNode(range.endContainer)) {
+                        range.setStart(range.endContainer, 0);
+                    }
                     highlightToolbar(vditor);
                 } else {
                     insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",

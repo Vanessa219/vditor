@@ -40,6 +40,7 @@
 
 ### v2.0.14 / 2020-01-08
 
+* [50](https://github.com/Vanessa219/vditor/issues/50) 标题前的段落结尾为 `\n` 时，标题的选中和取消会关联到 `\n` `修复缺陷`
 * [48](https://github.com/Vanessa219/vditor/issues/48) H6 回车 解析问题 `修复缺陷`
 * [47](https://github.com/Vanessa219/vditor/issues/47) <details> 改进 `功能改进`
 * [46](https://github.com/Vanessa219/vditor/issues/46) add row 添加快捷键 `引入特性`
