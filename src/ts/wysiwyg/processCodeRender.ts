@@ -19,23 +19,32 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         blockElement.insertAdjacentHTML("beforeend", `<${tagName} class="vditor-wysiwyg__preview"></${tagName}>`);
         previewPanel = blockElement.querySelector(".vditor-wysiwyg__preview");
         previewPanel.setAttribute("data-render", "false");
-        const showCode = () => {
-            const range = codeElement.ownerDocument.createRange();
-            if (codeElement.parentElement && codeElement.parentElement.tagName !== "PRE") {
-                codeElement.style.display = "inline";
-                range.setStart(codeElement.firstChild, 1);
-            } else {
-                codeElement.parentElement.style.display = "block";
-                if (!codeElement.firstChild) {
-                    codeElement.appendChild(document.createTextNode(""));
+        const showCode = (previewElement: HTMLElement) => {
+            let showCodeElement = previewElement.previousElementSibling as HTMLElement;
+            if (showCodeElement.tagName === "PRE") {
+                showCodeElement = showCodeElement.firstElementChild as HTMLElement;
+            }
+
+            const range = showCodeElement.ownerDocument.createRange();
+            if (showCodeElement.parentElement && showCodeElement.parentElement.tagName !== "PRE") {
+                showCodeElement.style.display = "inline";
+                if (showCodeElement.parentElement.previousSibling) {
+                    range.setStart(showCodeElement.firstChild, 1);
+                } else {
+                    range.setStart(showCodeElement.firstChild, 0);
                 }
-                range.setStart(codeElement.firstChild, 0);
+            } else {
+                showCodeElement.parentElement.style.display = "block";
+                if (!showCodeElement.firstChild) {
+                    showCodeElement.appendChild(document.createTextNode(""));
+                }
+                range.setStart(showCodeElement.firstChild, 0);
             }
             range.collapse(true);
             setSelectionFocus(range);
         };
         previewPanel.addEventListener("click", () => {
-            showCode();
+            showCode(previewPanel);
         });
     }
 

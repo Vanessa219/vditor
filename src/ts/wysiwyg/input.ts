@@ -27,6 +27,15 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         blockElement = vditor.wysiwyg.element;
     }
 
+    // 修正光标位于 math inline 第0个字符时，按下删除按钮 code 中内容会被删除
+    blockElement.querySelectorAll('.vditor-wysiwyg__block[data-type="math-inline"]').forEach((math) => {
+        if (!math.querySelector("code")) {
+            const previewElement = math.querySelector(".vditor-wysiwyg__preview");
+            previewElement.insertAdjacentHTML("beforebegin", `<code data-type="math-inline">${
+                math.querySelector(".vditor-math").getAttribute("data-math")}</code>`);
+        }
+    });
+
     const previewCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
     const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
     if (previewCodeElement) {
@@ -56,15 +65,6 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         });
         const wbrNode = document.createElement("wbr");
         range.insertNode(wbrNode);
-
-        // 修正光标位于 math inline 第0个字符时，按下删除按钮 code 中内容会被删除
-        blockElement.querySelectorAll('.vditor-wysiwyg__block[data-type="math-inline"]').forEach((math) => {
-            if (!math.querySelector("code")) {
-                const previewElement = math.querySelector(".vditor-wysiwyg__preview");
-                previewElement.insertAdjacentHTML("beforebegin", `<code data-type="math-inline">${
-                    math.querySelector(".vditor-math").getAttribute("data-math")}</code>`);
-            }
-        });
 
         if (topListElement) {
             addP2Li(topListElement);
