@@ -70,12 +70,13 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
             codeRender(previewPanel, vditor.options.lang);
         }
     } else if (blockType.indexOf("html") > -1) {
+        const tempHTML = innerHTML.replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<").replace(/&gt;/g, ">")
         if (blockType === "html-inline") {
-            previewPanel.innerHTML = codeSVG;
+            previewPanel.innerHTML = codeSVG + tempHTML;
             return;
         }
-        previewPanel.innerHTML = innerHTML.replace(/&amp;/g, "&")
-            .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        previewPanel.innerHTML = tempHTML;
     } else if (blockType.indexOf("math") > -1) {
         previewPanel.innerHTML = `<${tagName} class="vditor-math">${innerHTML}</${tagName}>`;
         mathRenderByLute(previewPanel, vditor.options.cdn);
