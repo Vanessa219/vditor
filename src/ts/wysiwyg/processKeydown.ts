@@ -34,10 +34,9 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
         const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
         if (blockElement) {
             const blockRenderElement = blockElement.previousElementSibling as HTMLElement;
-            if (blockRenderElement && blockRenderElement.classList.contains("vditor-wysiwyg__block") &&
-                blockElement.tagName !== "TABLE" &&
-                (!liElement ||
-                    (liElement && liElement.isEqualNode(liElement.parentElement.firstElementChild)))) {
+            if (range.collapsed && blockRenderElement &&
+                blockRenderElement.classList.contains("vditor-wysiwyg__block") && blockElement.tagName !== "TABLE" &&
+                (!liElement || (liElement && liElement.isEqualNode(liElement.parentElement.firstElementChild)))) {
                 // 删除后光标落在代码渲染块的预览部分且光标后有内容
                 (blockRenderElement.lastElementChild as HTMLElement).click();
                 event.preventDefault();

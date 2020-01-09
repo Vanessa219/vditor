@@ -286,8 +286,9 @@ class WYSIWYG {
                         blockRenderElement.nextElementSibling.classList
                             .contains("vditor-panel")) {
                         // 渲染块处于末尾时，光标重置到该渲染块中的代码尾部
-                        range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
-                        range.collapse(false);
+                        range.setStart(previewElement.previousElementSibling.firstElementChild.lastChild,
+                            previewElement.previousElementSibling.firstElementChild.textContent.length -  1);
+                        range.collapse(true);
                     } else {
                         const nextNode = blockRenderElement.nextSibling as HTMLElement;
                         if (nextNode && nextNode.nodeType !== 3 &&

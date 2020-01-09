@@ -38,6 +38,8 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
+* [59](https://github.com/Vanessa219/vditor/issues/59) 任务列表 bug `修复缺陷`
+* [58](https://github.com/Vanessa219/vditor/issues/58) 表格内换行处理问题 `修复缺陷`
 
 ### v2.0.15 / 2020-01-09
 
