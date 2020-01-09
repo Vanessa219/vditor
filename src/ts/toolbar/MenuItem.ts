@@ -102,7 +102,7 @@ export class MenuItem {
                             range.setStartAfter(liElement);
                             range.collapse(true);
                             document.execCommand("insertHTML", false,
-                                '<li data-marker="*" class="vditor-task"><input type="checkbox" /> </li>');
+                                '<input type="checkbox" /> ');
                         } else {
                             document.execCommand("insertHTML", false,
                                 '<ul data-block="0"><li data-marker="*"  class="vditor-task"><input type="checkbox" /> </li></ul>');
