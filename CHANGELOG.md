@@ -41,6 +41,10 @@
 
 ### v2.0.14 / 2020-01-08
 
+* [64](https://github.com/Vanessa219/vditor/issues/64) 所见即所得模式代码块 % 问题 `修复缺陷`
+* [62](https://github.com/Vanessa219/vditor/issues/62) 任务列表光标位置 `修复缺陷`
+* [57](https://github.com/Vanessa219/vditor/issues/57) * a*b* 后换行错误 `修复缺陷`
+* [56](https://github.com/Vanessa219/vditor/issues/56) 图片 alt 属性不应该带光标位置 `修复缺陷`
 * [54](https://github.com/Vanessa219/vditor/issues/54) 代码块优化 `引入特性`
 * [53](https://github.com/Vanessa219/vditor/issues/53) 图片 title 丢失问题 `修复缺陷`
 * [52](https://github.com/Vanessa219/vditor/issues/52) 下划线强调标记符失效 `修复缺陷`
