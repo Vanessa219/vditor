@@ -38,13 +38,15 @@
 * [3](https://github.com/Vanessa219/vditor/issues/3) 编辑预览同步滚动改进 `enhancement`
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
-* [58](https://github.com/Vanessa219/vditor/issues/58) 表格内换行处理问题 `修复缺陷`
+* [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
+* [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
 
 ### v2.0.15 / 2020-01-09
 
 * [64](https://github.com/Vanessa219/vditor/issues/64) 所见即所得模式代码块 % 问题 `修复缺陷`
 * [62](https://github.com/Vanessa219/vditor/issues/62) 任务列表光标位置 `修复缺陷`
 * [59](https://github.com/Vanessa219/vditor/issues/59) 任务列表 bug `修复缺陷`
+* [58](https://github.com/Vanessa219/vditor/issues/58) 表格内换行处理问题 `修复缺陷`
 * [57](https://github.com/Vanessa219/vditor/issues/57) * a*b* 后换行错误 `修复缺陷`
 * [56](https://github.com/Vanessa219/vditor/issues/56) 图片 alt 属性不应该带光标位置 `修复缺陷`
 * [54](https://github.com/Vanessa219/vditor/issues/54) 代码块优化 `引入特性`

@@ -287,7 +287,7 @@ class WYSIWYG {
                             .contains("vditor-panel")) {
                         // 渲染块处于末尾时，光标重置到该渲染块中的代码尾部
                         range.setStart(previewElement.previousElementSibling.firstElementChild.lastChild,
-                            previewElement.previousElementSibling.firstElementChild.textContent.length -  1);
+                            previewElement.previousElementSibling.firstElementChild.textContent.length - 1);
                         range.collapse(true);
                     } else {
                         const nextNode = blockRenderElement.nextSibling as HTMLElement;
@@ -316,29 +316,59 @@ class WYSIWYG {
             if (event.key !== "Enter") {
                 return;
             }
+
             const range = getSelection().getRangeAt(0).cloneRange();
+            const isPureEnter = !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+
+            // TABLE
+            const cellElement = hasClosestByMatchTag(range.startContainer, "TD") ||
+                hasClosestByMatchTag(range.startContainer, "TH");
+            if (cellElement) {
+                if (isPureEnter || (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey)) {
+                    const brElement = document.createElement("br")
+                    if (!cellElement.lastChild ||
+                        (cellElement.lastChild.nodeType === 3 && cellElement.lastChild.textContent !== '')) {
+                        cellElement.appendChild(document.createElement("br"))
+                    }
+                    range.insertNode(brElement);
+                    range.setStartAfter(brElement);
+                    range.collapse(false)
+                    setSelectionFocus(range);
+                    afterRenderEvent(vditor);
+                    event.preventDefault();
+                    return;
+                }
+
+                // table 添加行 https://github.com/Vanessa219/vditor/issues/46
+                if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey) {
+                    let rowHTML = "";
+                    for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
+                        rowHTML += "<td></td>";
+                    }
+                    cellElement.parentElement.insertAdjacentHTML("afterend", rowHTML);
+                    range.setStart(cellElement.parentElement.nextElementSibling.firstChild, 0);
+                    setSelectionFocus(range);
+                    afterRenderEvent(vditor);
+                    event.preventDefault();
+                    return;
+                }
+            }
+
+            // 软换行或者代码块中的换行
             const preCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
             if ((!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey) ||
-                (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && preCodeElement)) {
-                // 软换行或者代码块中的换行
-                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-                if (blockElement && blockElement.tagName === "TABLE") {
-                    range.insertNode(document.createElement("br"));
-                } else {
-                    if (range.startContainer.nodeType === 3 && range.startContainer.parentElement &&
-                        !range.startContainer.parentElement.textContent.endsWith("\n") &&
-                        (range.startContainer.parentElement.tagName === "LI" || preCodeElement ||
-                            range.startContainer.parentElement.tagName.indexOf("H") === 0)) {
-                        // 最后需要一个 \n，否则换行需按两次回车
-                        range.startContainer.parentElement.insertAdjacentText("beforeend", "\n");
-                    }
-                    range.insertNode(document.createTextNode("\n"));
+                (isPureEnter && preCodeElement)) {
+                if (range.startContainer.nodeType === 3 && range.startContainer.parentElement &&
+                    !range.startContainer.parentElement.textContent.endsWith("\n") &&
+                    (range.startContainer.parentElement.tagName === "LI" || preCodeElement ||
+                        range.startContainer.parentElement.tagName.indexOf("H") === 0)) {
+                    // 最后需要一个 \n，否则换行需按两次回车
+                    range.startContainer.parentElement.insertAdjacentText("beforeend", "\n");
                 }
+                range.insertNode(document.createTextNode("\n"));
                 range.collapse(false);
                 setSelectionFocus(range);
-
                 afterRenderEvent(vditor);
-
                 event.preventDefault();
                 scrollCenter(this.element);
                 return;
@@ -359,22 +389,7 @@ class WYSIWYG {
             }
 
             if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey) {
-                // https://github.com/Vanessa219/vditor/issues/46
-                const cellElement = hasClosestByMatchTag(range.startContainer, "TD") ||
-                    hasClosestByMatchTag(range.startContainer, "TH");
-                if (cellElement) {
-                    let rowHTML = "";
-                    for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
-                        rowHTML += "<td></td>";
-                    }
-                    cellElement.parentElement.insertAdjacentHTML("afterend", rowHTML);
-                    range.setStart(cellElement.parentElement.nextElementSibling.firstChild, 0);
-                    setSelectionFocus(range);
-                    event.preventDefault();
-                    return;
-                }
-
-                // https://github.com/Vanessa219/vditor/issues/54
+                // 代码块切换到语言 https://github.com/Vanessa219/vditor/issues/54
                 const codeBlockElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block");
                 if (codeBlockElement && range.startContainer.parentElement.tagName === "CODE") {
                     (this.popover.querySelector(".vditor-input") as HTMLElement).focus();
@@ -382,7 +397,7 @@ class WYSIWYG {
                     return;
                 }
 
-                // https://github.com/Vanessa219/vditor/issues/51
+                // 跳出多层 blockquote 嵌套 https://github.com/Vanessa219/vditor/issues/51
                 const topBQElement = hasTopClosestByTag(range.startContainer, "BLOCKQUOTE");
                 if (topBQElement) {
                     range.setStartAfter(topBQElement);
