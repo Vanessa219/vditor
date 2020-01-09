@@ -39,7 +39,7 @@
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 
-### v2.0.14 / 2020-01-08
+### v2.0.15 / 2020-01-09
 
 * [64](https://github.com/Vanessa219/vditor/issues/64) 所见即所得模式代码块 % 问题 `修复缺陷`
 * [62](https://github.com/Vanessa219/vditor/issues/62) 任务列表光标位置 `修复缺陷`
