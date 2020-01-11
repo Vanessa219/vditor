@@ -4,7 +4,7 @@
 
 * v2.0
   * 默认为 WYSIWYG 模式，可根据需要修改 option.mode 参数
-  * 添加 options.debugger 
+  * 添加 options.debugger, options.value
 * v1.9
   * preview 静态方法参数修改为 `(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions)`，其中参数 `IPreviewOptions` 修改为
     ```ts
@@ -41,7 +41,7 @@
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
 * [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
 
-### v2.0.15 / 2020-01-09
+### v2.0.15 / 2020-01-11
 
 * [64](https://github.com/Vanessa219/vditor/issues/64) 所见即所得模式代码块 % 问题 `修复缺陷`
 * [62](https://github.com/Vanessa219/vditor/issues/62) 任务列表光标位置 `修复缺陷`
