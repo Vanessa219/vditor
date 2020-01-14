@@ -32,7 +32,7 @@ export const mathRenderByLute = (element: HTMLElement,
             });
         } catch (e) {
             mathElement.innerHTML = e.message;
-            mathElement.className = "vditor-math vditor--error";
+            mathElement.className = "vditor-math vditor-reset--error";
         }
 
         mathElement.addEventListener("copy", (event: ClipboardEvent) => {

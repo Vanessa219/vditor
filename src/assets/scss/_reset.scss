@@ -4,6 +4,13 @@
       padding-left: 20px;
     }
 
+    &--error {
+      color: $errorColor;
+      font-size: 12px;
+      display: block;
+      line-height: 16px;
+    }
+
     font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -359,12 +366,5 @@
     &:focus {
       outline: none;
     }
-  }
-
-  &--error {
-    color: $errorColor;
-    font-size: 12px;
-    display: block;
-    line-height: 16px;
   }
 }

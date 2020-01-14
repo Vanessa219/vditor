@@ -12,7 +12,7 @@ export class DevTools {
     constructor() {
         this.element = document.createElement("div");
         this.element.className = "vditor-devtools";
-        this.element.innerHTML = '<div class="vditor--error"></div><div style="height: 100%;"></div>';
+        this.element.innerHTML = '<div class="vditor-reset--error"></div><div style="height: 100%;"></div>';
     }
 
     public async renderEchart(vditor: IVditor) {
