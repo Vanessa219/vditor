@@ -9,7 +9,7 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
 
     if (startContainer.nodeType === 3 && range.startOffset === 0) {
         // 光标位于第零个位置进行删除
-        if (startContainer.parentElement.tagName === "CODE" &&
+        if (range.collapsed && startContainer.parentElement.tagName === "CODE" &&
             startContainer.parentElement.parentElement.parentElement.classList
                 .contains("vditor-wysiwyg__block") && !startContainer.previousSibling) {
             // 光标位于渲染代码块内，仅删除代码块，内容保持不变

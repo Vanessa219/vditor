@@ -44,6 +44,7 @@
 ### v2.1.0 / 2020-01-14
 
 * [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`
+* [69](https://github.com/Vanessa219/vditor/issues/69) 渲染块按 esc 可以进行退出代码块进行预览 `改进功能`
 
 ### v2.0.15 / 2020-01-11
 
@@ -59,7 +60,7 @@
 * [51](https://github.com/Vanessa219/vditor/issues/51) 引用多层嵌套无法一次性回到最外层 `引入特性`
 * [50](https://github.com/Vanessa219/vditor/issues/50) 标题前的段落结尾为 `\n` 时，标题的选中和取消会关联到 `\n` `修复缺陷`
 * [48](https://github.com/Vanessa219/vditor/issues/48) H6 回车 解析问题 `修复缺陷`
-* [47](https://github.com/Vanessa219/vditor/issues/47) <details> 改进 `功能改进`
+* [47](https://github.com/Vanessa219/vditor/issues/47) <details> 改进 `改进功能`
 * [46](https://github.com/Vanessa219/vditor/issues/46) add row 添加快捷键 `引入特性`
 * [45](https://github.com/Vanessa219/vditor/issues/45) 为列表 indent 和 outdent 添加快捷键 `引入特性`
 * [44](https://github.com/Vanessa219/vditor/issues/44) Unorderlist + Link 会缩进 `修复缺陷`

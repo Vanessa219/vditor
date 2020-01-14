@@ -6,7 +6,7 @@ import {getCursorPosition} from "../hint/getCursorPosition";
 import {deleteKey, tabKey} from "../wysiwyg/processKeydown";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {getMarkdown} from "./getMarkdown";
-import {hasClosestByClassName} from "./hasClosest";
+import {hasClosestByAttribute, hasClosestByClassName} from "./hasClosest";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -93,6 +93,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
         const hintElement = vditor.hint && vditor.hint.element;
+        const range = getSelection().getRangeAt(0);
 
         vditor.undo.recordFirstPosition(vditor);
 
@@ -107,6 +108,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
             if (hintElement && hintElement.style.display === "block") {
                 hintElement.style.display = "none";
+            }
+            if (vditor.currentMode === "wysiwyg") {
+                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+                if (blockElement) {
+                    vditor.wysiwyg.popover.style.display = "none";
+                    (blockElement.firstElementChild as HTMLElement).style.display = "none";
+                    vditor.wysiwyg.element.blur();
+                }
             }
             return;
         }
@@ -214,7 +223,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // 行级代码块中 ctrl + a，近对当前代码块进行全选
-        const range = getSelection().getRangeAt(0);
         if (vditor.currentMode === "wysiwyg" && range.startContainer.parentElement.tagName === "CODE" &&
             hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block")) {
             if (processKeymap("⌘-a", event, () => {
@@ -288,14 +296,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             });
             processKeymap("⌘-⇧-e", event, () => {
                 const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]')
-                || vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
+                    || vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
                 if (itemElement) {
                     itemElement.click();
                 }
             });
             processKeymap("⌘-⇧-s", event, () => {
                 const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]')
-                || vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
+                    || vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
                 if (itemElement) {
                     itemElement.click();
                 }

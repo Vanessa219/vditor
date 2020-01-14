@@ -71,7 +71,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         }
     } else if (blockType.indexOf("html") > -1) {
         const tempHTML = innerHTML.replace(/&amp;/g, "&")
-            .replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+            .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
         if (blockType === "html-inline") {
             previewPanel.innerHTML = codeSVG + tempHTML;
             return;

@@ -318,21 +318,21 @@ class WYSIWYG {
             }
 
             const range = getSelection().getRangeAt(0).cloneRange();
-            const isPureEnter = !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+            const isPureEnter = !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 
             // TABLE
             const cellElement = hasClosestByMatchTag(range.startContainer, "TD") ||
                 hasClosestByMatchTag(range.startContainer, "TH");
             if (cellElement) {
                 if (isPureEnter || (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey)) {
-                    const brElement = document.createElement("br")
+                    const brElement = document.createElement("br");
                     if (!cellElement.lastChild ||
-                        (cellElement.lastChild.nodeType === 3 && cellElement.lastChild.textContent !== '')) {
-                        cellElement.appendChild(document.createElement("br"))
+                        (cellElement.lastChild.nodeType === 3 && cellElement.lastChild.textContent !== "")) {
+                        cellElement.appendChild(document.createElement("br"));
                     }
                     range.insertNode(brElement);
                     range.setStartAfter(brElement);
-                    range.collapse(false)
+                    range.collapse(false);
                     setSelectionFocus(range);
                     afterRenderEvent(vditor);
                     event.preventDefault();
