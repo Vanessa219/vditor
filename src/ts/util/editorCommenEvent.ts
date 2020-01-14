@@ -4,9 +4,10 @@ import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {deleteKey, tabKey} from "../wysiwyg/processKeydown";
+import {setHeading} from "../wysiwyg/setHeading";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {getMarkdown} from "./getMarkdown";
-import {hasClosestByAttribute, hasClosestByClassName} from "./hasClosest";
+import {hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "./hasClosest";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -37,7 +38,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     const processKeymap = (hotkey: string, event: KeyboardEvent, action: () => void) => {
         const hotkeys = hotkey.split("-");
         const hasShift = hotkeys.length === 3 && (hotkeys[1] === "shift" || hotkeys[1] === "⇧");
-        const key = hasShift ? hotkeys[2] : hotkeys[1];
+        const key = (hasShift ? hotkeys[2] : hotkeys[1]) || "-";
         if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey)
             && event.key.toLowerCase() === key.toLowerCase()) {
             if ((!hasShift && !event.shiftKey) || (hasShift && event.shiftKey)) {
@@ -102,6 +103,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
+        // esc
         if (event.key === "Escape") {
             if (vditor.options.esc) {
                 vditor.options.esc(getMarkdown(vditor));
@@ -222,16 +224,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // 行级代码块中 ctrl + a，近对当前代码块进行全选
-        if (vditor.currentMode === "wysiwyg" && range.startContainer.parentElement.tagName === "CODE" &&
-            hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block")) {
-            if (processKeymap("⌘-a", event, () => {
-                range.selectNodeContents(range.startContainer.parentElement);
-            })) {
-                return;
-            }
-        }
-
         // hotkey command + delete
         if (vditor.options.keymap.deleteLine && vditor.currentMode === "markdown") {
             if (processKeymap(vditor.options.keymap.deleteLine, event, () => {
@@ -277,16 +269,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
         }
 
-        // toolbar action
-        vditor.options.toolbar.forEach((menuItem: IMenuItem) => {
-            if (!menuItem.hotkey) {
-                return;
-            }
-            processKeymap(menuItem.hotkey, event, () => {
-                (vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
-            });
-        });
-
         if (vditor.currentMode === "wysiwyg") {
             processKeymap("⌘-⇧-x", event, () => {
                 const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
@@ -308,7 +290,52 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                     itemElement.click();
                 }
             });
+
+            // 行级代码块中 command + a，近对当前代码块进行全选
+            if (range.startContainer.parentElement.tagName === "CODE" &&
+                hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block")) {
+                if (processKeymap("⌘-a", event, () => {
+                    range.selectNodeContents(range.startContainer.parentElement);
+                })) {
+                    return;
+                }
+            }
+
+            const headingElement = hasClosestByTag(range.startContainer, "H");
+            if (headingElement) {
+                if (processKeymap("⌘-=", event, () => {
+                    event.preventDefault();
+                    const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) - 1;
+                    if (index < 1) {
+                        return;
+                    }
+                    setHeading(vditor, `h${index}`);
+                })) {
+                    return;
+                }
+
+                if (processKeymap("⌘--", event, () => {
+                    event.preventDefault();
+                    const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) + 1;
+                    if (index > 6) {
+                        return;
+                    }
+                    setHeading(vditor, `h${index}`);
+                })) {
+                    return;
+                }
+            }
         }
+
+        // toolbar action
+        vditor.options.toolbar.forEach((menuItem: IMenuItem) => {
+            if (!menuItem.hotkey) {
+                return;
+            }
+            processKeymap(menuItem.hotkey, event, () => {
+                (vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
+            });
+        });
 
         // hint: 上下选择
         if (vditor.options.hint.at || vditor.toolbar.elements.emoji) {

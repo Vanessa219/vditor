@@ -2,6 +2,7 @@ import headingsSVG from "../../assets/icons/headings.svg";
 import {insertText} from "../editor/insertText";
 import {getEventName} from "../util/getEventName";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {setHeading} from "../wysiwyg/setHeading";
 import {MenuItem} from "./MenuItem";
 
 export class Headings extends MenuItem {
@@ -59,13 +60,7 @@ export class Headings extends MenuItem {
         for (let i = 0; i < 6; i++) {
             headingsPanelElement.children.item(i).addEventListener(getEventName(), (event: Event) => {
                 if (vditor.currentMode === "wysiwyg") {
-                    document.execCommand("formatblock", false, (event.target as HTMLElement).tagName.toLowerCase());
-                    // https://github.com/Vanessa219/vditor/issues/50
-                    const range = getSelection().getRangeAt(0);
-                    if (!range.collapsed && !range.startContainer.isEqualNode(range.endContainer)) {
-                        range.setStart(range.endContainer, 0);
-                    }
-                    highlightToolbar(vditor);
+                    setHeading(vditor, (event.target as HTMLElement).tagName.toLowerCase());
                 } else {
                     insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                         false, true);
