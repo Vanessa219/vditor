@@ -22,6 +22,7 @@ module.exports = {
   entry: {
     'index.js': './demo/index.js',
     'index-preview.js': './demo/index-preview.js',
+    'jest-puppeteer.js': './demo/jest-puppeteer.js',
   },
   resolve: {
     extensions: ['.js', '.ts', '.svg', '.png', '.scss'],
@@ -111,6 +112,11 @@ module.exports = {
       chunks: ['index.js'],
       filename: './index.html',
       template: './demo/index.html',
+    }),
+    new HtmlWebpackPlugin({
+      chunks: ['jest-puppeteer.js'],
+      filename: './jest-puppeteer.html',
+      template: './demo/jest-puppeteer.html',
     }),
     new HtmlWebpackPlugin({
       chunks: ['index-preview.js'],
