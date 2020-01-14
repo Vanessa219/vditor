@@ -367,4 +367,84 @@
       outline: none;
     }
   }
+
+  &-linkcard {
+    margin: 31px auto 16px;
+    transition: $transition;
+    cursor: pointer;
+    max-width: 768px;
+    padding: 0 10px;
+
+    a {
+      border-radius: 3px;
+      background-color: $toolbarBg;
+      overflow: hidden;
+      max-height: 250px;
+      display: flex;
+      text-decoration: none;
+      flex-wrap: wrap-reverse;
+      box-shadow: $layerShadow;
+
+      &:hover {
+        box-shadow: 0 0 3px rgba(0, 0, 0, .13), 0 3px 6px rgba(0, 0, 0, .26);
+        text-decoration: none;
+      }
+
+      &:visited .vditor-linkcard__abstract {
+        color: rgba($toolbarIcon, .6);
+      }
+    }
+
+    &__info {
+      padding: 10px;
+      min-width: 200px;
+      box-sizing: border-box;
+      flex: 1;
+    }
+
+    &__title {
+      font-size: 14px;
+      font-weight: 400;
+      color: $textareaColor;
+      display: flex;
+      align-items: center;
+
+      img {
+        cursor: pointer;
+        height: 20px;
+        width: 20px;
+        border-radius: 3px;
+        flex-shrink: 0;
+        margin-right: 5px;
+      }
+    }
+
+    &__abstract {
+      word-wrap: break-word;
+      word-break: break-all;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      font-size: 13px;
+      color: $toolbarIcon;
+      margin: 5px 0;
+    }
+
+    &__site {
+      font-size: 12px;
+      color: $toolbarIconHover;
+    }
+
+    &__image {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      max-width: 250px;
+      min-width: 126px;
+      cursor: pointer;
+      background-color: #fff;
+    }
+  }
 }

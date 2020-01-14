@@ -41,6 +41,10 @@
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
 * [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
 
+### v2.1.0 / 2020-01-14
+
+* [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`
+
 ### v2.0.15 / 2020-01-11
 
 * [64](https://github.com/Vanessa219/vditor/issues/64) 所见即所得模式代码块 % 问题 `修复缺陷`
