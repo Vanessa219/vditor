@@ -64,7 +64,8 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (hasClosestByMatchTag(typeElement, "A")) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
-        const ulElement = hasClosestByMatchTag(typeElement, "UL");
+        const topUlElement = hasClosestByMatchTag(typeElement, "UL");
+        const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
         if (hasClosestByMatchTag(typeElement, "CODE")) {
             if (hasClosestByMatchTag(typeElement, "PRE")) {
                 disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
@@ -78,14 +79,15 @@ export const highlightToolbar = (vditor: IVditor) => {
         } else if (hasClosestByTag(typeElement, "H")) {
             disableToolbar(vditor.toolbar.elements, ["bold"]);
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
-        } else if (ulElement && !ulElement.querySelector("input")) {
+        } else if (topUlElement && !topUlElement.querySelector("input")) {
             setCurrentToolbar(vditor.toolbar.elements, ["list"]);
         } else if (hasClosestByMatchTag(typeElement, "OL")) {
             setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
+        } else if (tableElement) {
+            disableToolbar(vditor.toolbar.elements, ["table"]);
         }
 
         // list popover
-        const topUlElement = hasTopClosestByTag(typeElement, "UL");
         const topOlElement = hasTopClosestByTag(typeElement, "OL");
         let topListElement = topUlElement;
         if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
@@ -143,7 +145,6 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         // table popover
-        const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
         if (tableElement) {
             vditor.wysiwyg.popover.innerHTML = "";
             const updateTable = () => {
