@@ -43,6 +43,7 @@
 
 ### v2.1.0 / 2020-01-14
 
+* [75](https://github.com/Vanessa219/vditor/issues/75) 表格输入自动完成优化 `改进功能`
 * [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`
 * [70](https://github.com/Vanessa219/vditor/issues/70) 所见即所得模式下Table按钮重复点击会导致table嵌套，另外希望标题支持快捷键调整大小 `引入特性`
 * [69](https://github.com/Vanessa219/vditor/issues/69) 渲染块按 esc 可以进行退出代码块进行预览 `改进功能`

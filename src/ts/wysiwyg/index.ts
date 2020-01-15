@@ -360,7 +360,26 @@ class WYSIWYG {
                 }
             }
 
-            // 软换行或者代码块中的换行
+            // 表格自动完成
+            const pElement = hasClosestByMatchTag(range.startContainer, "P");
+            if (pElement) {
+                const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
+                const pTextList = pText.split("|");
+                if (pText.startsWith("|") && pText.endsWith("|") && pTextList.length > 3) {
+                    let tableHeaderMD = pTextList.map(() => "---").join("|");
+                    tableHeaderMD = pElement.textContent + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + '\n|<wbr>';
+                    log("SpinVditorDOM", tableHeaderMD, "argument", vditor.options.debugger);
+                    tableHeaderMD = vditor.lute.SpinVditorDOM(tableHeaderMD)
+                    log("SpinVditorDOM", tableHeaderMD, "result", vditor.options.debugger);
+                    pElement.outerHTML = tableHeaderMD
+                    event.preventDefault();
+                    setRangeByWbr(vditor.wysiwyg.element, range);
+                    afterRenderEvent(vditor)
+                    return;
+                }
+            }
+
+            // 软换行或者代码块中的换行，不需要软换行处理的需写在该块之上
             const preCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
             if ((!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey) ||
                 (isPureEnter && preCodeElement)) {
@@ -407,7 +426,7 @@ class WYSIWYG {
                     } else {
                         // 变成段落
                         taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0"><wbr>\n</p>`);
-                        if (taskItemElement.parentElement.querySelectorAll('li').length === 1) {
+                        if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
                             taskItemElement.parentElement.remove();
                         } else {
                             taskItemElement.remove();
@@ -428,11 +447,11 @@ class WYSIWYG {
             // https://github.com/Vanessa219/vditor/issues/48
             const h6Element = hasClosestByMatchTag(range.startContainer, "H6");
             if (h6Element && range.startContainer.textContent.length === range.startOffset) {
-                const pElement = document.createElement("p");
-                pElement.textContent = "\n";
-                pElement.setAttribute("data-block", "0");
-                range.startContainer.parentElement.insertAdjacentElement("afterend", pElement);
-                range.setStart(pElement, 0);
+                const pTempElement = document.createElement("p");
+                pTempElement.textContent = "\n";
+                pTempElement.setAttribute("data-block", "0");
+                range.startContainer.parentElement.insertAdjacentElement("afterend", pTempElement);
+                range.setStart(pTempElement, 0);
                 setSelectionFocus(range);
                 event.preventDefault();
                 scrollCenter(this.element);
