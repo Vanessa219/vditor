@@ -523,7 +523,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             backslashElement.querySelector("span").style.display = "inline";
         }
 
-    }, 500);
+    }, 200);
 };
 
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {

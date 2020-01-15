@@ -68,7 +68,7 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
 
         // 渲染代码块为空
         if (startContainer.tagName === "CODE" &&
-            startContainer.textContent === "" &&
+            (startContainer.textContent === "" || startContainer.textContent === "\n") &&
             startContainer.parentElement.parentElement.classList.contains("vditor-wysiwyg__block")) {
             startContainer.parentElement.parentElement.outerHTML = '<p data-block="0">\n</p>';
             event.preventDefault();
