@@ -112,10 +112,10 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 hintElement.style.display = "none";
             }
             if (vditor.currentMode === "wysiwyg") {
-                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-                if (blockElement) {
+                const codeRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
+                if (codeRenderElement) {
                     vditor.wysiwyg.popover.style.display = "none";
-                    (blockElement.firstElementChild as HTMLElement).style.display = "none";
+                    (codeRenderElement.firstElementChild as HTMLElement).style.display = "none";
                     vditor.wysiwyg.element.blur();
                 }
             }
