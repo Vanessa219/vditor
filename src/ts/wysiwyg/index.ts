@@ -283,7 +283,11 @@ class WYSIWYG {
             if (!previewElement) {
                 return;
             }
-            if ((previewElement.previousElementSibling as HTMLElement).style.display === "none") {
+            let codeElement = previewElement.previousElementSibling as HTMLElement;
+            if (codeElement.tagName === "PRE") {
+                codeElement = codeElement.firstElementChild as HTMLElement;
+            }
+            if (codeElement.style.display === "none") {
                 previewElement.click();
             } else {
                 if (event.key === "ArrowDown" || event.key === "ArrowRight") {
@@ -292,8 +296,7 @@ class WYSIWYG {
                         blockRenderElement.nextElementSibling.classList
                             .contains("vditor-panel")) {
                         // 渲染块处于末尾时，光标重置到该渲染块中的代码尾部
-                        range.setStart(previewElement.previousElementSibling.firstElementChild.lastChild,
-                            previewElement.previousElementSibling.firstElementChild.textContent.length - 1);
+                        range.setStart(codeElement.lastChild, codeElement.textContent.length - 1);
                         range.collapse(true);
                     } else {
                         const nextNode = blockRenderElement.nextSibling as HTMLElement;
@@ -308,7 +311,7 @@ class WYSIWYG {
                         }
                     }
                 } else {
-                    range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
+                    range.selectNodeContents(codeElement);
                     range.collapse(false);
                 }
                 setSelectionFocus(range);
@@ -331,17 +334,18 @@ class WYSIWYG {
                 hasClosestByMatchTag(range.startContainer, "TH");
             if (cellElement) {
                 if (isPureEnter || (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey)) {
-                    const brElement = document.createElement("br");
-                    if (!cellElement.lastChild ||
-                        (cellElement.lastChild.nodeType === 3 && cellElement.lastChild.textContent !== "")) {
-                        cellElement.appendChild(document.createElement("br"));
-                    }
+                    event.preventDefault();
+                    const brElement = document.createElement("span");
+                    brElement.className = "vditor-wysiwyg__block";
+                    brElement.setAttribute("data-type", "html-inline");
+                    brElement.innerHTML = '<code data-type="html-inline">&lt;br /&gt;</code>';
+                    processCodeRender(brElement, vditor);
+                    range.insertNode(document.createTextNode(" "));
                     range.insertNode(brElement);
-                    range.setStartAfter(brElement);
+                    range.setStartAfter(brElement.nextSibling);
                     range.collapse(false);
                     setSelectionFocus(range);
                     afterRenderEvent(vditor);
-                    event.preventDefault();
                     return;
                 }
 
@@ -366,15 +370,12 @@ class WYSIWYG {
                 const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
                 const pTextList = pText.split("|");
                 if (pText.startsWith("|") && pText.endsWith("|") && pTextList.length > 3) {
-                    let tableHeaderMD = pTextList.map(() => "---").join("|");
-                    tableHeaderMD = pElement.textContent + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + '\n|<wbr>';
-                    log("SpinVditorDOM", tableHeaderMD, "argument", vditor.options.debugger);
-                    tableHeaderMD = vditor.lute.SpinVditorDOM(tableHeaderMD)
-                    log("SpinVditorDOM", tableHeaderMD, "result", vditor.options.debugger);
-                    pElement.outerHTML = tableHeaderMD
                     event.preventDefault();
+                    let tableHeaderMD = pTextList.map(() => "---").join("|");
+                    tableHeaderMD = pElement.textContent + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + "\n|<wbr>";
+                    pElement.outerHTML = vditor.lute.SpinVditorDOM(tableHeaderMD);
                     setRangeByWbr(vditor.wysiwyg.element, range);
-                    afterRenderEvent(vditor)
+                    afterRenderEvent(vditor);
                     return;
                 }
             }
