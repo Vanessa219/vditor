@@ -122,6 +122,7 @@ class WYSIWYG {
 
             // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
+            const range = getSelection().getRangeAt(0)
             if (event.target.tagName === "CODE") {
                 // 粘贴在代码位置
                 const position = getSelectPosition(event.target);
@@ -130,7 +131,11 @@ class WYSIWYG {
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     event.target.parentElement);
             } else if (code) {
-                insertHTML(`<div class="vditor-wysiwyg__block" data-type="code-block"><pre><code>${
+                const pElement = hasClosestByMatchTag(range.startContainer, "P")
+                if (pElement) {
+                    range.setStartAfter(pElement);
+                }
+                insertHTML(`<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
                     code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre></div>`, vditor);
             } else {
                 if (textHTML.trim() !== "") {
