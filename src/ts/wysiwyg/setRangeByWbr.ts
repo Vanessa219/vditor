@@ -18,6 +18,7 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
             if (wbrElement.previousElementSibling.lastChild) {
                 // <em>text</em><wbr>
                 range.setStartBefore(wbrElement);
+                range.collapse(true);
                 setSelectionFocus(range);
                 // fix Chrome set range bug
                 if (wbrElement.previousElementSibling.tagName === "EM") {
@@ -27,6 +28,7 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
                 } else if (wbrElement.previousElementSibling.tagName === "S") {
                     document.execCommand("strikeThrough", false, "");
                 }
+                wbrElement.remove();
                 return;
             } else {
                 // <br><wbr>
@@ -37,6 +39,7 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
             range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
         }
     }
+    range.collapse(true);
     wbrElement.remove();
     setSelectionFocus(range);
 };

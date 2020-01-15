@@ -17,6 +17,7 @@ import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender} from "./processCodeRender";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -122,7 +123,7 @@ class WYSIWYG {
 
             // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
-            const range = getSelection().getRangeAt(0)
+            const range = getSelection().getRangeAt(0);
             if (event.target.tagName === "CODE") {
                 // 粘贴在代码位置
                 const position = getSelectPosition(event.target);
@@ -131,7 +132,7 @@ class WYSIWYG {
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     event.target.parentElement);
             } else if (code) {
-                const pElement = hasClosestByMatchTag(range.startContainer, "P")
+                const pElement = hasClosestByMatchTag(range.startContainer, "P");
                 if (pElement) {
                     range.setStartAfter(pElement);
                 }
@@ -376,6 +377,51 @@ class WYSIWYG {
                 afterRenderEvent(vditor);
                 event.preventDefault();
                 scrollCenter(this.element);
+                return;
+            }
+
+            // task list
+            const taskItemElement = hasClosestByClassName(range.startContainer, "vditor-task");
+            if (taskItemElement) {
+                if (taskItemElement.lastChild.textContent.trim() === "") {
+                    if (taskItemElement.nextElementSibling) {
+                        // 用段落隔断
+                        let afterHTML = "";
+                        let beforeHTML = "";
+                        let isAfter = false;
+                        taskItemElement.parentElement.querySelectorAll("li").forEach((liElement) => {
+                            if (liElement.isEqualNode(taskItemElement)) {
+                                isAfter = true;
+                            } else {
+                                if (isAfter) {
+                                    afterHTML += liElement.outerHTML;
+                                } else {
+                                    beforeHTML += liElement.outerHTML;
+                                }
+                            }
+                        });
+                        if (beforeHTML) {
+                            beforeHTML = `<ul data-tight="true" data-marker="*" data-block="0">${beforeHTML}</ul>`;
+                        }
+                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0"><wbr>\n</p><ul data-tight="true" data-marker="*" data-block="0">${afterHTML}</ul>`;
+                    } else {
+                        // 变成段落
+                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0"><wbr>\n</p>`);
+                        if (taskItemElement.parentElement.querySelectorAll('li').length === 1) {
+                            taskItemElement.parentElement.remove();
+                        } else {
+                            taskItemElement.remove();
+                        }
+                    }
+                } else {
+                    // 光标后文字添加到新列表中
+                    range.setEndAfter(taskItemElement.lastChild);
+                    taskItemElement.insertAdjacentHTML("afterend", `<li data-marker="*" class="vditor-task"><input type="checkbox"> <wbr></li>`);
+                    document.querySelector("wbr").after(range.extractContents());
+                }
+                setRangeByWbr(vditor.wysiwyg.element, range);
+                event.preventDefault();
+                afterRenderEvent(vditor);
                 return;
             }
 

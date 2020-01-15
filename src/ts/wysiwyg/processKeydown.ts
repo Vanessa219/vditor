@@ -2,6 +2,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
@@ -82,6 +83,33 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
             (preElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
             event.preventDefault();
         }
+    }
+
+    // task list
+    const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
+    if (taskItemElement && range.collapsed &&
+        ((startContainer.nodeType === 3 && range.startOffset === 1 &&
+            (startContainer.previousSibling as HTMLElement).tagName === "INPUT") ||
+            startContainer.nodeType !== 3)) {
+
+        const previousElement = taskItemElement.previousElementSibling;
+        taskItemElement.querySelector("input").remove();
+        if (previousElement) {
+            previousElement.innerHTML += "<wbr>" + taskItemElement.innerHTML.trim();
+            taskItemElement.remove();
+        } else {
+            taskItemElement.parentElement.insertAdjacentHTML("beforebegin",
+                `<p data-block="0"><wbr>${taskItemElement.innerHTML.trim() || "\n"}</p>`);
+            if (taskItemElement.nextElementSibling) {
+                taskItemElement.remove();
+            } else {
+                taskItemElement.parentElement.remove();
+            }
+        }
+        setRangeByWbr(vditor.wysiwyg.element, range);
+        afterRenderEvent(vditor);
+        event.preventDefault();
+        return;
     }
 };
 
