@@ -13,9 +13,11 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
             startContainer.parentElement.parentElement.parentElement.classList
                 .contains("vditor-wysiwyg__block") && !startContainer.previousSibling) {
             // 光标位于渲染代码块内，仅删除代码块，内容保持不变
-            const text = document.createTextNode(startContainer.parentElement.textContent);
+            const pElement = document.createElement("p");
+            pElement.setAttribute("data-block", "0");
+            pElement.textContent = startContainer.parentElement.textContent;
             range.setStartBefore(startContainer.parentElement.parentElement.parentElement);
-            range.insertNode(text);
+            range.insertNode(pElement);
             range.collapse(true);
             (vditor.wysiwyg.popover.firstElementChild as HTMLElement).click();
             event.preventDefault();

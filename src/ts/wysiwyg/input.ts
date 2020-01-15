@@ -1,5 +1,5 @@
 import {
-    hasClosestBlock,
+    hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
     hasClosestByTag,
@@ -115,12 +115,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
 
-        blockElement = getBlockByRange(range);
+        blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
         if (blockElement && blockElement.querySelectorAll("code").length > 0) {
-            // 对返回值中需要渲染的代码块进行处理
-            if (blockElement.classList.contains("vditor-wysiwyg__block")) {
-                processCodeRender(blockElement, vditor);
-            }
             // TODO: 目前为全局渲染。可优化为只选取当前列表、当前列表紧邻的前后列表；最顶层列表；当前块进行渲染
             vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
                 (blockRenderItem: HTMLElement) => {
@@ -130,18 +126,4 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     }
 
     afterRenderEvent(vditor, true, true);
-};
-
-const getBlockByRange = (range: Range) => {
-    let e =
-        range.startContainer.nodeType === 3 ? range.startContainer.parentElement : range.startContainer as HTMLElement;
-    let isClosest = false;
-    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
-        if (e.getAttribute("data-block") === "0") {
-            isClosest = true;
-        } else {
-            e = e.parentElement;
-        }
-    }
-    return isClosest && e;
 };
