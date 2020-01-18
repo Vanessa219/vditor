@@ -436,7 +436,7 @@ class WYSIWYG {
                 } else {
                     // 光标后文字添加到新列表中
                     range.setEndAfter(taskItemElement.lastChild);
-                    taskItemElement.insertAdjacentHTML("afterend", `<li data-marker="*" class="vditor-task"><input type="checkbox"> <wbr></li>`);
+                    taskItemElement.insertAdjacentHTML("afterend", `<li class="vditor-task"><input type="checkbox"> <wbr></li>`);
                     document.querySelector("wbr").after(range.extractContents());
                 }
                 setRangeByWbr(vditor.wysiwyg.element, range);
