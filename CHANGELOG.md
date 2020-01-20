@@ -41,8 +41,9 @@
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
 * [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
 
-### v2.1.1 / 2020-01-15
+### v2.1.2 / 2020-01-20
 
+* [74](https://github.com/Vanessa219/vditor/issues/74) anchor 中移除 . `改进功能`
 * [75](https://github.com/Vanessa219/vditor/issues/75) 表格输入自动完成优化 `改进功能`
 * [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`
 * [70](https://github.com/Vanessa219/vditor/issues/70) 所见即所得模式下Table按钮重复点击会导致table嵌套，另外希望标题支持快捷键调整大小 `引入特性`
