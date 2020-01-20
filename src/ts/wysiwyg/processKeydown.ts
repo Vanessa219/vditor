@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {
     hasClosestByAttribute,
@@ -106,7 +107,7 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
         if (startContainer.tagName === "CODE" &&
             (startContainer.textContent === "" || startContainer.textContent === "\n") &&
             startContainer.parentElement.parentElement.classList.contains("vditor-wysiwyg__block")) {
-            startContainer.parentElement.parentElement.outerHTML = '<p data-block="0">\n</p>';
+            startContainer.parentElement.parentElement.outerHTML = Constants.WYSIWYG_EMPTY_P;
             event.preventDefault();
             return;
         }

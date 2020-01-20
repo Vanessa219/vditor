@@ -1,13 +1,13 @@
+import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {
     hasClosestBlock,
-    hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
-    hasClosestByTag, hasTopClosestByTag,
+    hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
@@ -36,7 +36,7 @@ class WYSIWYG {
             this.element.style.display = "none";
         }
 
-        this.element.innerHTML = '<p data-block="0">\n</p>';
+        this.element.innerHTML = Constants.WYSIWYG_EMPTY_P;
         const popover = document.createElement("div");
         popover.className = "vditor-panel vditor-panel--none";
         popover.setAttribute("contenteditable", "false");
@@ -416,10 +416,10 @@ class WYSIWYG {
                         if (beforeHTML) {
                             beforeHTML = `<ul data-tight="true" data-marker="*" data-block="0">${beforeHTML}</ul>`;
                         }
-                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0"><wbr>\n</p><ul data-tight="true" data-marker="*" data-block="0">${afterHTML}</ul>`;
+                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0">\n<wbr></p><ul data-tight="true" data-marker="*" data-block="0">${afterHTML}</ul>`;
                     } else {
                         // 变成段落
-                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0"><wbr>\n</p>`);
+                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0">\n<wbr></p>`);
                         if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
                             taskItemElement.parentElement.remove();
                         } else {

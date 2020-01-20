@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -10,7 +11,7 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
     enableToolbar(vditor.toolbar.elements, allToolbar);
 
     const editorElement = vditor.wysiwyg.element;
-    editorElement.innerHTML = vditor.lute.Md2VditorDOM(md) || '<p data-block="0">\n</p>';
+    editorElement.innerHTML = vditor.lute.Md2VditorDOM(md) || Constants.WYSIWYG_EMPTY_P;
 
     editorElement.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
         processCodeRender(blockElement, vditor);
