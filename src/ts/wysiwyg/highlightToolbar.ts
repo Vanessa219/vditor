@@ -482,7 +482,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                         event.preventDefault();
                         event.stopPropagation();
                     };
-                    language.onkeypress = (event: KeyboardEvent) => {
+                    language.onkeydown = (event: KeyboardEvent) => {
                         if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey) {
                             range.setStart(codeElement.firstChild, 0);
                             range.collapse(true);
