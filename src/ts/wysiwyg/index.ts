@@ -445,7 +445,7 @@ class WYSIWYG {
                 return;
             }
 
-            // https://github.com/Vanessa219/vditor/issues/48
+            // H6 回车 解析问题 https://github.com/Vanessa219/vditor/issues/48
             const h6Element = hasClosestByMatchTag(range.startContainer, "H6");
             if (h6Element && range.startContainer.textContent.length === range.startOffset) {
                 const pTempElement = document.createElement("p");
