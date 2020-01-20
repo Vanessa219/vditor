@@ -3,11 +3,11 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {getCursorPosition} from "../hint/getCursorPosition";
-import {deleteKey, tabKey} from "../wysiwyg/processKeydown";
+import {altEnterKey, deleteKey, tabKey} from "../wysiwyg/processKeydown";
 import {setHeading} from "../wysiwyg/setHeading";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {getMarkdown} from "./getMarkdown";
-import {hasClosestByAttribute, hasClosestByClassName, hasClosestByTag} from "./hasClosest";
+import {hasClosestByClassName, hasClosestByTag} from "./hasClosest";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -101,6 +101,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if ((event.metaKey || event.ctrlKey) && vditor.options.ctrlEnter && event.key === "Enter") {
             vditor.options.ctrlEnter(getMarkdown(vditor));
             return;
+        }
+
+        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && event.key === "Enter"
+            && vditor.currentMode === "wysiwyg") {
+            const matchKey = altEnterKey(vditor, event, range);
+            if (matchKey) {
+                return;
+            }
         }
 
         // esc

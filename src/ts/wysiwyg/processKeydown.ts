@@ -1,8 +1,43 @@
 import {setSelectionFocus} from "../editor/setSelection";
-import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {
+    hasClosestByAttribute,
+    hasClosestByClassName,
+    hasClosestByMatchTag,
+    hasTopClosestByTag,
+} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
+import {highlightToolbar} from "./highlightToolbar";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
+
+export const altEnterKey = (vditor: IVditor, event: KeyboardEvent, range: Range) => {
+    // 代码块切换到语言 https://github.com/Vanessa219/vditor/issues/54
+    const codeBlockElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block");
+    if (codeBlockElement) {
+        (vditor.wysiwyg.popover.querySelector(".vditor-input") as HTMLElement).focus();
+        event.preventDefault();
+        return true;
+    }
+
+    // 跳出多层 blockquote 嵌套 https://github.com/Vanessa219/vditor/issues/51
+    const topBQElement = hasTopClosestByTag(range.startContainer, "BLOCKQUOTE");
+    if (topBQElement) {
+        range.setStartAfter(topBQElement);
+        setSelectionFocus(range);
+        const node = document.createElement("p");
+        node.setAttribute("data-block", "0");
+        node.innerHTML = "\n";
+        range.insertNode(node);
+        range.collapse(true);
+        setSelectionFocus(range);
+        highlightToolbar(vditor);
+        afterRenderEvent(vditor);
+        event.preventDefault();
+        return true;
+    }
+
+    return false;
+};
 
 export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);

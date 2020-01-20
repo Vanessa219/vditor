@@ -40,6 +40,7 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
 * [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
+* [79](https://github.com/Vanessa219/vditor/issues/79) 链接所见即所得渲染问题 `改进功能`
 
 ### v2.1.2 / 2020-01-20
 

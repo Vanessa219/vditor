@@ -292,24 +292,17 @@ class WYSIWYG {
             } else {
                 if (event.key === "ArrowDown" || event.key === "ArrowRight") {
                     const blockRenderElement = previewElement.parentElement;
-                    if (blockRenderElement.nextElementSibling &&
-                        blockRenderElement.nextElementSibling.classList
-                            .contains("vditor-panel")) {
-                        // 渲染块处于末尾时，光标重置到该渲染块中的代码尾部
-                        range.setStart(codeElement.lastChild, codeElement.textContent.length - 1);
-                        range.collapse(true);
+                    const nextNode = blockRenderElement.nextSibling as HTMLElement;
+                    if (nextNode && nextNode.nodeType !== 3 &&
+                        nextNode.classList.contains("vditor-wysiwyg__block")) {
+                        // 下一节点依旧为代码渲染块
+                        (nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
+                        range.setStart(nextNode.firstElementChild.firstElementChild.firstChild, 0);
                     } else {
-                        const nextNode = blockRenderElement.nextSibling as HTMLElement;
-                        if (nextNode && nextNode.nodeType !== 3 &&
-                            nextNode.classList.contains("vditor-wysiwyg__block")) {
-                            // 下一节点依旧为代码渲染块
-                            (nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
-                            range.setStart(nextNode.firstElementChild.firstElementChild.firstChild, 0);
-                        } else {
-                            // 跳过渲染块，光标移动到下一个节点
-                            range.setStartAfter(blockRenderElement);
-                        }
+                        // 跳过渲染块，光标移动到下一个节点
+                        range.setStartAfter(blockRenderElement);
                     }
+
                 } else {
                     range.selectNodeContents(codeElement);
                     range.collapse(false);
@@ -457,31 +450,6 @@ class WYSIWYG {
                 event.preventDefault();
                 scrollCenter(this.element);
                 return;
-            }
-
-            if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey) {
-                // 代码块切换到语言 https://github.com/Vanessa219/vditor/issues/54
-                const codeBlockElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block");
-                if (codeBlockElement && range.startContainer.parentElement.tagName === "CODE") {
-                    (this.popover.querySelector(".vditor-input") as HTMLElement).focus();
-                    event.preventDefault();
-                    return;
-                }
-
-                // 跳出多层 blockquote 嵌套 https://github.com/Vanessa219/vditor/issues/51
-                const topBQElement = hasTopClosestByTag(range.startContainer, "BLOCKQUOTE");
-                if (topBQElement) {
-                    range.setStartAfter(topBQElement);
-                    setSelectionFocus(range);
-                    const node = document.createElement("p");
-                    node.setAttribute("data-block", "0");
-                    node.innerHTML = "\n";
-                    range.insertNode(node);
-                    range.collapse(true);
-                    setSelectionFocus(range);
-                    highlightToolbar(vditor);
-                    afterRenderEvent(vditor);
-                }
             }
             scrollCenter(this.element);
         });
