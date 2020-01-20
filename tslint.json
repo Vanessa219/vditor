@@ -13,7 +13,8 @@
                 "limit": 120,
                 "ignore-pattern": "match"
             }
-        ]
+        ],
+        "prefer-for-of": false
     },
     "rulesDirectory": []
 }

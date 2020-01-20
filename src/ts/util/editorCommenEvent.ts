@@ -1,13 +1,9 @@
-import {formatRender} from "../editor/formatRender";
-import {getSelectPosition} from "../editor/getSelectPosition";
 import {getSelectText} from "../editor/getSelectText";
-import {insertText} from "../editor/insertText";
+import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
-import {altEnterKey, deleteKey, tabKey} from "../wysiwyg/processKeydown";
-import {setHeading} from "../wysiwyg/setHeading";
-import {getCurrentLinePosition} from "./getCurrentLinePosition";
+import {deleteKey, processKeydown} from "../wysiwyg/processKeydown";
 import {getMarkdown} from "./getMarkdown";
-import {hasClosestByClassName, hasClosestByTag} from "./hasClosest";
+import {processKeymap} from "./processKeymap";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -35,30 +31,14 @@ export const scrollCenter = (editorElement: HTMLElement) => {
 };
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    const processKeymap = (hotkey: string, event: KeyboardEvent, action: () => void) => {
-        const hotkeys = hotkey.split("-");
-        const hasShift = hotkeys.length === 3 && (hotkeys[1] === "shift" || hotkeys[1] === "⇧");
-        const key = (hasShift ? hotkeys[2] : hotkeys[1]) || "-";
-        if ((hotkeys[0] === "ctrl" || hotkeys[0] === "⌘") && (event.metaKey || event.ctrlKey)
-            && event.key.toLowerCase() === key.toLowerCase()) {
-            if ((!hasShift && !event.shiftKey) || (hasShift && event.shiftKey)) {
-                action();
-                event.preventDefault();
-                event.stopPropagation();
-                return true;
-            }
-        }
-        return false;
-    };
-
     const hint = (event: KeyboardEvent, hintElement: HTMLElement) => {
         if (!hintElement) {
-            return;
+            return false;
         }
 
         if (hintElement.querySelectorAll("button").length === 0 ||
             hintElement.style.display === "none") {
-            return;
+            return false;
         }
 
         const currentHintElement: HTMLElement = hintElement.querySelector(".vditor-hint--current");
@@ -72,6 +52,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 currentHintElement.nextElementSibling.className = "vditor-hint--current";
             }
             currentHintElement.removeAttribute("class");
+            return true;
         } else if (event.key === "ArrowUp") {
             event.preventDefault();
             event.stopPropagation();
@@ -82,11 +63,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 currentHintElement.previousElementSibling.className = "vditor-hint--current";
             }
             currentHintElement.removeAttribute("class");
+            return true;
         } else if (event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
             vditor.hint.fillEmoji(currentHintElement, vditor);
+            return true;
         }
+        return false;
     };
 
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
@@ -94,119 +78,31 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
         const hintElement = vditor.hint && vditor.hint.element;
-        const range = getSelection().getRangeAt(0);
-
-        vditor.undo.recordFirstPosition(vditor);
-
-        if ((event.metaKey || event.ctrlKey) && vditor.options.ctrlEnter && event.key === "Enter") {
-            vditor.options.ctrlEnter(getMarkdown(vditor));
+        // hint: 上下选择
+        if ((vditor.options.hint.at || vditor.toolbar.elements.emoji) && hint(event, hintElement)) {
             return;
         }
 
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && event.key === "Enter"
-            && vditor.currentMode === "wysiwyg") {
-            const matchKey = altEnterKey(vditor, event, range);
-            if (matchKey) {
+        if (vditor.currentMode === "markdown") {
+            vditor.undo.recordFirstPosition(vditor);
+            if (mdProcessKeydown(vditor, event)) {
                 return;
             }
-        }
-
-        // esc
-        if (event.key === "Escape") {
-            if (vditor.options.esc) {
-                vditor.options.esc(getMarkdown(vditor));
-            }
-            if (hintElement && hintElement.style.display === "block") {
-                hintElement.style.display = "none";
-            }
-            if (vditor.currentMode === "wysiwyg") {
-                const codeRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-                if (codeRenderElement) {
-                    vditor.wysiwyg.popover.style.display = "none";
-                    (codeRenderElement.firstElementChild as HTMLElement).style.display = "none";
-                    vditor.wysiwyg.element.blur();
-                }
-            }
-            return;
-        }
-
-        // tab
-        if (vditor.options.tab && event.key === "Tab") {
-            event.preventDefault();
-            event.stopPropagation();
-            if (vditor.currentMode === "wysiwyg") {
-                tabKey(vditor, event);
+        } else {
+            if (processKeydown(vditor, event)) {
                 return;
             }
 
-            const position = getSelectPosition(editorElement);
-            const text = getMarkdown(vditor);
-            const selectLinePosition = getCurrentLinePosition(position, text);
-            const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
-
-            if (event.shiftKey) {
-                let shiftCount = 0;
-                let startIsShift = false;
-                const selectionShiftResult = selectLineList.map((value, index) => {
-                    let shiftLineValue = value;
-                    if (value.indexOf(vditor.options.tab) === 0) {
-                        if (index === 0) {
-                            startIsShift = true;
-                        }
-                        shiftCount++;
-                        shiftLineValue = value.replace(vditor.options.tab, "");
-                    }
-                    return shiftLineValue;
-                }).join("\n");
-
-                formatRender(vditor, text.substring(0, selectLinePosition.start) +
-                    selectionShiftResult + text.substring(selectLinePosition.end - 1),
-                    {
-                        end: position.end - shiftCount * vditor.options.tab.length,
-                        start: position.start - (startIsShift ? vditor.options.tab.length : 0),
-                    });
-                return;
-            }
-
-            if (position.start === position.end) {
-                insertText(vditor, vditor.options.tab, "");
-                return;
-            }
-            const selectionResult = selectLineList.map((value) => {
-                return vditor.options.tab + value;
-            }).join("\n");
-            formatRender(vditor, text.substring(0, selectLinePosition.start) + selectionResult +
-                text.substring(selectLinePosition.end - 1),
-                {
-                    end: position.end + selectLineList.length * vditor.options.tab.length,
-                    start: position.start + vditor.options.tab.length,
-                });
-            return;
-        }
-
-        // delete
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.keyCode === 8) {
-            if (vditor.currentMode === "markdown") {
-                const position = getSelectPosition(editorElement);
-                if (position.start !== position.end) {
-                    insertText(vditor, "", "", true);
-                } else {
-                    // delete emoji
-                    const text = getMarkdown(vditor);
-                    const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}][\u{2000}-\u{206F}][\u{2700}-\u{27BF}]|([\u{1F900}-\u{1F9FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F600}-\u{1F64F}])[\u{2000}-\u{206F}][\u{2600}-\u{26FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
-                    const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
-                    formatRender(vditor,
-                        text.substring(0, position.start - deleteChar) + text.substring(position.start),
-                        {
-                            end: position.start - deleteChar,
-                            start: position.start - deleteChar,
-                        });
-                }
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
+            if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
                 deleteKey(vditor, event);
+                return;
             }
+        }
+
+        if ((event.metaKey || event.ctrlKey) && !event.shiftKey && !event.altKey &&
+            vditor.options.ctrlEnter && event.key === "Enter") {
+            vditor.options.ctrlEnter(getMarkdown(vditor));
+            event.preventDefault();
             return;
         }
 
@@ -232,107 +128,16 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // hotkey command + delete
-        if (vditor.options.keymap.deleteLine && vditor.currentMode === "markdown") {
-            if (processKeymap(vditor.options.keymap.deleteLine, event, () => {
-                const position = getSelectPosition(editorElement);
-                const text = getMarkdown(vditor);
-                const linePosition = getCurrentLinePosition(position, text);
-                const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
-                const startIndex = Math.min(deletedText.length, position.start);
-                formatRender(vditor, deletedText, {
-                    end: startIndex,
-                    start: startIndex,
-                });
-            })) {
-                return;
+        // esc
+        if (event.key === "Escape") {
+            if (vditor.options.esc) {
+                vditor.options.esc(getMarkdown(vditor));
             }
-        }
-
-        // hotkey command + d
-        if (vditor.options.keymap.duplicate && vditor.currentMode === "markdown") {
-            if (processKeymap(vditor.options.keymap.duplicate, event, () => {
-                const position = getSelectPosition(editorElement);
-                const text = getMarkdown(vditor);
-                let lineText = text.substring(position.start, position.end);
-                if (position.start === position.end) {
-                    const linePosition = getCurrentLinePosition(position, text);
-                    lineText = text.substring(linePosition.start, linePosition.end);
-                    formatRender(vditor,
-                        text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
-                        {
-                            end: position.end + lineText.length,
-                            start: position.start + lineText.length,
-                        });
-                } else {
-                    formatRender(vditor,
-                        text.substring(0, position.end) + lineText + text.substring(position.end),
-                        {
-                            end: position.end + lineText.length,
-                            start: position.start + lineText.length,
-                        });
-                }
-            })) {
-                return;
+            if (hintElement && hintElement.style.display === "block") {
+                hintElement.style.display = "none";
             }
-        }
-
-        if (vditor.currentMode === "wysiwyg") {
-            processKeymap("⌘-⇧-x", event, () => {
-                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
-                if (itemElement) {
-                    itemElement.click();
-                }
-            });
-            processKeymap("⌘-⇧-e", event, () => {
-                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]')
-                    || vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
-                if (itemElement) {
-                    itemElement.click();
-                }
-            });
-            processKeymap("⌘-⇧-s", event, () => {
-                const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]')
-                    || vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
-                if (itemElement) {
-                    itemElement.click();
-                }
-            });
-
-            // 行级代码块中 command + a，近对当前代码块进行全选
-            if (range.startContainer.parentElement.tagName === "CODE" &&
-                hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block")) {
-                if (processKeymap("⌘-a", event, () => {
-                    range.selectNodeContents(range.startContainer.parentElement);
-                })) {
-                    return;
-                }
-            }
-
-            const headingElement = hasClosestByTag(range.startContainer, "H");
-            if (headingElement) {
-                if (processKeymap("⌘-=", event, () => {
-                    event.preventDefault();
-                    const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) - 1;
-                    if (index < 1) {
-                        return;
-                    }
-                    setHeading(vditor, `h${index}`);
-                })) {
-                    return;
-                }
-
-                if (processKeymap("⌘--", event, () => {
-                    event.preventDefault();
-                    const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) + 1;
-                    if (index > 6) {
-                        return;
-                    }
-                    setHeading(vditor, `h${index}`);
-                })) {
-                    return;
-                }
-            }
+            event.preventDefault();
+            return;
         }
 
         // toolbar action
@@ -344,11 +149,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 (vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
             });
         });
-
-        // hint: 上下选择
-        if (vditor.options.hint.at || vditor.toolbar.elements.emoji) {
-            hint(event, hintElement);
-        }
     });
 };
 
