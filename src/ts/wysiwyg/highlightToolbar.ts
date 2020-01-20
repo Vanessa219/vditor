@@ -184,11 +184,18 @@ export const highlightToolbar = (vditor: IVditor) => {
                             rowHTML += "<td></td>";
                         }
                         for (let l = 0; l < rowDiff; l++) {
-                            tableElement.querySelector("tbody").insertAdjacentHTML("beforeend", rowHTML);
+                            if (tableElement.querySelector("tbody")) {
+                                tableElement.querySelector("tbody").insertAdjacentHTML("beforeend", rowHTML);
+                            } else {
+                                tableElement.querySelector("thead").insertAdjacentHTML("afterend", rowHTML + "</tr>");
+                            }
                         }
                     } else {
                         for (let m = oldRow - 1; m >= row; m--) {
                             tableElement.rows[m].remove();
+                            if (tableElement.rows.length === 1) {
+                                tableElement.querySelector("tbody").remove();
+                            }
                         }
                     }
                 }
