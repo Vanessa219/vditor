@@ -157,6 +157,29 @@ export const tabKey = (vditor: IVditor, event: KeyboardEvent) => {
             // TODO 代码块缩进
         }
     } else {
+        const cellElement = hasClosestByMatchTag(range.startContainer, "TD")
+            || hasClosestByMatchTag(range.startContainer, "TH");
+        if (cellElement) {
+            let nextElement = cellElement.nextElementSibling
+            if (!nextElement) {
+                if (cellElement.parentElement.nextElementSibling) {
+                    nextElement = cellElement.parentElement.nextElementSibling.firstElementChild
+                } else if (cellElement.parentElement.parentElement.tagName === 'THEAD'
+                    && cellElement.parentElement.parentElement.nextElementSibling) {
+                    nextElement =
+                        cellElement.parentElement.parentElement.nextElementSibling.firstElementChild.firstElementChild
+                } else {
+                    nextElement = null
+                }
+            }
+            if (nextElement) {
+                range.selectNodeContents(nextElement)
+                range.collapse(true)
+                afterRenderEvent(vditor);
+            }
+            return;
+        }
+
         if (range.collapsed) {
             range.insertNode(document.createTextNode(vditor.options.tab));
             range.collapse(false);
