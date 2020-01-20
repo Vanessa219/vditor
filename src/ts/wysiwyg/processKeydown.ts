@@ -147,6 +147,31 @@ export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
         event.preventDefault();
         return;
     }
+
+    // table
+    const cellElement = hasClosestByMatchTag(range.startContainer, "TD")
+        || hasClosestByMatchTag(range.startContainer, "TH");
+    if (cellElement && range.startOffset === 0) {
+
+        let previousElement = cellElement.previousElementSibling;
+        if (!previousElement) {
+            if (cellElement.parentElement.previousElementSibling) {
+                previousElement = cellElement.parentElement.previousElementSibling.lastElementChild;
+            } else if (cellElement.parentElement.parentElement.tagName === "TBODY" &&
+                cellElement.parentElement.parentElement.previousElementSibling) {
+                previousElement =
+                    cellElement.parentElement.parentElement.previousElementSibling.lastElementChild.lastElementChild;
+            } else {
+                previousElement = null;
+            }
+        }
+        if (previousElement) {
+            range.selectNodeContents(previousElement);
+            range.collapse(false);
+        }
+        event.preventDefault();
+        return;
+    }
 };
 
 export const tabKey = (vditor: IVditor, event: KeyboardEvent) => {
@@ -175,7 +200,6 @@ export const tabKey = (vditor: IVditor, event: KeyboardEvent) => {
             if (nextElement) {
                 range.selectNodeContents(nextElement);
                 range.collapse(true);
-                afterRenderEvent(vditor);
             }
             return;
         }
