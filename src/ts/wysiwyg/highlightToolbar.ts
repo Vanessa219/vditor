@@ -374,9 +374,14 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         // img popover
         let imgElement: HTMLImageElement;
-        if (range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset &&
-            range.startContainer.childNodes[range.startOffset].nodeName === "IMG") {
-            imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement;
+        if ((range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset &&
+            range.startContainer.childNodes[range.startOffset].nodeName === "IMG") ||
+            (range.startContainer.nodeType === 3 && range.startContainer.textContent.length === range.startOffset &&
+                range.startContainer.nextSibling.nodeType !== 3 &&
+                (range.startContainer as HTMLElement).nextElementSibling.tagName === "IMG")) {
+            // 光标在图片前面，或在文字后面
+            imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement ||
+                range.startContainer.nextSibling as HTMLImageElement;
             vditor.wysiwyg.popover.innerHTML = "";
             const updateImg = () => {
                 imgElement.setAttribute("src", input.value);

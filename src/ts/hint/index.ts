@@ -3,8 +3,9 @@ import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {code160to32} from "../util/code160to32";
 import {getMarkdown} from "../util/getMarkdown";
-import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByClassName} from "../util/hasClosest";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
+import {insertHTML} from "../wysiwyg/insertHTML";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {getCursorPosition} from "./getCursorPosition";
 
@@ -87,7 +88,12 @@ export class Hint {
         if (vditor.currentMode === "wysiwyg") {
             range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
             range.deleteContents();
-            range.insertNode(document.createTextNode(value));
+            if (value.indexOf(":") > -1) {
+                insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
+                range.insertNode(document.createTextNode(" "));
+            } else {
+                range.insertNode(document.createTextNode(value));
+            }
             range.collapse(false);
             setSelectionFocus(range);
 

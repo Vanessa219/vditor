@@ -44,12 +44,13 @@
 * [80](https://github.com/Vanessa219/vditor/issues/80) ctrl+z
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.2 / 2020-01-20
+### v2.1.2 / 2020-01-21
 
 * [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `修复缺陷`
 * [74](https://github.com/Vanessa219/vditor/issues/74) anchor 中移除 . `改进功能`
 * [75](https://github.com/Vanessa219/vditor/issues/75) 表格输入自动完成优化 `改进功能`
 * [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`
+* [76](https://github.com/Vanessa219/vditor/issues/76) 菜单选择图片类 Emoji 无法直接显示 `修复缺陷`
 * [70](https://github.com/Vanessa219/vditor/issues/70) 所见即所得模式下Table按钮重复点击会导致table嵌套，另外希望标题支持快捷键调整大小 `引入特性`
 * [69](https://github.com/Vanessa219/vditor/issues/69) 渲染块按 esc 可以进行退出代码块进行预览 `改进功能`
 * [68](https://github.com/Vanessa219/vditor/issues/68) 列表标记符自动优化 `改进功能`

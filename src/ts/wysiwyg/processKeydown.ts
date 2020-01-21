@@ -532,4 +532,4 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     return false;
-}
+};

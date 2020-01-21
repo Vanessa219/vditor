@@ -2,6 +2,7 @@ import emojiSVG from "../../assets/icons/emoji.svg";
 import {insertText} from "../editor/insertText";
 import {setSelectionFocus} from "../editor/setSelection";
 import {getEventName} from "../util/getEventName";
+import {insertHTML} from "../wysiwyg/insertHTML";
 import {MenuItem} from "./MenuItem";
 
 export class Emoji extends MenuItem {
@@ -63,7 +64,12 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 const value = element.getAttribute("data-value");
                 if (vditor.currentMode === "wysiwyg") {
                     const range = getSelection().getRangeAt(0);
-                    range.insertNode(document.createTextNode(value));
+                    if (value.indexOf(":") > -1) {
+                        insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
+                        range.insertNode(document.createTextNode(" "));
+                    } else {
+                        range.insertNode(document.createTextNode(value));
+                    }
                     range.collapse(false);
                     setSelectionFocus(range);
                 } else {
