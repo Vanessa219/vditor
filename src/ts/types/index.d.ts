@@ -276,7 +276,8 @@ interface IVditor {
     wysiwygUndo: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
-        addToUndoStack(vditor: IVditor): void,
+        addToUndoStack(vditor: IVditor): void
+        recordFirstWbr(vditor: IVditor): void,
     };
     wysiwyg: {
         element: HTMLPreElement,

@@ -99,6 +99,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // TODO deleteKey and 上下左右遇到块预览的处理重构
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
+    // 添加第一次记录 undo 的光标
+    vditor.wysiwygUndo.recordFirstWbr(vditor);
 
     // 表格自动完成
     const pElement = hasClosestByMatchTag(range.startContainer, "P");

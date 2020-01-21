@@ -46,9 +46,23 @@ class WysiwygUndo {
         this.renderDiff(state, vditor, true);
     }
 
+    public recordFirstWbr(vditor: IVditor) {
+        if (this.undoStack.length === 1) {
+            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+            this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
+            this.lastText = this.undoStack[0][0].diffs[0][1];
+        }
+    }
+
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
+        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
+            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+        }
         const text = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
+        if (vditor.wysiwyg.element.querySelector("wbr")) {
+            vditor.wysiwyg.element.querySelector("wbr").remove();
+        }
         const diff = this.dmp.diff_main(text, this.lastText, true);
         const patchList = this.dmp.patch_make(text, this.lastText, diff);
         if (patchList.length === 0) {

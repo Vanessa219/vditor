@@ -66,8 +66,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
             wbr.remove();
         });
-        const wbrNode = document.createElement("wbr");
-        range.insertNode(wbrNode);
+        range.insertNode(document.createElement("wbr"));
 
         if (topListElement) {
             addP2Li(topListElement);

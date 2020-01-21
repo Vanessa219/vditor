@@ -377,7 +377,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         if ((range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset &&
             range.startContainer.childNodes[range.startOffset].nodeName === "IMG") ||
             (range.startContainer.nodeType === 3 && range.startContainer.textContent.length === range.startOffset &&
-                range.startContainer.nextSibling.nodeType !== 3 &&
+                range.startContainer.nextSibling && range.startContainer.nextSibling.nodeType !== 3 &&
                 (range.startContainer as HTMLElement).nextElementSibling.tagName === "IMG")) {
             // 光标在图片前面，或在文字后面
             imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement ||
@@ -556,7 +556,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
         setSelectionFocus(range);
         const node = document.createElement("p");
         node.setAttribute("data-block", "0");
-        node.innerHTML = "\n";
+        node.innerHTML = "\u200b\n";
         range.insertNode(node);
         range.collapse(true);
         setSelectionFocus(range);
@@ -578,7 +578,7 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
         setSelectionFocus(range);
         const node = document.createElement("p");
         node.setAttribute("data-block", "0");
-        node.innerHTML = "\n";
+        node.innerHTML = "\u200b\n";
         range.insertNode(node);
         range.collapse(true);
         setSelectionFocus(range);
