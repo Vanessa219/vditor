@@ -78,15 +78,15 @@ class Editor {
 
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop", (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
-                event.stopPropagation();
-                event.preventDefault();
-
+                if (event.dataTransfer.types[0] !== "Files") {
+                    return;
+                }
                 const files = event.dataTransfer.items;
                 if (files.length === 0) {
                     return;
                 }
-
                 uploadFiles(vditor, files);
+                event.preventDefault();
             });
         }
 

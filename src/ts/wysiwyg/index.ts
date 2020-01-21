@@ -58,15 +58,17 @@ class WYSIWYG {
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop",
                 (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                    event.stopPropagation();
-                    event.preventDefault();
                     if (event.target.tagName === "INPUT") {
+                        return;
+                    }
+                    if (event.dataTransfer.types[0] !== "Files") {
                         return;
                     }
                     const files = event.dataTransfer.items;
                     if (files.length > 0) {
                         uploadFiles(vditor, files);
                     }
+                    event.preventDefault();
                 });
         }
 

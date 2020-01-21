@@ -43,10 +43,10 @@
 * [79](https://github.com/Vanessa219/vditor/issues/79) 链接所见即所得渲染问题 `改进功能`
 * [80](https://github.com/Vanessa219/vditor/issues/80) ctrl+z
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
-* [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `改进功能`
 
 ### v2.1.2 / 2020-01-20
 
+* [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `改进功能`
 * [74](https://github.com/Vanessa219/vditor/issues/74) anchor 中移除 . `改进功能`
 * [75](https://github.com/Vanessa219/vditor/issues/75) 表格输入自动完成优化 `改进功能`
 * [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`

@@ -51,6 +51,8 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
     if (codeElement && blockRenderElement) {
         processCodeRender(blockRenderElement, vditor);
     } else if (event.inputType !== "formatItalic"
+        && event.inputType !== "deleteByDrag"
+        && event.inputType !== "insertFromDrop"
         && event.inputType !== "formatBold"
         && event.inputType !== "formatRemove"
         && event.inputType !== "formatStrikeThrough"
