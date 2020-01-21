@@ -105,6 +105,8 @@ interface IUpload {
     handler?(files: File[]): string | null;
 
     format?(files: File[], responseText: string): string;
+
+    file?(files: File[]): File[];
 }
 
 interface IMenuItem {

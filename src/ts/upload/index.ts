@@ -144,7 +144,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
 
 const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
     // FileList | DataTransferItemList | File[] => File[]
-    const fileList = [];
+    let fileList = [];
     for (let iMax = files.length, i = 0; i < iMax; i++) {
         let fileItem = files[i];
         if (fileItem instanceof DataTransferItem) {
@@ -168,6 +168,10 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         }
         alert("please config: options.upload.url");
         return;
+    }
+
+    if (vditor.options.upload.file) {
+        fileList = vditor.options.upload.file(fileList);
     }
 
     if (vditor.options.upload.validate) {

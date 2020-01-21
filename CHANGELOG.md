@@ -47,8 +47,9 @@
 
 * [80](https://github.com/Vanessa219/vditor/issues/80) 第一次 ctrl+z 无法设置光标 `修复缺陷`
 * [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `修复缺陷`
-* [74](https://github.com/Vanessa219/vditor/issues/74) anchor 中移除 . `改进功能`
+* [77](https://github.com/Vanessa219/vditor/issues/77) 上传文件处理 `改进功能`
 * [75](https://github.com/Vanessa219/vditor/issues/75) 表格输入自动完成优化 `改进功能`
+* [74](https://github.com/Vanessa219/vditor/issues/74) anchor 中移除 . `改进功能`
 * [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`
 * [76](https://github.com/Vanessa219/vditor/issues/76) 菜单选择图片类 Emoji 无法直接显示 `修复缺陷`
 * [70](https://github.com/Vanessa219/vditor/issues/70) 所见即所得模式下Table按钮重复点击会导致table嵌套，另外希望标题支持快捷键调整大小 `引入特性`
@@ -56,6 +57,8 @@
 * [68](https://github.com/Vanessa219/vditor/issues/68) 列表标记符自动优化 `改进功能`
 * [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
+* 文档更新
+  * 添加 options.upload.file 方法
 
 ### v2.0.15 / 2020-01-11
 
