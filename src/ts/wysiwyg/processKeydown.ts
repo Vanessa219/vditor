@@ -421,7 +421,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         if (event.key === "Enter" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-            if (taskItemElement.lastChild.textContent.trim() === "") {
+            if (taskItemElement.textContent.trim() === "") {
                 if (taskItemElement.nextElementSibling) {
                     // 用段落隔断
                     let afterHTML = "";
@@ -519,7 +519,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
+    // 软换行
     if (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
+        const liElement = hasClosestByMatchTag(startContainer, "LI");
+        if (liElement && !liElement.textContent.endsWith("\n")) {
+            liElement.insertAdjacentText("beforeend", "\n");
+        }
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
