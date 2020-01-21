@@ -46,7 +46,7 @@
 
 ### v2.1.2 / 2020-01-20
 
-* [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `改进功能`
+* [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `修复缺陷`
 * [74](https://github.com/Vanessa219/vditor/issues/74) anchor 中移除 . `改进功能`
 * [75](https://github.com/Vanessa219/vditor/issues/75) 表格输入自动完成优化 `改进功能`
 * [73](https://github.com/Vanessa219/vditor/issues/73) 添加链接卡片样式 `引入特性`

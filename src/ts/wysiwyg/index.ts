@@ -2,7 +2,7 @@ import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
-import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
+import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
     hasClosestBlock,
     hasClosestByClassName,
@@ -17,7 +17,6 @@ import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender} from "./processCodeRender";
-import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
     public element: HTMLPreElement;

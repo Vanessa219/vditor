@@ -527,5 +527,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
+    if (event.key === "Enter") {
+        scrollCenter(vditor.wysiwyg.element);
+    }
+
     return false;
-};
+}

@@ -3,7 +3,7 @@ import '../src/assets/scss/classic.scss'
 
 window.vditor = new Vditor('vditor', {
   debugger: true,
-  typewriterMode: false,
+  typewriterMode: true,
   placeholder: 'placeholder',
   counter: 100,
   height: 500,
