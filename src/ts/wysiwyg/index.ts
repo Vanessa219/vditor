@@ -301,9 +301,8 @@ class WYSIWYG {
                         range.setStart(nextNode.firstElementChild.firstElementChild.firstChild, 0);
                     } else {
                         // 跳过渲染块，光标移动到下一个节点
-                        range.setStartAfter(blockRenderElement);
+                        range.setStart(nextNode.firstChild, 0);
                     }
-
                 } else {
                     range.selectNodeContents(codeElement);
                     range.collapse(false);

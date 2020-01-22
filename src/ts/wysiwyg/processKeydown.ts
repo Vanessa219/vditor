@@ -1,4 +1,4 @@
-import {Constants} from "../constants";
+import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
@@ -13,94 +13,18 @@ import {processCodeRender} from "./processCodeRender";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
 
-export const deleteKey = (vditor: IVditor, event: KeyboardEvent) => {
-    const range = getSelection().getRangeAt(0);
-    const startContainer = range.startContainer as HTMLElement;
-
-    if (startContainer.nodeType === 3 && range.startOffset === 0) {
-        // 光标位于第零个位置进行删除
-        if (range.collapsed && startContainer.parentElement.tagName === "CODE" &&
-            startContainer.parentElement.parentElement.parentElement.classList
-                .contains("vditor-wysiwyg__block") && !startContainer.previousSibling) {
-            // 光标位于渲染代码块内，仅删除代码块，内容保持不变
-            const pElement = document.createElement("p");
-            pElement.setAttribute("data-block", "0");
-            pElement.textContent = startContainer.parentElement.textContent;
-            range.setStartBefore(startContainer.parentElement.parentElement.parentElement);
-            range.insertNode(pElement);
-            range.collapse(true);
-            (vditor.wysiwyg.popover.firstElementChild as HTMLElement).click();
-            event.preventDefault();
-            return;
-        }
-
-        const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
-        if (blockquoteElement) {
-            // 光标位于引用中的第零个字符
-            blockquoteElement.outerHTML = `<p data-block="0">${blockquoteElement.innerHTML}</p>`;
-            event.preventDefault();
-            return;
-        }
-
-        const liElement = hasClosestByMatchTag(startContainer, "LI");
-        const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
-        if (blockElement) {
-            const blockRenderElement = blockElement.previousElementSibling as HTMLElement;
-            if (range.collapsed && blockRenderElement &&
-                blockRenderElement.classList.contains("vditor-wysiwyg__block") && blockElement.tagName !== "TABLE" &&
-                (!liElement || (liElement && liElement.isEqualNode(liElement.parentElement.firstElementChild)))) {
-                // 删除后光标落在代码渲染块的预览部分且光标后有内容
-                (blockRenderElement.lastElementChild as HTMLElement).click();
-                event.preventDefault();
-            }
-        }
-    } else if (startContainer.nodeType !== 3) {
-        // 光标位于 table 前，table 前有内容
-        const tableElemnt = startContainer.childNodes[range.startOffset] as HTMLElement;
-        if (tableElemnt && range.startOffset > 0 &&
-            tableElemnt.tagName === "TABLE") {
-            range.selectNodeContents(tableElemnt.previousElementSibling);
-            range.collapse(false);
-            setSelectionFocus(range);
-            event.preventDefault();
-            return;
-        }
-
-        // 段落前为代码渲染块，从段落中间开始删除，一直删除头再继续删除一次
-        if (range.startOffset === 0 && startContainer.tagName === "P") {
-            const pPrevElement = startContainer.previousElementSibling;
-            if (pPrevElement && pPrevElement.classList.contains("vditor-wysiwyg__block")) {
-                (pPrevElement.lastElementChild as HTMLElement).click();
-                event.preventDefault();
-            }
-            return;
-        }
-
-        // 渲染代码块为空
-        if (startContainer.tagName === "CODE" &&
-            (startContainer.textContent === "" || startContainer.textContent === "\n") &&
-            startContainer.parentElement.parentElement.classList.contains("vditor-wysiwyg__block")) {
-            startContainer.parentElement.parentElement.outerHTML = Constants.WYSIWYG_EMPTY_P;
-            event.preventDefault();
-            return;
-        }
-
-        const preElement = startContainer.childNodes[range.startOffset - 1] as HTMLElement;
-        if (preElement && preElement.nodeType !== 3 &&
-            preElement.classList.contains("vditor-wysiwyg__block")) {
-            // 光标从代码块向后移动到下一个段落前，进行删除
-            (preElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
-            event.preventDefault();
-        }
-    }
-};
-
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
-    // TODO deleteKey and 上下左右遇到块预览的处理重构
-    const range = getSelection().getRangeAt(0);
-    const startContainer = range.startContainer;
     // 添加第一次记录 undo 的光标
     vditor.wysiwygUndo.recordFirstWbr(vditor);
+
+    // 仅处理以下快捷键操作
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && !event.metaKey && !event.ctrlKey) {
+        return false;
+    }
+
+    // TODO 上下左右遇到块预览的处理重构
+    const range = getSelection().getRangeAt(0);
+    const startContainer = range.startContainer;
 
     // 表格自动完成
     const pElement = hasClosestByMatchTag(range.startContainer, "P");
@@ -328,8 +252,20 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // TODO shift + tab, shift and 选中文字
+
+        if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+            if (getSelectPosition(codeRenderElement, range).start === 0) {
+                // Backspace: 光标位于第零个字符，仅删除代码块标签
+                codeRenderElement.outerHTML =
+                    `<p data-block="0">${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;
+                afterRenderEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
     }
 
+    // 顶层 blockquote
     const topBQElement = hasTopClosestByTag(startContainer, "BLOCKQUOTE");
     if (topBQElement && !event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && event.key === "Enter") {
         // alt+enter: 跳出多层 blockquote 嵌套 https://github.com/Vanessa219/vditor/issues/51
@@ -345,6 +281,18 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         scrollCenter(vditor.wysiwyg.element);
         event.preventDefault();
         return true;
+    }
+
+    const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
+    if (blockquoteElement &&
+        event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        if (getSelectPosition(blockquoteElement, range).start === 0) {
+            // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
+            blockquoteElement.outerHTML = `<p data-block="0">${blockquoteElement.innerHTML}</p>`;
+            afterRenderEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
     }
 
     // h1-h6
@@ -532,6 +480,36 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         scrollCenter(vditor.wysiwyg.element);
         event.preventDefault();
         return true;
+    }
+
+    // 删除
+    if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+        if (blockElement && getSelectPosition(blockElement, range).start === 0 && blockElement.previousElementSibling
+            && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block") &&
+            blockElement.previousElementSibling.getAttribute("data-block") === "0"
+        ) {
+            // 删除后光标落于代码渲染块上
+            (blockElement.previousElementSibling.lastElementChild as HTMLElement).click();
+            if (blockElement.innerHTML.trim() === "") {
+                // 当前块为空且不是最后一个时，需要删除
+                blockElement.remove();
+                afterRenderEvent(vditor);
+            }
+            event.preventDefault();
+            return true;
+        }
+
+        if (startContainer.nodeType !== 3) {
+            // 光标位于 table 前，table 前有内容
+            const tableElement = startContainer.childNodes[range.startOffset] as HTMLElement;
+            if (tableElement && tableElement.tagName === "TABLE" && range.startOffset > 0) {
+                range.selectNodeContents(tableElement.previousElementSibling);
+                range.collapse(false);
+                event.preventDefault();
+                return true;
+            }
+        }
     }
 
     if (event.key === "Enter") {

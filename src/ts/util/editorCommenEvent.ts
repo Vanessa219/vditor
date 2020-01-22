@@ -1,7 +1,7 @@
 import {getSelectText} from "../editor/getSelectText";
 import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
-import {deleteKey, processKeydown} from "../wysiwyg/processKeydown";
+import {processKeydown} from "../wysiwyg/processKeydown";
 import {getMarkdown} from "./getMarkdown";
 import {processKeymap} from "./processKeymap";
 
@@ -90,11 +90,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
         } else {
             if (processKeydown(vditor, event)) {
-                return;
-            }
-
-            if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-                deleteKey(vditor, event);
                 return;
             }
         }
