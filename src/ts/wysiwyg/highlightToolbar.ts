@@ -579,6 +579,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     inputWrap.appendChild(input);
     input.className = "vditor-input";
     input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
+    input.style.width = "120px";
     input.value = aElement.textContent || "";
     input.onblur = updateA;
     input.oninput = (event) => {
@@ -609,7 +610,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input2Wrap.appendChild(input2);
     input2.className = "vditor-input";
     input2.setAttribute("placeholder", i18n[vditor.options.lang].tooltipText);
-    input2.style.width = "52px";
+    input2.style.width = "60px";
     input2.value = aElement.getAttribute("title") || "";
     input2.onblur = updateA;
     input2.oninput = (event) => {

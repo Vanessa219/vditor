@@ -2,7 +2,7 @@
  * panel.
  *
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.0.0, Jan 28, 2019
+ * @version 1.0.0.0, Jan 22, 2020
  */
 
 @keyframes scale-in {
@@ -60,6 +60,7 @@
     border: 0;
     padding: 3px 5px;
     background-color: $toolbarBg;
+    font-size: 12px;
 
     &:focus {
       background-color: $textareaFocusBg;
@@ -71,6 +72,8 @@
     border-radius: 3px;
     cursor: pointer;
     background-color: $toolbarBg;
+    font-size: 12px;
+    padding: 2px 7px 1px;
 
     &:focus {
       outline: none;
