@@ -116,12 +116,12 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateHotkeyTip("<⌘-⇧-e>"));
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
-                const cloneRange = getSelection().getRangeAt(0).cloneRange();
-                document.execCommand("indent", false);
+                const liElement = hasClosestByMatchTag(range.startContainer, "LI");
                 // fix 空列表缩进光标会飘逸
-                if (!vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
-                    setSelectionFocus(cloneRange);
+                if (liElement && liElement.innerHTML === "") {
+                    liElement.innerHTML = "\n";
                 }
+                document.execCommand("indent", false);
             };
 
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);

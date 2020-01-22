@@ -18,7 +18,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.wysiwygUndo.recordFirstWbr(vditor);
 
     // 仅处理以下快捷键操作
-    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && !event.metaKey && !event.ctrlKey) {
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && !event.metaKey && !event.ctrlKey
+        && event.key !== "Escape") {
         return false;
     }
 
@@ -68,7 +69,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // Backspace：光标移动到前一个 cell
         if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace"
-            && range.startOffset === 0) {
+            && range.startOffset === 0 && range.collapsed) {
             let previousElement = cellElement.previousElementSibling;
             if (!previousElement) {
                 if (cellElement.parentElement.previousElementSibling) {
@@ -254,7 +255,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // TODO shift + tab, shift and 选中文字
 
         if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-            if (getSelectPosition(codeRenderElement, range).start === 0) {
+            const codePosition = getSelectPosition(codeRenderElement, range);
+            if (codePosition.start === 0 && codePosition.end === 0) {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
                 codeRenderElement.outerHTML =
                     `<p data-block="0">${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;
@@ -284,7 +286,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
-    if (blockquoteElement &&
+    if (blockquoteElement && range.collapsed &&
         event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
         if (getSelectPosition(blockquoteElement, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
@@ -340,6 +342,40 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
+    // li
+    const liElement = hasClosestByMatchTag(startContainer, "LI");
+    if (liElement) {
+        if (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
+            if (liElement && !liElement.textContent.endsWith("\n")) {
+                // li 结尾需 \n
+                liElement.insertAdjacentText("beforeend", "\n");
+            }
+            range.insertNode(document.createTextNode("\n"));
+            range.collapse(false);
+            afterRenderEvent(vditor);
+            processCodeRender(liElement, vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        const liPosition = getSelectPosition(liElement, range);
+        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+            !liElement.previousElementSibling && liPosition.start === 0 && liPosition.end === 0) {
+            // 光标位于点和第一个字符中间时，无法删除 li 元素
+            if (liElement.nextElementSibling) {
+                liElement.parentElement.insertAdjacentHTML("beforebegin",
+                    `<p data-block="0"><wbr>${liElement.innerHTML}</p>`);
+                liElement.remove();
+                setRangeByWbr(vditor.wysiwyg.element, range);
+            } else {
+                liElement.parentElement.outerHTML = `<p data-block="0">${liElement.innerHTML}</p>`;
+            }
+            afterRenderEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+    }
+
     // task list
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
@@ -375,14 +411,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                     let afterHTML = "";
                     let beforeHTML = "";
                     let isAfter = false;
-                    taskItemElement.parentElement.querySelectorAll("li").forEach((liElement) => {
-                        if (liElement.isEqualNode(taskItemElement)) {
+                    taskItemElement.parentElement.querySelectorAll("li").forEach((taskItem) => {
+                        if (taskItem.isEqualNode(taskItem)) {
                             isAfter = true;
                         } else {
                             if (isAfter) {
-                                afterHTML += liElement.outerHTML;
+                                afterHTML += taskItem.outerHTML;
                             } else {
-                                beforeHTML += liElement.outerHTML;
+                                beforeHTML += taskItem.outerHTML;
                             }
                         }
                     });
@@ -469,10 +505,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 软换行
     if (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
-        const liElement = hasClosestByMatchTag(startContainer, "LI");
-        if (liElement && !liElement.textContent.endsWith("\n")) {
-            liElement.insertAdjacentText("beforeend", "\n");
-        }
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
@@ -483,7 +515,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 删除
-    if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+    if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+        && range.collapsed) {
         const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
         if (blockElement && getSelectPosition(blockElement, range).start === 0 && blockElement.previousElementSibling
             && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block") &&
