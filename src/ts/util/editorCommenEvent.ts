@@ -74,7 +74,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     };
 
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
-        if (event.target.tagName === "INPUT") {
+        if (event.target.tagName === "INPUT" || event.target.tagName === "BUTTON") {
             return;
         }
         const hintElement = vditor.hint && vditor.hint.element;

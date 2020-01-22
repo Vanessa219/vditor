@@ -5,7 +5,7 @@ import {getEventName} from "../util/getEventName";
 import {hasClosestByMatchTag} from "../util/hasClosest";
 import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {genAPopover, highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setCurrentToolbar} from "./setCurrentToolbar";
 
@@ -30,12 +30,16 @@ export class MenuItem {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             if (vditor.currentMode === "wysiwyg") {
                 let useHighlight = true;
+                let useRender = true;
                 const actionBtn = this.element.children[0];
                 if (actionBtn.classList.contains("vditor-menu--disabled")) {
                     return;
                 }
                 if (vditor.wysiwyg.element.querySelector("wbr")) {
                     vditor.wysiwyg.element.querySelector("wbr").remove();
+                }
+                if (getSelection().rangeCount === 0) {
+                    vditor.wysiwyg.element.focus();
                 }
                 const range = getSelection().getRangeAt(0);
                 let commandName = actionBtn.getAttribute("data-type");
@@ -143,19 +147,36 @@ export class MenuItem {
                         processCodeRender(node, vditor);
                         (node.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
                     } else if (commandName === "link") {
-                        if (range.collapsed) {
-                            const textNode = document.createTextNode("[]()");
-                            range.insertNode(textNode);
-                            range.setStart(textNode, 1);
-                            range.collapse(true);
+                        if (range.toString() === "") {
+                            const aElement = document.createElement("a");
+                            genAPopover(vditor, aElement);
+                            const buttonElement = document.createElement("button");
+                            buttonElement.innerText = i18n[vditor.options.lang].confirm;
+                            buttonElement.className = "vditor-btn";
+                            buttonElement.onclick = () => {
+                                if (textElement.value === "") {
+                                    textElement.focus();
+                                    return;
+                                }
+                                range.insertNode(aElement);
+                                vditor.wysiwyg.popover.style.display = "none";
+                            };
+                            const textElement = vditor.wysiwyg.popover.querySelector("input");
+                            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", buttonElement);
+                            vditor.wysiwyg.popover.style.top = "40px";
+                            vditor.wysiwyg.popover.style.left = (vditor.wysiwyg.element.clientWidth - 380) / 2 + "px";
+                            vditor.wysiwyg.popover.style.display = "block";
+                            textElement.focus();
+                            useHighlight = false;
+                            useRender = false;
                         } else {
                             const node = document.createElement("a");
                             node.setAttribute("href", "");
                             node.innerHTML = range.toString();
                             range.surroundContents(node);
                             range.insertNode(node);
+                            setSelectionFocus(range);
                         }
-                        setSelectionFocus(range);
                     } else if (commandName === "table") {
                         document.execCommand("insertHTML", false,
                             "<table data-block=\"0\"><thead><tr><th>col1</th><th>col2</th><th>col3</th></tr></thead>"
@@ -171,7 +192,9 @@ export class MenuItem {
                     highlightToolbar(vditor);
                 }
 
-                afterRenderEvent(vditor);
+                if (useRender) {
+                    afterRenderEvent(vditor);
+                }
             } else {
                 insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                     replace, true);

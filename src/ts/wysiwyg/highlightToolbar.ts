@@ -329,47 +329,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         // a popover
         if (typeElement.nodeName === "A") {
-            vditor.wysiwyg.popover.innerHTML = "";
-
-            const updateA = () => {
-                typeElement.setAttribute("href", input.value);
-                typeElement.setAttribute("title", input2.value);
-            };
-
-            const inputWrap = document.createElement("span");
-            inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].link);
-            inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const input = document.createElement("input");
-            inputWrap.appendChild(input);
-            input.className = "vditor-input";
-            input.setAttribute("placeholder", i18n[vditor.options.lang].link);
-            input.value = typeElement.getAttribute("href") || "";
-            input.onblur = updateA;
-            input.oninput = (event) => {
-                updateA();
-                event.preventDefault();
-                event.stopPropagation();
-            };
-
-            const input2Wrap = document.createElement("span");
-            input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].tooltipText);
-            input2Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const input2 = document.createElement("input");
-            input2Wrap.appendChild(input2);
-            input2.className = "vditor-input";
-            input2.setAttribute("placeholder", i18n[vditor.options.lang].tooltipText);
-            input2.style.width = "52px";
-            input2.value = typeElement.getAttribute("title") || "";
-            input2.onblur = updateA;
-            input2.oninput = (event) => {
-                updateA();
-                event.preventDefault();
-                event.stopPropagation();
-            };
-
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
-
+            genAPopover(vditor, typeElement);
             setPopoverPosition(vditor, typeElement);
         }
 
@@ -593,4 +553,72 @@ const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) =
         afterRenderEvent(vditor);
     };
     return close;
+};
+
+export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
+    if (!vditor.wysiwyg.element.contains(vditor.wysiwyg.popover)) {
+        vditor.wysiwyg.element.insertAdjacentElement("beforeend", vditor.wysiwyg.popover);
+    }
+
+    vditor.wysiwyg.popover.innerHTML = "";
+
+    const updateA = () => {
+        if (input.value.trim() !== "") {
+            aElement.textContent = input.value;
+        } else {
+            input.value = aElement.textContent;
+        }
+        aElement.setAttribute("href", input1.value);
+        aElement.setAttribute("title", input2.value);
+    };
+
+    const inputWrap = document.createElement("span");
+    inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
+    inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const input = document.createElement("input");
+    inputWrap.appendChild(input);
+    input.className = "vditor-input";
+    input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
+    input.value = aElement.textContent || "";
+    input.onblur = updateA;
+    input.oninput = (event) => {
+        updateA();
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    const input1Wrap = document.createElement("span");
+    input1Wrap.setAttribute("aria-label", i18n[vditor.options.lang].link);
+    input1Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const input1 = document.createElement("input");
+    input1Wrap.appendChild(input1);
+    input1.className = "vditor-input";
+    input1.setAttribute("placeholder", i18n[vditor.options.lang].link);
+    input1.value = aElement.getAttribute("href") || "";
+    input1.onblur = updateA;
+    input1.oninput = (event) => {
+        updateA();
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    const input2Wrap = document.createElement("span");
+    input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].tooltipText);
+    input2Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const input2 = document.createElement("input");
+    input2Wrap.appendChild(input2);
+    input2.className = "vditor-input";
+    input2.setAttribute("placeholder", i18n[vditor.options.lang].tooltipText);
+    input2.style.width = "52px";
+    input2.value = aElement.getAttribute("title") || "";
+    input2.onblur = updateA;
+    input2.oninput = (event) => {
+        updateA();
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
 };

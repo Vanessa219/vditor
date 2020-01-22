@@ -42,9 +42,10 @@
 * [79](https://github.com/Vanessa219/vditor/issues/79) 链接所见即所得渲染问题 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.2 / 2020-01-21
+### v2.1.2 / 2020-01-22
 
 * [84](https://github.com/Vanessa219/vditor/issues/84) 光标在 emoji 后的空格后无法对其进行删除 `修复缺陷`
+* [83](https://github.com/Vanessa219/vditor/issues/83) 所见即所得从菜单插入链接用对话框 `改进功能`
 * [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `修复缺陷`
 * [80](https://github.com/Vanessa219/vditor/issues/80) 第一次 ctrl+z 无法设置光标 `修复缺陷`
 * [78](https://github.com/Vanessa219/vditor/issues/78) 列表换行处理问题 `修复缺陷`

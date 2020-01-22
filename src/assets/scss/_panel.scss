@@ -67,6 +67,17 @@
     }
   }
 
+  &-btn {
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: $toolbarBg;
+
+    &:focus {
+      outline: none;
+      background-color: $textareaFocusBg;
+    }
+  }
+
   &-icon {
     color: $toolbarIcon;
     cursor: pointer;
@@ -79,7 +90,7 @@
     box-sizing: border-box;
 
     &:hover,
-    &--current{
+    &--current {
       color: $toolbarIconHover;
       background-color: transparent;
     }
