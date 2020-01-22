@@ -39,14 +39,14 @@
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `enhancement`
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
-* [78](https://github.com/Vanessa219/vditor/issues/78) 链接所见即所得渲染问题 `改进功能`
 * [79](https://github.com/Vanessa219/vditor/issues/79) 链接所见即所得渲染问题 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
 ### v2.1.2 / 2020-01-21
 
-* [80](https://github.com/Vanessa219/vditor/issues/80) 第一次 ctrl+z 无法设置光标 `修复缺陷`
 * [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `修复缺陷`
+* [80](https://github.com/Vanessa219/vditor/issues/80) 第一次 ctrl+z 无法设置光标 `修复缺陷`
+* [78](https://github.com/Vanessa219/vditor/issues/78) 列表换行处理问题 `修复缺陷`
 * [77](https://github.com/Vanessa219/vditor/issues/77) 上传文件处理 `改进功能`
 * [75](https://github.com/Vanessa219/vditor/issues/75) 表格输入自动完成优化 `改进功能`
 * [74](https://github.com/Vanessa219/vditor/issues/74) anchor 中移除 . `改进功能`
