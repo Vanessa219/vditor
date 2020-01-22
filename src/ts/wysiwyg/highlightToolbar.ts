@@ -21,6 +21,7 @@ import {
 import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -552,14 +553,8 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
     insertBefore.innerHTML = beforeSVG;
     insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertBefore.onclick = () => {
-        range.setStartBefore(element);
-        setSelectionFocus(range);
-        const node = document.createElement("p");
-        node.setAttribute("data-block", "0");
-        node.innerHTML = "\u200b\n";
-        range.insertNode(node);
-        range.collapse(true);
-        setSelectionFocus(range);
+        element.insertAdjacentHTML("beforebegin", "<p>\u200b<wbr>\n</p>");
+        setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
     };
@@ -574,14 +569,8 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
     insertAfter.innerHTML = afterSVG;
     insertAfter.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertAfter.onclick = () => {
-        range.setStartAfter(element);
-        setSelectionFocus(range);
-        const node = document.createElement("p");
-        node.setAttribute("data-block", "0");
-        node.innerHTML = "\u200b\n";
-        range.insertNode(node);
-        range.collapse(true);
-        setSelectionFocus(range);
+        element.insertAdjacentHTML("afterend", "<p>\u200b<wbr>\n</p>");
+        setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
     };

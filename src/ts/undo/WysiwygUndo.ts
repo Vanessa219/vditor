@@ -51,6 +51,7 @@ class WysiwygUndo {
             getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
             this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
             this.lastText = this.undoStack[0][0].diffs[0][1];
+            vditor.wysiwyg.element.querySelector("wbr").remove();
         }
     }
 
