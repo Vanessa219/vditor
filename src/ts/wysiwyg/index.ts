@@ -267,7 +267,7 @@ class WYSIWYG {
             }
         });
 
-        this.element.addEventListener("keyup", (event: IHTMLInputEvent) => {
+        this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "INPUT") {
                 return;
             }

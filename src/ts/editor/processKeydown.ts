@@ -57,7 +57,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // delete
-    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.key === "Backspace") {
+    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.keyCode === 8) {
         if (position.start !== position.end) {
             insertText(vditor, "", "", true);
         } else {

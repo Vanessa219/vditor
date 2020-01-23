@@ -16,13 +16,14 @@ import {setRangeByWbr} from "./setRangeByWbr";
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
     vditor.wysiwygUndo.recordFirstWbr(vditor);
-
     // 仅处理以下快捷键操作
-    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && !event.metaKey && !event.ctrlKey
-        && event.key !== "Escape") {
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
+        && !event.metaKey && !event.ctrlKey && event.key !== "Escape") {
         return false;
     }
-
+    if (event.isComposing) {
+        return false;
+    }
     // TODO 上下左右遇到块预览的处理重构
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
@@ -412,7 +413,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                     let beforeHTML = "";
                     let isAfter = false;
                     taskItemElement.parentElement.querySelectorAll("li").forEach((taskItem) => {
-                        if (taskItem.isEqualNode(taskItem)) {
+                        if (taskItemElement.isEqualNode(taskItem)) {
                             isAfter = true;
                         } else {
                             if (isAfter) {
