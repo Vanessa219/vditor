@@ -74,6 +74,9 @@
     background-color: $toolbarBg;
     font-size: 12px;
     padding: 2px 7px 1px;
+    border: 1px solid $borderColor;
+    line-height: 16px;
+    float: right;
 
     &:focus {
       outline: none;
