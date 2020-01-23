@@ -22,6 +22,7 @@ import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {Constants} from "../constants";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -514,7 +515,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
     insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertBefore.onclick = () => {
         // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("beforebegin", "<p>\u200b<wbr>\n</p>");
+        element.insertAdjacentHTML("beforebegin", `<p>${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
@@ -531,7 +532,7 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
     insertAfter.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertAfter.onclick = () => {
         // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("afterend", "<p>\u200b<wbr>\n</p>");
+        element.insertAdjacentHTML("afterend", `<p>${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);

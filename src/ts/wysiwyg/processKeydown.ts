@@ -12,6 +12,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {Constants} from "../constants";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
@@ -46,6 +47,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
+    // inline code: 光标位于 inline code 前的零宽字符之前或之后进行删除
+    if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
+        range.toString() === "" && range.startContainer.textContent === Constants.ZWSP && range.startOffset === 1
+        && !range.startContainer.previousSibling) {
+        vditor.wysiwyg.preventInput = true
+        range.startContainer.textContent = ""
+        return true;
+    }
+
     // table
     const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
         hasClosestByMatchTag(startContainer, "TH");
@@ -53,16 +63,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // 换行或软换行：在 cell 中添加 br
         if ((!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Enter") ||
             (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter")) {
-            const brElement = document.createElement("span");
-            brElement.className = "vditor-wysiwyg__block";
-            brElement.setAttribute("data-type", "html-inline");
-            brElement.innerHTML = '<code data-type="html-inline">&lt;br /&gt;</code>';
-            processCodeRender(brElement, vditor);
-            range.insertNode(document.createTextNode(" "));
-            range.insertNode(brElement);
-            range.setStartAfter(brElement.nextSibling);
-            range.collapse(false);
-            setSelectionFocus(range);
+            if (!cellElement.lastElementChild ||
+                (cellElement.lastElementChild && (!cellElement.lastElementChild.isEqualNode(cellElement.lastChild) ||
+                    cellElement.lastElementChild.tagName !== "BR"))) {
+                cellElement.insertAdjacentHTML("beforeend", "<br>");
+            }
+            const brElement = document.createElement('br')
+            range.insertNode(brElement)
+            range.setStartAfter(brElement)
             afterRenderEvent(vditor);
             event.preventDefault();
             return true;

@@ -21,6 +21,10 @@
     content: ' ';
   }
 
+  code {
+    display: inline-block;
+  }
+
   &__block {
     &[data-type="html-block"] > pre,
     &[data-type="math-block"] > pre {
@@ -34,6 +38,7 @@
         background-color: #fff !important;
         border: 1px solid $borderColor;
         overflow: auto !important;
+        display: block;
       }
     }
 
