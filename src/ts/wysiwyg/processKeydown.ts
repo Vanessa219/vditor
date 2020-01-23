@@ -257,7 +257,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
             const codePosition = getSelectPosition(codeRenderElement, range);
-            if (codePosition.start === 0 && codePosition.end === 0) {
+            if (codePosition.start === 0 && range.toString() === "") {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
                 codeRenderElement.outerHTML =
                     `<p data-block="0">${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;
@@ -359,9 +359,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        const liPosition = getSelectPosition(liElement, range);
         if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
-            !liElement.previousElementSibling && liPosition.start === 0 && liPosition.end === 0) {
+            !liElement.previousElementSibling && range.toString() === "" &&
+            getSelectPosition(liElement, range).start === 0) {
             // 光标位于点和第一个字符中间时，无法删除 li 元素
             if (liElement.nextElementSibling) {
                 liElement.parentElement.insertAdjacentHTML("beforebegin",

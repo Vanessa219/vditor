@@ -42,6 +42,7 @@
 
 ### v2.1.2 / 2020-01-22
 
+* [85](https://github.com/Vanessa219/vditor/issues/85) after ctrl+z `修复缺陷`
 * [84](https://github.com/Vanessa219/vditor/issues/84) 光标在 emoji 后的空格后无法对其进行删除 `修复缺陷`
 * [83](https://github.com/Vanessa219/vditor/issues/83) 所见即所得从菜单插入链接用对话框 `改进功能`
 * [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `修复缺陷`
