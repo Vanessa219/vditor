@@ -4,6 +4,7 @@ import beforeSVG from "../../assets/icons/before.svg";
 import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
+import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n";
 import {disableToolbar} from "../toolbar/disableToolbar";
@@ -22,7 +23,6 @@ import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
-import {Constants} from "../constants";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);

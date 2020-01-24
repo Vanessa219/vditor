@@ -2,11 +2,11 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
+import {addP2Li} from "../wysiwyg/addP2Li";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
-import {addP2Li} from "../wysiwyg/addP2Li";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -50,11 +50,11 @@ class WysiwygUndo {
     public recordFirstWbr(vditor: IVditor) {
         if (this.undoStack.length === 1) {
             getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
-            const cloneEditorElement = document.createElement('pre')
-            cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML
-            cloneEditorElement.querySelectorAll('ul').forEach(item => {
+            const cloneEditorElement = document.createElement("pre");
+            cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
+            cloneEditorElement.querySelectorAll("ul").forEach((item) => {
                 addP2Li(item);
-            })
+            });
             this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
             this.lastText = this.undoStack[0][0].diffs[0][1];
             vditor.wysiwyg.element.querySelector("wbr").remove();
@@ -66,11 +66,11 @@ class WysiwygUndo {
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
             getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
         }
-        const cloneEditorElement = document.createElement('pre')
-        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML
-        cloneEditorElement.querySelectorAll('ul').forEach(item => {
+        const cloneEditorElement = document.createElement("pre");
+        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
+        cloneEditorElement.querySelectorAll("ul").forEach((item) => {
             addP2Li(item);
-        })
+        });
         const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
         if (vditor.wysiwyg.element.querySelector("wbr")) {
             vditor.wysiwyg.element.querySelector("wbr").remove();

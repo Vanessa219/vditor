@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {scrollCenter} from "../util/editorCommenEvent";
@@ -12,7 +13,6 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
-import {Constants} from "../constants";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
@@ -51,8 +51,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
         range.toString() === "" && range.startContainer.textContent === Constants.ZWSP && range.startOffset === 1
         && !range.startContainer.previousSibling) {
-        vditor.wysiwyg.preventInput = true
-        range.startContainer.textContent = ""
+        vditor.wysiwyg.preventInput = true;
+        range.startContainer.textContent = "";
         return true;
     }
 
@@ -68,9 +68,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                     cellElement.lastElementChild.tagName !== "BR"))) {
                 cellElement.insertAdjacentHTML("beforeend", "<br>");
             }
-            const brElement = document.createElement('br')
-            range.insertNode(brElement)
-            range.setStartAfter(brElement)
+            const brElement = document.createElement("br");
+            range.insertNode(brElement);
+            range.setStartAfter(brElement);
             afterRenderEvent(vditor);
             event.preventDefault();
             return true;
