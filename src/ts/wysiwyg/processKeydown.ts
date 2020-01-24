@@ -13,26 +13,31 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {highlightToolbar} from "./highlightToolbar";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
     vditor.wysiwygUndo.recordFirstWbr(vditor);
+
+    highlightToolbar(vditor);
+
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
-        && !event.metaKey && !event.ctrlKey && event.key !== "Escape") {
+        && !event.metaKey && !event.ctrlKey && event.key !== "Escape"
+        && event.key !== "ArrowDown" && event.key !== "ArrowRight"
+        && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
         return false;
     }
     if (event.isComposing) {
         return false;
     }
-    // TODO 上下左右遇到块预览的处理重构
+
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
 
-    // 表格自动完成
-    const pElement = hasClosestByMatchTag(range.startContainer, "P");
-    if (pElement && ((!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Enter") ||
-        (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter"))) {
+    // table 自动完成
+    const pElement = hasClosestByMatchTag(startContainer, "P");
+    if (pElement && !event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Enter") {
         const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
         const pTextList = pText.split("|");
         if (pText.startsWith("|") && pText.endsWith("|") && pTextList.length > 3) {
@@ -47,22 +52,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // inline code: 光标位于 inline code 前的零宽字符之前或之后进行删除
-    if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
-        range.toString() === "" && range.startContainer.textContent === Constants.ZWSP && range.startOffset === 1
-        && !range.startContainer.previousSibling) {
-        vditor.wysiwyg.preventInput = true;
-        range.startContainer.textContent = "";
-        return true;
-    }
-
     // table
     const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
         hasClosestByMatchTag(startContainer, "TH");
     if (cellElement) {
         // 换行或软换行：在 cell 中添加 br
-        if ((!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Enter") ||
-            (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter")) {
+        if (!event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Enter") {
             if (!cellElement.lastElementChild ||
                 (cellElement.lastElementChild && (!cellElement.lastElementChild.isEqualNode(cellElement.lastChild) ||
                     cellElement.lastElementChild.tagName !== "BR"))) {
@@ -72,6 +67,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.insertNode(brElement);
             range.setStartAfter(brElement);
             afterRenderEvent(vditor);
+            scrollCenter(vditor.wysiwyg.element);
             event.preventDefault();
             return true;
         }
@@ -209,6 +205,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
+    // code render
     const codeRenderElement = hasClosestByClassName(startContainer, "vditor-wysiwyg__block");
     if (codeRenderElement) {
         // esc: 退出编辑，仅展示渲染
@@ -246,6 +243,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.collapse(false);
             afterRenderEvent(vditor);
             processCodeRender(codeRenderElement, vditor);
+            scrollCenter(vditor.wysiwyg.element);
             event.preventDefault();
             return true;
         }
@@ -294,6 +292,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
+    // blockquote
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.collapsed &&
         event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
@@ -490,7 +489,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // tab 处理，需放在 cell tab 处理之后
+    // tab 处理, block code render 和 table 中的 tab 处理单独写在上面
     if (event.key === "Tab") {
         if (event.shiftKey) {
             // TODO shift+tab
@@ -512,7 +511,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // 软换行
+    // shift+enter：软换行，但 table 自动完成、cell 内换行、block render 换行、li 软换行处理单独写在上面
     if (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
@@ -554,6 +553,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
+    // 除 table 自动完成、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出 blockquote、h6 换行、任务列表换行、软换行外需在换行时调整文档位置
     if (event.key === "Enter") {
         scrollCenter(vditor.wysiwyg.element);
     }
