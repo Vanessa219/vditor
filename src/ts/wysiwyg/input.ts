@@ -28,28 +28,24 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         blockElement = vditor.wysiwyg.element;
     }
 
-    // 修正光标位于 math inline 第0个字符时，按下删除按钮 code 中内容会被删除
-    blockElement.querySelectorAll('.vditor-wysiwyg__block[data-type="math-inline"]').forEach((math) => {
-        if (!math.querySelector("code")) {
-            const previewElement = math.querySelector(".vditor-wysiwyg__preview");
-            previewElement.insertAdjacentHTML("beforebegin", `<code data-type="math-inline">${
-                math.querySelector(".vditor-math").getAttribute("data-math")}</code>`);
+    // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
+    blockElement.querySelectorAll('.vditor-wysiwyg__block[data-type$="-inline"]').forEach((item) => {
+        if (!item.querySelector("code")) {
+            const previewElement = item.querySelector(".vditor-wysiwyg__preview");
+            if (item.getAttribute("data-type") === "html-inline") {
+                previewElement.insertAdjacentHTML("beforebegin", `<code data-type="html-inline">${
+                    item.querySelector(".vditor-wysiwyg__preview").getAttribute("data-html")}</code>`);
+            } else {
+                previewElement.insertAdjacentHTML("beforebegin", `<code data-type="math-inline">${
+                    item.querySelector(".vditor-math").getAttribute("data-math")}</code>`);
+            }
         }
     });
 
-    const previewCodeElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
-    const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-    if (previewCodeElement) {
-        previewCodeElement.click();
-        if (blockRenderElement) {
-            processCodeRender(blockRenderElement, vditor);
-        }
-        return;
-    }
-
+    const renderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
     const codeElement = hasClosestByTag(range.startContainer, "CODE");
-    if (codeElement && blockRenderElement) {
-        processCodeRender(blockRenderElement, vditor);
+    if (codeElement && renderElement && renderElement.getAttribute("data-block") === "0") {
+        processCodeRender(renderElement, vditor);
     } else if (event.inputType !== "formatItalic"
         && event.inputType !== "deleteByDrag"
         && event.inputType !== "insertFromDrop"
@@ -118,6 +114,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         setRangeByWbr(vditor.wysiwyg.element, range);
 
         blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+        if (range.startContainer.nodeType !== 3 && !blockElement) {
+            blockElement = (range.startContainer as HTMLElement).children[range.startOffset] as HTMLElement
+        }
         if (blockElement && blockElement.querySelectorAll("code").length > 0) {
             // TODO: 目前为全局渲染。可优化为只选取当前列表、当前列表紧邻的前后列表；最顶层列表；当前块进行渲染
             vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(

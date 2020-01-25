@@ -7,6 +7,7 @@ import {codeRender} from "../markdown/codeRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {hasClosestByTag} from "../util/hasClosest";
 
 export const showCode = (previewElement: HTMLElement, first = true) => {
     const previousElement = previewElement.previousElementSibling as HTMLElement;
@@ -77,6 +78,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
             .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
         if (blockType === "html-inline") {
             previewPanel.innerHTML = codeSVG + tempHTML.replace(Constants.ZWSP, "");
+            previewPanel.setAttribute('data-html', innerHTML.replace(Constants.ZWSP, ""))
             return;
         }
         previewPanel.innerHTML = tempHTML;
@@ -84,5 +86,16 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         previewPanel.innerHTML = `<${tagName} class="vditor-math">${
             innerHTML.replace(Constants.ZWSP, "")}</${tagName}>`;
         mathRenderByLute(previewPanel, vditor.options.cdn);
+    }
+
+    if (getSelection().rangeCount > 0) {
+        const range = getSelection().getRangeAt(0)
+        if (blockElement.contains(range.startContainer) && hasClosestByTag(range.startContainer, "CODE")) {
+            let display = "inline-block"
+            if (blockElement.firstElementChild.tagName === "PRE") {
+                display = "block"
+            }
+            (blockElement.firstElementChild as HTMLElement).style.display = display
+        }
     }
 };

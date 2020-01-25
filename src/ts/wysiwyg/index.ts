@@ -314,8 +314,10 @@ class WYSIWYG {
                 } else {
                     // 跳过渲染块，光标移动到下一个节点
                     if (nextNode.nodeType === 3) {
-                        range.setStart(nextNode, 0);
+                        // inline
+                        range.setStart(nextNode, 1);
                     } else {
+                        // block
                         range.setStart(nextNode.firstChild, 0);
                     }
                 }

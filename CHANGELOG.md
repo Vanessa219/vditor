@@ -61,6 +61,7 @@
 * [67](https://github.com/Vanessa219/vditor/issues/67) code、inline-math、inline-html 优化 `改进功能`
 * [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
+* [60](https://github.com/Vanessa219/vditor/issues/60) 行内代码删除错误 `修复缺陷`
 * 文档更新
   * 添加 options.upload.file 方法
 

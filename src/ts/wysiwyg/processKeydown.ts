@@ -258,7 +258,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // TODO shift + tab, shift and 选中文字
 
-        if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+        && codeRenderElement.getAttribute("data-block") === "0") {
             const codePosition = getSelectPosition(codeRenderElement, range);
             if (codePosition.start === 0 && range.toString() === "") {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
