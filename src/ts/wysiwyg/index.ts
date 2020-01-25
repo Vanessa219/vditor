@@ -16,7 +16,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
-import {processCodeRender} from "./processCodeRender";
+import {processCodeRender, showCode} from "./processCodeRender";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -274,7 +274,9 @@ class WYSIWYG {
             if (event.isComposing) {
                 return;
             }
+
             highlightToolbar(vditor);
+
             if (event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "Backspace"
                 && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
                 return;
@@ -287,34 +289,39 @@ class WYSIWYG {
             if (!previewElement) {
                 return;
             }
+            const previousElement = previewElement.previousElementSibling as HTMLElement;
+            if (previousElement.style.display === "none") {
+                if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+                    showCode(previewElement);
+                } else {
+                    showCode(previewElement, false);
+                }
+                return;
+            }
+
             let codeElement = previewElement.previousElementSibling as HTMLElement;
             if (codeElement.tagName === "PRE") {
                 codeElement = codeElement.firstElementChild as HTMLElement;
             }
-            if (codeElement.style.display === "none") {
-                previewElement.click();
-            } else {
-                if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-                    const blockRenderElement = previewElement.parentElement;
-                    const nextNode = blockRenderElement.nextSibling as HTMLElement;
-                    if (nextNode && nextNode.nodeType !== 3 &&
-                        nextNode.classList.contains("vditor-wysiwyg__block")) {
-                        // 下一节点依旧为代码渲染块
-                        (nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
-                        range.setStart(nextNode.firstElementChild.firstElementChild.firstChild, 0);
-                    } else {
-                        // 跳过渲染块，光标移动到下一个节点
-                        if (nextNode.nodeType === 3) {
-                            range.setStart(nextNode, 0);
-                        } else {
-                            range.setStart(nextNode.firstChild, 0);
-                        }
-                    }
+
+            if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+                const blockRenderElement = previewElement.parentElement;
+                const nextNode = blockRenderElement.nextSibling as HTMLElement;
+                if (nextNode && nextNode.nodeType !== 3 &&
+                    nextNode.classList.contains("vditor-wysiwyg__block")) {
+                    // 下一节点依旧为代码渲染块
+                    showCode(nextNode.querySelector(".vditor-wysiwyg__preview"));
                 } else {
-                    range.selectNodeContents(codeElement);
-                    range.collapse(false);
+                    // 跳过渲染块，光标移动到下一个节点
+                    if (nextNode.nodeType === 3) {
+                        range.setStart(nextNode, 0);
+                    } else {
+                        range.setStart(nextNode.firstChild, 0);
+                    }
                 }
-                setSelectionFocus(range);
+            } else {
+                range.selectNodeContents(codeElement);
+                range.collapse(false);
             }
         });
     }

@@ -58,6 +58,7 @@
 * [70](https://github.com/Vanessa219/vditor/issues/70) 所见即所得模式下Table按钮重复点击会导致table嵌套，另外希望标题支持快捷键调整大小 `引入特性`
 * [69](https://github.com/Vanessa219/vditor/issues/69) 渲染块按 esc 可以进行退出代码块进行预览 `改进功能`
 * [68](https://github.com/Vanessa219/vditor/issues/68) 列表标记符自动优化 `改进功能`
+* [67](https://github.com/Vanessa219/vditor/issues/67) code、inline-math、inline-html 优化 `改进功能`
 * [66](https://github.com/Vanessa219/vditor/issues/66) 表格优化 `改进功能`
 * [65](https://github.com/Vanessa219/vditor/issues/65) 任务列表回车、删除优化 `改进功能`
 * 文档更新

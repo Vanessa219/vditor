@@ -8,6 +8,32 @@ import {highlightRender} from "../markdown/highlightRender";
 import {mathRenderByLute} from "../markdown/mathRenderByLute";
 import {mermaidRender} from "../markdown/mermaidRender";
 
+export const showCode = (previewElement: HTMLElement, first = true) => {
+    const previousElement = previewElement.previousElementSibling as HTMLElement;
+    const range = previousElement.ownerDocument.createRange();
+    if (previousElement.tagName === "CODE") {
+        previousElement.style.display = "inline-block";
+        if (first) {
+            range.setStart(previousElement.firstChild, 1);
+        } else {
+            range.selectNodeContents(previousElement);
+        }
+    } else {
+        previousElement.style.display = "block";
+
+        if (!previousElement.firstChild.firstChild) {
+            previousElement.firstChild.appendChild(document.createTextNode(""));
+        }
+        range.selectNodeContents(previousElement.firstChild)
+    }
+    if (first) {
+        range.collapse(true);
+    } else {
+        range.collapse(false);
+    }
+    setSelectionFocus(range);
+};
+
 // html, math, math-inline, code block, abc, chart, mermaid
 export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) => {
     const blockType = blockElement.getAttribute("data-type");
@@ -20,30 +46,6 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         blockElement.insertAdjacentHTML("beforeend", `<${tagName} class="vditor-wysiwyg__preview"></${tagName}>`);
         previewPanel = blockElement.querySelector(".vditor-wysiwyg__preview");
         previewPanel.setAttribute("data-render", "false");
-        const showCode = (previewElement: HTMLElement) => {
-            let showCodeElement = previewElement.previousElementSibling as HTMLElement;
-            if (showCodeElement.tagName === "PRE") {
-                showCodeElement = showCodeElement.firstElementChild as HTMLElement;
-            }
-
-            const range = showCodeElement.ownerDocument.createRange();
-            if (showCodeElement.parentElement && showCodeElement.parentElement.tagName !== "PRE") {
-                showCodeElement.style.display = "inline-block";
-                if (showCodeElement.parentElement.previousSibling) {
-                    range.setStart(showCodeElement.firstChild, 1);
-                } else {
-                    range.setStart(showCodeElement.firstChild, 0);
-                }
-            } else {
-                showCodeElement.parentElement.style.display = "block";
-                if (!showCodeElement.firstChild) {
-                    showCodeElement.appendChild(document.createTextNode(""));
-                }
-                range.setStart(showCodeElement.firstChild, 0);
-            }
-            range.collapse(true);
-            setSelectionFocus(range);
-        };
         previewPanel.addEventListener("click", () => {
             showCode(previewPanel);
         });

@@ -419,10 +419,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             setPopoverPosition(vditor, imgElement);
         }
 
-        const blockElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
-        if (blockElement) {
+        const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+        if (blockRenderElement) {
             // block popover: math-inline, math-block, html-block, html-inline, code-block
-            const blockType = blockElement.getAttribute("data-type");
+            const blockType = blockRenderElement.getAttribute("data-type");
             vditor.wysiwyg.popover.innerHTML = "";
 
             const languageWrap = document.createElement("span");
@@ -431,15 +431,15 @@ export const highlightToolbar = (vditor: IVditor) => {
             const language = document.createElement("input");
             languageWrap.appendChild(language);
             if (blockType.indexOf("block") > -1) {
-                const insertBefore = genInsertBefore(range, blockElement, vditor);
-                const insertAfter = genInsertAfter(range, blockElement, vditor);
-                const close = genClose(vditor.wysiwyg.popover, blockElement, vditor);
+                const insertBefore = genInsertBefore(range, blockRenderElement, vditor);
+                const insertAfter = genInsertAfter(range, blockRenderElement, vditor);
+                const close = genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
                 vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
                 vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
                 vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
 
                 if (blockType === "code-block") {
-                    const codeElement = blockElement.firstElementChild.firstElementChild;
+                    const codeElement = blockRenderElement.firstElementChild.firstElementChild;
 
                     const updateLanguage = () => {
                         codeElement.className = `language-${language.value}`;
@@ -451,7 +451,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     language.onblur = updateLanguage;
                     language.oninput = (event) => {
                         updateLanguage();
-                        processCodeRender(blockElement, vditor);
+                        processCodeRender(blockRenderElement, vditor);
                         afterRenderEvent(vditor);
                         event.preventDefault();
                         event.stopPropagation();
@@ -467,10 +467,14 @@ export const highlightToolbar = (vditor: IVditor) => {
                     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
                 }
             }
-            setPopoverPosition(vditor, blockElement);
+            setPopoverPosition(vditor, blockRenderElement);
+        } else {
+            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((itemElement) => {
+                (itemElement.firstElementChild as HTMLElement).style.display = "none";
+            });
         }
 
-        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockElement
+        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement
             && typeElement.nodeName !== "A" && !hasClosestByClassName(typeElement, "vditor-panel")) {
             vditor.wysiwyg.popover.style.display = "none";
         }

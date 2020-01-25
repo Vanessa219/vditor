@@ -11,7 +11,7 @@ import {
 import {processKeymap} from "../util/processKeymap";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsCode} from "./inlineTag";
-import {processCodeRender} from "./processCodeRender";
+import {processCodeRender, showCode} from "./processCodeRender";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
 
@@ -71,7 +71,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // Backspace：光标移动到前一个 cell
         if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace"
-            && range.startOffset === 0 && range.collapsed) {
+            && range.startOffset === 0 && range.toString() === "") {
             let previousElement = cellElement.previousElementSibling;
             if (!previousElement) {
                 if (cellElement.parentElement.previousElementSibling) {
@@ -246,7 +246,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // tab
-        if (event.key === "Tab" && !event.shiftKey && range.collapsed &&
+        if (event.key === "Tab" && !event.shiftKey && range.toString() === "" &&
             codeRenderElement.getAttribute("data-block") === "0") {
             range.insertNode(document.createTextNode(vditor.options.tab));
             range.collapse(false);
@@ -299,7 +299,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // blockquote
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
-    if (blockquoteElement && range.collapsed &&
+    if (blockquoteElement && range.toString() === "" &&
         event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
         if (getSelectPosition(blockquoteElement, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
@@ -394,7 +394,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (taskItemElement) {
         // Backspace: 在选择框前进行删除
         if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
-            && range.collapsed && ((startContainer.nodeType === 3 && range.startOffset === 1 &&
+            && range.toString() === "" && ((startContainer.nodeType === 3 && range.startOffset === 1 &&
                 (startContainer.previousSibling as HTMLElement).tagName === "INPUT") ||
                 startContainer.nodeType !== 3)) {
             const previousElement = taskItemElement.previousElementSibling;
@@ -499,7 +499,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (event.shiftKey) {
             // TODO shift+tab
         } else {
-            if (range.collapsed) {
+            if (range.toString() === "") {
                 range.insertNode(document.createTextNode(vditor.options.tab));
                 range.collapse(false);
                 if (codeRenderElement) {
@@ -529,15 +529,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 删除
     if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
-        && range.collapsed) {
+        && range.toString() === "") {
         const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
         if (blockElement && getSelectPosition(blockElement, range).start === 0 && blockElement.previousElementSibling
             && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block") &&
             blockElement.previousElementSibling.getAttribute("data-block") === "0"
         ) {
             // 删除后光标落于代码渲染块上
-            (blockElement.previousElementSibling.lastElementChild as HTMLElement).click();
-            if (blockElement.innerHTML.trim() === "") {
+            showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false)
+            // (blockElement.previousElementSibling.lastElementChild as HTMLElement).click();
+            if (blockElement.innerHTML.trim() === "" &&
+                !blockElement.nextElementSibling.classList.contains("vditor-panel--none")) {
                 // 当前块为空且不是最后一个时，需要删除
                 blockElement.remove();
                 afterRenderEvent(vditor);
