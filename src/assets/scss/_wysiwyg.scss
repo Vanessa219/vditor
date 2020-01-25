@@ -31,8 +31,13 @@
       margin-bottom: 0;
     }
 
+    & > code {
+      display: none;
+    }
+
     & > pre {
       margin-bottom: -1em;
+      display: none;
 
       & > code {
         background-color: #fff !important;

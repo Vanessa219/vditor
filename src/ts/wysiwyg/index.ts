@@ -267,7 +267,7 @@ class WYSIWYG {
             }
         });
 
-        this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {
+        this.element.addEventListener("keyups", (event: KeyboardEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "INPUT") {
                 return;
             }
@@ -277,9 +277,17 @@ class WYSIWYG {
                 && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
                 return;
             }
+            const range = getSelection().getRangeAt(0);
+
+            // inline-code 位于首行无法再之前添加文字
+            if (event.key === "ArrowLeft" && range.startContainer.parentElement.tagName === "CODE"
+                && !range.startContainer.previousSibling && range.startOffset === 0) {
+                // range.startContainer.parentElement.insertAdjacentText("beforebegin", Constants.ZWSP);
+                // range.setStart(range.startContainer.parentElement.previousSibling, 1);
+                // return;
+            }
 
             // 上下左右遇到块预览的处理
-            const range = getSelection().getRangeAt(0);
             const previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
             if (!previewElement) {
                 return;
@@ -301,7 +309,11 @@ class WYSIWYG {
                         range.setStart(nextNode.firstElementChild.firstElementChild.firstChild, 0);
                     } else {
                         // 跳过渲染块，光标移动到下一个节点
-                        range.setStart(nextNode.firstChild, 0);
+                        if (nextNode.nodeType === 3) {
+                            range.setStart(nextNode, 0);
+                        } else {
+                            range.setStart(nextNode.firstChild, 0);
+                        }
                     }
                 } else {
                     range.selectNodeContents(codeElement);

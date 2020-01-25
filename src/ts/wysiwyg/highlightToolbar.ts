@@ -468,15 +468,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             }
             setPopoverPosition(vditor, blockElement);
-            blockElement.firstElementChild.removeAttribute("style");
-        } else {
-            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block")
-                .forEach((blockElementItem: HTMLElement) => {
-                    const codeElement = blockElementItem.firstElementChild as HTMLElement;
-                    if (codeElement.innerText.trim() !== "") {
-                        codeElement.style.display = "none";
-                    }
-                });
         }
 
         if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockElement

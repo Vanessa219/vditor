@@ -1,4 +1,3 @@
-import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {scrollCenter} from "../util/editorCommenEvent";
@@ -14,6 +13,8 @@ import {processCodeRender} from "./processCodeRender";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
 import {highlightToolbar} from "./highlightToolbar";
+import {Constants} from "../constants";
+import {nextIsCode} from "./inlineTag";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
@@ -23,9 +24,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
-        && !event.metaKey && !event.ctrlKey && event.key !== "Escape"
-        && event.key !== "ArrowDown" && event.key !== "ArrowRight"
-        && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
+        && !event.metaKey && !event.ctrlKey && event.key !== "Escape") {
         return false;
     }
     if (event.isComposing) {
@@ -272,6 +271,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 return true;
             }
         }
+    }
+
+    // inline code、math、html 行前零宽字符后进行删除
+    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+        startContainer.textContent === Constants.ZWSP && range.startOffset === 1 && !startContainer.previousSibling &&
+        nextIsCode(range)) {
+        startContainer.textContent = ""
+        return true;
     }
 
     // 顶层 blockquote
