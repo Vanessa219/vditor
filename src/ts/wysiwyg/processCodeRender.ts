@@ -1,4 +1,5 @@
 import codeSVG from "../../assets/icons/code.svg";
+import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
@@ -27,7 +28,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
 
             const range = showCodeElement.ownerDocument.createRange();
             if (showCodeElement.parentElement && showCodeElement.parentElement.tagName !== "PRE") {
-                showCodeElement.style.display = "inline";
+                showCodeElement.style.display = "inline-block";
                 if (showCodeElement.parentElement.previousSibling) {
                     range.setStart(showCodeElement.firstChild, 1);
                 } else {
@@ -73,12 +74,13 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         const tempHTML = innerHTML.replace(/&amp;/g, "&")
             .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
         if (blockType === "html-inline") {
-            previewPanel.innerHTML = codeSVG + tempHTML;
+            previewPanel.innerHTML = codeSVG + tempHTML.replace(Constants.ZWSP, "");
             return;
         }
         previewPanel.innerHTML = tempHTML;
     } else if (blockType.indexOf("math") > -1) {
-        previewPanel.innerHTML = `<${tagName} class="vditor-math">${innerHTML}</${tagName}>`;
+        previewPanel.innerHTML = `<${tagName} class="vditor-math">${
+            innerHTML.replace(Constants.ZWSP, "")}</${tagName}>`;
         mathRenderByLute(previewPanel, vditor.options.cdn);
     }
 };

@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
 import {scrollCenter} from "../util/editorCommenEvent";
@@ -9,25 +10,22 @@ import {
 } from "../util/hasClosest";
 import {processKeymap} from "../util/processKeymap";
 import {afterRenderEvent} from "./afterRenderEvent";
+import {nextIsCode} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
-import {highlightToolbar} from "./highlightToolbar";
-import {Constants} from "../constants";
-import {nextIsCode} from "./inlineTag";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
     vditor.wysiwygUndo.recordFirstWbr(vditor);
 
-    highlightToolbar(vditor);
+    if (event.isComposing) {
+        return false;
+    }
 
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
         && !event.metaKey && !event.ctrlKey && event.key !== "Escape") {
-        return false;
-    }
-    if (event.isComposing) {
         return false;
     }
 
@@ -277,7 +275,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
         startContainer.textContent === Constants.ZWSP && range.startOffset === 1 && !startContainer.previousSibling &&
         nextIsCode(range)) {
-        startContainer.textContent = ""
+        startContainer.textContent = "";
         return true;
     }
 
