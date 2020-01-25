@@ -25,7 +25,7 @@ export const showCode = (previewElement: HTMLElement, first = true) => {
         if (!previousElement.firstChild.firstChild) {
             previousElement.firstChild.appendChild(document.createTextNode(""));
         }
-        range.selectNodeContents(previousElement.firstChild)
+        range.selectNodeContents(previousElement.firstChild);
     }
     if (first) {
         range.collapse(true);
@@ -78,7 +78,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
             .replace(/&lt;/g, "<").replace(/&gt;/g, ">");
         if (blockType === "html-inline") {
             previewPanel.innerHTML = codeSVG + tempHTML.replace(Constants.ZWSP, "");
-            previewPanel.setAttribute('data-html', innerHTML.replace(Constants.ZWSP, ""))
+            previewPanel.setAttribute("data-html", innerHTML.replace(Constants.ZWSP, ""));
             return;
         }
         previewPanel.innerHTML = tempHTML;
@@ -89,13 +89,13 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     }
 
     if (getSelection().rangeCount > 0) {
-        const range = getSelection().getRangeAt(0)
+        const range = getSelection().getRangeAt(0);
         if (blockElement.contains(range.startContainer) && hasClosestByTag(range.startContainer, "CODE")) {
-            let display = "inline-block"
+            let display = "inline-block";
             if (blockElement.firstElementChild.tagName === "PRE") {
-                display = "block"
+                display = "block";
             }
-            (blockElement.firstElementChild as HTMLElement).style.display = display
+            (blockElement.firstElementChild as HTMLElement).style.display = display;
         }
     }
 };

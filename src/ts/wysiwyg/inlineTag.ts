@@ -5,8 +5,8 @@ export const nextIsCode = (range: Range) => {
     }
 
     if (nextNode.tagName === "CODE" ||
-        nextNode.getAttribute('data-type') === "math-inline" ||
-        nextNode.getAttribute('data-type') === "html-inline"
+        nextNode.getAttribute("data-type") === "math-inline" ||
+        nextNode.getAttribute("data-type") === "html-inline"
     ) {
         return true;
     }

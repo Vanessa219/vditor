@@ -537,7 +537,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             blockElement.previousElementSibling.getAttribute("data-block") === "0"
         ) {
             // 删除后光标落于代码渲染块上
-            showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false)
+            showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
             // (blockElement.previousElementSibling.lastElementChild as HTMLElement).click();
             if (blockElement.innerHTML.trim() === "" &&
                 !blockElement.nextElementSibling.classList.contains("vditor-panel--none")) {

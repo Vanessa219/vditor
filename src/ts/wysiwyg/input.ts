@@ -115,7 +115,7 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
 
         blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
         if (range.startContainer.nodeType !== 3 && !blockElement) {
-            blockElement = (range.startContainer as HTMLElement).children[range.startOffset] as HTMLElement
+            blockElement = (range.startContainer as HTMLElement).children[range.startOffset] as HTMLElement;
         }
         if (blockElement && blockElement.querySelectorAll("code").length > 0) {
             // TODO: 目前为全局渲染。可优化为只选取当前列表、当前列表紧邻的前后列表；最顶层列表；当前块进行渲染
