@@ -63,7 +63,8 @@ class WysiwygUndo {
 
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
-        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
+        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr") &&
+            vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
             getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
         }
         const cloneEditorElement = document.createElement("pre");
