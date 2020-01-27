@@ -64,11 +64,9 @@ export class Ui {
         this.contentElement.appendChild(vditor.tip.element);
 
         vditorElement.appendChild(this.contentElement);
-
-        this.afterRender(vditor);
     }
 
-    private async afterRender(vditor: IVditor) {
+    public async afterRender(vditor: IVditor) {
         let height: number = Math.max(this.contentElement.offsetHeight, 20);
         if (height < 21 && typeof vditor.options.height === "number") {
             height = vditor.options.height - 37;

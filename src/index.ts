@@ -98,7 +98,7 @@ class Vditor {
             this.vditor.devtools = new DevTools();
         }
 
-        loadLuteJs(this.vditor).then(() => {
+        loadLuteJs(this.vditor).then(async () => {
             if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
                 const preview = new Preview(this.vditor);
                 this.vditor.preview = preview;
@@ -120,6 +120,8 @@ class Vditor {
             }
 
             const ui = new Ui(this.vditor);
+
+            await ui.afterRender(this.vditor);
 
             if (mergedOptions.after) {
                 mergedOptions.after();
