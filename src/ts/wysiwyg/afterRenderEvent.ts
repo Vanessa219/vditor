@@ -1,7 +1,11 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../util/getMarkdown";
 
-export const afterRenderEvent = (vditor: IVditor, isAddUndoStack = true, hint = false) => {
+export const afterRenderEvent = (vditor: IVditor, options = {
+    enableAddUndoStack: true,
+    enableHint: false,
+    enableInput: true,
+}) => {
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
         const text = getMarkdown(vditor);
@@ -9,7 +13,7 @@ export const afterRenderEvent = (vditor: IVditor, isAddUndoStack = true, hint = 
             vditor.counter.render(text.length, vditor.options.counter);
         }
 
-        if (typeof vditor.options.input === "function") {
+        if (typeof vditor.options.input === "function" && options.enableInput) {
             vditor.options.input(text);
         }
 
@@ -21,11 +25,11 @@ export const afterRenderEvent = (vditor: IVditor, isAddUndoStack = true, hint = 
             vditor.devtools.renderEchart(vditor);
         }
 
-        if (isAddUndoStack) {
+        if (options.enableAddUndoStack) {
             vditor.wysiwygUndo.addToUndoStack(vditor);
         }
 
-        if (hint && vditor.hint) {
+        if (options.enableHint && vditor.hint) {
             vditor.hint.render(vditor);
         }
 

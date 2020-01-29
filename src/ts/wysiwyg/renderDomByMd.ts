@@ -4,7 +4,7 @@ import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 
-export const renderDomByMd = (vditor: IVditor, md: string) => {
+export const renderDomByMd = (vditor: IVditor, md: string, enableInput = true) => {
     const allToolbar = ["headings", "bold", "italic", "strike", "line", "quote",
         "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"];
     removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
@@ -18,5 +18,9 @@ export const renderDomByMd = (vditor: IVditor, md: string) => {
         blockElement.firstElementChild.setAttribute("style", "display:none");
     });
 
-    afterRenderEvent(vditor);
+    afterRenderEvent(vditor, {
+        enableAddUndoStack: true,
+        enableHint: false,
+        enableInput,
+    });
 };

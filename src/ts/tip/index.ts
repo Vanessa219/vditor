@@ -25,7 +25,7 @@ export class Tip {
     }
 
     public hide() {
-        this.element.className = "vditor-tip";
+        this.element.className = "vditor-messageElementtip";
         this.element.innerHTML = "";
     }
 }

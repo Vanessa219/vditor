@@ -119,7 +119,11 @@ class WysiwygUndo {
         });
         setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
         scrollCenter(vditor.wysiwyg.element);
-        afterRenderEvent(vditor, false);
+        afterRenderEvent(vditor, {
+            enableAddUndoStack: false,
+            enableHint: false,
+            enableInput: true,
+        });
         highlightToolbar(vditor);
 
         if (this.undoStack.length > 1) {

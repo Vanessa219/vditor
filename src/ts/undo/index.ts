@@ -105,7 +105,11 @@ class Undo {
 
         this.lastText = text;
 
-        formatRender(vditor, text, positoin, false);
+        formatRender(vditor, text, positoin, {
+            enableAddUndoStack: false,
+            enableHint: false,
+            enableInput: true,
+        });
 
         scrollCenter(vditor.editor.element);
 

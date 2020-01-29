@@ -101,7 +101,7 @@ export class Hint {
             if (blockRenderElement) {
                 processCodeRender(blockRenderElement, vditor);
             }
-            afterRenderEvent(vditor, true, false);
+            afterRenderEvent(vditor);
         } else {
             const position = getSelectPosition(vditor.editor.element, range);
             const text = getMarkdown(vditor);

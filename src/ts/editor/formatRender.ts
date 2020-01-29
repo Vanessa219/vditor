@@ -2,9 +2,11 @@ import {code160to32} from "../util/code160to32";
 import {inputEvent} from "./inputEvent";
 import {setSelectionByPosition} from "./setSelection";
 
-export const formatRender = (vditor: IVditor, content: string, position?: { start: number, end: number },
-                             addUndo: boolean = true) => {
-
+export const formatRender = (vditor: IVditor, content: string, position?: { start: number, end: number }, options = {
+    enableAddUndoStack: true,
+    enableHint: false,
+    enableInput: true,
+}) => {
     const textList = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
     let html = "";
     const newLine = '<span><br><span style="display: none">\n</span></span>';
@@ -36,8 +38,12 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
     }
 
     if (position) {
-       setSelectionByPosition(position.start, position.end, vditor.editor.element);
+        setSelectionByPosition(position.start, position.end, vditor.editor.element);
     }
 
-    inputEvent(vditor, addUndo);
+    inputEvent(vditor, {
+        enableAddUndoStack: options.enableAddUndoStack,
+        enableHint: options.enableHint,
+        enableInput: options.enableInput,
+    });
 };

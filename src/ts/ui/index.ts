@@ -100,11 +100,15 @@ export class Ui {
         }
 
         if (vditor.options.mode.indexOf("wysiwyg") > -1) {
-            renderDomByMd(vditor, initValue);
+            renderDomByMd(vditor, initValue, false);
         }
 
         if (vditor.options.mode.indexOf("markdown") > -1) {
-            formatRender(vditor, initValue, undefined);
+            formatRender(vditor, initValue, undefined, {
+                enableAddUndoStack: true,
+                enableHint: false,
+                enableInput: false,
+            });
         }
     }
 }

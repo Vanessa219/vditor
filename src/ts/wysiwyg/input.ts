@@ -126,5 +126,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         }
     }
 
-    afterRenderEvent(vditor, true, true);
+    afterRenderEvent(vditor, {
+        enableAddUndoStack: true,
+        enableHint: true,
+        enableInput: true,
+    });
 };
