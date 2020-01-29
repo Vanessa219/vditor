@@ -268,11 +268,15 @@ class Vditor {
     public setValue(markdown: string) {
         if (this.vditor.currentMode === "markdown") {
             formatRender(this.vditor, markdown, {
-                end: markdown.length,
-                start: markdown.length,
-            });
+                    end: markdown.length,
+                    start: markdown.length,
+                }, {
+                    enableAddUndoStack: true,
+                    enableHint: false,
+                    enableInput: false,
+                });
         } else {
-            renderDomByMd(this.vditor, markdown);
+            renderDomByMd(this.vditor, markdown, false);
         }
         if (!markdown) {
             localStorage.removeItem("vditor" + this.vditor.id);
