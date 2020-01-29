@@ -40,8 +40,10 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.3 / 2020-01-22
+### v2.1.5 / 2020-01-29
 
+* [93](https://github.com/Vanessa219/vditor/issues/93) Headers with = and - `修复缺陷`
+* [92](https://github.com/Vanessa219/vditor/issues/92) 空行回车可以逐层跳出引用 `改进功能`
 * [87](https://github.com/Vanessa219/vditor/issues/87) inside cell `修复缺陷`
 * [85](https://github.com/Vanessa219/vditor/issues/85) after ctrl+z `修复缺陷`
 * [84](https://github.com/Vanessa219/vditor/issues/84) 光标在 emoji 后的空格后无法对其进行删除 `修复缺陷`
