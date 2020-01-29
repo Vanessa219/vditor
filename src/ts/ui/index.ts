@@ -77,12 +77,19 @@ export class Ui {
         }
 
         if (vditor.wysiwyg) {
-            const padding = (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;
-            if (vditor.options.typewriterMode) {
-                vditor.wysiwyg.element.style.padding = `21px ${Math.max(35, padding)}px ${height / 2}px`;
-            } else {
-                vditor.wysiwyg.element.style.padding = `21px ${Math.max(35, padding)}px 10px`;
-            }
+            const setPadding = () => {
+                const padding =
+                    (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;
+                if (vditor.options.typewriterMode) {
+                    vditor.wysiwyg.element.style.padding = `21px ${Math.max(35, padding)}px ${height / 2}px`;
+                } else {
+                    vditor.wysiwyg.element.style.padding = `21px ${Math.max(35, padding)}px 10px`;
+                }
+            };
+            setPadding();
+            window.addEventListener("resize", () => {
+                setPadding();
+            });
         }
 
         // set default value
