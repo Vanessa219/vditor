@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 
 export const setRangeByWbr = (element: HTMLElement, range: Range) => {
@@ -21,12 +22,12 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
                 range.collapse(true);
                 setSelectionFocus(range);
                 // fix Chrome set range bug
-                if (wbrElement.previousElementSibling.tagName === "EM") {
-                    document.execCommand("italic", false, "");
-                } else if (wbrElement.previousElementSibling.tagName === "STRONG") {
-                    document.execCommand("bold", false, "");
-                } else if (wbrElement.previousElementSibling.tagName === "S") {
-                    document.execCommand("strikeThrough", false, "");
+                if (wbrElement.previousElementSibling.tagName === "EM" ||
+                    wbrElement.previousElementSibling.tagName === "STRONG" ||
+                    wbrElement.previousElementSibling.tagName === "S"
+                ) {
+                    range.insertNode(document.createTextNode(Constants.ZWSP));
+                    range.collapse(false);
                 }
                 wbrElement.remove();
                 return;

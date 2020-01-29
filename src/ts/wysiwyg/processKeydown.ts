@@ -312,19 +312,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (pElement && event.key === "Enter" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
             // Enter: 空行回车应逐层跳出
-            let isEmpty = false
-            if (pElement.innerHTML.replace(Constants.ZWSP, '') === '\n') {
+            let isEmpty = false;
+            if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
                 // 空 P
-                isEmpty = true
+                isEmpty = true;
                 pElement.remove();
-            } else if (pElement.innerHTML.endsWith('\n\n') &&
+            } else if (pElement.innerHTML.endsWith("\n\n") &&
                 getSelectPosition(pElement, range).start === pElement.textContent.length - 1) {
                 // 软换行
-                pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2)
-                isEmpty = true
+                pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
+                isEmpty = true;
             }
             if (isEmpty) {
-                (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click()
+                (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click();
                 afterRenderEvent(vditor);
                 event.preventDefault();
                 return true;

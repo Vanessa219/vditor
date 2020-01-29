@@ -44,6 +44,7 @@
 
 * [93](https://github.com/Vanessa219/vditor/issues/93) Headers with = and - `修复缺陷`
 * [92](https://github.com/Vanessa219/vditor/issues/92) 空行回车可以逐层跳出引用 `改进功能`
+* [88](https://github.com/Vanessa219/vditor/issues/88) Bold `修复缺陷`
 * [87](https://github.com/Vanessa219/vditor/issues/87) inside cell `修复缺陷`
 * [85](https://github.com/Vanessa219/vditor/issues/85) after ctrl+z `修复缺陷`
 * [84](https://github.com/Vanessa219/vditor/issues/84) 光标在 emoji 后的空格后无法对其进行删除 `修复缺陷`
