@@ -18,8 +18,11 @@
 <a title="Author GitHub Followers" target="_blank" href="https://github.com/vanessa219"><img src="https://img.shields.io/github/followers/vanessa219.svg?label=Followers&style=social"></a>
 </p>
 
-* [Vditor - 浏览器端的 Markdown 编辑器](https://hacpai.com/article/1549638745630)
 * [在线试用](https://hacpai.com/guide/markdown)
+* [Vditor - 浏览器端的 Markdown 编辑器](https://hacpai.com/article/1549638745630)
+* [关于所见即所得 Markdown 编辑器的讨论](https://hacpai.com/article/1579414663700)
+* [Vditor 实现 Markdown 所见即所得](https://hacpai.com/article/1577370404903)
+* [Lute 一款对中文语境优化的 Markdown 引擎，支持 Go 和 JavaScript](https://hacpai.com/article/1567047822949)
 
 欢迎关注 B3log 开源社区微信公众号 `B3log开源`
 
