@@ -259,7 +259,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // TODO shift + tab, shift and 选中文字
 
         if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
-        && codeRenderElement.getAttribute("data-block") === "0") {
+            && codeRenderElement.getAttribute("data-block") === "0") {
             const codePosition = getSelectPosition(codeRenderElement, range);
             if (codePosition.start === 0 && range.toString() === "") {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
@@ -300,14 +300,35 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // blockquote
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
-    if (blockquoteElement && range.toString() === "" &&
-        event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
-        if (getSelectPosition(blockquoteElement, range).start === 0) {
+    if (blockquoteElement && range.toString() === "") {
+        if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
+            getSelectPosition(blockquoteElement, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
             blockquoteElement.outerHTML = `<p data-block="0">${blockquoteElement.innerHTML}</p>`;
             afterRenderEvent(vditor);
             event.preventDefault();
             return true;
+        }
+
+        if (pElement && event.key === "Enter" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+            // Enter: 空行回车应逐层跳出
+            let isEmpty = false;
+            if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
+                // 空 P
+                isEmpty = true;
+                pElement.remove();
+            } else if (pElement.innerHTML.endsWith("\n\n") &&
+                getSelectPosition(pElement, range).start === pElement.textContent.length - 1) {
+                // 软换行
+                pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
+                isEmpty = true;
+            }
+            if (isEmpty) {
+                (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click();
+                afterRenderEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
         }
     }
 
@@ -561,7 +582,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // 除 table 自动完成、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出 blockquote、h6 换行、任务列表换行、软换行外需在换行时调整文档位置
+    // 除 table 自动完成、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、
+    // 任务列表换行、软换行外需在换行时调整文档位置
     if (event.key === "Enter") {
         scrollCenter(vditor.wysiwyg.element);
     }
