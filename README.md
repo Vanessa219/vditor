@@ -7,8 +7,7 @@
 <a title="npm bundle size" target="_blank" href="https://www.npmjs.com/package/vditor"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/vditor?style=flat-square&color=blueviolet"></a>
 <a title="Dependencies" target="_blank" href="https://github.com/Vanessa219/vditor"><img src="https://img.shields.io/david/Vanessa219/vditor.svg?style=flat-square&color=ff96b4"></a>  <br>
 <a title="Version" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/v/vditor.svg?style=flat-square"></a>
-<a title="Releases" target="_blank" href="https://github.com/Vanessa219/vditor/releases"><img src="https://img.shields.io/github/release/Vanessa219/vditor.svg?style=flat-square"></a>
-<a title="Release Date" target="_blank" href="https://github.com/Vanessa219/vditor/releases"><img src="https://img.shields.io/github/release-date/Vanessa219/vditor.svg?style=flat-square&color=99CCFF"></a><br>
+<a title="Releases" target="_blank" href="https://github.com/Vanessa219/vditor/releases"><img src="https://img.shields.io/github/release/Vanessa219/vditor.svg?style=flat-square"></a><br>
 <a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square&color=97ca00"></a>
 <a title="jsdelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor"><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"/></a>
 <a title="Hits" target="_blank" href="https://github.com/88250/hits"><img src="https://hits.b3log.org/Vanessa219/vditor.svg"></a> <br><br>
