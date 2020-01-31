@@ -20,6 +20,7 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {updateHotkeyTip} from "../util/updateHotkeyTip";
+import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
@@ -95,7 +96,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         // list popover
         const topOlElement = hasTopClosestByTag(typeElement, "OL");
         const topUlElement = hasTopClosestByTag(typeElement, "UL");
-        let topListElement = topUlElement;
+        let topListElement = topUlElement as HTMLElement;
         if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
             topListElement = topOlElement;
         }
@@ -108,7 +109,42 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateHotkeyTip("<⌘-⇧-s>"));
             outdent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             outdent.onclick = () => {
-                document.execCommand("outdent", false);
+                if (!liElement) {
+                    return;
+                }
+                const liParentLiElement = hasClosestByMatchTag(liElement.parentElement, "LI");
+                if (liParentLiElement) {
+                    vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
+                        wbr.remove();
+                    });
+                    range.insertNode(document.createElement("wbr"));
+
+                    const liParentElement = liElement.parentElement;
+                    const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
+
+                    let isMatch = false;
+                    let afterHTML = "";
+                    liParentElement.querySelectorAll("li").forEach((item) => {
+                        if (isMatch) {
+                            afterHTML += item.outerHTML;
+                            item.remove();
+                        }
+                        if (item.isEqualNode(liElement)) {
+                            isMatch = true;
+                        }
+                    });
+                    liParentAfterElement.innerHTML = afterHTML;
+
+                    liParentLiElement.insertAdjacentElement("afterend", liElement);
+                    liElement.insertAdjacentElement("beforeend", liParentAfterElement);
+
+                    addP2Li(topListElement);
+                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+
+                    afterRenderEvent(vditor);
+                    setRangeByWbr(vditor.wysiwyg.element, range);
+                    highlightToolbar(vditor);
+                }
             };
 
             const indent = document.createElement("button");
@@ -118,12 +154,22 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateHotkeyTip("<⌘-⇧-e>"));
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
-                // const liElement = hasClosestByMatchTag(range.startContainer, "LI");
-                // // fix 空列表缩进光标会飘逸
-                // if (liElement && liElement.innerHTML === "") {
-                //     liElement.innerHTML = "\n";
-                // }
-                // document.execCommand("indent", false);
+                if (liElement && liElement.previousElementSibling) {
+                    vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
+                        wbr.remove();
+                    });
+                    range.insertNode(document.createElement("wbr"));
+                    const parentTagName = liElement.parentElement.tagName;
+                    liElement.previousElementSibling.insertAdjacentHTML("beforeend",
+                        `<${parentTagName} data-block="0"><li>${liElement.innerHTML}</li></${parentTagName}>`);
+                    liElement.remove();
+
+                    addP2Li(topListElement);
+                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+                    afterRenderEvent(vditor);
+                    setRangeByWbr(vditor.wysiwyg.element, range);
+                    highlightToolbar(vditor);
+                }
             };
 
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);

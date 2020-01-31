@@ -14,21 +14,24 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
     } else {
         if (!itemElement) {
             // 添加
-            const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-            if (blockElement) {
-                if (type === "check") {
-                    blockElement.insertAdjacentHTML("beforebegin",
-                        `<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li></ul>`);
-                    blockElement.remove();
-                } else if (type === "list") {
-                    blockElement.insertAdjacentHTML("beforebegin",
-                        `<ul data-block="0"><li>${blockElement.innerHTML}</li></ul>`);
-                    blockElement.remove();
-                } else if (type === "ordered-list") {
-                    blockElement.insertAdjacentHTML("beforebegin",
-                        `<ol data-block="0"><li>${blockElement.innerHTML}</li></ol>`);
-                    blockElement.remove();
-                }
+            let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+            if (!blockElement) {
+                vditor.wysiwyg.element.querySelector("wbr").remove();
+                blockElement = vditor.wysiwyg.element.querySelector("p");
+                blockElement.innerHTML = "<wbr>";
+            }
+            if (type === "check") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li></ul>`);
+                blockElement.remove();
+            } else if (type === "list") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ul data-block="0"><li>${blockElement.innerHTML}</li></ul>`);
+                blockElement.remove();
+            } else if (type === "ordered-list") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ol data-block="0"><li>${blockElement.innerHTML}</li></ol>`);
+                blockElement.remove();
             }
         } else {
             // 切换
@@ -44,10 +47,9 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
                         item.classList.remove("vditor-task");
                     });
                 }
-                let element
+                let element;
                 if (type === "list") {
                     element = document.createElement("ul");
-
                 } else {
                     element = document.createElement("ol");
                 }
@@ -61,13 +63,13 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
 
 const list2p = (listElement: HTMLElement) => {
     let pHTML = "";
-    listElement.querySelectorAll("li").forEach((item) => {
-        const inputElement = item.querySelector("input");
+    for (let i = 0; i < listElement.childElementCount; i++) {
+        const inputElement = listElement.children[i].querySelector("input");
         if (inputElement) {
             inputElement.remove();
         }
-        pHTML += `<p data-block="0">${item.innerHTML.trimLeft()}</p>`;
-    });
+        pHTML += `<p data-block="0">${listElement.children[i].innerHTML.trimLeft()}</p>`;
+    }
     listElement.insertAdjacentHTML("beforebegin", pHTML);
     listElement.remove();
 };
