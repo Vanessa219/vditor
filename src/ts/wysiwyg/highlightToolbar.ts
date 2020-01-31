@@ -43,8 +43,16 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         // 工具栏高亮和禁用
-        if (hasClosestByMatchTag(typeElement, "OL")) {
-            setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
+        const liElement = hasClosestByMatchTag(typeElement, "LI");
+        if (hasClosestByClassName(typeElement, "vditor-task")) {
+            setCurrentToolbar(vditor.toolbar.elements, ["check"]);
+        } else {
+            if (liElement && liElement.parentElement.tagName === "OL") {
+                setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
+            }
+            if (liElement && liElement.parentElement.tagName === "UL") {
+                setCurrentToolbar(vditor.toolbar.elements, ["list"]);
+            }
         }
 
         if (hasClosestByMatchTag(typeElement, "BLOCKQUOTE")) {
@@ -66,7 +74,6 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (hasClosestByMatchTag(typeElement, "A")) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
-        const topUlElement = hasClosestByMatchTag(typeElement, "UL");
         const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
         if (hasClosestByMatchTag(typeElement, "CODE")) {
             if (hasClosestByMatchTag(typeElement, "PRE")) {
@@ -81,22 +88,16 @@ export const highlightToolbar = (vditor: IVditor) => {
         } else if (hasClosestByTag(typeElement, "H")) {
             disableToolbar(vditor.toolbar.elements, ["bold"]);
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
-        } else if (topUlElement && !topUlElement.querySelector("input")) {
-            setCurrentToolbar(vditor.toolbar.elements, ["list"]);
-        } else if (hasClosestByMatchTag(typeElement, "OL")) {
-            setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
         } else if (tableElement) {
             disableToolbar(vditor.toolbar.elements, ["table"]);
         }
 
         // list popover
         const topOlElement = hasTopClosestByTag(typeElement, "OL");
+        const topUlElement = hasTopClosestByTag(typeElement, "UL");
         let topListElement = topUlElement;
         if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
             topListElement = topOlElement;
-        }
-        if (topListElement && topListElement.querySelector("input")) {
-            topListElement = false;
         }
         if (topListElement) {
             vditor.wysiwyg.popover.innerHTML = "";
@@ -117,12 +118,12 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateHotkeyTip("<⌘-⇧-e>"));
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
-                const liElement = hasClosestByMatchTag(range.startContainer, "LI");
-                // fix 空列表缩进光标会飘逸
-                if (liElement && liElement.innerHTML === "") {
-                    liElement.innerHTML = "\n";
-                }
-                document.execCommand("indent", false);
+                // const liElement = hasClosestByMatchTag(range.startContainer, "LI");
+                // // fix 空列表缩进光标会飘逸
+                // if (liElement && liElement.innerHTML === "") {
+                //     liElement.innerHTML = "\n";
+                // }
+                // document.execCommand("indent", false);
             };
 
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
