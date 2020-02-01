@@ -40,13 +40,15 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.5 / 2020-01-29
+### v2.1.6 / 2020-01-31
 
+* [96](https://github.com/Vanessa219/vditor/issues/96) 所见即所得模式下的任务列表Bug `修复缺陷`
+* [95](https://github.com/Vanessa219/vditor/issues/95) setVaule 和 初始化时，不触发 input 事件 `改进功能`
 * [93](https://github.com/Vanessa219/vditor/issues/93) Headers with = and - `修复缺陷`
 * [92](https://github.com/Vanessa219/vditor/issues/92) 空行回车可以逐层跳出引用 `改进功能`
 * [88](https://github.com/Vanessa219/vditor/issues/88) Bold `修复缺陷`
 * [87](https://github.com/Vanessa219/vditor/issues/87) inside cell `修复缺陷`
-* [85](https://github.com/Vanessa219/vditor/issues/85) after ctrl+z `修复缺陷`
+* [85](https://github.com/Vanessa219/vditor/issues/85) ctrl-z & 重写缩进 `修复缺陷`
 * [84](https://github.com/Vanessa219/vditor/issues/84) 光标在 emoji 后的空格后无法对其进行删除 `修复缺陷`
 * [83](https://github.com/Vanessa219/vditor/issues/83) 所见即所得从菜单插入链接用对话框 `改进功能`
 * [82](https://github.com/Vanessa219/vditor/issues/82) 文字拖动 `修复缺陷`

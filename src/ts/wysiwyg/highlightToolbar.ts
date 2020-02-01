@@ -20,6 +20,7 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {updateHotkeyTip} from "../util/updateHotkeyTip";
+import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
@@ -43,8 +44,16 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         // 工具栏高亮和禁用
-        if (hasClosestByMatchTag(typeElement, "OL")) {
-            setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
+        const liElement = hasClosestByMatchTag(typeElement, "LI");
+        if (hasClosestByClassName(typeElement, "vditor-task")) {
+            setCurrentToolbar(vditor.toolbar.elements, ["check"]);
+        } else {
+            if (liElement && liElement.parentElement.tagName === "OL") {
+                setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
+            }
+            if (liElement && liElement.parentElement.tagName === "UL") {
+                setCurrentToolbar(vditor.toolbar.elements, ["list"]);
+            }
         }
 
         if (hasClosestByMatchTag(typeElement, "BLOCKQUOTE")) {
@@ -66,7 +75,6 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (hasClosestByMatchTag(typeElement, "A")) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
-        const topUlElement = hasClosestByMatchTag(typeElement, "UL");
         const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
         if (hasClosestByMatchTag(typeElement, "CODE")) {
             if (hasClosestByMatchTag(typeElement, "PRE")) {
@@ -81,22 +89,16 @@ export const highlightToolbar = (vditor: IVditor) => {
         } else if (hasClosestByTag(typeElement, "H")) {
             disableToolbar(vditor.toolbar.elements, ["bold"]);
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
-        } else if (topUlElement && !topUlElement.querySelector("input")) {
-            setCurrentToolbar(vditor.toolbar.elements, ["list"]);
-        } else if (hasClosestByMatchTag(typeElement, "OL")) {
-            setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
         } else if (tableElement) {
             disableToolbar(vditor.toolbar.elements, ["table"]);
         }
 
         // list popover
         const topOlElement = hasTopClosestByTag(typeElement, "OL");
-        let topListElement = topUlElement;
+        const topUlElement = hasTopClosestByTag(typeElement, "UL");
+        let topListElement = topUlElement as HTMLElement;
         if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
             topListElement = topOlElement;
-        }
-        if (topListElement && topListElement.querySelector("input")) {
-            topListElement = false;
         }
         if (topListElement) {
             vditor.wysiwyg.popover.innerHTML = "";
@@ -107,7 +109,42 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateHotkeyTip("<⌘-⇧-s>"));
             outdent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             outdent.onclick = () => {
-                document.execCommand("outdent", false);
+                if (!liElement) {
+                    return;
+                }
+                const liParentLiElement = hasClosestByMatchTag(liElement.parentElement, "LI");
+                if (liParentLiElement) {
+                    vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
+                        wbr.remove();
+                    });
+                    range.insertNode(document.createElement("wbr"));
+
+                    const liParentElement = liElement.parentElement;
+                    const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
+
+                    let isMatch = false;
+                    let afterHTML = "";
+                    liParentElement.querySelectorAll("li").forEach((item) => {
+                        if (isMatch) {
+                            afterHTML += item.outerHTML;
+                            item.remove();
+                        }
+                        if (item.isEqualNode(liElement)) {
+                            isMatch = true;
+                        }
+                    });
+                    liParentAfterElement.innerHTML = afterHTML;
+
+                    liParentLiElement.insertAdjacentElement("afterend", liElement);
+                    liElement.insertAdjacentElement("beforeend", liParentAfterElement);
+
+                    addP2Li(topListElement);
+                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+
+                    afterRenderEvent(vditor);
+                    setRangeByWbr(vditor.wysiwyg.element, range);
+                    highlightToolbar(vditor);
+                }
             };
 
             const indent = document.createElement("button");
@@ -117,12 +154,22 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateHotkeyTip("<⌘-⇧-e>"));
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
-                const liElement = hasClosestByMatchTag(range.startContainer, "LI");
-                // fix 空列表缩进光标会飘逸
-                if (liElement && liElement.innerHTML === "") {
-                    liElement.innerHTML = "\n";
+                if (liElement && liElement.previousElementSibling) {
+                    vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
+                        wbr.remove();
+                    });
+                    range.insertNode(document.createElement("wbr"));
+                    const parentTagName = liElement.parentElement.tagName;
+                    liElement.previousElementSibling.insertAdjacentHTML("beforeend",
+                        `<${parentTagName} data-block="0"><li>${liElement.innerHTML}</li></${parentTagName}>`);
+                    liElement.remove();
+
+                    addP2Li(topListElement);
+                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+                    afterRenderEvent(vditor);
+                    setRangeByWbr(vditor.wysiwyg.element, range);
+                    highlightToolbar(vditor);
                 }
-                document.execCommand("indent", false);
             };
 
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
