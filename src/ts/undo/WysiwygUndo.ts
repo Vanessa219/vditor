@@ -52,9 +52,7 @@ class WysiwygUndo {
             getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
             const cloneEditorElement = document.createElement("pre");
             cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-            cloneEditorElement.querySelectorAll("ul").forEach((item) => {
-                addP2Li(item);
-            });
+            addP2Li(cloneEditorElement);
             this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
             this.lastText = this.undoStack[0][0].diffs[0][1];
             vditor.wysiwyg.element.querySelector("wbr").remove();
@@ -69,9 +67,7 @@ class WysiwygUndo {
         }
         const cloneEditorElement = document.createElement("pre");
         cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-        cloneEditorElement.querySelectorAll("ul").forEach((item) => {
-            addP2Li(item);
-        });
+        addP2Li(cloneEditorElement);
         const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
         if (vditor.wysiwyg.element.querySelector("wbr")) {
             vditor.wysiwyg.element.querySelector("wbr").remove();
