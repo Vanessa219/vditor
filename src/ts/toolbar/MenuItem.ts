@@ -76,6 +76,8 @@ export class MenuItem {
                         }
                     } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
                         listToggle(vditor, range, commandName);
+                        useHighlight = false;
+                        actionBtn.classList.remove("vditor-menu--current");
                     } else {
                         // bold, italic
                         document.execCommand(commandName, false, "");
@@ -98,6 +100,8 @@ export class MenuItem {
                         getSelection().getRangeAt(0).startContainer.parentElement.setAttribute("data-block", "0");
                     } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
                         listToggle(vditor, range, commandName, false);
+                        useHighlight = false;
+                        actionBtn.classList.add("vditor-menu--current");
                     } else if (commandName === "inline-code") {
                         if (range.collapsed) {
                             const node = document.createTextNode("``");
