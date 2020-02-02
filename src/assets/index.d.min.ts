@@ -152,7 +152,7 @@ declare class Vditor {
 
     public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document, cdn?: string): void;
 
-    public static mathRenderByLute(element: HTMLElement, options?: { cdn?: string, math?: IMath }): void;
+    public static mathRender(element: HTMLElement, options?: { cdn?: string, math?: IMath }): void;
 
     public static mermaidRender(element: HTMLElement, className?: string, cdn?: string): void;
 

@@ -3,7 +3,7 @@ import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {highlightRender} from "../markdown/highlightRender";
-import {mathRenderByLute} from "../markdown/mathRenderByLute";
+import {mathRender} from "../markdown/mathRender";
 import {md2htmlByVditor} from "../markdown/md2html";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
@@ -107,7 +107,7 @@ export class Preview {
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         highlightRender(vditor.options.preview.hljs, vditor.preview.element.children[0] as HTMLElement,
             vditor.options.cdn);
-        mathRenderByLute(vditor.preview.element.children[0] as HTMLElement, {
+        mathRender(vditor.preview.element.children[0] as HTMLElement, {
             cdn: vditor.options.cdn,
             math: vditor.options.preview.math,
         });

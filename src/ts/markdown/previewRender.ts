@@ -4,7 +4,7 @@ import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
 import {highlightRender} from "./highlightRender";
-import {mathRenderByLute} from "./mathRenderByLute";
+import {mathRender} from "./mathRender";
 import {md2htmlByPreview} from "./md2html";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
@@ -54,7 +54,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
 
     codeRender(previewElement, options.lang);
     highlightRender(options.hljs, previewElement, options.cdn);
-    mathRenderByLute(previewElement, {
+    mathRender(previewElement, {
         cdn: options.cdn,
         math: options.math,
     });

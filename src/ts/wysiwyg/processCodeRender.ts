@@ -5,7 +5,7 @@ import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {highlightRender} from "../markdown/highlightRender";
-import {mathRenderByLute} from "../markdown/mathRenderByLute";
+import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {hasClosestByTag} from "../util/hasClosest";
 
@@ -85,7 +85,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     } else if (blockType.indexOf("math") > -1) {
         previewPanel.innerHTML = `<${tagName} class="vditor-math">${
             innerHTML.replace(Constants.ZWSP, "")}</${tagName}>`;
-        mathRenderByLute(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
+        mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     }
 
     if (getSelection().rangeCount > 0) {

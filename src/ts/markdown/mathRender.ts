@@ -16,7 +16,7 @@ declare global {
     }
 }
 
-export const mathRenderByLute = (element: HTMLElement, options?: { cdn?: string, math?: IMath }) => {
+export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?: IMath }) => {
     const mathElements = element.querySelectorAll(".vditor-math");
 
     if (mathElements.length === 0) {
