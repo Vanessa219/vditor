@@ -11,7 +11,7 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     pasteElement.innerHTML = html;
 
     const range = getSelection().getRangeAt(0);
-    if (!range.collapsed) {
+    if (range.toString() !== "") {
         vditor.wysiwyg.preventInput = true;
         document.execCommand("delete", false, "");
     }

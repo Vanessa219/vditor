@@ -74,9 +74,9 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
             vditorHTML = blockElement.innerHTML;
         } else {
             vditorHTML = blockElement.outerHTML;
-            let listElement = hasClosestByMatchTag(range.startContainer, "UL");
+            let listElement = hasClosestByMatchTag(topListElement || range.startContainer, "UL");
             if (!listElement) {
-                listElement = hasClosestByMatchTag(range.startContainer, "OL");
+                listElement = hasClosestByMatchTag(topListElement || range.startContainer, "OL");
             }
             if (listElement) {
                 const listPrevElement = listElement.previousElementSibling;

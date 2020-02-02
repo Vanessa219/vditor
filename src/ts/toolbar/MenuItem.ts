@@ -6,6 +6,7 @@ import {hasClosestByMatchTag} from "../util/hasClosest";
 import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {genAPopover, highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {listToggle} from "../wysiwyg/listToggle";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setCurrentToolbar} from "./setCurrentToolbar";
 
@@ -50,11 +51,8 @@ export class MenuItem {
                     }
                     if (commandName === "strike") {
                         commandName = "strikeThrough";
-                    } else if (commandName === "list" || commandName === "check") {
-                        commandName = "insertUnorderedList";
-                    } else if (commandName === "ordered-list") {
-                        commandName = "insertOrderedList";
                     }
+
                     if (commandName === "quote") {
                         const quoteElement = hasClosestByMatchTag(range.startContainer, "BLOCKQUOTE");
                         if (quoteElement) {
@@ -76,8 +74,10 @@ export class MenuItem {
                             range.selectNode(range.startContainer.parentElement);
                             document.execCommand("unlink", false, "");
                         }
+                    } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
+                        listToggle(vditor, range, commandName);
                     } else {
-                        // bold, italic, check
+                        // bold, italic
                         document.execCommand(commandName, false, "");
                     }
                     vditor.wysiwyg.element.focus();
@@ -91,26 +91,13 @@ export class MenuItem {
                         commandName = "insertHorizontalRule";
                     } else if (commandName === "strike") {
                         commandName = "strikeThrough";
-                    } else if (commandName === "list") {
-                        commandName = "insertUnorderedList";
-                    } else if (commandName === "ordered-list") {
-                        commandName = "insertOrderedList";
                     }
 
                     if (commandName === "quote") {
                         document.execCommand("formatBlock", false, "BLOCKQUOTE");
                         getSelection().getRangeAt(0).startContainer.parentElement.setAttribute("data-block", "0");
-                    } else if (commandName === "check") {
-                        const liElement = hasClosestByMatchTag(range.startContainer, "LI");
-                        if (liElement) {
-                            range.setStartAfter(liElement);
-                            range.collapse(true);
-                            document.execCommand("insertHTML", false,
-                                '<input type="checkbox" /> ');
-                        } else {
-                            document.execCommand("insertHTML", false,
-                                '<ul data-block="0"><li data-marker="*"  class="vditor-task"><input type="checkbox" /> </li></ul>');
-                        }
+                    } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
+                        listToggle(vditor, range, commandName, false);
                     } else if (commandName === "inline-code") {
                         if (range.collapsed) {
                             const node = document.createTextNode("``");
