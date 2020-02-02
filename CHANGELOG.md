@@ -71,6 +71,7 @@
 * 文档更新
   * 添加 options.upload.file 方法
   * options.preview 修改，支持 MathJax 配置
+  * 移除 mathRender 方法
 
 ### v2.0.15 / 2020-01-11
 

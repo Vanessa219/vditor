@@ -98,8 +98,7 @@ export const mathRenderByLute = (element: HTMLElement, options?: { cdn?: string,
                     macros: options.math.macros,
                 },
             };
-            addScript("https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js?1", "vditorMathJaxScript");
-            // addScript(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript");
+            addScript(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript");
         }
 
         // fix 并发调用下 ready 不支持 await

@@ -154,8 +154,6 @@ declare class Vditor {
 
     public static mathRenderByLute(element: HTMLElement, options?: { cdn?: string, math?: IMath }): void;
 
-    public static mathRender(element: HTMLElement, cdn?: string): void;
-
     public static mermaidRender(element: HTMLElement, className?: string, cdn?: string): void;
 
     public static chartRender(element?: HTMLElement | Document, cdn?: string): void;
