@@ -36,7 +36,11 @@ export class Options {
                 lineNumber: false,
                 style: "github",
             },
-            inlineMathDigit: false,
+            math: {
+                engine: "KaTeX",
+                inlineDigit: false,
+                macros: {},
+            },
             maxWidth: 768,
             mode: "both",
         },
@@ -228,6 +232,10 @@ export class Options {
                 if (this.options.preview.hljs) {
                     this.options.preview.hljs =
                         Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
+                }
+                if (this.options.preview.math) {
+                    this.options.preview.math =
+                        Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
                 }
             }
 

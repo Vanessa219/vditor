@@ -133,13 +133,19 @@ interface IHljs {
     enable?: boolean;
 }
 
+interface IMath {
+    inlineDigit: boolean;
+    macros: object;
+    engine: "KaTeX" | "MathJax";
+}
+
 interface IPreview {
     delay?: number;
     maxWidth?: number;
     mode?: keyof IPreviewMode;
     url?: string;
     hljs?: IHljs;
-    inlineMathDigit?: boolean;
+    math?: IMath;
 
     parse?(element: HTMLElement): void;
 
@@ -156,7 +162,7 @@ interface IPreviewOptions {
         enable?: boolean,
     };
     anchor?: boolean;
-    inlineMathDigit?: boolean;
+    math?: IMath;
     cdn?: string;
 
     transform?(html: string): string;

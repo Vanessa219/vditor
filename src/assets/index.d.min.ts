@@ -55,13 +55,19 @@ interface IHljs {
     enable?: boolean;
 }
 
+interface IMath {
+    inlineDigit: boolean;
+    engine: "KaTeX" | "MathJax";
+    config?: object;
+}
+
 interface IPreview {
     delay?: number;
     maxWidth?: number;
     mode?: keyof IPreviewMode;
     url?: string;
     hljs?: IHljs;
-    inlineMathDigit?: boolean;
+    math?: IMath;
 
     parse?(element: HTMLElement): void;
 
@@ -78,7 +84,7 @@ interface IPreviewOptions {
         enable?: boolean,
     };
     anchor?: boolean;
-    inlineMathDigit?: boolean;
+    math?: IMath;
     cdn?: string;
 
     transform?(html: string): string;
@@ -146,7 +152,7 @@ declare class Vditor {
 
     public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document, cdn?: string): void;
 
-    public static mathRenderByLute(element: HTMLElement, cdn?: string): void;
+    public static mathRenderByLute(element: HTMLElement, options?: { cdn?: string, math?: IMath }): void;
 
     public static mathRender(element: HTMLElement, cdn?: string): void;
 

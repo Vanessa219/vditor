@@ -107,7 +107,10 @@ export class Preview {
         codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
         highlightRender(vditor.options.preview.hljs, vditor.preview.element.children[0] as HTMLElement,
             vditor.options.cdn);
-        mathRenderByLute(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
+        mathRenderByLute(vditor.preview.element.children[0] as HTMLElement, {
+            cdn: vditor.options.cdn,
+            math: vditor.options.preview.math,
+        });
         mermaidRender(vditor.preview.element.children[0] as HTMLElement, ".language-mermaid", vditor.options.cdn);
         chartRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);

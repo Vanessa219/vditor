@@ -85,7 +85,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     } else if (blockType.indexOf("math") > -1) {
         previewPanel.innerHTML = `<${tagName} class="vditor-math">${
             innerHTML.replace(Constants.ZWSP, "")}</${tagName}>`;
-        mathRenderByLute(previewPanel, vditor.options.cdn);
+        mathRenderByLute(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     }
 
     if (getSelection().rangeCount > 0) {

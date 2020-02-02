@@ -447,4 +447,9 @@
       background-color: #fff;
     }
   }
+
+  &-math mjx-container:focus {
+    outline: none;
+    cursor: context-menu;
+  }
 }

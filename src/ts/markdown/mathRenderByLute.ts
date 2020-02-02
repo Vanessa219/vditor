@@ -10,38 +10,101 @@ declare const katex: {
     }): string;
 };
 
-export const mathRenderByLute = (element: HTMLElement,
-                                 cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
+declare global {
+    interface Window {
+        MathJax: any;
+    }
+}
+
+export const mathRenderByLute = (element: HTMLElement, options?: { cdn?: string, math?: IMath }) => {
     const mathElements = element.querySelectorAll(".vditor-math");
 
     if (mathElements.length === 0) {
         return;
     }
-    addScript(`${cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript");
-    addStyle(`${cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
-    mathElements.forEach((mathElement) => {
-        if (mathElement.getAttribute("data-math")) {
-            return;
-        }
-        const math = code160to32(mathElement.textContent);
-        mathElement.setAttribute("data-math", math);
-        try {
-            mathElement.innerHTML = katex.renderToString(math, {
-                displayMode: mathElement.tagName === "DIV",
-                output: "html",
+
+    const defaultOptions = {
+        cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+        math: {
+            engine: "KaTeX",
+            inlineDigit: false,
+            macros: {},
+        },
+    };
+
+    if (options && options.math) {
+        options.math =
+            Object.assign({}, defaultOptions.math, options.math);
+    }
+    options = Object.assign({}, defaultOptions, options);
+
+    if (options.math.engine === "KaTeX") {
+        addScript(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript");
+        addStyle(`${options.cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
+        mathElements.forEach((mathElement) => {
+            if (mathElement.getAttribute("data-math")) {
+                return;
+            }
+            const math = code160to32(mathElement.textContent);
+            mathElement.setAttribute("data-math", math);
+            try {
+                mathElement.innerHTML = katex.renderToString(math, {
+                    displayMode: mathElement.tagName === "DIV",
+                    output: "html",
+                });
+            } catch (e) {
+                mathElement.innerHTML = e.message;
+                mathElement.className = "vditor-math vditor-reset--error";
+            }
+
+            mathElement.addEventListener("copy", (event: ClipboardEvent) => {
+                event.stopPropagation();
+                event.preventDefault();
+                const vditorMathElement = (event.currentTarget as HTMLElement).closest(".vditor-math");
+                event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
+                event.clipboardData.setData("text/plain",
+                    vditorMathElement.getAttribute("data-math"));
             });
-        } catch (e) {
-            mathElement.innerHTML = e.message;
-            mathElement.className = "vditor-math vditor-reset--error";
+        });
+    } else if (options.math.engine === "MathJax") {
+        const renderMathJax = () => {
+            mathElements.forEach((mathElement) => {
+                if (mathElement.getAttribute("data-math")) {
+                    return;
+                }
+                const math = code160to32(mathElement.textContent);
+                mathElement.setAttribute("data-math", math);
+                window.MathJax.texReset();
+                const mathOptions = window.MathJax.getMetricsFor(mathElement);
+                mathOptions.display = mathElement.tagName === "DIV";
+                window.MathJax.tex2svgPromise(math, mathOptions).then((node: HTMLElement) => {
+                    mathElement.innerHTML = "";
+                    mathElement.append(node);
+                    window.MathJax.startup.document.clear();
+                    window.MathJax.startup.document.updateDocument();
+
+                    const errorText = mathElement.querySelector("mjx-container").textContent.trim();
+                    if (errorText !== "") {
+                        mathElement.innerHTML = errorText;
+                        mathElement.className = "vditor-math vditor-reset--error";
+                    }
+                });
+            });
+        };
+
+        if (!window.MathJax) {
+            window.MathJax = {
+                tex: {
+                    macros: options.math.macros,
+                },
+            };
+            addScript("https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js?1", "vditorMathJaxScript");
+            // addScript(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript");
         }
 
-        mathElement.addEventListener("copy", (event: ClipboardEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-            const vditorMathElement = (event.currentTarget as HTMLElement).closest(".vditor-math");
-            event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
-            event.clipboardData.setData("text/plain",
-                vditorMathElement.getAttribute("data-math"));
-        });
-    });
+        // fix 并发调用下 ready 不支持 await
+        setTimeout(() => {
+            renderMathJax();
+        }, 0);
+    }
 };

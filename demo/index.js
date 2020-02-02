@@ -7,6 +7,17 @@ window.vditor = new Vditor('vditor', {
   placeholder: 'placeholder',
   counter: 100,
   height: 500,
+  preview: {
+    math: {
+      engine: "MathJax",
+      macros: {
+        RR: '{\\bf R}',                    // a simple string replacement
+        bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+        ddx: ['\\frac{d#2}{d#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+        abc: ['(#1)', 1, [null, '\\cba']]  // equivalent to \def\abc#1\cba{(#1)}
+      }
+    }
+  },
   hint: {
     emojiPath: 'https://cdn.jsdelivr.net/npm/vditor@1.8.3/dist/images/emoji',
     emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',

@@ -23,8 +23,12 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
             lineNumber: false,
             style: "github",
         },
-        inlineMathDigit: false,
         lang: "zh_CN",
+        math: {
+            engine: "KaTeX",
+            inlineDigit: false,
+            macros: {},
+        },
         speech: {
             enable: false,
         },
@@ -35,6 +39,9 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     if (options.speech) {
         options.speech = Object.assign({}, defaultOption.speech, options.speech);
+    }
+    if (options.math) {
+        options.math = Object.assign({}, defaultOption.math, options.math);
     }
 
     let html =
@@ -47,7 +54,10 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
 
     codeRender(previewElement, options.lang);
     highlightRender(options.hljs, previewElement, options.cdn);
-    mathRenderByLute(previewElement, options.cdn);
+    mathRenderByLute(previewElement, {
+        cdn: options.cdn,
+        math: options.math,
+    });
     mermaidRender(previewElement, ".language-mermaid", options.cdn);
     chartRender(previewElement, options.cdn);
     abcRender(previewElement, options.cdn);

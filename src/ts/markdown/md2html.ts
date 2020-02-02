@@ -19,7 +19,7 @@ export const loadLuteJs = async (vditor: IVditor | string) => {
         vditor.lute.PutEmojis(vditor.options.hint.emoji);
         vditor.lute.SetEmojiSite(vditor.options.hint.emojiPath);
         vditor.lute.SetParallelParsing(false);
-        vditor.lute.SetInlineMathAllowDigitAfterOpenMarker(vditor.options.preview.inlineMathDigit);
+        vditor.lute.SetInlineMathAllowDigitAfterOpenMarker(vditor.options.preview.math.inlineDigit);
     }
 };
 
@@ -38,7 +38,7 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
     lute.SetEmojiSite(options.emojiPath);
     lute.SetHeadingAnchor(options.anchor);
     lute.SetParallelParsing(false);
-    lute.SetInlineMathAllowDigitAfterOpenMarker(options.inlineMathDigit);
+    lute.SetInlineMathAllowDigitAfterOpenMarker(options.math.inlineDigit);
     return lute.Md2HTML(mdText);
 };
 
