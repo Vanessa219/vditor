@@ -128,8 +128,12 @@
       border-left: 0.25em solid #ddd;
       margin: 0 0 16px 0;
 
-      p {
-        margin: 0;
+      & > :first-child {
+        margin-top: 0
+      }
+
+      & > :last-child {
+        margin-bottom: 0
       }
     }
 
