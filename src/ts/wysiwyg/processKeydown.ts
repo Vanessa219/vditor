@@ -246,7 +246,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // tab
-        if (event.key === "Tab" && !event.shiftKey && range.toString() === "" &&
+        if (vditor.options.tab && event.key === "Tab" && !event.shiftKey && range.toString() === "" &&
             codeRenderElement.getAttribute("data-block") === "0") {
             range.insertNode(document.createTextNode(vditor.options.tab));
             range.collapse(false);
@@ -517,7 +517,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // tab 处理, block code render 和 table 中的 tab 处理单独写在上面
-    if (event.key === "Tab") {
+    if (vditor.options.tab && event.key === "Tab") {
         if (event.shiftKey) {
             // TODO shift+tab
         } else {
