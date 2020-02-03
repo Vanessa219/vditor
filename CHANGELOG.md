@@ -40,7 +40,7 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.7 / 2020-02-02
+### v2.1.8 / 2020-02-03
 
 * [96](https://github.com/Vanessa219/vditor/issues/96) 所见即所得模式下的任务列表Bug `修复缺陷`
 * [95](https://github.com/Vanessa219/vditor/issues/95) setVaule 和 初始化时，不触发 input 事件 `改进功能`
