@@ -72,7 +72,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             setCurrentToolbar(vditor.toolbar.elements, ["strike"]);
         }
 
-        if (hasClosestByMatchTag(typeElement, "A")) {
+        const aElement = hasClosestByMatchTag(typeElement, "A")
+        if (aElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
         const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
@@ -376,9 +377,9 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         // a popover
-        if (typeElement.nodeName === "A") {
-            genAPopover(vditor, typeElement);
-            setPopoverPosition(vditor, typeElement);
+        if (aElement) {
+            genAPopover(vditor, aElement);
+            setPopoverPosition(vditor, aElement);
         }
 
         // img popover
@@ -522,7 +523,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement
-            && typeElement.nodeName !== "A" && !hasClosestByClassName(typeElement, "vditor-panel")) {
+            && !aElement && !hasClosestByClassName(typeElement, "vditor-panel")) {
             vditor.wysiwyg.popover.style.display = "none";
         }
 
