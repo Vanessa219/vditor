@@ -43,6 +43,7 @@
 ### v2.1.9 / 2020-02-04
 
 * [101](https://github.com/Vanessa219/vditor/issues/101) 提供 setTheme(theme: "dark" | "classic") 方法 `改进功能`
+* [100](https://github.com/Vanessa219/vditor/issues/100) inline-math `修复缺陷`
 * [99](https://github.com/Vanessa219/vditor/issues/99) a 中斜体/粗体时 toolbar 不显示 `修复缺陷`
 * [96](https://github.com/Vanessa219/vditor/issues/96) 所见即所得模式下的任务列表Bug `修复缺陷`
 * [95](https://github.com/Vanessa219/vditor/issues/95) setVaule 和 初始化时，不触发 input 事件 `改进功能`

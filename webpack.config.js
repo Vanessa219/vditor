@@ -98,8 +98,7 @@ module.exports = [
         filename: '[name].css',
       }),
       new WebpackOnBuildPlugin(() => {
-        fs.unlinkSync('./dist/index.classic.js')
-        fs.unlinkSync('./dist/index.dark.js')
+        fs.unlinkSync('./dist/index.js')
       }),
       new CopyPlugin([
         {from: 'src/images', to: 'images'},

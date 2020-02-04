@@ -580,6 +580,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 return true;
             }
         }
+
+        if (blockElement) {
+            const inlineCodeRenderElements = blockElement.querySelectorAll("span.vditor-wysiwyg__block");
+            if (inlineCodeRenderElements.length > 0) {
+                // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
+                inlineCodeRenderElements.forEach((item) => {
+                    (item.firstElementChild as HTMLElement).style.display = "inline";
+                    (item.lastElementChild as HTMLElement).style.display = "none";
+                });
+            }
+        }
     }
 
     // 除 table 自动完成、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、
