@@ -306,7 +306,7 @@ class WYSIWYG {
 
             if (event.key === "ArrowDown" || event.key === "ArrowRight") {
                 const blockRenderElement = previewElement.parentElement;
-                const nextNode = blockRenderElement.nextSibling as HTMLElement;
+                let nextNode = blockRenderElement.nextSibling as HTMLElement;
                 if (nextNode && nextNode.nodeType !== 3 &&
                     nextNode.classList.contains("vditor-wysiwyg__block")) {
                     // 下一节点依旧为代码渲染块
@@ -315,6 +315,10 @@ class WYSIWYG {
                     // 跳过渲染块，光标移动到下一个节点
                     if (nextNode.nodeType === 3) {
                         // inline
+                        while (nextNode.textContent.length === 0 && nextNode.nextSibling) {
+                            // https://github.com/Vanessa219/vditor/issues/100 2
+                            nextNode = nextNode.nextSibling as HTMLElement;
+                        }
                         range.setStart(nextNode, 1);
                     } else {
                         // block
