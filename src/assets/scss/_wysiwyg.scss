@@ -1,10 +1,11 @@
 .vditor-wysiwyg {
-  background-color: $textareaBg;
+  background-color: var(--textarea-background-color);
   box-sizing: border-box;
   flex: 1;
   margin: 0;
   white-space: pre-wrap;
   position: relative;
+  color: var(--textarea-text-color);
 
   &[contenteditable="false"] {
     opacity: 0.3;
@@ -13,7 +14,7 @@
 
   &:focus {
     outline: none;
-    background-color: $textareaFocusBg;
+    background-color: var(--textarea-focus-background-color);
   }
 
   blockquote:empty::before,
@@ -41,14 +42,14 @@
 
       & > code {
         background-color: #fff !important;
-        border: 1px solid $borderColor;
+        border: 1px solid var(--border-color);
         overflow: auto !important;
         display: block;
       }
     }
 
     &[data-type=html-inline] .vditor-wysiwyg__preview svg {
-      fill: rgba($toolbarIcon, .36);
+      fill: var(--toolbar-icon-color1);
       height: 12px;
       cursor: pointer;
       width: 12px;
@@ -79,7 +80,7 @@
     font-size: 0.85rem;
     font-weight: normal;
     text-transform: uppercase;
-    color: rgba($toolbarIcon, .36);
+    color: var(--toolbar-icon-color1);
   }
 
   h2:before {
@@ -114,7 +115,7 @@
 
   span[data-type="backslash"] > span {
     display: none;
-    color: rgba($toolbarIcon, .36);
+    color: var(--toolbar-icon-color1);
   }
 
 }

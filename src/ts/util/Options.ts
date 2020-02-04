@@ -48,6 +48,7 @@ export class Options {
             enable: false,
             position: "bottom",
         },
+        theme: "classic",
         toolbar: [{
             hotkey: "⌘-e",
             name: "emoji",

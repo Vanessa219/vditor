@@ -1,5 +1,5 @@
 import Vditor from '../src/index'
-import '../src/assets/scss/classic.scss'
+import '../src/assets/scss/index.scss'
 
 window.vditorTest = new Vditor('vditorTest', {
   tab: '\t',

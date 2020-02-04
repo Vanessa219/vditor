@@ -1,5 +1,5 @@
 import VditorPreview from '../src/method'
-import '../src/assets/scss/classic.scss'
+import '../src/assets/scss/index.scss'
 
 VditorPreview.preview(document.getElementById('preview'),
   document.getElementById('markdownText').textContent, {

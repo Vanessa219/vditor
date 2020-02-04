@@ -72,7 +72,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             setCurrentToolbar(vditor.toolbar.elements, ["strike"]);
         }
 
-        const aElement = hasClosestByMatchTag(typeElement, "A")
+        const aElement = hasClosestByMatchTag(typeElement, "A");
         if (aElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }

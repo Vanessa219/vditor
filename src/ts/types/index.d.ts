@@ -206,6 +206,7 @@ interface IOptions {
     mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only";
     preview?: IPreview;
     hint?: IHint;
+    theme?: "classic" | "dark";
     upload?: IUpload;
     classes?: IClasses;
     cdn?: string;

@@ -127,6 +127,14 @@ class Vditor {
         });
     }
 
+    public setTheme(theme: "dark" | "classic") {
+        if (theme === "dark") {
+            document.getElementById(this.vditor.id).classList.add("vditor--dark");
+        } else {
+            document.getElementById(this.vditor.id).classList.remove("vditor--dark");
+        }
+    }
+
     public getValue() {
         return getMarkdown(this.vditor);
     }
@@ -266,13 +274,13 @@ class Vditor {
     public setValue(markdown: string) {
         if (this.vditor.currentMode === "markdown") {
             formatRender(this.vditor, markdown, {
-                    end: markdown.length,
-                    start: markdown.length,
-                }, {
-                    enableAddUndoStack: true,
-                    enableHint: false,
-                    enableInput: false,
-                });
+                end: markdown.length,
+                start: markdown.length,
+            }, {
+                enableAddUndoStack: true,
+                enableHint: false,
+                enableInput: false,
+            });
         } else {
             renderDomByMd(this.vditor, markdown, false);
         }

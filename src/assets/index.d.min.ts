@@ -132,6 +132,7 @@ interface IOptions {
     classes?: IClasses;
     cdn?: string;
     tab?: string;
+    theme?: "classic" | "dark";
 
     input?(value: string, previewElement?: HTMLElement): void;
 
@@ -171,6 +172,8 @@ declare class Vditor {
     public readonly version: string;
 
     constructor(id: string, options?: IOptions)
+
+    public setTheme(theme: "dark" | "classic"): void;
 
     public getValue(): string;
 

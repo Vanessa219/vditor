@@ -34,10 +34,10 @@
     animation-timing-function: cubic-bezier(.2, 0, .13, 1.5);
 
     &--none {
-      color: $toolbarIconHover;
+      color:  var(--toolbar-icon-hover-color);
       padding: 0;
       animation: none;
-      background-color: $toolbarBg;
+      background-color:  var(--toolbar-background-color);
       min-width: auto;
       max-width: none;
     }
@@ -50,7 +50,7 @@
       line-height: normal;
 
       &:hover {
-        background-color: $hoverBg;
+        background-color: var(--hover-background-color);
         color: $hoverColor;
       }
     }
@@ -59,11 +59,11 @@
   &-input {
     border: 0;
     padding: 3px 5px;
-    background-color: $toolbarBg;
+    background-color:  var(--toolbar-background-color);
     font-size: 12px;
 
     &:focus {
-      background-color: $textareaFocusBg;
+      background-color: var(--textarea-focus-background-color);
       outline: none;
     }
   }
@@ -71,21 +71,21 @@
   &-btn {
     border-radius: 3px;
     cursor: pointer;
-    background-color: $toolbarBg;
+    background-color:  var(--toolbar-background-color);
     font-size: 12px;
     padding: 2px 7px 1px;
-    border: 1px solid $borderColor;
+    border: 1px solid  var(--border-color);
     line-height: 16px;
     float: right;
 
     &:focus {
       outline: none;
-      background-color: $textareaFocusBg;
+      background-color: var(--textarea-focus-background-color);
     }
   }
 
   &-icon {
-    color: $toolbarIcon;
+    color:  var(--toolbar-icon-color);
     cursor: pointer;
     float: left;
     padding: 2px 5px;
@@ -97,7 +97,7 @@
 
     &:hover,
     &--current {
-      color: $toolbarIconHover;
+      color:  var(--toolbar-icon-hover-color);
       background-color: transparent;
     }
 
