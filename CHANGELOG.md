@@ -42,6 +42,7 @@
 
 ### v2.1.10 / 2020-02-05
 
+* [107](https://github.com/Vanessa219/vditor/issues/107) 删除线解析问题 `修复缺陷`
 * [103](https://github.com/Vanessa219/vditor/issues/103) cell alignment `修复缺陷`
 * [102](https://github.com/Vanessa219/vditor/issues/102) minus number at table(not important) `修复缺陷`
 * [101](https://github.com/Vanessa219/vditor/issues/101) 提供 setTheme(theme: "dark" | "classic") 方法 `改进功能`
