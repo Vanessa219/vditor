@@ -286,9 +286,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     left.classList.add("vditor-icon--current");
                 }
 
-                if (vditor.options.cache) {
-                    localStorage.setItem(`vditor${vditor.id}`, getMarkdown(vditor));
-                }
+                afterRenderEvent(vditor);
             };
 
             const td = hasClosestByMatchTag(typeElement, "TD");
@@ -333,6 +331,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             const input = document.createElement("input");
             inputWrap.appendChild(input);
             input.type = "number";
+            input.min = "1";
             input.className = "vditor-input";
             input.style.width = "42px";
             input.style.textAlign = "center";
@@ -350,6 +349,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             const input2 = document.createElement("input");
             input2Wrap.appendChild(input2);
             input2.type = "number";
+            input2.min = "1";
             input2.className = "vditor-input";
             input2.style.width = "42px";
             input2.style.textAlign = "center";
