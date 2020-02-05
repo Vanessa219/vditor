@@ -15,7 +15,8 @@ $font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier, monosp
 
 $transition: all .15s ease-in-out !default;
 
-.vditor {
+.vditor,
+.vditor-reset {
   --border-color: #d1d5da;
 
   --toolbar-background-color: #f6f8fa;

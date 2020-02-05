@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
+import {setSelectionByPosition} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
