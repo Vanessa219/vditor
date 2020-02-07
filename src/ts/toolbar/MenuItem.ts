@@ -43,6 +43,10 @@ export class MenuItem {
                     vditor.wysiwyg.element.focus();
                 }
                 const range = getSelection().getRangeAt(0);
+                if (!vditor.wysiwyg.element.contains(range.startContainer)) {
+                    // 光标位于编辑器之外
+                    vditor.wysiwyg.element.focus();
+                }
                 let commandName = actionBtn.getAttribute("data-type");
                 if (actionBtn.classList.contains("vditor-menu--current")) {
                     if (commandName === "bold" || commandName === "italic" || commandName === "strike") {
