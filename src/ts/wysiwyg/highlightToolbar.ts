@@ -11,7 +11,6 @@ import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
-import {getMarkdown} from "../util/getMarkdown";
 import {
     hasClosestByAttribute,
     hasClosestByClassName,
