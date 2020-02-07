@@ -32,6 +32,7 @@ import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {scrollToWbr} from "./ts/wysiwyg/scrollToWbr";
 
 class Vditor {
 
@@ -286,6 +287,12 @@ class Vditor {
         }
         if (!markdown) {
             localStorage.removeItem("vditor" + this.vditor.id);
+        }
+    }
+
+    public scrollToWbr() {
+        if (this.vditor.currentMode === "wysiwyg") {
+            scrollToWbr(this.vditor);
         }
     }
 }
