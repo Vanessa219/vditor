@@ -5,7 +5,6 @@ import {
     hasClosestByClassName,
     hasClosestByMatchTag,
     hasClosestByTag,
-    hasTopClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {addP2Li} from "./addP2Li";

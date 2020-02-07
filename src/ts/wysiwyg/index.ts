@@ -285,7 +285,7 @@ class WYSIWYG {
             if (event.target.tagName === "INPUT") {
                 return;
             }
-            if (event.isComposing) {
+            if (event.isComposing || event.key === "Meta") {
                 return;
             }
 

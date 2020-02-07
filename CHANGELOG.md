@@ -46,6 +46,7 @@
 * [111](https://github.com/Vanessa219/vditor/issues/111) ctrl+b, ctrl+i, ctrl+s not working at starting and combining `修复缺陷`
 * [108](https://github.com/Vanessa219/vditor/issues/108) 行级代码问题 `修复缺陷`
 * [107](https://github.com/Vanessa219/vditor/issues/107) 删除线解析问题 `修复缺陷`
+* [105](https://github.com/Vanessa219/vditor/issues/105) Link(ctrl+k) `改进功能`
 * [104](https://github.com/Vanessa219/vditor/issues/104) image tag at wysiwyg mode `修复缺陷`
 * [103](https://github.com/Vanessa219/vditor/issues/103) cell alignment `修复缺陷`
 * [102](https://github.com/Vanessa219/vditor/issues/102) minus number at table(not important) `修复缺陷`

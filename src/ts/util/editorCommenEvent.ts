@@ -136,13 +136,16 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // toolbar action
-        vditor.options.toolbar.forEach((menuItem: IMenuItem) => {
+        vditor.options.toolbar.find((menuItem: IMenuItem) => {
             if (!menuItem.hotkey) {
-                return;
+                return false;
             }
-            processKeymap(menuItem.hotkey, event, () => {
+            if (processKeymap(menuItem.hotkey, event, () => {
                 (vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
-            });
+            })) {
+                event.preventDefault();
+                return true;
+            }
         });
     });
 };

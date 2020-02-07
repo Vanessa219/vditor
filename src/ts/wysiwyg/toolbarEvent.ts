@@ -268,24 +268,14 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
         } else if (commandName === "link") {
             if (range.toString() === "") {
                 const aElement = document.createElement("a");
+                aElement.innerText = Constants.ZWSP;
+                range.insertNode(aElement)
+                range.setStart(aElement.firstChild, 1)
+                range.collapse(true);
                 genAPopover(vditor, aElement);
-                const buttonElement = document.createElement("button");
-                buttonElement.innerText = i18n[vditor.options.lang].confirm;
-                buttonElement.className = "vditor-btn";
-                buttonElement.onclick = () => {
-                    if (textElement.value === "") {
-                        textElement.focus();
-                        return;
-                    }
-                    range.insertNode(aElement);
-                    vditor.wysiwyg.popover.style.display = "none";
-                };
-                const textElement = vditor.wysiwyg.popover.querySelector("input");
-                vditor.wysiwyg.popover.insertAdjacentElement("beforeend", buttonElement);
-                vditor.wysiwyg.popover.style.top = "40px";
-                vditor.wysiwyg.popover.style.left = (vditor.wysiwyg.element.clientWidth - 380) / 2 + "px";
-                vditor.wysiwyg.popover.style.display = "block";
-                textElement.focus();
+                const textInputElement = vditor.wysiwyg.popover.querySelector('input')
+                textInputElement.value = ""
+                textInputElement.focus()
                 useHighlight = false;
                 useRender = false;
             } else {

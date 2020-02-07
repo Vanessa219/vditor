@@ -379,7 +379,6 @@ export const highlightToolbar = (vditor: IVditor) => {
         // a popover
         if (aElement) {
             genAPopover(vditor, aElement);
-            setPopoverPosition(vditor, aElement);
         }
 
         // img popover
@@ -664,4 +663,5 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
+    setPopoverPosition(vditor, aElement);
 };
