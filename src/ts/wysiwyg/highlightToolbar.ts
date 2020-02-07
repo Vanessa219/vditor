@@ -23,6 +23,7 @@ import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {nextIsImg} from "./inlineTag";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -382,15 +383,13 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         // img popover
-        let imgElement: HTMLImageElement;
+        let imgElement = nextIsImg(range) as HTMLElement;
         if ((range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset &&
-            range.startContainer.childNodes[range.startOffset].nodeName === "IMG") ||
-            (range.startContainer.nodeType === 3 && range.startContainer.textContent.length === range.startOffset &&
-                range.startContainer.nextSibling && range.startContainer.nextSibling.nodeType !== 3 &&
-                (range.startContainer as HTMLElement).nextElementSibling.tagName === "IMG")) {
+            range.startContainer.childNodes[range.startOffset].nodeName === "IMG") || imgElement) {
             // 光标在图片前面，或在文字后面
-            imgElement = range.startContainer.childNodes[range.startOffset] as HTMLImageElement ||
-                range.startContainer.nextSibling as HTMLImageElement;
+            if (!imgElement) {
+                imgElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+            }
             vditor.wysiwyg.popover.innerHTML = "";
             const updateImg = () => {
                 imgElement.setAttribute("src", input.value);

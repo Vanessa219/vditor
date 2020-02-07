@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
-import {setSelectionByPosition} from "../editor/setSelection";
+import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
@@ -262,14 +262,23 @@ class WYSIWYG {
                 return;
             }
 
-            highlightToolbar(vditor);
             if (event.target.tagName === "INPUT") {
                 if (event.target.checked) {
                     event.target.setAttribute("checked", "checked");
                 } else {
                     event.target.removeAttribute("checked");
                 }
+                return;
             }
+
+            if (event.target.tagName === "IMG") {
+                const range = this.element.ownerDocument.createRange();
+                range.selectNode(event.target);
+                range.collapse(true);
+                setSelectionFocus(range);
+            }
+
+            highlightToolbar(vditor);
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {
