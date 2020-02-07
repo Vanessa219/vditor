@@ -1,11 +1,85 @@
+import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
-import {hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
-import {listToggle} from "./listToggle";
 import {processCodeRender} from "./processCodeRender";
+import {setRangeByWbr} from "./setRangeByWbr";
+
+const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
+    const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
+    vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
+        wbr.remove();
+    });
+    range.insertNode(document.createElement("wbr"));
+
+    if (cancel && itemElement) {
+        // 取消
+        list2p(itemElement.parentElement);
+    } else {
+        if (!itemElement) {
+            // 添加
+            let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+            if (!blockElement) {
+                vditor.wysiwyg.element.querySelector("wbr").remove();
+                blockElement = vditor.wysiwyg.element.querySelector("p");
+                blockElement.innerHTML = "<wbr>";
+            }
+            if (type === "check") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li></ul>`);
+                blockElement.remove();
+            } else if (type === "list") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ul data-block="0"><li>${blockElement.innerHTML}</li></ul>`);
+                blockElement.remove();
+            } else if (type === "ordered-list") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ol data-block="0"><li>${blockElement.innerHTML}</li></ol>`);
+                blockElement.remove();
+            }
+        } else {
+            // 切换
+            if (type === "check") {
+                itemElement.parentElement.querySelectorAll("li").forEach((item) => {
+                    item.insertAdjacentHTML("afterbegin", '<input type="checkbox" />');
+                    item.classList.add("vditor-task");
+                });
+            } else {
+                if (itemElement.querySelector("input")) {
+                    itemElement.parentElement.querySelectorAll("li").forEach((item) => {
+                        item.querySelector("input").remove();
+                        item.classList.remove("vditor-task");
+                    });
+                }
+                let element;
+                if (type === "list") {
+                    element = document.createElement("ul");
+                } else {
+                    element = document.createElement("ol");
+                }
+                element.innerHTML = itemElement.parentElement.innerHTML;
+                itemElement.parentElement.parentNode.replaceChild(element, itemElement.parentElement);
+            }
+        }
+    }
+    setRangeByWbr(vditor.wysiwyg.element, range);
+};
+
+const list2p = (listElement: HTMLElement) => {
+    let pHTML = "";
+    for (let i = 0; i < listElement.childElementCount; i++) {
+        const inputElement = listElement.children[i].querySelector("input");
+        if (inputElement) {
+            inputElement.remove();
+        }
+        pHTML += `<p data-block="0">${listElement.children[i].innerHTML.trimLeft()}</p>`;
+    }
+    listElement.insertAdjacentHTML("beforebegin", pHTML);
+    listElement.remove();
+};
 
 export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
     let useHighlight = true;
@@ -26,6 +100,8 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
     }
 
     let commandName = actionBtn.getAttribute("data-type");
+
+    // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
         if (commandName === "bold" || commandName === "italic" || commandName === "strike") {
             useHighlight = false;
@@ -42,6 +118,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 tempElement.innerHTML = quoteElement.innerHTML;
                 quoteElement.parentNode.replaceChild(tempElement, quoteElement);
             }
+            vditor.wysiwyg.element.focus();
         } else if (commandName === "inline-code") {
             if (!range.collapsed) {
                 document.execCommand("removeFormat", false, "");
@@ -61,11 +138,11 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             useHighlight = false;
             actionBtn.classList.remove("vditor-menu--current");
         } else {
-            // bold, italic
+            // bold, italic, strike
             document.execCommand(commandName, false, "");
         }
-        vditor.wysiwyg.element.focus();
     } else {
+        // 添加
         if (commandName === "bold" || commandName === "italic" || commandName === "strike") {
             useHighlight = false;
             actionBtn.classList.add("vditor-menu--current");
@@ -156,8 +233,22 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 + "<tbody><tr><td></td><td></td><td>"
                 + "</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>");
         } else {
-            document.execCommand(commandName, false, "");
-            vditor.wysiwyg.element.focus();
+            // bold, italic, strike, line
+            if (range.toString() === "" && (commandName === "bold" || commandName === "italic" || commandName === "strike")) {
+                let tagName = "b";
+                if (commandName === "italic") {
+                    tagName = "i";
+                } else if (commandName === "strike") {
+                    tagName = "strike";
+                }
+                const node = document.createElement(tagName);
+                node.textContent = Constants.ZWSP;
+                range.insertNode(node);
+                range.selectNode(node);
+                setSelectionFocus(range);
+            } else {
+                document.execCommand(commandName, false, "");
+            }
         }
     }
 

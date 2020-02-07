@@ -24,6 +24,9 @@ export class Preview extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (vditor.currentMode === "wysiwyg") {
+                return;
+            }
             if (vditor.currentPreviewMode === "preview") {
                 setPreviewMode("editor", vditor);
             } else {

@@ -204,11 +204,16 @@ class WYSIWYG {
                     pElement.textContent = "\n";
                     range.insertNode(pElement);
                 } else {
-                    vditor.wysiwyg.element.childNodes.forEach((node: HTMLElement) => {
-                        if (node.nodeType === 3) {
-                            pElement.textContent = node.textContent;
+                    Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
+                        if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-type"))) {
+                            if (node.nodeType === 3) {
+                                pElement.textContent = node.textContent;
+                            } else {
+                                pElement.innerHTML = node.outerHTML;
+                            }
                             node.parentNode.insertBefore(pElement, node);
                             node.remove();
+                            return true;
                         }
                     });
                 }
