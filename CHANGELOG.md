@@ -44,6 +44,7 @@
 
 * [112](https://github.com/Vanessa219/vditor/issues/112) 列表项加代码块问题 `修复缺陷`
 * [111](https://github.com/Vanessa219/vditor/issues/111) ctrl+b, ctrl+i, ctrl+s not working at starting and combining `修复缺陷`
+* [109](https://github.com/Vanessa219/vditor/issues/109) tab key at list `改进功能`
 * [108](https://github.com/Vanessa219/vditor/issues/108) 行级代码问题 `修复缺陷`
 * [107](https://github.com/Vanessa219/vditor/issues/107) 删除线解析问题 `修复缺陷`
 * [105](https://github.com/Vanessa219/vditor/issues/105) Link(ctrl+k) `改进功能`

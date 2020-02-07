@@ -21,9 +21,9 @@ import {
 import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
+import {nextIsImg} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
-import {nextIsImg} from "./inlineTag";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);

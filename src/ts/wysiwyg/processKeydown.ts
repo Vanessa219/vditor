@@ -409,6 +409,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
+
+        if (!event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Tab" && range.startOffset === 0
+            && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
+                || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
+            // 光标位于第一零字符时，tab 用于列表的缩进
+            if (event.shiftKey) {
+                (vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]') as HTMLElement).click();
+            } else {
+                (vditor.wysiwyg.popover.querySelector('button[data-type="indent"]') as HTMLElement).click();
+            }
+            event.preventDefault();
+            return true;
+        }
     }
 
     // task list
@@ -516,7 +529,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // tab 处理, block code render 和 table 中的 tab 处理单独写在上面
+    // tab 处理: block code render, table, 列表第一个字符中的 tab 处理单独写在上面
     if (vditor.options.tab && event.key === "Tab") {
         if (event.shiftKey) {
             // TODO shift+tab

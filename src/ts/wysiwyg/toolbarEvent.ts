@@ -1,6 +1,5 @@
 import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
-import {i18n} from "../i18n";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -84,7 +83,7 @@ const list2p = (listElement: HTMLElement) => {
 const getBES = (node: INode, commandName: string) => {
     const list = [];
     let element = node.parentElement;
-    let jump = false
+    let jump = false;
     while (element && !jump) {
         let tagName = element.tagName;
         if (tagName === "STRIKE") {
@@ -103,7 +102,7 @@ const getBES = (node: INode, commandName: string) => {
                 list.push(tagName);
             }
             if (element.nextSibling) {
-                jump = true
+                jump = true;
             } else {
                 element = element.parentElement;
             }
@@ -192,7 +191,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                     }
                 });
                 if (ebs.list.length > 0) {
-                    ebs.element.insertAdjacentElement("afterend", emptyElement.firstElementChild)
+                    ebs.element.insertAdjacentElement("afterend", emptyElement.firstElementChild);
                     if (ebs.list.length === 1) {
                         range.setStart(ebs.element.nextElementSibling.firstChild, 1);
                     } else {
@@ -200,7 +199,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                     }
                 } else {
                     emptyElement.textContent = Constants.ZWSP;
-                    ebs.element.insertAdjacentElement("afterend", emptyElement)
+                    ebs.element.insertAdjacentElement("afterend", emptyElement);
                     range.setStart(ebs.element.nextElementSibling.firstChild, 1);
                 }
 
@@ -269,13 +268,13 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             if (range.toString() === "") {
                 const aElement = document.createElement("a");
                 aElement.innerText = Constants.ZWSP;
-                range.insertNode(aElement)
-                range.setStart(aElement.firstChild, 1)
+                range.insertNode(aElement);
+                range.setStart(aElement.firstChild, 1);
                 range.collapse(true);
                 genAPopover(vditor, aElement);
-                const textInputElement = vditor.wysiwyg.popover.querySelector('input')
-                textInputElement.value = ""
-                textInputElement.focus()
+                const textInputElement = vditor.wysiwyg.popover.querySelector("input");
+                textInputElement.value = "";
+                textInputElement.focus();
                 useHighlight = false;
                 useRender = false;
             } else {
@@ -304,7 +303,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 node.textContent = Constants.ZWSP;
                 range.insertNode(node);
                 range.setStart(node, 1);
-                range.collapse(true)
+                range.collapse(true);
                 setSelectionFocus(range);
             } else {
                 document.execCommand(commandName, false, "");
