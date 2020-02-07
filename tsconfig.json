@@ -5,7 +5,6 @@
     "module": "esnext",
     "target": "es5",
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "lib": [
       "dom",
       "es2015"
