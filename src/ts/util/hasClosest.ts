@@ -143,4 +143,4 @@ export const getTopList = (element: Node) => {
         topListElement = topOlElement;
     }
     return topListElement;
-}
+};
