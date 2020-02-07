@@ -4,9 +4,9 @@ export const nextIsCode = (range: Range) => {
         nextNode = nextNode.nextSibling as HTMLElement;
     }
 
-    if (nextNode && nextNode.nodeType !== 3 && nextNode.tagName === "CODE" ||
+    if (nextNode && nextNode.nodeType !== 3 && (nextNode.tagName === "CODE" ||
         nextNode.getAttribute("data-type") === "math-inline" ||
-        nextNode.getAttribute("data-type") === "html-inline"
+        nextNode.getAttribute("data-type") === "html-inline")
     ) {
         return true;
     }

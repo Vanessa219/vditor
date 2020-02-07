@@ -81,6 +81,42 @@ const list2p = (listElement: HTMLElement) => {
     listElement.remove();
 };
 
+const getBES = (node: INode, commandName: string) => {
+    const list = [];
+    let element = node.parentElement;
+    let jump = false
+    while (element && !jump) {
+        let tagName = element.tagName;
+        if (tagName === "STRIKE") {
+            tagName = "S";
+        }
+        if (tagName === "I") {
+            tagName = "EM";
+        }
+        if (tagName === "B") {
+            tagName = "STRONG";
+        }
+        if (tagName === "S" || tagName === "STRONG" || tagName === "EM") {
+            if (!(commandName === "bold" && tagName === "STRONG") &&
+                !(commandName === "italic" && tagName === "EM") &&
+                !(commandName === "strikeThrough" && tagName === "S")) {
+                list.push(tagName);
+            }
+            if (element.nextSibling) {
+                jump = true
+            } else {
+                element = element.parentElement;
+            }
+        } else {
+            jump = true;
+        }
+    }
+    return {
+        element,
+        list,
+    };
+};
+
 export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
     let useHighlight = true;
     let useRender = true;
@@ -139,7 +175,40 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             actionBtn.classList.remove("vditor-menu--current");
         } else {
             // bold, italic, strike
-            document.execCommand(commandName, false, "");
+            if (range.toString() === "") {
+                const ebs = getBES(range.startContainer as INode, commandName);
+                const emptyElement = document.createElement("span");
+                ebs.list.forEach((tagName, index) => {
+                    const node = document.createElement(tagName);
+                    if (index === ebs.list.length - 1) {
+                        node.textContent = Constants.ZWSP;
+                        if (ebs.list.length === 1) {
+                            emptyElement.append(node);
+                        } else {
+                            emptyElement.firstElementChild.append(node);
+                        }
+                    } else {
+                        emptyElement.append(node);
+                    }
+                });
+                if (ebs.list.length > 0) {
+                    ebs.element.insertAdjacentElement("afterend", emptyElement.firstElementChild)
+                    if (ebs.list.length === 1) {
+                        range.setStart(ebs.element.nextElementSibling.firstChild, 1);
+                    } else {
+                        range.setStart(ebs.element.nextElementSibling.firstElementChild.firstChild, 1);
+                    }
+                } else {
+                    emptyElement.textContent = Constants.ZWSP;
+                    ebs.element.insertAdjacentElement("afterend", emptyElement)
+                    range.setStart(ebs.element.nextElementSibling.firstChild, 1);
+                }
+
+                range.collapse(true);
+                setSelectionFocus(range);
+            } else {
+                document.execCommand(commandName, false, "");
+            }
         }
     } else {
         // 添加
@@ -234,17 +303,18 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 + "</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>");
         } else {
             // bold, italic, strike, line
-            if (range.toString() === "" && (commandName === "bold" || commandName === "italic" || commandName === "strike")) {
-                let tagName = "b";
+            if (range.toString() === "" && (commandName === "bold" || commandName === "italic" || commandName === "strikeThrough")) {
+                let tagName = "strong";
                 if (commandName === "italic") {
-                    tagName = "i";
-                } else if (commandName === "strike") {
-                    tagName = "strike";
+                    tagName = "em";
+                } else if (commandName === "strikeThrough") {
+                    tagName = "s";
                 }
                 const node = document.createElement(tagName);
                 node.textContent = Constants.ZWSP;
                 range.insertNode(node);
-                range.selectNode(node);
+                range.setStart(node, 1);
+                range.collapse(true)
                 setSelectionFocus(range);
             } else {
                 document.execCommand(commandName, false, "");

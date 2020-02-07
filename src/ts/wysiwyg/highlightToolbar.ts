@@ -63,7 +63,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             setCurrentToolbar(vditor.toolbar.elements, ["bold"]);
         }
 
-        if (hasClosestByMatchTag(typeElement, "EM") || hasClosestByMatchTag(typeElement, "I")) {
+        if (hasClosestByMatchTag(typeElement, "I") || hasClosestByMatchTag(typeElement, "EM")) {
             setCurrentToolbar(vditor.toolbar.elements, ["italic"]);
         }
 
