@@ -40,7 +40,7 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.11 / 2020-02-07
+### v2.1.12 / 2020-02-07
 
 * [117](https://github.com/Vanessa219/vditor/issues/117) cursor moving problem near inline code `修复缺陷`
 * [115](https://github.com/Vanessa219/vditor/issues/115) codeblock difference between ``` and ctrl+u `修复缺陷`
