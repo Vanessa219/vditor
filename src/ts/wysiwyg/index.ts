@@ -17,6 +17,7 @@ import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
+import {isHeadingMD, isHrMD} from "./processMD";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -250,7 +251,7 @@ class WYSIWYG {
                 }
             }
 
-            if (startSpace || endSpace) {
+            if (startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
                 return;
             }
 

@@ -12,6 +12,7 @@ import {processKeymap} from "../util/processKeymap";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsCode} from "./inlineTag";
 import {processCodeRender, showCode} from "./processCodeRender";
+import {isHeadingMD, isHrMD} from "./processMD";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
 
@@ -32,15 +33,36 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
 
-    // table 自动完成
+    // md 处理
     const pElement = hasClosestByMatchTag(startContainer, "P");
     if (pElement && !event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Enter") {
         const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
         const pTextList = pText.split("|");
         if (pText.startsWith("|") && pText.endsWith("|") && pTextList.length > 3) {
+            // table 自动完成
             let tableHeaderMD = pTextList.map(() => "---").join("|");
             tableHeaderMD = pElement.textContent + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + "\n|<wbr>";
             pElement.outerHTML = vditor.lute.SpinVditorDOM(tableHeaderMD);
+            setRangeByWbr(vditor.wysiwyg.element, range);
+            afterRenderEvent(vditor);
+            scrollCenter(vditor.wysiwyg.element);
+            event.preventDefault();
+            return true;
+        }
+
+        if (isHrMD(pElement.innerHTML)) {
+            // hr 渲染
+            pElement.innerHTML = "<hr><wbr>";
+            setRangeByWbr(vditor.wysiwyg.element, range);
+            afterRenderEvent(vditor);
+            scrollCenter(vditor.wysiwyg.element);
+            event.preventDefault();
+            return true;
+        }
+
+        if (isHeadingMD(pElement.innerHTML)) {
+            // heading 渲染
+            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + "<wbr>");
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
             scrollCenter(vditor.wysiwyg.element);
@@ -551,7 +573,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // shift+enter：软换行，但 table 自动完成、cell 内换行、block render 换行、li 软换行处理单独写在上面
+    // shift+enter：软换行，但 md 处理、cell 内换行、block render 换行、li 软换行处理单独写在上面
     if (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
@@ -606,7 +628,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // 除 table 自动完成、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、
+    // 除 md 处理、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、
     // 任务列表换行、软换行外需在换行时调整文档位置
     if (event.key === "Enter") {
         scrollCenter(vditor.wysiwyg.element);
