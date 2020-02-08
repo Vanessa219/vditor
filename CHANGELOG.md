@@ -43,6 +43,7 @@
 ### v2.1.11 / 2020-02-07
 
 * [117](https://github.com/Vanessa219/vditor/issues/117) cursor moving problem near inline code `修复缺陷`
+* [114](https://github.com/Vanessa219/vditor/issues/114) 有序列表合并问题 `修复缺陷`
 * [115](https://github.com/Vanessa219/vditor/issues/115) codeblock difference between ``` and ctrl+u `修复缺陷`
 * [112](https://github.com/Vanessa219/vditor/issues/112) 列表项加代码块问题 `修复缺陷`
 * [111](https://github.com/Vanessa219/vditor/issues/111) ctrl+b, ctrl+i, ctrl+s not working at starting and combining `修复缺陷`
