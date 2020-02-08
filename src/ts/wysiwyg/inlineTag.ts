@@ -26,3 +26,31 @@ export const nextIsImg = (range: Range) => {
     }
     return false;
 };
+
+export const getNextHTML = (node: Node) => {
+    let html = "";
+    let nextNode = node.nextSibling;
+    while (nextNode) {
+        if (nextNode.nodeType === 3) {
+            html += nextNode.textContent;
+        } else {
+            html += (nextNode as HTMLElement).outerHTML;
+        }
+        nextNode = nextNode.nextSibling;
+    }
+    return html;
+};
+
+export const getPreviousHTML = (node: Node) => {
+    let html = "";
+    let previousNode = node.previousSibling;
+    while (previousNode) {
+        if (previousNode.nodeType === 3) {
+            html += previousNode.textContent;
+        } else {
+            html += (previousNode as HTMLElement).outerHTML;
+        }
+        previousNode = previousNode.previousSibling;
+    }
+    return html;
+};

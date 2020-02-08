@@ -4,6 +4,7 @@ import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
+import {getNextHTML, getPreviousHTML} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
 
@@ -80,12 +81,18 @@ const list2p = (listElement: HTMLElement) => {
     listElement.remove();
 };
 
-const getBES = (node: INode, commandName: string) => {
-    const list = [];
-    let element = node.parentElement;
+const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
+    let element = range.startContainer.parentElement;
+    const text = (range.startContainer as INode).wholeText;
+    const offset = range.startOffset;
     let jump = false;
+    const previousHTML = getPreviousHTML(range.startContainer);
+    const nextHTML = getNextHTML(range.startContainer);
+    let lastTagName = "";
+    let lastEndTagName = "";
     while (element && !jump) {
         let tagName = element.tagName;
+        const parentElement = element.parentElement;
         if (tagName === "STRIKE") {
             tagName = "S";
         }
@@ -96,24 +103,29 @@ const getBES = (node: INode, commandName: string) => {
             tagName = "STRONG";
         }
         if (tagName === "S" || tagName === "STRONG" || tagName === "EM") {
-            if (!(commandName === "bold" && tagName === "STRONG") &&
-                !(commandName === "italic" && tagName === "EM") &&
-                !(commandName === "strikeThrough" && tagName === "S")) {
-                list.push(tagName);
+            let insertHTML = "";
+            if (text.substr(0, offset) !== "" && text.substr(0, offset) !== Constants.ZWSP || previousHTML) {
+                insertHTML = `<${tagName}>${lastTagName}${previousHTML}${text.substr(0, offset)}${lastEndTagName}</${tagName}>`;
             }
-            if (element.nextSibling) {
+            if ((commandName === "bold" && tagName === "STRONG") ||
+                (commandName === "italic" && tagName === "EM") ||
+                (commandName === "strikeThrough" && tagName === "S")) {
+                insertHTML += `${lastTagName}${Constants.ZWSP}<wbr>${lastEndTagName}`;
                 jump = true;
-            } else {
-                element = element.parentElement;
             }
+            if (text.substr(offset) !== "" && text.substr(offset) !== Constants.ZWSP || nextHTML) {
+                insertHTML += `<${tagName}>${lastTagName}${text.substr(offset)}${nextHTML}${lastEndTagName}</${tagName}>`;
+            }
+            element.outerHTML = insertHTML;
+            element = parentElement;
+            lastTagName = `<${tagName}>` + lastTagName;
+            lastEndTagName = `</${tagName}>` + lastEndTagName;
         } else {
             jump = true;
         }
     }
-    return {
-        element,
-        list,
-    };
+
+    setRangeByWbr(vditor.wysiwyg.element, range);
 };
 
 export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
@@ -138,10 +150,6 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
 
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
-        if (commandName === "bold" || commandName === "italic" || commandName === "strike") {
-            useHighlight = false;
-            actionBtn.classList.remove("vditor-menu--current");
-        }
         if (commandName === "strike") {
             commandName = "strikeThrough";
         }
@@ -174,37 +182,10 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             actionBtn.classList.remove("vditor-menu--current");
         } else {
             // bold, italic, strike
+            useHighlight = false;
+            actionBtn.classList.remove("vditor-menu--current");
             if (range.toString() === "") {
-                const ebs = getBES(range.startContainer as INode, commandName);
-                const emptyElement = document.createElement("span");
-                ebs.list.forEach((tagName, index) => {
-                    const node = document.createElement(tagName);
-                    if (index === ebs.list.length - 1) {
-                        node.textContent = Constants.ZWSP;
-                        if (ebs.list.length === 1) {
-                            emptyElement.append(node);
-                        } else {
-                            emptyElement.firstElementChild.append(node);
-                        }
-                    } else {
-                        emptyElement.append(node);
-                    }
-                });
-                if (ebs.list.length > 0) {
-                    ebs.element.insertAdjacentElement("afterend", emptyElement.firstElementChild);
-                    if (ebs.list.length === 1) {
-                        range.setStart(ebs.element.nextElementSibling.firstChild, 1);
-                    } else {
-                        range.setStart(ebs.element.nextElementSibling.firstElementChild.firstChild, 1);
-                    }
-                } else {
-                    emptyElement.textContent = Constants.ZWSP;
-                    ebs.element.insertAdjacentElement("afterend", emptyElement);
-                    range.setStart(ebs.element.nextElementSibling.firstChild, 1);
-                }
-
-                range.collapse(true);
-                setSelectionFocus(range);
+                cancelBES(range, vditor, commandName);
             } else {
                 document.execCommand(commandName, false, "");
             }
@@ -301,8 +282,21 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 }
                 const node = document.createElement(tagName);
                 node.textContent = Constants.ZWSP;
-                range.insertNode(node);
-                range.setStart(node, 1);
+
+                if (range.startOffset === 0 && range.startContainer.nodeType !== 3
+                    && (range.startContainer as HTMLElement).classList.contains("vditor-wysiwyg")) {
+                    // 飘逸在 p 元素外
+                    vditor.wysiwyg.element.firstElementChild.insertAdjacentElement("afterbegin", node);
+                } else {
+                    range.insertNode(node);
+                }
+
+                if (node.previousSibling && node.previousSibling.textContent === Constants.ZWSP) {
+                    // 移除多层嵌套中的 zwsp
+                    node.previousSibling.textContent = "";
+                }
+
+                range.setStart(node.firstChild, 1);
                 range.collapse(true);
                 setSelectionFocus(range);
             } else {

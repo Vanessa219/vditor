@@ -10,7 +10,10 @@ export const isHrMD = (text: string) => {
 
 export const isHeadingMD = (text: string) => {
     // - =
-    text = text.split("\n").pop()
+    text = text.split("\n").pop();
+    if (text === "") {
+        return false;
+    }
     if (text.replace(/-/g, "") === ""
         || text.replace(/=/g, "") === "") {
         return true;
