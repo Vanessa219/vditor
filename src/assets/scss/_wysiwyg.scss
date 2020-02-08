@@ -33,6 +33,10 @@
       margin-bottom: 0;
     }
 
+    code {
+      padding: 0.2em 0.4em !important;
+    }
+
     & > code {
       display: none;
     }

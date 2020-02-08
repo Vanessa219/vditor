@@ -246,17 +246,17 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
         } else if (commandName === "code") {
             const node = document.createElement("div");
-            if (range.collapsed) {
-                node.className = "vditor-wysiwyg__block";
-                node.setAttribute("data-type", "code-block");
-                node.innerHTML = `<pre data-block="0"><code></code></pre>`;
+            node.className = "vditor-wysiwyg__block";
+            node.setAttribute("data-type", "code-block");
+            node.setAttribute("data-block", "0");
+            node.setAttribute("data-marker", "```");
+            if (range.toString() === "") {
+                node.innerHTML = `<pre><code></code></pre>`;
                 range.insertNode(node);
                 range.selectNodeContents(node.firstChild.firstChild);
                 setSelectionFocus(range);
             } else {
-                node.className = "vditor-wysiwyg__block";
-                node.setAttribute("data-type", "code-block");
-                node.innerHTML = `<pre data-block="0"><code>${range.toString()}</code></pre>`;
+                node.innerHTML = `<pre><code>${range.toString()}</code></pre>`;
                 range.deleteContents();
                 range.insertNode(node);
                 range.selectNodeContents(node.firstChild.firstChild);
