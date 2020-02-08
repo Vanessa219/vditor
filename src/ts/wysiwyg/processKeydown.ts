@@ -299,7 +299,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         startContainer.textContent === Constants.ZWSP && range.startOffset === 1 && !startContainer.previousSibling &&
         nextIsCode(range)) {
         startContainer.textContent = "";
-        return true;
+        // 不能返回，其前面为代码渲染块时需进行以下处理：修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
     }
 
     // 顶层 blockquote
