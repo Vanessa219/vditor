@@ -42,6 +42,7 @@
 
 ### v2.1.11 / 2020-02-07
 
+* [117](https://github.com/Vanessa219/vditor/issues/117) cursor moving problem near inline code `修复缺陷`
 * [112](https://github.com/Vanessa219/vditor/issues/112) 列表项加代码块问题 `修复缺陷`
 * [111](https://github.com/Vanessa219/vditor/issues/111) ctrl+b, ctrl+i, ctrl+s not working at starting and combining `修复缺陷`
 * [109](https://github.com/Vanessa219/vditor/issues/109) tab key at list `改进功能`
