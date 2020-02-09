@@ -288,7 +288,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (codePosition.start === 0 && range.toString() === "") {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
                 codeRenderElement.outerHTML =
-                    `<p data-block="0">${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;
+                    `<p data-block="0"><wbr>${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;
+                setRangeByWbr(vditor.wysiwyg.element, range);
                 afterRenderEvent(vditor);
                 event.preventDefault();
                 return true;

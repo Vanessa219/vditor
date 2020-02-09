@@ -4,9 +4,8 @@ import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection"
 import {uploadFiles} from "../upload";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
-    hasClosestBlock,
+    hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
-    hasClosestByMatchTag,
     hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
@@ -18,6 +17,7 @@ import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD} from "./processMD";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -137,12 +137,19 @@ class WYSIWYG {
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     event.target.parentElement);
             } else if (code) {
-                const pElement = hasClosestByMatchTag(range.startContainer, "P");
-                if (pElement) {
-                    range.setStartAfter(pElement);
+                const node = document.createElement("div");
+                node.innerHTML = `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
+                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre></div>`;
+                range.insertNode(node.firstChild);
+                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+                if (blockElement) {
+                    blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
                 }
-                insertHTML(`<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
-                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre></div>`, vditor);
+                setRangeByWbr(vditor.wysiwyg.element, range);
+                const codeRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
+                if (codeRenderElement) {
+                    processCodeRender(codeRenderElement, vditor);
+                }
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
