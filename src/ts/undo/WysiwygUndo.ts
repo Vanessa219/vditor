@@ -49,7 +49,7 @@ class WysiwygUndo {
 
     public recordFirstWbr(vditor: IVditor) {
         if (this.undoStack.length === 1) {
-            const range = getSelection().getRangeAt(0).cloneRange()
+            const range = getSelection().getRangeAt(0).cloneRange();
             range.insertNode(document.createElement("wbr"));
             const cloneEditorElement = document.createElement("pre");
             cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
@@ -62,9 +62,9 @@ class WysiwygUndo {
 
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
-        let range
+        let range;
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
-            range = getSelection().getRangeAt(0).cloneRange()
+            range = getSelection().getRangeAt(0).cloneRange();
             if (vditor.wysiwyg.element.contains(range.startContainer)) {
                 range.insertNode(document.createElement("wbr"));
             }

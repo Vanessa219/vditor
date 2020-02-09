@@ -5,8 +5,8 @@ import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML} from "./inlineTag";
-import {setRangeByWbr} from "./setRangeByWbr";
 import {processCodeRender} from "./processCodeRender";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
     const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
@@ -238,12 +238,12 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 range.deleteContents();
             }
             range.insertNode(node);
-            const blockElement = hasClosestByAttribute(range.startContainer, 'data-block', '0')
+            const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
             if (blockElement) {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             }
             setRangeByWbr(vditor.wysiwyg.element, range);
-            const codeRenderElement = hasClosestByClassName(range.startContainer, 'vditor-wysiwyg__block')
+            const codeRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
             if (codeRenderElement) {
                 processCodeRender(codeRenderElement, vditor);
             }
