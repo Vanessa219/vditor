@@ -28,7 +28,7 @@
 
 使用截图
 
-![demo](https://user-images.githubusercontent.com/970828/71512966-666f4480-28d3-11ea-944e-26340f52cd30.png)
+![demo](https://user-images.githubusercontent.com/970828/74103219-5fe81400-4b85-11ea-908d-66e5fdd4206f.png)
 
 
 渲染截图
