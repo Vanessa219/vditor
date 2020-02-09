@@ -44,7 +44,11 @@ class Editor {
         });
 
         this.element.addEventListener("input", () => {
-            inputEvent(vditor);
+            inputEvent(vditor, {
+                enableAddUndoStack: true,
+                enableHint: true,
+                enableInput: true,
+            });
             // 选中多行后输入任意字符，br 后无 \n
             this.element.querySelectorAll("br").forEach((br) => {
                 if (!br.nextElementSibling) {

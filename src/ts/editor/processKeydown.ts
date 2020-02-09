@@ -69,6 +69,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 {
                     end: position.start - deleteChar,
                     start: position.start - deleteChar,
+                }, {
+                    enableAddUndoStack: true,
+                    enableHint: true,
+                    enableInput: true,
                 });
         }
         event.preventDefault();
