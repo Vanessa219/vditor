@@ -49,29 +49,29 @@ class WysiwygUndo {
 
     public recordFirstWbr(vditor: IVditor) {
         if (this.undoStack.length === 1) {
-            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+            const range = getSelection().getRangeAt(0).cloneRange()
+            range.insertNode(document.createElement("wbr"));
             const cloneEditorElement = document.createElement("pre");
             cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
             addP2Li(cloneEditorElement);
             this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
             this.lastText = this.undoStack[0][0].diffs[0][1];
-            vditor.wysiwyg.element.querySelector("wbr").remove();
+            setRangeByWbr(vditor.wysiwyg.element, range);
         }
     }
 
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
+        const range = getSelection().getRangeAt(0).cloneRange()
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr") &&
-            vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
-            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+            vditor.wysiwyg.element.contains(range.startContainer)) {
+            range.insertNode(document.createElement("wbr"));
         }
         const cloneEditorElement = document.createElement("pre");
         cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
         addP2Li(cloneEditorElement);
         const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
-        if (vditor.wysiwyg.element.querySelector("wbr")) {
-            vditor.wysiwyg.element.querySelector("wbr").remove();
-        }
+        setRangeByWbr(vditor.wysiwyg.element, range);
         const diff = this.dmp.diff_main(text, this.lastText, true);
         const patchList = this.dmp.patch_make(text, this.lastText, diff);
         if (patchList.length === 0) {
