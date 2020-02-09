@@ -20,7 +20,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
 
     // 添加第一次记录 undo 的光标
-    if (!event.metaKey && !event.ctrlKey && range.toString() === "") {
+    if (!event.metaKey && !event.ctrlKey) {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 

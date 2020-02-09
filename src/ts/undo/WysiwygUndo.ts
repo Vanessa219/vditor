@@ -49,14 +49,13 @@ class WysiwygUndo {
 
     public recordFirstWbr(vditor: IVditor) {
         if (this.undoStack.length === 1) {
-            const range = getSelection().getRangeAt(0).cloneRange();
-            range.insertNode(document.createElement("wbr"));
+            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
             const cloneEditorElement = document.createElement("pre");
             cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
             addP2Li(cloneEditorElement);
             this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
             this.lastText = this.undoStack[0][0].diffs[0][1];
-            setRangeByWbr(vditor.wysiwyg.element, range);
+            vditor.wysiwyg.element.querySelector("wbr").remove();
         }
     }
 
