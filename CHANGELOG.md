@@ -43,6 +43,7 @@
 ### v2.1.12 / 2020-02-07
 
 * [123](https://github.com/Vanessa219/vditor/issues/123) 加粗、强调前导空格问题 `修复缺陷`
+* [122](https://github.com/Vanessa219/vditor/issues/122) 在 p 中插入代码块 bug `修复缺陷`
 * [118](https://github.com/Vanessa219/vditor/issues/118) Firefox no cursor when ctrl+b pressed `修复缺陷`
 * [117](https://github.com/Vanessa219/vditor/issues/117) cursor moving problem near inline code `修复缺陷`
 * [115](https://github.com/Vanessa219/vditor/issues/115) codeblock difference between ``` and ctrl+u `修复缺陷`

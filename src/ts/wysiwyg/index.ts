@@ -174,7 +174,7 @@ class WYSIWYG {
             if (event.target.tagName === "INPUT") {
                 return;
             }
-            input(event, vditor, getSelection().getRangeAt(0).cloneRange());
+            input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
         });
 
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
@@ -255,7 +255,7 @@ class WYSIWYG {
                 return;
             }
 
-            input(event, vditor, range);
+            input(vditor, range, event);
         });
 
         this.element.addEventListener("click", (event: IHTMLInputEvent) => {

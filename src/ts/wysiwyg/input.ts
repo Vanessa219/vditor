@@ -12,7 +12,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
 
-export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => {
+export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
 
     // 列表需要到最顶层

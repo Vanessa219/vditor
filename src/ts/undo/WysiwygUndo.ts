@@ -62,16 +62,20 @@ class WysiwygUndo {
 
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
-        const range = getSelection().getRangeAt(0).cloneRange()
-        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr") &&
-            vditor.wysiwyg.element.contains(range.startContainer)) {
-            range.insertNode(document.createElement("wbr"));
+        let range
+        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
+            range = getSelection().getRangeAt(0).cloneRange()
+            if (vditor.wysiwyg.element.contains(range.startContainer)) {
+                range.insertNode(document.createElement("wbr"));
+            }
         }
         const cloneEditorElement = document.createElement("pre");
         cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
         addP2Li(cloneEditorElement);
         const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
-        setRangeByWbr(vditor.wysiwyg.element, range);
+        if (range) {
+            setRangeByWbr(vditor.wysiwyg.element, range);
+        }
         const diff = this.dmp.diff_main(text, this.lastText, true);
         const patchList = this.dmp.patch_make(text, this.lastText, diff);
         if (patchList.length === 0) {

@@ -1,12 +1,12 @@
 import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
-import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML} from "./inlineTag";
-import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {processCodeRender} from "./processCodeRender";
 
 const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
     const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
@@ -233,18 +233,20 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             node.setAttribute("data-marker", "```");
             if (range.toString() === "") {
                 node.innerHTML = `<pre><code></code></pre>`;
-                range.insertNode(node);
-                range.selectNodeContents(node.firstChild.firstChild);
-                setSelectionFocus(range);
             } else {
                 node.innerHTML = `<pre><code>${range.toString()}</code></pre>`;
                 range.deleteContents();
-                range.insertNode(node);
-                range.selectNodeContents(node.firstChild.firstChild);
-                setSelectionFocus(range);
             }
-            processCodeRender(node, vditor);
-            (node.querySelector(".vditor-wysiwyg__preview") as HTMLElement).click();
+            range.insertNode(node);
+            const blockElement = hasClosestByAttribute(range.startContainer, 'data-block', '0')
+            if (blockElement) {
+                blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
+            }
+            setRangeByWbr(vditor.wysiwyg.element, range);
+            const codeRenderElement = hasClosestByClassName(range.startContainer, 'vditor-wysiwyg__block')
+            if (codeRenderElement) {
+                processCodeRender(codeRenderElement, vditor);
+            }
         } else if (commandName === "link") {
             if (range.toString() === "") {
                 const aElement = document.createElement("a");
