@@ -332,23 +332,39 @@ class WYSIWYG {
             if (event.key === "ArrowDown" || event.key === "ArrowRight") {
                 const blockRenderElement = previewElement.parentElement;
                 let nextNode = blockRenderElement.nextSibling as HTMLElement;
-                if (nextNode && nextNode.nodeType !== 3 &&
-                    nextNode.classList.contains("vditor-wysiwyg__block")) {
-                    // 下一节点依旧为代码渲染块
-                    showCode(nextNode.querySelector(".vditor-wysiwyg__preview"));
-                } else {
-                    // 跳过渲染块，光标移动到下一个节点
-                    if (nextNode.nodeType === 3) {
-                        // inline
-                        while (nextNode.textContent.length === 0 && nextNode.nextSibling) {
-                            // https://github.com/Vanessa219/vditor/issues/100 2
-                            nextNode = nextNode.nextSibling as HTMLElement;
-                        }
-                        range.setStart(nextNode, 1);
-                    } else {
-                        // block
-                        range.setStart(nextNode.firstChild, 0);
+                if (!nextNode) {
+                    // 如下两个列表代码块的处理
+                    // * ```
+                    //   sClosestByClassName,
+                    //   ```
+                    // * ```
+                    //   sClosestBy
+                    //   ```
+                    nextNode = blockRenderElement.parentElement.nextSibling as HTMLElement;
+                }
+                if (nextNode && nextNode.nodeType !== 3) {
+                    if (nextNode.classList.contains("vditor-wysiwyg__block")) {
+                        // 下一节点依旧为代码渲染块
+                        showCode(nextNode.querySelector(".vditor-wysiwyg__preview"));
+                        return;
+                    } else if (nextNode.firstChild && nextNode.firstChild.nodeType !== 3 &&
+                        (nextNode.firstChild as HTMLElement).classList.contains("vditor-wysiwyg__block")) {
+                        // 下一节点的第一个子节点依旧为代码渲染块
+                        showCode(nextNode.querySelector(".vditor-wysiwyg__preview"));
+                        return;
                     }
+                }
+                // 跳过渲染块，光标移动到下一个节点
+                if (nextNode.nodeType === 3) {
+                    // inline
+                    while (nextNode.textContent.length === 0 && nextNode.nextSibling) {
+                        // https://github.com/Vanessa219/vditor/issues/100 2
+                        nextNode = nextNode.nextSibling as HTMLElement;
+                    }
+                    range.setStart(nextNode, 1);
+                } else {
+                    // block
+                    range.setStart(nextNode.firstChild, 0);
                 }
             } else {
                 range.selectNodeContents(codeElement);

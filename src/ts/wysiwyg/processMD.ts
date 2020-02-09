@@ -3,7 +3,10 @@ export const isHrMD = (text: string) => {
     if (text.replace(/ |-/g, "") === ""
         || text.replace(/ |_/g, "") === ""
         || text.replace(/ |\*/g, "") === "") {
-        return true;
+        if (text.replace(/ /g, "").length > 2) {
+            return true;
+        }
+        return false;
     }
     return false;
 };
