@@ -2,6 +2,11 @@
 
 ### 升级
 
+* v2.1
+  * 添加 options.upload.file 方法
+  * options.preview 修改，支持 MathJax 配置
+  * 移除 mathRenderByLute 方法
+  * 添加 setTheme 方法，classic.scss -> index.scss
 * v2.0
   * 默认为 WYSIWYG 模式，可根据需要修改 option.mode 参数
   * 添加 options.debugger, options.value
@@ -40,7 +45,7 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.12 / 2020-02-07
+### v2.1.13 / 2020-02-09
 
 * [123](https://github.com/Vanessa219/vditor/issues/123) 加粗、强调前导空格问题 `修复缺陷`
 * [122](https://github.com/Vanessa219/vditor/issues/122) 在 p 中插入代码块 bug `修复缺陷`
@@ -90,7 +95,7 @@
 * 文档更新
   * 添加 options.upload.file 方法
   * options.preview 修改，支持 MathJax 配置
-  * 移除 mathRender 方法
+  * 移除 mathRenderByLute 方法
   * 添加 setTheme 方法，classic.scss -> index.scss
 
 ### v2.0.15 / 2020-01-11
