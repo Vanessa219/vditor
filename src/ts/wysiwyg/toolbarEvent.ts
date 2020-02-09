@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
-import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML} from "./inlineTag";
@@ -232,9 +232,9 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             node.setAttribute("data-block", "0");
             node.setAttribute("data-marker", "```");
             if (range.toString() === "") {
-                node.innerHTML = `<pre><code></code></pre>`;
+                node.innerHTML = "<pre><code><wbr>\n</code></pre>";
             } else {
-                node.innerHTML = `<pre><code>${range.toString()}</code></pre>`;
+                node.innerHTML = `<pre><code>${range.toString()}<wbr></code></pre>`;
                 range.deleteContents();
             }
             range.insertNode(node);
@@ -243,10 +243,10 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             }
             setRangeByWbr(vditor.wysiwyg.element, range);
-            const codeRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-            if (codeRenderElement) {
-                processCodeRender(codeRenderElement, vditor);
-            }
+            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
+                (blockRenderItem: HTMLElement) => {
+                    processCodeRender(blockRenderItem, vditor);
+                });
         } else if (commandName === "link") {
             if (range.toString() === "") {
                 const aElement = document.createElement("a");

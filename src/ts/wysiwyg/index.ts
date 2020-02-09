@@ -13,6 +13,7 @@ import {processPasteCode} from "../util/processPasteCode";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
+import {getRenderElementNextNode} from "./inlineTag";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
@@ -139,17 +140,17 @@ class WYSIWYG {
             } else if (code) {
                 const node = document.createElement("div");
                 node.innerHTML = `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
-                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre></div>`;
+                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
                 range.insertNode(node.firstChild);
                 const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
                 if (blockElement) {
                     blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
                 }
+                vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
+                    (blockRenderItem: HTMLElement) => {
+                        processCodeRender(blockRenderItem, vditor);
+                    });
                 setRangeByWbr(vditor.wysiwyg.element, range);
-                const codeRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-                if (codeRenderElement) {
-                    processCodeRender(codeRenderElement, vditor);
-                }
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
@@ -290,6 +291,12 @@ class WYSIWYG {
             }
 
             highlightToolbar(vditor);
+
+            // 点击后光标落于预览区，需展开代码块
+            const previewElement = hasClosestByClassName(getSelection().getRangeAt(0).startContainer, 'vditor-wysiwyg__preview')
+            if (previewElement) {
+                showCode(previewElement);
+            }
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {
@@ -331,26 +338,12 @@ class WYSIWYG {
 
             if (event.key === "ArrowDown" || event.key === "ArrowRight") {
                 const blockRenderElement = previewElement.parentElement;
-                let nextNode = blockRenderElement.nextSibling as HTMLElement;
-                if (!nextNode) {
-                    // 如下两个列表代码块的处理
-                    // * ```
-                    //   sClosestByClassName,
-                    //   ```
-                    // * ```
-                    //   sClosestBy
-                    //   ```
-                    nextNode = blockRenderElement.parentElement.nextSibling as HTMLElement;
-                }
+                let nextNode = getRenderElementNextNode(blockRenderElement) as HTMLElement;
                 if (nextNode && nextNode.nodeType !== 3) {
-                    if (nextNode.classList.contains("vditor-wysiwyg__block")) {
-                        // 下一节点依旧为代码渲染块
-                        showCode(nextNode.querySelector(".vditor-wysiwyg__preview"));
-                        return;
-                    } else if (nextNode.firstChild && nextNode.firstChild.nodeType !== 3 &&
-                        (nextNode.firstChild as HTMLElement).classList.contains("vditor-wysiwyg__block")) {
-                        // 下一节点的第一个子节点依旧为代码渲染块
-                        showCode(nextNode.querySelector(".vditor-wysiwyg__preview"));
+                    // 下一节点依旧为代码渲染块
+                    const nextRenderElement = nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement;
+                    if (nextRenderElement) {
+                        showCode(nextRenderElement);
                         return;
                     }
                 }

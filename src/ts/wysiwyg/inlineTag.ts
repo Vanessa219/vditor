@@ -54,3 +54,12 @@ export const getPreviousHTML = (node: Node) => {
     }
     return html;
 };
+
+export const getRenderElementNextNode = (blockCodeElement: HTMLElement) => {
+    let nextNode = blockCodeElement;
+    while (nextNode && !nextNode.nextSibling) {
+        nextNode = nextNode.parentElement;
+    }
+
+    return nextNode.nextSibling;
+};

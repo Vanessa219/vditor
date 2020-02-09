@@ -1,5 +1,6 @@
 export const isHrMD = (text: string) => {
     // - _ *
+    text = text.trim();
     if (text.replace(/ |-/g, "") === ""
         || text.replace(/ |_/g, "") === ""
         || text.replace(/ |\*/g, "") === "") {

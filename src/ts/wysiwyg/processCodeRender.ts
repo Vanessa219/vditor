@@ -47,9 +47,6 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         blockElement.insertAdjacentHTML("beforeend", `<${tagName} class="vditor-wysiwyg__preview"></${tagName}>`);
         previewPanel = blockElement.querySelector(".vditor-wysiwyg__preview");
         previewPanel.setAttribute("data-render", "false");
-        previewPanel.addEventListener("click", () => {
-            showCode(previewPanel);
-        });
     }
 
     let codeElement = previewPanel.previousElementSibling as HTMLElement;
