@@ -131,8 +131,14 @@ class Vditor {
     public setTheme(theme: "dark" | "classic") {
         if (theme === "dark") {
             document.getElementById(this.vditor.id).classList.add("vditor--dark");
+            if (this.vditor.wysiwyg) {
+                this.vditor.wysiwyg.element.classList.add("vditor-reset--dark");
+            }
         } else {
             document.getElementById(this.vditor.id).classList.remove("vditor--dark");
+            if (this.vditor.wysiwyg) {
+                this.vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
+            }
         }
     }
 

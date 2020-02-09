@@ -29,6 +29,9 @@ class WYSIWYG {
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
         this.element.className = "vditor-reset vditor-wysiwyg";
+        if (vditor.options.theme === "dark") {
+            this.element.classList.add("vditor-reset--dark");
+        }
         // TODO: placeholder
         this.element.setAttribute("contenteditable", "true");
         this.element.setAttribute("spellcheck", "false");

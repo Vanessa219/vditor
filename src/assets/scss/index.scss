@@ -36,6 +36,8 @@ $transition: all .15s ease-in-out !default;
 
   --preview-background-color: #fff;
 
+  --code-background-color: rgba(27, 31, 35, .05);
+
   &--dark {
     --border-color: #141414;
 
@@ -55,6 +57,8 @@ $transition: all .15s ease-in-out !default;
     --resize-hover-background-color: #1d2125;
 
     --preview-background-color: #f3f3f3;
+
+    --code-background-color: rgba(177, 181, 215, 0.23);
   }
 }
 

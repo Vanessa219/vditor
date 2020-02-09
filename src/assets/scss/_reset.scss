@@ -11,6 +11,12 @@
       line-height: 16px;
     }
 
+    &--dark {
+      a {
+        color: var(--toolbar-icon-color1);
+      }
+    }
+
     font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -162,8 +168,8 @@
       border-spacing: 0;
 
       tr {
-        background-color: #fff;
-        border-top: 1px solid #c6cbd1
+        background-color: var(--textarea-background-color);
+        border-top: 1px solid #c6cbd1;
       }
 
       td,
@@ -178,7 +184,7 @@
       }
 
       tbody tr:nth-child(2n) {
-        background-color: #f6f8fa;
+        background-color: var(--toolbar-background-color);
       }
     }
 
@@ -191,7 +197,7 @@
       word-break: break-word;
       background-size: 20px 20px;
       white-space: pre-wrap;
-      background-color: rgba(27, 31, 35, .05);
+      background-color: var(--code-background-color);
     }
 
     pre > code {

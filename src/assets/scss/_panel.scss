@@ -61,6 +61,7 @@
     padding: 3px 5px;
     background-color:  var(--toolbar-background-color);
     font-size: 12px;
+    color: var(--textarea-text-color);
 
     &:focus {
       background-color: var(--textarea-focus-background-color);

@@ -63,7 +63,7 @@
 * [104](https://github.com/Vanessa219/vditor/issues/104) image tag at wysiwyg mode `修复缺陷`
 * [103](https://github.com/Vanessa219/vditor/issues/103) cell alignment `修复缺陷`
 * [102](https://github.com/Vanessa219/vditor/issues/102) minus number at table(not important) `修复缺陷`
-* [101](https://github.com/Vanessa219/vditor/issues/101) 提供 setTheme(theme: "dark" | "classic") 方法 `改进功能`
+* [101](https://github.com/Vanessa219/vditor/issues/101) 提供 setTheme(theme: "dark" | "classic") 方法 `引入特性`
 * [100](https://github.com/Vanessa219/vditor/issues/100) inline-math `修复缺陷`
 * [99](https://github.com/Vanessa219/vditor/issues/99) a 中斜体/粗体时 toolbar 不显示 `修复缺陷`
 * [96](https://github.com/Vanessa219/vditor/issues/96) 所见即所得模式下的任务列表Bug `修复缺陷`
