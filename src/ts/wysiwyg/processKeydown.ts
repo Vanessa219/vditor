@@ -18,7 +18,9 @@ import {setRangeByWbr} from "./setRangeByWbr";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
-    vditor.wysiwygUndo.recordFirstWbr(vditor);
+    if (!event.metaKey && !event.ctrlKey) {
+        vditor.wysiwygUndo.recordFirstWbr(vditor);
+    }
 
     if (event.isComposing) {
         return false;
