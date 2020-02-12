@@ -18,8 +18,6 @@ import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
-    const range = getSelection().getRangeAt(0);
-
     // 添加第一次记录 undo 的光标
     if (!isCtrl(event)) {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
@@ -35,8 +33,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return false;
     }
 
+    const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
-
     // md 处理
     const pElement = hasClosestByMatchTag(startContainer, "P");
     if (pElement && !isCtrl(event) && !event.altKey && event.key === "Enter") {

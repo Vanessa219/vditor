@@ -56,7 +56,8 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     const innerHTML = codeElement.innerHTML || "\n";
     if (blockType === "code-block") {
         const language = codeElement.className.replace("language-", "");
-        previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML}</code></pre>`;
+        // 代码块下方输入中文会消失，因此要 trim
+        previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML.trim()}</code></pre>`;
         if (language === "abc") {
             previewPanel.style.marginTop = "1em";
             abcRender(previewPanel, vditor.options.cdn);
