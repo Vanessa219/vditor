@@ -1,7 +1,7 @@
 import {insertText} from "../editor/insertText";
 import {i18n} from "../i18n/index";
 import {getEventName} from "../util/compatibility";
-import {updateHotkeyTip} from "../util/updateHotkeyTip";
+import {updateHotkeyTip} from "../util/compatibility";
 import {toolbarEvent} from "../wysiwyg/toolbarEvent";
 
 export class MenuItem {

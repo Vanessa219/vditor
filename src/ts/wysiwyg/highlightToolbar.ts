@@ -18,7 +18,7 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {updateHotkeyTip} from "../util/updateHotkeyTip";
+import {updateHotkeyTip} from "../util/compatibility";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
