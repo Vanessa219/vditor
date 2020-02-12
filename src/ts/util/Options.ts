@@ -36,7 +36,16 @@ export class Options {
                 lineNumber: false,
                 style: "github",
             },
-            inlineMathDigit: false,
+            markdown: {
+                autoSpace: true,
+                chinesePunct: true,
+                fixTermTypo: true,
+            },
+            math: {
+                engine: "KaTeX",
+                inlineDigit: false,
+                macros: {},
+            },
             maxWidth: 768,
             mode: "both",
         },
@@ -44,6 +53,7 @@ export class Options {
             enable: false,
             position: "bottom",
         },
+        theme: "classic",
         toolbar: [{
             hotkey: "⌘-e",
             name: "emoji",
@@ -228,6 +238,14 @@ export class Options {
                 if (this.options.preview.hljs) {
                     this.options.preview.hljs =
                         Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
+                }
+                if (this.options.preview.math) {
+                    this.options.preview.math =
+                        Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
+                }
+                if (this.options.preview.markdown) {
+                    this.options.preview.markdown =
+                        Object.assign({}, this.defaultOptions.preview.markdown, this.options.preview.markdown);
                 }
             }
 

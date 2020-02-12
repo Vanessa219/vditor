@@ -12,7 +12,7 @@
 .vditor {
   display: flex;
   flex-direction: column;
-  border: 1px solid $borderColor;
+  border: 1px solid var(--border-color);
   border-radius: 3px;
   box-sizing: border-box;
   font-family: $font-family-base;
@@ -32,6 +32,7 @@
     min-height: 60px;
     flex: 1;
     position: relative;
+    background-color: var(--textarea-background-color);
   }
 
   &-textarea {
@@ -45,11 +46,11 @@
     resize: none;
     padding: 10px 9px 10px 10px;
     box-sizing: border-box;
-    background-color: $textareaBg;
+    background-color: var(--textarea-background-color);
     outline: 0 none;
     font-size: 16px;
     line-height: 22px;
-    color: $textareaColor;
+    color: var(--textarea-text-color);
     border-radius: 0 0 3px 3px;
     font-variant-ligatures: no-common-ligatures;
     white-space: pre-wrap;
@@ -62,22 +63,22 @@
     }
 
     &:focus {
-      background-color: $textareaFocusBg;
+      background-color: var(--textarea-focus-background-color);
     }
 
     &:empty::before {
       content: attr(placeholder);
-      color: rgba($textareaColor, .68);
+      color: var(--toolbar-icon-color1);
     }
   }
 
   &-preview {
     flex: 1;
-    background-color: $previewBg;
+    background-color: var(--preview-background-color);
     overflow: auto;
     margin-left: -1px;
     padding: 10px;
-    box-shadow: inset 1px 0 $borderColor;
+    box-shadow: inset 1px 0  var(--border-color);
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
 
@@ -92,10 +93,10 @@
 
   &-devtools {
     display: none;
-    background-color: $previewBg;
+    background-color: var(--preview-background-color);
     overflow: auto;
     flex: 1;
-    box-shadow: inset 1px 0 $borderColor;
+    box-shadow: inset 1px 0  var(--border-color);
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
     padding: 10px;
@@ -106,7 +107,7 @@
     position: absolute;
     bottom: 10px;
     right: 20px;
-    color: $textareaColor;
+    color: var(--textarea-text-color);
     background-color: rgba($fullscreenBg, 0.6);
     border-radius: 3px;
     font-size: 12px;
@@ -137,14 +138,14 @@
 
     & > div {
       height: 3px;
-      background-color: $resizeBg;
+      background-color: var(--resize-background-color);
       transition: $transition;
     }
 
     &:hover,
     &--selected {
       & > div {
-        background-color: $resizeHoverBg;
+        background-color: var(--resize-hover-background-color);
       }
 
       svg {
@@ -160,7 +161,7 @@
       height: 3px;
       display: block;
       margin: 0 auto;
-      color: $toolbarIcon;
+      color:  var(--toolbar-icon-color);
     }
   }
 
@@ -170,7 +171,7 @@
     left: 0;
     top: -2px;
     transition: $transition;
-    background-color: rgba($hoverBg, 0.8);
+    background-color: var(--hover-background-color1);
   }
 
   &-tip {
@@ -193,7 +194,7 @@
       line-height: 16px;
       padding: 3px 10px;
       border-radius: 3px;
-      background: rgba($hoverBg, 0.8);
+      background: var(--hover-background-color1);
       position: relative;
       margin-left: -50%;
 
@@ -205,14 +206,14 @@
 
     &__close {
       position: absolute;
-      color: $toolbarIcon;
+      color:  var(--toolbar-icon-color);
       top: -7px;
       right: -15px;
       font-weight: bold;
       cursor: pointer;
 
       &:hover {
-        color: $toolbarIconHover;
+        color:  var(--toolbar-icon-hover-color);
       }
     }
   }

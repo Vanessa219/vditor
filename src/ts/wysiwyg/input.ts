@@ -1,10 +1,10 @@
 import {Constants} from "../constants";
 import {
+    getTopList,
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
     hasClosestByTag,
-    hasTopClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {addP2Li} from "./addP2Li";
@@ -12,35 +12,16 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
 
-export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => {
+export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
 
     // 列表需要到最顶层
-    const topUlElement = hasTopClosestByTag(range.startContainer, "UL");
-    const topOlElement = hasTopClosestByTag(range.startContainer, "OL");
-    let topListElement = topUlElement;
-    if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
-        topListElement = topOlElement;
-    }
+    const topListElement = getTopList(range.startContainer);
 
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.wysiwyg.element;
     }
-
-    // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
-    blockElement.querySelectorAll('.vditor-wysiwyg__block[data-type$="-inline"]').forEach((item) => {
-        if (!item.querySelector("code")) {
-            const previewElement = item.querySelector(".vditor-wysiwyg__preview");
-            if (item.getAttribute("data-type") === "html-inline") {
-                previewElement.insertAdjacentHTML("beforebegin", `<code data-type="html-inline">${
-                    item.querySelector(".vditor-wysiwyg__preview").getAttribute("data-html")}</code>`);
-            } else {
-                previewElement.insertAdjacentHTML("beforebegin", `<code data-type="math-inline">${
-                    item.querySelector(".vditor-math").getAttribute("data-math")}</code>`);
-            }
-        }
-    });
 
     const renderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
     const codeElement = hasClosestByTag(range.startContainer, "CODE");
@@ -113,7 +94,11 @@ export const input = (event: IHTMLInputEvent, vditor: IVditor, range: Range) => 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
 
-        blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+        // 列表返回多个 block 时，应统一处理 https://github.com/Vanessa219/vditor/issues/112
+        blockElement = getTopList(range.startContainer);
+        if (!blockElement) {
+            blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+        }
         if (range.startContainer.nodeType !== 3 && !blockElement) {
             blockElement = (range.startContainer as HTMLElement).children[range.startOffset] as HTMLElement;
         }

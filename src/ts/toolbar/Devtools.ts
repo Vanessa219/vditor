@@ -1,5 +1,5 @@
 import bugSVG from "../../assets/icons/bug.svg";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 
 export class Devtools extends MenuItem {

@@ -7,7 +7,7 @@
   z-index: 4;
   line-height: 20px;
   list-style: none;
-  color: $textareaColor;
+  color: var(--textarea-text-color);
   font-size: 12px;
   margin: 0;
   max-width: 250px;
@@ -18,7 +18,7 @@
     display: block;
     padding: 3px 10px;
     border: 0;
-    border-bottom: 1px solid $borderColor;
+    border-bottom: 1px solid  var(--border-color);
     line-height: 20px;
     width: 100%;
     box-sizing: border-box;
@@ -32,7 +32,7 @@
 
   &--current,
   button:hover {
-    background-color: $hoverBg !important;
+    background-color: var(--hover-background-color) !important;
     color: $hoverColor;
   }
 

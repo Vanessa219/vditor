@@ -53,8 +53,7 @@ module.exports = [
   {
     mode: 'production',
     entry: {
-      'index.classic': './src/assets/scss/classic.scss',
-      'index.dark': './src/assets/scss/dark.scss',
+      'index': './src/assets/scss/index.scss',
     },
     resolve: {
       extensions: ['.scss'],
@@ -99,8 +98,7 @@ module.exports = [
         filename: '[name].css',
       }),
       new WebpackOnBuildPlugin(() => {
-        fs.unlinkSync('./dist/index.classic.js')
-        fs.unlinkSync('./dist/index.dark.js')
+        fs.unlinkSync('./dist/index.js')
       }),
       new CopyPlugin([
         {from: 'src/images', to: 'images'},

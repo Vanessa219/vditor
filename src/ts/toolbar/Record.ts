@@ -1,7 +1,7 @@
 import recordSVG from "../../assets/icons/record.svg";
 import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {MediaRecorder} from "../util/MediaRecorder";
 import {MenuItem} from "./MenuItem";
 

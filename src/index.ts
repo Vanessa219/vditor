@@ -14,7 +14,6 @@ import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
 import {mathRender} from "./ts/markdown/mathRender";
-import {mathRenderByLute} from "./ts/markdown/mathRenderByLute";
 import {loadLuteJs, md2htmlByPreview, md2htmlByVditor} from "./ts/markdown/md2html";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
@@ -33,12 +32,12 @@ import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {scrollToWbr} from "./ts/wysiwyg/scrollToWbr";
 
 class Vditor {
 
     public static codeRender = codeRender;
     public static highlightRender = highlightRender;
-    public static mathRenderByLute = mathRenderByLute;
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;
     public static chartRender = chartRender;
@@ -127,6 +126,20 @@ class Vditor {
                 mergedOptions.after();
             }
         });
+    }
+
+    public setTheme(theme: "dark" | "classic") {
+        if (theme === "dark") {
+            document.getElementById(this.vditor.id).classList.add("vditor--dark");
+            if (this.vditor.wysiwyg) {
+                this.vditor.wysiwyg.element.classList.add("vditor-reset--dark");
+            }
+        } else {
+            document.getElementById(this.vditor.id).classList.remove("vditor--dark");
+            if (this.vditor.wysiwyg) {
+                this.vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
+            }
+        }
     }
 
     public getValue() {
@@ -268,18 +281,24 @@ class Vditor {
     public setValue(markdown: string) {
         if (this.vditor.currentMode === "markdown") {
             formatRender(this.vditor, markdown, {
-                    end: markdown.length,
-                    start: markdown.length,
-                }, {
-                    enableAddUndoStack: true,
-                    enableHint: false,
-                    enableInput: false,
-                });
+                end: markdown.length,
+                start: markdown.length,
+            }, {
+                enableAddUndoStack: true,
+                enableHint: false,
+                enableInput: false,
+            });
         } else {
             renderDomByMd(this.vditor, markdown, false);
         }
         if (!markdown) {
             localStorage.removeItem("vditor" + this.vditor.id);
+        }
+    }
+
+    public scrollToWbr() {
+        if (this.vditor.currentMode === "wysiwyg") {
+            scrollToWbr(this.vditor);
         }
     }
 }

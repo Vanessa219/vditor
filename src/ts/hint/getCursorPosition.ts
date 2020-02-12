@@ -3,6 +3,12 @@ export const getCursorPosition = (editor: HTMLElement) => {
     const range = window.getSelection().getRangeAt(0);
     let cursorRect;
     if (range.getClientRects().length === 0) {
+        if (range.startContainer.nodeType === 3) {
+            return {
+                left: 0,
+                top: 0,
+            };
+        }
         const children = (range.startContainer as Element).children;
         if (children[range.startOffset] &&
             children[range.startOffset].getClientRects().length > 0) {

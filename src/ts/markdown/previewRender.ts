@@ -4,7 +4,7 @@ import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
 import {highlightRender} from "./highlightRender";
-import {mathRenderByLute} from "./mathRenderByLute";
+import {mathRender} from "./mathRender";
 import {md2htmlByPreview} from "./md2html";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
@@ -23,8 +23,17 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
             lineNumber: false,
             style: "github",
         },
-        inlineMathDigit: false,
         lang: "zh_CN",
+        markdown: {
+            autoSpace: true,
+            chinesePunct: true,
+            fixTermTypo: true,
+        },
+        math: {
+            engine: "KaTeX",
+            inlineDigit: false,
+            macros: {},
+        },
         speech: {
             enable: false,
         },
@@ -35,6 +44,12 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     if (options.speech) {
         options.speech = Object.assign({}, defaultOption.speech, options.speech);
+    }
+    if (options.math) {
+        options.math = Object.assign({}, defaultOption.math, options.math);
+    }
+    if (options.markdown) {
+        options.markdown = Object.assign({}, defaultOption.markdown, options.markdown);
     }
 
     let html =
@@ -47,7 +62,10 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
 
     codeRender(previewElement, options.lang);
     highlightRender(options.hljs, previewElement, options.cdn);
-    mathRenderByLute(previewElement, options.cdn);
+    mathRender(previewElement, {
+        cdn: options.cdn,
+        math: options.math,
+    });
     mermaidRender(previewElement, ".language-mermaid", options.cdn);
     chartRender(previewElement, options.cdn);
     abcRender(previewElement, options.cdn);

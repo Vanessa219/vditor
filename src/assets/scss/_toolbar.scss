@@ -6,10 +6,9 @@
  */
 .vditor {
   &-toolbar {
-    background-color: $toolbarBg;
-    border-bottom: 1px solid $borderColor;
+    background-color:  var(--toolbar-background-color);
+    border-bottom: 1px solid  var(--border-color);
     padding: 0 5px;
-    border-radius: 3px 3px 0 0;
 
     & > div {
       float: left;
@@ -31,10 +30,10 @@
 
 
     .vditor-tooltipped {
-      color: $toolbarIcon;
+      color: var(--toolbar-icon-color);
 
       &:hover {
-        color: $toolbarIconHover;
+        color: var(--toolbar-icon-hover-color);
       }
     }
 
@@ -61,7 +60,7 @@
 
   &-menu {
     &--current svg {
-      color: $toolbarIconHover;
+      color:  var(--toolbar-icon-hover-color);
     }
 
     &__divider {
@@ -76,7 +75,7 @@
     }
 
     &--disabled svg {
-      color: rgba($toolbarIcon, .6);
+      color: var(--toolbar-icon-color1);
       cursor: not-allowed;
     }
   }
@@ -93,7 +92,7 @@
       flex: 1;
       width: 200px;
       margin-right: 10px;
-      color: $toolbarIcon;
+      color:  var(--toolbar-icon-color);
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -102,15 +101,15 @@
     &__tail {
       margin-top: 5px;
       font-size: 12px;
-      color: $toolbarIcon;
+      color:  var(--toolbar-icon-color);
       display: flex;
 
       a {
         text-decoration: none;
-        color: $toolbarIcon;
+        color:  var(--toolbar-icon-color);
 
         &:hover {
-          color: $hoverBg;
+          color: var(--hover-background-color);
         }
       }
     }

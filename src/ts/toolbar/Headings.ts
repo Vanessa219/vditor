@@ -1,6 +1,6 @@
 import headingsSVG from "../../assets/icons/headings.svg";
 import {insertText} from "../editor/insertText";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {setHeading} from "../wysiwyg/setHeading";
 import {MenuItem} from "./MenuItem";

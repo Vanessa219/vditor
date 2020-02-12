@@ -8,7 +8,8 @@ export class Ui {
     constructor(vditor: IVditor) {
         const vditorElement = document.getElementById(vditor.id);
         vditorElement.innerHTML = "";
-        vditorElement.className = "vditor" + (vditorElement.className ? " " + vditorElement.className : "");
+        vditorElement.className = "vditor" + (vditor.options.theme === "dark" ? " vditor--dark" : "")
+            + (vditorElement.className ? " " + vditorElement.className : "");
         if (typeof vditor.options.height === "number") {
             vditorElement.style.height = vditor.options.height + "px";
         }

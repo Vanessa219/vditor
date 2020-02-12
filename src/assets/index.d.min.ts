@@ -55,13 +55,24 @@ interface IHljs {
     enable?: boolean;
 }
 
+interface IMath {
+    inlineDigit: boolean;
+    engine: "KaTeX" | "MathJax";
+    config?: object;
+}
+
 interface IPreview {
     delay?: number;
     maxWidth?: number;
     mode?: keyof IPreviewMode;
     url?: string;
     hljs?: IHljs;
-    inlineMathDigit?: boolean;
+    math?: IMath;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     parse?(element: HTMLElement): void;
 
@@ -78,8 +89,13 @@ interface IPreviewOptions {
         enable?: boolean,
     };
     anchor?: boolean;
-    inlineMathDigit?: boolean;
+    math?: IMath;
     cdn?: string;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     transform?(html: string): string;
 }
@@ -126,6 +142,7 @@ interface IOptions {
     classes?: IClasses;
     cdn?: string;
     tab?: string;
+    theme?: "classic" | "dark";
 
     input?(value: string, previewElement?: HTMLElement): void;
 
@@ -146,9 +163,7 @@ declare class Vditor {
 
     public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document, cdn?: string): void;
 
-    public static mathRenderByLute(element: HTMLElement, cdn?: string): void;
-
-    public static mathRender(element: HTMLElement, cdn?: string): void;
+    public static mathRender(element: HTMLElement, options?: { cdn?: string, math?: IMath }): void;
 
     public static mermaidRender(element: HTMLElement, className?: string, cdn?: string): void;
 
@@ -167,6 +182,8 @@ declare class Vditor {
     public readonly version: string;
 
     constructor(id: string, options?: IOptions)
+
+    public setTheme(theme: "dark" | "classic"): void;
 
     public getValue(): string;
 

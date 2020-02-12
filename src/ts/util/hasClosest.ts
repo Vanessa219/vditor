@@ -134,3 +134,13 @@ export const hasTopClosestByTag = (element: Node, nodeName: string) => {
     }
     return closest || false;
 };
+
+export const getTopList = (element: Node) => {
+    const topUlElement = hasTopClosestByTag(element, "UL");
+    const topOlElement = hasTopClosestByTag(element, "OL");
+    let topListElement = topUlElement;
+    if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
+        topListElement = topOlElement;
+    }
+    return topListElement;
+};

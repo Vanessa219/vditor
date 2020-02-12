@@ -2,6 +2,11 @@
 
 ### 升级
 
+* v2.1
+  * 添加 options.upload.file 方法
+  * options.preview 修改，支持 MathJax 配置
+  * 移除 mathRenderByLute 方法
+  * 添加 setTheme 方法，classic.scss -> index.scss
 * v2.0
   * 默认为 WYSIWYG 模式，可根据需要修改 option.mode 参数
   * 添加 options.debugger, options.value
@@ -40,12 +45,40 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.1.6 / 2020-01-31
+### v2.2.0 / 2020-02-12
 
+* [136](https://github.com/Vanessa219/vditor/issues/136) ⌘ and Ctrl is different at MacOS `修复缺陷`
+* [135](https://github.com/Vanessa219/vditor/issues/135) can not delete the first char. at first field of links `改进功能`
+* [133](https://github.com/Vanessa219/vditor/issues/133) MathJax 渲染无法修改 `修复缺陷`
+* [132](https://github.com/Vanessa219/vditor/issues/132) 添加 md 配置项 `引入特性`
+* [131](https://github.com/Vanessa219/vditor/issues/131) 代码块下输入中文 bug `修复缺陷`
+
+### v2.1.15 / 2020-02-09
+
+* [123](https://github.com/Vanessa219/vditor/issues/123) 加粗、强调前导空格问题 `修复缺陷`
+* [122](https://github.com/Vanessa219/vditor/issues/122) 在 p 中插入代码块 bug `修复缺陷`
+* [118](https://github.com/Vanessa219/vditor/issues/118) Firefox no cursor when ctrl+b pressed `修复缺陷`
+* [117](https://github.com/Vanessa219/vditor/issues/117) cursor moving problem near inline code `修复缺陷`
+* [115](https://github.com/Vanessa219/vditor/issues/115) codeblock difference between ``` and ctrl+u `修复缺陷`
+* [114](https://github.com/Vanessa219/vditor/issues/114) 有序列表合并问题 `修复缺陷`
+* [113](https://github.com/Vanessa219/vditor/issues/113) 分隔线、标题在换行时处理 `改进功能`
+* [112](https://github.com/Vanessa219/vditor/issues/112) 列表项加代码块问题 `修复缺陷`
+* [111](https://github.com/Vanessa219/vditor/issues/111) ctrl+b, ctrl+i, ctrl+s not working at starting and combining `修复缺陷`
+* [109](https://github.com/Vanessa219/vditor/issues/109) tab key at list `改进功能`
+* [108](https://github.com/Vanessa219/vditor/issues/108) 行级代码问题 `修复缺陷`
+* [107](https://github.com/Vanessa219/vditor/issues/107) 删除线解析问题 `修复缺陷`
+* [105](https://github.com/Vanessa219/vditor/issues/105) Link(ctrl+k) `改进功能`
+* [104](https://github.com/Vanessa219/vditor/issues/104) image tag at wysiwyg mode `修复缺陷`
+* [103](https://github.com/Vanessa219/vditor/issues/103) cell alignment `修复缺陷`
+* [102](https://github.com/Vanessa219/vditor/issues/102) minus number at table(not important) `修复缺陷`
+* [101](https://github.com/Vanessa219/vditor/issues/101) 提供 setTheme(theme: "dark" | "classic") 方法 `引入特性`
+* [100](https://github.com/Vanessa219/vditor/issues/100) inline-math `修复缺陷`
+* [99](https://github.com/Vanessa219/vditor/issues/99) a 中斜体/粗体时 toolbar 不显示 `修复缺陷`
 * [96](https://github.com/Vanessa219/vditor/issues/96) 所见即所得模式下的任务列表Bug `修复缺陷`
 * [95](https://github.com/Vanessa219/vditor/issues/95) setVaule 和 初始化时，不触发 input 事件 `改进功能`
 * [93](https://github.com/Vanessa219/vditor/issues/93) Headers with = and - `修复缺陷`
 * [92](https://github.com/Vanessa219/vditor/issues/92) 空行回车可以逐层跳出引用 `改进功能`
+* [89](https://github.com/Vanessa219/vditor/issues/89) 数学公式支持 MathJax `引入特性`
 * [88](https://github.com/Vanessa219/vditor/issues/88) Bold `修复缺陷`
 * [87](https://github.com/Vanessa219/vditor/issues/87) inside cell `修复缺陷`
 * [85](https://github.com/Vanessa219/vditor/issues/85) ctrl-z & 重写缩进 `修复缺陷`
@@ -69,6 +102,9 @@
 * [60](https://github.com/Vanessa219/vditor/issues/60) 行内代码删除错误 `修复缺陷`
 * 文档更新
   * 添加 options.upload.file 方法
+  * options.preview 修改，支持 MathJax 配置
+  * 移除 mathRenderByLute 方法
+  * 添加 setTheme 方法，classic.scss -> index.scss
 
 ### v2.0.15 / 2020-01-11
 

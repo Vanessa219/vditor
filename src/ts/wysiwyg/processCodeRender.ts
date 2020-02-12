@@ -5,7 +5,7 @@ import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {highlightRender} from "../markdown/highlightRender";
-import {mathRenderByLute} from "../markdown/mathRenderByLute";
+import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {hasClosestByTag} from "../util/hasClosest";
 
@@ -47,9 +47,6 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         blockElement.insertAdjacentHTML("beforeend", `<${tagName} class="vditor-wysiwyg__preview"></${tagName}>`);
         previewPanel = blockElement.querySelector(".vditor-wysiwyg__preview");
         previewPanel.setAttribute("data-render", "false");
-        previewPanel.addEventListener("click", () => {
-            showCode(previewPanel);
-        });
     }
 
     let codeElement = previewPanel.previousElementSibling as HTMLElement;
@@ -59,7 +56,8 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     const innerHTML = codeElement.innerHTML || "\n";
     if (blockType === "code-block") {
         const language = codeElement.className.replace("language-", "");
-        previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML}</code></pre>`;
+        // 代码块下方输入中文会消失，因此要 trim
+        previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML.trim()}</code></pre>`;
         if (language === "abc") {
             previewPanel.style.marginTop = "1em";
             abcRender(previewPanel, vditor.options.cdn);
@@ -85,7 +83,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
     } else if (blockType.indexOf("math") > -1) {
         previewPanel.innerHTML = `<${tagName} class="vditor-math">${
             innerHTML.replace(Constants.ZWSP, "")}</${tagName}>`;
-        mathRenderByLute(previewPanel, vditor.options.cdn);
+        mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     }
 
     if (getSelection().rangeCount > 0) {

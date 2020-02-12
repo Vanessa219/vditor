@@ -1,0 +1,71 @@
+$errorColor: #d23f31 !default;
+
+$tooltipColor: #fff !default;
+$tooltipBg: rgba(0, 0, 0, 0.8) !default;
+
+$layerBg: #fff !default;
+$layerShadow: 0 1px 2px rgba(0, 0, 0, .2) !default;
+
+$hoverColor: #fff !default;
+
+$fullscreenBg: #fff !default;
+
+$font-family-base: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !default;
+$font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !default;
+
+$transition: all .15s ease-in-out !default;
+
+.vditor,
+.vditor-reset {
+  --border-color: #d1d5da;
+
+  --toolbar-background-color: #f6f8fa;
+  --toolbar-icon-color: #586069;
+  --toolbar-icon-hover-color: #4285f4;
+  --toolbar-icon-color1: rgba(88, 96, 105, 0.36);
+
+  --textarea-background-color: #fafbfc;
+  --textarea-focus-background-color: #fff;
+  --textarea-text-color: #24292e;
+
+  --hover-background-color: #4285f4;
+  --hover-background-color1: rgba(66, 133, 244, .8);
+
+  --resize-background-color: #f6f8fa;
+  --resize-hover-background-color: #4285f4;
+
+  --preview-background-color: #fff;
+
+  --code-background-color: rgba(27, 31, 35, .05);
+
+  &--dark {
+    --border-color: #141414;
+
+    --toolbar-background-color: #1d2125;
+    --toolbar-icon-color: #b9b9b9;
+    --toolbar-icon-hover-color: #fff;
+    --toolbar-icon-color1: rgba(185, 185, 185, .36);
+
+    --textarea-background-color: #24292e;
+    --textarea-focus-background-color: #24292e;
+    --textarea-text-color: #d1d5da;
+
+    --hover-background-color: #1d2125;
+    --hover-background-color1: rgba(44, 44, 44, 0.8);
+
+    --resize-background-color: #1d2125;
+    --resize-hover-background-color: #1d2125;
+
+    --preview-background-color: #f3f3f3;
+
+    --code-background-color: rgba(177, 181, 215, 0.23);
+  }
+}
+
+@import "tooltipped";
+@import "panel";
+@import "toolbar";
+@import "content";
+@import "hint";
+@import "reset";
+@import "wysiwyg";

@@ -25,6 +25,12 @@ interface ILute {
 
     SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
+    SetAutoSpace(enable: boolean): void;
+
+    SetChinesePunct(enable: boolean): void;
+
+    SetFixTermTypo(enable: boolean): void;
+
     SetEmojiSite(emojiSite: string): void;
 
     PutEmojis(emojis: { [key: string]: string }): void;
@@ -69,6 +75,10 @@ interface IHTMLInputEvent extends Event {
     isComposing: boolean;
     inputType: string;
     key: string;
+}
+
+interface INode extends Node {
+    wholeText: string;
 }
 
 interface II18nLang {
@@ -133,13 +143,24 @@ interface IHljs {
     enable?: boolean;
 }
 
+interface IMath {
+    inlineDigit: boolean;
+    macros: object;
+    engine: "KaTeX" | "MathJax";
+}
+
 interface IPreview {
     delay?: number;
     maxWidth?: number;
     mode?: keyof IPreviewMode;
     url?: string;
     hljs?: IHljs;
-    inlineMathDigit?: boolean;
+    math?: IMath;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     parse?(element: HTMLElement): void;
 
@@ -156,8 +177,13 @@ interface IPreviewOptions {
         enable?: boolean,
     };
     anchor?: boolean;
-    inlineMathDigit?: boolean;
+    math?: IMath;
     cdn?: string;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     transform?(html: string): string;
 }
@@ -200,6 +226,7 @@ interface IOptions {
     mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only";
     preview?: IPreview;
     hint?: IHint;
+    theme?: "classic" | "dark";
     upload?: IUpload;
     classes?: IClasses;
     cdn?: string;

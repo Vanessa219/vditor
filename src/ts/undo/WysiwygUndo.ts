@@ -2,6 +2,7 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
+import {hasClosestByClassName} from "../util/hasClosest";
 import {addP2Li} from "../wysiwyg/addP2Li";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
@@ -52,9 +53,7 @@ class WysiwygUndo {
             getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
             const cloneEditorElement = document.createElement("pre");
             cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-            cloneEditorElement.querySelectorAll("ul").forEach((item) => {
-                addP2Li(item);
-            });
+            addP2Li(cloneEditorElement);
             this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
             this.lastText = this.undoStack[0][0].diffs[0][1];
             vditor.wysiwyg.element.querySelector("wbr").remove();
@@ -63,18 +62,22 @@ class WysiwygUndo {
 
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
-        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr") &&
-            vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
-            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+        let range;
+        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
+            range = getSelection().getRangeAt(0).cloneRange();
+            const subToolbarElement = hasClosestByClassName(range.startContainer, "vditor-panel--none");
+            if (subToolbarElement) {
+                range = undefined;
+            } else if (vditor.wysiwyg.element.contains(range.startContainer)) {
+                range.insertNode(document.createElement("wbr"));
+            }
         }
         const cloneEditorElement = document.createElement("pre");
         cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-        cloneEditorElement.querySelectorAll("ul").forEach((item) => {
-            addP2Li(item);
-        });
+        addP2Li(cloneEditorElement);
         const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
-        if (vditor.wysiwyg.element.querySelector("wbr")) {
-            vditor.wysiwyg.element.querySelector("wbr").remove();
+        if (range) {
+            setRangeByWbr(vditor.wysiwyg.element, range);
         }
         const diff = this.dmp.diff_main(text, this.lastText, true);
         const patchList = this.dmp.patch_make(text, this.lastText, diff);

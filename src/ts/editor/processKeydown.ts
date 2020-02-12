@@ -1,3 +1,4 @@
+import {isCtrl} from "../util/compatibility";
 import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 import {getMarkdown} from "../util/getMarkdown";
 import {processKeymap} from "../util/processKeymap";
@@ -57,7 +58,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // delete
-    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.keyCode === 8) {
+    if (!isCtrl(event) && !event.shiftKey && event.keyCode === 8) {
         if (position.start !== position.end) {
             insertText(vditor, "", "", true);
         } else {
@@ -69,6 +70,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 {
                     end: position.start - deleteChar,
                     start: position.start - deleteChar,
+                }, {
+                    enableAddUndoStack: true,
+                    enableHint: true,
+                    enableInput: true,
                 });
         }
         event.preventDefault();

@@ -2,11 +2,11 @@ import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
+import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
-    hasClosestBlock,
+    hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
-    hasClosestByMatchTag,
     hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
@@ -14,9 +14,12 @@ import {processPasteCode} from "../util/processPasteCode";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
+import {getRenderElementNextNode} from "./inlineTag";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
+import {isHeadingMD, isHrMD} from "./processMD";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -28,6 +31,9 @@ class WYSIWYG {
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
         this.element.className = "vditor-reset vditor-wysiwyg";
+        if (vditor.options.theme === "dark") {
+            this.element.classList.add("vditor-reset--dark");
+        }
         // TODO: placeholder
         this.element.setAttribute("contenteditable", "true");
         this.element.setAttribute("spellcheck", "false");
@@ -133,12 +139,19 @@ class WYSIWYG {
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     event.target.parentElement);
             } else if (code) {
-                const pElement = hasClosestByMatchTag(range.startContainer, "P");
-                if (pElement) {
-                    range.setStartAfter(pElement);
+                const node = document.createElement("div");
+                node.innerHTML = `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
+                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
+                range.insertNode(node.firstChild);
+                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+                if (blockElement) {
+                    blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
                 }
-                insertHTML(`<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
-                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code></pre></div>`, vditor);
+                vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
+                    (blockRenderItem: HTMLElement) => {
+                        processCodeRender(blockRenderItem, vditor);
+                    });
+                setRangeByWbr(vditor.wysiwyg.element, range);
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
@@ -173,7 +186,7 @@ class WYSIWYG {
             if (event.target.tagName === "INPUT") {
                 return;
             }
-            input(event, vditor, getSelection().getRangeAt(0).cloneRange());
+            input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
         });
 
         this.element.addEventListener("input", (event: IHTMLInputEvent) => {
@@ -204,11 +217,16 @@ class WYSIWYG {
                     pElement.textContent = "\n";
                     range.insertNode(pElement);
                 } else {
-                    vditor.wysiwyg.element.childNodes.forEach((node: HTMLElement) => {
-                        if (node.nodeType === 3) {
-                            pElement.textContent = node.textContent;
+                    Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
+                        if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-type"))) {
+                            if (node.nodeType === 3) {
+                                pElement.textContent = node.textContent;
+                            } else {
+                                pElement.innerHTML = node.outerHTML;
+                            }
                             node.parentNode.insertBefore(pElement, node);
                             node.remove();
+                            return true;
                         }
                     });
                 }
@@ -245,11 +263,11 @@ class WYSIWYG {
                 }
             }
 
-            if (startSpace || endSpace) {
+            if (startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
                 return;
             }
 
-            input(event, vditor, range);
+            input(vditor, range, event);
         });
 
         this.element.addEventListener("click", (event: IHTMLInputEvent) => {
@@ -257,13 +275,31 @@ class WYSIWYG {
                 return;
             }
 
-            highlightToolbar(vditor);
             if (event.target.tagName === "INPUT") {
                 if (event.target.checked) {
                     event.target.setAttribute("checked", "checked");
                 } else {
                     event.target.removeAttribute("checked");
                 }
+                return;
+            }
+
+            if (event.target.tagName === "IMG") {
+                const range = this.element.ownerDocument.createRange();
+                range.selectNode(event.target);
+                range.collapse(true);
+                setSelectionFocus(range);
+            }
+
+            highlightToolbar(vditor);
+
+            // 点击后光标落于预览区，需展开代码块
+            let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview");
+            if (!previewElement) {
+                previewElement = hasClosestByClassName(getSelection().getRangeAt(0).startContainer, "vditor-wysiwyg__preview");
+            }
+            if (previewElement) {
+                showCode(previewElement);
             }
         });
 
@@ -271,7 +307,7 @@ class WYSIWYG {
             if (event.target.tagName === "INPUT") {
                 return;
             }
-            if (event.isComposing) {
+            if (event.isComposing || isCtrl(event)) {
                 return;
             }
 
@@ -306,20 +342,26 @@ class WYSIWYG {
 
             if (event.key === "ArrowDown" || event.key === "ArrowRight") {
                 const blockRenderElement = previewElement.parentElement;
-                const nextNode = blockRenderElement.nextSibling as HTMLElement;
-                if (nextNode && nextNode.nodeType !== 3 &&
-                    nextNode.classList.contains("vditor-wysiwyg__block")) {
+                let nextNode = getRenderElementNextNode(blockRenderElement) as HTMLElement;
+                if (nextNode && nextNode.nodeType !== 3) {
                     // 下一节点依旧为代码渲染块
-                    showCode(nextNode.querySelector(".vditor-wysiwyg__preview"));
-                } else {
-                    // 跳过渲染块，光标移动到下一个节点
-                    if (nextNode.nodeType === 3) {
-                        // inline
-                        range.setStart(nextNode, 1);
-                    } else {
-                        // block
-                        range.setStart(nextNode.firstChild, 0);
+                    const nextRenderElement = nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement;
+                    if (nextRenderElement) {
+                        showCode(nextRenderElement);
+                        return;
                     }
+                }
+                // 跳过渲染块，光标移动到下一个节点
+                if (nextNode.nodeType === 3) {
+                    // inline
+                    while (nextNode.textContent.length === 0 && nextNode.nextSibling) {
+                        // https://github.com/Vanessa219/vditor/issues/100 2
+                        nextNode = nextNode.nextSibling as HTMLElement;
+                    }
+                    range.setStart(nextNode, 1);
+                } else {
+                    // block
+                    range.setStart(nextNode.firstChild, 0);
                 }
             } else {
                 range.selectNodeContents(codeElement);

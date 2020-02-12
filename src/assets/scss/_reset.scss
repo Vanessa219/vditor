@@ -11,6 +11,12 @@
       line-height: 16px;
     }
 
+    &--dark {
+      a {
+        color: var(--toolbar-icon-color1);
+      }
+    }
+
     font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -128,8 +134,12 @@
       border-left: 0.25em solid #ddd;
       margin: 0 0 16px 0;
 
-      p {
-        margin: 0;
+      & > :first-child {
+        margin-top: 0
+      }
+
+      & > :last-child {
+        margin-bottom: 0
       }
     }
 
@@ -138,7 +148,7 @@
     }
 
     iframe {
-      border: 1px solid $borderColor;
+      border: 1px solid var(--border-color);
       max-width: 100%;
       box-sizing: border-box;
 
@@ -158,8 +168,8 @@
       border-spacing: 0;
 
       tr {
-        background-color: #fff;
-        border-top: 1px solid #c6cbd1
+        background-color: var(--textarea-background-color);
+        border-top: 1px solid #c6cbd1;
       }
 
       td,
@@ -174,7 +184,7 @@
       }
 
       tbody tr:nth-child(2n) {
-        background-color: #f6f8fa;
+        background-color: var(--toolbar-background-color);
       }
     }
 
@@ -187,7 +197,7 @@
       word-break: break-word;
       background-size: 20px 20px;
       white-space: pre-wrap;
-      background-color: rgba(27, 31, 35, .05);
+      background-color: var(--code-background-color);
     }
 
     pre > code {
@@ -217,7 +227,7 @@
       color: #555;
       vertical-align: middle;
       background-color: #fcfcfc;
-      border: solid 1px $borderColor;
+      border: solid 1px var(--border-color);
       border-bottom-color: #bbb;
       border-radius: 3px;
       box-shadow: inset 0 -1px 0 #bbb;
@@ -280,13 +290,13 @@
       height: 14px;
       width: 14px;
       display: block;
-      background-color: $toolbarBg;
+      background-color: var(--toolbar-background-color);
       border-radius: 3px;
       padding: 3px;
     }
 
     svg {
-      color: $toolbarIcon;
+      color: var(--toolbar-icon-color);
       height: 14px;
       width: 14px !important;
       display: block;
@@ -326,16 +336,16 @@
   &-speech {
     position: absolute;
     display: none;
-    background-color: $toolbarBg;
-    border: 1px solid $borderColor;
+    background-color: var(--toolbar-background-color);
+    border: 1px solid var(--border-color);
     border-radius: 3px;
     padding: 3px;
     cursor: pointer;
-    color: $toolbarIcon;
+    color: var(--toolbar-icon-color);
 
     &:hover,
     &--current {
-      color: $toolbarIconHover;
+      color: var(--toolbar-icon-hover-color);
     }
 
     svg {
@@ -377,7 +387,7 @@
 
     a {
       border-radius: 3px;
-      background-color: $toolbarBg;
+      background-color: var(--toolbar-background-color);
       overflow: hidden;
       max-height: 250px;
       display: flex;
@@ -391,7 +401,7 @@
       }
 
       &:visited .vditor-linkcard__abstract {
-        color: rgba($toolbarIcon, .6);
+        color: var(--toolbar-icon-color1);
       }
     }
 
@@ -405,7 +415,7 @@
     &__title {
       font-size: 14px;
       font-weight: 400;
-      color: $textareaColor;
+      color: var(--textarea-text-color);
       display: flex;
       align-items: center;
 
@@ -428,13 +438,13 @@
       -webkit-box-orient: vertical;
       display: -webkit-box;
       font-size: 13px;
-      color: $toolbarIcon;
+      color: var(--toolbar-icon-color);
       margin: 5px 0;
     }
 
     &__site {
       font-size: 12px;
-      color: $toolbarIconHover;
+      color: var(--toolbar-icon-hover-color);
     }
 
     &__image {
@@ -446,5 +456,10 @@
       cursor: pointer;
       background-color: #fff;
     }
+  }
+
+  &-math mjx-container:focus {
+    outline: none;
+    cursor: context-menu;
   }
 }
