@@ -1,5 +1,5 @@
 import undoSVG from "../../assets/icons/undo.svg";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {disableToolbar} from "./disableToolbar";
 import {MenuItem} from "./MenuItem";
 

@@ -1,6 +1,6 @@
 import contractSVG from "../../assets/icons/contract.svg";
 import fullscreenSVG from "../../assets/icons/fullscreen.svg";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 
 export class Fullscreen extends MenuItem {

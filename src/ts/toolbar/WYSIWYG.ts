@@ -1,6 +1,6 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {formatRender} from "../editor/formatRender";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {enableToolbar} from "./enableToolbar";

@@ -1,4 +1,4 @@
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 
 export class Custom extends MenuItem {

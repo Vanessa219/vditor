@@ -1,6 +1,6 @@
 import helpSVG from "../../assets/icons/help.svg";
-import {getEventName} from "../util/getEventName";
-import {openURL} from "../util/openURL";
+import {getEventName} from "../util/compatibility";
+import {openURL} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 
 export class Help extends MenuItem {

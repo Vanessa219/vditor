@@ -1,6 +1,6 @@
 import infoSVG from "../../assets/icons/info.svg";
-import {getEventName} from "../util/getEventName";
-import {openURL} from "../util/openURL";
+import {getEventName} from "../util/compatibility";
+import {openURL} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 
 export class Info extends MenuItem {

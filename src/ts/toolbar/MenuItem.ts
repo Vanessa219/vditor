@@ -1,6 +1,6 @@
 import {insertText} from "../editor/insertText";
 import {i18n} from "../i18n/index";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {updateHotkeyTip} from "../util/updateHotkeyTip";
 import {toolbarEvent} from "../wysiwyg/toolbarEvent";
 

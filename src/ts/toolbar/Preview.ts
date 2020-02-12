@@ -1,5 +1,5 @@
 import previewSVG from "../../assets/icons/preview.svg";
-import {getEventName} from "../util/getEventName";
+import {getEventName} from "../util/compatibility";
 import {setPreviewMode} from "../util/setPreviewMode";
 import {MenuItem} from "./MenuItem";
 
