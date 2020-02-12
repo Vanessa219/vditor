@@ -607,8 +607,6 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     const updateA = () => {
         if (input.value.trim() !== "") {
             aElement.textContent = input.value;
-        } else {
-            input.value = aElement.textContent;
         }
         aElement.setAttribute("href", input1.value);
         aElement.setAttribute("title", input2.value);

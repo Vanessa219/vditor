@@ -48,6 +48,7 @@
 ### v2.2.0 / 2020-02-12
 
 * [136](https://github.com/Vanessa219/vditor/issues/136) ⌘ and Ctrl is different at MacOS `修复缺陷`
+* [135](https://github.com/Vanessa219/vditor/issues/135) can not delete the first char. at first field of links `改进功能`
 
 ### v2.1.15 / 2020-02-09
 
