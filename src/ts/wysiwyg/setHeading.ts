@@ -18,4 +18,4 @@ export const removeHeading = (vditor: IVditor) => {
         range.setStart(range.endContainer, 0);
     }
     highlightToolbar(vditor);
-}
+};

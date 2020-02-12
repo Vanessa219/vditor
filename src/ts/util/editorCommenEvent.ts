@@ -1,13 +1,13 @@
 import {getSelectText} from "../editor/getSelectText";
+import {insertText} from "../editor/insertText";
 import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {processKeydown} from "../wysiwyg/processKeydown";
+import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
-import {processKeymap} from "./processKeymap";
-import {removeHeading, setHeading} from "../wysiwyg/setHeading";
-import {insertText} from "../editor/insertText";
 import {hasClosestByMatchTag} from "./hasClosest";
+import {processKeymap} from "./processKeymap";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -154,7 +154,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         // h1 - h6 hotkey
         if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[1-6]$/.test(event.code)) {
             if (vditor.currentMode === "wysiwyg") {
-                const tagName = event.code.replace("Digit", "H")
+                const tagName = event.code.replace("Digit", "H");
                 if (hasClosestByMatchTag(getSelection().getRangeAt(0).startContainer, tagName)) {
                     removeHeading(vditor);
                 } else {
