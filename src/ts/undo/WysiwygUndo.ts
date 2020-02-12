@@ -7,6 +7,7 @@ import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
+import {hasClosestByClassName} from "../util/hasClosest";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -64,7 +65,10 @@ class WysiwygUndo {
         let range;
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
             range = getSelection().getRangeAt(0).cloneRange();
-            if (vditor.wysiwyg.element.contains(range.startContainer)) {
+            const subToolbarElement = hasClosestByClassName(range.startContainer, 'vditor-panel--none')
+            if (subToolbarElement) {
+                range = undefined;
+            } else if (vditor.wysiwyg.element.contains(range.startContainer)) {
                 range.insertNode(document.createElement("wbr"));
             }
         }

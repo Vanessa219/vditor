@@ -19,6 +19,7 @@ import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {isCtrl} from "../util/compatibility";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -306,7 +307,7 @@ class WYSIWYG {
             if (event.target.tagName === "INPUT") {
                 return;
             }
-            if (event.isComposing || event.key === "Meta") {
+            if (event.isComposing || isCtrl(event)) {
                 return;
             }
 
