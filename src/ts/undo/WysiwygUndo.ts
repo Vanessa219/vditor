@@ -2,12 +2,12 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
+import {hasClosestByClassName} from "../util/hasClosest";
 import {addP2Li} from "../wysiwyg/addP2Li";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
-import {hasClosestByClassName} from "../util/hasClosest";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -65,7 +65,7 @@ class WysiwygUndo {
         let range;
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
             range = getSelection().getRangeAt(0).cloneRange();
-            const subToolbarElement = hasClosestByClassName(range.startContainer, 'vditor-panel--none')
+            const subToolbarElement = hasClosestByClassName(range.startContainer, "vditor-panel--none");
             if (subToolbarElement) {
                 range = undefined;
             } else if (vditor.wysiwyg.element.contains(range.startContainer)) {

@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
+import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
     hasClosestBlock, hasClosestByAttribute,
@@ -19,7 +20,6 @@ import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
-import {isCtrl} from "../util/compatibility";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -294,7 +294,7 @@ class WYSIWYG {
             highlightToolbar(vditor);
 
             // 点击后光标落于预览区，需展开代码块
-            let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview")
+            let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview");
             if (!previewElement) {
                 previewElement = hasClosestByClassName(getSelection().getRangeAt(0).startContainer, "vditor-wysiwyg__preview");
             }
