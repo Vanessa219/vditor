@@ -1,4 +1,5 @@
 import {uploadFiles} from "../upload/index";
+import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {getMarkdown} from "../util/getMarkdown";
 import {getSelectText} from "./getSelectText";
@@ -36,7 +37,7 @@ class Editor {
         });
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
-            if (!event.metaKey && !event.ctrlKey && event.key === "Enter") {
+            if (!isCtrl(event) && event.key === "Enter") {
                 insertText(vditor, "\n", "", true);
                 scrollCenter(this.element);
                 event.preventDefault();

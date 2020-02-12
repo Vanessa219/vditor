@@ -11,6 +11,7 @@ import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
+import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {
     hasClosestByAttribute,
     hasClosestByClassName,
@@ -18,7 +19,6 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {updateHotkeyTip} from "../util/compatibility";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
@@ -471,7 +471,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.innerHTML = "";
 
             const languageWrap = document.createElement("span");
-            languageWrap.setAttribute("aria-label", i18n[vditor.options.lang].language);
+            languageWrap.setAttribute("aria-label", i18n[vditor.options.lang].language +
+                updateHotkeyTip("<⌥-Enter>"));
             languageWrap.className = "vditor-tooltipped vditor-tooltipped__n";
             const language = document.createElement("input");
             languageWrap.appendChild(language);
@@ -502,7 +503,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                         event.stopPropagation();
                     };
                     language.onkeydown = (event: KeyboardEvent) => {
-                        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey) {
+                        if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
                             range.setStart(codeElement.firstChild, 0);
                             range.collapse(true);
                             setSelectionFocus(range);

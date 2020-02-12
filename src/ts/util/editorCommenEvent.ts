@@ -2,6 +2,7 @@ import {getSelectText} from "../editor/getSelectText";
 import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
 import {processKeydown} from "../wysiwyg/processKeydown";
+import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
 import {processKeymap} from "./processKeymap";
 
@@ -94,15 +95,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
         }
 
-        if ((event.metaKey || event.ctrlKey) && !event.shiftKey && !event.altKey &&
-            vditor.options.ctrlEnter && event.key === "Enter") {
+        if (isCtrl(event) && !event.shiftKey && !event.altKey && vditor.options.ctrlEnter && event.key === "Enter") {
             vditor.options.ctrlEnter(getMarkdown(vditor));
             event.preventDefault();
             return;
         }
 
         // undo
-        if (!vditor.toolbar.elements.undo && (event.metaKey || event.ctrlKey) && event.key === "z") {
+        if (!vditor.toolbar.elements.undo && isCtrl(event) && event.key === "z") {
             if (vditor.currentMode === "markdown") {
                 vditor.undo.undo(vditor);
             } else {
@@ -113,7 +113,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // redo
-        if (!vditor.toolbar.elements.redo && (event.metaKey || event.ctrlKey) && event.key === "y") {
+        if (!vditor.toolbar.elements.redo && isCtrl(event) && event.key === "y") {
             if (vditor.currentMode === "markdown") {
                 vditor.undo.redo(vditor);
             } else {

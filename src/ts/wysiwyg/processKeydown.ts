@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
+import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
     hasClosestByAttribute,
@@ -20,7 +21,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
 
     // 添加第一次记录 undo 的光标
-    if (!event.metaKey && !event.ctrlKey) {
+    if (!isCtrl(event)) {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 
@@ -30,7 +31,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
-        && !event.metaKey && !event.ctrlKey && event.key !== "Escape") {
+        && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }
 
@@ -38,7 +39,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // md 处理
     const pElement = hasClosestByMatchTag(startContainer, "P");
-    if (pElement && !event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Enter") {
+    if (pElement && !isCtrl(event) && !event.altKey && event.key === "Enter") {
         const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
         const pTextList = pText.split("|");
         if (pText.startsWith("|") && pText.endsWith("|") && pTextList.length > 3) {
@@ -79,7 +80,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         hasClosestByMatchTag(startContainer, "TH");
     if (cellElement) {
         // 换行或软换行：在 cell 中添加 br
-        if (!event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Enter") {
+        if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
             if (!cellElement.lastElementChild ||
                 (cellElement.lastElementChild && (!cellElement.lastElementChild.isEqualNode(cellElement.lastChild) ||
                     cellElement.lastElementChild.tagName !== "BR"))) {
@@ -95,7 +96,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // Backspace：光标移动到前一个 cell
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace"
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
             && range.startOffset === 0 && range.toString() === "") {
             let previousElement = cellElement.previousElementSibling;
             if (!previousElement) {
@@ -140,7 +141,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // alt+Backspace：删除行
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && cellElement.tagName === "TD"
+        if (!isCtrl(event) && !event.shiftKey && event.altKey && cellElement.tagName === "TD"
             && event.key === "Backspace") {
             const tbodyElement = cellElement.parentElement.parentElement;
             if (cellElement.parentElement.previousElementSibling) {
@@ -162,7 +163,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // alt+enter: 下方新添加一行 https://github.com/Vanessa219/vditor/issues/46
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && event.key === "Enter") {
+        if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
             let rowHTML = "";
             for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
                 rowHTML += `<td>${m === 0 ? "<wbr>" : ""}</td>`;
@@ -182,7 +183,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // alt+shift+enter: 后方新添加一列
         const tableElement = cellElement.parentElement.parentElement.parentElement as HTMLTableElement;
-        if (!event.metaKey && !event.ctrlKey && event.shiftKey && event.altKey && event.key === "Enter") {
+        if (!isCtrl(event) && event.shiftKey && event.altKey && event.key === "Enter") {
             let index = 0;
             let previousElement = cellElement.previousElementSibling;
             while (previousElement) {
@@ -203,7 +204,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // alt+shift+Backspace: 删除当前列
-        if (!event.metaKey && !event.ctrlKey && event.shiftKey && event.altKey && event.key === "Backspace") {
+        if (!isCtrl(event) && event.shiftKey && event.altKey && event.key === "Backspace") {
             let index = 0;
             let previousElement = cellElement.previousElementSibling;
             while (previousElement) {
@@ -239,7 +240,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
         // alt+enter: 代码块切换到语言 https://github.com/Vanessa219/vditor/issues/54
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && event.key === "Enter" &&
+        if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter" &&
             codeRenderElement.getAttribute("data-type") === "code-block") {
             (vditor.wysiwyg.popover.querySelector(".vditor-input") as HTMLElement).focus();
             event.preventDefault();
@@ -256,7 +257,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // 换行
-        if (!event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Enter" &&
+        if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
             codeRenderElement.getAttribute("data-block") === "0") {
             if (!codeRenderElement.firstElementChild.firstElementChild.textContent.endsWith("\n")) {
                 codeRenderElement.firstElementChild.firstElementChild.insertAdjacentText("beforeend", "\n");
@@ -283,7 +284,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // TODO shift + tab, shift and 选中文字
 
-        if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
             && codeRenderElement.getAttribute("data-block") === "0") {
             const codePosition = getSelectPosition(codeRenderElement, range);
             if (codePosition.start === 0 && range.toString() === "") {
@@ -299,7 +300,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // inline code、math、html 行前零宽字符后进行删除
-    if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+    if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
         startContainer.textContent === Constants.ZWSP && range.startOffset === 1 && !startContainer.previousSibling &&
         nextIsCode(range)) {
         startContainer.textContent = "";
@@ -308,7 +309,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 顶层 blockquote
     const topBQElement = hasTopClosestByTag(startContainer, "BLOCKQUOTE");
-    if (topBQElement && !event.metaKey && !event.ctrlKey && !event.shiftKey && event.altKey && event.key === "Enter") {
+    if (topBQElement && !isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
         // alt+enter: 跳出多层 blockquote 嵌套 https://github.com/Vanessa219/vditor/issues/51
         range.setStartAfter(topBQElement);
         setSelectionFocus(range);
@@ -327,7 +328,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // blockquote
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.toString() === "") {
-        if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey &&
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
             getSelectPosition(blockquoteElement, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
             blockquoteElement.outerHTML = `<p data-block="0">${blockquoteElement.innerHTML}</p>`;
@@ -336,7 +337,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (pElement && event.key === "Enter" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
             // Enter: 空行回车应逐层跳出
             let isEmpty = false;
             if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
@@ -362,7 +363,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const headingElement = hasClosestByTag(startContainer, "H");
     if (headingElement) {
         if (headingElement.tagName === "H6" && startContainer.textContent.length === range.startOffset &&
-            !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Enter") {
+            !isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter") {
             // enter: H6 回车解析问题 https://github.com/Vanessa219/vditor/issues/48
             const pTempElement = document.createElement("p");
             pTempElement.textContent = "\n";
@@ -406,7 +407,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // li
     const liElement = hasClosestByMatchTag(startContainer, "LI");
     if (liElement) {
-        if (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
+        if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
             if (liElement && !liElement.textContent.endsWith("\n")) {
                 // li 结尾需 \n
                 liElement.insertAdjacentText("beforeend", "\n");
@@ -419,7 +420,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (!event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
             !liElement.previousElementSibling && range.toString() === "" &&
             getSelectPosition(liElement, range).start === 0) {
             // 光标位于点和第一个字符中间时，无法删除 li 元素
@@ -436,7 +437,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (!event.metaKey && !event.ctrlKey && !event.altKey && event.key === "Tab" && range.startOffset === 0
+        if (!isCtrl(event) && !event.altKey && event.key === "Tab" && range.startOffset === 0
             && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
                 || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
             // 光标位于第一零字符时，tab 用于列表的缩进
@@ -454,7 +455,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
         // Backspace: 在选择框前进行删除
-        if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
             && range.toString() === "" && ((startContainer.nodeType === 3 && range.startOffset === 1 &&
                 (startContainer.previousSibling as HTMLElement).tagName === "INPUT") ||
                 startContainer.nodeType !== 3)) {
@@ -478,7 +479,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (event.key === "Enter" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        if (event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
             if (taskItemElement.textContent.trim() === "") {
                 if (taskItemElement.nextElementSibling) {
                     // 用段落隔断
@@ -578,7 +579,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // shift+enter：软换行，但 md 处理、cell 内换行、block render 换行、li 软换行处理单独写在上面
-    if (!event.metaKey && !event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
+    if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
@@ -589,7 +590,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 删除
-    if (event.key === "Backspace" && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
+    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
         && range.toString() === "") {
         const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
         if (blockElement && getSelectPosition(blockElement, range).start === 0 && blockElement.previousElementSibling
