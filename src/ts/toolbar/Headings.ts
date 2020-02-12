@@ -1,8 +1,7 @@
 import headingsSVG from "../../assets/icons/headings.svg";
 import {insertText} from "../editor/insertText";
-import {getEventName} from "../util/compatibility";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {setHeading} from "../wysiwyg/setHeading";
+import {getEventName, updateHotkeyTip} from "../util/compatibility";
+import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {MenuItem} from "./MenuItem";
 
 export class Headings extends MenuItem {
@@ -14,12 +13,12 @@ export class Headings extends MenuItem {
 
         const headingsPanelElement = document.createElement("div");
         headingsPanelElement.className = "vditor-panel";
-        headingsPanelElement.innerHTML = `<h1 data-value="# ">Heading 1</h1>
-<h2 data-value="## ">Heading 2</h2>
-<h3 data-value="### ">Heading 3</h3>
-<h4 data-value="#### ">Heading 4</h4>
-<h5 data-value="##### ">Heading 5</h5>
-<h6 data-value="###### ">Heading 6</h6>`;
+        headingsPanelElement.innerHTML = `<h1 data-value="# ">Heading 1 ${updateHotkeyTip("<⌘-⌥-1>")}</h1>
+<h2 data-value="## ">Heading 2 ${updateHotkeyTip("<⌘-⌥-2>")}</h2>
+<h3 data-value="### ">Heading 3 ${updateHotkeyTip("<⌘-⌥-3>")}</h3>
+<h4 data-value="#### ">Heading 4 ${updateHotkeyTip("<⌘-⌥-4>")}</h4>
+<h5 data-value="##### ">Heading 5 ${updateHotkeyTip("<⌘-⌥-5>")}</h5>
+<h6 data-value="###### ">Heading 6 ${updateHotkeyTip("<⌘-⌥-6>")}</h6>`;
 
         this.element.appendChild(headingsPanelElement);
 
@@ -30,16 +29,7 @@ export class Headings extends MenuItem {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             const actionBtn = this.element.children[0];
             if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
-                if (vditor.wysiwyg.element.querySelector("wbr")) {
-                    vditor.wysiwyg.element.querySelector("wbr").remove();
-                }
-                document.execCommand("formatBlock", false, "p");
-                // https://github.com/Vanessa219/vditor/issues/50
-                const range = getSelection().getRangeAt(0);
-                if (!range.collapsed && !range.startContainer.isEqualNode(range.endContainer)) {
-                    range.setStart(range.endContainer, 0);
-                }
-                highlightToolbar(vditor);
+                removeHeading(vditor);
             } else {
                 if (headingsPanelElement.style.display === "block") {
                     headingsPanelElement.style.display = "none";

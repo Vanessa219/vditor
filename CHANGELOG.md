@@ -52,6 +52,7 @@
 * [133](https://github.com/Vanessa219/vditor/issues/133) MathJax 渲染无法修改 `修复缺陷`
 * [132](https://github.com/Vanessa219/vditor/issues/132) 添加 md 配置项 `引入特性`
 * [131](https://github.com/Vanessa219/vditor/issues/131) 代码块下输入中文 bug `修复缺陷`
+* [127](https://github.com/Vanessa219/vditor/issues/127) more keyboard shortcut after ctrl+h `改进功能`
 
 ### v2.1.15 / 2020-02-09
 
