@@ -293,7 +293,10 @@ class WYSIWYG {
             highlightToolbar(vditor);
 
             // 点击后光标落于预览区，需展开代码块
-            const previewElement = hasClosestByClassName(getSelection().getRangeAt(0).startContainer, "vditor-wysiwyg__preview");
+            let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview")
+            if (!previewElement) {
+                previewElement = hasClosestByClassName(getSelection().getRangeAt(0).startContainer, "vditor-wysiwyg__preview");
+            }
             if (previewElement) {
                 showCode(previewElement);
             }
