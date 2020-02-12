@@ -25,6 +25,12 @@ interface ILute {
 
     SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
+    SetAutoSpace(enable: boolean): void;
+
+    SetChinesePunct(enable: boolean): void;
+
+    SetFixTermTypo(enable: boolean): void;
+
     SetEmojiSite(emojiSite: string): void;
 
     PutEmojis(emojis: { [key: string]: string }): void;
@@ -150,6 +156,11 @@ interface IPreview {
     url?: string;
     hljs?: IHljs;
     math?: IMath;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     parse?(element: HTMLElement): void;
 
@@ -168,6 +179,11 @@ interface IPreviewOptions {
     anchor?: boolean;
     math?: IMath;
     cdn?: string;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     transform?(html: string): string;
 }

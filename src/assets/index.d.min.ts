@@ -68,6 +68,11 @@ interface IPreview {
     url?: string;
     hljs?: IHljs;
     math?: IMath;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     parse?(element: HTMLElement): void;
 
@@ -86,6 +91,11 @@ interface IPreviewOptions {
     anchor?: boolean;
     math?: IMath;
     cdn?: string;
+    markdown?: {
+        autoSpace?: boolean;
+        fixTermTypo?: boolean;
+        chinesePunct?: boolean;
+    };
 
     transform?(html: string): string;
 }

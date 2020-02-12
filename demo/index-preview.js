@@ -11,5 +11,5 @@ VditorPreview.preview(document.getElementById('preview'),
     speech: {
       enable: true,
     },
-    anchor: true
+    anchor: true,
   })

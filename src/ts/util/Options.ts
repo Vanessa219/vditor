@@ -36,6 +36,11 @@ export class Options {
                 lineNumber: false,
                 style: "github",
             },
+            markdown: {
+                autoSpace: true,
+                chinesePunct: true,
+                fixTermTypo: true,
+            },
             math: {
                 engine: "KaTeX",
                 inlineDigit: false,
@@ -237,6 +242,10 @@ export class Options {
                 if (this.options.preview.math) {
                     this.options.preview.math =
                         Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
+                }
+                if (this.options.preview.markdown) {
+                    this.options.preview.markdown =
+                        Object.assign({}, this.defaultOptions.preview.markdown, this.options.preview.markdown);
                 }
             }
 

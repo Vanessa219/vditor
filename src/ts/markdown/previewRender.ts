@@ -24,6 +24,11 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
             style: "github",
         },
         lang: "zh_CN",
+        markdown: {
+            autoSpace: true,
+            chinesePunct: true,
+            fixTermTypo: true,
+        },
         math: {
             engine: "KaTeX",
             inlineDigit: false,
@@ -42,6 +47,9 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     if (options.math) {
         options.math = Object.assign({}, defaultOption.math, options.math);
+    }
+    if (options.markdown) {
+        options.markdown = Object.assign({}, defaultOption.markdown, options.markdown);
     }
 
     let html =
