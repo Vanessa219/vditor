@@ -470,7 +470,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // Backspace: 在选择框前进行删除
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
             && range.startOffset === 1
-            && ((startContainer.nodeType === 3 && (startContainer.previousSibling as HTMLElement).tagName === "INPUT")
+            && ((startContainer.nodeType === 3 && startContainer.previousSibling &&
+                (startContainer.previousSibling as HTMLElement).tagName === "INPUT")
                 || startContainer.nodeType !== 3)) {
             const previousElement = taskItemElement.previousElementSibling;
             taskItemElement.querySelector("input").remove();
