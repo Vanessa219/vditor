@@ -160,9 +160,41 @@ class WYSIWYG {
                         e.removeAttribute("style");
                     });
                     addP2Li(tempElement);
-                    log("HTML2VditorDOM", tempElement.innerHTML, "argument", vditor.options.debugger);
+                    vditor.lute.SetJSRenderers({
+                        renderers: {
+                            HTML2VditorDOM: {
+                                renderLinkDest: (node) => {
+                                    const src = node.TokensStr();
+                                    if (node.__internal_object__.parent.typ === 34 && src
+                                        && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
+                                        const xhr = new XMLHttpRequest();
+                                        xhr.open("POST", vditor.options.upload.linkToImgUrl);
+                                        xhr.onreadystatechange = () => {
+                                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                                const responseJSON = JSON.parse(xhr.responseText);
+                                                if (xhr.status === 200) {
+                                                    if (responseJSON.code !== 0) {
+                                                        vditor.tip.show(responseJSON.msg);
+                                                        return;
+                                                    }
+                                                    const original = responseJSON.data.originalURL;
+                                                    const imgElement: HTMLImageElement =
+                                                        this.element.querySelector(`img[src="${original}"]`);
+                                                    imgElement.src = responseJSON.data.url;
+                                                    afterRenderEvent(vditor);
+                                                } else {
+                                                    vditor.tip.show(responseJSON.msg);
+                                                }
+                                            }
+                                        };
+                                        xhr.send(JSON.stringify({url: src}));
+                                    }
+                                    return [node.TokensStr(), Lute.WalkStop];
+                                },
+                            },
+                        },
+                    });
                     const pasteHTML = vditor.lute.HTML2VditorDOM(tempElement.innerHTML);
-                    log("HTML2VditorDOM", pasteHTML, "result", vditor.options.debugger);
                     insertHTML(pasteHTML, vditor);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);

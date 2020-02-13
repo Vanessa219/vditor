@@ -1,7 +1,6 @@
 import {processPasteCode} from "../util/processPasteCode";
 import {insertText} from "./insertText";
 import {setSelectionByInlineText} from "./setSelection";
-declare const Lute: ILute;
 
 // 直接使用 API 或 setOriginal 时不需要对图片进行服务器上传，直接转换。
 // 目前使用 textPlain 判断是否来自 API 或 setOriginal
@@ -33,7 +32,7 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
                                 const responseJSON = JSON.parse(xhr.responseText);
                                 if (xhr.status === 200) {
                                     if (responseJSON.code !== 0) {
-                                        alert(responseJSON.msg);
+                                        vditor.tip.show(responseJSON.msg);
                                         return;
                                     }
                                     const original = responseJSON.data.originalURL;

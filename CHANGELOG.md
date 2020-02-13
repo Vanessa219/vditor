@@ -45,10 +45,11 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.0 / 2020-02-12
+### v2.2.0 / 2020-02-13
 
 * [136](https://github.com/Vanessa219/vditor/issues/136) ⌘ and Ctrl is different at MacOS `修复缺陷`
 * [135](https://github.com/Vanessa219/vditor/issues/135) can not delete the first char. at first field of links `改进功能`
+* [134](https://github.com/Vanessa219/vditor/issues/134) 支持 linkToImgUrl `引入特性`
 * [133](https://github.com/Vanessa219/vditor/issues/133) MathJax 渲染无法修改 `修复缺陷`
 * [132](https://github.com/Vanessa219/vditor/issues/132) 添加 md 配置项 `引入特性`
 * [131](https://github.com/Vanessa219/vditor/issues/131) 代码块下输入中文 bug `修复缺陷`

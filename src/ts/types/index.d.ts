@@ -2,6 +2,19 @@ declare module "*.svg";
 
 declare module "*.png";
 
+declare const Lute: ILute;
+
+interface ILuteRender {
+    renderLinkDest: (node: {
+        TokensStr: () => string;
+        __internal_object__: {
+            parent: {
+                typ: number,
+            },
+        }
+    }, entering: boolean) => [string, number];
+}
+
 interface ILute {
     WalkStop: number;
 
@@ -9,16 +22,8 @@ interface ILute {
 
     SetJSRenderers(options?: {
         renderers: {
-            HTML2Md: {
-                renderLinkDest: (node: {
-                    TokensStr: () => string;
-                    __internal_object__: {
-                        parent: {
-                            typ: number,
-                        },
-                    }
-                },               entering: boolean) => [string, number];
-            },
+            HTML2VditorDOM?: ILuteRender,
+            HTML2Md?: ILuteRender,
         },
     }): void;
 
@@ -48,7 +53,7 @@ interface ILute {
     // md 转换为 html
     Md2HTML(markdown: string): string;
 
-    // 粘贴时将 html 转换为 md TODO: 图片处理
+    // 粘贴时将 html 转换为 md
     HTML2Md(html: string): string;
 
     // wysiwyg 转换为 html
@@ -57,7 +62,7 @@ interface ILute {
     // wysiwyg 输入渲染
     SpinVditorDOM(html: string): string;
 
-    // 粘贴时将 html 转换为 wysiwyg TODO: 图片处理
+    // 粘贴时将 html 转换为 wysiwyg
     HTML2VditorDOM(html: string): string;
 
     // 将 wysiwyg 转换为 md
