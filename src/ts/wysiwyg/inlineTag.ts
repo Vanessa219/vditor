@@ -63,3 +63,10 @@ export const getRenderElementNextNode = (blockCodeElement: HTMLElement) => {
 
     return nextNode.nextSibling;
 };
+
+export const getLastNode = (node: Node) => {
+    while (node && node.lastChild) {
+        node = node.lastChild;
+    }
+    return node;
+};

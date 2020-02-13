@@ -4,6 +4,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
+    getTopList,
     hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag, hasClosestByTag,
@@ -11,7 +12,8 @@ import {
 } from "../util/hasClosest";
 import {processKeymap} from "../util/processKeymap";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {nextIsCode} from "./inlineTag";
+import {listOutdent} from "./highlightToolbar";
+import {getLastNode, nextIsCode} from "./inlineTag";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD} from "./processMD";
 import {setHeading} from "./setHeading";
@@ -435,17 +437,30 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (!isCtrl(event) && !event.altKey && event.key === "Tab" && range.startOffset === 0
-            && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
-                || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
-            // 光标位于第一零字符时，tab 用于列表的缩进
-            if (event.shiftKey) {
-                (vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]') as HTMLElement).click();
-            } else {
-                (vditor.wysiwyg.popover.querySelector('button[data-type="indent"]') as HTMLElement).click();
+        if (!isCtrl(event) && !event.altKey && event.key === "Tab") {
+            // 光标位于第一/零字符时，tab 用于列表的缩进
+            let isFirst = false;
+            if (range.startOffset === 0
+                && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
+                    || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
+                // 有序/无序列表
+                isFirst = true;
+            } else if (liElement.classList.contains("vditor-task") && range.startOffset === 1
+                && startContainer.previousSibling.nodeType !== 3
+                && (startContainer.previousSibling as HTMLElement).tagName === "INPUT") {
+                // 任务列表
+                isFirst = true;
             }
-            event.preventDefault();
-            return true;
+
+            if (isFirst) {
+                if (event.shiftKey) {
+                    (vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]') as HTMLElement).click();
+                } else {
+                    (vditor.wysiwyg.popover.querySelector('button[data-type="indent"]') as HTMLElement).click();
+                }
+                event.preventDefault();
+                return true;
+            }
         }
     }
 
@@ -453,14 +468,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
         // Backspace: 在选择框前进行删除
-        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
-            && range.toString() === "" && ((startContainer.nodeType === 3 && range.startOffset === 1 &&
-                (startContainer.previousSibling as HTMLElement).tagName === "INPUT") ||
-                startContainer.nodeType !== 3)) {
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
+            && range.startOffset === 1
+            && ((startContainer.nodeType === 3 && (startContainer.previousSibling as HTMLElement).tagName === "INPUT")
+                || startContainer.nodeType !== 3)) {
             const previousElement = taskItemElement.previousElementSibling;
             taskItemElement.querySelector("input").remove();
             if (previousElement) {
-                previousElement.innerHTML += "<wbr>" + taskItemElement.innerHTML.trim();
+                const lastNode = getLastNode(previousElement);
+                lastNode.parentElement.insertAdjacentHTML("beforeend", "<wbr>" + taskItemElement.innerHTML.trim());
                 taskItemElement.remove();
             } else {
                 taskItemElement.parentElement.insertAdjacentHTML("beforebegin",
@@ -479,37 +495,49 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
             if (taskItemElement.textContent.trim() === "") {
-                if (taskItemElement.nextElementSibling) {
-                    // 用段落隔断
-                    let afterHTML = "";
-                    let beforeHTML = "";
-                    let isAfter = false;
-                    taskItemElement.parentElement.querySelectorAll("li").forEach((taskItem) => {
-                        if (taskItemElement.isEqualNode(taskItem)) {
-                            isAfter = true;
-                        } else {
-                            if (isAfter) {
-                                afterHTML += taskItem.outerHTML;
-                            } else {
-                                beforeHTML += taskItem.outerHTML;
-                            }
-                        }
-                    });
-                    if (beforeHTML) {
-                        beforeHTML = `<ul data-tight="true" data-marker="*" data-block="0">${beforeHTML}</ul>`;
+                // 当前任务列表无文字
+                if (hasClosestByClassName(taskItemElement.parentElement, "vditor-task")) {
+                    // 为子元素时，需进行反向缩进
+                    const topListElement = getTopList(startContainer);
+                    if (topListElement) {
+                        listOutdent(vditor, taskItemElement, range, topListElement);
                     }
-                    taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0">\n<wbr></p><ul data-tight="true" data-marker="*" data-block="0">${afterHTML}</ul>`;
                 } else {
-                    // 变成段落
-                    taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0">\n<wbr></p>`);
-                    if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
-                        taskItemElement.parentElement.remove();
+                    // 仅有一级任务列表
+                    if (taskItemElement.nextElementSibling) {
+                        // 任务列表下方还有元素，需要使用用段落隔断
+                        let afterHTML = "";
+                        let beforeHTML = "";
+                        let isAfter = false;
+                        Array.from(taskItemElement.parentElement.children).forEach((taskItem) => {
+                            if (taskItemElement.isEqualNode(taskItem)) {
+                                isAfter = true;
+                            } else {
+                                if (isAfter) {
+                                    afterHTML += taskItem.outerHTML;
+                                } else {
+                                    beforeHTML += taskItem.outerHTML;
+                                }
+                            }
+                        });
+                        if (beforeHTML) {
+                            beforeHTML = `<ul data-tight="true" data-marker="*" data-block="0">${beforeHTML}</ul>`;
+                        }
+                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0">\n<wbr></p><ul data-tight="true" data-marker="*" data-block="0">${afterHTML}</ul>`;
                     } else {
-                        taskItemElement.remove();
+                        // 任务列表下方无任务列表元素
+                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0">\n<wbr></p>`);
+                        if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
+                            // 任务列表仅有一项时，使用 p 元素替换
+                            taskItemElement.parentElement.remove();
+                        } else {
+                            // 任务列表有多项时，当前任务列表位于最后一项，移除该任务列表
+                            taskItemElement.remove();
+                        }
                     }
                 }
             } else {
-                // 光标后文字添加到新列表中
+                // 当前任务列表有文字，光标后的文字需添加到新任务列表中
                 range.setEndAfter(taskItemElement.lastChild);
                 taskItemElement.insertAdjacentHTML("afterend", `<li class="vditor-task"><input type="checkbox"> <wbr></li>`);
                 document.querySelector("wbr").after(range.extractContents());

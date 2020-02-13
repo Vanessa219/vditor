@@ -113,39 +113,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 if (!liElement) {
                     return;
                 }
-                const liParentLiElement = hasClosestByMatchTag(liElement.parentElement, "LI");
-                if (liParentLiElement) {
-                    vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
-                        wbr.remove();
-                    });
-                    range.insertNode(document.createElement("wbr"));
-
-                    const liParentElement = liElement.parentElement;
-                    const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
-
-                    let isMatch = false;
-                    let afterHTML = "";
-                    liParentElement.querySelectorAll("li").forEach((item) => {
-                        if (isMatch) {
-                            afterHTML += item.outerHTML;
-                            item.remove();
-                        }
-                        if (item.isEqualNode(liElement)) {
-                            isMatch = true;
-                        }
-                    });
-                    liParentAfterElement.innerHTML = afterHTML;
-
-                    liParentLiElement.insertAdjacentElement("afterend", liElement);
-                    liElement.insertAdjacentElement("beforeend", liParentAfterElement);
-
-                    addP2Li(topListElement);
-                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
-
-                    afterRenderEvent(vditor);
-                    setRangeByWbr(vditor.wysiwyg.element, range);
-                    highlightToolbar(vditor);
-                }
+                listOutdent(vditor, liElement, range, topListElement);
             };
 
             const indent = document.createElement("button");
@@ -663,4 +631,40 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
     setPopoverPosition(vditor, aElement);
+};
+
+export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Range, topListElement: HTMLElement) => {
+    const liParentLiElement = hasClosestByMatchTag(liElement.parentElement, "LI");
+    if (liParentLiElement) {
+        vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
+            wbr.remove();
+        });
+        range.insertNode(document.createElement("wbr"));
+
+        const liParentElement = liElement.parentElement;
+        const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
+
+        let isMatch = false;
+        let afterHTML = "";
+        liParentElement.querySelectorAll("li").forEach((item) => {
+            if (isMatch) {
+                afterHTML += item.outerHTML;
+                item.remove();
+            }
+            if (item.isEqualNode(liElement)) {
+                isMatch = true;
+            }
+        });
+        liParentAfterElement.innerHTML = afterHTML;
+
+        liParentLiElement.insertAdjacentElement("afterend", liElement);
+        liElement.insertAdjacentElement("beforeend", liParentAfterElement);
+
+        addP2Li(topListElement);
+        topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+
+        afterRenderEvent(vditor);
+        setRangeByWbr(vditor.wysiwyg.element, range);
+        highlightToolbar(vditor);
+    }
 };
