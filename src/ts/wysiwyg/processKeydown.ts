@@ -21,7 +21,7 @@ import {setRangeByWbr} from "./setRangeByWbr";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
-    if (!isCtrl(event)) {
+    if (!isCtrl(event) && event.key.indexOf("Arrow") === -1) {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 
@@ -637,15 +637,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (startContainer.nodeType !== 3) {
-            // 光标位于 table 前，table 前有内容
-            const tableElement = startContainer.childNodes[range.startOffset] as HTMLElement;
-            if (tableElement && tableElement.tagName === "TABLE" && range.startOffset > 0) {
-                range.selectNodeContents(tableElement.previousElementSibling);
-                range.collapse(false);
-                event.preventDefault();
-                return true;
-            }
+        const offsetChildNode = startContainer.childNodes[range.startOffset] as HTMLElement;
+        if (startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
+            (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
+            // 光标位于 table/hr 前，table/hr 前有内容
+            range.selectNodeContents(offsetChildNode.previousElementSibling);
+            range.collapse(false);
+            event.preventDefault();
+            return true;
         }
 
         if (blockElement) {

@@ -218,7 +218,7 @@ class WYSIWYG {
                     range.insertNode(pElement);
                 } else {
                     Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
-                        if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-type"))) {
+                        if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-block"))) {
                             if (node.nodeType === 3) {
                                 pElement.textContent = node.textContent;
                             } else {

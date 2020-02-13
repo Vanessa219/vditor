@@ -1,6 +1,5 @@
 import {VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
-import {log} from "../util/log";
 
 declare const Lute: ILute;
 
@@ -12,8 +11,8 @@ export const loadLuteJs = async (vditor: IVditor | string) => {
     //     cdn = vditor.options.cdn;
     // }
     // addScript(`${cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript");
-    addScript(`/src/js/lute/lute.min.js`, "vditorLuteScript");
-    // addScript(`http://192.168.80.35:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript");
+    // addScript(`/src/js/lute/lute.min.js`, "vditorLuteScript");
+    addScript(`http://192.168.80.35:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript");
 
     if (vditor && typeof vditor === "object" && !vditor.lute) {
         vditor.lute = Lute.New();
@@ -53,6 +52,5 @@ export const md2htmlByVditor = async (mdText: string, vditor: IVditor) => {
     if (typeof vditor.lute === "undefined") {
         await loadLuteJs(vditor.options.cdn);
     }
-    log("Md2HTML", mdText, "arguments", vditor.options.debugger);
     return vditor.lute.Md2HTML(mdText);
 };

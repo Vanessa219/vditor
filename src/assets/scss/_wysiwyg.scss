@@ -107,6 +107,12 @@
     content: 'h6';
   }
 
+  hr {
+    display: inline-block;
+    margin: 12px 0;
+    width: 100%;
+  }
+
   div.vditor-wysiwyg__block {
     &:before {
       content: "</>";
