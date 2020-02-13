@@ -2,22 +2,25 @@ declare module "*.svg";
 
 declare module "*.png";
 
-interface ITurndown {
-    addRule(key: string, rule: ITurndownRule): ITurndown;
-
-    use(gfm: (turndownService: ITurndown) => void): void;
-
-    turndown(html: string): string;
-}
-
-interface ITurndownRule {
-    filter: string | string[] | ((node: HTMLInputElement) => boolean);
-
-    replacement(content: string, node?: HTMLElement): string;
-}
-
 interface ILute {
+    WalkStop: number;
+
     New(): ILute;
+
+    SetJSRenderers(options?: {
+        renderers: {
+            HTML2Md: {
+                renderLinkDest: (node: {
+                    TokensStr: () => string;
+                    __internal_object__: {
+                        parent: {
+                            typ: number,
+                        },
+                    }
+                },               entering: boolean) => [string, number];
+            },
+        },
+    }): void;
 
     SetParallelParsing(enable: boolean): void;
 
