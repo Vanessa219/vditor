@@ -56,7 +56,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (isHrMD(pElement.innerHTML)) {
             // hr 渲染
-            pElement.innerHTML = "<hr><wbr>";
+            pElement.insertAdjacentHTML("afterend",  '<hr><p data-block="0">\n<wbr></p>');
+            pElement.remove();
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
             scrollCenter(vditor.wysiwyg.element);
@@ -66,7 +67,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (isHeadingMD(pElement.innerHTML)) {
             // heading 渲染
-            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + "<wbr>");
+            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0">\n<wbr></p>');
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
             scrollCenter(vditor.wysiwyg.element);
