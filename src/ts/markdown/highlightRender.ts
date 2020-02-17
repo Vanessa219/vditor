@@ -16,6 +16,12 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
     if (!hljsThemes.includes(hljsOption.style)) {
         hljsOption.style = "github";
     }
+
+    const vditorHljsStyle = document.getElementById("vditorHljsStyle") as HTMLLinkElement;
+    const href = `${cdn}/dist/js/highlight.js/styles/${hljsOption.style}.css`;
+    if (vditorHljsStyle && vditorHljsStyle.href !== href) {
+        vditorHljsStyle.remove();
+    }
     addStyle(`${cdn}/dist/js/highlight.js/styles/${hljsOption.style}.css`,
         "vditorHljsStyle");
 
