@@ -37,6 +37,10 @@ export class Fullscreen extends MenuItem {
             if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
                 vditor.devtools.ASTChart.resize();
             }
+
+            if (menuItem.click) {
+                menuItem.click(vditorElement.classList.contains("vditor--fullscreen"));
+            }
         });
     }
 }

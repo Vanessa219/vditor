@@ -136,7 +136,7 @@ interface IMenuItem {
     prefix?: string;
     tipPosition?: string;
 
-    click?(): void;
+    click?(status?: boolean): void;
 }
 
 interface IPreviewMode {
