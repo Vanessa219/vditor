@@ -2,7 +2,6 @@ import Vditor from '../src/index'
 import '../src/assets/scss/index.scss'
 
 window.vditor = new Vditor('vditor', {
-  theme: 'dark',
   debugger: true,
   typewriterMode: true,
   placeholder: 'placeholder',
