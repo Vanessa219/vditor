@@ -16,15 +16,6 @@ window.vditor = new Vditor('vditor', {
       'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
     },
   },
-  resize: {
-    enable: true,
-    position: "bottom",
-  },
-  preview: {
-    hljs: {
-      style: 'native'
-    }
-  },
   tab: '\t',
   upload: {
     accept: 'image/*,.mp3, .wav, .rar',

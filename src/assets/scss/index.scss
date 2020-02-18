@@ -22,9 +22,9 @@ $transition: all .15s ease-in-out !default;
   --textarea-background-color: #fafbfc;
   --textarea-text-color: #24292e;
 
-  --resize-icon-color: var(--border-color);
+  --resize-icon-color: var(--toolbar-icon-color);
   --resize-background-color: var(--toolbar-background-color);
-  --resize-hover-icon-color: var(--toolbar-icon-hover-color);
+  --resize-hover-icon-color: var(--panel-background-color);
   --resize-hover-background-color: var(--toolbar-icon-hover-color);
 
   --tooltip-color: var(--panel-background-color);

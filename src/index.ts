@@ -24,6 +24,7 @@ import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
+import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
@@ -33,7 +34,6 @@ import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {scrollToWbr} from "./ts/wysiwyg/scrollToWbr";
-import {setTheme} from "./ts/ui/setTheme";
 
 class Vditor {
 

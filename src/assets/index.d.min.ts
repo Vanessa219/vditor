@@ -80,7 +80,7 @@ interface IPreview {
 }
 
 interface IPreviewOptions {
-    className?: string;
+    theme?: "classic" | "dark";
     customEmoji?: { [key: string]: string };
     lang?: (keyof II18nLang);
     emojiPath?: string;

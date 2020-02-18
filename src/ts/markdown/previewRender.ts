@@ -14,7 +14,6 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     const defaultOption = {
         anchor: false,
         cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
-        className: (options && options.anchor) ? "vditor-reset vditor-reset--anchor" : "vditor-reset",
         customEmoji: {},
         emojiPath: `${(options && options.emojiPath) ||
         `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`}/dist/images/emoji`,
@@ -37,8 +36,8 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         speech: {
             enable: false,
         },
+        theme: "classic",
     };
-    options = Object.assign(defaultOption, options);
     if (options.hljs) {
         options.hljs = Object.assign({}, defaultOption.hljs, options.hljs);
     }
@@ -51,15 +50,22 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (options.markdown) {
         options.markdown = Object.assign({}, defaultOption.markdown, options.markdown);
     }
-
+    options = Object.assign(defaultOption, options);
     let html =
         await md2htmlByPreview(markdown, options);
     if (options.transform) {
         html = options.transform(html);
     }
     previewElement.innerHTML = html;
-    previewElement.className = options.className;
-
+    previewElement.classList.add("vditor-reset");
+    if (options.theme === "dark") {
+        previewElement.classList.add("vditor-reset--dark");
+    } else {
+        previewElement.classList.remove("vditor-reset--dark");
+    }
+    if (options.anchor) {
+        previewElement.classList.add("vditor-reset--anchor");
+    }
     codeRender(previewElement, options.lang);
     highlightRender(options.hljs, previewElement, options.cdn);
     mathRender(previewElement, {

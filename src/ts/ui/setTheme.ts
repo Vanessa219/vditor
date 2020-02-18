@@ -17,4 +17,4 @@ export const setTheme = (vditor: IVditor) => {
             vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
         }
     }
-}
+};

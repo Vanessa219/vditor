@@ -58,6 +58,8 @@
 * [128](https://github.com/Vanessa219/vditor/issues/128) 在分隔线之间输入的问题 `修复缺陷`
 * [127](https://github.com/Vanessa219/vditor/issues/127) more keyboard shortcut after ctrl+h `改进功能`
 * [125](https://github.com/Vanessa219/vditor/issues/125) ctrl+l, ** `修复缺陷`
+* 文档更新
+  * 移除 IPreviewOptions 中的 className 并添加 theme
 
 ### v2.1.15 / 2020-02-09
 
