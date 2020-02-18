@@ -1,10 +1,17 @@
 export const isHrMD = (text: string) => {
     // - _ *
-    text = text.trim();
-    if (text.replace(/ |-/g, "") === ""
-        || text.replace(/ |_/g, "") === ""
-        || text.replace(/ |\*/g, "") === "") {
-        if (text.replace(/ /g, "").length > 2) {
+    const marker = text.trimRight().split("\n").pop();
+    if (marker === "") {
+        return false;
+    }
+    if (marker.replace(/ |-/g, "") === ""
+        || marker.replace(/ |_/g, "") === ""
+        || marker.replace(/ |\*/g, "") === "") {
+        if (marker.replace(/ /g, "").length > 2) {
+            if (marker.indexOf("-") > -1 && marker.indexOf(" ") === -1 && text.trimRight().split("\n").length > 1) {
+                // 满足 heading
+                return false;
+            }
             return true;
         }
         return false;
@@ -14,7 +21,7 @@ export const isHrMD = (text: string) => {
 
 export const isHeadingMD = (text: string) => {
     // - =
-    text = text.split("\n").pop();
+    text = text.trimRight().split("\n").pop();
     if (text === "") {
         return false;
     }

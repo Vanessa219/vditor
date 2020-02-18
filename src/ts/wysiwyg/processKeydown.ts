@@ -54,9 +54,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
+        // hr 渲染
         if (isHrMD(pElement.innerHTML)) {
-            // hr 渲染
-            pElement.insertAdjacentHTML("afterend",  '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            // 软换行后 hr 前有内容
+            let pInnerHTML = "";
+            const innerHTMLList = pElement.innerHTML.trimRight().split("\n");
+            if (innerHTMLList.length > 1) {
+                innerHTMLList.pop();
+                pInnerHTML = `<p data-block="0">${innerHTMLList.join("\n")}</p>`;
+            }
+
+            pElement.insertAdjacentHTML("afterend", pInnerHTML + '<hr data-block="0"><p data-block="0">\n<wbr></p>');
             pElement.remove();
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
