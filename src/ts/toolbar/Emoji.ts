@@ -13,7 +13,7 @@ export class Emoji extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || emojiSVG;
 
         const emojiPanelElement = document.createElement("div");
-        emojiPanelElement.className = "vditor-panel";
+        emojiPanelElement.className = "vditor-panel vditor-arrow";
 
         let commonEmojiHTML = "";
         Object.keys(vditor.options.hint.emoji).forEach((key) => {

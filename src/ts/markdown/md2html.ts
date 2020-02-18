@@ -2,14 +2,14 @@ import {VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
 
 export const loadLuteJs = async (vditor: IVditor | string) => {
-    let cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
-    if (typeof vditor === "string" && vditor) {
-        cdn = vditor;
-    } else if (typeof vditor === "object" && vditor.options.cdn) {
-        cdn = vditor.options.cdn;
-    }
-    addScript(`${cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript");
-    // addScript(`/src/js/lute/lute.min.js`, "vditorLuteScript");
+    // let cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
+    // if (typeof vditor === "string" && vditor) {
+    //     cdn = vditor;
+    // } else if (typeof vditor === "object" && vditor.options.cdn) {
+    //     cdn = vditor.options.cdn;
+    // }
+    // addScript(`${cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript");
+    addScript(`/src/js/lute/lute.min.js`, "vditorLuteScript");
     // addScript(`http://192.168.80.35:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript");
 
     if (vditor && typeof vditor === "object" && !vditor.lute) {

@@ -12,7 +12,7 @@ export class Headings extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || headingsSVG;
 
         const headingsPanelElement = document.createElement("div");
-        headingsPanelElement.className = "vditor-hint";
+        headingsPanelElement.className = "vditor-hint vditor-arrow";
         headingsPanelElement.innerHTML = `<button data-value="# ">Heading 1 ${updateHotkeyTip("<⌘-⌥-1>")}</button>
 <button data-value="## ">Heading 2 ${updateHotkeyTip("<⌘-⌥-2>")}</button>
 <button data-value="### ">Heading 3 ${updateHotkeyTip("<⌘-⌥-3>")}</button>

@@ -17,8 +17,12 @@ export class Options {
             emoji: {
                 "+1": "👍",
                 "-1": "👎",
-                "cold_sweat": "😰",
+                "confused": "😕",
+                "eyes": "👀️",
                 "heart": "❤️",
+                "hooray": "🎉️",
+                "laugh": "😄",
+                "rocket": "🚀️",
             },
             emojiPath: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji`,
         },

@@ -47,6 +47,7 @@
 
 ### v2.2.0 / 2020-02-13
 
+* [141](https://github.com/Vanessa219/vditor/issues/141) toolbar 添加箭头，默认表情修改 `改进功能`
 * [136](https://github.com/Vanessa219/vditor/issues/136) ⌘ and Ctrl is different at MacOS `修复缺陷`
 * [135](https://github.com/Vanessa219/vditor/issues/135) can not delete the first char. at first field of links `改进功能`
 * [134](https://github.com/Vanessa219/vditor/issues/134) 支持 linkToImgUrl `引入特性`
