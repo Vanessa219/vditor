@@ -45,7 +45,6 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-* [138](https://github.com/Vanessa219/vditor/issues/138) ctrl+b, ctrl+i, enter with no text `修复缺陷`
 
 ### v2.2.1 / 2020-02-18
 
@@ -53,6 +52,7 @@
 * [141](https://github.com/Vanessa219/vditor/issues/141) toolbar 添加箭头，默认表情修改 `改进功能`
 * [140](https://github.com/Vanessa219/vditor/issues/140) *** after shift+enter `修复缺陷`
 * [139](https://github.com/Vanessa219/vditor/issues/139) toggle after ===, enter `修复缺陷`
+* [138](https://github.com/Vanessa219/vditor/issues/138) ctrl+b, ctrl+i, enter with no text `修复缺陷`
 * [136](https://github.com/Vanessa219/vditor/issues/136) ⌘ and Ctrl is different at MacOS `修复缺陷`
 * [135](https://github.com/Vanessa219/vditor/issues/135) can not delete the first char. at first field of links `改进功能`
 * [134](https://github.com/Vanessa219/vditor/issues/134) 支持 linkToImgUrl `引入特性`

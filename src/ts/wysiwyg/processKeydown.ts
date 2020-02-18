@@ -546,6 +546,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                         }
                     }
                 }
+            } else if (startContainer.nodeType !== 3 && range.startOffset === 0 &&
+                (startContainer.firstChild as HTMLElement).tagName === "INPUT") {
+                // 光标位于 input 之前
+                range.setStart(startContainer.childNodes[1], 1);
             } else {
                 // 当前任务列表有文字，光标后的文字需添加到新任务列表中
                 range.setEndAfter(taskItemElement.lastChild);
