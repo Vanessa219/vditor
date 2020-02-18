@@ -1,5 +1,5 @@
 .vditor-hint {
-  background-color: $layerBg;
+  background-color: var(--panel-background-color);
   position: absolute;
   box-shadow: $layerShadow;
   border-radius: 3px;
@@ -7,7 +7,6 @@
   z-index: 4;
   line-height: 20px;
   list-style: none;
-  color: var(--textarea-text-color);
   font-size: 12px;
   margin: 0;
   max-width: 250px;
@@ -15,16 +14,20 @@
   display: none;
 
   button {
+    color: var(--toolbar-icon-color);
     display: block;
     padding: 3px 10px;
     border: 0;
-    border-bottom: 1px solid  var(--border-color);
+    border-radius: 0;
+    border-bottom: 1px solid var(--border-color);
     line-height: 20px;
     width: 100%;
     box-sizing: border-box;
     text-align: left;
     margin: 0;
     background-color: transparent;
+    cursor: pointer;
+
     &:last-child {
       border-bottom: 0;
     }
@@ -32,8 +35,8 @@
 
   &--current,
   button:hover {
-    background-color: var(--hover-background-color) !important;
-    color: $hoverColor;
+    background-color: var(--toolbar-background-color) !important;
+    color: var(--toolbar-icon-hover-color) !important;
   }
 
   &__emoji {

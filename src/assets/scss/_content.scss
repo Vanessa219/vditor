@@ -24,7 +24,7 @@
     left: 0;
     height: 100vh !important;
     z-index: 90;
-    background-color: $fullscreenBg;
+    border-radius: 0;
   }
 
   &-content {
@@ -62,25 +62,24 @@
       cursor: not-allowed;
     }
 
-    &:focus {
-      background-color: var(--textarea-focus-background-color);
-    }
-
     &:empty::before {
       content: attr(placeholder);
-      color: var(--toolbar-icon-color1);
+      color: var(--second-color);
     }
   }
 
   &-preview {
     flex: 1;
-    background-color: var(--preview-background-color);
     overflow: auto;
     margin-left: -1px;
-    padding: 10px;
-    box-shadow: inset 1px 0  var(--border-color);
+    border-left: 1px solid var(--border-color);
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
+    background-color: var(--textarea-background-color);
+
+    & > .vditor-reset {
+      padding: 10px;
+    }
 
     & > div::-webkit-scrollbar {
       display: none;
@@ -93,7 +92,7 @@
 
   &-devtools {
     display: none;
-    background-color: var(--preview-background-color);
+    background-color: var(--textarea-background-color);
     overflow: auto;
     flex: 1;
     box-shadow: inset 1px 0  var(--border-color);
@@ -107,8 +106,8 @@
     position: absolute;
     bottom: 10px;
     right: 20px;
-    color: var(--textarea-text-color);
-    background-color: rgba($fullscreenBg, 0.6);
+    color: var(--toolbar-icon-color);
+    background-color: var(--border-color);
     border-radius: 3px;
     font-size: 12px;
     user-select: none;
@@ -149,7 +148,7 @@
       }
 
       svg {
-        color: $hoverColor;
+        color: var(--resize-hover-icon-color);
       }
     }
 
@@ -161,7 +160,7 @@
       height: 3px;
       display: block;
       margin: 0 auto;
-      color:  var(--toolbar-icon-color);
+      color:  var(--resize-icon-color);
     }
   }
 
@@ -171,14 +170,14 @@
     left: 0;
     top: -2px;
     transition: $transition;
-    background-color: var(--hover-background-color1);
+    background-color: $blurColor;
   }
 
   &-tip {
     position: absolute;
     font-size: 12px;
     top: 10px;
-    color: #fff;
+    color: var(--toolbar-icon-color);
     animation-duration: .15s;
     animation-fill-mode: both;
     left: 50%;
@@ -194,9 +193,10 @@
       line-height: 16px;
       padding: 3px 10px;
       border-radius: 3px;
-      background: var(--hover-background-color1);
+      background: var(--toolbar-icon-color);
       position: relative;
       margin-left: -50%;
+      color: var(--toolbar-background-color);
 
       ul {
         margin: 2px 0;

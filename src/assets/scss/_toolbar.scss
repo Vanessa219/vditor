@@ -75,7 +75,7 @@
     }
 
     &--disabled svg {
-      color: var(--toolbar-icon-color1);
+      color: var(--second-color);
       cursor: not-allowed;
     }
   }
@@ -109,7 +109,7 @@
         color:  var(--toolbar-icon-color);
 
         &:hover {
-          color: var(--hover-background-color);
+          color: var(--toolbar-icon-hover-color);
         }
       }
     }

@@ -78,8 +78,10 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 emojiPanelElement.style.display = "none";
             });
             element.addEventListener("mouseover", (event: Event) => {
-                emojiPanelElement.querySelector(".vditor-emojis__tip").innerHTML =
-                    (event.target as HTMLElement).getAttribute("data-key");
+                if ((event.target as HTMLElement).tagName === "BUTTON") {
+                    emojiPanelElement.querySelector(".vditor-emojis__tip").innerHTML =
+                        (event.target as HTMLElement).getAttribute("data-key");
+                }
             });
         });
     }

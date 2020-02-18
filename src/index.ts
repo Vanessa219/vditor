@@ -33,6 +33,7 @@ import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {scrollToWbr} from "./ts/wysiwyg/scrollToWbr";
+import {setTheme} from "./ts/ui/setTheme";
 
 class Vditor {
 
@@ -129,17 +130,8 @@ class Vditor {
     }
 
     public setTheme(theme: "dark" | "classic") {
-        if (theme === "dark") {
-            document.getElementById(this.vditor.id).classList.add("vditor--dark");
-            if (this.vditor.wysiwyg) {
-                this.vditor.wysiwyg.element.classList.add("vditor-reset--dark");
-            }
-        } else {
-            document.getElementById(this.vditor.id).classList.remove("vditor--dark");
-            if (this.vditor.wysiwyg) {
-                this.vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
-            }
-        }
+        this.vditor.options.theme = theme;
+        setTheme(this.vditor);
     }
 
     public getValue() {

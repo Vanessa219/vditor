@@ -18,7 +18,7 @@
 
 .vditor {
   &-panel {
-    background-color: $layerBg;
+    background-color: var(--panel-background-color);
     position: absolute;
     box-shadow: $layerShadow;
     border-radius: 3px;
@@ -32,73 +32,43 @@
     animation-duration: .15s;
     animation-name: scale-in;
     animation-timing-function: cubic-bezier(.2, 0, .13, 1.5);
+    color: var(--toolbar-icon-color);
 
     &--none {
-      color:  var(--toolbar-icon-hover-color);
       padding: 0;
       animation: none;
-      background-color:  var(--toolbar-background-color);
       min-width: auto;
       max-width: none;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      margin: 0;
-      cursor: pointer;
-      padding: 3px 10px;
-      border-radius: 3px;
-      line-height: normal;
-
-      &:hover {
-        background-color: var(--hover-background-color);
-        color: $hoverColor;
-      }
     }
   }
 
   &-input {
     border: 0;
     padding: 3px 5px;
-    background-color:  var(--toolbar-background-color);
+    background-color: var(--panel-background-color);
     font-size: 12px;
     color: var(--textarea-text-color);
 
     &:focus {
-      background-color: var(--textarea-focus-background-color);
+      background-color: var(--toolbar-background-color);
       outline: none;
-    }
-  }
-
-  &-btn {
-    border-radius: 3px;
-    cursor: pointer;
-    background-color:  var(--toolbar-background-color);
-    font-size: 12px;
-    padding: 2px 7px 1px;
-    border: 1px solid  var(--border-color);
-    line-height: 16px;
-    float: right;
-
-    &:focus {
-      outline: none;
-      background-color: var(--textarea-focus-background-color);
     }
   }
 
   &-icon {
-    color:  var(--toolbar-icon-color);
+    color: var(--toolbar-icon-color);
     cursor: pointer;
     float: left;
-    padding: 2px 5px;
-    height: 19px;
-    width: 25px;
+    padding: 4px 5px;
+    height: 21px;
+    width: 23px;
     background-color: transparent;
     border: 0;
     box-sizing: border-box;
 
     &:hover,
     &--current {
-      color:  var(--toolbar-icon-hover-color);
+      color: var(--toolbar-icon-hover-color);
       background-color: transparent;
     }
 
@@ -107,8 +77,8 @@
     }
 
     svg {
-      height: 15px !important;
-      width: 15px !important;
+      height: 13px !important;
+      width: 13px !important;
       float: left;
       fill: currentColor;
     }

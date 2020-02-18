@@ -2,6 +2,7 @@ import Vditor from '../src/index'
 import '../src/assets/scss/index.scss'
 
 window.vditor = new Vditor('vditor', {
+  theme: 'dark',
   debugger: true,
   typewriterMode: true,
   placeholder: 'placeholder',
@@ -14,6 +15,15 @@ window.vditor = new Vditor('vditor', {
       'sd': '💔',
       'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
     },
+  },
+  resize: {
+    enable: true,
+    position: "bottom",
+  },
+  preview: {
+    hljs: {
+      style: 'native'
+    }
   },
   tab: '\t',
   upload: {

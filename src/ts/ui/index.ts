@@ -1,6 +1,7 @@
 import {formatRender} from "../editor/formatRender";
 import {html2md} from "../editor/html2md";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
+import {setTheme} from "./setTheme";
 
 export class Ui {
     private contentElement: HTMLElement;
@@ -9,11 +10,7 @@ export class Ui {
         const vditorElement = document.getElementById(vditor.id);
         vditorElement.innerHTML = "";
         vditorElement.classList.add("vditor");
-        if (vditor.options.theme === "dark") {
-            vditorElement.classList.add("vditor--dark");
-        } else {
-            vditorElement.classList.remove("vditor--dark");
-        }
+        setTheme(vditor);
         if (typeof vditor.options.height === "number") {
             vditorElement.style.height = vditor.options.height + "px";
         }
