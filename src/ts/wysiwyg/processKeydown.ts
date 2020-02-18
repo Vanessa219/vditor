@@ -661,14 +661,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         if (blockElement) {
-            const inlineCodeRenderElements = blockElement.querySelectorAll("span.vditor-wysiwyg__block");
-            if (inlineCodeRenderElements.length > 0) {
-                // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
-                inlineCodeRenderElements.forEach((item) => {
-                    (item.firstElementChild as HTMLElement).style.display = "inline";
-                    (item.lastElementChild as HTMLElement).style.display = "none";
-                });
-            }
+            // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
+            blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
+                (item.firstElementChild as HTMLElement).style.display = "inline";
+                (item.lastElementChild as HTMLElement).style.display = "none";
+            });
         }
     }
 

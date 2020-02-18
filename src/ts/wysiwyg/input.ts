@@ -26,7 +26,12 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
     const renderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
     const codeElement = hasClosestByTag(range.startContainer, "CODE");
     if (codeElement && renderElement && renderElement.getAttribute("data-block") === "0") {
-        processCodeRender(renderElement, vditor);
+        if (renderElement.firstElementChild.tagName === "PRE") {
+            processCodeRender(renderElement, vditor);
+        } else {
+            // 代码块前为空行，按下向后删除键，代码块内容会被删除
+            renderElement.outerHTML = `<p data-block="0">${renderElement.textContent}</p>`;
+        }
     } else if (event.inputType !== "formatItalic"
         && event.inputType !== "deleteByDrag"
         && event.inputType !== "insertFromDrop"
