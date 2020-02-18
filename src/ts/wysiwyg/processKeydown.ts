@@ -56,7 +56,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (isHrMD(pElement.innerHTML)) {
             // hr 渲染
-            pElement.insertAdjacentHTML("afterend",  '<hr><p data-block="0">\n<wbr></p>');
+            pElement.insertAdjacentHTML("afterend",  '<hr data-block="0"><p data-block="0">\n<wbr></p>');
             pElement.remove();
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);

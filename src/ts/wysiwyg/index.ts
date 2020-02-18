@@ -240,6 +240,7 @@ class WYSIWYG {
 
             // 没有被块元素包裹
             if (!blockElement) {
+                let noWrapStartOffset: number;
                 const pElement = document.createElement("p");
                 pElement.setAttribute("data-block", "0");
                 if (vditor.wysiwyg.element.childNodes.length === 0) {
@@ -249,6 +250,7 @@ class WYSIWYG {
                     Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
                         if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-block"))) {
                             if (node.nodeType === 3) {
+                                noWrapStartOffset = range.startOffset
                                 pElement.textContent = node.textContent;
                             } else {
                                 pElement.innerHTML = node.outerHTML;
@@ -259,8 +261,18 @@ class WYSIWYG {
                         }
                     });
                 }
-                range.selectNodeContents(pElement);
-                range.collapse(false);
+                if (typeof noWrapStartOffset === "number") {
+                    // hr 后输入字符
+                    if (pElement.textContent === "\n") {
+                        // hr 后回车
+                        noWrapStartOffset = 0;
+                    }
+                    range.setStart(pElement, noWrapStartOffset);
+                    range.collapse(true);
+                } else {
+                    range.selectNodeContents(pElement);
+                    range.collapse(false);
+                }
 
                 blockElement = hasClosestBlock(range.startContainer);
             }
