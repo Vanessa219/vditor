@@ -21,8 +21,9 @@ export const isHrMD = (text: string) => {
 
 export const isHeadingMD = (text: string) => {
     // - =
-    text = text.trimRight().split("\n").pop();
-    if (text === "") {
+    const textArray = text.trimRight().split("\n")
+    text = textArray.pop();
+    if (text === "" || textArray.length === 0) {
         return false;
     }
     if (text.replace(/-/g, "") === ""
