@@ -12,6 +12,10 @@ export const isHrMD = (text: string) => {
                 // 满足 heading
                 return false;
             }
+            if (marker.indexOf("    ") === 0 || marker.indexOf("\t") === 0) {
+                // 代码块
+                return false;
+            }
             return true;
         }
         return false;
