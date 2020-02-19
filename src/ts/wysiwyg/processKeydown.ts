@@ -645,21 +645,23 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
         && range.toString() === "") {
         const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
-        if (blockElement && getSelectPosition(blockElement, range).start === 0 && blockElement.previousElementSibling
-            && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block") &&
-            blockElement.previousElementSibling.getAttribute("data-block") === "0"
+        if (blockElement && blockElement.previousElementSibling
+            && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
+            && blockElement.previousElementSibling.getAttribute("data-block") === "0"
         ) {
-            // 删除后光标落于代码渲染块上
-            showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
-            // (blockElement.previousElementSibling.lastElementChild as HTMLElement).click();
-            if (blockElement.innerHTML.trim() === "" &&
-                !blockElement.nextElementSibling.classList.contains("vditor-panel--none")) {
-                // 当前块为空且不是最后一个时，需要删除
-                blockElement.remove();
-                afterRenderEvent(vditor);
+            const rangeStart = getSelectPosition(blockElement, range).start
+            if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
+                // 删除后光标落于代码渲染块上
+                showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
+                if (blockElement.innerHTML.trim() === "" &&
+                    !blockElement.nextElementSibling.classList.contains("vditor-panel--none")) {
+                    // 当前块为空且不是最后一个时，需要删除
+                    blockElement.remove();
+                    afterRenderEvent(vditor);
+                }
+                event.preventDefault();
+                return true;
             }
-            event.preventDefault();
-            return true;
         }
 
         const offsetChildNode = startContainer.childNodes[range.startOffset] as HTMLElement;

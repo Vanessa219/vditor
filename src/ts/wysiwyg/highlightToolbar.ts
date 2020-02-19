@@ -133,14 +133,18 @@ export const highlightToolbar = (vditor: IVditor) => {
                     range.insertNode(document.createElement("wbr"));
                     const parentTagName = liElement.parentElement.tagName;
                     liElement.previousElementSibling.insertAdjacentHTML("beforeend",
-                        `<${parentTagName} data-block="0"><li data-marker="1${liElement.getAttribute("data-marker").slice(-1)}">${liElement.innerHTML}</li></${parentTagName}>`);
+                        `<${parentTagName} data-block="0"><li data-marker="${liElement.getAttribute("data-marker").slice(-1)}">${liElement.innerHTML}</li></${parentTagName}>`);
                     liElement.remove();
 
                     addP2Li(topListElement);
+                    console.log(topListElement.outerHTML)
+                    console.log(vditor.lute.SpinVditorDOM(topListElement.outerHTML))
                     topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
                     afterRenderEvent(vditor);
                     setRangeByWbr(vditor.wysiwyg.element, range);
                     highlightToolbar(vditor);
+                } else {
+                    vditor.wysiwyg.element.focus();
                 }
             };
 
@@ -527,7 +531,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
     insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertBefore.onclick = () => {
         // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("beforebegin", `<p>${Constants.ZWSP}<wbr>\n</p>`);
+        element.insertAdjacentHTML("beforebegin", `<p data-block="0>${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
@@ -544,7 +548,7 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
     insertAfter.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertAfter.onclick = () => {
         // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("afterend", `<p>${Constants.ZWSP}<wbr>\n</p>`);
+        element.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
@@ -669,5 +673,7 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
         afterRenderEvent(vditor);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
+    } else {
+        vditor.wysiwyg.element.focus();
     }
 };
