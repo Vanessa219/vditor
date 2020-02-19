@@ -48,6 +48,7 @@
 
 ### v2.2.2 / 2020-02-19
 
+* [156](https://github.com/Vanessa219/vditor/issues/156) li 缩进后没有渲染代码块 `修复缺陷`
 * [155](https://github.com/Vanessa219/vditor/issues/155) blockquote 插入光标错误 `修复缺陷`
 * [154](https://github.com/Vanessa219/vditor/issues/154) the cursor is disapeared after tab pressed at editor mode `修复缺陷`
 * [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`

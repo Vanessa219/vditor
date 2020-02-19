@@ -13,6 +13,7 @@ import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {
+    getTopList,
     hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
@@ -136,12 +137,23 @@ export const highlightToolbar = (vditor: IVditor) => {
                         `<${parentTagName} data-block="0"><li data-marker="${liElement.getAttribute("data-marker").slice(-1)}">${liElement.innerHTML}</li></${parentTagName}>`);
                     liElement.remove();
 
+                    // D 说需要调用 2 次，方可没有 p
                     addP2Li(topListElement);
-                    console.log(topListElement.outerHTML)
-                    console.log(vditor.lute.SpinVditorDOM(topListElement.outerHTML))
-                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
-                    afterRenderEvent(vditor);
+                    const tempELement = document.createElement("div");
+                    tempELement.innerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+                    addP2Li(tempELement);
+                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(tempELement.innerHTML);
+
                     setRangeByWbr(vditor.wysiwyg.element, range);
+                    const tempTopListElement = getTopList(range.startContainer)
+                    if (tempTopListElement) {
+                        tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
+                            .forEach((blockElement: HTMLElement) => {
+                                processCodeRender(blockElement, vditor);
+                                blockElement.firstElementChild.setAttribute("style", "display:none");
+                            });
+                    }
+                    afterRenderEvent(vditor);
                     highlightToolbar(vditor);
                 } else {
                     vditor.wysiwyg.element.focus();
@@ -670,8 +682,16 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
         addP2Li(topListElement);
         topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
 
-        afterRenderEvent(vditor);
         setRangeByWbr(vditor.wysiwyg.element, range);
+        const tempTopListElement = getTopList(range.startContainer)
+        if (tempTopListElement) {
+            tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
+                .forEach((blockElement: HTMLElement) => {
+                    processCodeRender(blockElement, vditor);
+                    blockElement.firstElementChild.setAttribute("style", "display:none");
+                });
+        }
+        afterRenderEvent(vditor);
         highlightToolbar(vditor);
     } else {
         vditor.wysiwyg.element.focus();
