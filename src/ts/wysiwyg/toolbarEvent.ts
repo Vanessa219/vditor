@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
-import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML} from "./inlineTag";
@@ -155,13 +155,18 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
         }
 
         if (commandName === "quote") {
-            const quoteElement = hasClosestByMatchTag(range.startContainer, "BLOCKQUOTE");
-            if (quoteElement) {
-                const tempElement = document.createElement("div");
-                tempElement.innerHTML = quoteElement.innerHTML;
-                quoteElement.parentNode.replaceChild(tempElement, quoteElement);
+            let quoteElement: HTMLElement | boolean
+            if (range.startContainer.nodeType !== 3 &&
+                (range.startContainer as HTMLElement).classList.contains("vditor-wysiwyg")) {
+                quoteElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+            } else {
+                quoteElement = hasClosestByMatchTag(range.startContainer, "BLOCKQUOTE");
             }
-            vditor.wysiwyg.element.focus();
+            if (quoteElement) {
+                range.insertNode(document.createElement("wbr"));
+                quoteElement.outerHTML = `<p data-block="0">${quoteElement.innerHTML}</p>`
+                setRangeByWbr(vditor.wysiwyg.element, range);
+            }
         } else if (commandName === "inline-code") {
             if (!range.collapsed) {
                 document.execCommand("removeFormat", false, "");
@@ -204,8 +209,18 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
         }
 
         if (commandName === "quote") {
-            document.execCommand("formatBlock", false, "BLOCKQUOTE");
-            getSelection().getRangeAt(0).startContainer.parentElement.setAttribute("data-block", "0");
+            let blockElement: HTMLElement | boolean
+            if (range.startContainer.nodeType !== 3 &&
+                (range.startContainer as HTMLElement).classList.contains("vditor-wysiwyg")) {
+                blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+            } else {
+                blockElement = hasClosestBlock(range.startContainer);
+            }
+            if (blockElement) {
+                range.insertNode(document.createElement("wbr"));
+                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.innerHTML}</blockquote>`;
+                setRangeByWbr(vditor.wysiwyg.element, range);
+            }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);
             useHighlight = false;

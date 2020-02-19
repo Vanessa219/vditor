@@ -42,6 +42,9 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (range.startContainer.nodeType === 3) {
             typeElement = range.startContainer.parentElement;
         }
+        if (typeElement.classList.contains("vditor-wysiwyg")) {
+            typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
+        }
 
         // 工具栏高亮和禁用
         const liElement = hasClosestByMatchTag(typeElement, "LI");
