@@ -19,6 +19,27 @@ import {isHeadingMD, isHrMD} from "./processMD";
 import {setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
 
+const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
+    let previousElement = cellElement.previousElementSibling;
+    if (!previousElement) {
+        if (cellElement.parentElement.previousElementSibling) {
+            previousElement = cellElement.parentElement.previousElementSibling.lastElementChild;
+        } else if (cellElement.parentElement.parentElement.tagName === "TBODY" &&
+            cellElement.parentElement.parentElement.previousElementSibling) {
+            previousElement = cellElement.parentElement
+                .parentElement.previousElementSibling.lastElementChild.lastElementChild;
+        } else {
+            previousElement = null;
+        }
+    }
+    if (previousElement) {
+        range.selectNodeContents(previousElement);
+        if (!isSelected) {
+            range.collapse(false);
+        }
+    }
+}
+
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
     if (!isCtrl(event) && event.key.indexOf("Arrow") === -1) {
@@ -107,28 +128,20 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // Backspace：光标移动到前一个 cell
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
             && range.startOffset === 0 && range.toString() === "") {
-            let previousElement = cellElement.previousElementSibling;
-            if (!previousElement) {
-                if (cellElement.parentElement.previousElementSibling) {
-                    previousElement = cellElement.parentElement.previousElementSibling.lastElementChild;
-                } else if (cellElement.parentElement.parentElement.tagName === "TBODY" &&
-                    cellElement.parentElement.parentElement.previousElementSibling) {
-                    previousElement = cellElement.parentElement
-                        .parentElement.previousElementSibling.lastElementChild.lastElementChild;
-                } else {
-                    previousElement = null;
-                }
-            }
-            if (previousElement) {
-                range.selectNodeContents(previousElement);
-                range.collapse(false);
-            }
+            goPreviousCell(cellElement, range, false)
             event.preventDefault();
             return true;
         }
 
         // tab：光标移向下一个 cell
         if (event.key === "Tab") {
+            if (event.shiftKey) {
+                // shift + tab 光标移动到前一个 cell
+                goPreviousCell(cellElement, range)
+                event.preventDefault();
+                return true;
+            }
+
             let nextElement = cellElement.nextElementSibling;
             if (!nextElement) {
                 if (cellElement.parentElement.nextElementSibling) {
@@ -143,7 +156,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             if (nextElement) {
                 range.selectNodeContents(nextElement);
-                range.collapse(true);
             }
             event.preventDefault();
             return true;

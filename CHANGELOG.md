@@ -51,6 +51,7 @@
 * [154](https://github.com/Vanessa219/vditor/issues/154) the cursor is disapeared after tab pressed at editor mode `修复缺陷`
 * [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`
 * [148](https://github.com/Vanessa219/vditor/issues/148) 任务列表退格删除问题 `修复缺陷`
+* [143](https://github.com/Vanessa219/vditor/issues/143) [suggestion] ctrl+m `改进功能`
 * [142](https://github.com/Vanessa219/vditor/issues/142) lists when indented at wysiwyg mode `修复缺陷`
 * [141](https://github.com/Vanessa219/vditor/issues/141) toolbar 添加箭头，默认表情修改 `改进功能`
 * [140](https://github.com/Vanessa219/vditor/issues/140) *** after shift+enter `修复缺陷`
