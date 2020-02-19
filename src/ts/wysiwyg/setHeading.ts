@@ -1,21 +1,24 @@
-import {highlightToolbar} from "./highlightToolbar";
+import {hasClosestBlock} from "../util/hasClosest";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {
-    document.execCommand("formatblock", false, tagName);
-    // https://github.com/Vanessa219/vditor/issues/50
     const range = getSelection().getRangeAt(0);
-    if (!range.collapsed && !range.startContainer.isEqualNode(range.endContainer)) {
-        range.setStart(range.endContainer, 0);
+    range.insertNode(document.createElement("wbr"));
+
+    const blockElement = hasClosestBlock(range.startContainer);
+    if (blockElement) {
+        blockElement.outerHTML = `<${tagName} data-block="0">${blockElement.innerHTML}</${tagName}>`;
     }
-    highlightToolbar(vditor);
+    setRangeByWbr(vditor.wysiwyg.element, range);
 };
 
 export const removeHeading = (vditor: IVditor) => {
-    document.execCommand("formatBlock", false, "p");
-    // https://github.com/Vanessa219/vditor/issues/50
     const range = getSelection().getRangeAt(0);
-    if (!range.collapsed && !range.startContainer.isEqualNode(range.endContainer)) {
-        range.setStart(range.endContainer, 0);
+    range.insertNode(document.createElement("wbr"));
+
+    const blockElement = hasClosestBlock(range.startContainer);
+    if (blockElement) {
+        blockElement.outerHTML = `<p data-block="0">${blockElement.innerHTML}</p>`;
     }
-    highlightToolbar(vditor);
+    setRangeByWbr(vditor.wysiwyg.element, range);
 };

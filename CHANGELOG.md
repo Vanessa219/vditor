@@ -46,8 +46,9 @@
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
 
-### v2.2.1 / 2020-02-18
+### v2.2.2 / 2020-02-19
 
+* [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`
 * [148](https://github.com/Vanessa219/vditor/issues/148) 任务列表退格删除问题 `修复缺陷`
 * [141](https://github.com/Vanessa219/vditor/issues/141) toolbar 添加箭头，默认表情修改 `改进功能`
 * [140](https://github.com/Vanessa219/vditor/issues/140) *** after shift+enter `修复缺陷`

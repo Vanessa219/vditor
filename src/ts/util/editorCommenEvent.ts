@@ -8,6 +8,7 @@ import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {processKeymap} from "./processKeymap";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -160,6 +161,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 } else {
                     setHeading(vditor, tagName);
                 }
+                afterRenderEvent(vditor);
             } else {
                 insertText(vditor,
                     "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
