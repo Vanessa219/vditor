@@ -27,8 +27,6 @@ interface ILute {
         },
     }): void;
 
-    SetParallelParsing(enable: boolean): void;
-
     SetHeadingAnchor(enable: boolean): void;
 
     SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
