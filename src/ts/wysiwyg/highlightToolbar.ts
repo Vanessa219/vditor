@@ -145,7 +145,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     topListElement.outerHTML = vditor.lute.SpinVditorDOM(tempELement.innerHTML);
 
                     setRangeByWbr(vditor.wysiwyg.element, range);
-                    const tempTopListElement = getTopList(range.startContainer)
+                    const tempTopListElement = getTopList(range.startContainer);
                     if (tempTopListElement) {
                         tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
                             .forEach((blockElement: HTMLElement) => {
@@ -683,7 +683,7 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
         topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
 
         setRangeByWbr(vditor.wysiwyg.element, range);
-        const tempTopListElement = getTopList(range.startContainer)
+        const tempTopListElement = getTopList(range.startContainer);
         if (tempTopListElement) {
             tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
                 .forEach((blockElement: HTMLElement) => {

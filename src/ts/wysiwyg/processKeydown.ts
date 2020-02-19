@@ -649,7 +649,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
             && blockElement.previousElementSibling.getAttribute("data-block") === "0"
         ) {
-            const rangeStart = getSelectPosition(blockElement, range).start
+            const rangeStart = getSelectPosition(blockElement, range).start;
             if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                 // 删除后光标落于代码渲染块上
                 showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
