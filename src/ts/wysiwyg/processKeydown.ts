@@ -38,7 +38,7 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
             range.collapse(false);
         }
     }
-}
+};
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
@@ -128,7 +128,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // Backspace：光标移动到前一个 cell
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
             && range.startOffset === 0 && range.toString() === "") {
-            goPreviousCell(cellElement, range, false)
+            goPreviousCell(cellElement, range, false);
             event.preventDefault();
             return true;
         }
@@ -137,7 +137,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (event.key === "Tab") {
             if (event.shiftKey) {
                 // shift + tab 光标移动到前一个 cell
-                goPreviousCell(cellElement, range)
+                goPreviousCell(cellElement, range);
                 event.preventDefault();
                 return true;
             }

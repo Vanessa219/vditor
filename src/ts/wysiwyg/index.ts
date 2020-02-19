@@ -250,7 +250,7 @@ class WYSIWYG {
                     Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
                         if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-block"))) {
                             if (node.nodeType === 3) {
-                                noWrapStartOffset = range.startOffset
+                                noWrapStartOffset = range.startOffset;
                                 pElement.textContent = node.textContent;
                             } else {
                                 pElement.innerHTML = node.outerHTML;

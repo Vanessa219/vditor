@@ -2,13 +2,13 @@ import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {processKeymap} from "./processKeymap";
-import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
