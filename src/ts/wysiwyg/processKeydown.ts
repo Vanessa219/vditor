@@ -437,10 +437,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 liElement.parentElement.insertAdjacentHTML("beforebegin",
                     `<p data-block="0"><wbr>${liElement.innerHTML}</p>`);
                 liElement.remove();
-                setRangeByWbr(vditor.wysiwyg.element, range);
             } else {
-                liElement.parentElement.outerHTML = `<p data-block="0">${liElement.innerHTML}</p>`;
+                liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
             }
+            setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
             event.preventDefault();
             return true;
