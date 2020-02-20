@@ -565,7 +565,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             } else {
                 // 当前任务列表有文字，光标后的文字需添加到新任务列表中
                 range.setEndAfter(taskItemElement.lastChild);
-                taskItemElement.insertAdjacentHTML("afterend", `<li class="vditor-task"><input type="checkbox"> <wbr></li>`);
+                taskItemElement.insertAdjacentHTML("afterend", `<li class="vditor-task" data-marker="*"><input type="checkbox"> <wbr></li>`);
                 document.querySelector("wbr").after(range.extractContents());
             }
             setRangeByWbr(vditor.wysiwyg.element, range);

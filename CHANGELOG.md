@@ -46,8 +46,9 @@
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
 
-### v2.2.2 / 2020-02-19
+### v2.2.3 / 2020-02-20
 
+* [158](https://github.com/Vanessa219/vditor/issues/158) tab key is not working when no text `修复缺陷`
 * [156](https://github.com/Vanessa219/vditor/issues/156) li 缩进后没有渲染代码块 `修复缺陷`
 * [155](https://github.com/Vanessa219/vditor/issues/155) blockquote 插入光标错误 `修复缺陷`
 * [154](https://github.com/Vanessa219/vditor/issues/154) the cursor is disapeared after tab pressed at editor mode `修复缺陷`
