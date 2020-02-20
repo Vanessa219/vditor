@@ -303,6 +303,12 @@ class WYSIWYG {
                 }
             }
 
+            if (blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
+                && blockElement.tagName.length === 2) {
+                // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
+                return;
+            }
+
             if (startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
                 return;
             }

@@ -53,6 +53,7 @@
 * [155](https://github.com/Vanessa219/vditor/issues/155) blockquote 插入光标错误 `修复缺陷`
 * [154](https://github.com/Vanessa219/vditor/issues/154) the cursor is disapeared after tab pressed at editor mode `修复缺陷`
 * [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`
+* [150](https://github.com/Vanessa219/vditor/issues/150) [suggestion] deleting heading with backspace `改进功能`
 * [148](https://github.com/Vanessa219/vditor/issues/148) 任务列表退格删除问题 `修复缺陷`
 * [144](https://github.com/Vanessa219/vditor/issues/144) blockquote ctrl+. should toggle `改进功能`
 * [143](https://github.com/Vanessa219/vditor/issues/143) [suggestion] ctrl+m `改进功能`

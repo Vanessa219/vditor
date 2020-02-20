@@ -16,7 +16,7 @@ import {listOutdent} from "./highlightToolbar";
 import {getLastNode, nextIsCode} from "./inlineTag";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD} from "./processMD";
-import {setHeading} from "./setHeading";
+import {removeHeading, setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
@@ -425,6 +425,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
         })) {
             return true;
+        }
+
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
+            && headingElement.textContent === "") {
+            // 空标题删除
+            removeHeading(vditor);
         }
     }
 
