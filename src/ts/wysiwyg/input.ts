@@ -102,6 +102,11 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         // 列表返回多个 block 时，应统一处理 https://github.com/Vanessa219/vditor/issues/112
         blockElement = getTopList(range.startContainer);
         if (!blockElement) {
+            // BLOCKQUOTE 中存在列表，且列表中有代码块。回车，回车形成新 p
+            // https://github.com/Vanessa219/vditor/issues/156#issuecomment-588318896
+            blockElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
+        }
+        if (!blockElement) {
             blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
         }
         if (range.startContainer.nodeType !== 3 && !blockElement) {
