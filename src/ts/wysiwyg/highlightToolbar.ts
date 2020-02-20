@@ -134,7 +134,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     range.insertNode(document.createElement("wbr"));
                     const parentTagName = liElement.parentElement.tagName;
                     liElement.previousElementSibling.insertAdjacentHTML("beforeend",
-                        `<${parentTagName} data-block="0"><li data-marker="${liElement.getAttribute("data-marker").slice(-1)}">${liElement.innerHTML}</li></${parentTagName}>`);
+                        `<${parentTagName} data-block="0"><li data-marker="1${liElement.getAttribute("data-marker").slice(-1)}">${liElement.innerHTML}</li></${parentTagName}>`);
                     liElement.remove();
 
                     // D 说需要调用 2 次，方可没有 p
