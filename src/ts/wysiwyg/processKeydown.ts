@@ -360,7 +360,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
+        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey
+            && pElement.parentElement.tagName === "BLOCKQUOTE") {
             // Enter: 空行回车应逐层跳出
             let isEmpty = false;
             if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
