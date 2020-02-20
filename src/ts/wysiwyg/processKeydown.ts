@@ -497,7 +497,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // task list
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
-        if (isCtrl(event) && event.shiftKey) {
+        if (isCtrl(event) && event.shiftKey && event.key === "j") {
             // ctrl + shift: toggle checked
             const inputElement = taskItemElement.firstElementChild as HTMLInputElement
             if (inputElement.checked) {
