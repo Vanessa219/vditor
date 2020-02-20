@@ -543,7 +543,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
     insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertBefore.onclick = () => {
         // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("beforebegin", `<p data-block="0>${Constants.ZWSP}<wbr>\n</p>`);
+        element.insertAdjacentHTML("beforebegin", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
