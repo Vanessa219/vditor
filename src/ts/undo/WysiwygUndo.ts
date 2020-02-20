@@ -51,15 +51,7 @@ class WysiwygUndo {
 
     public recordFirstWbr(vditor: IVditor) {
         if (this.undoStack.length === 1) {
-            let cloneRange: Range;
-            if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
-                const range = getSelection().getRangeAt(0);
-                cloneRange = range.cloneRange();
-                if (vditor.wysiwyg.element.contains(range.startContainer)
-                    && !hasClosestByClassName(range.startContainer, "vditor-panel--none")) {
-                    range.insertNode(document.createElement("wbr"));
-                }
-            }
+            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
             const cloneEditorElement = document.createElement("pre");
             cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
             addP2Li(cloneEditorElement);
@@ -67,9 +59,6 @@ class WysiwygUndo {
             this.lastText = this.undoStack[0][0].diffs[0][1];
             if (vditor.wysiwyg.element.querySelector("wbr")) {
                 vditor.wysiwyg.element.querySelector("wbr").remove();
-            }
-            if (cloneRange) {
-                setSelectionFocus(cloneRange);
             }
         }
     }
