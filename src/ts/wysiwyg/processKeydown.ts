@@ -354,7 +354,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
             getSelectPosition(blockquoteElement, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
-            blockquoteElement.outerHTML = `<p data-block="0">${blockquoteElement.innerHTML}</p>`;
+            blockquoteElement.outerHTML = blockquoteElement.innerHTML;
             afterRenderEvent(vditor);
             event.preventDefault();
             return true;
