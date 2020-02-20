@@ -1,4 +1,5 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
+import {setSelectionFocus} from "../editor/setSelection";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
@@ -8,7 +9,6 @@ import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
-import {setSelectionFocus} from "../editor/setSelection";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -51,9 +51,9 @@ class WysiwygUndo {
 
     public recordFirstWbr(vditor: IVditor) {
         if (this.undoStack.length === 1) {
-            let cloneRange: Range
+            let cloneRange: Range;
             if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
-                const range = getSelection().getRangeAt(0)
+                const range = getSelection().getRangeAt(0);
                 cloneRange = range.cloneRange();
                 if (vditor.wysiwyg.element.contains(range.startContainer)
                     && !hasClosestByClassName(range.startContainer, "vditor-panel--none")) {
@@ -76,9 +76,9 @@ class WysiwygUndo {
 
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
-        let cloneRange: Range
+        let cloneRange: Range;
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
-            const range = getSelection().getRangeAt(0)
+            const range = getSelection().getRangeAt(0);
             cloneRange = range.cloneRange();
             if (vditor.wysiwyg.element.contains(range.startContainer)
                 && !hasClosestByClassName(range.startContainer, "vditor-panel--none")) {

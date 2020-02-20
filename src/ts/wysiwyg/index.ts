@@ -7,7 +7,6 @@ import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
-    hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
@@ -312,7 +311,7 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("click", (event: IHTMLInputEvent) => {
-            if (hasClosestByClassName(event.target, "vditor-panel") || hasClosestByTag(event.target, "svg")) {
+            if (hasClosestByClassName(event.target, "vditor-panel")) {
                 return;
             }
 
