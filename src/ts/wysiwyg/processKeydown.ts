@@ -308,7 +308,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
             && codeRenderElement.getAttribute("data-block") === "0") {
             const codePosition = getSelectPosition(codeRenderElement, range);
-            if (codePosition.start === 0 && range.toString() === "") {
+            if ((codePosition.start === 0 ||
+                (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
+                && range.toString() === "") {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
                 codeRenderElement.outerHTML =
                     `<p data-block="0"><wbr>${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;

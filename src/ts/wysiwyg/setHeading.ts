@@ -7,7 +7,7 @@ export const setHeading = (vditor: IVditor, tagName: string) => {
     if (!blockElement) {
         blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
     }
-    if (blockElement) {
+    if (blockElement && !blockElement.classList.contains("vditor-wysiwyg__block")) {
         range.insertNode(document.createElement("wbr"));
         if (blockElement.tagName === "BLOCKQUOTE") {
             blockElement.innerHTML = `<${tagName} data-block="0">${blockElement.innerHTML}</${tagName}>`;
