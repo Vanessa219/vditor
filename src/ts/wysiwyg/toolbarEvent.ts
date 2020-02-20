@@ -155,16 +155,16 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
         }
 
         if (commandName === "quote") {
-            let quoteElement: HTMLElement | boolean;
-            if (range.startContainer.nodeType !== 3 &&
-                (range.startContainer as HTMLElement).classList.contains("vditor-wysiwyg")) {
+            let quoteElement = hasClosestByMatchTag(range.startContainer, "BLOCKQUOTE");
+            if (!quoteElement) {
                 quoteElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
-            } else {
-                quoteElement = hasClosestByMatchTag(range.startContainer, "BLOCKQUOTE");
             }
             if (quoteElement) {
+                useHighlight = false;
+                actionBtn.classList.remove("vditor-menu--current");
                 range.insertNode(document.createElement("wbr"));
-                quoteElement.outerHTML = `<p data-block="0">${quoteElement.innerHTML}</p>`;
+                quoteElement.outerHTML = quoteElement.innerHTML.trim() === "" ?
+                    `<p data-block="0">${quoteElement.innerHTML}</p>` : quoteElement.innerHTML;
                 setRangeByWbr(vditor.wysiwyg.element, range);
             }
         } else if (commandName === "inline-code") {
@@ -209,16 +209,15 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
         }
 
         if (commandName === "quote") {
-            let blockElement: HTMLElement | boolean;
-            if (range.startContainer.nodeType !== 3 &&
-                (range.startContainer as HTMLElement).classList.contains("vditor-wysiwyg")) {
+            let blockElement = hasClosestBlock(range.startContainer);
+            if (!blockElement) {
                 blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
-            } else {
-                blockElement = hasClosestBlock(range.startContainer);
             }
             if (blockElement) {
+                useHighlight = false;
+                actionBtn.classList.add("vditor-menu--current");
                 range.insertNode(document.createElement("wbr"));
-                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.innerHTML}</blockquote>`;
+                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
                 setRangeByWbr(vditor.wysiwyg.element, range);
             }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
