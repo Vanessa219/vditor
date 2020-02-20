@@ -42,7 +42,7 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
-    if (!isCtrl(event) && event.key.indexOf("Arrow") === -1) {
+    if (event.key.indexOf("Arrow") === -1) {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 

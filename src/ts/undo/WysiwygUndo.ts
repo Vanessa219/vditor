@@ -8,6 +8,7 @@ import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
+import {setSelectionFocus} from "../editor/setSelection";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -50,25 +51,37 @@ class WysiwygUndo {
 
     public recordFirstWbr(vditor: IVditor) {
         if (this.undoStack.length === 1) {
-            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+            let cloneRange: Range
+            if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
+                const range = getSelection().getRangeAt(0)
+                cloneRange = range.cloneRange();
+                if (vditor.wysiwyg.element.contains(range.startContainer)
+                    && !hasClosestByClassName(range.startContainer, "vditor-panel--none")) {
+                    range.insertNode(document.createElement("wbr"));
+                }
+            }
             const cloneEditorElement = document.createElement("pre");
             cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
             addP2Li(cloneEditorElement);
             this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
             this.lastText = this.undoStack[0][0].diffs[0][1];
-            vditor.wysiwyg.element.querySelector("wbr").remove();
+            if (vditor.wysiwyg.element.querySelector("wbr")) {
+                vditor.wysiwyg.element.querySelector("wbr").remove();
+            }
+            if (cloneRange) {
+                setSelectionFocus(cloneRange);
+            }
         }
     }
 
     public addToUndoStack(vditor: IVditor) {
         // wysiwyg/afterRenderEvent.ts 已经 debounce
-        let range;
+        let cloneRange: Range
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
-            range = getSelection().getRangeAt(0).cloneRange();
-            const subToolbarElement = hasClosestByClassName(range.startContainer, "vditor-panel--none");
-            if (subToolbarElement) {
-                range = undefined;
-            } else if (vditor.wysiwyg.element.contains(range.startContainer)) {
+            const range = getSelection().getRangeAt(0)
+            cloneRange = range.cloneRange();
+            if (vditor.wysiwyg.element.contains(range.startContainer)
+                && !hasClosestByClassName(range.startContainer, "vditor-panel--none")) {
                 range.insertNode(document.createElement("wbr"));
             }
         }
@@ -76,8 +89,11 @@ class WysiwygUndo {
         cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
         addP2Li(cloneEditorElement);
         const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
-        if (range) {
-            setRangeByWbr(vditor.wysiwyg.element, range);
+        if (vditor.wysiwyg.element.querySelector("wbr")) {
+            vditor.wysiwyg.element.querySelector("wbr").remove();
+        }
+        if (cloneRange) {
+            setSelectionFocus(cloneRange);
         }
         const diff = this.dmp.diff_main(text, this.lastText, true);
         const patchList = this.dmp.patch_make(text, this.lastText, diff);
