@@ -497,6 +497,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // task list
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
+        if (isCtrl(event) && event.shiftKey) {
+            // ctrl + shift: toggle checked
+            const inputElement = taskItemElement.firstElementChild as HTMLInputElement
+            if (inputElement.checked) {
+                inputElement.removeAttribute("checked");
+            } else {
+                inputElement.setAttribute("checked", "checked");
+            }
+            afterRenderEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+
         // Backspace: 在选择框前进行删除
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
             && range.startOffset === 1

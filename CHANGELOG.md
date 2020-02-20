@@ -55,6 +55,7 @@
 * [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`
 * [150](https://github.com/Vanessa219/vditor/issues/150) [suggestion] deleting heading with backspace `改进功能`
 * [148](https://github.com/Vanessa219/vditor/issues/148) 任务列表退格删除问题 `修复缺陷`
+* [145](https://github.com/Vanessa219/vditor/issues/145) [suggestion] ctrl+shift toggle checked `改进功能`
 * [144](https://github.com/Vanessa219/vditor/issues/144) blockquote ctrl+. should toggle `改进功能`
 * [143](https://github.com/Vanessa219/vditor/issues/143) [suggestion] ctrl+m `改进功能`
 * [142](https://github.com/Vanessa219/vditor/issues/142) lists when indented at wysiwyg mode `修复缺陷`

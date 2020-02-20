@@ -89,7 +89,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         if (vditor.currentMode === "markdown") {
-            vditor.undo.recordFirstPosition(vditor);
             if (mdProcessKeydown(vditor, event)) {
                 return;
             }

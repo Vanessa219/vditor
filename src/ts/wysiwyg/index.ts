@@ -327,6 +327,8 @@ class WYSIWYG {
                 } else {
                     event.target.removeAttribute("checked");
                 }
+                this.preventInput = true
+                afterRenderEvent(vditor);
                 return;
             }
 
