@@ -8,8 +8,8 @@ interface ILuteRender {
     renderLinkDest: (node: {
         TokensStr: () => string;
         __internal_object__: {
-            parent: {
-                typ: number,
+            Parent: {
+                Type: number,
             },
         }
     },               entering: boolean) => [string, number];

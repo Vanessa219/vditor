@@ -23,7 +23,7 @@ export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: str
             HTML2Md: {
                 renderLinkDest: (node) => {
                     const src = node.TokensStr();
-                    if (node.__internal_object__.parent.typ === 34 && src && src.indexOf("file://") === -1
+                    if (node.__internal_object__.Parent.Type === 34 && src && src.indexOf("file://") === -1
                         && vditor.options.upload.linkToImgUrl && typeof textPlain !== "undefined") {
                         const xhr = new XMLHttpRequest();
                         xhr.open("POST", vditor.options.upload.linkToImgUrl);

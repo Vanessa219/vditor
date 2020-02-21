@@ -161,7 +161,7 @@ class WYSIWYG {
                             HTML2VditorDOM: {
                                 renderLinkDest: (node) => {
                                     const src = node.TokensStr();
-                                    if (node.__internal_object__.parent.typ === 34 && src
+                                    if (node.__internal_object__.Parent.Type === 34 && src
                                         && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
                                         const xhr = new XMLHttpRequest();
                                         xhr.open("POST", vditor.options.upload.linkToImgUrl);
