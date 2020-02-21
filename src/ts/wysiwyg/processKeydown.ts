@@ -49,7 +49,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.isComposing) {
         return false;
     }
-
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
         && !isCtrl(event) && event.key !== "Escape") {
@@ -510,7 +509,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // task list
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
-        if (isCtrl(event) && event.shiftKey && event.key === "j") {
+        if (isCtrl(event) && event.shiftKey && event.key.toLowerCase() === "j") {
             // ctrl + shift: toggle checked
             const inputElement = taskItemElement.firstElementChild as HTMLInputElement;
             if (inputElement.checked) {
