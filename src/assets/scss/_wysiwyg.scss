@@ -5,7 +5,6 @@
   margin: 0;
   white-space: pre-wrap;
   position: relative;
-  color: var(--textarea-text-color);
 
   &[contenteditable="false"] {
     opacity: 0.3;
@@ -14,7 +13,6 @@
 
   &:focus {
     outline: none;
-    background-color: var(--textarea-focus-background-color);
   }
 
   blockquote:empty::before,
@@ -53,7 +51,7 @@
     }
 
     &[data-type=html-inline] .vditor-wysiwyg__preview svg {
-      fill: var(--toolbar-icon-color1);
+      fill: var(--second-color);
       height: 12px;
       cursor: pointer;
       width: 12px;
@@ -84,7 +82,7 @@
     font-size: 0.85rem;
     font-weight: normal;
     text-transform: uppercase;
-    color: var(--toolbar-icon-color1);
+    color: var(--second-color);
   }
 
   h2:before {
@@ -107,6 +105,12 @@
     content: 'h6';
   }
 
+  hr {
+    display: inline-block;
+    margin: 12px 0;
+    width: 100%;
+  }
+
   div.vditor-wysiwyg__block {
     &:before {
       content: "</>";
@@ -119,7 +123,7 @@
 
   span[data-type="backslash"] > span {
     display: none;
-    color: var(--toolbar-icon-color1);
+    color: var(--second-color);
   }
 
 }

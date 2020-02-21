@@ -12,11 +12,14 @@
     }
 
     &--dark {
+      background-color: var(--textarea-background-color);
+
       a {
-        color: var(--toolbar-icon-color1);
+        color: #4285f4;
       }
     }
 
+    color: var(--textarea-text-color);
     font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -90,13 +93,13 @@
     h1 {
       padding-bottom: 0.3em;
       font-size: 1.7em;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--heading-border-color);
     }
 
     h2 {
       padding-bottom: 0.3em;
       font-size: 1.5em;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--heading-border-color);
     }
 
     h3 {
@@ -130,8 +133,8 @@
 
     blockquote {
       padding: 0 1em;
-      color: #777;
-      border-left: 0.25em solid #ddd;
+      color: var(--blockquote-color);
+      border-left: 0.25em solid var(--heading-border-color);
       margin: 0 0 16px 0;
 
       & > :first-child {
@@ -184,7 +187,7 @@
       }
 
       tbody tr:nth-child(2n) {
-        background-color: var(--toolbar-background-color);
+        background-color: var(--panel-background-color);
       }
     }
 
@@ -287,12 +290,6 @@
       position: absolute;
       right: 0.5em;
       top: 0.5em;
-      height: 14px;
-      width: 14px;
-      display: block;
-      background-color: var(--toolbar-background-color);
-      border-radius: 3px;
-      padding: 3px;
     }
 
     svg {
@@ -401,7 +398,7 @@
       }
 
       &:visited .vditor-linkcard__abstract {
-        color: var(--toolbar-icon-color1);
+        color: var(--second-color);
       }
     }
 

@@ -13,7 +13,7 @@ export class Emoji extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || emojiSVG;
 
         const emojiPanelElement = document.createElement("div");
-        emojiPanelElement.className = "vditor-panel";
+        emojiPanelElement.className = "vditor-panel vditor-arrow";
 
         let commonEmojiHTML = "";
         Object.keys(vditor.options.hint.emoji).forEach((key) => {
@@ -63,6 +63,9 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 event.preventDefault();
                 const value = element.getAttribute("data-value");
                 if (vditor.currentMode === "wysiwyg") {
+                    if (!vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
+                        vditor.wysiwyg.element.focus();
+                    }
                     const range = getSelection().getRangeAt(0);
                     if (value.indexOf(":") > -1) {
                         insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
@@ -78,8 +81,10 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 emojiPanelElement.style.display = "none";
             });
             element.addEventListener("mouseover", (event: Event) => {
-                emojiPanelElement.querySelector(".vditor-emojis__tip").innerHTML =
-                    (event.target as HTMLElement).getAttribute("data-key");
+                if ((event.target as HTMLElement).tagName === "BUTTON") {
+                    emojiPanelElement.querySelector(".vditor-emojis__tip").innerHTML =
+                        (event.target as HTMLElement).getAttribute("data-key");
+                }
             });
         });
     }

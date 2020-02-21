@@ -4,6 +4,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
+    getTopList,
     hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag, hasClosestByTag,
@@ -11,22 +12,43 @@ import {
 } from "../util/hasClosest";
 import {processKeymap} from "../util/processKeymap";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {nextIsCode} from "./inlineTag";
+import {listOutdent} from "./highlightToolbar";
+import {getLastNode, nextIsCode} from "./inlineTag";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD} from "./processMD";
-import {setHeading} from "./setHeading";
+import {removeHeading, setHeading} from "./setHeading";
 import {setRangeByWbr} from "./setRangeByWbr";
+
+const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
+    let previousElement = cellElement.previousElementSibling;
+    if (!previousElement) {
+        if (cellElement.parentElement.previousElementSibling) {
+            previousElement = cellElement.parentElement.previousElementSibling.lastElementChild;
+        } else if (cellElement.parentElement.parentElement.tagName === "TBODY" &&
+            cellElement.parentElement.parentElement.previousElementSibling) {
+            previousElement = cellElement.parentElement
+                .parentElement.previousElementSibling.lastElementChild.lastElementChild;
+        } else {
+            previousElement = null;
+        }
+    }
+    if (previousElement) {
+        range.selectNodeContents(previousElement);
+        if (!isSelected) {
+            range.collapse(false);
+        }
+    }
+};
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
-    if (!isCtrl(event)) {
+    if (event.key.indexOf("Arrow") === -1) {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 
     if (event.isComposing) {
         return false;
     }
-
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
         && !isCtrl(event) && event.key !== "Escape") {
@@ -52,9 +74,18 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
+        // hr 渲染
         if (isHrMD(pElement.innerHTML)) {
-            // hr 渲染
-            pElement.innerHTML = "<hr><wbr>";
+            // 软换行后 hr 前有内容
+            let pInnerHTML = "";
+            const innerHTMLList = pElement.innerHTML.trimRight().split("\n");
+            if (innerHTMLList.length > 1) {
+                innerHTMLList.pop();
+                pInnerHTML = `<p data-block="0">${innerHTMLList.join("\n")}</p>`;
+            }
+
+            pElement.insertAdjacentHTML("afterend", pInnerHTML + '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            pElement.remove();
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
             scrollCenter(vditor.wysiwyg.element);
@@ -64,7 +95,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (isHeadingMD(pElement.innerHTML)) {
             // heading 渲染
-            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + "<wbr>");
+            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0">\n<wbr></p>');
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
             scrollCenter(vditor.wysiwyg.element);
@@ -96,28 +127,20 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // Backspace：光标移动到前一个 cell
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
             && range.startOffset === 0 && range.toString() === "") {
-            let previousElement = cellElement.previousElementSibling;
-            if (!previousElement) {
-                if (cellElement.parentElement.previousElementSibling) {
-                    previousElement = cellElement.parentElement.previousElementSibling.lastElementChild;
-                } else if (cellElement.parentElement.parentElement.tagName === "TBODY" &&
-                    cellElement.parentElement.parentElement.previousElementSibling) {
-                    previousElement = cellElement.parentElement
-                        .parentElement.previousElementSibling.lastElementChild.lastElementChild;
-                } else {
-                    previousElement = null;
-                }
-            }
-            if (previousElement) {
-                range.selectNodeContents(previousElement);
-                range.collapse(false);
-            }
+            goPreviousCell(cellElement, range, false);
             event.preventDefault();
             return true;
         }
 
         // tab：光标移向下一个 cell
         if (event.key === "Tab") {
+            if (event.shiftKey) {
+                // shift + tab 光标移动到前一个 cell
+                goPreviousCell(cellElement, range);
+                event.preventDefault();
+                return true;
+            }
+
             let nextElement = cellElement.nextElementSibling;
             if (!nextElement) {
                 if (cellElement.parentElement.nextElementSibling) {
@@ -132,7 +155,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             if (nextElement) {
                 range.selectNodeContents(nextElement);
-                range.collapse(true);
             }
             event.preventDefault();
             return true;
@@ -285,7 +307,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
             && codeRenderElement.getAttribute("data-block") === "0") {
             const codePosition = getSelectPosition(codeRenderElement, range);
-            if (codePosition.start === 0 && range.toString() === "") {
+            if ((codePosition.start === 0 ||
+                (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
+                && range.toString() === "") {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
                 codeRenderElement.outerHTML =
                     `<p data-block="0"><wbr>${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;
@@ -329,13 +353,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
             getSelectPosition(blockquoteElement, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
-            blockquoteElement.outerHTML = `<p data-block="0">${blockquoteElement.innerHTML}</p>`;
+            blockquoteElement.outerHTML = blockquoteElement.innerHTML;
             afterRenderEvent(vditor);
             event.preventDefault();
             return true;
         }
 
-        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
+        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey
+            && pElement.parentElement.tagName === "BLOCKQUOTE") {
             // Enter: 空行回车应逐层跳出
             let isEmpty = false;
             if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
@@ -350,6 +375,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             if (isEmpty) {
                 (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click();
+                afterRenderEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
+
+        if (isCtrl(event) && event.shiftKey && event.key === ".") {
+            // 插入 blockquote
+            const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+            if (blockElement) {
+                range.insertNode(document.createElement("wbr"));
+                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+                setRangeByWbr(vditor.wysiwyg.element, range);
                 afterRenderEvent(vditor);
                 event.preventDefault();
                 return true;
@@ -400,6 +438,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         })) {
             return true;
         }
+
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
+            && headingElement.textContent === "") {
+            // 空标题删除
+            removeHeading(vditor);
+        }
     }
 
     // li
@@ -426,41 +470,69 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 liElement.parentElement.insertAdjacentHTML("beforebegin",
                     `<p data-block="0"><wbr>${liElement.innerHTML}</p>`);
                 liElement.remove();
-                setRangeByWbr(vditor.wysiwyg.element, range);
             } else {
-                liElement.parentElement.outerHTML = `<p data-block="0">${liElement.innerHTML}</p>`;
+                liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
             }
+            setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
             event.preventDefault();
             return true;
         }
 
-        if (!isCtrl(event) && !event.altKey && event.key === "Tab" && range.startOffset === 0
-            && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
-                || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
-            // 光标位于第一零字符时，tab 用于列表的缩进
-            if (event.shiftKey) {
-                (vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]') as HTMLElement).click();
-            } else {
-                (vditor.wysiwyg.popover.querySelector('button[data-type="indent"]') as HTMLElement).click();
+        if (!isCtrl(event) && !event.altKey && event.key === "Tab") {
+            // 光标位于第一/零字符时，tab 用于列表的缩进
+            let isFirst = false;
+            if (range.startOffset === 0
+                && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
+                    || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
+                // 有序/无序列表
+                isFirst = true;
+            } else if (liElement.classList.contains("vditor-task") && range.startOffset === 1
+                && startContainer.previousSibling.nodeType !== 3
+                && (startContainer.previousSibling as HTMLElement).tagName === "INPUT") {
+                // 任务列表
+                isFirst = true;
             }
-            event.preventDefault();
-            return true;
+
+            if (isFirst) {
+                if (event.shiftKey) {
+                    (vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]') as HTMLElement).click();
+                } else {
+                    (vditor.wysiwyg.popover.querySelector('button[data-type="indent"]') as HTMLElement).click();
+                }
+                event.preventDefault();
+                return true;
+            }
         }
     }
 
     // task list
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
+        if (isCtrl(event) && event.shiftKey && event.key.toLowerCase() === "j") {
+            // ctrl + shift: toggle checked
+            const inputElement = taskItemElement.firstElementChild as HTMLInputElement;
+            if (inputElement.checked) {
+                inputElement.removeAttribute("checked");
+            } else {
+                inputElement.setAttribute("checked", "checked");
+            }
+            afterRenderEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+
         // Backspace: 在选择框前进行删除
-        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
-            && range.toString() === "" && ((startContainer.nodeType === 3 && range.startOffset === 1 &&
-                (startContainer.previousSibling as HTMLElement).tagName === "INPUT") ||
-                startContainer.nodeType !== 3)) {
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
+            && range.startOffset === 1
+            && ((startContainer.nodeType === 3 && startContainer.previousSibling &&
+                (startContainer.previousSibling as HTMLElement).tagName === "INPUT")
+                || startContainer.nodeType !== 3)) {
             const previousElement = taskItemElement.previousElementSibling;
             taskItemElement.querySelector("input").remove();
             if (previousElement) {
-                previousElement.innerHTML += "<wbr>" + taskItemElement.innerHTML.trim();
+                const lastNode = getLastNode(previousElement);
+                lastNode.parentElement.insertAdjacentHTML("beforeend", "<wbr>" + taskItemElement.innerHTML.trim());
                 taskItemElement.remove();
             } else {
                 taskItemElement.parentElement.insertAdjacentHTML("beforebegin",
@@ -479,39 +551,55 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
             if (taskItemElement.textContent.trim() === "") {
-                if (taskItemElement.nextElementSibling) {
-                    // 用段落隔断
-                    let afterHTML = "";
-                    let beforeHTML = "";
-                    let isAfter = false;
-                    taskItemElement.parentElement.querySelectorAll("li").forEach((taskItem) => {
-                        if (taskItemElement.isEqualNode(taskItem)) {
-                            isAfter = true;
-                        } else {
-                            if (isAfter) {
-                                afterHTML += taskItem.outerHTML;
-                            } else {
-                                beforeHTML += taskItem.outerHTML;
-                            }
-                        }
-                    });
-                    if (beforeHTML) {
-                        beforeHTML = `<ul data-tight="true" data-marker="*" data-block="0">${beforeHTML}</ul>`;
+                // 当前任务列表无文字
+                if (hasClosestByClassName(taskItemElement.parentElement, "vditor-task")) {
+                    // 为子元素时，需进行反向缩进
+                    const topListElement = getTopList(startContainer);
+                    if (topListElement) {
+                        listOutdent(vditor, taskItemElement, range, topListElement);
                     }
-                    taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0">\n<wbr></p><ul data-tight="true" data-marker="*" data-block="0">${afterHTML}</ul>`;
                 } else {
-                    // 变成段落
-                    taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0">\n<wbr></p>`);
-                    if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
-                        taskItemElement.parentElement.remove();
+                    // 仅有一级任务列表
+                    if (taskItemElement.nextElementSibling) {
+                        // 任务列表下方还有元素，需要使用用段落隔断
+                        let afterHTML = "";
+                        let beforeHTML = "";
+                        let isAfter = false;
+                        Array.from(taskItemElement.parentElement.children).forEach((taskItem) => {
+                            if (taskItemElement.isEqualNode(taskItem)) {
+                                isAfter = true;
+                            } else {
+                                if (isAfter) {
+                                    afterHTML += taskItem.outerHTML;
+                                } else {
+                                    beforeHTML += taskItem.outerHTML;
+                                }
+                            }
+                        });
+                        if (beforeHTML) {
+                            beforeHTML = `<ul data-tight="true" data-marker="*" data-block="0">${beforeHTML}</ul>`;
+                        }
+                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0">\n<wbr></p><ul data-tight="true" data-marker="*" data-block="0">${afterHTML}</ul>`;
                     } else {
-                        taskItemElement.remove();
+                        // 任务列表下方无任务列表元素
+                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0">\n<wbr></p>`);
+                        if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
+                            // 任务列表仅有一项时，使用 p 元素替换
+                            taskItemElement.parentElement.remove();
+                        } else {
+                            // 任务列表有多项时，当前任务列表位于最后一项，移除该任务列表
+                            taskItemElement.remove();
+                        }
                     }
                 }
+            } else if (startContainer.nodeType !== 3 && range.startOffset === 0 &&
+                (startContainer.firstChild as HTMLElement).tagName === "INPUT") {
+                // 光标位于 input 之前
+                range.setStart(startContainer.childNodes[1], 1);
             } else {
-                // 光标后文字添加到新列表中
+                // 当前任务列表有文字，光标后的文字需添加到新任务列表中
                 range.setEndAfter(taskItemElement.lastChild);
-                taskItemElement.insertAdjacentHTML("afterend", `<li class="vditor-task"><input type="checkbox"> <wbr></li>`);
+                taskItemElement.insertAdjacentHTML("afterend", `<li class="vditor-task" data-marker="*"><input type="checkbox"> <wbr></li>`);
                 document.querySelector("wbr").after(range.extractContents());
             }
             setRangeByWbr(vditor.wysiwyg.element, range);
@@ -591,43 +679,41 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
         && range.toString() === "") {
         const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
-        if (blockElement && getSelectPosition(blockElement, range).start === 0 && blockElement.previousElementSibling
-            && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block") &&
-            blockElement.previousElementSibling.getAttribute("data-block") === "0"
+        if (blockElement && blockElement.previousElementSibling
+            && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
+            && blockElement.previousElementSibling.getAttribute("data-block") === "0"
         ) {
-            // 删除后光标落于代码渲染块上
-            showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
-            // (blockElement.previousElementSibling.lastElementChild as HTMLElement).click();
-            if (blockElement.innerHTML.trim() === "" &&
-                !blockElement.nextElementSibling.classList.contains("vditor-panel--none")) {
-                // 当前块为空且不是最后一个时，需要删除
-                blockElement.remove();
-                afterRenderEvent(vditor);
-            }
-            event.preventDefault();
-            return true;
-        }
-
-        if (startContainer.nodeType !== 3) {
-            // 光标位于 table 前，table 前有内容
-            const tableElement = startContainer.childNodes[range.startOffset] as HTMLElement;
-            if (tableElement && tableElement.tagName === "TABLE" && range.startOffset > 0) {
-                range.selectNodeContents(tableElement.previousElementSibling);
-                range.collapse(false);
+            const rangeStart = getSelectPosition(blockElement, range).start;
+            if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
+                // 删除后光标落于代码渲染块上
+                showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
+                if (blockElement.innerHTML.trim() === "" &&
+                    !blockElement.nextElementSibling.classList.contains("vditor-panel--none")) {
+                    // 当前块为空且不是最后一个时，需要删除
+                    blockElement.remove();
+                    afterRenderEvent(vditor);
+                }
                 event.preventDefault();
                 return true;
             }
         }
 
+        const offsetChildNode = startContainer.childNodes[range.startOffset] as HTMLElement;
+        if (startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
+            (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
+            // 光标位于 table/hr 前，table/hr 前有内容
+            range.selectNodeContents(offsetChildNode.previousElementSibling);
+            range.collapse(false);
+            event.preventDefault();
+            return true;
+        }
+
         if (blockElement) {
-            const inlineCodeRenderElements = blockElement.querySelectorAll("span.vditor-wysiwyg__block");
-            if (inlineCodeRenderElements.length > 0) {
-                // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
-                inlineCodeRenderElements.forEach((item) => {
-                    (item.firstElementChild as HTMLElement).style.display = "inline";
-                    (item.lastElementChild as HTMLElement).style.display = "none";
-                });
-            }
+            // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
+            blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
+                (item.firstElementChild as HTMLElement).style.display = "inline";
+                (item.lastElementChild as HTMLElement).style.display = "none";
+            });
         }
     }
 

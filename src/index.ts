@@ -24,6 +24,7 @@ import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
 import {Ui} from "./ts/ui/index";
+import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
@@ -129,17 +130,8 @@ class Vditor {
     }
 
     public setTheme(theme: "dark" | "classic") {
-        if (theme === "dark") {
-            document.getElementById(this.vditor.id).classList.add("vditor--dark");
-            if (this.vditor.wysiwyg) {
-                this.vditor.wysiwyg.element.classList.add("vditor-reset--dark");
-            }
-        } else {
-            document.getElementById(this.vditor.id).classList.remove("vditor--dark");
-            if (this.vditor.wysiwyg) {
-                this.vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
-            }
-        }
+        this.vditor.options.theme = theme;
+        setTheme(this.vditor);
     }
 
     public getValue() {

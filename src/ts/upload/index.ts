@@ -121,7 +121,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
             || type === ".svg"
             || type === ".webp") {
             if (vditor.currentMode === "wysiwyg") {
-                succFileText += `<img title="${filename}" src="${path}">`;
+                succFileText += `<img alt="${filename}" src="${path}">`;
             } else {
                 succFileText += `![${filename}](${path})\n`;
             }
@@ -166,7 +166,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         if (element) {
             element.value = "";
         }
-        alert("please config: options.upload.url");
+        vditor.tip.show("please config: options.upload.url");
         return;
     }
 

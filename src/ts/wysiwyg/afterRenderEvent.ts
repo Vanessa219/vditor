@@ -7,14 +7,13 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     enableInput: true,
 }) => {
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
+    const text = getMarkdown(vditor);
+    if (typeof vditor.options.input === "function" && options.enableInput) {
+        vditor.options.input(text);
+    }
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
-        const text = getMarkdown(vditor);
         if (vditor.options.counter > 0) {
             vditor.counter.render(text.length, vditor.options.counter);
-        }
-
-        if (typeof vditor.options.input === "function" && options.enableInput) {
-            vditor.options.input(text);
         }
 
         if (vditor.options.cache) {

@@ -2,24 +2,30 @@ declare module "*.svg";
 
 declare module "*.png";
 
-interface ITurndown {
-    addRule(key: string, rule: ITurndownRule): ITurndown;
+declare const Lute: ILute;
 
-    use(gfm: (turndownService: ITurndown) => void): void;
-
-    turndown(html: string): string;
-}
-
-interface ITurndownRule {
-    filter: string | string[] | ((node: HTMLInputElement) => boolean);
-
-    replacement(content: string, node?: HTMLElement): string;
+interface ILuteRender {
+    renderLinkDest: (node: {
+        TokensStr: () => string;
+        __internal_object__: {
+            parent: {
+                typ: number,
+            },
+        }
+    },               entering: boolean) => [string, number];
 }
 
 interface ILute {
+    WalkStop: number;
+
     New(): ILute;
 
-    SetParallelParsing(enable: boolean): void;
+    SetJSRenderers(options?: {
+        renderers: {
+            HTML2VditorDOM?: ILuteRender,
+            HTML2Md?: ILuteRender,
+        },
+    }): void;
 
     SetHeadingAnchor(enable: boolean): void;
 
@@ -45,7 +51,7 @@ interface ILute {
     // md 转换为 html
     Md2HTML(markdown: string): string;
 
-    // 粘贴时将 html 转换为 md TODO: 图片处理
+    // 粘贴时将 html 转换为 md
     HTML2Md(html: string): string;
 
     // wysiwyg 转换为 html
@@ -54,7 +60,7 @@ interface ILute {
     // wysiwyg 输入渲染
     SpinVditorDOM(html: string): string;
 
-    // 粘贴时将 html 转换为 wysiwyg TODO: 图片处理
+    // 粘贴时将 html 转换为 wysiwyg
     HTML2VditorDOM(html: string): string;
 
     // 将 wysiwyg 转换为 md
@@ -128,7 +134,7 @@ interface IMenuItem {
     prefix?: string;
     tipPosition?: string;
 
-    click?(): void;
+    click?(status?: boolean): void;
 }
 
 interface IPreviewMode {
@@ -168,7 +174,7 @@ interface IPreview {
 }
 
 interface IPreviewOptions {
-    className?: string;
+    theme?: "classic" | "dark";
     customEmoji?: { [key: string]: string };
     lang?: (keyof II18nLang);
     emojiPath?: string;

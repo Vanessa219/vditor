@@ -45,13 +45,37 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.0 / 2020-02-12
 
+### v2.2.3 / 2020-02-20
+
+* [158](https://github.com/Vanessa219/vditor/issues/158) tab key is not working when no text `修复缺陷`
+* [156](https://github.com/Vanessa219/vditor/issues/156) li 缩进后没有渲染代码块 `修复缺陷`
+* [155](https://github.com/Vanessa219/vditor/issues/155) blockquote 插入光标错误 `修复缺陷`
+* [154](https://github.com/Vanessa219/vditor/issues/154) the cursor is disapeared after tab pressed at editor mode `修复缺陷`
+* [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`
+* [150](https://github.com/Vanessa219/vditor/issues/150) [suggestion] deleting heading with backspace `改进功能`
+* [148](https://github.com/Vanessa219/vditor/issues/148) 任务列表退格删除问题 `修复缺陷`
+* [145](https://github.com/Vanessa219/vditor/issues/145) [suggestion] ctrl+shift+j toggle checked `改进功能`
+* [144](https://github.com/Vanessa219/vditor/issues/144) ctrl+shift+. 插入 blockquote `改进功能`
+* [143](https://github.com/Vanessa219/vditor/issues/143) [suggestion] ctrl+m `改进功能`
+* [142](https://github.com/Vanessa219/vditor/issues/142) lists when indented at wysiwyg mode `修复缺陷`
+* [141](https://github.com/Vanessa219/vditor/issues/141) toolbar 添加箭头，默认表情修改 `改进功能`
+* [140](https://github.com/Vanessa219/vditor/issues/140) *** after shift+enter `修复缺陷`
+* [139](https://github.com/Vanessa219/vditor/issues/139) toggle after ===, enter `修复缺陷`
+* [138](https://github.com/Vanessa219/vditor/issues/138) ctrl+b, ctrl+i, enter with no text `修复缺陷`
 * [136](https://github.com/Vanessa219/vditor/issues/136) ⌘ and Ctrl is different at MacOS `修复缺陷`
 * [135](https://github.com/Vanessa219/vditor/issues/135) can not delete the first char. at first field of links `改进功能`
+* [134](https://github.com/Vanessa219/vditor/issues/134) 支持 linkToImgUrl `引入特性`
 * [133](https://github.com/Vanessa219/vditor/issues/133) MathJax 渲染无法修改 `修复缺陷`
 * [132](https://github.com/Vanessa219/vditor/issues/132) 添加 md 配置项 `引入特性`
 * [131](https://github.com/Vanessa219/vditor/issues/131) 代码块下输入中文 bug `修复缺陷`
+* [130](https://github.com/Vanessa219/vditor/issues/130) 任务列表跳出 `修复缺陷`
+* [129](https://github.com/Vanessa219/vditor/issues/129) 分隔线规则问题 `修复缺陷`
+* [128](https://github.com/Vanessa219/vditor/issues/128) 在分隔线之间输入的问题 `修复缺陷`
+* [127](https://github.com/Vanessa219/vditor/issues/127) more keyboard shortcut after ctrl+h `改进功能`
+* [125](https://github.com/Vanessa219/vditor/issues/125) ctrl+l, ** `修复缺陷`
+* 文档更新
+  * 移除 IPreviewOptions 中的 className 并添加 theme
 
 ### v2.1.15 / 2020-02-09
 

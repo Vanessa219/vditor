@@ -26,7 +26,12 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
     const renderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
     const codeElement = hasClosestByTag(range.startContainer, "CODE");
     if (codeElement && renderElement && renderElement.getAttribute("data-block") === "0") {
-        processCodeRender(renderElement, vditor);
+        if (renderElement.firstElementChild.tagName === "PRE") {
+            processCodeRender(renderElement, vditor);
+        } else {
+            // 代码块前为空行，按下向后删除键，代码块内容会被删除
+            renderElement.outerHTML = `<p data-block="0">${renderElement.textContent}</p>`;
+        }
     } else if (event.inputType !== "formatItalic"
         && event.inputType !== "deleteByDrag"
         && event.inputType !== "insertFromDrop"
@@ -96,6 +101,11 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
 
         // 列表返回多个 block 时，应统一处理 https://github.com/Vanessa219/vditor/issues/112
         blockElement = getTopList(range.startContainer);
+        if (!blockElement) {
+            // BLOCKQUOTE 中存在列表，且列表中有代码块。回车，回车形成新 p
+            // https://github.com/Vanessa219/vditor/issues/156#issuecomment-588318896
+            blockElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
+        }
         if (!blockElement) {
             blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
         }

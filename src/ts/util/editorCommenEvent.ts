@@ -1,9 +1,13 @@
 import {getSelectText} from "../editor/getSelectText";
+import {insertText} from "../editor/insertText";
 import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
+import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
+import {hasClosestByMatchTag} from "./hasClosest";
 import {processKeymap} from "./processKeymap";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
@@ -85,7 +89,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         if (vditor.currentMode === "markdown") {
-            vditor.undo.recordFirstPosition(vditor);
             if (mdProcessKeydown(vditor, event)) {
                 return;
             }
@@ -147,6 +150,23 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 return true;
             }
         });
+
+        // h1 - h6 hotkey
+        if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[1-6]$/.test(event.code)) {
+            if (vditor.currentMode === "wysiwyg") {
+                const tagName = event.code.replace("Digit", "H");
+                if (hasClosestByMatchTag(getSelection().getRangeAt(0).startContainer, tagName)) {
+                    removeHeading(vditor);
+                } else {
+                    setHeading(vditor, tagName);
+                }
+                afterRenderEvent(vditor);
+            } else {
+                insertText(vditor,
+                    "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
+                    "", false, true);
+            }
+        }
     });
 };
 

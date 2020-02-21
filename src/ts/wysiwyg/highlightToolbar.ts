@@ -13,6 +13,7 @@ import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
 import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {
+    getTopList,
     hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
@@ -41,6 +42,9 @@ export const highlightToolbar = (vditor: IVditor) => {
         let typeElement = range.startContainer as HTMLElement;
         if (range.startContainer.nodeType === 3) {
             typeElement = range.startContainer.parentElement;
+        }
+        if (typeElement.classList.contains("vditor-wysiwyg")) {
+            typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 
         // 工具栏高亮和禁用
@@ -113,39 +117,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 if (!liElement) {
                     return;
                 }
-                const liParentLiElement = hasClosestByMatchTag(liElement.parentElement, "LI");
-                if (liParentLiElement) {
-                    vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
-                        wbr.remove();
-                    });
-                    range.insertNode(document.createElement("wbr"));
-
-                    const liParentElement = liElement.parentElement;
-                    const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
-
-                    let isMatch = false;
-                    let afterHTML = "";
-                    liParentElement.querySelectorAll("li").forEach((item) => {
-                        if (isMatch) {
-                            afterHTML += item.outerHTML;
-                            item.remove();
-                        }
-                        if (item.isEqualNode(liElement)) {
-                            isMatch = true;
-                        }
-                    });
-                    liParentAfterElement.innerHTML = afterHTML;
-
-                    liParentLiElement.insertAdjacentElement("afterend", liElement);
-                    liElement.insertAdjacentElement("beforeend", liParentAfterElement);
-
-                    addP2Li(topListElement);
-                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
-
-                    afterRenderEvent(vditor);
-                    setRangeByWbr(vditor.wysiwyg.element, range);
-                    highlightToolbar(vditor);
-                }
+                listOutdent(vditor, liElement, range, topListElement);
             };
 
             const indent = document.createElement("button");
@@ -162,14 +134,29 @@ export const highlightToolbar = (vditor: IVditor) => {
                     range.insertNode(document.createElement("wbr"));
                     const parentTagName = liElement.parentElement.tagName;
                     liElement.previousElementSibling.insertAdjacentHTML("beforeend",
-                        `<${parentTagName} data-block="0"><li>${liElement.innerHTML}</li></${parentTagName}>`);
+                        `<${parentTagName} data-block="0"><li data-marker="1${liElement.getAttribute("data-marker").slice(-1)}">${liElement.innerHTML}</li></${parentTagName}>`);
                     liElement.remove();
 
+                    // D 说需要调用 2 次，方可没有 p
                     addP2Li(topListElement);
-                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
-                    afterRenderEvent(vditor);
+                    const tempELement = document.createElement("div");
+                    tempELement.innerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+                    addP2Li(tempELement);
+                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(tempELement.innerHTML);
+
                     setRangeByWbr(vditor.wysiwyg.element, range);
+                    const tempTopListElement = getTopList(range.startContainer);
+                    if (tempTopListElement) {
+                        tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
+                            .forEach((blockElement: HTMLElement) => {
+                                processCodeRender(blockElement, vditor);
+                                blockElement.firstElementChild.setAttribute("style", "display:none");
+                            });
+                    }
+                    afterRenderEvent(vditor);
                     highlightToolbar(vditor);
+                } else {
+                    vditor.wysiwyg.element.focus();
                 }
             };
 
@@ -556,7 +543,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
     insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertBefore.onclick = () => {
         // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("beforebegin", `<p>${Constants.ZWSP}<wbr>\n</p>`);
+        element.insertAdjacentHTML("beforebegin", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
@@ -573,7 +560,7 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
     insertAfter.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertAfter.onclick = () => {
         // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("afterend", `<p>${Constants.ZWSP}<wbr>\n</p>`);
+        element.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor.wysiwyg.element, range);
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
@@ -663,4 +650,50 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
     setPopoverPosition(vditor, aElement);
+};
+
+export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Range, topListElement: HTMLElement) => {
+    const liParentLiElement = hasClosestByMatchTag(liElement.parentElement, "LI");
+    if (liParentLiElement) {
+        vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
+            wbr.remove();
+        });
+        range.insertNode(document.createElement("wbr"));
+
+        const liParentElement = liElement.parentElement;
+        const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
+
+        let isMatch = false;
+        let afterHTML = "";
+        liParentElement.querySelectorAll("li").forEach((item) => {
+            if (isMatch) {
+                afterHTML += item.outerHTML;
+                item.remove();
+            }
+            if (item.isEqualNode(liElement)) {
+                isMatch = true;
+            }
+        });
+        liParentAfterElement.innerHTML = afterHTML;
+
+        liParentLiElement.insertAdjacentElement("afterend", liElement);
+        liElement.insertAdjacentElement("beforeend", liParentAfterElement);
+
+        addP2Li(topListElement);
+        topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+
+        setRangeByWbr(vditor.wysiwyg.element, range);
+        const tempTopListElement = getTopList(range.startContainer);
+        if (tempTopListElement) {
+            tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
+                .forEach((blockElement: HTMLElement) => {
+                    processCodeRender(blockElement, vditor);
+                    blockElement.firstElementChild.setAttribute("style", "display:none");
+                });
+        }
+        afterRenderEvent(vditor);
+        highlightToolbar(vditor);
+    } else {
+        vditor.wysiwyg.element.focus();
+    }
 };

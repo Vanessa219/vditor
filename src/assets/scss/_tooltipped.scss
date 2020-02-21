@@ -25,7 +25,7 @@
     font-size: 11px;
     font-weight: normal;
     -webkit-font-smoothing: subpixel-antialiased;
-    color: $tooltipColor;
+    color: var(--tooltip-color);
     text-align: center;
     text-decoration: none;
     text-shadow: none;
@@ -35,7 +35,7 @@
     white-space: pre;
     pointer-events: none;
     content: attr(aria-label);
-    background: $tooltipBg;
+    background: var(--tooltip-background-color);
     border-radius: 3px;
     line-height: 16px;
     opacity: 0
@@ -47,7 +47,7 @@
     display: none;
     width: 0;
     height: 0;
-    color: $tooltipBg;
+    color: var(--tooltip-background-color);
     pointer-events: none;
     content: "";
     border: 5px solid transparent;
@@ -85,7 +85,7 @@
     right: 50%;
     bottom: -5px;
     margin-right: -5px;
-    border-bottom-color: $tooltipBg
+    border-bottom-color: var(--tooltip-background-color)
   }
 
   &__se::after {
@@ -113,7 +113,7 @@
     right: 50%;
     bottom: auto;
     margin-right: -5px;
-    border-top-color: $tooltipBg
+    border-top-color: var(--tooltip-background-color)
   }
 
   &__ne::after {
@@ -143,7 +143,7 @@
     bottom: 50%;
     left: -5px;
     margin-top: -5px;
-    border-left-color: $tooltipBg;
+    border-left-color: var(--tooltip-background-color);
   }
 
   &__e::after {
@@ -158,7 +158,7 @@
     right: -5px;
     bottom: 50%;
     margin-top: -5px;
-    border-right-color: $tooltipBg
+    border-right-color: var(--tooltip-background-color);
   }
 }
 

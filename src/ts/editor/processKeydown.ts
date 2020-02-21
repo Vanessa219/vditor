@@ -7,11 +7,16 @@ import {getSelectPosition} from "./getSelectPosition";
 import {insertText} from "./insertText";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
+    vditor.undo.recordFirstPosition(vditor);
+
     const editorElement = vditor.editor.element;
     const position = getSelectPosition(editorElement);
     const text = getMarkdown(vditor);
     // tab and shift + tab
     if (vditor.options.tab && event.key === "Tab") {
+        event.preventDefault();
+        event.stopPropagation();
+
         const selectLinePosition = getCurrentLinePosition(position, text);
         const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
 
@@ -52,8 +57,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 end: position.end + selectLineList.length * vditor.options.tab.length,
                 start: position.start + vditor.options.tab.length,
             });
-        event.preventDefault();
-        event.stopPropagation();
         return true;
     }
 

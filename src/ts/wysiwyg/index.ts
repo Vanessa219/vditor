@@ -7,7 +7,6 @@ import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
-    hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
@@ -31,9 +30,6 @@ class WYSIWYG {
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
         this.element.className = "vditor-reset vditor-wysiwyg";
-        if (vditor.options.theme === "dark") {
-            this.element.classList.add("vditor-reset--dark");
-        }
         // TODO: placeholder
         this.element.setAttribute("contenteditable", "true");
         this.element.setAttribute("spellcheck", "false");
@@ -160,9 +156,41 @@ class WYSIWYG {
                         e.removeAttribute("style");
                     });
                     addP2Li(tempElement);
-                    log("HTML2VditorDOM", tempElement.innerHTML, "argument", vditor.options.debugger);
+                    vditor.lute.SetJSRenderers({
+                        renderers: {
+                            HTML2VditorDOM: {
+                                renderLinkDest: (node) => {
+                                    const src = node.TokensStr();
+                                    if (node.__internal_object__.parent.typ === 34 && src
+                                        && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
+                                        const xhr = new XMLHttpRequest();
+                                        xhr.open("POST", vditor.options.upload.linkToImgUrl);
+                                        xhr.onreadystatechange = () => {
+                                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                                const responseJSON = JSON.parse(xhr.responseText);
+                                                if (xhr.status === 200) {
+                                                    if (responseJSON.code !== 0) {
+                                                        vditor.tip.show(responseJSON.msg);
+                                                        return;
+                                                    }
+                                                    const original = responseJSON.data.originalURL;
+                                                    const imgElement: HTMLImageElement =
+                                                        this.element.querySelector(`img[src="${original}"]`);
+                                                    imgElement.src = responseJSON.data.url;
+                                                    afterRenderEvent(vditor);
+                                                } else {
+                                                    vditor.tip.show(responseJSON.msg);
+                                                }
+                                            }
+                                        };
+                                        xhr.send(JSON.stringify({url: src}));
+                                    }
+                                    return [node.TokensStr(), Lute.WalkStop];
+                                },
+                            },
+                        },
+                    });
                     const pasteHTML = vditor.lute.HTML2VditorDOM(tempElement.innerHTML);
-                    log("HTML2VditorDOM", pasteHTML, "result", vditor.options.debugger);
                     insertHTML(pasteHTML, vditor);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
@@ -211,6 +239,7 @@ class WYSIWYG {
 
             // 没有被块元素包裹
             if (!blockElement) {
+                let noWrapStartOffset: number;
                 const pElement = document.createElement("p");
                 pElement.setAttribute("data-block", "0");
                 if (vditor.wysiwyg.element.childNodes.length === 0) {
@@ -218,8 +247,9 @@ class WYSIWYG {
                     range.insertNode(pElement);
                 } else {
                     Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
-                        if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-type"))) {
+                        if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-block"))) {
                             if (node.nodeType === 3) {
+                                noWrapStartOffset = range.startOffset;
                                 pElement.textContent = node.textContent;
                             } else {
                                 pElement.innerHTML = node.outerHTML;
@@ -230,8 +260,18 @@ class WYSIWYG {
                         }
                     });
                 }
-                range.selectNodeContents(pElement);
-                range.collapse(false);
+                if (typeof noWrapStartOffset === "number") {
+                    // hr 后输入字符
+                    if (pElement.textContent === "\n") {
+                        // hr 后回车
+                        noWrapStartOffset = 0;
+                    }
+                    range.setStart(pElement, noWrapStartOffset);
+                    range.collapse(true);
+                } else {
+                    range.selectNodeContents(pElement);
+                    range.collapse(false);
+                }
 
                 blockElement = hasClosestBlock(range.startContainer);
             }
@@ -263,6 +303,12 @@ class WYSIWYG {
                 }
             }
 
+            if (blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
+                && blockElement.tagName.length === 2) {
+                // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
+                return;
+            }
+
             if (startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
                 return;
             }
@@ -271,7 +317,7 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("click", (event: IHTMLInputEvent) => {
-            if (hasClosestByClassName(event.target, "vditor-panel") || hasClosestByTag(event.target, "svg")) {
+            if (hasClosestByClassName(event.target, "vditor-panel")) {
                 return;
             }
 
@@ -281,6 +327,8 @@ class WYSIWYG {
                 } else {
                     event.target.removeAttribute("checked");
                 }
+                this.preventInput = true;
+                afterRenderEvent(vditor);
                 return;
             }
 

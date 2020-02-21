@@ -59,7 +59,7 @@ export class Preview {
                         if (xhr.status === 200) {
                             const responseJSON = JSON.parse(xhr.responseText);
                             if (responseJSON.code !== 0) {
-                                alert(responseJSON.msg);
+                                vditor.tip.show(responseJSON.msg);
                                 return;
                             }
                             if (vditor.options.preview.transform) {

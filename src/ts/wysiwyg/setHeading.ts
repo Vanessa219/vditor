@@ -1,11 +1,32 @@
-import {highlightToolbar} from "./highlightToolbar";
+import {hasClosestBlock} from "../util/hasClosest";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {
-    document.execCommand("formatblock", false, tagName);
-    // https://github.com/Vanessa219/vditor/issues/50
     const range = getSelection().getRangeAt(0);
-    if (!range.collapsed && !range.startContainer.isEqualNode(range.endContainer)) {
-        range.setStart(range.endContainer, 0);
+    let blockElement = hasClosestBlock(range.startContainer);
+    if (!blockElement) {
+        blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
     }
-    highlightToolbar(vditor);
+    if (blockElement && !blockElement.classList.contains("vditor-wysiwyg__block")) {
+        range.insertNode(document.createElement("wbr"));
+        if (blockElement.tagName === "BLOCKQUOTE") {
+            blockElement.innerHTML = `<${tagName} data-block="0">${blockElement.innerHTML}</${tagName}>`;
+        } else {
+            blockElement.outerHTML = `<${tagName} data-block="0">${blockElement.innerHTML}</${tagName}>`;
+        }
+        setRangeByWbr(vditor.wysiwyg.element, range);
+    }
+};
+
+export const removeHeading = (vditor: IVditor) => {
+    const range = getSelection().getRangeAt(0);
+    let blockElement = hasClosestBlock(range.startContainer);
+    if (!blockElement) {
+        blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+    }
+    if (blockElement) {
+        range.insertNode(document.createElement("wbr"));
+        blockElement.outerHTML = `<p data-block="0">${blockElement.innerHTML}</p>`;
+        setRangeByWbr(vditor.wysiwyg.element, range);
+    }
 };
