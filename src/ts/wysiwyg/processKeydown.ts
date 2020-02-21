@@ -384,12 +384,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (isCtrl(event) && event.shiftKey && event.key === ".") {
             // 插入 blockquote
-            range.insertNode(document.createElement("wbr"));
-            blockquoteElement.innerHTML = `<blockquote data-block="0">${blockquoteElement.innerHTML}</blockquote>`;
-            setRangeByWbr(vditor.wysiwyg.element, range);
-            afterRenderEvent(vditor);
-            event.preventDefault();
-            return true;
+            const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+            if (blockElement) {
+                range.insertNode(document.createElement("wbr"));
+                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+                setRangeByWbr(vditor.wysiwyg.element, range);
+                afterRenderEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
         }
     }
 
