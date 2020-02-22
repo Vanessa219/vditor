@@ -202,17 +202,6 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             setRangeByWbr(vditor.wysiwyg.element, range);
         }
 
-        if (commandName === "bold" || commandName === "italic" || commandName === "strike") {
-            useHighlight = false;
-            actionBtn.classList.add("vditor-menu--current");
-        }
-
-        if (commandName === "line") {
-            commandName = "insertHorizontalRule";
-        } else if (commandName === "strike") {
-            commandName = "strikeThrough";
-        }
-
         if (commandName === "quote") {
             let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
@@ -295,8 +284,21 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             range.selectNode(vditor.wysiwyg.element.querySelector("wbr").previousSibling);
             vditor.wysiwyg.element.querySelector("wbr").remove();
             setSelectionFocus(range);
+        } else if (commandName === "line") {
+            let element = range.startContainer as HTMLElement;
+            if (element.nodeType === 3) {
+                element = range.startContainer.parentElement;
+            }
+            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            setRangeByWbr(vditor.wysiwyg.element, range);
         } else {
-            // bold, italic, strike, line
+            // bold, italic, strike
+            useHighlight = false;
+            actionBtn.classList.add("vditor-menu--current");
+
+            if (commandName === "strike") {
+                commandName = "strikeThrough";
+            }
             if (range.toString() === "" && (commandName === "bold" || commandName === "italic" || commandName === "strikeThrough")) {
                 let tagName = "strong";
                 if (commandName === "italic") {
