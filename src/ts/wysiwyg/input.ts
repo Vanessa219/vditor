@@ -54,6 +54,12 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
             item.removeAttribute("style");
         });
 
+        if (blockElement.firstElementChild && blockElement.firstElementChild.tagName === "A" &&
+            blockElement.firstElementChild.textContent === "" && blockElement.firstElementChild.nextSibling) {
+            // 链接结尾回车不应该复制到下一行 https://github.com/Vanessa219/vditor/issues/163
+            blockElement.firstElementChild.remove();
+        }
+
         if (topListElement) {
             addP2Li(topListElement);
             blockElement = topListElement;
@@ -85,9 +91,9 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         }
 
         // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-        vditorHTML = vditorHTML.replace(/<\/[strong|b]><strong data-marker="\W{2}">/g, "")
-            .replace(/<\/[em|i]><em data-marker="\W{1}">/g, "")
-            .replace(/<\/[s|strike]><s data-marker="~{1,2}">/g, "");
+        vditorHTML = vditorHTML.replace(/<\/(strong|b)><strong data-marker="\W{2}">/g, "")
+            .replace(/<\/(em|i)><em data-marker="\W{1}">/g, "")
+            .replace(/<\/(s|strike)><s data-marker="~{1,2}">/g, "");
         log("SpinVditorDOM", vditorHTML, "argument", vditor.options.debugger);
         vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML);
         if (vditorHTML === '<hr data-block="0" />') {
