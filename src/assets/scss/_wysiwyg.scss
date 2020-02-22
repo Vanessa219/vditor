@@ -2,17 +2,27 @@
   background-color: var(--textarea-background-color);
   box-sizing: border-box;
   flex: 1;
-  margin: 0;
-  white-space: pre-wrap;
   position: relative;
 
-  &[contenteditable="false"] {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
+  .vditor-reset {
+    margin: 0;
+    white-space: pre-wrap;
+    height: 100%;
+    box-sizing: border-box;
 
-  &:focus {
-    outline: none;
+    &[contenteditable="false"] {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    &:empty::before {
+      content: attr(placeholder);
+      color: var(--second-color);
+    }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   blockquote:empty::before,
@@ -125,5 +135,4 @@
     display: none;
     color: var(--second-color);
   }
-
 }

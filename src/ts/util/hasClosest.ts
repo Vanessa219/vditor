@@ -7,7 +7,7 @@ export const hasClosestByTag = (element: Node, nodeName: string) => {
     }
     let e = element as HTMLElement;
     let isClosest = false;
-    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+    while (e && !isClosest && !e.classList.contains("vditor-reset")) {
         if (e.nodeName.indexOf(nodeName) === 0) {
             isClosest = true;
         } else {
@@ -26,7 +26,7 @@ export const hasClosestByAttribute = (element: Node, attr: string, value: string
     }
     let e = element as HTMLElement;
     let isClosest = false;
-    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+    while (e && !isClosest && !e.classList.contains("vditor-reset")) {
         if (e.getAttribute(attr) === value) {
             isClosest = true;
         } else {
@@ -51,7 +51,7 @@ export const hasClosestBlock = (element: Node) => {
         return blockElement;
     }
 
-    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+    while (e && !isClosest && !e.classList.contains("vditor-reset")) {
         if (e.tagName === "H1" ||
             e.tagName === "H2" ||
             e.tagName === "H3" ||
@@ -79,7 +79,7 @@ export const hasClosestByMatchTag = (element: Node, nodeName: string) => {
     }
     let e = element as HTMLElement;
     let isClosest = false;
-    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+    while (e && !isClosest && !e.classList.contains("vditor-reset")) {
         if (e.nodeName === nodeName) {
             isClosest = true;
         } else {
@@ -98,7 +98,7 @@ export const hasClosestByClassName = (element: Node, className: string) => {
     }
     let e = element as HTMLElement;
     let isClosest = false;
-    while (e && !isClosest && !e.classList.contains("vditor-wysiwyg")) {
+    while (e && !isClosest && !e.classList.contains("vditor-reset")) {
         if (e.classList.contains(className)) {
             isClosest = true;
         } else {
@@ -122,7 +122,7 @@ export const hasTopClosestByTag = (element: Node, nodeName: string) => {
         parentClosest = hasClosestByTag(closest.parentElement, nodeName);
     }
     let findTop = false;
-    while (closest && !closest.classList.contains("vditor-wysiwyg") && !findTop) {
+    while (closest && !closest.classList.contains("vditor-reset") && !findTop) {
         if (parentClosest) {
             closest = hasClosestByTag(closest.parentElement, nodeName);
             if (closest) {

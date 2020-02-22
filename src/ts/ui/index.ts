@@ -32,7 +32,7 @@ export class Ui {
         this.contentElement.className = "vditor-content";
 
         if (vditor.wysiwyg) {
-            this.contentElement.appendChild(vditor.wysiwyg.element);
+            this.contentElement.appendChild(vditor.wysiwyg.element.parentElement);
         }
 
         if (vditor.editor) {
@@ -83,9 +83,9 @@ export class Ui {
                 const padding =
                     (vditor.wysiwyg.element.parentElement.scrollWidth - vditor.options.preview.maxWidth) / 2;
                 if (vditor.options.typewriterMode) {
-                    vditor.wysiwyg.element.style.padding = `21px ${Math.max(35, padding)}px ${height / 2}px`;
+                    vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px ${height / 2}px`;
                 } else {
-                    vditor.wysiwyg.element.style.padding = `21px ${Math.max(35, padding)}px 10px`;
+                    vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px 10px`;
                 }
             };
             setPadding();

@@ -43,7 +43,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (range.startContainer.nodeType === 3) {
             typeElement = range.startContainer.parentElement;
         }
-        if (typeElement.classList.contains("vditor-wysiwyg")) {
+        if (typeElement.classList.contains("vditor-reset")) {
             typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 
@@ -511,13 +511,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             });
         }
 
-        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement
-            && !aElement && !hasClosestByClassName(typeElement, "vditor-panel")) {
+        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement) {
             vditor.wysiwyg.popover.style.display = "none";
-        }
-
-        if (!vditor.wysiwyg.element.contains(vditor.wysiwyg.popover)) {
-            vditor.wysiwyg.element.insertAdjacentElement("beforeend", vditor.wysiwyg.popover);
         }
 
         // 反斜杠特殊处理
@@ -589,10 +584,6 @@ const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) =
 };
 
 export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
-    if (!vditor.wysiwyg.element.contains(vditor.wysiwyg.popover)) {
-        vditor.wysiwyg.element.insertAdjacentElement("beforeend", vditor.wysiwyg.popover);
-    }
-
     vditor.wysiwyg.popover.innerHTML = "";
 
     const updateA = () => {

@@ -3,7 +3,6 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {hasClosestByClassName} from "../util/hasClosest";
 import {addP2Li} from "../wysiwyg/addP2Li";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
@@ -69,8 +68,7 @@ class WysiwygUndo {
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
             const range = getSelection().getRangeAt(0);
             cloneRange = range.cloneRange();
-            if (vditor.wysiwyg.element.contains(range.startContainer)
-                && !hasClosestByClassName(range.startContainer, "vditor-panel--none")) {
+            if (vditor.wysiwyg.element.contains(range.startContainer)) {
                 range.insertNode(document.createElement("wbr"));
             }
         }
