@@ -214,6 +214,12 @@ class WYSIWYG {
             if (event.target.tagName === "INPUT") {
                 return;
             }
+            const blockElement = hasClosestBlock(getSelection().getRangeAt(0).startContainer);
+            if (blockElement && blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
+                && blockElement.tagName.length === 2) {
+                // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
+                return;
+            }
             input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
         });
 
