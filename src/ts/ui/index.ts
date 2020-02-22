@@ -80,14 +80,13 @@ export class Ui {
 
         if (vditor.wysiwyg) {
             const setPadding = () => {
-                const width = vditor.wysiwyg.element.parentElement.parentElement.clientWidth;
-                const padding = (width - vditor.options.preview.maxWidth) / 2;
+                const padding = (vditor.wysiwyg.element.parentElement.parentElement.clientWidth
+                    - vditor.options.preview.maxWidth) / 2;
                 if (vditor.options.typewriterMode) {
                     vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px ${height / 2}px`;
                 } else {
                     vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px 10px`;
                 }
-                vditor.wysiwyg.element.style.width = width + "px";
             };
             setPadding();
             window.addEventListener("resize", () => {
