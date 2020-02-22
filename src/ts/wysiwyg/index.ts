@@ -309,17 +309,17 @@ class WYSIWYG {
             // 没有被块元素包裹
             Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
                 if (node.nodeType === 3) {
-                    const pElement = document.createElement("p")
+                    const pElement = document.createElement("p");
                     pElement.setAttribute("data-block", "0");
                     pElement.textContent = node.textContent;
                     node.parentNode.insertBefore(pElement, node);
-                    node.remove()
+                    node.remove();
                     range.setStart(pElement, pElement.textContent.length);
                     range.collapse(true);
                     return true;
                 } else if (!node.getAttribute("data-block")) {
                     range.insertNode(document.createElement("wbr"));
-                    node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`
+                    node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
                     setRangeByWbr(this.element, range);
                     return true;
                 }

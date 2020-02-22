@@ -52,7 +52,7 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         // 在行首进行删除，后面的元素会带有样式，需清除
         blockElement.querySelectorAll("[style]").forEach((item) => {
             item.removeAttribute("style");
-        })
+        });
 
         if (topListElement) {
             addP2Li(topListElement);
