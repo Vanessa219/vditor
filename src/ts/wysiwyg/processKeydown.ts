@@ -4,8 +4,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
-    getTopList,
-    hasClosestByAttribute,
+    getTopList, hasClosestBlock,
     hasClosestByClassName,
     hasClosestByMatchTag, hasClosestByTag,
     hasTopClosestByTag,
@@ -49,6 +48,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.isComposing) {
         return false;
     }
+
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
         && !isCtrl(event) && event.key !== "Escape") {
@@ -57,6 +57,13 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
+
+    const blockElement = hasClosestBlock(range.startContainer);
+
+    if (!blockElement) {
+        return;
+    }
+
     // md 处理
     const pElement = hasClosestByMatchTag(startContainer, "P");
     if (pElement && !isCtrl(event) && !event.altKey && event.key === "Enter") {
@@ -383,15 +390,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         if (isCtrl(event) && event.shiftKey && event.key === ".") {
             // 插入 blockquote
-            const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
-            if (blockElement) {
-                range.insertNode(document.createElement("wbr"));
-                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
-                setRangeByWbr(vditor.wysiwyg.element, range);
-                afterRenderEvent(vditor);
-                event.preventDefault();
-                return true;
-            }
+            range.insertNode(document.createElement("wbr"));
+            blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+            setRangeByWbr(vditor.wysiwyg.element, range);
+            afterRenderEvent(vditor);
+            event.preventDefault();
+            return true;
         }
     }
 
@@ -681,8 +685,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 删除
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
         && range.toString() === "") {
-        const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
-        if (blockElement && blockElement.previousElementSibling
+        if (blockElement.previousElementSibling
             && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
             && blockElement.previousElementSibling.getAttribute("data-block") === "0"
         ) {
@@ -690,8 +693,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                 // 删除后光标落于代码渲染块上
                 showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
-                if (blockElement.innerHTML.trim() === "" &&
-                    !blockElement.nextElementSibling.classList.contains("vditor-panel--none")) {
+                if (blockElement.innerHTML.trim() === "") {
                     // 当前块为空且不是最后一个时，需要删除
                     blockElement.remove();
                     afterRenderEvent(vditor);
@@ -711,13 +713,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (blockElement) {
-            // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
-            blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
-                (item.firstElementChild as HTMLElement).style.display = "inline";
-                (item.lastElementChild as HTMLElement).style.display = "none";
-            });
-        }
+        // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
+        blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
+            (item.firstElementChild as HTMLElement).style.display = "inline";
+            (item.lastElementChild as HTMLElement).style.display = "none";
+        });
     }
 
     // 除 md 处理、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、

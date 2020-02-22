@@ -224,52 +224,13 @@ class WYSIWYG {
                 return;
             }
 
-            // 前后空格处理
-            let blockElement = hasClosestBlock(range.startContainer);
-
-            // 没有被块元素包裹
-            if (!blockElement) {
-                let noWrapStartOffset: number;
-                const pElement = document.createElement("p");
-                pElement.setAttribute("data-block", "0");
-                if (vditor.wysiwyg.element.childNodes.length === 0) {
-                    pElement.textContent = "\n";
-                    range.insertNode(pElement);
-                } else {
-                    Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
-                        if (node.nodeType === 3 || (node.nodeType !== 3 && !node.getAttribute("data-block"))) {
-                            if (node.nodeType === 3) {
-                                noWrapStartOffset = range.startOffset;
-                                pElement.textContent = node.textContent;
-                            } else {
-                                pElement.innerHTML = node.outerHTML;
-                            }
-                            node.parentNode.insertBefore(pElement, node);
-                            node.remove();
-                            return true;
-                        }
-                    });
-                }
-                if (typeof noWrapStartOffset === "number") {
-                    // hr 后输入字符
-                    if (pElement.textContent === "\n") {
-                        // hr 后回车
-                        noWrapStartOffset = 0;
-                    }
-                    range.setStart(pElement, noWrapStartOffset);
-                    range.collapse(true);
-                } else {
-                    range.selectNodeContents(pElement);
-                    range.collapse(false);
-                }
-
-                blockElement = hasClosestBlock(range.startContainer);
-            }
-
+            const range = getSelection().getRangeAt(0).cloneRange();
+            const blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
                 return;
             }
 
+            // 前后空格处理
             const startOffset = getSelectPosition(blockElement, range).start;
 
             // 开始可以输入空格
@@ -341,6 +302,21 @@ class WYSIWYG {
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
+            const range = getSelection().getRangeAt(0);
+
+            // 没有被块元素包裹
+            Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
+                if (node.nodeType === 3) {
+                    const pElement = document.createElement("p")
+                    pElement.setAttribute("data-block", "0");
+                    pElement.textContent = node.textContent;
+                    node.parentNode.insertBefore(pElement, node);
+                    node.remove()
+                    range.setStart(pElement, pElement.textContent.length);
+                    range.collapse(true);
+                    return true;
+                }
+            });
 
             highlightToolbar(vditor);
 
@@ -348,8 +324,6 @@ class WYSIWYG {
                 && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
                 return;
             }
-
-            const range = getSelection().getRangeAt(0);
 
             // 上下左右遇到块预览的处理
             const previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
