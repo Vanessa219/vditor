@@ -582,6 +582,20 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         aElement.setAttribute("title", input2.value);
     };
 
+    const hotkey = (event: KeyboardEvent, nextInputElement: HTMLInputElement) => {
+        if (event.key === "Tab") {
+            nextInputElement.focus();
+            nextInputElement.select();
+            event.preventDefault();
+        }
+        if (event.altKey && event.key === "Enter") {
+            const range = aElement.ownerDocument.createRange()
+            range.selectNode(aElement.firstChild);
+            setSelectionFocus(range);
+            event.preventDefault();
+        }
+    }
+
     const inputWrap = document.createElement("span");
     inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
     inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -595,6 +609,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input.oninput = () => {
         updateA();
     };
+    input.onkeydown = (event) => {
+        hotkey(event, input1);
+    }
 
     const input1Wrap = document.createElement("span");
     input1Wrap.setAttribute("aria-label", i18n[vditor.options.lang].link);
@@ -608,6 +625,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input1.oninput = () => {
         updateA();
     };
+    input1.onkeydown = (event) => {
+        hotkey(event, input2);
+    }
 
     const input2Wrap = document.createElement("span");
     input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].tooltipText);
@@ -622,6 +642,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input2.oninput = () => {
         updateA();
     };
+    input2.onkeydown = (event) => {
+        hotkey(event, input);
+    }
 
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);

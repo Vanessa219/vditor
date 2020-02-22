@@ -613,6 +613,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
+    if (event.altKey && event.key === "Enter" && !isCtrl(event) && !event.shiftKey) {
+        const aElement = hasClosestByTag(startContainer, "A");
+        if (aElement) {
+            const inputElement = vditor.wysiwyg.popover.querySelector("input");
+            inputElement.focus();
+            inputElement.select();
+        }
+    }
+
     // 删除有子工具栏的块
     if (processKeymap("⌘-⇧-x", event, () => {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
