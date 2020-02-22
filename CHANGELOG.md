@@ -46,7 +46,7 @@
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
 
-### v2.2.3 / 2020-02-20
+### v2.2.5 / 2020-02-22
 
 * [166](https://github.com/Vanessa219/vditor/issues/166) 加粗、强调、删除线合并 `修复缺陷`
 * [165](https://github.com/Vanessa219/vditor/issues/165) wysiwyg 内容太长时辅助工具条可以悬浮在顶部 `改进功能`

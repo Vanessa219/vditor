@@ -10,6 +10,7 @@ import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {Constants} from "../constants";
 
 export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
@@ -55,7 +56,8 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         });
 
         if (blockElement.firstElementChild && blockElement.firstElementChild.tagName === "A" &&
-            blockElement.firstElementChild.textContent === "" && blockElement.firstElementChild.nextSibling) {
+            blockElement.firstElementChild.textContent.replace(Constants.ZWSP, "") === "" &&
+            blockElement.firstElementChild.nextSibling) {
             // 链接结尾回车不应该复制到下一行 https://github.com/Vanessa219/vditor/issues/163
             blockElement.firstElementChild.remove();
         }

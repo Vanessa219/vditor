@@ -318,9 +318,13 @@ class WYSIWYG {
                     range.collapse(true);
                     return true;
                 } else if (!node.getAttribute("data-block")) {
-                    range.insertNode(document.createElement("wbr"));
-                    node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
-                    setRangeByWbr(this.element, range);
+                    if (node.tagName === "P") {
+                        node.setAttribute("data-block", "0");
+                    } else {
+                        range.insertNode(document.createElement("wbr"));
+                        node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
+                        setRangeByWbr(this.element, range);
+                    }
                     return true;
                 }
             });
