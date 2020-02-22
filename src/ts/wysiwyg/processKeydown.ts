@@ -60,10 +60,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const blockElement = hasClosestBlock(range.startContainer);
 
-    if (!blockElement) {
-        return;
-    }
-
     // md 处理
     const pElement = hasClosestByMatchTag(startContainer, "P");
     if (pElement && !isCtrl(event) && !event.altKey && event.key === "Enter") {
@@ -388,7 +384,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
         }
 
-        if (isCtrl(event) && event.shiftKey && event.key === ".") {
+        if (blockElement && isCtrl(event) && event.shiftKey && event.key === ".") {
             // 插入 blockquote
             range.insertNode(document.createElement("wbr"));
             blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
@@ -685,22 +681,29 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 删除
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
         && range.toString() === "") {
-        if (blockElement.previousElementSibling
-            && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
-            && blockElement.previousElementSibling.getAttribute("data-block") === "0"
-        ) {
-            const rangeStart = getSelectPosition(blockElement, range).start;
-            if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
-                // 删除后光标落于代码渲染块上
-                showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
-                if (blockElement.innerHTML.trim() === "") {
-                    // 当前块为空且不是最后一个时，需要删除
-                    blockElement.remove();
-                    afterRenderEvent(vditor);
+        if (blockElement) {
+            if (blockElement.previousElementSibling
+                && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
+                && blockElement.previousElementSibling.getAttribute("data-block") === "0") {
+                const rangeStart = getSelectPosition(blockElement, range).start;
+                if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
+                    // 删除后光标落于代码渲染块上
+                    showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
+                    if (blockElement.innerHTML.trim() === "") {
+                        // 当前块为空且不是最后一个时，需要删除
+                        blockElement.remove();
+                        afterRenderEvent(vditor);
+                    }
+                    event.preventDefault();
+                    return true;
                 }
-                event.preventDefault();
-                return true;
             }
+
+            // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除, 不能返回，还需要进行后续处理
+            blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
+                (item.firstElementChild as HTMLElement).style.display = "inline";
+                (item.lastElementChild as HTMLElement).style.display = "none";
+            });
         }
 
         const offsetChildNode = startContainer.childNodes[range.startOffset] as HTMLElement;
@@ -712,12 +715,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
-
-        // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
-        blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
-            (item.firstElementChild as HTMLElement).style.display = "inline";
-            (item.lastElementChild as HTMLElement).style.display = "none";
-        });
     }
 
     // 除 md 处理、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、

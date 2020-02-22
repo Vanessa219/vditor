@@ -27,7 +27,7 @@ export class WYSIWYG extends MenuItem {
         this.element.children[0].addEventListener(getEventName(), function(event) {
             if (this.classList.contains("vditor-menu--current")) {
                 this.classList.remove("vditor-menu--current");
-                vditor.wysiwyg.element.style.display = "none";
+                vditor.wysiwyg.element.parentElement.style.display = "none";
                 if (vditor.currentPreviewMode === "both") {
                     vditor.editor.element.style.display = "block";
                     vditor.preview.element.style.display = "block";
@@ -59,7 +59,7 @@ export class WYSIWYG extends MenuItem {
                 this.classList.add("vditor-menu--current");
                 vditor.editor.element.style.display = "none";
                 vditor.preview.element.style.display = "none";
-                vditor.wysiwyg.element.style.display = "block";
+                vditor.wysiwyg.element.parentElement.style.display = "block";
 
                 if (vditor.toolbar.elements.format) {
                     vditor.toolbar.elements.format.style.display = "none";

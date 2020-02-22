@@ -197,6 +197,11 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
         }
     } else {
         // 添加
+        if (vditor.wysiwyg.element.childNodes.length === 0) {
+            vditor.wysiwyg.element.innerHTML = '<p data-block="0"><wbr></p>';
+            setRangeByWbr(vditor.wysiwyg.element, range);
+        }
+
         if (commandName === "bold" || commandName === "italic" || commandName === "strike") {
             useHighlight = false;
             actionBtn.classList.add("vditor-menu--current");
@@ -302,13 +307,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 const node = document.createElement(tagName);
                 node.textContent = Constants.ZWSP;
 
-                if (range.startOffset === 0 && range.startContainer.nodeType !== 3
-                    && (range.startContainer as HTMLElement).classList.contains("vditor-wysiwyg")) {
-                    // 飘逸在 p 元素外
-                    vditor.wysiwyg.element.firstElementChild.insertAdjacentElement("afterbegin", node);
-                } else {
-                    range.insertNode(node);
-                }
+                range.insertNode(node);
 
                 if (node.previousSibling && node.previousSibling.textContent === Constants.ZWSP) {
                     // 移除多层嵌套中的 zwsp

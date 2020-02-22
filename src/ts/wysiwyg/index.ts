@@ -236,7 +236,9 @@ class WYSIWYG {
             // 开始可以输入空格
             let startSpace = true;
             for (let i = startOffset - 1; i >= 0; i--) {
-                if (blockElement.textContent.charAt(i) !== " ") {
+                if (blockElement.textContent.charAt(i) !== " " &&
+                    // 多个 tab 前删除不形成代码块 https://github.com/Vanessa219/vditor/issues/162 1
+                    blockElement.textContent.charAt(i) !== "\t") {
                     startSpace = false;
                     break;
                 }
@@ -314,6 +316,11 @@ class WYSIWYG {
                     node.remove()
                     range.setStart(pElement, pElement.textContent.length);
                     range.collapse(true);
+                    return true;
+                } else if (!node.getAttribute("data-block")) {
+                    range.insertNode(document.createElement("wbr"));
+                    node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`
+                    setRangeByWbr(this.element, range);
                     return true;
                 }
             });
