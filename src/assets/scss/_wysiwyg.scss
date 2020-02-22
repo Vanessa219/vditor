@@ -16,6 +16,8 @@
     }
 
     &:empty::before {
+      position: relative;
+      top: -3px;
       content: attr(placeholder);
       color: var(--second-color);
     }

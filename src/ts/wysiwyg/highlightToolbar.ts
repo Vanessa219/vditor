@@ -329,10 +329,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             input.setAttribute("placeholder", i18n[vditor.options.lang].row);
             input.value = tableElement.rows.length.toString();
             input.onblur = updateTable;
-            input.oninput = (event) => {
+            input.oninput = () => {
                 updateTable();
-                event.preventDefault();
-                event.stopPropagation();
             };
             const input2Wrap = document.createElement("span");
             input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].column);
@@ -347,10 +345,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             input2.setAttribute("placeholder", i18n[vditor.options.lang].column);
             input2.value = tableElement.rows[0].cells.length.toString();
             input2.onblur = updateTable;
-            input2.oninput = (event) => {
+            input2.oninput = () => {
                 updateTable();
-                event.preventDefault();
-                event.stopPropagation();
             };
 
             const insertBefore = genInsertBefore(range, tableElement, vditor);
@@ -412,10 +408,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             input.setAttribute("placeholder", i18n[vditor.options.lang].imageURL);
             input.value = imgElement.getAttribute("src") || "";
             input.onblur = updateImg;
-            input.oninput = (event) => {
+            input.oninput = () => {
                 updateImg();
-                event.preventDefault();
-                event.stopPropagation();
             };
             const altWrap = document.createElement("span");
             altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
@@ -427,10 +421,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             alt.style.width = "52px";
             alt.value = imgElement.getAttribute("alt") || "";
             alt.onblur = updateImg;
-            alt.oninput = (event) => {
+            alt.oninput = () => {
                 updateImg();
-                event.preventDefault();
-                event.stopPropagation();
             };
 
             const aHrefWrap = document.createElement("span");
@@ -443,10 +435,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             aHref.value =
                 imgElement.parentElement.nodeName === "A" ? imgElement.parentElement.getAttribute("href") : "";
             aHref.onblur = updateImg;
-            aHref.oninput = (event) => {
+            aHref.oninput = () => {
                 updateImg();
-                event.preventDefault();
-                event.stopPropagation();
             };
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
@@ -486,19 +476,16 @@ export const highlightToolbar = (vditor: IVditor) => {
                     language.value = codeElement.className.indexOf("language-") > -1 ?
                         codeElement.className.split("-")[1].split(" ")[0] : "";
                     language.onblur = updateLanguage;
-                    language.oninput = (event) => {
+                    language.oninput = () => {
                         updateLanguage();
                         processCodeRender(blockRenderElement, vditor);
                         afterRenderEvent(vditor);
-                        event.preventDefault();
-                        event.stopPropagation();
                     };
                     language.onkeydown = (event: KeyboardEvent) => {
                         if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
                             range.setStart(codeElement.firstChild, 0);
                             range.collapse(true);
                             setSelectionFocus(range);
-                            event.preventDefault();
                         }
                     };
                     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
@@ -605,10 +592,8 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input.style.width = "120px";
     input.value = aElement.textContent || "";
     input.onblur = updateA;
-    input.oninput = (event) => {
+    input.oninput = () => {
         updateA();
-        event.preventDefault();
-        event.stopPropagation();
     };
 
     const input1Wrap = document.createElement("span");
@@ -620,10 +605,8 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input1.setAttribute("placeholder", i18n[vditor.options.lang].link);
     input1.value = aElement.getAttribute("href") || "";
     input1.onblur = updateA;
-    input1.oninput = (event) => {
+    input1.oninput = () => {
         updateA();
-        event.preventDefault();
-        event.stopPropagation();
     };
 
     const input2Wrap = document.createElement("span");
@@ -636,10 +619,8 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input2.style.width = "60px";
     input2.value = aElement.getAttribute("title") || "";
     input2.onblur = updateA;
-    input2.oninput = (event) => {
+    input2.oninput = () => {
         updateA();
-        event.preventDefault();
-        event.stopPropagation();
     };
 
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);

@@ -79,9 +79,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     };
 
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
-        if (event.target.tagName === "INPUT" || event.target.tagName === "BUTTON") {
-            return;
-        }
         const hintElement = vditor.hint && vditor.hint.element;
         // hint: 上下选择
         if ((vditor.options.hint.at || vditor.toolbar.elements.emoji) && hint(event, hintElement)) {
@@ -175,9 +172,6 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         return;
     }
     editorElement.addEventListener("selectstart", (event: IHTMLInputEvent) => {
-        if (event.target.tagName === "INPUT") {
-            return;
-        }
         editorElement.onmouseup = () => {
             const element = vditor.currentMode === "wysiwyg" ?
                 vditor.wysiwyg.element : vditor.editor.element;

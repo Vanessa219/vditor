@@ -48,6 +48,7 @@
 
 ### v2.2.3 / 2020-02-20
 
+* [165](https://github.com/Vanessa219/vditor/issues/165) wysiwyg 内容太长时辅助工具条可以悬浮在顶部 `改进功能`
 * [158](https://github.com/Vanessa219/vditor/issues/158) tab key is not working when no text `修复缺陷`
 * [156](https://github.com/Vanessa219/vditor/issues/156) li 缩进后没有渲染代码块 `修复缺陷`
 * [155](https://github.com/Vanessa219/vditor/issues/155) blockquote 插入光标错误 `修复缺陷`

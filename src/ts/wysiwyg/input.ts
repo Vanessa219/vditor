@@ -1,4 +1,3 @@
-import {Constants} from "../constants";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
@@ -85,7 +84,7 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
             .replace(/<\/em><em data-marker="\W{1}">/g, "")
             .replace(/<\/s><s data-marker="~{1,2}">/g, "");
         log("SpinVditorDOM", vditorHTML, "argument", vditor.options.debugger);
-        vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML) || Constants.WYSIWYG_EMPTY_P;
+        vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML);
         if (vditorHTML === '<hr data-block="0" />') {
             vditorHTML = '<hr data-block="0" /><p data-block="0">\n<wbr></p>';
         }

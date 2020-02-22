@@ -1,4 +1,3 @@
-import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
@@ -56,9 +55,6 @@ class WYSIWYG {
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop",
                 (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                    if (event.target.tagName === "INPUT") {
-                        return;
-                    }
                     if (event.dataTransfer.types[0] !== "Files") {
                         return;
                     }
@@ -79,9 +75,6 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
-            if (event.target.tagName === "INPUT") {
-                return;
-            }
             const range = getSelection().getRangeAt(0);
             if (range.collapsed) {
                 return;
@@ -107,9 +100,6 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
-            if (event.target.tagName === "INPUT") {
-                return;
-            }
             event.stopPropagation();
             event.preventDefault();
             let textHTML = event.clipboardData.getData("text/html");
@@ -216,9 +206,6 @@ class WYSIWYG {
 
         // 中文处理
         this.element.addEventListener("compositionend", (event: IHTMLInputEvent) => {
-            if (event.target.tagName === "INPUT") {
-                return;
-            }
             const blockElement = hasClosestBlock(getSelection().getRangeAt(0).startContainer);
             if (blockElement && blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
                 && blockElement.tagName.length === 2) {
@@ -351,9 +338,6 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {
-            if (event.target.tagName === "INPUT") {
-                return;
-            }
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
