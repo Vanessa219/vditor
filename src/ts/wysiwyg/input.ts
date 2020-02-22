@@ -49,6 +49,11 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         });
         range.insertNode(document.createElement("wbr"));
 
+        // 在行首进行删除，后面的元素会带有样式，需清除
+        blockElement.querySelectorAll("[style]").forEach((item) => {
+            item.removeAttribute("style");
+        })
+
         if (topListElement) {
             addP2Li(topListElement);
             blockElement = topListElement;
@@ -80,9 +85,9 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         }
 
         // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-        vditorHTML = vditorHTML.replace(/<\/strong><strong data-marker="\W{2}">/g, "")
-            .replace(/<\/em><em data-marker="\W{1}">/g, "")
-            .replace(/<\/s><s data-marker="~{1,2}">/g, "");
+        vditorHTML = vditorHTML.replace(/<\/[strong|b]><strong data-marker="\W{2}">/g, "")
+            .replace(/<\/[em|i]><em data-marker="\W{1}">/g, "")
+            .replace(/<\/[s|strike]><s data-marker="~{1,2}">/g, "");
         log("SpinVditorDOM", vditorHTML, "argument", vditor.options.debugger);
         vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML);
         if (vditorHTML === '<hr data-block="0" />') {
