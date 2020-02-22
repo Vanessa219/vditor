@@ -449,7 +449,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // li
     const liElement = hasClosestByMatchTag(startContainer, "LI");
     if (liElement) {
-        if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
+        if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
+            (event.shiftKey // 软换行
+                // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
+                || (!event.shiftKey && pElement && liElement.contains(pElement)))) {
             if (liElement && !liElement.textContent.endsWith("\n")) {
                 // li 结尾需 \n
                 liElement.insertAdjacentText("beforeend", "\n");
