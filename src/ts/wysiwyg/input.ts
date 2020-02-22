@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
@@ -10,7 +11,6 @@ import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
-import {Constants} from "../constants";
 
 export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
