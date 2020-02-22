@@ -528,8 +528,9 @@ export const highlightToolbar = (vditor: IVditor) => {
 };
 
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
-    vditor.wysiwyg.popover.style.top = (element.offsetTop - 21) + "px";
+    vditor.wysiwyg.popover.style.top = Math.max(-11, element.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
     vditor.wysiwyg.popover.style.left = element.offsetLeft + "px";
+    vditor.wysiwyg.popover.setAttribute("data-top", (element.offsetTop - 21).toString());
     vditor.wysiwyg.popover.style.display = "block";
 };
 

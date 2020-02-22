@@ -28,22 +28,20 @@ class WYSIWYG {
     public preventInput: boolean;
 
     constructor(vditor: IVditor) {
-        this.element = document.createElement("pre");
-        this.element.className = "vditor-reset vditor-wysiwyg";
-        // TODO: placeholder
-        this.element.setAttribute("contenteditable", "true");
-        this.element.setAttribute("spellcheck", "false");
+        const divElement = document.createElement("div");
+        divElement.className = "vditor-wysiwyg";
+
+        divElement.innerHTML = `<pre class="vditor-reset" placeholder="${vditor.options.placeholder}"
+ contenteditable="true" spellcheck="false"></pre>
+<div class="vditor-panel vditor-panel--none"></div>`;
+
+        this.element = divElement.firstElementChild as HTMLPreElement;
+
+        this.popover = divElement.lastElementChild as HTMLDivElement;
+
         if (vditor.currentMode === "markdown") {
             this.element.style.display = "none";
         }
-
-        this.element.innerHTML = Constants.WYSIWYG_EMPTY_P;
-        const popover = document.createElement("div");
-        popover.className = "vditor-panel vditor-panel--none";
-        popover.setAttribute("contenteditable", "false");
-        popover.setAttribute("data-render", "false");
-        this.popover = popover;
-        this.element.insertAdjacentElement("beforeend", popover);
 
         this.bindEvent(vditor);
 
@@ -55,7 +53,6 @@ class WYSIWYG {
     }
 
     private bindEvent(vditor: IVditor) {
-
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop",
                 (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
@@ -72,6 +69,14 @@ class WYSIWYG {
                     event.preventDefault();
                 });
         }
+
+        this.element.addEventListener("scroll", () => {
+            if (this.popover.style.display !== "block") {
+                return;
+            }
+            this.popover.style.top = Math.max(-11,
+                parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop) + "px";
+        });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "INPUT") {
@@ -228,14 +233,6 @@ class WYSIWYG {
                 this.preventInput = false;
                 return;
             }
-            const range = getSelection().getRangeAt(0).cloneRange();
-
-            if (range.commonAncestorContainer.nodeType !== 3
-                && (range.commonAncestorContainer as HTMLElement).classList.contains("vditor-panel--none")) {
-                event.preventDefault();
-                return;
-            }
-
             if (event.isComposing) {
                 return;
             }
@@ -323,10 +320,6 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("click", (event: IHTMLInputEvent) => {
-            if (hasClosestByClassName(event.target, "vditor-panel")) {
-                return;
-            }
-
             if (event.target.tagName === "INPUT") {
                 if (event.target.checked) {
                     event.target.setAttribute("checked", "checked");
