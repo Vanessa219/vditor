@@ -60,6 +60,7 @@
 * [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`
 * [150](https://github.com/Vanessa219/vditor/issues/150) [suggestion] deleting heading with backspace `改进功能`
 * [148](https://github.com/Vanessa219/vditor/issues/148) 任务列表退格删除问题 `修复缺陷`
+* [147](https://github.com/Vanessa219/vditor/issues/147) [suggestion] ctrl+l, ctrl+o, ctrl + j add insert line `改进功能`
 * [146](https://github.com/Vanessa219/vditor/issues/146) [suggestion] ctrl+k `改进功能`
 * [145](https://github.com/Vanessa219/vditor/issues/145) [suggestion] ctrl+shift+j toggle checked `改进功能`
 * [144](https://github.com/Vanessa219/vditor/issues/144) ctrl+shift+. 插入 blockquote `改进功能`

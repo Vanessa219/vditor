@@ -164,6 +164,11 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
+            const insertBefore = genInsertBefore(range, topListElement, vditor);
+            const insertAfter = genInsertAfter(range, topListElement, vditor);
+
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);
 
