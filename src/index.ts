@@ -6,7 +6,7 @@ import {getSelectText} from "./ts/editor/getSelectText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
 import {insertText} from "./ts/editor/insertText";
-import {setSelectionByPosition, setSelectionFocus} from "./ts/editor/setSelection";
+import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
 import {abcRender} from "./ts/markdown/abcRender";
@@ -33,6 +33,9 @@ import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
+import {insertHTML} from "./ts/wysiwyg/insertHTML";
+import {processCodeRender} from "./ts/wysiwyg/processCodeRender";
 
 class Vditor {
 
@@ -264,8 +267,19 @@ class Vditor {
         } else {
             const range = getSelection().getRangeAt(0);
             range.collapse(false);
-            setSelectionFocus(range);
-            document.execCommand("insertHTML", false, value);
+            const vditorDomHTML = this.vditor.lute.Md2VditorDOM(value);
+            insertHTML(vditorDomHTML, this.vditor);
+
+            this.vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block")
+                .forEach((blockElement: HTMLElement) => {
+                    processCodeRender(blockElement, this.vditor);
+                });
+
+            afterRenderEvent(this.vditor, {
+                enableAddUndoStack: true,
+                enableHint: false,
+                enableInput: false,
+            });
         }
     }
 

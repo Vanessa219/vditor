@@ -48,6 +48,7 @@
 
 ### v2.2.6 / 2020-02-22
 
+* [168](https://github.com/Vanessa219/vditor/issues/168) insertValue 图片解析问题 `修复缺陷`
 * [166](https://github.com/Vanessa219/vditor/issues/166) 加粗、强调、删除线合并 `修复缺陷`
 * [165](https://github.com/Vanessa219/vditor/issues/165) wysiwyg 内容太长时辅助工具条可以悬浮在顶部 `改进功能`
 * [163](https://github.com/Vanessa219/vditor/issues/163) 链接结尾回车不应该复制到下一行 `修复缺陷`
