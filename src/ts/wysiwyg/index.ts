@@ -7,7 +7,6 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
 } from "../util/hasClosest";
-import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -190,9 +189,7 @@ class WYSIWYG {
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                    log("Md2VditorDOM", textPlain, "argument", vditor.options.debugger);
                     const vditorDomHTML = vditor.lute.Md2VditorDOM(textPlain);
-                    log("Md2VditorDOM", vditorDomHTML, "result", vditor.options.debugger);
                     insertHTML(vditorDomHTML, vditor);
                 }
             }
