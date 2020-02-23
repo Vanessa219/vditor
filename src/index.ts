@@ -32,10 +32,10 @@ import {getMarkdown} from "./ts/util/getMarkdown";
 import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
-import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {insertHTML} from "./ts/wysiwyg/insertHTML";
 import {processCodeRender} from "./ts/wysiwyg/processCodeRender";
+import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 
 class Vditor {
 
