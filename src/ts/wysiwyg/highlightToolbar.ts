@@ -591,6 +591,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (event.altKey && event.key === "Enter") {
             const range = aElement.ownerDocument.createRange();
             range.selectNode(aElement.firstChild);
+            range.collapse(false);
             setSelectionFocus(range);
             event.preventDefault();
         }
