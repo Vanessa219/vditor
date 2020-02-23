@@ -45,7 +45,7 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.8 / 2020-02-24
+### v2.2.8 / 未发布
 
 * [169](https://github.com/Vanessa219/vditor/issues/169) 五线谱渐强减弱无法显示 `修复缺陷`
 
