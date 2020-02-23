@@ -38,7 +38,7 @@ class WYSIWYG {
         this.popover = divElement.lastElementChild as HTMLDivElement;
 
         if (vditor.currentMode === "markdown") {
-            this.element.style.display = "none";
+            this.element.parentElement.style.display = "none";
         }
 
         this.bindEvent(vditor);
