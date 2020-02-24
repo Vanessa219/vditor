@@ -45,12 +45,13 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.8 / 未发布
+### v2.2.9 / 未发布
 
+
+### v2.2.8 / 2020-02-24
+
+* [173](https://github.com/Vanessa219/vditor/issues/173) lists start with 1) and enter error `修复缺陷`
 * [169](https://github.com/Vanessa219/vditor/issues/169) 五线谱渐强减弱无法显示 `修复缺陷`
-
-### v2.2.7 / 2020-02-23
-
 * [168](https://github.com/Vanessa219/vditor/issues/168) insertValue 图片解析问题 `修复缺陷`
 * [166](https://github.com/Vanessa219/vditor/issues/166) 加粗、强调、删除线合并 `修复缺陷`
 * [165](https://github.com/Vanessa219/vditor/issues/165) wysiwyg 内容太长时辅助工具条可以悬浮在顶部 `改进功能`

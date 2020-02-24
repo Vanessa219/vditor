@@ -324,14 +324,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // inline code、math、html 行前零宽字符后进行删除
-    if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
-        startContainer.textContent === Constants.ZWSP && range.startOffset === 1 && !startContainer.previousSibling &&
-        nextIsCode(range)) {
-        startContainer.textContent = "";
-        // 不能返回，其前面为代码渲染块时需进行以下处理：修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
-    }
-
     // 顶层 blockquote
     const topBQElement = hasTopClosestByTag(startContainer, "BLOCKQUOTE");
     if (topBQElement && !isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
@@ -676,7 +668,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // shift+enter：软换行，但 md 处理、cell 内换行、block render 换行、li 软换行处理单独写在上面
+    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行、li 软换行处理单独写在上面
     if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
@@ -688,15 +680,24 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 删除
-    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
-        && range.toString() === "") {
+    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
+        const offsetChildNode = startContainer.childNodes[range.startOffset] as HTMLElement;
+        if (startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
+            (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
+            // 光标位于 table/hr 前，table/hr 前有内容
+            range.selectNodeContents(offsetChildNode.previousElementSibling);
+            range.collapse(false);
+            event.preventDefault();
+            return true;
+        }
+
         if (blockElement) {
             if (blockElement.previousElementSibling
                 && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
                 && blockElement.previousElementSibling.getAttribute("data-block") === "0") {
                 const rangeStart = getSelectPosition(blockElement, range).start;
                 if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
-                    // 删除后光标落于代码渲染块上
+                    // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
                     showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
                     if (blockElement.innerHTML.trim() === "") {
                         // 当前块为空且不是最后一个时，需要删除
@@ -708,21 +709,18 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 }
             }
 
+            // inline code、math、html 行前零宽字符后进行删除
+            if (startContainer.textContent === Constants.ZWSP && range.startOffset === 1
+                && !startContainer.previousSibling && nextIsCode(range)) {
+                startContainer.textContent = "";
+                // 不能返回，其前面为代码渲染块时需进行以下处理：修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除
+            }
+
             // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除, 不能返回，还需要进行后续处理
             blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
                 (item.firstElementChild as HTMLElement).style.display = "inline";
                 (item.lastElementChild as HTMLElement).style.display = "none";
             });
-        }
-
-        const offsetChildNode = startContainer.childNodes[range.startOffset] as HTMLElement;
-        if (startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
-            (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
-            // 光标位于 table/hr 前，table/hr 前有内容
-            range.selectNodeContents(offsetChildNode.previousElementSibling);
-            range.collapse(false);
-            event.preventDefault();
-            return true;
         }
     }
 

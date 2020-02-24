@@ -333,8 +333,15 @@ class WYSIWYG {
                 return;
             }
 
-            // 上下左右遇到块预览的处理
-            const previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
+            // 上下左右，删除遇到块预览的处理
+            let previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
+            if (!previewElement && range.startContainer.nodeType !== 3 && range.startOffset > 0) {
+                // table 前删除遇到代码块
+                const blockRenderElement = range.startContainer as HTMLElement
+                if (blockRenderElement.classList.contains("vditor-wysiwyg__block")) {
+                    previewElement = blockRenderElement.lastElementChild as HTMLElement;
+                }
+            }
             if (!previewElement) {
                 return;
             }
