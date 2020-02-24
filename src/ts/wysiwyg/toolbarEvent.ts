@@ -110,6 +110,7 @@ const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
             if ((commandName === "bold" && tagName === "STRONG") ||
                 (commandName === "italic" && tagName === "EM") ||
                 (commandName === "strikeThrough" && tagName === "S")) {
+                // 取消
                 insertHTML += `${lastTagName}${Constants.ZWSP}<wbr>${lastEndTagName}`;
                 jump = true;
             }

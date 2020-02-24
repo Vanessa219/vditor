@@ -221,12 +221,12 @@ class WYSIWYG {
                 return;
             }
 
-            const range = getSelection().getRangeAt(0).cloneRange();
+            const range = getSelection().getRangeAt(0)
             let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
                 // 为空时调用 insertValue 处理
                 this.element.dispatchEvent(new CustomEvent("keyup"));
-                blockElement = hasClosestBlock( getSelection().getRangeAt(0).startContainer);
+                blockElement = hasClosestBlock(range.startContainer);
             }
             if (!blockElement) {
                 return;
