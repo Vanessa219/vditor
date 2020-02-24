@@ -306,7 +306,7 @@ class WYSIWYG {
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
-            const range = getSelection().getRangeAt(0);
+            let range = getSelection().getRangeAt(0);
             const startOffset = range.startOffset;
 
             // 没有被块元素包裹
@@ -322,11 +322,12 @@ class WYSIWYG {
                     return true;
                 } else if (!node.getAttribute("data-block")) {
                     if (node.tagName === "P") {
-                        node.setAttribute("data-block", "0");
+                        node.remove();
                     } else {
                         range.insertNode(document.createElement("wbr"));
                         node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
                         setRangeByWbr(this.element, range);
+                        range = getSelection().getRangeAt(0);
                     }
                     return true;
                 }
