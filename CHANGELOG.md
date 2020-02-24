@@ -45,11 +45,10 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.9 / 未发布
+### v2.2.10 / 未发布
 
-reopen: #173, #170
 
-### v2.2.8 / 2020-02-24
+### v2.2.9 / 2020-02-24
 
 * [173](https://github.com/Vanessa219/vditor/issues/173) lists start with 1) and enter error `修复缺陷`
 * [172](https://github.com/Vanessa219/vditor/issues/172) space between inline codes `修复缺陷`
