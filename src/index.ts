@@ -261,25 +261,37 @@ class Vditor {
         }
     }
 
-    public insertValue(value: string) {
+    public insertValue(value: string, render = true) {
         if (this.vditor.currentMode === "markdown") {
             insertText(this.vditor, value, "");
         } else {
+            if (getSelection().rangeCount === 0) {
+                this.vditor.wysiwyg.element.focus();
+            }
+
             const range = getSelection().getRangeAt(0);
+            if (!this.vditor.wysiwyg.element.contains(range.startContainer)) {
+                this.vditor.wysiwyg.element.focus();
+            }
+
             range.collapse(false);
-            const vditorDomHTML = this.vditor.lute.Md2VditorDOM(value);
-            insertHTML(vditorDomHTML, this.vditor);
+            if (render) {
+                const vditorDomHTML = this.vditor.lute.Md2VditorDOM(value);
+                insertHTML(vditorDomHTML, this.vditor);
 
-            this.vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block")
-                .forEach((blockElement: HTMLElement) => {
-                    processCodeRender(blockElement, this.vditor);
+                this.vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block")
+                    .forEach((blockElement: HTMLElement) => {
+                        processCodeRender(blockElement, this.vditor);
+                    });
+
+                afterRenderEvent(this.vditor, {
+                    enableAddUndoStack: true,
+                    enableHint: false,
+                    enableInput: false,
                 });
-
-            afterRenderEvent(this.vditor, {
-                enableAddUndoStack: true,
-                enableHint: false,
-                enableInput: false,
-            });
+            } else {
+                document.execCommand("insertHTML", false, value);
+            }
         }
     }
 

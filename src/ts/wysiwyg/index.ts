@@ -222,7 +222,12 @@ class WYSIWYG {
             }
 
             const range = getSelection().getRangeAt(0).cloneRange();
-            const blockElement = hasClosestBlock(range.startContainer);
+            let blockElement = hasClosestBlock(range.startContainer);
+            if (!blockElement) {
+                // 为空时调用 insertValue 处理
+                this.element.dispatchEvent(new CustomEvent("keyup"));
+                blockElement = hasClosestBlock( getSelection().getRangeAt(0).startContainer);
+            }
             if (!blockElement) {
                 return;
             }
@@ -302,6 +307,7 @@ class WYSIWYG {
                 return;
             }
             const range = getSelection().getRangeAt(0);
+            const startOffset = range.startOffset;
 
             // 没有被块元素包裹
             Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
@@ -311,7 +317,7 @@ class WYSIWYG {
                     pElement.textContent = node.textContent;
                     node.parentNode.insertBefore(pElement, node);
                     node.remove();
-                    range.setStart(pElement, pElement.textContent.length);
+                    range.setStart(pElement.firstChild, startOffset);
                     range.collapse(true);
                     return true;
                 } else if (!node.getAttribute("data-block")) {
