@@ -51,6 +51,9 @@
 ### v2.2.8 / 2020-02-24
 
 * [173](https://github.com/Vanessa219/vditor/issues/173) lists start with 1) and enter error `修复缺陷`
+* [172](https://github.com/Vanessa219/vditor/issues/172) space between inline codes `修复缺陷`
+* [171](https://github.com/Vanessa219/vditor/issues/171) space between inline codes `修复缺陷`
+* [170](https://github.com/Vanessa219/vditor/issues/170) ctrl+b with shift+enter `修复缺陷`
 * [169](https://github.com/Vanessa219/vditor/issues/169) 五线谱渐强减弱无法显示 `修复缺陷`
 * [168](https://github.com/Vanessa219/vditor/issues/168) insertValue 图片解析问题 `修复缺陷`
 * [166](https://github.com/Vanessa219/vditor/issues/166) 加粗、强调、删除线合并 `修复缺陷`

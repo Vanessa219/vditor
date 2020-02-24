@@ -83,10 +83,6 @@ interface IHTMLInputEvent extends Event {
     key: string;
 }
 
-interface INode extends Node {
-    wholeText: string;
-}
-
 interface II18nLang {
     en_US: string;
     zh_CN: string;

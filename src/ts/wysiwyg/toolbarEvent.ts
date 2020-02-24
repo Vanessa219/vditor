@@ -4,7 +4,7 @@ import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
-import {getNextHTML, getPreviousHTML} from "./inlineTag";
+import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
 
@@ -82,17 +82,18 @@ const list2p = (listElement: HTMLElement) => {
 };
 
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
+
     let element = range.startContainer.parentElement;
-    const text = (range.startContainer as INode).wholeText;
-    const offset = range.startOffset;
     let jump = false;
-    const previousHTML = getPreviousHTML(range.startContainer);
-    const nextHTML = getNextHTML(range.startContainer);
     let lastTagName = "";
     let lastEndTagName = "";
+
+    const splitHTML = splitElement(range);
+    let lastBeforeHTML = splitHTML.beforeHTML;
+    let lastAfterHTML = splitHTML.afterHTML;
+
     while (element && !jump) {
         let tagName = element.tagName;
-        const parentElement = element.parentElement;
         if (tagName === "STRIKE") {
             tagName = "S";
         }
@@ -104,8 +105,16 @@ const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
         }
         if (tagName === "S" || tagName === "STRONG" || tagName === "EM") {
             let insertHTML = "";
-            if (text.substr(0, offset) !== "" && text.substr(0, offset) !== Constants.ZWSP || previousHTML) {
-                insertHTML = `<${tagName}>${lastTagName}${previousHTML}${text.substr(0, offset)}${lastEndTagName}</${tagName}>`;
+            let previousHTML = "";
+            let nextHTML = "";
+            if (element.parentElement.getAttribute("data-block") !== "0") {
+                previousHTML = getPreviousHTML(element);
+                nextHTML = getNextHTML(element);
+            }
+
+            if (lastBeforeHTML || previousHTML) {
+                insertHTML = `${previousHTML}<${tagName}>${lastBeforeHTML}</${tagName}>`;
+                lastBeforeHTML = insertHTML;
             }
             if ((commandName === "bold" && tagName === "STRONG") ||
                 (commandName === "italic" && tagName === "EM") ||
@@ -114,11 +123,20 @@ const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
                 insertHTML += `${lastTagName}${Constants.ZWSP}<wbr>${lastEndTagName}`;
                 jump = true;
             }
-            if (text.substr(offset) !== "" && text.substr(offset) !== Constants.ZWSP || nextHTML) {
-                insertHTML += `<${tagName}>${lastTagName}${text.substr(offset)}${nextHTML}${lastEndTagName}</${tagName}>`;
+
+            if (lastAfterHTML || nextHTML) {
+                lastAfterHTML = `<${tagName}>${lastAfterHTML}</${tagName}>${nextHTML}`;
+                insertHTML += lastAfterHTML;
             }
-            element.outerHTML = insertHTML;
-            element = parentElement;
+
+            if (element.parentElement.getAttribute("data-block") !== "0") {
+                element = element.parentElement;
+                element.innerHTML = insertHTML;
+            } else {
+                element.outerHTML = insertHTML;
+                element = element.parentElement;
+            }
+
             lastTagName = `<${tagName}>` + lastTagName;
             lastEndTagName = `</${tagName}>` + lastEndTagName;
         } else {

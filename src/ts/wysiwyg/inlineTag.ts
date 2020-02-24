@@ -1,3 +1,5 @@
+import {Constants} from "../constants";
+
 export const nextIsCode = (range: Range) => {
     let nextNode: HTMLElement = range.startContainer.nextSibling as HTMLElement;
     while (nextNode && nextNode.textContent === "") {
@@ -46,9 +48,9 @@ export const getPreviousHTML = (node: Node) => {
     let previousNode = node.previousSibling;
     while (previousNode) {
         if (previousNode.nodeType === 3) {
-            html += previousNode.textContent;
+            html = previousNode.textContent + html;
         } else {
-            html += (previousNode as HTMLElement).outerHTML;
+            html = (previousNode as HTMLElement).outerHTML + html;
         }
         previousNode = previousNode.previousSibling;
     }
@@ -69,4 +71,26 @@ export const getLastNode = (node: Node) => {
         node = node.lastChild;
     }
     return node;
+};
+
+export const splitElement = (range: Range) => {
+    const previousHTML = getPreviousHTML(range.startContainer);
+    const nextHTML = getNextHTML(range.startContainer);
+    const text = range.startContainer.textContent;
+    const offset = range.startOffset;
+
+    let beforeHTML = "";
+    let afterHTML = "";
+
+    if (text.substr(0, offset) !== "" && text.substr(0, offset) !== Constants.ZWSP || previousHTML) {
+        beforeHTML = `${previousHTML}${text.substr(0, offset)}`;
+    }
+    if (text.substr(offset) !== "" && text.substr(offset) !== Constants.ZWSP || nextHTML) {
+        afterHTML = `${text.substr(offset)}${nextHTML}`;
+    }
+
+    return {
+        afterHTML,
+        beforeHTML,
+    };
 };

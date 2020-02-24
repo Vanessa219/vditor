@@ -221,7 +221,7 @@ class WYSIWYG {
                 return;
             }
 
-            const range = getSelection().getRangeAt(0)
+            const range = getSelection().getRangeAt(0);
             let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
                 // 为空时调用 insertValue 处理
@@ -343,7 +343,7 @@ class WYSIWYG {
             let previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
             if (!previewElement && range.startContainer.nodeType !== 3 && range.startOffset > 0) {
                 // table 前删除遇到代码块
-                const blockRenderElement = range.startContainer as HTMLElement
+                const blockRenderElement = range.startContainer as HTMLElement;
                 if (blockRenderElement.classList.contains("vditor-wysiwyg__block")) {
                     previewElement = blockRenderElement.lastElementChild as HTMLElement;
                 }
