@@ -68,7 +68,7 @@ export class Ui {
         vditorElement.appendChild(this.contentElement);
     }
 
-    public async afterRender(vditor: IVditor) {
+    public afterRender(vditor: IVditor) {
         let height: number = Math.max(this.contentElement.offsetHeight, 20);
         if (height < 21 && typeof vditor.options.height === "number") {
             height = vditor.options.height - 37;
@@ -100,7 +100,7 @@ export class Ui {
             if (vditor.options.value) {
                 initValue = vditor.options.value;
             } else if (vditor.originalInnerHTML) {
-                initValue = await html2md(vditor, vditor.originalInnerHTML);
+                initValue = html2md(vditor, vditor.originalInnerHTML);
             }
         }
 

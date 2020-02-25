@@ -8,7 +8,9 @@ export const processPasteCode = (html: string, text: string, type = "markdown") 
         isCode = true;
     }
     const pres = tempElement.querySelectorAll("pre");
-    if (tempElement.childElementCount === 1 && pres.length === 1 && pres[0].className !== "vditor-textarea") {
+    if (tempElement.childElementCount === 1 && pres.length === 1
+        && pres[0].className !== "vditor-wysiwyg"
+        && pres[0].className !== "vditor-textarea") {
         // IDE
         isCode = true;
     }

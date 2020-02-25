@@ -100,35 +100,35 @@ class Vditor {
             this.vditor.devtools = new DevTools();
         }
 
-        loadLuteJs(this.vditor).then(async () => {
-            if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
-                const preview = new Preview(this.vditor);
-                this.vditor.preview = preview;
-            }
+        loadLuteJs(this.vditor);
 
-            if (mergedOptions.upload.url || mergedOptions.upload.handler) {
-                const upload = new Upload();
-                this.vditor.upload = upload;
-            }
+        if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
+            const preview = new Preview(this.vditor);
+            this.vditor.preview = preview;
+        }
 
-            if (this.vditor.options.mode !== "markdown-only") {
-                this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-                this.vditor.wysiwygUndo = new WysiwygUndo();
-            }
+        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
+            const upload = new Upload();
+            this.vditor.upload = upload;
+        }
 
-            if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
-                const hint = new Hint();
-                this.vditor.hint = hint;
-            }
+        if (this.vditor.options.mode !== "markdown-only") {
+            this.vditor.wysiwyg = new WYSIWYG(this.vditor);
+            this.vditor.wysiwygUndo = new WysiwygUndo();
+        }
 
-            const ui = new Ui(this.vditor);
+        if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
+            const hint = new Hint();
+            this.vditor.hint = hint;
+        }
 
-            await ui.afterRender(this.vditor);
+        const ui = new Ui(this.vditor);
 
-            if (mergedOptions.after) {
-                mergedOptions.after();
-            }
-        });
+        ui.afterRender(this.vditor);
+
+        if (mergedOptions.after) {
+            mergedOptions.after();
+        }
     }
 
     public setTheme(theme: "dark" | "classic") {

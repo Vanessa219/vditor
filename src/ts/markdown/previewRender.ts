@@ -10,7 +10,7 @@ import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 import {speechRender} from "./speechRender";
 
-export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
+export const previewRender = (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const defaultOption = {
         anchor: false,
         cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
@@ -51,8 +51,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         options.markdown = Object.assign({}, defaultOption.markdown, options.markdown);
     }
     options = Object.assign(defaultOption, options);
-    let html =
-        await md2htmlByPreview(markdown, options);
+    let html = md2htmlByPreview(markdown, options);
     if (options.transform) {
         html = options.transform(html);
     }

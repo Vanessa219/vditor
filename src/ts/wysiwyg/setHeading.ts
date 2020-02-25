@@ -7,9 +7,12 @@ export const setHeading = (vditor: IVditor, tagName: string) => {
     if (!blockElement) {
         blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
     }
+    if (!blockElement && vditor.wysiwyg.element.children.length === 0) {
+        blockElement = vditor.wysiwyg.element;
+    }
     if (blockElement && !blockElement.classList.contains("vditor-wysiwyg__block")) {
         range.insertNode(document.createElement("wbr"));
-        if (blockElement.tagName === "BLOCKQUOTE") {
+        if (blockElement.tagName === "BLOCKQUOTE" || blockElement.classList.contains("vditor-reset")) {
             blockElement.innerHTML = `<${tagName} data-block="0">${blockElement.innerHTML}</${tagName}>`;
         } else {
             blockElement.outerHTML = `<${tagName} data-block="0">${blockElement.innerHTML}</${tagName}>`;

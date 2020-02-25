@@ -1,16 +1,16 @@
 import {VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
 
-export const loadLuteJs = async (vditor: IVditor | string) => {
-    let cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
-    if (typeof vditor === "string" && vditor) {
-        cdn = vditor;
-    } else if (typeof vditor === "object" && vditor.options.cdn) {
-        cdn = vditor.options.cdn;
-    }
-    addScript(`${cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript");
+export const loadLuteJs = (vditor: IVditor | string) => {
+    // let cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
+    // if (typeof vditor === "string" && vditor) {
+    //     cdn = vditor;
+    // } else if (typeof vditor === "object" && vditor.options.cdn) {
+    //     cdn = vditor.options.cdn;
+    // }
+    // addScript(`${cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript");
     // addScript(`/src/js/lute/lute.min.js`, "vditorLuteScript");
-    // addScript(`http://192.168.80.35:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript");
+    addScript(`http://192.168.80.35:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript");
 
     if (vditor && typeof vditor === "object" && !vditor.lute) {
         vditor.lute = Lute.New();
@@ -23,9 +23,9 @@ export const loadLuteJs = async (vditor: IVditor | string) => {
     }
 };
 
-export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions) => {
+export const md2htmlByPreview = (mdText: string, options?: IPreviewOptions) => {
     if (typeof Lute === "undefined") {
-        await loadLuteJs(options && options.cdn);
+        loadLuteJs(options && options.cdn);
     }
     options = Object.assign({
         emojiSite: `${(options && options.cdn) ||
@@ -44,9 +44,9 @@ export const md2htmlByPreview = async (mdText: string, options?: IPreviewOptions
     return lute.Md2HTML(mdText);
 };
 
-export const md2htmlByVditor = async (mdText: string, vditor: IVditor) => {
+export const md2htmlByVditor = (mdText: string, vditor: IVditor) => {
     if (typeof vditor.lute === "undefined") {
-        await loadLuteJs(vditor.options.cdn);
+        loadLuteJs(vditor.options.cdn);
     }
     return vditor.lute.Md2HTML(mdText);
 };

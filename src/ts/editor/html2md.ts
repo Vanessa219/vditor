@@ -4,7 +4,7 @@ import {setSelectionByInlineText} from "./setSelection";
 
 // 直接使用 API 或 setOriginal 时不需要对图片进行服务器上传，直接转换。
 // 目前使用 textPlain 判断是否来自 API 或 setOriginal
-export const html2md = async (vditor: IVditor, textHTML: string, textPlain?: string) => {
+export const html2md = (vditor: IVditor, textHTML: string, textPlain?: string) => {
     // process word
     const doc = new DOMParser().parseFromString(textHTML, "text/html");
     if (doc.body) {

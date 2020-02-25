@@ -48,6 +48,7 @@
 ### v2.2.10 / 未发布
 
 * [178](https://github.com/Vanessa219/vditor/issues/178) 链接文本修改方式改进 `改进功能`
+* [177](https://github.com/Vanessa219/vditor/issues/177) can not input alt+ctrl+[number] at first time `修复缺陷`
 
 ### v2.2.9 / 2020-02-24
 

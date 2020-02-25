@@ -95,7 +95,7 @@ class Editor {
             });
         }
 
-        this.element.addEventListener("paste", async (event: ClipboardEvent) => {
+        this.element.addEventListener("paste", (event: ClipboardEvent) => {
             const textHTML = event.clipboardData.getData("text/html");
             const textPlain = event.clipboardData.getData("text/plain");
             event.stopPropagation();
@@ -109,7 +109,7 @@ class Editor {
                         `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
-                        const mdValue = await html2md(vditor, textHTML, textPlain);
+                        const mdValue = html2md(vditor, textHTML, textPlain);
                         insertText(vditor, mdValue, "", true);
                         return;
                     }

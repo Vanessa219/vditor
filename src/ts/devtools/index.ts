@@ -15,7 +15,7 @@ export class DevTools {
         this.element.innerHTML = '<div class="vditor-reset--error"></div><div style="height: 100%;"></div>';
     }
 
-    public async renderEchart(vditor: IVditor) {
+    public renderEchart(vditor: IVditor) {
         if (vditor.devtools.element.style.display !== "block") {
             return;
         }

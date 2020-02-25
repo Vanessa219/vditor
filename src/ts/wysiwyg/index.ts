@@ -179,7 +179,7 @@ class WYSIWYG {
                                         };
                                         xhr.send(JSON.stringify({url: src}));
                                     }
-                                    return [node.TokensStr(), Lute.WalkStop];
+                                    return ["", Lute.WalkStop];
                                 },
                             },
                         },

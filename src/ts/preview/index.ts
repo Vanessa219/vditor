@@ -26,7 +26,7 @@ export class Preview {
         this.render(vditor);
     }
 
-    public async render(vditor: IVditor, value?: string) {
+    public render(vditor: IVditor, value?: string) {
         clearTimeout(this.mdTimeoutId);
 
         if (this.element.style.display === "none") {
@@ -49,12 +49,12 @@ export class Preview {
 
         const renderStartTime = new Date().getTime();
         const markdownText = getMarkdown(vditor);
-        this.mdTimeoutId = window.setTimeout(async () => {
+        this.mdTimeoutId = window.setTimeout( () => {
             if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
                 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                xhr.onreadystatechange = async () => {
+                xhr.onreadystatechange = () => {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             const responseJSON = JSON.parse(xhr.responseText);
@@ -68,7 +68,7 @@ export class Preview {
                             this.element.children[0].innerHTML = responseJSON.data;
                             this.afterRender(vditor, renderStartTime);
                         } else {
-                            let html = await md2htmlByVditor(markdownText, vditor);
+                            let html = md2htmlByVditor(markdownText, vditor);
                             if (vditor.options.preview.transform) {
                                 html = vditor.options.preview.transform(html);
                             }
@@ -80,7 +80,7 @@ export class Preview {
 
                 xhr.send(JSON.stringify({markdownText}));
             } else {
-                let html = await md2htmlByVditor(markdownText, vditor);
+                let html = md2htmlByVditor(markdownText, vditor);
                 if (vditor.options.preview.transform) {
                     html = vditor.options.preview.transform(html);
                 }

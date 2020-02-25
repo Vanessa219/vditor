@@ -7,7 +7,7 @@ export class Devtools extends MenuItem {
         super(vditor, menuItem);
         this.element.children[0].innerHTML = menuItem.icon || bugSVG;
 
-        this.element.addEventListener(getEventName(), async (event) => {
+        this.element.addEventListener(getEventName(),  (event) => {
             event.preventDefault();
             if (this.element.children[0].classList.contains("vditor-menu--current")) {
                 this.element.children[0].classList.remove("vditor-menu--current");
