@@ -670,7 +670,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行、li 软换行处理单独写在上面
     if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
-        range.insertNode(document.createTextNode("\n"));
+        if (["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
+            // 行内元素软换行需继续 https://github.com/Vanessa219/vditor/issues/170
+            range.insertNode(document.createTextNode("\n" + Constants.ZWSP));
+        } else {
+            range.insertNode(document.createTextNode("\n"));
+        }
         range.collapse(false);
         setSelectionFocus(range);
         afterRenderEvent(vditor);

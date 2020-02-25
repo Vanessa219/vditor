@@ -317,7 +317,7 @@ class WYSIWYG {
                     pElement.textContent = node.textContent;
                     node.parentNode.insertBefore(pElement, node);
                     node.remove();
-                    range.setStart(pElement.firstChild, startOffset);
+                    range.setStart(pElement.firstChild, Math.min(pElement.firstChild.textContent.length, startOffset));
                     range.collapse(true);
                     return true;
                 } else if (!node.getAttribute("data-block")) {
