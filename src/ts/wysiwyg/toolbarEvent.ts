@@ -226,11 +226,19 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             if (!blockElement) {
                 blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
             }
+
             if (blockElement) {
                 useHighlight = false;
                 actionBtn.classList.add("vditor-menu--current");
                 range.insertNode(document.createElement("wbr"));
-                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+
+                const liElement = hasClosestByMatchTag(range.startContainer, "LI");
+                // li 中软换行
+                if (liElement && blockElement.contains(liElement)) {
+                    liElement.innerHTML = `<blockquote data-block="0">${liElement.innerHTML}</blockquote>`;
+                } else {
+                    blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+                }
                 setRangeByWbr(vditor.wysiwyg.element, range);
             }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
