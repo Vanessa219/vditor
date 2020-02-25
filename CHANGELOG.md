@@ -93,6 +93,7 @@
 * 文档更新
   * 移除 IPreviewOptions 中的 className 并添加 theme
   * insertValue 添加 render 参数
+  * 移除异步方法
 
 ### v2.1.15 / 2020-02-09
 

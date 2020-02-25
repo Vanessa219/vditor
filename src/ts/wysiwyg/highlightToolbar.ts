@@ -592,10 +592,11 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
             nextInputElement.focus();
             nextInputElement.select();
             event.preventDefault();
+            return;
         }
         if (event.altKey && event.key === "Enter") {
-            const range = aElement.ownerDocument.createRange();
-            range.selectNode(aElement.firstChild);
+            const range = vditor.wysiwyg.element.ownerDocument.createRange();
+            range.selectNodeContents(aElement.lastChild);
             range.collapse(false);
             setSelectionFocus(range);
             event.preventDefault();
@@ -614,7 +615,6 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
     input.style.width = "120px";
     input.value = aElement.innerHTML || "";
-    input.onblur = updateA;
     input.oninput = () => {
         updateA();
     };
@@ -630,7 +630,6 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input1.className = "vditor-input";
     input1.setAttribute("placeholder", i18n[vditor.options.lang].link);
     input1.value = aElement.getAttribute("href") || "";
-    input1.onblur = updateA;
     input1.oninput = () => {
         updateA();
     };
@@ -647,7 +646,6 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input2.setAttribute("placeholder", i18n[vditor.options.lang].tooltipText);
     input2.style.width = "60px";
     input2.value = aElement.getAttribute("title") || "";
-    input2.onblur = updateA;
     input2.oninput = () => {
         updateA();
     };

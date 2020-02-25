@@ -23,7 +23,7 @@ import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
-import {Ui} from "./ts/ui/index";
+import {initUI} from "./ts/ui/initUI";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
@@ -122,9 +122,7 @@ class Vditor {
             this.vditor.hint = hint;
         }
 
-        const ui = new Ui(this.vditor);
-
-        ui.afterRender(this.vditor);
+        initUI(this.vditor);
 
         if (mergedOptions.after) {
             mergedOptions.after();
