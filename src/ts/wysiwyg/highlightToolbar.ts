@@ -581,7 +581,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
 
     const updateA = () => {
         if (input.value.trim() !== "") {
-            aElement.textContent = input.value;
+            aElement.innerHTML = input.value;
         }
         aElement.setAttribute("href", input1.value);
         aElement.setAttribute("title", input2.value);
@@ -602,6 +602,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         }
     };
 
+    aElement.querySelectorAll("[data-marker]").forEach((item: HTMLElement) => {
+        item.removeAttribute("data-marker");
+    })
     const inputWrap = document.createElement("span");
     inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
     inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -610,7 +613,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     input.className = "vditor-input";
     input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
     input.style.width = "120px";
-    input.value = aElement.textContent || "";
+    input.value = aElement.innerHTML || "";
     input.onblur = updateA;
     input.oninput = () => {
         updateA();
