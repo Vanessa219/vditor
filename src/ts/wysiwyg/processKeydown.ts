@@ -714,6 +714,21 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 }
             }
 
+            const rangeStartOffset = range.startOffset;
+            if (range.toString() === "" && startContainer.nodeType === 3 &&
+                startContainer.textContent.charAt(rangeStartOffset - 2) === "\n" &&
+                startContainer.textContent.charAt(rangeStartOffset - 1) !== Constants.ZWSP
+                && ["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
+                // 保持行内元素软换行需继续的一致性
+                startContainer.textContent = startContainer.textContent.substring(0, rangeStartOffset - 1) +
+                    Constants.ZWSP;
+                range.setStart(startContainer, rangeStartOffset);
+                range.collapse(true);
+                afterRenderEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
+
             // inline code、math、html 行前零宽字符后进行删除
             if (startContainer.textContent === Constants.ZWSP && range.startOffset === 1
                 && !startContainer.previousSibling && nextIsCode(range)) {
