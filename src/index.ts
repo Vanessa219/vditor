@@ -125,7 +125,10 @@ class Vditor {
         initUI(this.vditor);
 
         if (mergedOptions.after) {
-            mergedOptions.after();
+            // fix after constructor
+            setTimeout(() => {
+                mergedOptions.after();
+            }, 0);
         }
     }
 
