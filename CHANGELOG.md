@@ -50,6 +50,7 @@
 * [182](https://github.com/Vanessa219/vditor/issues/182) 支持 Setext 标题 `改进功能`
 * [181](https://github.com/Vanessa219/vditor/issues/181) GFM Example52,54 - Setext 支持 `改进功能`
 * [180](https://github.com/Vanessa219/vditor/issues/180) GFM Example 31 `修复缺陷`
+* [179](https://github.com/Vanessa219/vditor/issues/179) GFM Example 19, 40, 57 `修复缺陷`
 * [149](https://github.com/Vanessa219/vditor/issues/149) [suggestion] UI Consistency `改进功能`
 
 ### v2.2.10 / 2020-02-26
