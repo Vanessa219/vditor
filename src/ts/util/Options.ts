@@ -28,7 +28,7 @@ export class Options {
         },
         keymap: {
             deleteLine: "⌘-Backspace",
-            duplicate: "⌘-d",
+            duplicate: "⌘-D",
         },
         lang: "zh_CN",
         mode: "wysiwyg-show",
@@ -59,33 +59,33 @@ export class Options {
         },
         theme: "classic",
         toolbar: [{
-            hotkey: "⌘-e",
+            hotkey: "⌘-E",
             name: "emoji",
             tipPosition: "ne",
         }, {
-            hotkey: "⌘-h",
+            hotkey: "⌘-H",
             name: "headings",
             tipPosition: "ne",
         }, {
-            hotkey: "⌘-b",
+            hotkey: "⌘-B",
             name: "bold",
             prefix: "**",
             suffix: "**",
             tipPosition: "ne",
         }, {
-            hotkey: "⌘-i",
+            hotkey: "⌘-I",
             name: "italic",
             prefix: "*",
             suffix: "*",
             tipPosition: "ne",
         }, {
-            hotkey: "⌘-s",
+            hotkey: "⌘-S",
             name: "strike",
             prefix: "~~",
             suffix: "~~",
             tipPosition: "ne",
         }, {
-            hotkey: "⌘-k",
+            hotkey: "⌘-K",
             name: "link",
             prefix: "[",
             suffix: "](https://)",
@@ -93,17 +93,17 @@ export class Options {
         }, {
             name: "|",
         }, {
-            hotkey: "⌘-l",
+            hotkey: "⌘-L",
             name: "list",
             prefix: "* ",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-o",
+            hotkey: "⌘-O",
             name: "ordered-list",
             prefix: "1. ",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-j",
+            hotkey: "⌘-J",
             name: "check",
             prefix: "* [ ] ",
             tipPosition: "n",
@@ -115,18 +115,18 @@ export class Options {
             prefix: "> ",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-⇧-d",
+            hotkey: "⌘-⇧-D",
             name: "line",
             prefix: "---",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-u",
+            hotkey: "⌘-U",
             name: "code",
             prefix: "```\n",
             suffix: "\n```",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-g",
+            hotkey: "⌘-G",
             name: "inline-code",
             prefix: "`",
             suffix: "`",
@@ -140,7 +140,7 @@ export class Options {
             name: "record",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-m",
+            hotkey: "⌘-M",
             name: "table",
             prefix: "| col1",
             suffix: " | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |",
@@ -148,29 +148,29 @@ export class Options {
         }, {
             name: "|",
         }, {
-            hotkey: "⌘-z",
+            hotkey: "⌘-Z",
             name: "undo",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-y",
+            hotkey: "⌘-Y",
             name: "redo",
             tipPosition: "n",
         }, {
             name: "|",
         }, {
-            hotkey: "⌘-⇧-m",
+            hotkey: "⌘-⇧-M",
             name: "wysiwyg",
             tipPosition: "nw",
         }, {
-            hotkey: "⌘-p",
+            hotkey: "⌘-P",
             name: "both",
             tipPosition: "nw",
         }, {
-            hotkey: "⌘-⇧-p",
+            hotkey: "⌘-⇧-P",
             name: "preview",
             tipPosition: "nw",
         }, {
-            hotkey: "⌘-⇧-f",
+            hotkey: "⌘-⇧-F",
             name: "format",
             tipPosition: "nw",
         }, {

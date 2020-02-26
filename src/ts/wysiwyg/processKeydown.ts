@@ -272,7 +272,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // 行级代码块中 command + a，近对当前代码块进行全选
         if (startContainer.parentElement.tagName === "CODE" && codeRenderElement.getAttribute("data-block") === "0") {
-            if (matchHotKey("⌘-a", event)) {
+            if (matchHotKey("⌘-A", event)) {
                 range.selectNodeContents(startContainer.parentElement);
                 event.preventDefault();
                 return true;
@@ -378,7 +378,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
         }
 
-        if (blockElement && matchHotKey("⌘-⇧-;", event)) {
+        if (blockElement && matchHotKey("⌘-⇧-:", event)) {
             // 插入 blockquote
             range.insertNode(document.createElement("wbr"));
             blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
@@ -616,40 +616,60 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // ctrl+shift+v 粘贴为纯文本
-    if (matchHotKey("⌘-⇧-v", event)) {
+    if (matchHotKey("⌘-⇧-V", event)) {
         // TODO insertValue
     }
 
     // 删除有子工具栏的块
-    if (matchHotKey("⌘-⇧-x", event)) {
+    if (matchHotKey("⌘-⇧-X", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
         if (itemElement) {
             itemElement.click();
+            event.preventDefault();
+            return true;
         }
-        event.preventDefault();
-        return true;
     }
 
     // 在有子工具栏的块后插入行
-    if (matchHotKey("⌘-⇧-e", event)) {
+    if (matchHotKey("⌘-⇧-E", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]')
             || vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
         if (itemElement) {
             itemElement.click();
+            event.preventDefault();
+            return true;
         }
-        event.preventDefault();
-        return true;
     }
 
     // 在有子工具栏的块前插入行
-    if (matchHotKey("⌘-⇧-s", event)) {
+    if (matchHotKey("⌘-⇧-S", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]')
             || vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
         if (itemElement) {
             itemElement.click();
+            event.preventDefault();
+            return true;
         }
-        event.preventDefault();
-        return true;
+    }
+
+    // 对有子工具栏的块缩进
+    if (matchHotKey("⌘-⇧-I", event)) {
+        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
+        if (itemElement) {
+            itemElement.click();
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // 对有子工具栏的块反向缩进
+    if (matchHotKey("⌘-⇧-O", event)) {
+        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
+        if (itemElement) {
+            itemElement.click();
+            event.preventDefault();
+            return true;
+        }
     }
 
     // tab 处理: block code render, table, 列表第一个字符中的 tab 处理单独写在上面
