@@ -8,7 +8,8 @@ export const isHrMD = (text: string) => {
         || marker.replace(/ |_/g, "") === ""
         || marker.replace(/ |\*/g, "") === "") {
         if (marker.replace(/ /g, "").length > 2) {
-            if (marker.indexOf("-") > -1 && marker.indexOf(" ") === -1 && text.trimRight().split("\n").length > 1) {
+            if (marker.indexOf("-") > -1 && marker.trimLeft().indexOf(" ") === -1
+                && text.trimRight().split("\n").length > 1) {
                 // 满足 heading
                 return false;
             }
@@ -27,6 +28,7 @@ export const isHeadingMD = (text: string) => {
     // - =
     const textArray = text.trimRight().split("\n");
     text = textArray.pop();
+    text = text.trimLeft();
     if (text === "" || textArray.length === 0) {
         return false;
     }
