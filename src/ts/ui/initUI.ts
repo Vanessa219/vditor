@@ -65,7 +65,7 @@ export const initUI = (vditor: IVditor) => {
     vditorElement.appendChild(contentElement);
 
     afterRender(vditor, contentElement);
-}
+};
 
 const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
 
@@ -119,4 +119,4 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
             enableInput: false,
         });
     }
-}
+};
