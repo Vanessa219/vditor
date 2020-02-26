@@ -111,7 +111,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             outdent.innerHTML = outdentSVG;
             outdent.setAttribute("data-type", "outdent");
             outdent.setAttribute("aria-label", i18n[vditor.options.lang].unindent +
-                updateHotkeyTip("<⌘-⇧-s>"));
+                "<" + updateHotkeyTip("⌘-⇧-s") + ">");
             outdent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             outdent.onclick = () => {
                 if (!liElement) {
@@ -124,7 +124,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             indent.innerHTML = indentSVG;
             indent.setAttribute("data-type", "indent");
             indent.setAttribute("aria-label", i18n[vditor.options.lang].indent +
-                updateHotkeyTip("<⌘-⇧-e>"));
+                "<" + updateHotkeyTip("⌘-⇧-e") + ">");
             indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             indent.onclick = () => {
                 if (liElement && liElement.previousElementSibling) {
@@ -458,7 +458,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             const languageWrap = document.createElement("span");
             languageWrap.setAttribute("aria-label", i18n[vditor.options.lang].language +
-                updateHotkeyTip("<⌥-Enter>"));
+                "<" + updateHotkeyTip("⌥-Enter") + ">");
             languageWrap.className = "vditor-tooltipped vditor-tooltipped__n";
             const language = document.createElement("input");
             languageWrap.appendChild(language);
@@ -530,7 +530,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
     const insertBefore = document.createElement("span");
     insertBefore.setAttribute("data-type", "insert-before");
     insertBefore.setAttribute("aria-label", i18n[vditor.options.lang].insertBefore +
-        updateHotkeyTip("<⌘-⇧-s>"));
+        "<" + updateHotkeyTip("⌘-⇧-s") + ">");
     insertBefore.innerHTML = beforeSVG;
     insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertBefore.onclick = () => {
@@ -547,7 +547,7 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
     const insertAfter = document.createElement("span");
     insertAfter.setAttribute("data-type", "insert-after");
     insertAfter.setAttribute("aria-label", i18n[vditor.options.lang].insertAfter +
-        updateHotkeyTip("<⌘-⇧-e>"));
+        "<" + updateHotkeyTip("⌘-⇧-e") + ">");
     insertAfter.innerHTML = afterSVG;
     insertAfter.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     insertAfter.onclick = () => {
@@ -564,7 +564,7 @@ const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) =
     const close = document.createElement("span");
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
-        updateHotkeyTip("<⌘-⇧-x>"));
+        "<" + updateHotkeyTip("⌘-⇧-x") + ">");
     close.innerHTML = trashcanSVG;
     close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     close.onclick = () => {

@@ -44,6 +44,13 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         && event.inputType !== "formatIndent"
         && event.inputType !== ""   // document.execCommand('unlink', false)
     ) {
+        if (blockElement.firstElementChild && blockElement.firstElementChild.tagName === "A" &&
+            blockElement.firstElementChild.textContent.replace(Constants.ZWSP, "") === "" &&
+            blockElement.firstElementChild.nextSibling) {
+            // 链接结尾回车不应该复制到下一行 https://github.com/Vanessa219/vditor/issues/163
+            blockElement.firstElementChild.remove();
+        }
+
         // 保存光标
         vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
             wbr.remove();
@@ -54,13 +61,6 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         blockElement.querySelectorAll("[style]").forEach((item) => {
             item.removeAttribute("style");
         });
-
-        if (blockElement.firstElementChild && blockElement.firstElementChild.tagName === "A" &&
-            blockElement.firstElementChild.textContent.replace(Constants.ZWSP, "") === "" &&
-            blockElement.firstElementChild.nextSibling) {
-            // 链接结尾回车不应该复制到下一行 https://github.com/Vanessa219/vditor/issues/163
-            blockElement.firstElementChild.remove();
-        }
 
         if (topListElement) {
             const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");

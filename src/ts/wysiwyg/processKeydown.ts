@@ -378,7 +378,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
         }
 
-        if (blockElement && isCtrl(event) && event.shiftKey && event.key === ".") {
+        if (blockElement && isCtrl(event) && event.shiftKey && (event.key === ";" || event.key === ":")) {
             // 插入 blockquote
             range.insertNode(document.createElement("wbr"));
             blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
@@ -607,6 +607,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
+    // alt+enter a popover 中 input 和 a 切换
     if (event.altKey && event.key === "Enter" && !isCtrl(event) && !event.shiftKey) {
         const aElement = hasClosestByTag(startContainer, "A");
         if (aElement) {

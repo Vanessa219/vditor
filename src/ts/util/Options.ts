@@ -110,7 +110,7 @@ export class Options {
         }, {
             name: "|",
         }, {
-            hotkey: "⌘-.",
+            hotkey: "⌘-;",
             name: "quote",
             prefix: "> ",
             tipPosition: "n",

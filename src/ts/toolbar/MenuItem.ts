@@ -15,7 +15,7 @@ export class MenuItem {
         iconElement.setAttribute("data-type", menuItem.name);
         iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;
 
-        const hotkey = updateHotkeyTip(this.menuItem.hotkey ? ` <${this.menuItem.hotkey}>` : "");
+        const hotkey = this.menuItem.hotkey ? ` <${updateHotkeyTip(this.menuItem.hotkey)}>` : "";
         iconElement.setAttribute("aria-label",
             this.menuItem.tip ? this.menuItem.tip + hotkey : i18n[vditor.options.lang][this.menuItem.name] + hotkey);
         this.element.appendChild(iconElement);
