@@ -605,7 +605,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
 
     aElement.querySelectorAll("[data-marker]").forEach((item: HTMLElement) => {
         item.removeAttribute("data-marker");
-    })
+    });
     const inputWrap = document.createElement("span");
     inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
     inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
