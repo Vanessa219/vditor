@@ -28,6 +28,11 @@ export const isHeadingMD = (text: string) => {
     // - =
     const textArray = text.trimRight().split("\n");
     text = textArray.pop();
+
+    if (text.indexOf("    ") === 0 || text.indexOf("\t") === 0) {
+        return false;
+    }
+
     text = text.trimLeft();
     if (text === "" || textArray.length === 0) {
         return false;

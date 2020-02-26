@@ -167,6 +167,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             const insertBefore = genInsertBefore(range, topListElement, vditor);
             const insertAfter = genInsertAfter(range, topListElement, vditor);
 
+            const close = genClose(vditor.wysiwyg.popover, topListElement, vditor);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
@@ -296,6 +298,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             const left = document.createElement("button");
             left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft);
+            left.setAttribute("data-type", "left");
             left.innerHTML = outdentSVG;
             left.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "left" ? " vditor-icon--current" : "");
@@ -305,6 +308,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             const center = document.createElement("button");
             center.setAttribute("aria-label", i18n[vditor.options.lang].alignCenter);
+            center.setAttribute("data-type", "center");
             center.innerHTML = alignCenterSVG;
             center.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "center" ? " vditor-icon--current" : "");
@@ -314,6 +318,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             const right = document.createElement("button");
             right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight);
+            right.setAttribute("data-type", "right");
             right.innerHTML = indentSVG;
             right.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "right" ? " vditor-icon--current" : "");
@@ -337,6 +342,15 @@ export const highlightToolbar = (vditor: IVditor) => {
             input.oninput = () => {
                 updateTable();
             };
+            input.onkeydown = (event) => {
+                if (event.key === "Tab") {
+                    input2.focus();
+                    input2.select();
+                    event.preventDefault();
+                    return;
+                }
+            };
+
             const input2Wrap = document.createElement("span");
             input2Wrap.setAttribute("aria-label", i18n[vditor.options.lang].column);
             input2Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -352,6 +366,14 @@ export const highlightToolbar = (vditor: IVditor) => {
             input2.onblur = updateTable;
             input2.oninput = () => {
                 updateTable();
+            };
+            input2.onkeydown = (event) => {
+                if (event.key === "Tab") {
+                    input.focus();
+                    input.select();
+                    event.preventDefault();
+                    return;
+                }
             };
 
             const insertBefore = genInsertBefore(range, tableElement, vditor);
@@ -653,6 +675,8 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         hotkey(event, input);
     };
 
+    const close = genClose(vditor.wysiwyg.popover, aElement, vditor);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);

@@ -163,9 +163,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        // alt+Backspace：删除行
-        if (!isCtrl(event) && !event.shiftKey && event.altKey && cellElement.tagName === "TD"
-            && event.key === "Backspace") {
+        // 删除当前行
+        if (cellElement.tagName === "TD" && matchHotKey("⌘--", event)) {
             const tbodyElement = cellElement.parentElement.parentElement;
             if (cellElement.parentElement.previousElementSibling) {
                 range.selectNodeContents(cellElement.parentElement.previousElementSibling.lastElementChild);
@@ -185,8 +184,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        // alt+enter: 下方新添加一行 https://github.com/Vanessa219/vditor/issues/46
-        if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
+        // 下方新添加一行 https://github.com/Vanessa219/vditor/issues/46
+        if (matchHotKey("⌘-=", event)) {
             let rowHTML = "";
             for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
                 rowHTML += `<td>${m === 0 ? "<wbr>" : ""}</td>`;
@@ -204,9 +203,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        // alt+shift+enter: 后方新添加一列
+        // 后方新添加一列
         const tableElement = cellElement.parentElement.parentElement.parentElement as HTMLTableElement;
-        if (!isCtrl(event) && event.shiftKey && event.altKey && event.key === "Enter") {
+
+        if (matchHotKey("⌘-⇧-=", event)) {
             let index = 0;
             let previousElement = cellElement.previousElementSibling;
             while (previousElement) {
@@ -226,8 +226,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        // alt+shift+Backspace: 删除当前列
-        if (!isCtrl(event) && event.shiftKey && event.altKey && event.key === "Backspace") {
+        // 删除当前列
+        if (matchHotKey("⌘-⇧--", event)) {
             let index = 0;
             let previousElement = cellElement.previousElementSibling;
             while (previousElement) {
@@ -249,6 +249,44 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
+
+        // focus row input
+        if (!isCtrl(event) && event.key === "Enter" && !event.shiftKey && event.altKey) {
+            const inputElemment = (vditor.wysiwyg.popover.querySelector(".vditor-input") as HTMLInputElement);
+            inputElemment.focus();
+            inputElemment.select();
+            event.preventDefault();
+            return true;
+        }
+
+        // 剧左
+        if (matchHotKey("⌘-⇧-L", event)) {
+            const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="left"]');
+            if (itemElement) {
+                itemElement.click();
+                event.preventDefault();
+                return true;
+            }
+        }
+
+        // 剧中
+        if (matchHotKey("⌘-⇧-C", event)) {
+            const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="center"]');
+            if (itemElement) {
+                itemElement.click();
+                event.preventDefault();
+                return true;
+            }
+        }
+        // 剧右
+        if (matchHotKey("⌘-⇧-R", event)) {
+            const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="right"]');
+            if (itemElement) {
+                itemElement.click();
+                event.preventDefault();
+                return true;
+            }
+        }
     }
 
     // code render
@@ -265,7 +303,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // alt+enter: 代码块切换到语言 https://github.com/Vanessa219/vditor/issues/54
         if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter" &&
             codeRenderElement.getAttribute("data-type") === "code-block") {
-            (vditor.wysiwyg.popover.querySelector(".vditor-input") as HTMLElement).focus();
+            const inputElemment = (vditor.wysiwyg.popover.querySelector(".vditor-input") as HTMLInputElement);
+            inputElemment.focus();
+            inputElemment.select();
             event.preventDefault();
             return true;
         }
@@ -326,20 +366,27 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 顶层 blockquote
     const topBQElement = hasTopClosestByTag(startContainer, "BLOCKQUOTE");
-    if (topBQElement && !isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
-        // alt+enter: 跳出多层 blockquote 嵌套 https://github.com/Vanessa219/vditor/issues/51
-        range.setStartAfter(topBQElement);
-        setSelectionFocus(range);
-        const node = document.createElement("p");
-        node.setAttribute("data-block", "0");
-        node.innerHTML = "\n";
-        range.insertNode(node);
-        range.collapse(true);
-        setSelectionFocus(range);
-        afterRenderEvent(vditor);
-        scrollCenter(vditor.wysiwyg.element);
-        event.preventDefault();
-        return true;
+    if (topBQElement) {
+        if (!event.shiftKey && event.altKey && event.key === "Enter") {
+            if (!isCtrl(event)) {
+                // alt+enter: 跳出多层 blockquote 嵌套之后 https://github.com/Vanessa219/vditor/issues/51
+                range.setStartAfter(topBQElement);
+            } else {
+                // ctrl+alt+enter: 跳出多层 blockquote 嵌套之前
+                range.setStartBefore(topBQElement);
+            }
+            setSelectionFocus(range);
+            const node = document.createElement("p");
+            node.setAttribute("data-block", "0");
+            node.innerHTML = "\n";
+            range.insertNode(node);
+            range.collapse(true);
+            setSelectionFocus(range);
+            afterRenderEvent(vditor);
+            scrollCenter(vditor.wysiwyg.element);
+            event.preventDefault();
+            return true;
+        }
     }
 
     // blockquote

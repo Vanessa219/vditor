@@ -134,6 +134,7 @@ export class Options {
         }, {
             name: "|",
         }, {
+            hotkey: "⌘-⇧-U",
             name: "upload",
             tipPosition: "n",
         }, {
