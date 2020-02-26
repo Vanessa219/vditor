@@ -36,10 +36,10 @@ export const isCtrl = (event: KeyboardEvent) => {
 export const updateHotkeyTip = (hotkey: string) => {
     if (/Mac/.test(navigator.platform)) {
         hotkey = hotkey.replace("ctrl", "⌘").replace("shift", "⇧")
-            .replace("alt", "⌥");
+            .replace("alt", "⌥").replace(":", ";");
     } else {
         hotkey = hotkey.replace("⌘", "ctrl").replace("⇧", "shift")
-            .replace("⌥", "alt");
+            .replace("⌥", "alt").replace(";", ":");
     }
     return hotkey;
 };

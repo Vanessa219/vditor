@@ -1,7 +1,7 @@
 import {isCtrl} from "../util/compatibility";
 import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 import {getMarkdown} from "../util/getMarkdown";
-import {processKeymap} from "../util/processKeymap";
+import {matchHotKey} from "../util/hotKey";
 import {formatRender} from "./formatRender";
 import {getSelectPosition} from "./getSelectPosition";
 import {insertText} from "./insertText";
@@ -85,44 +85,40 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // hotkey command + delete
-    if (vditor.options.keymap.deleteLine) {
-        if (processKeymap(vditor.options.keymap.deleteLine, event, () => {
-            const linePosition = getCurrentLinePosition(position, text);
-            const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
-            const startIndex = Math.min(deletedText.length, position.start);
-            formatRender(vditor, deletedText, {
-                end: startIndex,
-                start: startIndex,
-            });
-        })) {
-            return true;
-        }
+    if (vditor.options.keymap.deleteLine && matchHotKey(vditor.options.keymap.deleteLine, event)) {
+        const linePosition = getCurrentLinePosition(position, text);
+        const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
+        const startIndex = Math.min(deletedText.length, position.start);
+        formatRender(vditor, deletedText, {
+            end: startIndex,
+            start: startIndex,
+        });
+        event.preventDefault();
+        return true;
     }
 
     // hotkey command + d
-    if (vditor.options.keymap.duplicate) {
-        if (processKeymap(vditor.options.keymap.duplicate, event, () => {
-            let lineText = text.substring(position.start, position.end);
-            if (position.start === position.end) {
-                const linePosition = getCurrentLinePosition(position, text);
-                lineText = text.substring(linePosition.start, linePosition.end);
-                formatRender(vditor,
-                    text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
-                    {
-                        end: position.end + lineText.length,
-                        start: position.start + lineText.length,
-                    });
-            } else {
-                formatRender(vditor,
-                    text.substring(0, position.end) + lineText + text.substring(position.end),
-                    {
-                        end: position.end + lineText.length,
-                        start: position.start + lineText.length,
-                    });
-            }
-        })) {
-            return true;
+    if (vditor.options.keymap.duplicate && matchHotKey(vditor.options.keymap.duplicate, event)) {
+        let lineText = text.substring(position.start, position.end);
+        if (position.start === position.end) {
+            const linePosition = getCurrentLinePosition(position, text);
+            lineText = text.substring(linePosition.start, linePosition.end);
+            formatRender(vditor,
+                text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
+                {
+                    end: position.end + lineText.length,
+                    start: position.start + lineText.length,
+                });
+        } else {
+            formatRender(vditor,
+                text.substring(0, position.end) + lineText + text.substring(position.end),
+                {
+                    end: position.end + lineText.length,
+                    start: position.start + lineText.length,
+                });
         }
+        event.preventDefault();
+        return true;
     }
 
     return false;

@@ -9,7 +9,7 @@ import {
     hasClosestByMatchTag, hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {processKeymap} from "../util/processKeymap";
+import {matchHotKey} from "../util/hotKey";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {listOutdent} from "./highlightToolbar";
 import {getLastNode, nextIsCode} from "./inlineTag";
@@ -272,9 +272,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // 行级代码块中 command + a，近对当前代码块进行全选
         if (startContainer.parentElement.tagName === "CODE" && codeRenderElement.getAttribute("data-block") === "0") {
-            if (processKeymap("⌘-a", event, () => {
+            if (matchHotKey("⌘-a", event)) {
                 range.selectNodeContents(startContainer.parentElement);
-            })) {
+                event.preventDefault();
                 return true;
             }
         }
@@ -378,7 +378,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
         }
 
-        if (blockElement && isCtrl(event) && event.shiftKey && (event.key === ";" || event.key === ":")) {
+        if (blockElement && matchHotKey("⌘-⇧-;", event)) {
             // 插入 blockquote
             range.insertNode(document.createElement("wbr"));
             blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
@@ -408,7 +408,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // enter++: 标题变大
-        if (processKeymap("⌘-=", event, () => {
+        if (matchHotKey("⌘-=", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) - 1;
             if (index < 1) {
                 return;
@@ -416,12 +416,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             setHeading(vditor, `h${index}`);
             afterRenderEvent(vditor);
             event.preventDefault();
-        })) {
             return true;
         }
 
         // enter++: 标题变小
-        if (processKeymap("⌘--", event, () => {
+        if (matchHotKey("⌘--", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) + 1;
             if (index > 6) {
                 return;
@@ -429,7 +428,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             setHeading(vditor, `h${index}`);
             afterRenderEvent(vditor);
             event.preventDefault();
-        })) {
             return true;
         }
 
@@ -506,7 +504,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // task list
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
-        if (isCtrl(event) && event.shiftKey && event.key.toLowerCase() === "j") {
+        if (matchHotKey("⌘-⇧-J", event)) {
             // ctrl + shift: toggle checked
             const inputElement = taskItemElement.firstElementChild as HTMLInputElement;
             if (inputElement.checked) {
@@ -617,35 +615,40 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
+    // ctrl+shift+v 粘贴为纯文本
+    if (matchHotKey("⌘-⇧-v", event)) {
+        // TODO insertValue
+    }
+
     // 删除有子工具栏的块
-    if (processKeymap("⌘-⇧-x", event, () => {
+    if (matchHotKey("⌘-⇧-x", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
         if (itemElement) {
             itemElement.click();
         }
-    })) {
+        event.preventDefault();
         return true;
     }
 
     // 在有子工具栏的块后插入行
-    if (processKeymap("⌘-⇧-e", event, () => {
+    if (matchHotKey("⌘-⇧-e", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]')
             || vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
         if (itemElement) {
             itemElement.click();
         }
-    })) {
+        event.preventDefault();
         return true;
     }
 
     // 在有子工具栏的块前插入行
-    if (processKeymap("⌘-⇧-s", event, () => {
+    if (matchHotKey("⌘-⇧-s", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]')
             || vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
         if (itemElement) {
             itemElement.click();
         }
-    })) {
+        event.preventDefault();
         return true;
     }
 

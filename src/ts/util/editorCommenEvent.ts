@@ -8,7 +8,7 @@ import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
 import {hasClosestByMatchTag} from "./hasClosest";
-import {processKeymap} from "./processKeymap";
+import {matchHotKey} from "./hotKey";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -95,14 +95,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
         }
 
-        if (isCtrl(event) && !event.shiftKey && !event.altKey && vditor.options.ctrlEnter && event.key === "Enter") {
+        if (vditor.options.ctrlEnter && matchHotKey("⌘-Enter", event)) {
             vditor.options.ctrlEnter(getMarkdown(vditor));
             event.preventDefault();
             return;
         }
 
         // undo
-        if (!vditor.toolbar.elements.undo && isCtrl(event) && event.key === "z") {
+        if (!vditor.toolbar.elements.undo && matchHotKey("⌘-Z", event)) {
             if (vditor.currentMode === "markdown") {
                 vditor.undo.undo(vditor);
             } else {
@@ -113,7 +113,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // redo
-        if (!vditor.toolbar.elements.redo && isCtrl(event) && event.key === "y") {
+        if (!vditor.toolbar.elements.redo && matchHotKey("⌘-Y", event)) {
             if (vditor.currentMode === "markdown") {
                 vditor.undo.redo(vditor);
             } else {
@@ -140,9 +140,8 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (!menuItem.hotkey) {
                 return false;
             }
-            if (processKeymap(menuItem.hotkey, event, () => {
+            if (matchHotKey(menuItem.hotkey, event)) {
                 (vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
-            })) {
                 event.preventDefault();
                 return true;
             }
