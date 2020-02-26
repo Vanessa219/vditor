@@ -45,14 +45,13 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.10 / 未发布
+### v2.2.11 / 未发布
+
+### v2.2.10 / 2020-02-26
 
 * [178](https://github.com/Vanessa219/vditor/issues/178) 链接文本修改方式改进 `改进功能`
 * [177](https://github.com/Vanessa219/vditor/issues/177) can not input alt+ctrl+[number] at first time `修复缺陷`
 * [176](https://github.com/Vanessa219/vditor/issues/176) cList+blockquote `修复缺陷`
-
-### v2.2.9 / 2020-02-24
-
 * [173](https://github.com/Vanessa219/vditor/issues/173) lists start with 1) and enter error `修复缺陷`
 * [172](https://github.com/Vanessa219/vditor/issues/172) space between inline codes `修复缺陷`
 * [171](https://github.com/Vanessa219/vditor/issues/171) space between inline codes `修复缺陷`
