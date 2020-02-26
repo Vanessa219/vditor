@@ -109,7 +109,7 @@ class Editor {
                         `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
-                        const mdValue = html2md(vditor, textHTML, textPlain);
+                        const mdValue = html2md(vditor, textHTML, textPlain).trimRight();
                         insertText(vditor, mdValue, "", true);
                         return;
                     }

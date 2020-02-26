@@ -615,11 +615,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // ctrl+shift+v 粘贴为纯文本
-    if (matchHotKey("⌘-⇧-V", event)) {
-        // TODO insertValue
-    }
-
     // 删除有子工具栏的块
     if (matchHotKey("⌘-⇧-X", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
