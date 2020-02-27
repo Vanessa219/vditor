@@ -45,18 +45,18 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.11 / 未发布
+### v2.2.12 / 未发布
+
+
+### v2.2.11 / 2020-02-27
 
 * [182](https://github.com/Vanessa219/vditor/issues/182) 支持 Setext 标题 `改进功能`
 * [181](https://github.com/Vanessa219/vditor/issues/181) GFM Example52,54 - Setext 支持 `改进功能`
 * [180](https://github.com/Vanessa219/vditor/issues/180) GFM Example 31 `修复缺陷`
 * [179](https://github.com/Vanessa219/vditor/issues/179) GFM Example 19, 40, 57 `修复缺陷`
-* [149](https://github.com/Vanessa219/vditor/issues/149) [suggestion] UI Consistency `改进功能`
-
-### v2.2.10 / 2020-02-26
-
 * [178](https://github.com/Vanessa219/vditor/issues/178) 链接文本修改方式改进 `改进功能`
 * [177](https://github.com/Vanessa219/vditor/issues/177) can not input alt+ctrl+[number] at first time `修复缺陷`
+* [176](https://github.com/Vanessa219/vditor/issues/176) cList+blockquote `修复缺陷`
 * [176](https://github.com/Vanessa219/vditor/issues/176) cList+blockquote `修复缺陷`
 * [173](https://github.com/Vanessa219/vditor/issues/173) lists start with 1) and enter error `修复缺陷`
 * [172](https://github.com/Vanessa219/vditor/issues/172) space between inline codes `修复缺陷`
@@ -74,6 +74,7 @@
 * [154](https://github.com/Vanessa219/vditor/issues/154) the cursor is disapeared after tab pressed at editor mode `修复缺陷`
 * [153](https://github.com/Vanessa219/vditor/issues/153) Heading toolbar is not working `修复缺陷`
 * [150](https://github.com/Vanessa219/vditor/issues/150) [suggestion] deleting heading with backspace `改进功能`
+* [149](https://github.com/Vanessa219/vditor/issues/149) [suggestion] UI Consistency `改进功能`
 * [148](https://github.com/Vanessa219/vditor/issues/148) 任务列表退格删除问题 `修复缺陷`
 * [147](https://github.com/Vanessa219/vditor/issues/147) [suggestion] ctrl+l, ctrl+o, ctrl + j add insert line `改进功能`
 * [146](https://github.com/Vanessa219/vditor/issues/146) [suggestion] ctrl+k `改进功能`
