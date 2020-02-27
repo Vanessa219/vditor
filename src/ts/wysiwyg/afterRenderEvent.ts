@@ -7,6 +7,9 @@ export const afterRenderEvent = (vditor: IVditor, options = {
 }) => {
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
+        if (vditor.wysiwyg.composingLock) {
+            return;
+        }
         const text = getMarkdown(vditor);
         if (typeof vditor.options.input === "function" && options.enableInput) {
             vditor.options.input(text);
