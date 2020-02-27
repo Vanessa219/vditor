@@ -45,7 +45,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 
-    if (event.isComposing) {
+    if (vditor.wysiwyg.composingLock) {
         return false;
     }
 

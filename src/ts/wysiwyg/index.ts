@@ -24,6 +24,7 @@ class WYSIWYG {
     public afterRenderTimeoutId: number;
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
+    public composingLock: boolean = false;
 
     constructor(vditor: IVditor) {
         const divElement = document.createElement("div");
@@ -202,7 +203,12 @@ class WYSIWYG {
         });
 
         // 中文处理
+        this.element.addEventListener("compositionstart", (event: IHTMLInputEvent) => {
+            this.composingLock = true;
+        });
+
         this.element.addEventListener("compositionend", (event: IHTMLInputEvent) => {
+            this.composingLock = false;
             const blockElement = hasClosestBlock(getSelection().getRangeAt(0).startContainer);
             if (blockElement && blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
                 && blockElement.tagName.length === 2) {
@@ -217,7 +223,7 @@ class WYSIWYG {
                 this.preventInput = false;
                 return;
             }
-            if (event.isComposing) {
+            if (this.composingLock) {
                 return;
             }
 
@@ -303,7 +309,7 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {
-            if (event.isComposing || isCtrl(event)) {
+            if (this.composingLock || isCtrl(event)) {
                 return;
             }
             let range = getSelection().getRangeAt(0);
