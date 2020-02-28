@@ -45,7 +45,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 
-    if (vditor.wysiwyg.composingLock) {
+    // Chrome firefox 触发 compositionend 机制不一致 https://github.com/Vanessa219/vditor/issues/188
+    vditor.wysiwyg.composingLock = event.isComposing;
+    if (event.isComposing) {
         return false;
     }
 

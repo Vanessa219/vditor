@@ -144,7 +144,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 if (menuItem.name === "upload") {
                     (vditor.toolbar.elements[menuItem.name].querySelector("input") as HTMLElement).click();
                 } else {
-                    (vditor.toolbar.elements[menuItem.name].children[0] as HTMLElement).click();
+                    vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
                 }
                 event.preventDefault();
                 return true;

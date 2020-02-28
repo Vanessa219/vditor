@@ -82,7 +82,6 @@ const list2p = (listElement: HTMLElement) => {
 };
 
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
-
     let element = range.startContainer.parentElement;
     let jump = false;
     let lastTagName = "";
@@ -148,6 +147,11 @@ const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
 };
 
 export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
+    if (vditor.wysiwyg.composingLock) {
+        // Mac Chrome 中韩文结束会出发此事件，导致重复末尾字符 https://github.com/Vanessa219/vditor/issues/188
+        return;
+    }
+
     let useHighlight = true;
     let useRender = true;
     if (actionBtn.classList.contains("vditor-menu--disabled")) {

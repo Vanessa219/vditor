@@ -338,7 +338,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             input.style.textAlign = "center";
             input.setAttribute("placeholder", i18n[vditor.options.lang].row);
             input.value = tableElement.rows.length.toString();
-            input.onblur = updateTable;
             input.oninput = () => {
                 updateTable();
             };
@@ -366,7 +365,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             input2.style.textAlign = "center";
             input2.setAttribute("placeholder", i18n[vditor.options.lang].column);
             input2.value = tableElement.rows[0].cells.length.toString();
-            input2.onblur = updateTable;
             input2.oninput = () => {
                 updateTable();
             };
@@ -440,7 +438,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             input.className = "vditor-input";
             input.setAttribute("placeholder", i18n[vditor.options.lang].imageURL);
             input.value = imgElement.getAttribute("src") || "";
-            input.onblur = updateImg;
             input.oninput = () => {
                 updateImg();
             };
@@ -453,7 +450,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             alt.setAttribute("placeholder", i18n[vditor.options.lang].alternateText);
             alt.style.width = "52px";
             alt.value = imgElement.getAttribute("alt") || "";
-            alt.onblur = updateImg;
             alt.oninput = () => {
                 updateImg();
             };
@@ -467,7 +463,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             aHref.setAttribute("placeholder", i18n[vditor.options.lang].link);
             aHref.value =
                 imgElement.parentElement.nodeName === "A" ? imgElement.parentElement.getAttribute("href") : "";
-            aHref.onblur = updateImg;
             aHref.oninput = () => {
                 updateImg();
             };
@@ -508,13 +503,15 @@ export const highlightToolbar = (vditor: IVditor) => {
                     language.setAttribute("placeholder", i18n[vditor.options.lang].language);
                     language.value = codeElement.className.indexOf("language-") > -1 ?
                         codeElement.className.split("-")[1].split(" ")[0] : "";
-                    language.onblur = updateLanguage;
                     language.oninput = () => {
                         updateLanguage();
                         processCodeRender(blockRenderElement, vditor);
                         afterRenderEvent(vditor);
                     };
                     language.onkeydown = (event: KeyboardEvent) => {
+                        if (event.isComposing) {
+                            return;
+                        }
                         if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
                             range.setStart(codeElement.firstChild, 0);
                             range.collapse(true);

@@ -208,7 +208,6 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("compositionend", (event: IHTMLInputEvent) => {
-            this.composingLock = false;
             const blockElement = hasClosestBlock(getSelection().getRangeAt(0).startContainer);
             if (blockElement && blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
                 && blockElement.tagName.length === 2) {
@@ -226,7 +225,6 @@ class WYSIWYG {
             if (this.composingLock) {
                 return;
             }
-
             const range = getSelection().getRangeAt(0);
             let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
@@ -309,7 +307,7 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {
-            if (this.composingLock || isCtrl(event)) {
+            if (event.isComposing || isCtrl(event)) {
                 return;
             }
             let range = getSelection().getRangeAt(0);
