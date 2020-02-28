@@ -7,6 +7,7 @@ window.vditor = new Vditor('vditor', {
   placeholder: 'placeholder',
   counter: 100,
   height: 500,
+  lang: 'ko_KR',
   hint: {
     emojiPath: 'https://cdn.jsdelivr.net/npm/vditor@1.8.3/dist/images/emoji',
     emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',

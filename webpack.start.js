@@ -123,6 +123,11 @@ module.exports = {
       filename: './index-preview.html',
       template: './demo/index-preview.html',
     }),
+    new HtmlWebpackPlugin({
+      chunks: ['index-preview.js'],
+      filename: './index-preview-ko.html',
+      template: './demo/index-preview-ko.html',
+    }),
     new webpack.DefinePlugin({
       VDITOR_VERSION: JSON.stringify(pkg.version),
     }),

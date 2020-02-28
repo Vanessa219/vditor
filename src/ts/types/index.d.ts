@@ -85,11 +85,13 @@ interface IHTMLInputEvent extends Event {
 
 interface II18nLang {
     en_US: string;
+    ko_KR: string;
     zh_CN: string;
 }
 
 interface II18n {
     en_US: { [key: string]: string };
+    ko_KR: { [key: string]: string };
     zh_CN: { [key: string]: string };
 }
 
