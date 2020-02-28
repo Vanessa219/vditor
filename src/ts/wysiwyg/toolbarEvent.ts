@@ -246,10 +246,11 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             useHighlight = false;
             actionBtn.classList.add("vditor-menu--current");
         } else if (commandName === "inline-code") {
-            if (range.collapsed) {
-                const node = document.createTextNode("``");
+            if (range.toString() === "") {
+                const node = document.createElement("code");
+                node.textContent = Constants.ZWSP;
                 range.insertNode(node);
-                range.setStart(node, 1);
+                range.setStart(node.firstChild, 1);
                 range.collapse(true);
                 setSelectionFocus(range);
             } else if (range.startContainer.nodeType === 3) {
