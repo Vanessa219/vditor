@@ -47,6 +47,7 @@
 
 ### v2.2.12 / 未发布
 
+* [188](https://github.com/Vanessa219/vditor/issues/188) korean character composition at mac chrome `改进功能`
 * [185](https://github.com/Vanessa219/vditor/issues/185) Safari 兼容性修复 `改进功能`
 
 ### v2.2.11 / 2020-02-27

@@ -343,6 +343,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateTable();
             };
             input.onkeydown = (event) => {
+                if (event.isComposing) {
+                    return;
+                }
                 if (event.key === "Tab") {
                     input2.focus();
                     input2.select();
@@ -368,6 +371,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateTable();
             };
             input2.onkeydown = (event) => {
+                if (event.isComposing) {
+                    return;
+                }
                 if (event.key === "Tab") {
                     input.focus();
                     input.select();
@@ -610,6 +616,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     };
 
     const hotkey = (event: KeyboardEvent, nextInputElement: HTMLInputElement) => {
+        if (event.isComposing) {
+            return;
+        }
         if (event.key === "Tab") {
             nextInputElement.focus();
             nextInputElement.select();
