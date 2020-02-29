@@ -58,7 +58,7 @@ class Vditor {
         const getOptions = new Options(options);
         const mergedOptions = getOptions.merge();
 
-        if (!(mergedOptions.lang === "en_US" || mergedOptions.lang === "zh_CN")) {
+        if (!(mergedOptions.lang === "en_US" || mergedOptions.lang === "ko_KR" || mergedOptions.lang === "zh_CN")) {
             console.error("options.lang error, see https://hacpai.com/article/1549638745630#toc_h4_10");
             return;
         }
