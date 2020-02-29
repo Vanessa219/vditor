@@ -48,6 +48,7 @@
 ### v2.2.12 / 未发布
 
 * [195](https://github.com/Vanessa219/vditor/pull/195) added korean i18n `引入特性`
+* [191](https://github.com/Vanessa219/vditor/pull/191) backspace problem(Firefox Compatibility) `修复缺陷`
 * [188](https://github.com/Vanessa219/vditor/issues/188) korean character composition at mac chrome `改进功能`
 * [185](https://github.com/Vanessa219/vditor/issues/185) Safari 兼容性修复 `改进功能`
 * [137](https://github.com/Vanessa219/vditor/issues/137) [suggestion] ctrl+g behavior `改进功能`

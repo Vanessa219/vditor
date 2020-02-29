@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
+import {isChrome} from "../util/compatibility";
 
 export const setRangeByWbr = (element: HTMLElement, range: Range) => {
     const wbrElement = element.querySelector("wbr");
@@ -21,11 +22,10 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
                 range.setStartBefore(wbrElement);
                 range.collapse(true);
                 setSelectionFocus(range);
-                // fix Chrome set range bug
-                if (wbrElement.previousElementSibling.tagName === "EM" ||
+                // fix Chrome set range bug: **c**
+                if (isChrome() && (wbrElement.previousElementSibling.tagName === "EM" ||
                     wbrElement.previousElementSibling.tagName === "STRONG" ||
-                    wbrElement.previousElementSibling.tagName === "S"
-                ) {
+                    wbrElement.previousElementSibling.tagName === "S")) {
                     range.insertNode(document.createTextNode(Constants.ZWSP));
                     range.collapse(false);
                 }

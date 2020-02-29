@@ -49,17 +49,20 @@ class WysiwygUndo {
     }
 
     public recordFirstWbr(vditor: IVditor) {
-        if (this.undoStack.length === 1) {
-            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
-            const cloneEditorElement = document.createElement("pre");
-            cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-            addP2Li(cloneEditorElement);
-            this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
-            this.lastText = this.undoStack[0][0].diffs[0][1];
-            if (vditor.wysiwyg.element.querySelector("wbr")) {
-                vditor.wysiwyg.element.querySelector("wbr").remove();
-            }
+        if (this.undoStack.length !== 1) {
+            return;
         }
+        const cloneRange = getSelection().getRangeAt(0).cloneRange();
+        getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+        const cloneEditorElement = document.createElement("pre");
+        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
+        addP2Li(cloneEditorElement);
+        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
+        this.lastText = this.undoStack[0][0].diffs[0][1];
+        if (vditor.wysiwyg.element.querySelector("wbr")) {
+            vditor.wysiwyg.element.querySelector("wbr").remove();
+        }
+        setSelectionFocus(cloneRange);
     }
 
     public addToUndoStack(vditor: IVditor) {

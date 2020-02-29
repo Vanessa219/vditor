@@ -51,3 +51,7 @@ export const updateHotkeyTip = (hotkey: string) => {
     }
     return hotkey;
 };
+
+export const isChrome = () => {
+    return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+}
