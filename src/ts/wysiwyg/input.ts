@@ -95,6 +95,8 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
                     vditorHTML = vditorHTML + listNextElement.outerHTML;
                     listNextElement.remove();
                 }
+                // firefox 列表回车不会产生新的 list item https://github.com/Vanessa219/vditor/issues/194
+                vditorHTML = vditorHTML.replace("<div><wbr><br></div>", "<li><p><wbr><br></p></li>");
             }
         }
 
