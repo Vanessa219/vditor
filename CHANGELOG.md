@@ -45,18 +45,20 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.12 / 未发布
+### v2.2.13 / 未发布
+
+
+### v2.2.12 / 2020-02-29
 
 * [195](https://github.com/Vanessa219/vditor/pull/195) added korean i18n `引入特性`
 * [194](https://github.com/Vanessa219/vditor/pull/194) Lists (Firefox Compatibility) `修复缺陷`
+* [193](https://github.com/Vanessa219/vditor/pull/193) Links (Firefox Compatibility) `修复缺陷`
 * [192](https://github.com/Vanessa219/vditor/pull/192) Heading (Firefox Compatibility) `修复缺陷`
 * [191](https://github.com/Vanessa219/vditor/pull/191) backspace problem(Firefox Compatibility) `修复缺陷`
 * [188](https://github.com/Vanessa219/vditor/issues/188) korean character composition at mac chrome `改进功能`
+* [187](https://github.com/Vanessa219/vditor/issues/187) ctrl+b, ctrl+i `修复缺陷`
 * [185](https://github.com/Vanessa219/vditor/issues/185) Safari 兼容性修复 `改进功能`
 * [137](https://github.com/Vanessa219/vditor/issues/137) [suggestion] ctrl+g behavior `改进功能`
-
-### v2.2.11 / 2020-02-27
-
 * [182](https://github.com/Vanessa219/vditor/issues/182) 支持 Setext 标题 `改进功能`
 * [181](https://github.com/Vanessa219/vditor/issues/181) GFM Example52,54 - Setext 支持 `改进功能`
 * [180](https://github.com/Vanessa219/vditor/issues/180) GFM Example 31 `修复缺陷`

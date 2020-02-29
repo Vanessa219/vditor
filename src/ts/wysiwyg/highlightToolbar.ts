@@ -624,8 +624,10 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         }
         if (event.altKey && event.key === "Enter") {
             const range = vditor.wysiwyg.element.ownerDocument.createRange();
-            range.selectNodeContents(aElement.lastChild);
-            range.collapse(false);
+            // firefox 不会打断 link https://github.com/Vanessa219/vditor/issues/193
+            aElement.insertAdjacentHTML("afterend", Constants.ZWSP);
+            range.setStartAfter(aElement.nextSibling)
+            range.collapse(true);
             setSelectionFocus(range);
             event.preventDefault();
         }
