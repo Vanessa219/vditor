@@ -329,7 +329,12 @@ class WYSIWYG {
                         node.remove();
                     } else {
                         range.insertNode(document.createElement("wbr"));
-                        node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
+                        if (node.tagName === "DIV") {
+                            // firefox 换行产生 div
+                            node.outerHTML = `<p data-block="0"><wbr>${node.innerHTML}</p>`;
+                        } else {
+                            node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
+                        }
                         setRangeByWbr(this.element, range);
                         range = getSelection().getRangeAt(0);
                     }
