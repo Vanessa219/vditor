@@ -166,6 +166,8 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                     "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
                     "", false, true);
             }
+            event.preventDefault();
+            return true;
         }
     });
 };
