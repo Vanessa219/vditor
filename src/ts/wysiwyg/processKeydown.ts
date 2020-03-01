@@ -40,15 +40,15 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
 };
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
-    // 添加第一次记录 undo 的光标
-    if (event.key.indexOf("Arrow") === -1) {
-        vditor.wysiwygUndo.recordFirstWbr(vditor);
-    }
-
     // Chrome firefox 触发 compositionend 机制不一致 https://github.com/Vanessa219/vditor/issues/188
     vditor.wysiwyg.composingLock = event.isComposing;
     if (event.isComposing) {
         return false;
+    }
+
+    // 添加第一次记录 undo 的光标
+    if (event.key.indexOf("Arrow") === -1) {
+        vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 
     // 仅处理以下快捷键操作

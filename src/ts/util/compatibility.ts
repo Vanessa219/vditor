@@ -1,11 +1,15 @@
 // 用于 Safari 弹窗处理
 export const openURL = (url: string) => {
-    if (navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1) {
+    if (isSafari()) {
         window.location.href = url;
     } else {
         window.open(url);
     }
 };
+
+export const isSafari = () => {
+    return navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1
+}
 
 // 用户 iPhone 点击延迟/需要双击的处理
 export const getEventName = () => {

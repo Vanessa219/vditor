@@ -46,7 +46,7 @@
     resize: none;
     padding: 10px 9px 10px 10px;
     box-sizing: border-box;
-    background-color: var(--textarea-background-color);
+    background-color:  var(--panel-background-color);
     outline: 0 none;
     font-size: 16px;
     line-height: 22px;
@@ -65,6 +65,10 @@
     &:empty::before {
       content: attr(placeholder);
       color: var(--second-color);
+    }
+
+    &:focus {
+      background-color:var(--textarea-background-color);
     }
   }
 

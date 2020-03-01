@@ -1,11 +1,11 @@
 .vditor-wysiwyg {
-  background-color: var(--textarea-background-color);
   box-sizing: border-box;
   flex: 1;
   position: relative;
   width: 100%;
 
   .vditor-reset {
+    background-color: var(--panel-background-color);
     margin: 0;
     white-space: pre-wrap;
     height: 100%;
@@ -23,6 +23,7 @@
 
     &:focus {
       outline: none;
+      background-color: var(--textarea-background-color);
     }
   }
 
@@ -34,7 +35,7 @@
   h3:empty::after,
   h4:empty::after,
   h5:empty::after,
-  h6:empty::after{
+  h6:empty::after {
     content: ' ';
   }
 

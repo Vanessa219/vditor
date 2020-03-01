@@ -49,7 +49,7 @@ class WysiwygUndo {
     }
 
     public recordFirstWbr(vditor: IVditor) {
-        if (this.undoStack.length !== 1) {
+        if (this.undoStack.length !== 1 || this.undoStack[0].length === 0) {
             return;
         }
         const cloneRange = getSelection().getRangeAt(0).cloneRange();
@@ -87,7 +87,7 @@ class WysiwygUndo {
         }
         const diff = this.dmp.diff_main(text, this.lastText, true);
         const patchList = this.dmp.patch_make(text, this.lastText, diff);
-        if (patchList.length === 0) {
+        if (patchList.length === 0 && this.undoStack.length > 0) {
             return;
         }
         this.lastText = text;
