@@ -1,5 +1,5 @@
-import {getMarkdown} from "../util/getMarkdown";
 import {isSafari} from "../util/compatibility";
+import {getMarkdown} from "../util/getMarkdown";
 
 export const afterRenderEvent = (vditor: IVditor, options = {
     enableAddUndoStack: true,

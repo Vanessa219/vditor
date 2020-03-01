@@ -8,8 +8,8 @@ export const openURL = (url: string) => {
 };
 
 export const isSafari = () => {
-    return navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1
-}
+    return navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1;
+};
 
 // 用户 iPhone 点击延迟/需要双击的处理
 export const getEventName = () => {
@@ -58,4 +58,4 @@ export const updateHotkeyTip = (hotkey: string) => {
 
 export const isChrome = () => {
     return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-}
+};

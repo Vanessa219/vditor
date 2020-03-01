@@ -320,6 +320,6 @@ interface IVditor {
         afterRenderTimeoutId: number,
         hlToolbarTimeoutId: number,
         preventInput: boolean,
-        composingLock: boolean
+        composingLock: boolean,
     };
 }

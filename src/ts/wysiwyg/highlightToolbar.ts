@@ -629,7 +629,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
             const range = vditor.wysiwyg.element.ownerDocument.createRange();
             // firefox 不会打断 link https://github.com/Vanessa219/vditor/issues/193
             aElement.insertAdjacentHTML("afterend", Constants.ZWSP);
-            range.setStartAfter(aElement.nextSibling)
+            range.setStartAfter(aElement.nextSibling);
             range.collapse(true);
             setSelectionFocus(range);
             event.preventDefault();

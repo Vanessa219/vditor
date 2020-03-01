@@ -541,9 +541,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
             if (isFirst) {
                 if (event.shiftKey) {
-                    vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]').dispatchEvent(new CustomEvent('click'))
+                    vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]').dispatchEvent(new CustomEvent("click"));
                 } else {
-                    vditor.wysiwyg.popover.querySelector('button[data-type="indent"]').dispatchEvent(new CustomEvent('click'))
+                    vditor.wysiwyg.popover.querySelector('button[data-type="indent"]').dispatchEvent(new CustomEvent("click"));
                 }
                 event.preventDefault();
                 return true;
