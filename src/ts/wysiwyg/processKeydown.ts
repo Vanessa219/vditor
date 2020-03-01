@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {getSelectPosition} from "../editor/getSelectPosition";
 import {setSelectionFocus} from "../editor/setSelection";
-import {isCtrl} from "../util/compatibility";
+import {isCtrl, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
     getTopList, hasClosestBlock,
@@ -47,7 +47,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 添加第一次记录 undo 的光标
-    if (event.key.indexOf("Arrow") === -1) {
+    if (event.key.indexOf("Arrow") === -1 && !isSafari()) {
+        // Safari keydown 在 input 之后，不需要重复记录历史
         vditor.wysiwygUndo.recordFirstWbr(vditor);
     }
 
