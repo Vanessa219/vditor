@@ -45,10 +45,10 @@
 * [55](https://github.com/Vanessa219/vditor/issues/55) 链接引用不转换为内联链接 `改进功能`
 * [81](https://github.com/Vanessa219/vditor/issues/81) 链接和图片嵌套问题 `修复缺陷`
 
-### v2.2.14 / 未发布
+### v2.2.15 / 未发布
 
 
-### v2.2.13 / 2020-03-01
+### v2.2.14 / 2020-03-01
 
 * [197](https://github.com/Vanessa219/vditor/pull/197) 禁用编辑器后，工具栏未被禁用 `修复缺陷`
 * [196](https://github.com/Vanessa219/vditor/pull/196) Headings command+alt+1 at safari(Mac) `修复缺陷`
