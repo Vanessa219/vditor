@@ -323,6 +323,7 @@ class WYSIWYG {
                     node.remove();
                     range.setStart(pElement.firstChild, Math.min(pElement.firstChild.textContent.length, startOffset));
                     range.collapse(true);
+                    setSelectionFocus(range);
                     return true;
                 } else if (!node.getAttribute("data-block")) {
                     if (node.tagName === "P") {

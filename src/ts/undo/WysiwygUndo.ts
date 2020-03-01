@@ -68,7 +68,6 @@ class WysiwygUndo {
         if (this.undoStack.length !== 1 || this.undoStack[0].length === 0) {
             return;
         }
-        const cloneRange = getSelection().getRangeAt(0).cloneRange();
         getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
         const cloneEditorElement = document.createElement("pre");
         cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
@@ -78,7 +77,7 @@ class WysiwygUndo {
         if (vditor.wysiwyg.element.querySelector("wbr")) {
             vditor.wysiwyg.element.querySelector("wbr").remove();
         }
-        setSelectionFocus(cloneRange);
+        // 不能添加 setSelectionFocus(cloneRange); 否则 windows chrome 首次输入会烂
     }
 
     public addToUndoStack(vditor: IVditor) {
