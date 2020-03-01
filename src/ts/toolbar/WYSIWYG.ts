@@ -25,6 +25,9 @@ export class WYSIWYG extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), function(event) {
+            if (this.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             if (this.classList.contains("vditor-menu--current")) {
                 this.classList.remove("vditor-menu--current");
                 vditor.wysiwyg.element.parentElement.style.display = "none";

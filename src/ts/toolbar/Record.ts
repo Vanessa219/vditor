@@ -16,6 +16,9 @@ export class Record extends MenuItem {
     public _bindEvent(vditor: IVditor) {
         let mediaRecorder: MediaRecorder;
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             event.preventDefault();
             const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
             if (!mediaRecorder) {

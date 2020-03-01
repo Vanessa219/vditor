@@ -28,6 +28,9 @@ export class Headings extends MenuItem {
 
     public _bindEvent(headingsPanelElement: HTMLElement, vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             const actionBtn = this.element.children[0];
             if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
                 removeHeading(vditor);

@@ -15,6 +15,9 @@ export class Upload extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.querySelector("input").addEventListener("change", (event: IHTMLInputEvent) => {
+            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             if (event.target.files.length === 0) {
                 return;
             }

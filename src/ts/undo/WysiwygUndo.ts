@@ -26,7 +26,20 @@ class WysiwygUndo {
         this.hasUndo = false;
     }
 
+    public enableIcon(vditor: IVditor) {
+        if (this.undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        }
+
+        if (this.redoStack.length !== 0) {
+            enableToolbar(vditor.toolbar.elements, ["redo"]);
+        }
+    }
+
     public undo(vditor: IVditor) {
+        if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
+            return;
+        }
         if (this.undoStack.length < 2) {
             return;
         }
@@ -40,6 +53,9 @@ class WysiwygUndo {
     }
 
     public redo(vditor: IVditor) {
+        if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
+            return;
+        }
         const state = this.redoStack.pop();
         if (!state) {
             return;

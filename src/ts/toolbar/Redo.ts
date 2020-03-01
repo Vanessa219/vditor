@@ -9,6 +9,9 @@ export class Redo extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || redoSVG;
         disableToolbar({redo: this.element}, ["redo"]);
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             if (vditor.currentMode === "markdown") {
                 vditor.undo.redo(vditor);
             } else {

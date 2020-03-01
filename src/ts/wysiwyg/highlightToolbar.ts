@@ -29,6 +29,9 @@ import {setRangeByWbr} from "./setRangeByWbr";
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
     vditor.wysiwyg.hlToolbarTimeoutId = window.setTimeout(() => {
+        if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
+            return;
+        }
         if (getSelection().rangeCount === 0) {
             return;
         }

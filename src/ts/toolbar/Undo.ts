@@ -9,6 +9,9 @@ export class Undo extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || undoSVG;
         disableToolbar({undo: this.element}, ["undo"]);
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             if (vditor.currentMode === "markdown") {
                 vditor.undo.undo(vditor);
             } else {

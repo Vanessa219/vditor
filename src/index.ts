@@ -36,6 +36,8 @@ import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {insertHTML} from "./ts/wysiwyg/insertHTML";
 import {processCodeRender} from "./ts/wysiwyg/processCodeRender";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {disableToolbar} from "./ts/toolbar/disableToolbar";
+import {enableToolbar} from "./ts/toolbar/enableToolbar";
 
 class Vditor {
 
@@ -158,6 +160,9 @@ class Vditor {
     }
 
     public disabled() {
+        disableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
+            "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table",
+            "undo", "redo", "wysiwyg"]);
         if (this.vditor.currentMode === "markdown") {
             this.vditor.editor.element.setAttribute("contenteditable", "false");
         } else {
@@ -166,9 +171,13 @@ class Vditor {
     }
 
     public enable() {
+        enableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
+            "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table", "wysiwyg"]);
         if (this.vditor.currentMode === "markdown") {
+            this.vditor.undo.enableIcon(this.vditor)
             this.vditor.editor.element.setAttribute("contenteditable", "true");
         } else {
+            this.vditor.wysiwygUndo.enableIcon(this.vditor)
             this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
         }
     }

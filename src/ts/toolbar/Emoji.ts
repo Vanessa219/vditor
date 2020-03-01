@@ -42,6 +42,9 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
 
     public _bindEvent(emojiPanelElement: HTMLElement, vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             if (emojiPanelElement.style.display === "block") {
                 emojiPanelElement.style.display = "none";
             } else {

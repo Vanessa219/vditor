@@ -23,6 +23,9 @@ export class MenuItem {
 
     public bindEvent(vditor: IVditor, replace: boolean = false) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                return;
+            }
             if (vditor.currentMode === "wysiwyg") {
                 toolbarEvent(vditor, this.element.children[0]);
             } else {
