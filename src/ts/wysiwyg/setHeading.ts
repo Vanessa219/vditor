@@ -12,6 +12,10 @@ export const setHeading = (vditor: IVditor, tagName: string) => {
     }
     if (blockElement && !blockElement.classList.contains("vditor-wysiwyg__block")) {
         range.insertNode(document.createElement("wbr"));
+        if (blockElement.innerHTML === "<wbr>") {
+            // Firefox 光标对不齐 https://github.com/Vanessa219/vditor/issues/199 1
+            blockElement.innerHTML = "<wbr><br>";
+        }
         if (blockElement.tagName === "BLOCKQUOTE" || blockElement.classList.contains("vditor-reset")) {
             blockElement.innerHTML = `<${tagName} data-block="0">${blockElement.innerHTML}</${tagName}>`;
         } else {
