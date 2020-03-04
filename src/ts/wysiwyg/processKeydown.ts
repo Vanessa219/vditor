@@ -314,12 +314,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // 行级代码块中 command + a，近对当前代码块进行全选
-        if (startContainer.parentElement.tagName === "CODE" && codeRenderElement.getAttribute("data-block") === "0") {
-            if (matchHotKey("⌘-A", event)) {
-                range.selectNodeContents(startContainer.parentElement);
-                event.preventDefault();
-                return true;
-            }
+        if (codeRenderElement.getAttribute("data-block") === "0" && matchHotKey("⌘-A", event)) {
+            range.selectNodeContents(codeRenderElement.firstElementChild.firstElementChild);
+            event.preventDefault();
+            return true;
         }
 
         // 换行
