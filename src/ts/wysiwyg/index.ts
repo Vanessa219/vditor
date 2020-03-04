@@ -331,6 +331,13 @@ class WYSIWYG {
             let range = getSelection().getRangeAt(0);
             const startOffset = range.startOffset;
 
+            if (vditor.wysiwyg.element.innerHTML !== "" && vditor.wysiwyg.element.childNodes.length === 1 &&
+                vditor.wysiwyg.element.firstElementChild.tagName === "P"
+                && (vditor.wysiwyg.element.textContent === "" || vditor.wysiwyg.element.textContent === "\n")) {
+                // 为空时显示 placeholder
+                vditor.wysiwyg.element.innerHTML = "";
+            }
+
             // 没有被块元素包裹
             Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
                 if (node.nodeType === 3) {

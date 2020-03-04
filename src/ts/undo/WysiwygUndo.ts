@@ -2,13 +2,13 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {setSelectionFocus} from "../editor/setSelection";
 import {disableToolbar} from "../toolbar/disableToolbar";
 import {enableToolbar} from "../toolbar/enableToolbar";
+import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {addP2Li} from "../wysiwyg/addP2Li";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
-import {isSafari} from "../util/compatibility";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -69,7 +69,7 @@ class WysiwygUndo {
         if (this.undoStack.length !== 1 || this.undoStack[0].length === 0) {
             return;
         }
-        if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1 && event.key === "Backspace") {
+        if (isFirefox() && event.key === "Backspace") {
             // Firefox 第一次删除无效
             return;
         }

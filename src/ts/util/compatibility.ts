@@ -11,6 +11,10 @@ export const isSafari = () => {
     return navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1;
 };
 
+export const isFirefox = () => {
+    return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+};
+
 // 用户 iPhone 点击延迟/需要双击的处理
 export const getEventName = () => {
     if (navigator.userAgent.indexOf("iPhone") > -1) {
