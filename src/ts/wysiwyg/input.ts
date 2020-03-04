@@ -1,4 +1,3 @@
-import {Constants} from "../constants";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
@@ -11,6 +10,7 @@ import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 import {setRangeByWbr} from "./setRangeByWbr";
+import {previoueIsEmptyA} from "./inlineTag";
 
 export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
@@ -44,11 +44,10 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         && event.inputType !== "formatIndent"
         && event.inputType !== ""   // document.execCommand('unlink', false)
     ) {
-        if (blockElement.firstElementChild && blockElement.firstElementChild.tagName === "A" &&
-            blockElement.firstElementChild.textContent.replace(Constants.ZWSP, "") === "" &&
-            blockElement.firstElementChild.nextSibling) {
+        const previousAEmptyElement = previoueIsEmptyA(range.startContainer)
+        if (previousAEmptyElement) {
             // 链接结尾回车不应该复制到下一行 https://github.com/Vanessa219/vditor/issues/163
-            blockElement.firstElementChild.remove();
+            previousAEmptyElement.remove();
         }
 
         // 保存光标

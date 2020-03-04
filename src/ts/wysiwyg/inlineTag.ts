@@ -1,5 +1,17 @@
 import {Constants} from "../constants";
 
+export const previoueIsEmptyA = (node: Node) => {
+    let previousNode = node.previousSibling as HTMLElement;
+    while (previousNode) {
+        if (previousNode.nodeType !== 3 && previousNode.tagName === "A" && !previousNode.previousSibling
+            && previousNode.textContent.replace(Constants.ZWSP, "") === "" && previousNode.nextSibling) {
+            return previousNode;
+        }
+        previousNode = previousNode.previousSibling as HTMLElement;
+    }
+    return false;
+};
+
 export const nextIsCode = (range: Range) => {
     let nextNode: HTMLElement = range.startContainer.nextSibling as HTMLElement;
     while (nextNode && nextNode.textContent === "") {
