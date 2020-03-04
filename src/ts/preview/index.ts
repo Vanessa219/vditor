@@ -2,6 +2,7 @@ import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
+import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {md2htmlByVditor} from "../markdown/md2html";
@@ -91,6 +92,7 @@ export class Preview {
     }
 
     private afterRender(vditor: IVditor, startTime: number) {
+        const markdownText = getMarkdown(vditor);
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
@@ -112,6 +114,7 @@ export class Preview {
             math: vditor.options.preview.math,
         });
         mermaidRender(vditor.preview.element.children[0] as HTMLElement, ".language-mermaid", vditor.options.cdn);
+        graphvizRender(vditor.preview.element.children[0] as HTMLElement, markdownText);
         chartRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.children[0] as HTMLElement);

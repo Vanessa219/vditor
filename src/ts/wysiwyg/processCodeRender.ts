@@ -4,6 +4,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
+import { graphvizRender } from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
@@ -66,6 +67,8 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
                 vditor.options.cdn);
         } else if (language === "echarts") {
             chartRender(previewPanel, vditor.options.cdn);
+        } else if (language === "graphviz") {
+            graphvizRender(previewPanel, previewPanel.innerText);
         } else {
             highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),
                 previewPanel, vditor.options.cdn);

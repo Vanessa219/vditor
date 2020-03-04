@@ -1,6 +1,7 @@
 import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
+import {graphvizRender} from "./ts/markdown/graphvizRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {md2htmlByPreview} from "./ts/markdown/md2html";
@@ -12,6 +13,7 @@ import {speechRender} from "./ts/markdown/speechRender";
 class Vditor {
 
     public static codeRender = codeRender;
+    public static graphvizRender = graphvizRender;
     public static highlightRender = highlightRender;
     public static mathRender = mathRender;
     public static mermaidRender = mermaidRender;

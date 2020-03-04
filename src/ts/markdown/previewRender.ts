@@ -3,6 +3,7 @@ import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
+import { graphvizRender } from "./graphvizRender";
 import {highlightRender} from "./highlightRender";
 import {mathRender} from "./mathRender";
 import {md2htmlByPreview} from "./md2html";
@@ -72,6 +73,7 @@ export const previewRender = (previewElement: HTMLDivElement, markdown: string, 
         math: options.math,
     });
     mermaidRender(previewElement, ".language-mermaid", options.cdn);
+    graphvizRender(previewElement, markdown);
     chartRender(previewElement, options.cdn);
     abcRender(previewElement, options.cdn);
     mediaRender(previewElement);
