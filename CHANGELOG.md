@@ -47,6 +47,7 @@
 
 ### v2.2.15 / 未发布
 
+* [200](https://github.com/Vanessa219/vditor/pull/200) copy in wysiwyg bug `修复缺陷`
 
 ### v2.2.14 / 2020-03-01
 

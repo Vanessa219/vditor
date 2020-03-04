@@ -5,7 +5,7 @@ import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
     hasClosestBlock, hasClosestByAttribute,
-    hasClosestByClassName,
+    hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
 import {addP2Li} from "./addP2Li";
@@ -76,22 +76,39 @@ class WYSIWYG {
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
             const range = getSelection().getRangeAt(0);
-            if (range.collapsed) {
+            if (range.toString() === "") {
                 return;
             }
             event.stopPropagation();
             event.preventDefault();
 
-            if (range.commonAncestorContainer.parentElement.tagName === "CODE" &&
-                range.commonAncestorContainer.parentElement.parentElement.tagName !== "PRE") {
-                event.clipboardData.setData("text/plain", "`" +
-                    getSelection().getRangeAt(0).toString() + "`");
+            const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
+            if (codeElement) {
+                let codeText = "";
+                if (codeElement.parentElement.tagName === "PRE") {
+                    codeText = range.toString();
+                } else {
+                    codeText = "`" + range.toString() + "`";
+                }
+                event.clipboardData.setData("text/plain", codeText);
+                event.clipboardData.setData("text/html", "");
+                return;
+            }
+
+            const aElement = hasClosestByMatchTag(range.startContainer, "A");
+            if (aElement) {
+                let aTitle = aElement.getAttribute("title") || "";
+                if (aTitle) {
+                    aTitle = ` "${aTitle}"`;
+                }
+                event.clipboardData.setData("text/plain",
+                    `[${range.toString()}](${aElement.getAttribute("href")}${aTitle})`);
                 event.clipboardData.setData("text/html", "");
                 return;
             }
 
             const tempElement = document.createElement("div");
-            tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
+            tempElement.appendChild(range.cloneContents());
 
             addP2Li(tempElement);
 
@@ -122,7 +139,7 @@ class WYSIWYG {
             // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
             const range = getSelection().getRangeAt(0);
-            if (event.target.tagName === "CODE") {
+            if (event.target.tagName === "CODE" || event.target.parentElement.tagName === "CODE") {
                 // 粘贴在代码位置
                 const position = getSelectPosition(event.target);
                 event.target.textContent = event.target.textContent.substring(0, position.start)
