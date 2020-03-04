@@ -311,7 +311,7 @@ interface IVditor {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
-        recordFirstWbr(vditor: IVditor): void,
+        recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
         enableIcon(vditor: IVditor): void,
     };
     wysiwyg: {
