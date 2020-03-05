@@ -42,7 +42,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v2.2.16 / 未发布
+### v2.2.17 / 未发布
+
+### v2.2.16 / 2020-03-05
 
 * [209](https://github.com/Vanessa219/vditor/pull/209) 支持 Graphviz `引入特性`
 * [207](https://github.com/Vanessa219/vditor/issues/207) heading at first time(windows firefox) `修复缺陷`
@@ -50,9 +52,6 @@
 * [205](https://github.com/Vanessa219/vditor/issues/205) not working typewrite mode (windows firefox) `修复缺陷`
 * [204](https://github.com/Vanessa219/vditor/issues/204) Empty Enter in Firefox `修复缺陷`
 * [203](https://github.com/Vanessa219/vditor/issues/203) when cache:false, use cache `修复缺陷`
-
-### v2.2.15 / 2020-03-04
-
 * [199](https://github.com/Vanessa219/vditor/issues/199) heading at first time(windows firefox) `修复缺陷`
 * [202](https://github.com/Vanessa219/vditor/issues/202) 第一次进入代码块后 ctrl+a 无作用 `修复缺陷`
 * [201](https://github.com/Vanessa219/vditor/issues/201) table (windows firefox) `修复缺陷`
