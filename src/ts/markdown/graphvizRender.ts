@@ -7,18 +7,23 @@ declare class Viz {
 }
 
 export const graphvizRender = (element: HTMLElement, code: string, cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
-  // addScript("https://cdn.bootcss.com/viz.js/2.1.2/full.render.js", "vditorGraphVizFullScript");
-  // TODO: 这里的cdn地址暂时写死
-  addScript("https://cdn.bootcss.com/viz.js/2.1.2/viz.js", "vditorGraphVizScript");
+    // TODO: 这里的cdn地址暂时写死
+    addScript(`https://cdn.bootcss.com/viz.js/2.1.2/viz.js`, "vditorGraphVizScript");
 
-  const workerURL = "../../js/graphviz/full.render.js";
-  const viz1 = new Viz({ workerURL });
-
-  // tslint:disable-next-line:no-console
-  console.log(viz1, code);
-  viz1.renderSVGElement(code).then((result: HTMLElement) => {
-    // tslint:disable-next-line:no-console
-    console.log(result);
-    element.appendChild(result as HTMLElement);
-  });
+    element.querySelectorAll("pre > code").forEach((e: HTMLDivElement) => {
+        try {
+            if (e.getAttribute("data-processed") === "true") {
+                return;
+            }
+            const workerURL = "../../js/graphviz/full.render.js";
+            const viz = new Viz({ workerURL });
+            viz.renderSVGElement(code).then((result: HTMLElement) => {
+                e.replaceChild(result, e?.childNodes[0]);
+            });
+            e.setAttribute("data-processed", "true");
+        } catch (error) {
+            e.className = "hljs";
+            e.innerHTML = `echarts render error: <br>${error}`;
+        }
+    });
 };

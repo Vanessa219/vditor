@@ -263,6 +263,10 @@
       overflow: hidden;
       height: 420px;
     }
+
+    .language-graphviz polygon {
+      fill: transparent;
+    }
   }
 
   &-task {
