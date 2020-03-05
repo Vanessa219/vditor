@@ -145,4 +145,4 @@ export const modifyPre = (vditor: IVditor, range: Range) => {
             return true;
         }
     });
-}
+};
