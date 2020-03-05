@@ -50,6 +50,7 @@
 * [207](https://github.com/Vanessa219/vditor/issues/207) heading at first time(windows firefox) `修复缺陷`
 * [206](https://github.com/Vanessa219/vditor/issues/206) combined blockquote and lists (windows firefox) `修复缺陷`
 * [205](https://github.com/Vanessa219/vditor/issues/205) not working typewrite mode (windows firefox) `修复缺陷`
+* [204](https://github.com/Vanessa219/vditor/issues/204) Empty Enter in Firefox `修复缺陷`
 * [203](https://github.com/Vanessa219/vditor/issues/203) when cache:false, use cache `修复缺陷`
 
 ### v2.2.15 / 2020-03-04
