@@ -2,28 +2,30 @@ import {VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare class Viz {
-  public renderSVGElement: (code: string) => Promise<any>;
-  constructor({}: {workerURL: string});
+    public renderSVGElement: (code: string) => Promise<any>;
+
+    constructor({}: { workerURL: string });
 }
 
-export const graphvizRender = (element: HTMLElement, code: string, cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
-    // TODO: 这里的cdn地址暂时写死
-    addScript(`https://cdn.bootcss.com/viz.js/2.1.2/viz.js`, "vditorGraphVizScript");
+export const graphvizRender = (element: HTMLElement, cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
+    const graphvizElements = element.querySelectorAll(".language-graphviz");
 
-    element.querySelectorAll("pre > code").forEach((e: HTMLDivElement) => {
-        try {
-            if (e.getAttribute("data-processed") === "true") {
-                return;
-            }
-            const workerURL = "../../js/graphviz/full.render.js";
-            const viz = new Viz({ workerURL });
-            viz.renderSVGElement(code).then((result: HTMLElement) => {
-                e.replaceChild(result, e?.childNodes[0]);
-            });
-            e.setAttribute("data-processed", "true");
-        } catch (error) {
-            e.className = "hljs";
-            e.innerHTML = `graphviz render error: <br>${error}`;
+    if (graphvizElements.length === 0) {
+        return;
+    }
+    addScript(`${cdn}/dist/js/graphviz/viz.js`, "vditorGraphVizScript");
+
+    graphvizElements.forEach((e: HTMLDivElement) => {
+        if (e.getAttribute("data-processed") === "true") {
+            return;
         }
+        new Viz({workerURL: "../../js/graphviz/full.render.js"})
+            .renderSVGElement(e.textContent).then((result: HTMLElement) => {
+            e.innerHTML = result.outerHTML;
+        }).catch((error) => {
+            e.innerHTML = `graphviz render error: <br>${error}`;
+            e.className = "vditor-math vditor-reset--error";
+        });
+        e.setAttribute("data-processed", "true");
     });
 };

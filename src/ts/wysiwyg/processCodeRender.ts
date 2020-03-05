@@ -36,7 +36,7 @@ export const showCode = (previewElement: HTMLElement, first = true) => {
     setSelectionFocus(range);
 };
 
-// html, math, math-inline, code block, abc, chart, mermaid
+// html, math, math-inline, code block, abc, chart, mermaid, graphviz
 export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) => {
     const blockType = blockElement.getAttribute("data-type");
     if (!blockType) {
@@ -68,7 +68,7 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         } else if (language === "echarts") {
             chartRender(previewPanel, vditor.options.cdn);
         } else if (language === "graphviz") {
-            graphvizRender(previewPanel, previewPanel.innerText);
+            graphvizRender(previewPanel, vditor.options.cdn);
         } else {
             highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),
                 previewPanel, vditor.options.cdn);

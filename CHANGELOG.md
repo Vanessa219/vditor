@@ -44,6 +44,7 @@
 
 ### v2.2.16 / 未发布
 
+* [209](https://github.com/Vanessa219/vditor/pull/209) 支持 Graphviz `引入特性`
 * [207](https://github.com/Vanessa219/vditor/issues/207) heading at first time(windows firefox) `修复缺陷`
 * [206](https://github.com/Vanessa219/vditor/issues/206) combined blockquote and lists (windows firefox) `修复缺陷`
 * [205](https://github.com/Vanessa219/vditor/issues/205) not working typewrite mode (windows firefox) `修复缺陷`

@@ -73,7 +73,7 @@ export const previewRender = (previewElement: HTMLDivElement, markdown: string, 
         math: options.math,
     });
     mermaidRender(previewElement, ".language-mermaid", options.cdn);
-    graphvizRender(previewElement, markdown);
+    graphvizRender(previewElement, options.cdn);
     chartRender(previewElement, options.cdn);
     abcRender(previewElement, options.cdn);
     mediaRender(previewElement);

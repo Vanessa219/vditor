@@ -161,6 +161,8 @@ declare class Vditor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
+    public static graphvizRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+
     public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document, cdn?: string): void;
 
     public static mathRender(element: HTMLElement, options?: { cdn?: string, math?: IMath }): void;

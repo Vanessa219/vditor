@@ -92,7 +92,6 @@ export class Preview {
     }
 
     private afterRender(vditor: IVditor, startTime: number) {
-        const markdownText = getMarkdown(vditor);
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
@@ -114,7 +113,7 @@ export class Preview {
             math: vditor.options.preview.math,
         });
         mermaidRender(vditor.preview.element.children[0] as HTMLElement, ".language-mermaid", vditor.options.cdn);
-        graphvizRender(vditor.preview.element.children[0] as HTMLElement, markdownText);
+        graphvizRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.children[0] as HTMLElement);
