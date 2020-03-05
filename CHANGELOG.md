@@ -120,6 +120,7 @@
   * 移除异步方法
   * 引用快捷键修改
   * 移除 index-preview.html, index-preview.js 文件
+  * 添加 graphvizRender
 
 ### v2.1.15 / 2020-02-09
 
