@@ -5,7 +5,7 @@ import {code160to32} from "../util/code160to32";
 export const codeRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") => {
     element.querySelectorAll("pre > code").forEach((e: HTMLElement, index: number) => {
         if (e.classList.contains("language-mermaid") || e.classList.contains("language-echarts")
-            || e.classList.contains("language-abc")) {
+            || e.classList.contains("language-abc") || e.classList.contains("language-graphviz")) {
             return;
         }
 
