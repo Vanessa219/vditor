@@ -75,17 +75,16 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     }
 
     if (vditor.editor && vditor.options.typewriterMode) {
-        vditor.editor.element.style.paddingBottom = height / 2 + "px";
+        vditor.editor.element.style.setProperty("--editor-bottom", height / 2 + "px");
     }
 
     if (vditor.wysiwyg) {
         const setPadding = () => {
             const padding = (vditor.wysiwyg.element.parentElement.parentElement.clientWidth
                 - vditor.options.preview.maxWidth) / 2;
+            vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px`;
             if (vditor.options.typewriterMode) {
-                vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px ${height / 2}px`;
-            } else {
-                vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px 10px`;
+                vditor.wysiwyg.element.style.setProperty("--editor-wysiwyg-bottom", height / 2 + "px");
             }
         };
         setPadding();
