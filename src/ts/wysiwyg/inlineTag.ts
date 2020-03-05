@@ -1,4 +1,6 @@
 import {Constants} from "../constants";
+import {setSelectionFocus} from "../editor/setSelection";
+import {setRangeByWbr} from "./setRangeByWbr";
 
 export const previoueIsEmptyA = (node: Node) => {
     let previousNode = node.previousSibling as HTMLElement;
@@ -106,3 +108,41 @@ export const splitElement = (range: Range) => {
         beforeHTML,
     };
 };
+
+export const modifyPre = (vditor: IVditor, range: Range) => {
+    // 没有被块元素包裹
+    Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
+        if (node.nodeType === 3) {
+            const pElement = document.createElement("p");
+            pElement.setAttribute("data-block", "0");
+            pElement.textContent = node.textContent;
+            node.parentNode.insertBefore(pElement, node);
+            node.remove();
+            range.setStart(pElement.firstChild, Math.min(pElement.firstChild.textContent.length, range.startOffset));
+            range.collapse(true);
+            setSelectionFocus(range);
+            return true;
+        } else if (!node.getAttribute("data-block")) {
+            if (node.tagName === "P") {
+                node.remove();
+            } else {
+                if (node.tagName === "DIV") {
+                    range.insertNode(document.createElement("wbr"));
+                    // firefox 列表换行产生 div
+                    node.outerHTML = `<p data-block="0">${node.innerHTML}</p>`;
+                } else {
+                    if (node.tagName === "BR") {
+                        // firefox 空换行产生 BR
+                        node.outerHTML = `<p data-block="0">${node.outerHTML}<wbr></p>`;
+                    } else {
+                        range.insertNode(document.createElement("wbr"));
+                        node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
+                    }
+                }
+                setRangeByWbr(vditor.wysiwyg.element, range);
+                range = getSelection().getRangeAt(0);
+            }
+            return true;
+        }
+    });
+}

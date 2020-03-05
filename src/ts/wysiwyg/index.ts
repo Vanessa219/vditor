@@ -11,7 +11,7 @@ import {processPasteCode} from "../util/processPasteCode";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
-import {getRenderElementNextNode} from "./inlineTag";
+import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
@@ -246,8 +246,8 @@ class WYSIWYG {
             const range = getSelection().getRangeAt(0);
             let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
-                // 为空时调用 insertValue 处理
-                this.element.dispatchEvent(new CustomEvent("keyup"));
+                // 没有被块元素包裹
+                modifyPre(vditor, range);
                 blockElement = hasClosestBlock(range.startContainer);
             }
             if (!blockElement) {
@@ -328,45 +328,19 @@ class WYSIWYG {
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
-            let range = getSelection().getRangeAt(0);
-            const startOffset = range.startOffset;
 
-            if (vditor.wysiwyg.element.innerHTML !== "" && vditor.wysiwyg.element.childNodes.length === 1 &&
+            if ((event.key === "Backspace" || event.key === "Delete") &&
+                vditor.wysiwyg.element.innerHTML !== "" && vditor.wysiwyg.element.childNodes.length === 1 &&
                 vditor.wysiwyg.element.firstElementChild && vditor.wysiwyg.element.firstElementChild.tagName === "P"
                 && (vditor.wysiwyg.element.textContent === "" || vditor.wysiwyg.element.textContent === "\n")) {
                 // 为空时显示 placeholder
                 vditor.wysiwyg.element.innerHTML = "";
             }
 
+            const range = getSelection().getRangeAt(0);
+
             // 没有被块元素包裹
-            Array.from(vditor.wysiwyg.element.childNodes).find((node: HTMLElement) => {
-                if (node.nodeType === 3) {
-                    const pElement = document.createElement("p");
-                    pElement.setAttribute("data-block", "0");
-                    pElement.textContent = node.textContent;
-                    node.parentNode.insertBefore(pElement, node);
-                    node.remove();
-                    range.setStart(pElement.firstChild, Math.min(pElement.firstChild.textContent.length, startOffset));
-                    range.collapse(true);
-                    setSelectionFocus(range);
-                    return true;
-                } else if (!node.getAttribute("data-block")) {
-                    if (node.tagName === "P") {
-                        node.remove();
-                    } else {
-                        range.insertNode(document.createElement("wbr"));
-                        if (node.tagName === "DIV") {
-                            // firefox 换行产生 div
-                            node.outerHTML = `<p data-block="0"><wbr>${node.innerHTML}</p>`;
-                        } else {
-                            node.outerHTML = `<p data-block="0">${node.outerHTML}</p>`;
-                        }
-                        setRangeByWbr(this.element, range);
-                        range = getSelection().getRangeAt(0);
-                    }
-                    return true;
-                }
-            });
+            modifyPre(vditor, range);
 
             highlightToolbar(vditor);
 
