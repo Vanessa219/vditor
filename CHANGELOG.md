@@ -48,6 +48,7 @@
 ### v2.2.16 / 未发布
 
 * [207](https://github.com/Vanessa219/vditor/issues/207) heading at first time(windows firefox) `修复缺陷`
+* [203](https://github.com/Vanessa219/vditor/issues/203) when cache:false, use cache `修复缺陷`
 
 ### v2.2.15 / 2020-03-04
 

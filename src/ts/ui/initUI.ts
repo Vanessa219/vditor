@@ -101,6 +101,8 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
             initValue = vditor.options.value;
         } else if (vditor.originalInnerHTML) {
             initValue = html2md(vditor, vditor.originalInnerHTML);
+        } else if (!vditor.options.cache) {
+            initValue = "";
         }
     }
 
