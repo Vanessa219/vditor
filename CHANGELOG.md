@@ -42,9 +42,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v2.2.17 / 未发布
+### v2.2.18 / 未发布
 
-### v2.2.16 / 2020-03-05
+### v2.2.17 / 2020-03-05
 
 * [209](https://github.com/Vanessa219/vditor/pull/209) 支持 Graphviz `引入特性`
 * [207](https://github.com/Vanessa219/vditor/issues/207) heading at first time(windows firefox) `修复缺陷`
