@@ -120,6 +120,7 @@
   * insertValue 添加 render 参数
   * 移除异步方法
   * 引用快捷键修改
+  * 移除 index-preview.html, index-preview.js 文件
 
 ### v2.1.15 / 2020-02-09
 
