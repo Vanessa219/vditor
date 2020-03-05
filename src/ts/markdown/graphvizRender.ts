@@ -23,7 +23,7 @@ export const graphvizRender = (element: HTMLElement, code: string, cdn = `https:
             e.setAttribute("data-processed", "true");
         } catch (error) {
             e.className = "hljs";
-            e.innerHTML = `echarts render error: <br>${error}`;
+            e.innerHTML = `graphviz render error: <br>${error}`;
         }
     });
 };
