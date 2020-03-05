@@ -46,10 +46,14 @@ export const updateHotkeyTip = (hotkey: string) => {
         hotkey = hotkey.replace("ctrl", "⌘").replace("shift", "⇧")
             .replace("alt", "⌥");
         if (hotkey.indexOf("⇧") > -1) {
-            hotkey = hotkey.replace(":", ";").replace("+", "=")
-                .replace("_", "-");
+            if (!isFirefox()) {
+                hotkey = hotkey.replace(":", ";").replace("+", "=")
+                    .replace("_", "-");
+            } else {
+                // Mac Firefox 按下 shift 后，key 同 windows 系统
+                hotkey = hotkey.replace(";", ":").replace("=", "+");
+            }
         }
-
     } else {
         hotkey = hotkey.replace("⌘", "ctrl").replace("⇧", "shift")
             .replace("⌥", "alt");

@@ -47,10 +47,10 @@
 
 ### v2.2.16 / 未发布
 
-* [199](https://github.com/Vanessa219/vditor/pull/199) heading at first time(windows firefox) `修复缺陷`
 
 ### v2.2.15 / 2020-03-04
 
+* [199](https://github.com/Vanessa219/vditor/pull/199) heading at first time(windows firefox) `修复缺陷`
 * [202](https://github.com/Vanessa219/vditor/pull/202) 第一次进入代码块后 ctrl+a 无作用 `修复缺陷`
 * [201](https://github.com/Vanessa219/vditor/pull/201) table (windows firefox) `修复缺陷`
 * [200](https://github.com/Vanessa219/vditor/pull/200) copy in wysiwyg bug `修复缺陷`

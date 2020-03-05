@@ -311,8 +311,8 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
         } else if (commandName === "table") {
             document.execCommand("insertHTML", false,
                 "<table data-block=\"0\"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead>"
-                + "<tbody><tr><td></td><td></td><td>"
-                + "</td></tr><tr><td></td><td></td><td></td></tr></tbody></table>");
+                + "<tbody><tr><td> </td><td> </td><td> "
+                + "</td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>");
             range.selectNode(vditor.wysiwyg.element.querySelector("wbr").previousSibling);
             vditor.wysiwyg.element.querySelector("wbr").remove();
             setSelectionFocus(range);

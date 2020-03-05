@@ -214,9 +214,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                         if (columnDiff > 0) {
                             for (let j = 0; j < columnDiff; j++) {
                                 if (i === 0) {
-                                    tableElement.rows[i].lastElementChild.insertAdjacentHTML("afterend", "<th></th>");
+                                    tableElement.rows[i].lastElementChild.insertAdjacentHTML("afterend", "<th> </th>");
                                 } else {
-                                    tableElement.rows[i].insertCell();
+                                    tableElement.rows[i].lastElementChild.insertAdjacentHTML("afterend", "<td> </td>");
                                 }
                             }
                         } else {
@@ -232,7 +232,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     if (rowDiff > 0) {
                         let rowHTML = "<tr>";
                         for (let m = 0; m < column; m++) {
-                            rowHTML += "<td></td>";
+                            rowHTML += "<td> </td>";
                         }
                         for (let l = 0; l < rowDiff; l++) {
                             if (tableElement.querySelector("tbody")) {
@@ -300,7 +300,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
 
             const left = document.createElement("button");
-            left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft);
+            left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft +
+                "<" + updateHotkeyTip("⌘-⇧-L") + ">");
             left.setAttribute("data-type", "left");
             left.innerHTML = outdentSVG;
             left.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
@@ -310,7 +311,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const center = document.createElement("button");
-            center.setAttribute("aria-label", i18n[vditor.options.lang].alignCenter);
+            center.setAttribute("aria-label", i18n[vditor.options.lang].alignCenter +
+                "<" + updateHotkeyTip("⌘-⇧-C") + ">");
             center.setAttribute("data-type", "center");
             center.innerHTML = alignCenterSVG;
             center.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
@@ -320,7 +322,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const right = document.createElement("button");
-            right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight);
+            right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight +
+                "<" + updateHotkeyTip("⌘-⇧-R") + ">");
             right.setAttribute("data-type", "right");
             right.innerHTML = indentSVG;
             right.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +

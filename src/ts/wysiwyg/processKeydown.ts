@@ -190,7 +190,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (matchHotKey("⌘-=", event)) {
             let rowHTML = "";
             for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
-                rowHTML += `<td>${m === 0 ? "<wbr>" : ""}</td>`;
+                rowHTML += `<td>${m === 0 ? " <wbr>" : " "}</td>`;
             }
             if (cellElement.tagName === "TH") {
                 cellElement.parentElement.parentElement.insertAdjacentHTML("afterend",
@@ -207,7 +207,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
         // 后方新添加一列
         const tableElement = cellElement.parentElement.parentElement.parentElement as HTMLTableElement;
-
         if (matchHotKey("⌘-⇧-=", event)) {
             let index = 0;
             let previousElement = cellElement.previousElementSibling;
@@ -217,9 +216,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             for (let i = 0; i < tableElement.rows.length; i++) {
                 if (i === 0) {
-                    tableElement.rows[i].cells[index].insertAdjacentHTML("afterend", "<th></th>");
+                    tableElement.rows[i].cells[index].insertAdjacentHTML("afterend", "<th> </th>");
                 } else {
-                    tableElement.rows[i].cells[index].insertAdjacentHTML("afterend", "<td></td>");
+                    tableElement.rows[i].cells[index].insertAdjacentHTML("afterend", "<td> </td>");
                 }
             }
 
