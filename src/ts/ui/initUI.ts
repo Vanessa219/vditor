@@ -75,6 +75,7 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     }
 
     if (vditor.editor && vditor.options.typewriterMode) {
+        // 由于 Firefox padding-bottom bug，只能使用 :after
         vditor.editor.element.style.setProperty("--editor-bottom", height / 2 + "px");
     }
 
