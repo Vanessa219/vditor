@@ -47,20 +47,21 @@
 
 ### v2.2.16 / 未发布
 
+* [207](https://github.com/Vanessa219/vditor/issues/207) heading at first time(windows firefox) `修复缺陷`
 
 ### v2.2.15 / 2020-03-04
 
-* [199](https://github.com/Vanessa219/vditor/pull/199) heading at first time(windows firefox) `修复缺陷`
-* [202](https://github.com/Vanessa219/vditor/pull/202) 第一次进入代码块后 ctrl+a 无作用 `修复缺陷`
-* [201](https://github.com/Vanessa219/vditor/pull/201) table (windows firefox) `修复缺陷`
-* [200](https://github.com/Vanessa219/vditor/pull/200) copy in wysiwyg bug `修复缺陷`
-* [197](https://github.com/Vanessa219/vditor/pull/197) 禁用编辑器后，工具栏未被禁用 `修复缺陷`
-* [196](https://github.com/Vanessa219/vditor/pull/196) Headings command+alt+1 at safari(Mac) `修复缺陷`
+* [199](https://github.com/Vanessa219/vditor/issues/199) heading at first time(windows firefox) `修复缺陷`
+* [202](https://github.com/Vanessa219/vditor/issues/202) 第一次进入代码块后 ctrl+a 无作用 `修复缺陷`
+* [201](https://github.com/Vanessa219/vditor/issues/201) table (windows firefox) `修复缺陷`
+* [200](https://github.com/Vanessa219/vditor/issues/200) copy in wysiwyg bug `修复缺陷`
+* [197](https://github.com/Vanessa219/vditor/issues/197) 禁用编辑器后，工具栏未被禁用 `修复缺陷`
+* [196](https://github.com/Vanessa219/vditor/issues/196) Headings command+alt+1 at safari(Mac) `修复缺陷`
 * [195](https://github.com/Vanessa219/vditor/pull/195) added korean i18n `引入特性`
-* [194](https://github.com/Vanessa219/vditor/pull/194) Lists (Firefox Compatibility) `修复缺陷`
-* [193](https://github.com/Vanessa219/vditor/pull/193) Links (Firefox Compatibility) `修复缺陷`
-* [192](https://github.com/Vanessa219/vditor/pull/192) Heading (Firefox Compatibility) `修复缺陷`
-* [191](https://github.com/Vanessa219/vditor/pull/191) backspace problem(Firefox Compatibility) `修复缺陷`
+* [194](https://github.com/Vanessa219/vditor/issues/194) Lists (Firefox Compatibility) `修复缺陷`
+* [193](https://github.com/Vanessa219/vditor/issues/193) Links (Firefox Compatibility) `修复缺陷`
+* [192](https://github.com/Vanessa219/vditor/issues/192) Heading (Firefox Compatibility) `修复缺陷`
+* [191](https://github.com/Vanessa219/vditor/issues/191) backspace problem(Firefox Compatibility) `修复缺陷`
 * [188](https://github.com/Vanessa219/vditor/issues/188) korean character composition at mac chrome `改进功能`
 * [187](https://github.com/Vanessa219/vditor/issues/187) ctrl+b, ctrl+i `修复缺陷`
 * [185](https://github.com/Vanessa219/vditor/issues/185) Safari 兼容性修复 `改进功能`

@@ -332,7 +332,7 @@ class WYSIWYG {
             const startOffset = range.startOffset;
 
             if (vditor.wysiwyg.element.innerHTML !== "" && vditor.wysiwyg.element.childNodes.length === 1 &&
-                vditor.wysiwyg.element.firstElementChild.tagName === "P"
+                vditor.wysiwyg.element.firstElementChild && vditor.wysiwyg.element.firstElementChild.tagName === "P"
                 && (vditor.wysiwyg.element.textContent === "" || vditor.wysiwyg.element.textContent === "\n")) {
                 // 为空时显示 placeholder
                 vditor.wysiwyg.element.innerHTML = "";
