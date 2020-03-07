@@ -140,13 +140,14 @@ class WYSIWYG {
             // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
             const range = getSelection().getRangeAt(0);
-            if (event.target.tagName === "CODE" || event.target.parentElement.tagName === "CODE") {
+            const codeElement = hasClosestByMatchTag(event.target, "CODE")
+            if (codeElement) {
                 // 粘贴在代码位置
                 const position = getSelectPosition(event.target);
-                event.target.textContent = event.target.textContent.substring(0, position.start)
-                    + textPlain + event.target.textContent.substring(position.end);
+                codeElement.textContent = codeElement.textContent.substring(0, position.start)
+                    + textPlain + codeElement.textContent.substring(position.end);
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
-                    event.target.parentElement);
+                    codeElement.parentElement);
             } else if (code) {
                 const node = document.createElement("div");
                 node.innerHTML = `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
