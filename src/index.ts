@@ -279,14 +279,15 @@ class Vditor {
         } else {
             if (getSelection().rangeCount === 0) {
                 this.vditor.wysiwyg.element.focus();
+            } else {
+                const range = getSelection().getRangeAt(0);
+                if (!this.vditor.wysiwyg.element.contains(range.startContainer)) {
+                    this.vditor.wysiwyg.element.focus();
+                } else {
+                    range.collapse(true);
+                }
             }
 
-            const range = getSelection().getRangeAt(0);
-            if (!this.vditor.wysiwyg.element.contains(range.startContainer)) {
-                this.vditor.wysiwyg.element.focus();
-            }
-
-            range.collapse(false);
             if (render) {
                 const vditorDomHTML = this.vditor.lute.Md2VditorDOM(value);
                 insertHTML(vditorDomHTML, this.vditor);

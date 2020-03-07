@@ -405,6 +405,79 @@ export const highlightToolbar = (vditor: IVditor) => {
             genAPopover(vditor, aElement);
         }
 
+        // link-ref
+        const linkRefElement = hasClosestByAttribute(typeElement, "data-type", "link-ref");
+        if (linkRefElement) {
+            vditor.wysiwyg.popover.innerHTML = "";
+
+            const updateLinkRef = () => {
+                // data-link-text
+                if (input.value.trim() !== "") {
+                    linkRefElement.setAttribute("data-link-text", input.value);
+                    linkRefElement.innerHTML = input.value;
+                }
+                // data-link-label
+                if (input1.value.trim() !== "") {
+                    linkRefElement.setAttribute("data-link-label", input1.value);
+                }
+            };
+
+            const hotkey = (event: KeyboardEvent, nextInputElement: HTMLInputElement) => {
+                if (event.isComposing) {
+                    return;
+                }
+                if (event.key === "Tab") {
+                    nextInputElement.focus();
+                    nextInputElement.select();
+                    event.preventDefault();
+                    return;
+                }
+                if (event.altKey && event.key === "Enter") {
+                    range.selectNodeContents(linkRefElement)
+                    range.collapse(false);
+                    setSelectionFocus(range);
+                    event.preventDefault();
+                }
+            };
+
+            const inputWrap = document.createElement("span");
+            inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
+            inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+            const input = document.createElement("input");
+            inputWrap.appendChild(input);
+            input.className = "vditor-input";
+            input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
+            input.style.width = "120px";
+            input.value = linkRefElement.getAttribute("data-link-text");
+            input.oninput = () => {
+                updateLinkRef();
+            };
+            input.onkeydown = (event) => {
+                hotkey(event, input1);
+            };
+
+            const input1Wrap = document.createElement("span");
+            input1Wrap.setAttribute("aria-label", i18n[vditor.options.lang].linkRef);
+            input1Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
+            const input1 = document.createElement("input");
+            input1Wrap.appendChild(input1);
+            input1.className = "vditor-input";
+            input1.setAttribute("placeholder", i18n[vditor.options.lang].linkRef);
+            input1.value = linkRefElement.getAttribute("data-link-label");
+            input1.oninput = () => {
+                updateLinkRef();
+            };
+            input1.onkeydown = (event) => {
+                hotkey(event, input);
+            };
+
+            const close = genClose(vditor.wysiwyg.popover, linkRefElement, vditor);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
+            setPopoverPosition(vditor, linkRefElement);
+        }
+
         // img popover
         let imgElement = nextIsImg(range) as HTMLElement;
         if ((range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset &&
@@ -534,7 +607,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             });
         }
 
-        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement) {
+        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement && !linkRefElement) {
             vditor.wysiwyg.popover.style.display = "none";
         }
 

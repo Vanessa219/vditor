@@ -116,9 +116,10 @@ export const modifyPre = (vditor: IVditor, range: Range) => {
             const pElement = document.createElement("p");
             pElement.setAttribute("data-block", "0");
             pElement.textContent = node.textContent;
+            const cloneRangeOffset = range.startOffset;
             node.parentNode.insertBefore(pElement, node);
             node.remove();
-            range.setStart(pElement.firstChild, Math.min(pElement.firstChild.textContent.length, range.startOffset));
+            range.setStart(pElement.firstChild, Math.min(pElement.firstChild.textContent.length, cloneRangeOffset));
             range.collapse(true);
             setSelectionFocus(range);
             return true;

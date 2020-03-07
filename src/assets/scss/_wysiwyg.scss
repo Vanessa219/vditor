@@ -150,4 +150,8 @@
     display: none;
     color: var(--second-color);
   }
+
+  span[data-type="link-ref"] {
+    color: $blurColor;
+  }
 }
