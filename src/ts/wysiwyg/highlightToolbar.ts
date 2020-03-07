@@ -551,9 +551,14 @@ export const highlightToolbar = (vditor: IVditor) => {
 };
 
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
-    vditor.wysiwyg.popover.style.top = Math.max(-11, element.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
-    vditor.wysiwyg.popover.style.left = element.offsetLeft + "px";
-    vditor.wysiwyg.popover.setAttribute("data-top", (element.offsetTop - 21).toString());
+    let targetElement = element;
+    const tableElement = hasClosestByMatchTag(element, "TABLE")
+    if (tableElement) {
+        targetElement = tableElement;
+    }
+    vditor.wysiwyg.popover.style.top = Math.max(-11, targetElement.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
+    vditor.wysiwyg.popover.style.left = targetElement.offsetLeft + "px";
+    vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
     vditor.wysiwyg.popover.style.display = "block";
 };
 
