@@ -2,11 +2,8 @@ import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
-    hasClosestByMatchTag,
     hasClosestByTag,
 } from "../util/hasClosest";
-import {log} from "../util/log";
-import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
@@ -67,53 +64,11 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
                 // li 中有 blockquote 就只渲染 blockquote
                 blockElement = hasClosestBlock(range.startContainer) || blockElement;
             } else {
-                addP2Li(topListElement);
                 blockElement = topListElement;
             }
         }
 
-        let vditorHTML;
-        if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
-            vditorHTML = blockElement.innerHTML;
-        } else {
-            vditorHTML = blockElement.outerHTML;
-            let listElement = hasClosestByMatchTag(topListElement || range.startContainer, "UL");
-            if (!listElement) {
-                listElement = hasClosestByMatchTag(topListElement || range.startContainer, "OL");
-            }
-            if (listElement) {
-                const listPrevElement = listElement.previousElementSibling;
-                const listNextElement = listElement.nextElementSibling;
-                if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
-                    addP2Li(listPrevElement);
-                    vditorHTML = listPrevElement.outerHTML + vditorHTML;
-                    listPrevElement.remove();
-                }
-                if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
-                    addP2Li(listNextElement);
-                    vditorHTML = vditorHTML + listNextElement.outerHTML;
-                    listNextElement.remove();
-                }
-                // firefox 列表回车不会产生新的 list item https://github.com/Vanessa219/vditor/issues/194
-                vditorHTML = vditorHTML.replace("<div><wbr><br></div>", "<li><p><wbr><br></p></li>");
-            }
-        }
-
-        // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-        vditorHTML = vditorHTML.replace(/<\/(strong|b)><strong data-marker="\W{2}">/g, "")
-            .replace(/<\/(em|i)><em data-marker="\W{1}">/g, "")
-            .replace(/<\/(s|strike)><s data-marker="~{1,2}">/g, "");
-        log("SpinVditorDOM", vditorHTML, "argument", vditor.options.debugger);
-        vditorHTML = vditor.lute.SpinVditorDOM(vditorHTML);
-        if (vditorHTML === '<hr data-block="0" />') {
-            vditorHTML = '<hr data-block="0" /><p data-block="0">\n<wbr></p>';
-        }
-        log("SpinVditorDOM", vditorHTML, "result", vditor.options.debugger);
-        if (blockElement.isEqualNode(vditor.wysiwyg.element)) {
-            blockElement.innerHTML = vditorHTML;
-        } else {
-            blockElement.outerHTML = vditorHTML;
-        }
+        vditor.wysiwyg.spinVditorDOM(vditor, blockElement);
 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);

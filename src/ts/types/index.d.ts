@@ -321,5 +321,6 @@ interface IVditor {
         hlToolbarTimeoutId: number,
         preventInput: boolean,
         composingLock: boolean,
+        spinVditorDOM(vditor: IVditor, element: HTMLElement): void,
     };
 }

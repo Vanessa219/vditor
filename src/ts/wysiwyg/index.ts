@@ -7,6 +7,7 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
+import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -49,6 +50,67 @@ class WYSIWYG {
         focusEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
+    }
+
+    public spinVditorDOM(vditor: IVditor, element: HTMLElement, extHTML?: string) {
+        let html = "";
+        if (element.getAttribute("data-type") === "link-ref-defs") {
+            element = this.element;
+        }
+
+        addP2Li(vditor.wysiwyg.element);
+
+        const isWYSIWYGElement = element.isEqualNode(this.element);
+
+        if (!isWYSIWYGElement) {
+            html = element.outerHTML;
+
+            if (element.tagName === "UL" || element.tagName === "OL") {
+                // 如果为列表的话，需要把上下的列表都重绘
+                const listPrevElement = element.previousElementSibling;
+                const listNextElement = element.nextElementSibling;
+                if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
+                    html = listPrevElement.outerHTML + html;
+                    listPrevElement.remove();
+                }
+                if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
+                    html = html + listNextElement.outerHTML;
+                    listNextElement.remove();
+                }
+                // firefox 列表回车不会产生新的 list item https://github.com/Vanessa219/vditor/issues/194
+                html = html.replace("<div><wbr><br></div>", "<li><p><wbr><br></p></li>");
+            }
+
+            // 添加链接引用
+            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs']");
+            if (allLinkRefDefsElement) {
+                html += allLinkRefDefsElement.outerHTML;
+                allLinkRefDefsElement.remove();
+            }
+        } else {
+            html = element.innerHTML;
+        }
+
+        // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
+        html = html.replace(/<\/(strong|b)><strong data-marker="\W{2}">/g, "")
+            .replace(/<\/(em|i)><em data-marker="\W{1}">/g, "")
+            .replace(/<\/(s|strike)><s data-marker="~{1,2}">/g, "");
+
+        log("SpinVditorDOM", html, "argument", vditor.options.debugger);
+
+        html = vditor.lute.SpinVditorDOM(html);
+
+        log("SpinVditorDOM", html, "result", vditor.options.debugger);
+
+        if (isWYSIWYGElement) {
+            element.innerHTML = html;
+        } else {
+            element.outerHTML = html;
+            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs']");
+            if (allLinkRefDefsElement && !this.element.lastElementChild.isEqualNode(allLinkRefDefsElement)) {
+                this.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+            }
+        }
     }
 
     private bindEvent(vditor: IVditor) {
@@ -140,7 +202,7 @@ class WYSIWYG {
             // process code
             const code = processPasteCode(textHTML, textPlain, "wysiwyg");
             const range = getSelection().getRangeAt(0);
-            const codeElement = hasClosestByMatchTag(event.target, "CODE")
+            const codeElement = hasClosestByMatchTag(event.target, "CODE");
             if (codeElement) {
                 // 粘贴在代码位置
                 const position = getSelectPosition(event.target);

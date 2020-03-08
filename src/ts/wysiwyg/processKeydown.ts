@@ -4,7 +4,7 @@ import {setSelectionFocus} from "../editor/setSelection";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
-    getTopList, hasClosestBlock,
+    getTopList, hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag, hasClosestByTag,
     hasTopClosestByTag,
@@ -651,10 +651,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // alt+enter a popover 中 input 和 a 切换
+    // alt+enter
     if (event.altKey && event.key === "Enter" && !isCtrl(event) && !event.shiftKey) {
+        // a popover 中 input 和 a 切换
         const aElement = hasClosestByTag(startContainer, "A");
         if (aElement) {
+            const inputElement = vditor.wysiwyg.popover.querySelector("input");
+            inputElement.focus();
+            inputElement.select();
+        }
+
+        // 链接引用 popover 中 input 和元素切换
+        const linRefElement = hasClosestByAttribute(startContainer, "data-type", "link-ref");
+        if (linRefElement) {
             const inputElement = vditor.wysiwyg.popover.querySelector("input");
             inputElement.focus();
             inputElement.select();

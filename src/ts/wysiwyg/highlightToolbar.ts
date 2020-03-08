@@ -411,10 +411,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.innerHTML = "";
 
             const updateLinkRef = () => {
-                // data-link-text
                 if (input.value.trim() !== "") {
-                    linkRefElement.setAttribute("data-link-text", input.value);
-                    linkRefElement.innerHTML = input.value;
+                    linkRefElement.textContent = input.value;
                 }
                 // data-link-label
                 if (input1.value.trim() !== "") {
@@ -433,7 +431,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     return;
                 }
                 if (event.altKey && event.key === "Enter") {
-                    range.selectNodeContents(linkRefElement)
+                    range.selectNodeContents(linkRefElement);
                     range.collapse(false);
                     setSelectionFocus(range);
                     event.preventDefault();
@@ -448,7 +446,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             input.className = "vditor-input";
             input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
             input.style.width = "120px";
-            input.value = linkRefElement.getAttribute("data-link-text");
+            input.value = linkRefElement.textContent;
             input.oninput = () => {
                 updateLinkRef();
             };
@@ -607,7 +605,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             });
         }
 
-        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement && !linkRefElement) {
+        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement
+            && !linkRefElement) {
             vditor.wysiwyg.popover.style.display = "none";
         }
 
@@ -625,7 +624,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     let targetElement = element;
-    const tableElement = hasClosestByMatchTag(element, "TABLE")
+    const tableElement = hasClosestByMatchTag(element, "TABLE");
     if (tableElement) {
         targetElement = tableElement;
     }
