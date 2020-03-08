@@ -22,10 +22,6 @@
 * [Vditor 实现 Markdown 所见即所得](https://hacpai.com/article/1577370404903)
 * [Lute 一款对中文语境优化的 Markdown 引擎，支持 Go 和 JavaScript](https://hacpai.com/article/1567047822949)
 
-欢迎关注 B3log 开源社区微信公众号 `B3log开源`
-
-![image-d3c00d78](https://user-images.githubusercontent.com/873584/71566370-0d312c00-2af2-11ea-8ea1-0d45d6f0db20.png)
-
 使用截图
 
 ![demo](https://user-images.githubusercontent.com/970828/74103219-5fe81400-4b85-11ea-908d-66e5fdd4206f.png)
@@ -34,3 +30,8 @@
 渲染截图
 
 ![render](https://user-images.githubusercontent.com/970828/64341072-30ebd600-d01a-11e9-8e8a-b30c24364b58.png)
+
+欢迎关注 B3log 开源社区微信公众号 `B3log开源`
+
+![image-d3c00d78](https://user-images.githubusercontent.com/873584/71566370-0d312c00-2af2-11ea-8ea1-0d45d6f0db20.png)
+
