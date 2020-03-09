@@ -99,7 +99,9 @@
   h4:before,
   h5:before,
   h6:before,
-  div.vditor-wysiwyg__block:before {
+  div.vditor-wysiwyg__block:before,
+  div[data-type="link-ref-defs-block"]:before,
+  div[data-type="footnotes-block"]:before {
     float: left;
     padding-right: 4px;
     margin-left: -29px;
@@ -130,16 +132,22 @@
     content: 'h6';
   }
 
+  div[data-type="link-ref-defs-block"]:before {
+    content: '"A"';
+  }
+
+  div[data-type="footnotes-block"]:before {
+    content: '^F';
+  }
+
+  div.vditor-wysiwyg__block:before {
+    content: "</>";
+  }
+
   hr {
     display: inline-block;
     margin: 12px 0;
     width: 100%;
-  }
-
-  div.vditor-wysiwyg__block {
-    &:before {
-      content: "</>";
-    }
   }
 
   details {
@@ -165,5 +173,9 @@
     border-top: 2px solid var(--heading-border-color);
     padding-top: 24px;
     margin-top: 24px;
+  }
+
+  div[data-type="link-ref-defs-block"] {
+    color: var(--blockquote-color);
   }
 }

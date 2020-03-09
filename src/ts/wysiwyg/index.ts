@@ -55,6 +55,7 @@ class WYSIWYG {
     public spinVditorDOM(vditor: IVditor, element: HTMLElement) {
         let html = "";
         if (element.getAttribute("data-type") === "link-ref-defs-block" || isToC(element.innerText)) {
+            // 修改链接引用或 ToC
             element = this.element;
         }
 
@@ -89,13 +90,13 @@ class WYSIWYG {
 
             // 添加链接引用
             const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs-block']");
-            if (allLinkRefDefsElement) {
+            if (allLinkRefDefsElement && !element.isEqualNode(allLinkRefDefsElement)) {
                 html += allLinkRefDefsElement.outerHTML;
                 allLinkRefDefsElement.remove();
             }
             // 添加脚注
             const allFootnoteElement = this.element.querySelector("[data-type='footnotes-block']");
-            if (allFootnoteElement) {
+            if (allFootnoteElement && !element.isEqualNode(allFootnoteElement)) {
                 html += allFootnoteElement.outerHTML;
                 allFootnoteElement.remove();
             }
@@ -123,7 +124,7 @@ class WYSIWYG {
                 this.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
             }
 
-            const allFootnoteElement = this.element.querySelector("[data-type='link-ref-defs-block']");
+            const allFootnoteElement = this.element.querySelector("[data-type='footnotes-block']");
             if (allFootnoteElement) {
                 this.element.insertAdjacentElement("beforeend", allFootnoteElement);
             }
