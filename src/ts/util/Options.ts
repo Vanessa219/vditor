@@ -12,6 +12,7 @@ export class Options {
         counter: 0,
         debugger: false,
         height: "auto",
+        hideToolbar: false,
         hint: {
             delay: 200,
             emoji: {

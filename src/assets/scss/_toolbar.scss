@@ -1,14 +1,19 @@
-/**
- * toolbar.
- *
- * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
- * @version 0.1.2.0, Jun 20, 2019
- */
 .vditor {
   &-toolbar {
-    background-color:  var(--toolbar-background-color);
-    border-bottom: 1px solid  var(--border-color);
+    background-color: var(--toolbar-background-color);
+    border-bottom: 1px solid var(--border-color);
     padding: 0 5px;
+
+    &--hide {
+      transition: $transition;
+      background-color: transparent;
+      height: 5px;
+
+      &:hover {
+        background-color: var(--toolbar-background-color);
+        height: auto;
+      }
+    }
 
     & > div {
       float: left;
@@ -60,7 +65,7 @@
 
   &-menu {
     &--current svg {
-      color:  var(--toolbar-icon-hover-color);
+      color: var(--toolbar-icon-hover-color);
     }
 
     &__divider {
@@ -92,7 +97,7 @@
       flex: 1;
       width: 200px;
       margin-right: 10px;
-      color:  var(--toolbar-icon-color);
+      color: var(--toolbar-icon-color);
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -101,12 +106,12 @@
     &__tail {
       margin-top: 5px;
       font-size: 12px;
-      color:  var(--toolbar-icon-color);
+      color: var(--toolbar-icon-color);
       display: flex;
 
       a {
         text-decoration: none;
-        color:  var(--toolbar-icon-color);
+        color: var(--toolbar-icon-color);
 
         &:hover {
           color: var(--toolbar-icon-hover-color);

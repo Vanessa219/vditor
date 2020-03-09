@@ -30,6 +30,7 @@ import {WYSIWYG} from "./WYSIWYG";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
+    public element: HTMLElement;
 
     constructor(vditor: IVditor) {
         const options = vditor.options;
@@ -139,5 +140,15 @@ export class Toolbar {
 
             this.elements[key] = menuItemObj.element;
         });
+
+        this.element = document.createElement("div");
+        this.element.className = "vditor-toolbar";
+        Object.keys(this.elements).forEach((key) => {
+            this.element.appendChild(this.elements[key]);
+        });
+
+        if (vditor.options.hideToolbar) {
+            this.element.classList.add('vditor-toolbar--hide');
+        }
     }
 }

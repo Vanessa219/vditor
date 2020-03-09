@@ -17,13 +17,7 @@ export const initUI = (vditor: IVditor) => {
         vditorElement.style.width = vditor.options.width;
     }
 
-    const toolbarElement = document.createElement("div");
-    toolbarElement.className = "vditor-toolbar";
-    Object.keys(vditor.toolbar.elements).forEach((key) => {
-        toolbarElement.appendChild(vditor.toolbar.elements[key]);
-    });
-
-    vditorElement.appendChild(toolbarElement);
+    vditorElement.appendChild(vditor.toolbar.element);
 
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";

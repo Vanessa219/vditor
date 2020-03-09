@@ -12,7 +12,7 @@ interface ILuteRender {
                 Type: number,
             },
         }
-    },               entering: boolean) => [string, number];
+    }, entering: boolean) => [string, number];
 }
 
 interface ILute {
@@ -155,7 +155,7 @@ interface IMath {
     engine: "KaTeX" | "MathJax";
 }
 
-interface IMarkdownConfig  {
+interface IMarkdownConfig {
     autoSpace?: boolean;
     fixTermTypo?: boolean;
     chinesePunct?: boolean;
@@ -231,6 +231,7 @@ interface IOptions {
     mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only";
     preview?: IPreview;
     hint?: IHint;
+    hideToolbar?: boolean;
     theme?: "classic" | "dark";
     upload?: IUpload;
     classes?: IClasses;
@@ -270,6 +271,7 @@ interface IVditor {
     };
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
+        element?: HTMLElement,
     };
     preview?: {
         element: HTMLElement
