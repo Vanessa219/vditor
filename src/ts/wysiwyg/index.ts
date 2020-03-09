@@ -52,7 +52,7 @@ class WYSIWYG {
         selectEvent(vditor, this.element);
     }
 
-    public spinVditorDOM(vditor: IVditor, element: HTMLElement, extHTML?: string) {
+    public spinVditorDOM(vditor: IVditor, element: HTMLElement) {
         let html = "";
         if (element.getAttribute("data-type") === "link-ref-defs" || isToC(element.innerText)) {
             element = this.element;
@@ -63,6 +63,12 @@ class WYSIWYG {
         const isWYSIWYGElement = element.isEqualNode(this.element);
 
         if (!isWYSIWYGElement) {
+            // 修改脚注
+            const footnoteElement = hasClosestByAttribute(element, "data-type", "footnotes-block")
+            if (footnoteElement) {
+                element = footnoteElement;
+            }
+
             html = element.outerHTML;
 
             if (element.tagName === "UL" || element.tagName === "OL") {
@@ -87,6 +93,12 @@ class WYSIWYG {
                 html += allLinkRefDefsElement.outerHTML;
                 allLinkRefDefsElement.remove();
             }
+            // 添加脚注
+            const allFootnoteElement = this.element.querySelector("[data-type='footnotes-block']");
+            if (allFootnoteElement) {
+                html += allFootnoteElement.outerHTML;
+                allFootnoteElement.remove();
+            }
         } else {
             html = element.innerHTML;
         }
@@ -107,8 +119,13 @@ class WYSIWYG {
         } else {
             element.outerHTML = html;
             const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs']");
-            if (allLinkRefDefsElement && !this.element.lastElementChild.isEqualNode(allLinkRefDefsElement)) {
+            if (allLinkRefDefsElement) {
                 this.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+            }
+
+            const allFootnoteElement = this.element.querySelector("[data-type='link-ref-defs']");
+            if (allFootnoteElement) {
+                this.element.insertAdjacentElement("beforeend", allFootnoteElement);
             }
         }
     }

@@ -159,4 +159,10 @@
     color: $blurColor;
     text-decoration: underline;
   }
+
+  div[data-type="footnotes-block"] {
+    border-top: 2px solid var(--heading-border-color);
+    padding-top: 24px;
+    margin-top: 24px;
+  }
 }

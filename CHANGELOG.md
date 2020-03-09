@@ -128,6 +128,7 @@
   * 添加 graphvizRender
   * 添加 option.preview.markdown.toc
   * 添加 option.hideToolbar
+  * options.preview.markdown.autoSpace/chinesePunct/fixTermTypo 默认值设置为 false
 
 ### v2.1.15 / 2020-02-09
 

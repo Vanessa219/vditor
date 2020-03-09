@@ -42,9 +42,9 @@ export class Options {
                 style: "github",
             },
             markdown: {
-                autoSpace: true,
-                chinesePunct: true,
-                fixTermTypo: true,
+                autoSpace: false,
+                chinesePunct: false,
+                fixTermTypo: false,
                 toc: true,
             },
             math: {
