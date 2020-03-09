@@ -406,7 +406,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             genAPopover(vditor, aElement);
         }
 
-        // link-ref
+        // link ref popover
         const linkRefElement = hasClosestByAttribute(typeElement, "data-type", "link-ref");
         if (linkRefElement) {
             vditor.wysiwyg.popover.innerHTML = "";
@@ -475,6 +475,43 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
             setPopoverPosition(vditor, linkRefElement);
+        }
+
+        // footnote popover
+        const footnotesRefElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-ref");
+        if (footnotesRefElement) {
+            vditor.wysiwyg.popover.innerHTML = "";
+
+            const inputWrap = document.createElement("span");
+            inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].footnoteRef);
+            inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+            const input = document.createElement("input");
+            inputWrap.appendChild(input);
+            input.className = "vditor-input";
+            input.setAttribute("placeholder", i18n[vditor.options.lang].footnoteRef);
+            input.style.width = "120px";
+            input.value = footnotesRefElement.getAttribute("data-footnotes-label");
+            input.oninput = () => {
+                if (input.value.trim() !== "") {
+                    footnotesRefElement.setAttribute("data-footnotes-label", input.value);
+                }
+            };
+            input.onkeydown = (event) => {
+                if (event.isComposing) {
+                    return;
+                }
+                if (event.altKey && event.key === "Enter") {
+                    range.selectNodeContents(footnotesRefElement);
+                    range.collapse(false);
+                    setSelectionFocus(range);
+                    event.preventDefault();
+                }
+            };
+
+            const close = genClose(vditor.wysiwyg.popover, footnotesRefElement, vditor);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
+            setPopoverPosition(vditor, footnotesRefElement);
         }
 
         // img popover
@@ -607,7 +644,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement
-            && !linkRefElement) {
+            && !linkRefElement && !footnotesRefElement) {
             vditor.wysiwyg.popover.style.display = "none";
         }
 

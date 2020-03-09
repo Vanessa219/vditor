@@ -148,7 +148,7 @@ export class Toolbar {
         });
 
         if (vditor.options.hideToolbar) {
-            this.element.classList.add('vditor-toolbar--hide');
+            this.element.classList.add("vditor-toolbar--hide");
         }
     }
 }

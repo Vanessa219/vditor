@@ -151,7 +151,8 @@
     color: var(--second-color);
   }
 
-  span[data-type="link-ref"] {
+  span[data-type="link-ref"],
+  sup[data-type="footnotes-ref"] {
     color: $blurColor;
   }
 

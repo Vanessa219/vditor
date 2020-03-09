@@ -54,7 +54,7 @@ class WYSIWYG {
 
     public spinVditorDOM(vditor: IVditor, element: HTMLElement) {
         let html = "";
-        if (element.getAttribute("data-type") === "link-ref-defs" || isToC(element.innerText)) {
+        if (element.getAttribute("data-type") === "link-ref-defs-block" || isToC(element.innerText)) {
             element = this.element;
         }
 
@@ -64,7 +64,7 @@ class WYSIWYG {
 
         if (!isWYSIWYGElement) {
             // 修改脚注
-            const footnoteElement = hasClosestByAttribute(element, "data-type", "footnotes-block")
+            const footnoteElement = hasClosestByAttribute(element, "data-type", "footnotes-block");
             if (footnoteElement) {
                 element = footnoteElement;
             }
@@ -88,7 +88,7 @@ class WYSIWYG {
             }
 
             // 添加链接引用
-            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs']");
+            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs-block']");
             if (allLinkRefDefsElement) {
                 html += allLinkRefDefsElement.outerHTML;
                 allLinkRefDefsElement.remove();
@@ -118,12 +118,12 @@ class WYSIWYG {
             element.innerHTML = html;
         } else {
             element.outerHTML = html;
-            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs']");
+            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs-block']");
             if (allLinkRefDefsElement) {
                 this.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
             }
 
-            const allFootnoteElement = this.element.querySelector("[data-type='link-ref-defs']");
+            const allFootnoteElement = this.element.querySelector("[data-type='link-ref-defs-block']");
             if (allFootnoteElement) {
                 this.element.insertAdjacentElement("beforeend", allFootnoteElement);
             }

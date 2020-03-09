@@ -653,17 +653,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // alt+enter
     if (event.altKey && event.key === "Enter" && !isCtrl(event) && !event.shiftKey) {
-        // a popover 中 input 和 a 切换
+        // 切换到链接、链接引用、脚注引用弹出的输入框中
         const aElement = hasClosestByTag(startContainer, "A");
-        if (aElement) {
-            const inputElement = vditor.wysiwyg.popover.querySelector("input");
-            inputElement.focus();
-            inputElement.select();
-        }
-
-        // 链接引用 popover 中 input 和元素切换
         const linRefElement = hasClosestByAttribute(startContainer, "data-type", "link-ref");
-        if (linRefElement) {
+        const footnoteRefElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-ref");
+        if (aElement || linRefElement || footnoteRefElement) {
             const inputElement = vditor.wysiwyg.popover.querySelector("input");
             inputElement.focus();
             inputElement.select();
