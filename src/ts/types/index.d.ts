@@ -31,6 +31,8 @@ interface ILute {
 
     SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
+    SetToC(enable: boolean): void;
+
     SetAutoSpace(enable: boolean): void;
 
     SetChinesePunct(enable: boolean): void;
@@ -153,6 +155,13 @@ interface IMath {
     engine: "KaTeX" | "MathJax";
 }
 
+interface IMarkdownConfig  {
+    autoSpace?: boolean;
+    fixTermTypo?: boolean;
+    chinesePunct?: boolean;
+    toc?: boolean;
+}
+
 interface IPreview {
     delay?: number;
     maxWidth?: number;
@@ -160,11 +169,7 @@ interface IPreview {
     url?: string;
     hljs?: IHljs;
     math?: IMath;
-    markdown?: {
-        autoSpace?: boolean;
-        fixTermTypo?: boolean;
-        chinesePunct?: boolean;
-    };
+    markdown?: IMarkdownConfig;
 
     parse?(element: HTMLElement): void;
 
@@ -183,11 +188,7 @@ interface IPreviewOptions {
     anchor?: boolean;
     math?: IMath;
     cdn?: string;
-    markdown?: {
-        autoSpace?: boolean;
-        fixTermTypo?: boolean;
-        chinesePunct?: boolean;
-    };
+    markdown?: IMarkdownConfig;
 
     transform?(html: string): string;
 }

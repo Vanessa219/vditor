@@ -18,6 +18,7 @@ export const loadLuteJs = (vditor: IVditor | string) => {
         vditor.lute.SetEmojiSite(vditor.options.hint.emojiPath);
         vditor.lute.SetInlineMathAllowDigitAfterOpenMarker(vditor.options.preview.math.inlineDigit);
         vditor.lute.SetAutoSpace(vditor.options.preview.markdown.autoSpace);
+        vditor.lute.SetToC(vditor.options.preview.markdown.toc);
         vditor.lute.SetChinesePunct(vditor.options.preview.markdown.chinesePunct);
         vditor.lute.SetFixTermTypo(vditor.options.preview.markdown.fixTermTypo);
     }
@@ -39,6 +40,7 @@ export const md2htmlByPreview = (mdText: string, options?: IPreviewOptions) => {
     lute.SetHeadingAnchor(options.anchor);
     lute.SetInlineMathAllowDigitAfterOpenMarker(options.math.inlineDigit);
     lute.SetAutoSpace(options.markdown.autoSpace);
+    lute.SetToC(options.markdown.toc);
     lute.SetChinesePunct(options.markdown.chinesePunct);
     lute.SetFixTermTypo(options.markdown.fixTermTypo);
     return lute.Md2HTML(mdText);

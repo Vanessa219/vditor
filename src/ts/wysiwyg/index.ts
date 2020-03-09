@@ -16,7 +16,7 @@ import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
-import {isHeadingMD, isHrMD} from "./processMD";
+import {isHeadingMD, isHrMD, isToC} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
@@ -54,7 +54,7 @@ class WYSIWYG {
 
     public spinVditorDOM(vditor: IVditor, element: HTMLElement, extHTML?: string) {
         let html = "";
-        if (element.getAttribute("data-type") === "link-ref-defs") {
+        if (element.getAttribute("data-type") === "link-ref-defs" || isToC(element.innerText)) {
             element = this.element;
         }
 

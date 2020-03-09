@@ -7,6 +7,7 @@ import {
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
+import {renderToc} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => {
@@ -45,6 +46,10 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         if (previousAEmptyElement) {
             // 链接结尾回车不应该复制到下一行 https://github.com/Vanessa219/vditor/issues/163
             previousAEmptyElement.remove();
+        }
+
+        if (blockElement.tagName.indexOf("H") === 0 && blockElement.tagName.length === 2) {
+            renderToc(vditor.wysiwyg.element);
         }
 
         // 保存光标

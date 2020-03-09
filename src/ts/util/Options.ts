@@ -44,6 +44,7 @@ export class Options {
                 autoSpace: true,
                 chinesePunct: true,
                 fixTermTypo: true,
+                toc: true,
             },
             math: {
                 engine: "KaTeX",

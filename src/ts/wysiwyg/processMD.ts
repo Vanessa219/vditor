@@ -43,3 +43,22 @@ export const isHeadingMD = (text: string) => {
     }
     return false;
 };
+
+export const isToC = (text: string) => {
+    return text.trim().toLowerCase() === "[toc]";
+};
+
+export const renderToc = (editorElement: HTMLPreElement) => {
+    const tocElement = editorElement.querySelector('[data-type="toc-block"]');
+    if (!tocElement) {
+        return;
+    }
+    let tocHTML = "";
+    Array.from(editorElement.children).forEach((item: HTMLElement) => {
+        if (item.tagName.indexOf("H") === 0 && item.tagName.length === 2) {
+            const space = new Array((parseInt(item.tagName.substring(1), 10) - 1) * 2).fill("&emsp;").join("");
+            tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
+        }
+    });
+    tocElement.innerHTML = tocHTML;
+};

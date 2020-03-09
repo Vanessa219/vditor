@@ -154,4 +154,9 @@
   span[data-type="link-ref"] {
     color: $blurColor;
   }
+
+  span[data-type="toc-h"] {
+    color: $blurColor;
+    text-decoration: underline;
+  }
 }
