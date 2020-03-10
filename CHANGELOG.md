@@ -41,13 +41,13 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
-* [119](https://github.com/Vanessa219/vditor/issues/119) 所见即所得模式支持脚注 `引入特性`
 
 ### v2.2.19 / 未发布
 
 * [206](https://github.com/Vanessa219/vditor/issues/206) combined blockquote and lists (windows firefox) `修复缺陷`
 * [151](https://github.com/Vanessa219/vditor/issues/151) 支持隐藏编辑器工具栏 `引入特性`
 * [121](https://github.com/Vanessa219/vditor/issues/121) 所见即所得模式支持 [ToC] `引入特性`
+* [119](https://github.com/Vanessa219/vditor/issues/119) 所见即所得模式支持脚注 `引入特性`
 * [55](https://github.com/Vanessa219/vditor/issues/55) 所见即所得模式支持链接引用定义`引入特性`
 
 ### v2.2.18 / 2020-03-05
