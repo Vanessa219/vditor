@@ -50,7 +50,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 
-        const footnotesElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-block")
+        const footnotesElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-block");
         if (footnotesElement) {
             vditor.wysiwyg.popover.innerHTML = "";
             const insertBefore = genInsertBefore(range, footnotesElement, vditor);
