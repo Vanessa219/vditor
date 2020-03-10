@@ -669,13 +669,9 @@ export const highlightToolbar = (vditor: IVditor) => {
             input.className = "vditor-input";
             input.setAttribute("placeholder", "ID" + "<" + updateHotkeyTip("⌥-Enter") + ">");
             input.style.width = "120px";
-            input.value = headingElement.getAttribute("id");
+            input.value = headingElement.getAttribute("data-id") || "";
             input.oninput = () => {
-                if (input.value.trim() !== "") {
-                    headingElement.id = input.value;
-                } else {
-                    headingElement.removeAttribute("id");
-                }
+                headingElement.setAttribute("data-id", input.value);
             };
             input.onkeydown = (event) => {
                 if (event.isComposing) {
