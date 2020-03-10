@@ -127,7 +127,7 @@
   * 引用快捷键修改
   * 移除 index-preview.html, index-preview.js 文件
   * 添加 graphvizRender
-  * 添加 option.preview.markdown.toc
+  * 添加 option.preview.markdown.toc/footnotes
   * 添加 option.hideToolbar
   * options.preview.markdown.autoSpace/chinesePunct/fixTermTypo 默认值设置为 false
 

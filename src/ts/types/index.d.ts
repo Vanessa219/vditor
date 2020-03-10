@@ -12,7 +12,7 @@ interface ILuteRender {
                 Type: number,
             },
         }
-    },               entering: boolean) => [string, number];
+    }, entering: boolean) => [string, number];
 }
 
 interface ILute {
@@ -32,6 +32,8 @@ interface ILute {
     SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
     SetToC(enable: boolean): void;
+
+    SetFootnotes(enable: boolean): void;
 
     SetAutoSpace(enable: boolean): void;
 
@@ -160,6 +162,7 @@ interface IMarkdownConfig {
     fixTermTypo?: boolean;
     chinesePunct?: boolean;
     toc?: boolean;
+    footnotes?: boolean;
 }
 
 interface IPreview {
