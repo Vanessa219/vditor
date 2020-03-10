@@ -42,7 +42,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v2.2.19 / 未发布
+### v2.2.20 / 未发布
+
+
+### v2.2.19 / 2020-03-10
 
 * [214](https://github.com/Vanessa219/vditor/issues/214) wysiwyg heading id `引入特性`
 * [206](https://github.com/Vanessa219/vditor/issues/206) combined blockquote and lists (windows firefox) `修复缺陷`
@@ -50,9 +53,6 @@
 * [121](https://github.com/Vanessa219/vditor/issues/121) 所见即所得模式支持 [ToC] `引入特性`
 * [119](https://github.com/Vanessa219/vditor/issues/119) 所见即所得模式支持脚注 `引入特性`
 * [55](https://github.com/Vanessa219/vditor/issues/55) 所见即所得模式支持链接引用定义`引入特性`
-
-### v2.2.18 / 2020-03-05
-
 * [209](https://github.com/Vanessa219/vditor/pull/209) 支持 Graphviz `引入特性`
 * [207](https://github.com/Vanessa219/vditor/issues/207) heading at first time(windows firefox) `修复缺陷`
 * [205](https://github.com/Vanessa219/vditor/issues/205) not working typewrite mode (windows firefox) `修复缺陷`
