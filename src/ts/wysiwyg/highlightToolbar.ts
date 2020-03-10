@@ -50,6 +50,19 @@ export const highlightToolbar = (vditor: IVditor) => {
             typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 
+        const footnotesElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-block")
+        if (footnotesElement) {
+            vditor.wysiwyg.popover.innerHTML = "";
+            const insertBefore = genInsertBefore(range, footnotesElement, vditor);
+            const insertAfter = genInsertAfter(range, footnotesElement, vditor);
+            const close = genClose(vditor.wysiwyg.popover, footnotesElement, vditor);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            setPopoverPosition(vditor, footnotesElement);
+            return;
+        }
+
         // 工具栏高亮和禁用
         const liElement = hasClosestByMatchTag(typeElement, "LI");
         if (hasClosestByClassName(typeElement, "vditor-task")) {
