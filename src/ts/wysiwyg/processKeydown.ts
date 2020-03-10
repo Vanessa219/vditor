@@ -437,7 +437,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // h1-h6
     const headingElement = hasClosestByTag(startContainer, "H");
-    if (headingElement) {
+    if (headingElement && headingElement.tagName.length === 2) {
         if (headingElement.tagName === "H6" && startContainer.textContent.length === range.startOffset &&
             !isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter") {
             // enter: H6 回车解析问题 https://github.com/Vanessa219/vditor/issues/48
@@ -659,10 +659,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // alt+enter
     if (event.altKey && event.key === "Enter" && !isCtrl(event) && !event.shiftKey) {
         // 切换到链接、链接引用、脚注引用弹出的输入框中
-        const aElement = hasClosestByTag(startContainer, "A");
+        const aElement = hasClosestByMatchTag(startContainer, "A");
         const linRefElement = hasClosestByAttribute(startContainer, "data-type", "link-ref");
         const footnoteRefElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-ref");
-        if (aElement || linRefElement || footnoteRefElement) {
+        if (aElement || linRefElement || footnoteRefElement || (headingElement && headingElement.tagName.length === 2)) {
             const inputElement = vditor.wysiwyg.popover.querySelector("input");
             inputElement.focus();
             inputElement.select();

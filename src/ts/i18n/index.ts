@@ -132,7 +132,7 @@ export const i18n: II18n = {
         "edit": "编辑",
         "emoji": "表情",
         "fileTypeError": "文件类型不允许上传",
-        "footnoteRef": "脚注标示",
+        "footnoteRef": "脚注标识",
         "format": "格式化",
         "fullscreen": "全屏",
         "headings": "标题",
