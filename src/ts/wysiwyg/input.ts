@@ -73,21 +73,28 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
             }
         }
 
-        vditor.wysiwyg.spinVditorDOM(vditor, blockElement);
+        blockElement = vditor.wysiwyg.spinVditorDOM(vditor, blockElement);
 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
 
-        // 列表返回多个 block 时，应统一处理 https://github.com/Vanessa219/vditor/issues/112
-        blockElement = getTopList(range.startContainer);
-        if (!blockElement) {
+        const tempTopListElement = getTopList(range.startContainer);
+        if (tempTopListElement) {
+            // 列表返回多个 block 时，应统一处理 https://github.com/Vanessa219/vditor/issues/112
+            blockElement = tempTopListElement;
+        }
+
+        const tempBlockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
+        if (tempBlockquoteElement) {
             // BLOCKQUOTE 中存在列表，且列表中有代码块。回车，回车形成新 p
             // https://github.com/Vanessa219/vditor/issues/156#issuecomment-588318896
-            blockElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
+            blockElement = tempBlockquoteElement;
         }
+
         if (!blockElement) {
             blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
         }
+
         if (range.startContainer.nodeType !== 3 && !blockElement) {
             blockElement = (range.startContainer as HTMLElement).children[range.startOffset] as HTMLElement;
         }

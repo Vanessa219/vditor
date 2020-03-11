@@ -129,6 +129,7 @@ class WYSIWYG {
                 this.element.insertAdjacentElement("beforeend", allFootnoteElement);
             }
         }
+        return element;
     }
 
     private bindEvent(vditor: IVditor) {
