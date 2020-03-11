@@ -662,7 +662,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         const aElement = hasClosestByMatchTag(startContainer, "A");
         const linRefElement = hasClosestByAttribute(startContainer, "data-type", "link-ref");
         const footnoteRefElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-ref");
-        if (aElement || linRefElement || footnoteRefElement || (headingElement && headingElement.tagName.length === 2)) {
+        if (aElement || linRefElement || footnoteRefElement ||
+            (headingElement && headingElement.tagName.length === 2)) {
             const inputElement = vditor.wysiwyg.popover.querySelector("input");
             inputElement.focus();
             inputElement.select();

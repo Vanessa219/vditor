@@ -53,12 +53,9 @@ export const highlightToolbar = (vditor: IVditor) => {
         const footnotesElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-block");
         if (footnotesElement) {
             vditor.wysiwyg.popover.innerHTML = "";
-            const insertBefore = genInsertBefore(range, footnotesElement, vditor);
-            const insertAfter = genInsertAfter(range, footnotesElement, vditor);
-            const close = genClose(vditor.wysiwyg.popover, footnotesElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            genClose(vditor.wysiwyg.popover, footnotesElement, vditor);
+            genInsertBefore(range, footnotesElement, vditor);
+            genInsertAfter(range, footnotesElement, vditor);
             setPopoverPosition(vditor, footnotesElement);
             return;
         }
@@ -120,21 +117,18 @@ export const highlightToolbar = (vditor: IVditor) => {
             const blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
             if (blockElement) {
                 if (blockElement.nextElementSibling?.classList.contains("vditor-toc")) {
-                    tocElement = blockElement.nextElementSibling as HTMLElement
+                    tocElement = blockElement.nextElementSibling as HTMLElement;
                 }
                 if (blockElement.previousElementSibling?.classList.contains("vditor-toc")) {
-                    tocElement = blockElement.previousElementSibling as HTMLElement
+                    tocElement = blockElement.previousElementSibling as HTMLElement;
                 }
             }
         }
         if (tocElement) {
             vditor.wysiwyg.popover.innerHTML = "";
-            const insertBefore = genInsertBefore(range, tocElement, vditor);
-            const insertAfter = genInsertAfter(range, tocElement, vditor);
-            const close = genClose(vditor.wysiwyg.popover, tocElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            genClose(vditor.wysiwyg.popover, tocElement, vditor);
+            genInsertBefore(range, tocElement, vditor);
+            genInsertAfter(range, tocElement, vditor);
             setPopoverPosition(vditor, tocElement);
         }
 
@@ -142,12 +136,9 @@ export const highlightToolbar = (vditor: IVditor) => {
         const blockquoteElement = hasClosestByTag(typeElement, "BLOCKQUOTE") as HTMLTableElement;
         if (blockquoteElement) {
             vditor.wysiwyg.popover.innerHTML = "";
-            const insertBefore = genInsertBefore(range, blockquoteElement, vditor);
-            const insertAfter = genInsertAfter(range, blockquoteElement, vditor);
-            const close = genClose(vditor.wysiwyg.popover, blockquoteElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            genClose(vditor.wysiwyg.popover, blockquoteElement, vditor);
+            genInsertBefore(range, blockquoteElement, vditor);
+            genInsertAfter(range, blockquoteElement, vditor);
             setPopoverPosition(vditor, blockquoteElement);
         }
 
@@ -220,13 +211,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
-            const insertBefore = genInsertBefore(range, topListElement, vditor);
-            const insertAfter = genInsertAfter(range, topListElement, vditor);
-
-            const close = genClose(vditor.wysiwyg.popover, topListElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            genClose(vditor.wysiwyg.popover, topListElement, vditor);
+            genInsertBefore(range, topListElement, vditor);
+            genInsertAfter(range, topListElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);
 
@@ -289,8 +276,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                     }
                 }
             };
-
-            const close = genClose(vditor.wysiwyg.popover, tableElement, vditor);
 
             const setAlign = (type: string) => {
                 const cell = getSelection().getRangeAt(0).startContainer.parentElement;
@@ -424,11 +409,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
-            const insertBefore = genInsertBefore(range, tableElement, vditor);
-            const insertAfter = genInsertAfter(range, tableElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            genClose(vditor.wysiwyg.popover, tableElement, vditor);
+            genInsertBefore(range, tableElement, vditor);
+            genInsertAfter(range, tableElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", left);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", center);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", right);
@@ -502,8 +485,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 hotkey(event, input);
             };
 
-            const close = genClose(vditor.wysiwyg.popover, linkRefElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+            genClose(vditor.wysiwyg.popover, linkRefElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
             setPopoverPosition(vditor, linkRefElement);
@@ -541,8 +523,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
-            const close = genClose(vditor.wysiwyg.popover, footnotesRefElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+            genClose(vditor.wysiwyg.popover, footnotesRefElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             setPopoverPosition(vditor, footnotesRefElement);
         }
@@ -634,12 +615,9 @@ export const highlightToolbar = (vditor: IVditor) => {
             const language = document.createElement("input");
             languageWrap.appendChild(language);
             if (blockType.indexOf("block") > -1) {
-                const insertBefore = genInsertBefore(range, blockRenderElement, vditor);
-                const insertAfter = genInsertAfter(range, blockRenderElement, vditor);
-                const close = genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
-                vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
-                vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
-                vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+                genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
+                genInsertBefore(range, blockRenderElement, vditor);
+                genInsertAfter(range, blockRenderElement, vditor);
 
                 if (blockType === "code-block") {
                     const codeElement = blockRenderElement.firstElementChild.firstElementChild;
@@ -704,8 +682,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
-            const close = genClose(vditor.wysiwyg.popover, headingElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+            genClose(vditor.wysiwyg.popover, headingElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             setPopoverPosition(vditor, headingElement);
         } else {
@@ -760,7 +737,7 @@ const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) =>
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
     };
-    return insertBefore;
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
 };
 
 const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => {
@@ -777,7 +754,7 @@ const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => 
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
     };
-    return insertAfter;
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
 };
 
 const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) => {
@@ -793,7 +770,7 @@ const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) =
         highlightToolbar(vditor);
         afterRenderEvent(vditor);
     };
-    return close;
+    popover.insertAdjacentElement("beforeend", close);
 };
 
 export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
@@ -878,8 +855,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         hotkey(event, input);
     };
 
-    const close = genClose(vditor.wysiwyg.popover, aElement, vditor);
-    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+    genClose(vditor.wysiwyg.popover, aElement, vditor);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
