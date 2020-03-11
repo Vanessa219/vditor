@@ -161,7 +161,7 @@ declare class Vditor {
 
     public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
 
-    public static graphvizRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+    public static graphvizRender(element: HTMLElement, cdn?: string): void;
 
     public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document, cdn?: string): void;
 
@@ -189,7 +189,7 @@ declare class Vditor {
 
     public getValue(): string;
 
-    public insertValue(value: string): void;
+    public insertValue(value: string, render = true): void;
 
     public focus(): void;
 
