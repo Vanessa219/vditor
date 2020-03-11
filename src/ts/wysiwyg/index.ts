@@ -151,8 +151,8 @@ class WYSIWYG {
             if (this.popover.style.display !== "block") {
                 return;
             }
-            this.popover.style.top = Math.max(-11,
-                parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop) + "px";
+            const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
+            this.popover.style.top = Math.max(-11, Math.min(top, this.element.clientHeight - 21)) + "px";
         });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
