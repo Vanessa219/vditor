@@ -101,7 +101,8 @@
   h6:before,
   div.vditor-wysiwyg__block:before,
   div[data-type="link-ref-defs-block"]:before,
-  div[data-type="footnotes-block"]:before {
+  div[data-type="footnotes-block"]:before,
+  .vditor-toc:before {
     float: left;
     padding-right: 4px;
     margin-left: -29px;
@@ -142,6 +143,10 @@
 
   div.vditor-wysiwyg__block:before {
     content: "</>";
+  }
+
+  .vditor-toc:before {
+    content: "ToC";
   }
 
   hr {

@@ -6,7 +6,6 @@
 
     &--hide {
       transition: $transition;
-      background-color: transparent;
       height: 5px;
 
       &:hover {

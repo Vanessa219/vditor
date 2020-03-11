@@ -189,7 +189,7 @@ declare class Vditor {
 
     public getValue(): string;
 
-    public insertValue(value: string, render = true): void;
+    public insertValue(value: string, render: boolean): void;
 
     public focus(): void;
 

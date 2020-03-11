@@ -2,6 +2,13 @@
 
 ### 升级
 
+* v2.2
+  * 移除 `IPreviewOptions` 中的 `className`
+  * `insertValue` 添加 `render` 参数，以便配置是否需要进行 Markdown 处理
+  * 将异步方法变为同步
+  * 引用快捷键修改为 <kbd>Ctrl-;</kbd>
+  * 移除 index-preview.html, index-preview.js 文件
+  * `options.preview.markdown.autoSpace/chinesePunct/fixTermTypo` 默认值设置为 `false`
 * v2.1
   * 添加 options.upload.file 方法
   * options.preview 修改，支持 MathJax 配置
@@ -41,9 +48,6 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
-
-### v2.2.20 / 未发布
-
 
 ### v2.2.19 / 2020-03-10
 
@@ -121,15 +125,16 @@
 * [127](https://github.com/Vanessa219/vditor/issues/127) more keyboard shortcut after ctrl+h `改进功能`
 * [125](https://github.com/Vanessa219/vditor/issues/125) ctrl+l, ** `修复缺陷`
 * 文档更新
-  * 移除 IPreviewOptions 中的 className 并添加 theme
-  * insertValue 添加 render 参数
-  * 移除异步方法
-  * 引用快捷键修改
+  * 移除 `IPreviewOptions` 中的 `className`
+  * 为 `IPreviewOptions` 添加 `theme` 选项
+  * `insertValue` 添加 `render` 参数，以便配置是否需要进行 Markdown 处理
+  * 将异步方法变为同步
+  * 引用快捷键修改为 <kbd>Ctrl-;</kbd>
   * 移除 index-preview.html, index-preview.js 文件
-  * 添加 graphvizRender
-  * 添加 option.preview.markdown.toc/footnotes
-  * 添加 option.hideToolbar
-  * options.preview.markdown.autoSpace/chinesePunct/fixTermTypo 默认值设置为 false
+  * 添加 `graphvizRender` 方法
+  * 添加 `option.preview.markdown.toc/footnotes` 配置选项
+  * 添加 `option.hideToolbar` 配置选项
+  * `options.preview.markdown.autoSpace/chinesePunct/fixTermTypo` 默认值设置为 `false`
 
 ### v2.1.15 / 2020-02-09
 
