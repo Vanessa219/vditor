@@ -5,6 +5,11 @@ window.vditor = new Vditor('vditor', {
   debugger: true,
   typewriterMode: true,
   placeholder: 'placeholder',
+  preview: {
+    markdown: {
+      toc: true,
+    },
+  },
   counter: 100,
   height: 500,
   hint: {
