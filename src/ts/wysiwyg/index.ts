@@ -16,7 +16,7 @@ import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
-import {isHeadingMD, isHrMD, isToC} from "./processMD";
+import {isHeadingMD, isHrMD, isToC, renderToc} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
@@ -312,6 +312,7 @@ class WYSIWYG {
             if (blockElement && blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
                 && blockElement.tagName.length === 2) {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
+                renderToc(this.element);
                 return;
             }
             input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
@@ -365,6 +366,7 @@ class WYSIWYG {
             if (blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
                 && blockElement.tagName.length === 2) {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
+                renderToc(this.element);
                 return;
             }
 

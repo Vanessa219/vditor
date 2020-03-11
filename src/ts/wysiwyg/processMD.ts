@@ -55,10 +55,10 @@ export const renderToc = (editorElement: HTMLPreElement) => {
     }
     let tocHTML = "";
     Array.from(editorElement.children).forEach((item: HTMLElement) => {
-        if (item.tagName.indexOf("H") === 0 && item.tagName.length === 2) {
+        if (item.tagName.indexOf("H") === 0 && item.tagName.length === 2 && item.textContent.trim() !== "") {
             const space = new Array((parseInt(item.tagName.substring(1), 10) - 1) * 2).fill("&emsp;").join("");
             tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
         }
     });
-    tocElement.innerHTML = tocHTML;
+    tocElement.innerHTML = tocHTML || "[ToC]";
 };
