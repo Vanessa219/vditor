@@ -114,6 +114,30 @@ export const highlightToolbar = (vditor: IVditor) => {
             disableToolbar(vditor.toolbar.elements, ["table"]);
         }
 
+        // toc popover
+        let tocElement = hasClosestByClassName(typeElement, "vditor-toc") as HTMLElement;
+        if (!tocElement) {
+            const blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
+            if (blockElement) {
+                if (blockElement.nextElementSibling?.classList.contains("vditor-toc")) {
+                    tocElement = blockElement.nextElementSibling as HTMLElement
+                }
+                if (blockElement.previousElementSibling?.classList.contains("vditor-toc")) {
+                    tocElement = blockElement.previousElementSibling as HTMLElement
+                }
+            }
+        }
+        if (tocElement) {
+            vditor.wysiwyg.popover.innerHTML = "";
+            const insertBefore = genInsertBefore(range, tocElement, vditor);
+            const insertAfter = genInsertAfter(range, tocElement, vditor);
+            const close = genClose(vditor.wysiwyg.popover, tocElement, vditor);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
+            setPopoverPosition(vditor, tocElement);
+        }
+
         // quote popover
         const blockquoteElement = hasClosestByTag(typeElement, "BLOCKQUOTE") as HTMLTableElement;
         if (blockquoteElement) {
@@ -414,11 +438,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             setPopoverPosition(vditor, tableElement);
         }
 
-        // a popover
-        if (aElement) {
-            genAPopover(vditor, aElement);
-        }
-
         // link ref popover
         const linkRefElement = hasClosestByAttribute(typeElement, "data-type", "link-ref");
         if (linkRefElement) {
@@ -693,8 +712,13 @@ export const highlightToolbar = (vditor: IVditor) => {
             headingElement = undefined;
         }
 
+        // a popover
+        if (aElement) {
+            genAPopover(vditor, aElement);
+        }
+
         if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement
-            && !linkRefElement && !footnotesRefElement && !headingElement) {
+            && !linkRefElement && !footnotesRefElement && !headingElement && !tocElement) {
             vditor.wysiwyg.popover.style.display = "none";
         }
 

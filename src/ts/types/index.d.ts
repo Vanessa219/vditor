@@ -12,7 +12,7 @@ interface ILuteRender {
                 Type: number,
             },
         }
-    }, entering: boolean) => [string, number];
+    },               entering: boolean) => [string, number];
 }
 
 interface ILute {

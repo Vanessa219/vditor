@@ -106,31 +106,30 @@
     float: left;
     padding-right: 4px;
     margin-left: -29px;
-    content: 'h1';
+    content: 'H1';
     font-size: 0.85rem;
     font-weight: normal;
-    text-transform: uppercase;
     color: var(--second-color);
   }
 
   h2:before {
-    content: 'h2';
+    content: 'H2';
   }
 
   h3:before {
-    content: 'h3';
+    content: 'H3';
   }
 
   h4:before {
-    content: 'h4';
+    content: 'H4';
   }
 
   h5:before {
-    content: 'h5';
+    content: 'H5';
   }
 
   h6:before {
-    content: 'h6';
+    content: 'H6';
   }
 
   div[data-type="link-ref-defs-block"]:before {
