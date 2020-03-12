@@ -46,6 +46,28 @@ export const disableToolbar = (toolbar: { [key: string]: HTMLElement }, names: s
     });
 };
 
+export const hideToolbar = (toolbar: { [key: string]: HTMLElement }, names: string[]) => {
+    names.forEach((name) => {
+        if (!toolbar[name]) {
+            return;
+        }
+        if (toolbar[name]) {
+            toolbar[name].style.display = "none";
+        }
+    });
+};
+
+export const showToolbar = (toolbar: { [key: string]: HTMLElement }, names: string[]) => {
+    names.forEach((name) => {
+        if (!toolbar[name]) {
+            return;
+        }
+        if (toolbar[name]) {
+            toolbar[name].style.display = "block";
+        }
+    });
+};
+
 export const hidePanel = (vditor: IVditor, panels: string[]) => {
     if (vditor.toolbar.emojiPanelElement && panels.includes("emoji")) {
         vditor.toolbar.emojiPanelElement.style.display = "none";

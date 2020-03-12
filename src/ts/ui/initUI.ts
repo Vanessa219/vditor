@@ -30,6 +30,10 @@ export const initUI = (vditor: IVditor) => {
         contentElement.appendChild(vditor.editor.element);
     }
 
+    if (vditor.ir) {
+        contentElement.appendChild(vditor.ir.element.parentElement);
+    }
+
     if (vditor.preview) {
         contentElement.appendChild(vditor.preview.element);
     }

@@ -61,6 +61,9 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 event.preventDefault();
                 const value = element.getAttribute("data-value");
                 if (vditor.currentMode === "wysiwyg") {
+                    if (getSelection().rangeCount === 0) {
+                        vditor.wysiwyg.element.focus();
+                    }
                     if (!vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
                         vditor.wysiwyg.element.focus();
                     }

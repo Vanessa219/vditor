@@ -18,7 +18,7 @@ class Editor {
         this.element.setAttribute("contenteditable", "true");
         this.element.setAttribute("spellcheck", "false");
 
-        if (vditor.currentMode === "wysiwyg" || vditor.currentPreviewMode === "preview") {
+        if (vditor.currentMode !== "markdown" || vditor.currentPreviewMode === "preview") {
             this.element.style.display = "none";
         }
 

@@ -77,28 +77,21 @@ class Vditor {
         };
 
         if (mergedOptions.counter > 0) {
-            const counter = new Counter(this.vditor);
-            this.vditor.counter = counter;
+            this.vditor.counter = new Counter(this.vditor);
         }
 
-        if (mergedOptions.mode === "markdown") {
-            this.vditor.editor = new Editor(this.vditor);
-            this.vditor.undo = new Undo();
-        } else if (mergedOptions.mode === "wysiwyg") {
-            this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-            this.vditor.wysiwygUndo = new WysiwygUndo();
-        } else if (mergedOptions.mode === "ir") {
-            this.vditor.ir = new IR(this.vditor);
-        }
+        this.vditor.editor = new Editor(this.vditor);
+        this.vditor.undo = new Undo();
+        this.vditor.wysiwyg = new WYSIWYG(this.vditor);
+        this.vditor.wysiwygUndo = new WysiwygUndo();
+        this.vditor.ir = new IR(this.vditor);
 
         if (mergedOptions.resize.enable) {
-            const resize = new Resize(this.vditor);
-            this.vditor.resize = resize;
+            this.vditor.resize = new Resize(this.vditor);
         }
 
         if (mergedOptions.toolbar) {
-            const toolbar: Toolbar = new Toolbar(this.vditor);
-            this.vditor.toolbar = toolbar;
+            this.vditor.toolbar = new Toolbar(this.vditor);
         }
 
         if (this.vditor.toolbar.elements.devtools) {
@@ -106,18 +99,15 @@ class Vditor {
         }
 
         if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
-            const preview = new Preview(this.vditor);
-            this.vditor.preview = preview;
+            this.vditor.preview = new Preview(this.vditor);
         }
 
         if (mergedOptions.upload.url || mergedOptions.upload.handler) {
-            const upload = new Upload();
-            this.vditor.upload = upload;
+            this.vditor.upload = new Upload();
         }
 
         if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
-            const hint = new Hint();
-            this.vditor.hint = hint;
+            this.vditor.hint = new Hint();
         }
 
         loadLuteJs(this.vditor);

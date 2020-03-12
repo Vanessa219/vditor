@@ -1,7 +1,10 @@
 import editSVG from "../../assets/icons/edit.svg";
+import {formatRender} from "../editor/formatRender";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
+import {getMarkdown} from "../util/getMarkdown";
+import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
-import {hidePanel} from "./setToolbar";
+import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
 
 export class EditMode extends MenuItem {
     public element: HTMLElement;
@@ -37,108 +40,85 @@ export class EditMode extends MenuItem {
             event.preventDefault();
         });
 
-        // this.element.children[0].addEventListener(getEventName(), function(event) {
-        //     if (this.classList.contains("vditor-menu--disabled")) {
-        //         return;
-        //     }
-        //     if (vditor.currentMode === "wysiwyg") {
-        //         vditor.toolbar.element.style.display = "block";
-        //         vditor.currentMode = "ir";
-        //     } else if (vditor.currentMode === "ir") {
-        //         vditor.toolbar.element.style.display = "none";
-        //         this.classList.remove("vditor-menu--current");
-        //         vditor.wysiwyg.element.parentElement.style.display = "none";
-        //         if (vditor.currentPreviewMode === "both") {
-        //             vditor.editor.element.style.display = "block";
-        //             vditor.preview.element.style.display = "block";
-        //         } else if (vditor.currentPreviewMode === "preview") {
-        //             vditor.preview.element.style.display = "block";
-        //         } else if (vditor.currentPreviewMode === "editor") {
-        //             vditor.editor.element.style.display = "block";
-        //         }
-        //         if (vditor.toolbar.elements.format) {
-        //             vditor.toolbar.elements.format.style.display = "block";
-        //         }
-        //         if (vditor.toolbar.elements.both) {
-        //             vditor.toolbar.elements.both.style.display = "block";
-        //         }
-        //         if (vditor.toolbar.elements.preview) {
-        //             vditor.toolbar.elements.preview.style.display = "block";
-        //         }
-        //         const wysiwygMD = getMarkdown(vditor);
-        //         vditor.currentMode = "markdown";
-        //         formatRender(vditor, wysiwygMD, undefined);
-        //         vditor.editor.element.focus();
-        //
-        //         removeCurrentToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
-        //             "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-        //         enableToolbar(vditor.toolbar.elements,
-        //             ["headings", "bold", "italic", "strike", "line", "quote",
-        //                 "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-        //     } else if (vditor.currentMode === "markdown") {
-        //         vditor.toolbar.element.style.display = "block";
-        //         vditor.currentMode = "wysiwyg";
-        //     }
+        this.panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
+            // wysiwyg
+            event.preventDefault();
+            if (vditor.currentMode === "wysiwyg") {
+                return;
+            }
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+            hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+            if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
+                vditor.devtools.ASTChart.resize();
+            }
 
-            // if (this.classList.contains("vditor-menu--current")) {
-            //     this.classList.remove("vditor-menu--current");
-            //     vditor.wysiwyg.element.parentElement.style.display = "none";
-            //     if (vditor.currentPreviewMode === "both") {
-            //         vditor.editor.element.style.display = "block";
-            //         vditor.preview.element.style.display = "block";
-            //     } else if (vditor.currentPreviewMode === "preview") {
-            //         vditor.preview.element.style.display = "block";
-            //     } else if (vditor.currentPreviewMode === "editor") {
-            //         vditor.editor.element.style.display = "block";
-            //     }
-            //     if (vditor.toolbar.elements.format) {
-            //         vditor.toolbar.elements.format.style.display = "block";
-            //     }
-            //     if (vditor.toolbar.elements.both) {
-            //         vditor.toolbar.elements.both.style.display = "block";
-            //     }
-            //     if (vditor.toolbar.elements.preview) {
-            //         vditor.toolbar.elements.preview.style.display = "block";
-            //     }
-            //     const wysiwygMD = getMarkdown(vditor);
-            //     vditor.currentMode = "markdown";
-            //     formatRender(vditor, wysiwygMD, undefined);
-            //     vditor.editor.element.focus();
-            //
-            //     removeCurrentToolbar
-            //     (vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
-            //         "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-            //     enableToolbar(vditor.toolbar.elements,
-            //         ["headings", "bold", "italic", "strike", "line", "quote",
-            //          "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-            // } else {
-            //     this.classList.add("vditor-menu--current");
-            //     vditor.editor.element.style.display = "none";
-            //     vditor.preview.element.style.display = "none";
-            //     vditor.wysiwyg.element.parentElement.style.display = "block";
-            //
-            //     if (vditor.toolbar.elements.format) {
-            //         vditor.toolbar.elements.format.style.display = "none";
-            //     }
-            //     if (vditor.toolbar.elements.both) {
-            //         vditor.toolbar.elements.both.style.display = "none";
-            //     }
-            //     if (vditor.toolbar.elements.preview) {
-            //         vditor.toolbar.elements.preview.style.display = "none";
-            //     }
-            //     const editorMD = getMarkdown(vditor);
-            //     vditor.currentMode = "wysiwyg";
-            //     renderDomByMd(vditor, editorMD);
-            //     vditor.wysiwyg.element.focus();
-            //     vditor.wysiwyg.popover.style.display = "none";
-            // }
+            vditor.editor.element.style.display = "none";
+            vditor.preview.element.style.display = "none";
+            vditor.wysiwyg.element.parentElement.style.display = "block";
+            vditor.ir.element.parentElement.style.display = "none";
 
-        //     hidePanel(vditor, ["hint", "headings", "emoji"]);
-        //     if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
-        //         vditor.devtools.ASTChart.resize();
-        //     }
-        //
-        //     event.preventDefault();
-        // });
+            const editorMD = getMarkdown(vditor);
+            vditor.currentMode = "wysiwyg";
+            renderDomByMd(vditor, editorMD);
+            vditor.wysiwyg.element.focus();
+            vditor.wysiwyg.popover.style.display = "none";
+        });
+
+        this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
+            // ir
+            event.preventDefault();
+            if (vditor.currentMode === "ir") {
+                return;
+            }
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+            hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+            if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
+                vditor.devtools.ASTChart.resize();
+            }
+
+            vditor.editor.element.style.display = "none";
+            vditor.preview.element.style.display = "none";
+            vditor.wysiwyg.element.parentElement.style.display = "none";
+            vditor.ir.element.parentElement.style.display = "block";
+
+            // const editorMD = getMarkdown(vditor);
+            vditor.currentMode = "ir";
+            // TODO renderDomByMd(vditor, editorMD);
+            vditor.ir.element.focus();
+        });
+
+        this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
+            // markdown
+            event.preventDefault();
+            if (vditor.currentMode === "markdown") {
+                return;
+            }
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+            showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+            if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
+                vditor.devtools.ASTChart.resize();
+            }
+
+            vditor.wysiwyg.element.parentElement.style.display = "none";
+            vditor.ir.element.parentElement.style.display = "none";
+            if (vditor.currentPreviewMode === "both") {
+                vditor.editor.element.style.display = "block";
+                vditor.preview.element.style.display = "block";
+            } else if (vditor.currentPreviewMode === "preview") {
+                vditor.preview.element.style.display = "block";
+            } else if (vditor.currentPreviewMode === "editor") {
+                vditor.editor.element.style.display = "block";
+            }
+
+            const wysiwygMD = getMarkdown(vditor);
+            vditor.currentMode = "markdown";
+            formatRender(vditor, wysiwygMD, undefined);
+            vditor.editor.element.focus();
+
+            removeCurrentToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line",
+                "quote", "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+            enableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
+                "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+        });
     }
 }

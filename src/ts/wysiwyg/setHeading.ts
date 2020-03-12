@@ -3,6 +3,9 @@ import {renderToc} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {
+    if (getSelection().rangeCount === 0) {
+        vditor.wysiwyg.element.focus();
+    }
     const range = getSelection().getRangeAt(0);
     let blockElement = hasClosestBlock(range.startContainer);
     if (!blockElement) {

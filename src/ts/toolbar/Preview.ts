@@ -6,12 +6,7 @@ import {MenuItem} from "./MenuItem";
 export class Preview extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        const hasWYSIWYG = vditor.options.toolbar.find((item: IMenuItem) => {
-            if (item.name === "wysiwyg") {
-                return true;
-            }
-        });
-        if (vditor.currentMode === "wysiwyg" && hasWYSIWYG) {
+        if (vditor.currentMode !== "markdown") {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || previewSVG;
