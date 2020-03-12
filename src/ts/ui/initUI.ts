@@ -22,17 +22,11 @@ export const initUI = (vditor: IVditor) => {
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";
 
-    if (vditor.wysiwyg) {
-        contentElement.appendChild(vditor.wysiwyg.element.parentElement);
-    }
+    contentElement.appendChild(vditor.wysiwyg.element.parentElement);
 
-    if (vditor.editor) {
-        contentElement.appendChild(vditor.editor.element);
-    }
+    contentElement.appendChild(vditor.editor.element);
 
-    if (vditor.ir) {
-        contentElement.appendChild(vditor.ir.element.parentElement);
-    }
+    contentElement.appendChild(vditor.ir.element.parentElement);
 
     if (vditor.preview) {
         contentElement.appendChild(vditor.preview.element);
@@ -65,6 +59,13 @@ export const initUI = (vditor: IVditor) => {
     afterRender(vditor, contentElement);
 };
 
+export const setPadding = (vditor: IVditor) => {
+    const padding = (vditor.wysiwyg.element.parentElement.parentElement.clientWidth
+        - vditor.options.preview.maxWidth) / 2;
+    vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px`;
+    vditor.ir.element.style.padding = `10px ${Math.max(35, padding)}px`;
+};
+
 const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
 
     let height: number = Math.max(contentElement.offsetHeight, 20);
@@ -77,18 +78,10 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
         contentElement.style.setProperty("--editor-bottom", height / 2 + "px");
     }
 
-    if (vditor.wysiwyg || vditor.ir) {
-        const setPadding = () => {
-            const padding = (vditor.wysiwyg.element.parentElement.parentElement.clientWidth
-                - vditor.options.preview.maxWidth) / 2;
-            vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px`;
-            vditor.ir.element.style.padding = `10px ${Math.max(35, padding)}px`;
-        };
-        setPadding();
-        window.addEventListener("resize", () => {
-            setPadding();
-        });
-    }
+    setPadding(vditor);
+    window.addEventListener("resize", () => {
+        setPadding(vditor);
+    });
 
     // set default value
     let initValue = localStorage.getItem("vditor" + vditor.id);
