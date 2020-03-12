@@ -10,7 +10,7 @@ import {processCodeRender} from "./processCodeRender";
 import {renderToc} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
-export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => {
+export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
 
     // 列表需要到最顶层
@@ -30,7 +30,7 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
             // 代码块前为空行，按下向后删除键，代码块内容会被删除
             renderElement.outerHTML = `<p data-block="0">${renderElement.textContent}</p>`;
         }
-    } else if (event.inputType !== "formatItalic"
+    } else if (event && event.inputType !== "formatItalic"
         && event.inputType !== "deleteByDrag"
         && event.inputType !== "insertFromDrop"
         && event.inputType !== "formatBold"
@@ -41,6 +41,7 @@ export const input = (vditor: IVditor, range: Range, event: IHTMLInputEvent) => 
         && event.inputType !== "formatOutdent"
         && event.inputType !== "formatIndent"
         && event.inputType !== ""   // document.execCommand('unlink', false)
+        || !event
     ) {
         const previousAEmptyElement = previoueIsEmptyA(range.startContainer);
         if (previousAEmptyElement) {

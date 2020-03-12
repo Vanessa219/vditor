@@ -306,11 +306,11 @@ class WYSIWYG {
         });
 
         // 中文处理
-        this.element.addEventListener("compositionstart", (event: IHTMLInputEvent) => {
+        this.element.addEventListener("compositionstart", (event: InputEvent) => {
             this.composingLock = true;
         });
 
-        this.element.addEventListener("compositionend", (event: IHTMLInputEvent) => {
+        this.element.addEventListener("compositionend", (event: InputEvent) => {
             const blockElement = hasClosestBlock(getSelection().getRangeAt(0).startContainer);
             if (blockElement && blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
                 && blockElement.tagName.length === 2) {
@@ -321,7 +321,7 @@ class WYSIWYG {
             input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
         });
 
-        this.element.addEventListener("input", (event: IHTMLInputEvent) => {
+        this.element.addEventListener("input", (event: InputEvent) => {
             if (this.preventInput) {
                 this.preventInput = false;
                 return;

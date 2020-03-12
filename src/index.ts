@@ -35,10 +35,8 @@ import {getMarkdown} from "./ts/util/getMarkdown";
 import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
-import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
-import {insertHTML} from "./ts/wysiwyg/insertHTML";
-import {processCodeRender} from "./ts/wysiwyg/processCodeRender";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {input} from "./ts/wysiwyg/input";
 
 class Vditor {
 
@@ -277,10 +275,12 @@ class Vditor {
         if (this.vditor.currentMode === "markdown") {
             insertText(this.vditor, value, "");
         } else {
+            let range
             if (getSelection().rangeCount === 0) {
                 this.vditor.wysiwyg.element.focus();
+                range = getSelection().getRangeAt(0);
             } else {
-                const range = getSelection().getRangeAt(0);
+                range = getSelection().getRangeAt(0);
                 if (!this.vditor.wysiwyg.element.contains(range.startContainer)) {
                     this.vditor.wysiwyg.element.focus();
                 } else {
@@ -288,22 +288,10 @@ class Vditor {
                 }
             }
 
+            document.execCommand("insertHTML", false, value);
+
             if (render) {
-                const vditorDomHTML = this.vditor.lute.Md2VditorDOM(value);
-                insertHTML(vditorDomHTML, this.vditor);
-
-                this.vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block")
-                    .forEach((blockElement: HTMLElement) => {
-                        processCodeRender(blockElement, this.vditor);
-                    });
-
-                afterRenderEvent(this.vditor, {
-                    enableAddUndoStack: true,
-                    enableHint: false,
-                    enableInput: false,
-                });
-            } else {
-                document.execCommand("insertHTML", false, value);
+                input(this.vditor, range);
             }
         }
     }
