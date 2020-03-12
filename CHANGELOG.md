@@ -49,7 +49,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v2.3.0 / 未发布
+### v2.3.0 / 2020-03-12
 
 * [218](https://github.com/Vanessa219/vditor/issues/218) 所见即所得模式下，insertValue渲染*和~的时候似乎不是很正确 `修复缺陷`
 * [217](https://github.com/Vanessa219/vditor/issues/217) ToC 添加悬浮菜单及 bug 修复 `修复缺陷`
