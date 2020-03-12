@@ -31,6 +31,10 @@
     &:last-child {
       border-bottom: 0;
     }
+
+    &:focus {
+      outline: none;
+    }
   }
 
   &--current,

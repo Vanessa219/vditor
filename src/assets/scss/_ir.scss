@@ -1,0 +1,91 @@
+.vditor-ir {
+  box-sizing: border-box;
+  flex: 1;
+  position: relative;
+  width: 100%;
+
+  .vditor-reset {
+    background-color: var(--panel-background-color);
+    margin: 0;
+    white-space: pre-wrap;
+    height: 100%;
+    box-sizing: border-box;
+
+    &[contenteditable="false"] {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    &:empty::before {
+      content: attr(placeholder);
+      color: var(--second-color);
+    }
+
+    &:focus {
+      outline: none;
+      background-color: var(--textarea-background-color);
+    }
+
+    &:after {
+      content: "";
+      height: var(--editor-bottom);
+      display: block;
+    }
+  }
+
+
+  h1:before,
+  h2:before,
+  h3:before,
+  h4:before,
+  h5:before,
+  h6:before,
+  div.vditor-wysiwyg__block:before,
+  div[data-type="link-ref-defs-block"]:before,
+  div[data-type="footnotes-block"]:before,
+  .vditor-toc:before {
+    float: left;
+    padding-right: 4px;
+    margin-left: -29px;
+    content: 'H1';
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: var(--second-color);
+  }
+
+  h2:before {
+    content: 'H2';
+  }
+
+  h3:before {
+    content: 'H3';
+  }
+
+  h4:before {
+    content: 'H4';
+  }
+
+  h5:before {
+    content: 'H5';
+  }
+
+  h6:before {
+    content: 'H6';
+  }
+
+  div[data-type="link-ref-defs-block"]:before {
+    content: '"A"';
+  }
+
+  div[data-type="footnotes-block"]:before {
+    content: '^F';
+  }
+
+  div.vditor-wysiwyg__block:before {
+    content: "</>";
+  }
+
+  .vditor-toc:before {
+    content: "ToC";
+  }
+}

@@ -72,19 +72,17 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
         height = vditor.options.height - 37;
     }
 
-    if (vditor.editor && vditor.options.typewriterMode) {
+    if (vditor.options.typewriterMode) {
         // 由于 Firefox padding-bottom bug，只能使用 :after
-        vditor.editor.element.style.setProperty("--editor-bottom", height / 2 + "px");
+        contentElement.style.setProperty("--editor-bottom", height / 2 + "px");
     }
 
-    if (vditor.wysiwyg) {
+    if (vditor.wysiwyg || vditor.ir) {
         const setPadding = () => {
             const padding = (vditor.wysiwyg.element.parentElement.parentElement.clientWidth
                 - vditor.options.preview.maxWidth) / 2;
             vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px`;
-            if (vditor.options.typewriterMode) {
-                vditor.wysiwyg.element.style.setProperty("--editor-wysiwyg-bottom", height / 2 + "px");
-            }
+            vditor.ir.element.style.padding = `10px ${Math.max(35, padding)}px`;
         };
         setPadding();
         window.addEventListener("resize", () => {

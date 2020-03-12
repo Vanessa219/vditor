@@ -43,10 +43,10 @@ export class EditMode extends MenuItem {
         this.panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
             // wysiwyg
             event.preventDefault();
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             if (vditor.currentMode === "wysiwyg") {
                 return;
             }
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
             if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
                 vditor.devtools.ASTChart.resize();
@@ -67,10 +67,10 @@ export class EditMode extends MenuItem {
         this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // ir
             event.preventDefault();
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             if (vditor.currentMode === "ir") {
                 return;
             }
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
             if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
                 vditor.devtools.ASTChart.resize();
@@ -90,10 +90,10 @@ export class EditMode extends MenuItem {
         this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
             event.preventDefault();
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             if (vditor.currentMode === "markdown") {
                 return;
             }
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
             if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
                 vditor.devtools.ASTChart.resize();
