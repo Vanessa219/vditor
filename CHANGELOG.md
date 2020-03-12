@@ -49,6 +49,12 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.0.0 / 未发布
+
+* [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
+* 文档更新
+  * 修改 `options.mode` 可选值为：'markdown', 'wysiwyg', 'typora'
+
 ### v2.3.0 / 2020-03-12
 
 * [218](https://github.com/Vanessa219/vditor/issues/218) 所见即所得模式下，insertValue渲染*和~的时候似乎不是很正确 `修复缺陷`

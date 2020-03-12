@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
-import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
+import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";

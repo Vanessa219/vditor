@@ -14,6 +14,7 @@ export const i18n: II18n = {
         "copy": "Copy",
         "devtools": "DevTools",
         "edit": "Edit",
+        "edit-mode": "Toggle Edit Mode",
         "emoji": "Emoji",
         "fileTypeError": "file type is error",
         "footnoteRef": "Footnote Ref",
@@ -55,7 +56,6 @@ export const i18n: II18n = {
         "upload": "Upload image or file",
         "uploadError": "upload error",
         "uploading": "uploading...",
-        "wysiwyg": "WYSIWYG",
     },
     ko_KR: {
         "alignCenter": "가운데",
@@ -72,6 +72,7 @@ export const i18n: II18n = {
         "copy": "복사",
         "devtools": "DevTools",
         "edit": "수정",
+        "edit-mode": "편집 모드 전환",
         "emoji": "이모지",
         "fileTypeError": "지원하지않습니다.",
         "footnoteRef": "각주 참조",
@@ -113,7 +114,6 @@ export const i18n: II18n = {
         "upload": "이미지 업로드하기",
         "uploadError": "업로드 실패",
         "uploading": "업로드중...",
-        "wysiwyg": "위지위그",
     },
     zh_CN: {
         "alignCenter": "居中",
@@ -130,6 +130,7 @@ export const i18n: II18n = {
         "copy": "复制",
         "devtools": "开发者工具",
         "edit": "编辑",
+        "edit-mode": "切换编辑模式",
         "emoji": "表情",
         "fileTypeError": "文件类型不允许上传",
         "footnoteRef": "脚注标识",
@@ -171,6 +172,5 @@ export const i18n: II18n = {
         "upload": "上传图片或文件",
         "uploadError": "上传错误",
         "uploading": "上传中...",
-        "wysiwyg": "所见即所得",
     },
 };

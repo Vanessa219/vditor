@@ -98,7 +98,7 @@ class WYSIWYG {
             // 添加脚注
             const allFootnoteElement = this.element.querySelector("[data-type='footnotes-block']");
             if (allFootnoteElement && !element.isEqualNode(allFootnoteElement)) {
-                addP2Li(allFootnoteElement)
+                addP2Li(allFootnoteElement);
                 html += allFootnoteElement.outerHTML;
                 allFootnoteElement.remove();
             }

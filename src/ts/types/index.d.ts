@@ -135,6 +135,7 @@ interface IMenuItem {
     suffix?: string;
     prefix?: string;
     tipPosition?: string;
+    panelElement?: HTMLElement;
 
     click?(status?: boolean): void;
 }
@@ -231,7 +232,7 @@ interface IOptions {
     resize?: IResize;
     counter?: number;
     cache?: boolean;
-    mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only";
+    mode?: "wysiwyg" | "markdown" | "ir";
     preview?: IPreview;
     hint?: IHint;
     hideToolbar?: boolean;
@@ -265,7 +266,7 @@ interface IVditor {
     options: IOptions;
     originalInnerHTML: string;
     lute: ILute;
-    currentMode: "markdown" | "wysiwyg";
+    currentMode: "markdown" | "wysiwyg" | "ir";
     currentPreviewMode: keyof IPreviewMode;
     devtools?: {
         element: HTMLDivElement,
@@ -275,6 +276,9 @@ interface IVditor {
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
         element?: HTMLElement,
+        editModePanelElement?: HTMLElement;
+        headingPanelElement?: HTMLElement;
+        emojiPanelElement?: HTMLElement;
     };
     preview?: {
         element: HTMLElement
@@ -306,21 +310,21 @@ interface IVditor {
         isUploading: boolean
         range: Range,
     };
-    undo: {
+    undo?: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
         recordFirstPosition(vditor: IVditor): void,
         enableIcon(vditor: IVditor): void,
     };
-    wysiwygUndo: {
+    wysiwygUndo?: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
         recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
         enableIcon(vditor: IVditor): void,
     };
-    wysiwyg: {
+    wysiwyg?: {
         element: HTMLPreElement,
         popover: HTMLDivElement,
         afterRenderTimeoutId: number,
@@ -328,5 +332,8 @@ interface IVditor {
         preventInput: boolean,
         composingLock: boolean,
         spinVditorDOM(vditor: IVditor, element: HTMLElement): HTMLElement,
+    };
+    ir?: {
+        element: HTMLElement,
     };
 }

@@ -7,10 +7,10 @@ import trashcanSVG from "../../assets/icons/trashcan.svg";
 import {Constants} from "../constants";
 import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n";
-import {disableToolbar} from "../toolbar/disableToolbar";
-import {enableToolbar} from "../toolbar/enableToolbar";
-import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
-import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
+import {disableToolbar} from "../toolbar/setToolbar";
+import {enableToolbar} from "../toolbar/setToolbar";
+import {removeCurrentToolbar} from "../toolbar/setToolbar";
+import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {
     getTopList,

@@ -1,7 +1,7 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {setSelectionFocus} from "../editor/setSelection";
-import {disableToolbar} from "../toolbar/disableToolbar";
-import {enableToolbar} from "../toolbar/enableToolbar";
+import {disableToolbar} from "../toolbar/setToolbar";
+import {enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {addP2Li} from "../wysiwyg/addP2Li";

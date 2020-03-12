@@ -1,5 +1,5 @@
-import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
-import {setCurrentToolbar} from "../toolbar/setCurrentToolbar";
+import {removeCurrentToolbar} from "../toolbar/setToolbar";
+import {setCurrentToolbar} from "../toolbar/setToolbar";
 
 export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
     if (vditor.currentPreviewMode === mode) {

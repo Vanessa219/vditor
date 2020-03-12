@@ -32,7 +32,7 @@ export class Options {
             duplicate: "⌘-D",
         },
         lang: "zh_CN",
-        mode: "wysiwyg-show",
+        mode: "wysiwyg",
         placeholder: "",
         preview: {
             delay: 1000,
@@ -163,7 +163,7 @@ export class Options {
             name: "|",
         }, {
             hotkey: "⌘-⇧-M",
-            name: "wysiwyg",
+            name: "edit-mode",
             tipPosition: "nw",
         }, {
             hotkey: "⌘-P",

@@ -6,6 +6,7 @@ import {Code} from "./Code";
 import {Custom} from "./Custom";
 import {Devtools} from "./Devtools";
 import {Divider} from "./Divider";
+import {EditMode} from "./EditMode";
 import {Emoji} from "./Emoji";
 import {Format} from "./Format";
 import {Fullscreen} from "./Fullscreen";
@@ -26,11 +27,13 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {WYSIWYG} from "./WYSIWYG";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
     public element: HTMLElement;
+    public editModePanelElement: HTMLElement;
+    public headingPanelElement: HTMLElement;
+    public emojiPanelElement: HTMLElement;
 
     constructor(vditor: IVditor) {
         const options = vditor.options;
@@ -41,12 +44,14 @@ export class Toolbar {
             switch (menuItem.name) {
                 case "emoji":
                     menuItemObj = new Emoji(vditor, menuItem);
+                    this.emojiPanelElement = menuItemObj.panelElement;
                     break;
                 case "bold":
                     menuItemObj = new Bold(vditor, menuItem);
                     break;
                 case "headings":
                     menuItemObj = new Headings(vditor, menuItem);
+                    this.headingPanelElement = menuItemObj.panelElement;
                     break;
                 case "|":
                     menuItemObj = new Divider();
@@ -117,10 +122,9 @@ export class Toolbar {
                 case "format":
                     menuItemObj = new Format(vditor, menuItem);
                     break;
-                case "wysiwyg":
-                    if (vditor.options.mode.indexOf("only") === -1) {
-                        menuItemObj = new WYSIWYG(vditor, menuItem);
-                    }
+                case "edit-mode":
+                    menuItemObj = new EditMode(vditor, menuItem);
+                    this.editModePanelElement = menuItemObj.panelElement;
                     break;
                 case "devtools":
                     menuItemObj = new Devtools(vditor, menuItem);

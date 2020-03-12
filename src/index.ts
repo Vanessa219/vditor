@@ -9,6 +9,7 @@ import {insertText} from "./ts/editor/insertText";
 import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
+import {IR} from "./ts/ir";
 import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
@@ -23,9 +24,9 @@ import {speechRender} from "./ts/markdown/speechRender";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Tip} from "./ts/tip";
-import {disableToolbar} from "./ts/toolbar/disableToolbar";
-import {enableToolbar} from "./ts/toolbar/enableToolbar";
 import {Toolbar} from "./ts/toolbar/index";
+import {disableToolbar} from "./ts/toolbar/setToolbar";
+import {enableToolbar} from "./ts/toolbar/setToolbar";
 import {initUI} from "./ts/ui/initUI";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
@@ -35,8 +36,8 @@ import {getMarkdown} from "./ts/util/getMarkdown";
 import {Options} from "./ts/util/Options";
 import {setPreviewMode} from "./ts/util/setPreviewMode";
 import {WYSIWYG} from "./ts/wysiwyg";
-import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {input} from "./ts/wysiwyg/input";
+import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 
 class Vditor {
 
@@ -61,21 +62,18 @@ class Vditor {
         const mergedOptions = getOptions.merge();
 
         if (!(mergedOptions.lang === "en_US" || mergedOptions.lang === "ko_KR" || mergedOptions.lang === "zh_CN")) {
-            console.error("options.lang error, see https://hacpai.com/article/1549638745630#toc_h4_10");
+            console.error("options.lang error, see https://hacpai.com/article/1549638745630#options");
             return;
         }
 
         this.vditor = {
-            currentMode: mergedOptions.mode.indexOf("wysiwyg") > -1 ? "wysiwyg" : "markdown",
+            currentMode: mergedOptions.mode,
             currentPreviewMode: mergedOptions.preview.mode,
             id,
             lute: undefined,
             options: mergedOptions,
             originalInnerHTML: document.getElementById(id).innerHTML,
             tip: new Tip(),
-            undo: undefined,
-            wysiwyg: undefined,
-            wysiwygUndo: undefined,
         };
 
         if (mergedOptions.counter > 0) {
@@ -83,9 +81,14 @@ class Vditor {
             this.vditor.counter = counter;
         }
 
-        if (mergedOptions.mode !== "wysiwyg-only") {
+        if (mergedOptions.mode === "markdown") {
             this.vditor.editor = new Editor(this.vditor);
             this.vditor.undo = new Undo();
+        } else if (mergedOptions.mode === "wysiwyg") {
+            this.vditor.wysiwyg = new WYSIWYG(this.vditor);
+            this.vditor.wysiwygUndo = new WysiwygUndo();
+        } else if (mergedOptions.mode === "ir") {
+            this.vditor.ir = new IR(this.vditor);
         }
 
         if (mergedOptions.resize.enable) {
@@ -102,8 +105,6 @@ class Vditor {
             this.vditor.devtools = new DevTools();
         }
 
-        loadLuteJs(this.vditor);
-
         if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
             const preview = new Preview(this.vditor);
             this.vditor.preview = preview;
@@ -114,15 +115,12 @@ class Vditor {
             this.vditor.upload = upload;
         }
 
-        if (this.vditor.options.mode !== "markdown-only") {
-            this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-            this.vditor.wysiwygUndo = new WysiwygUndo();
-        }
-
         if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
             const hint = new Hint();
             this.vditor.hint = hint;
         }
+
+        loadLuteJs(this.vditor);
 
         initUI(this.vditor);
 
@@ -275,7 +273,7 @@ class Vditor {
         if (this.vditor.currentMode === "markdown") {
             insertText(this.vditor, value, "");
         } else {
-            let range
+            let range;
             if (getSelection().rangeCount === 0) {
                 this.vditor.wysiwyg.element.focus();
                 range = getSelection().getRangeAt(0);

@@ -2,6 +2,7 @@ import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
+import {hidePanel} from "../toolbar/setToolbar";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
@@ -15,16 +16,8 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if (vditor.options.focus) {
             vditor.options.focus(getMarkdown(vditor));
         }
-        if (vditor.toolbar.elements.emoji && vditor.toolbar.elements.emoji.children[1]) {
-            const emojiPanel = vditor.toolbar.elements.emoji.children[1] as HTMLElement;
-            emojiPanel.style.display = "none";
-        }
-        if (vditor.toolbar.elements.headings && vditor.toolbar.elements.headings.children[1]) {
-            const headingsPanel = vditor.toolbar.elements.headings.children[1] as HTMLElement;
-            headingsPanel.style.display = "none";
-        }
+        hidePanel(vditor, ["headings", "edit-mode", "emoji"]);
     });
-
 };
 
 export const scrollCenter = (editorElement: HTMLElement) => {

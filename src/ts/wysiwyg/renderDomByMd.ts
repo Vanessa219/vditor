@@ -1,5 +1,5 @@
-import {enableToolbar} from "../toolbar/enableToolbar";
-import {removeCurrentToolbar} from "../toolbar/removeCurrentToolbar";
+import {enableToolbar} from "../toolbar/setToolbar";
+import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 

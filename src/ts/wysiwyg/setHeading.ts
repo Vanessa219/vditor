@@ -39,4 +39,5 @@ export const removeHeading = (vditor: IVditor) => {
         blockElement.outerHTML = `<p data-block="0">${blockElement.innerHTML}</p>`;
         setRangeByWbr(vditor.wysiwyg.element, range);
     }
+    vditor.wysiwyg.popover.style.display = "none";
 };
