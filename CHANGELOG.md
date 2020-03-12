@@ -53,6 +53,7 @@
 
 * [217](https://github.com/Vanessa219/vditor/issues/217) ToC 添加悬浮菜单及 bug 修复 `修复缺陷`
 * [216](https://github.com/Vanessa219/vditor/issues/216) subtoolbar 向下溢出 `修复缺陷`
+* [215](https://github.com/Vanessa219/vditor/issues/215) lists when last enter `修复缺陷`
 
 ### v2.2.19 / 2020-03-10
 

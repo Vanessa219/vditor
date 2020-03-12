@@ -59,8 +59,6 @@ class WYSIWYG {
             element = this.element;
         }
 
-        addP2Li(vditor.wysiwyg.element);
-
         const isWYSIWYGElement = element.isEqualNode(this.element);
 
         if (!isWYSIWYGElement) {
@@ -70,6 +68,7 @@ class WYSIWYG {
                 element = footnoteElement;
             }
 
+            addP2Li(element);
             html = element.outerHTML;
 
             if (element.tagName === "UL" || element.tagName === "OL") {
@@ -77,10 +76,12 @@ class WYSIWYG {
                 const listPrevElement = element.previousElementSibling;
                 const listNextElement = element.nextElementSibling;
                 if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
+                    addP2Li(listPrevElement);
                     html = listPrevElement.outerHTML + html;
                     listPrevElement.remove();
                 }
                 if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
+                    addP2Li(listNextElement);
                     html = html + listNextElement.outerHTML;
                     listNextElement.remove();
                 }
@@ -97,10 +98,12 @@ class WYSIWYG {
             // 添加脚注
             const allFootnoteElement = this.element.querySelector("[data-type='footnotes-block']");
             if (allFootnoteElement && !element.isEqualNode(allFootnoteElement)) {
+                addP2Li(allFootnoteElement)
                 html += allFootnoteElement.outerHTML;
                 allFootnoteElement.remove();
             }
         } else {
+            addP2Li(vditor.wysiwyg.element);
             html = element.innerHTML;
         }
 
