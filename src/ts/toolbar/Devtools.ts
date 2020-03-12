@@ -1,7 +1,7 @@
 import bugSVG from "../../assets/icons/bug.svg";
+import {setPadding} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
-import {setPadding} from "../ui/initUI";
 
 export class Devtools extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -13,11 +13,11 @@ export class Devtools extends MenuItem {
             if (this.element.children[0].classList.contains("vditor-menu--current")) {
                 this.element.children[0].classList.remove("vditor-menu--current");
                 vditor.devtools.element.style.display = "none";
-                setPadding(vditor)
+                setPadding(vditor);
             } else {
                 this.element.children[0].classList.add("vditor-menu--current");
                 vditor.devtools.element.style.display = "block";
-                setPadding(vditor)
+                setPadding(vditor);
                 vditor.devtools.renderEchart(vditor);
             }
         });
