@@ -72,6 +72,9 @@ interface ILute {
 
     // 将 md 转换为 wysiwyg
     Md2VditorDOM(markdown: string): string;
+
+    // ir 输入渲染
+    SpinVditorIRDOM(markdown: string): string;
 }
 
 declare const webkitAudioContext: {

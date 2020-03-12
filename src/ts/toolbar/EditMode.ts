@@ -6,6 +6,64 @@ import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
 
+export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
+    event.preventDefault();
+    // wysiwyg
+    hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+    if (vditor.currentMode === type) {
+        return;
+    }
+    if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
+        vditor.devtools.ASTChart.resize();
+    }
+    if (type === "ir") {
+        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        vditor.editor.element.style.display = "none";
+        vditor.preview.element.style.display = "none";
+        vditor.wysiwyg.element.parentElement.style.display = "none";
+        vditor.ir.element.parentElement.style.display = "block";
+
+        // const editorMD = getMarkdown(vditor);
+        vditor.currentMode = "ir";
+        // TODO renderDomByMd(vditor, editorMD);
+        vditor.ir.element.focus();
+    } else if (type === "wysiwyg") {
+        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        vditor.editor.element.style.display = "none";
+        vditor.preview.element.style.display = "none";
+        vditor.wysiwyg.element.parentElement.style.display = "block";
+        vditor.ir.element.parentElement.style.display = "none";
+
+        const editorMD = getMarkdown(vditor);
+        vditor.currentMode = "wysiwyg";
+        renderDomByMd(vditor, editorMD);
+        vditor.wysiwyg.element.focus();
+        vditor.wysiwyg.popover.style.display = "none";
+    } else if (type === "markdown") {
+        showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        vditor.wysiwyg.element.parentElement.style.display = "none";
+        vditor.ir.element.parentElement.style.display = "none";
+        if (vditor.currentPreviewMode === "both") {
+            vditor.editor.element.style.display = "block";
+            vditor.preview.element.style.display = "block";
+        } else if (vditor.currentPreviewMode === "preview") {
+            vditor.preview.element.style.display = "block";
+        } else if (vditor.currentPreviewMode === "editor") {
+            vditor.editor.element.style.display = "block";
+        }
+
+        const wysiwygMD = getMarkdown(vditor);
+        vditor.currentMode = "markdown";
+        formatRender(vditor, wysiwygMD, undefined);
+        vditor.editor.element.focus();
+
+        removeCurrentToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line",
+            "quote", "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+        enableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
+            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+    }
+};
+
 export class EditMode extends MenuItem {
     public element: HTMLElement;
     public panelElement: HTMLElement;
@@ -42,83 +100,17 @@ export class EditMode extends MenuItem {
 
         this.panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
             // wysiwyg
-            event.preventDefault();
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-            if (vditor.currentMode === "wysiwyg") {
-                return;
-            }
-            hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-            if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
-                vditor.devtools.ASTChart.resize();
-            }
-
-            vditor.editor.element.style.display = "none";
-            vditor.preview.element.style.display = "none";
-            vditor.wysiwyg.element.parentElement.style.display = "block";
-            vditor.ir.element.parentElement.style.display = "none";
-
-            const editorMD = getMarkdown(vditor);
-            vditor.currentMode = "wysiwyg";
-            renderDomByMd(vditor, editorMD);
-            vditor.wysiwyg.element.focus();
-            vditor.wysiwyg.popover.style.display = "none";
+            setEditMode(event, vditor, "wysiwyg");
         });
 
         this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // ir
-            event.preventDefault();
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-            if (vditor.currentMode === "ir") {
-                return;
-            }
-            hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-            if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
-                vditor.devtools.ASTChart.resize();
-            }
-
-            vditor.editor.element.style.display = "none";
-            vditor.preview.element.style.display = "none";
-            vditor.wysiwyg.element.parentElement.style.display = "none";
-            vditor.ir.element.parentElement.style.display = "block";
-
-            // const editorMD = getMarkdown(vditor);
-            vditor.currentMode = "ir";
-            // TODO renderDomByMd(vditor, editorMD);
-            vditor.ir.element.focus();
+            setEditMode(event, vditor, "ir");
         });
 
         this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
-            event.preventDefault();
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-            if (vditor.currentMode === "markdown") {
-                return;
-            }
-            showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-            if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
-                vditor.devtools.ASTChart.resize();
-            }
-
-            vditor.wysiwyg.element.parentElement.style.display = "none";
-            vditor.ir.element.parentElement.style.display = "none";
-            if (vditor.currentPreviewMode === "both") {
-                vditor.editor.element.style.display = "block";
-                vditor.preview.element.style.display = "block";
-            } else if (vditor.currentPreviewMode === "preview") {
-                vditor.preview.element.style.display = "block";
-            } else if (vditor.currentPreviewMode === "editor") {
-                vditor.editor.element.style.display = "block";
-            }
-
-            const wysiwygMD = getMarkdown(vditor);
-            vditor.currentMode = "markdown";
-            formatRender(vditor, wysiwygMD, undefined);
-            vditor.editor.element.focus();
-
-            removeCurrentToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line",
-                "quote", "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-            enableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
-                "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+            setEditMode(event, vditor, "markdown");
         });
     }
 }

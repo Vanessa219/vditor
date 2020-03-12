@@ -2,6 +2,7 @@ import {getSelectText} from "../editor/getSelectText";
 import {insertText} from "../editor/insertText";
 import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
 import {getCursorPosition} from "../hint/getCursorPosition";
+import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
@@ -161,6 +162,17 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
             event.preventDefault();
             return true;
+        }
+
+        // toggle edit mode
+        if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[7-9]$/.test(event.code)) {
+            if (event.code === "Digit7") {
+                setEditMode(event, vditor, "wysiwyg");
+            } else if (event.code === "Digit8") {
+                setEditMode(event, vditor, "ir");
+            } else if (event.code === "Digit9") {
+                setEditMode(event, vditor, "markdown");
+            }
         }
     });
 };
