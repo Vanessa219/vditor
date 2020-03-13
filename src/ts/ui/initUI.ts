@@ -60,10 +60,17 @@ export const initUI = (vditor: IVditor) => {
 };
 
 export const setPadding = (vditor: IVditor) => {
-    const padding = (vditor.wysiwyg.element.parentElement.parentElement.clientWidth
-        - vditor.options.preview.maxWidth) / 2;
-    vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px`;
-    vditor.ir.element.style.padding = `10px ${Math.max(35, padding)}px`;
+    if (vditor.wysiwyg.element.parentElement.style.display !== "none") {
+        const padding = (vditor.wysiwyg.element.parentElement.clientWidth
+            - vditor.options.preview.maxWidth) / 2;
+        vditor.wysiwyg.element.style.padding = `10px ${Math.max(35, padding)}px`;
+    }
+
+    if (vditor.ir.element.parentElement.style.display !== "none") {
+        const padding = (vditor.ir.element.parentElement.clientWidth
+            - vditor.options.preview.maxWidth) / 2;
+        vditor.ir.element.style.padding = `10px ${Math.max(35, padding)}px`;
+    }
 };
 
 const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {

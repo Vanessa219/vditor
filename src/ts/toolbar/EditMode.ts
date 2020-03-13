@@ -5,6 +5,7 @@ import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {setPadding} from "../ui/initUI";
 
 export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
     event.preventDefault();
@@ -16,6 +17,7 @@ export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
     if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
         vditor.devtools.ASTChart.resize();
     }
+    setPadding(vditor);
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.editor.element.style.display = "none";
