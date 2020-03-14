@@ -14,10 +14,11 @@
       }
     }
 
-    & > div {
+    &__item {
       float: left;
 
-      & > .vditor-tooltipped {
+      .vditor-tooltipped {
+        color: var(--toolbar-icon-color);
         border: 0;
         margin: 0;
         padding: 10px 5px;
@@ -29,45 +30,35 @@
         &:focus {
           outline: none;
         }
+
+        &:hover {
+          color: var(--toolbar-icon-hover-color);
+        }
       }
-    }
 
-
-    .vditor-tooltipped {
-      color: var(--toolbar-icon-color);
-
-      &:hover {
-        color: var(--toolbar-icon-hover-color);
+      svg {
+        fill: currentColor;
+        display: inline-block;
+        stroke-width: 0;
+        stroke: currentColor;
+        width: 15px;
+        height: 15px;
       }
-    }
 
-    svg {
-      fill: currentColor;
-      display: inline-block;
-      stroke-width: 0;
-      stroke: currentColor;
-      width: 15px;
-      height: 15px;
-    }
-
-    input {
-      position: absolute;
-      width: 25px;
-      height: 35px;
-      top: 0;
-      left: 0;
-      cursor: pointer;
-      opacity: .001;
-      overflow: hidden;
-    }
-  }
-
-  &-menu {
-    &--current svg {
-      color: var(--toolbar-icon-hover-color);
+      input {
+        position: absolute;
+        width: 25px;
+        height: 35px;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        opacity: .001;
+        overflow: hidden;
+      }
     }
 
     &__divider {
+      float: left;
       width: 10px;
       height: 35px;
     }
@@ -76,6 +67,12 @@
       width: 100%;
       padding: 0 !important;
       height: 0 !important;
+    }
+  }
+
+  &-menu {
+    &--current svg {
+      color: var(--toolbar-icon-hover-color);
     }
 
     &--disabled svg {

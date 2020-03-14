@@ -3,6 +3,6 @@ export class Br {
 
     constructor() {
         this.element = document.createElement("div");
-        this.element.className = "vditor-menu__br";
+        this.element.className = "vditor-toolbar__br";
     }
 }

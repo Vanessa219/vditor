@@ -6,8 +6,8 @@ export const processAfterRender = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
-    let processAfterRenderTimeoutId: number
-    return () => {
+    let processAfterRenderTimeoutId: number;
+    const after = () => {
         clearTimeout(processAfterRenderTimeoutId);
         processAfterRenderTimeoutId = window.setTimeout(() => {
             if (vditor.wysiwyg.composingLock && isSafari()) {
@@ -32,7 +32,7 @@ export const processAfterRender = (vditor: IVditor, options = {
             }
 
             if (options.enableAddUndoStack) {
-                // TODO vditor.wysiwygUndo.addToUndoStack(vditor);
+                vditor.irUndo.addToUndoStack(vditor);
             }
 
             if (options.enableHint && vditor.hint) {
@@ -40,4 +40,5 @@ export const processAfterRender = (vditor: IVditor, options = {
             }
         }, 800);
     }
-}
+    after();
+};

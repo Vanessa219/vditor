@@ -30,6 +30,7 @@ import {enableToolbar} from "./ts/toolbar/setToolbar";
 import {initUI} from "./ts/ui/initUI";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
+import {IRUndo} from "./ts/undo/IRUndo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {getMarkdown} from "./ts/util/getMarkdown";
@@ -84,6 +85,7 @@ class Vditor {
         this.vditor.undo = new Undo();
         this.vditor.wysiwyg = new WYSIWYG(this.vditor);
         this.vditor.wysiwygUndo = new WysiwygUndo();
+        this.vditor.irUndo = new IRUndo();
         this.vditor.ir = new IR(this.vditor);
 
         if (mergedOptions.resize.enable) {

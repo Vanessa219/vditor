@@ -4,6 +4,26 @@
   position: relative;
   width: 100%;
 
+
+  &__node {
+    .vditor-ir__marker {
+      color: var(--second-color);
+      width: 0;
+      overflow: hidden;
+      display: inline-block;
+      height: 0;
+      transition: $transition;
+    }
+
+    &--expand {
+      .vditor-ir__marker {
+        display: inline;
+        height: auto;
+        width: auto;
+      }
+    }
+  }
+
   .vditor-reset {
     background-color: var(--panel-background-color);
     margin: 0;
@@ -32,7 +52,6 @@
       display: block;
     }
   }
-
 
   h1:before,
   h2:before,

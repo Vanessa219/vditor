@@ -1,5 +1,6 @@
 import {formatRender} from "../editor/formatRender";
 import {html2md} from "../editor/html2md";
+import {processAfterRender} from "../ir/process";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setTheme} from "./setTheme";
 
@@ -106,12 +107,17 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
         return;
     }
 
-    if (vditor.options.mode.indexOf("wysiwyg") > -1) {
+    if (vditor.options.mode === "wysiwyg") {
         renderDomByMd(vditor, initValue, false);
-    }
-
-    if (vditor.options.mode.indexOf("markdown") > -1) {
+    } else if (vditor.options.mode === "markdown") {
         formatRender(vditor, initValue, undefined, {
+            enableAddUndoStack: true,
+            enableHint: false,
+            enableInput: false,
+        });
+    } else if (vditor.options.mode === "ir") {
+        vditor.ir.element.innerHTML = vditor.lute.Md2VditorIRDOM(initValue);
+        processAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,
             enableInput: false,
