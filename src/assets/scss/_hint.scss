@@ -27,6 +27,7 @@
     margin: 0;
     background-color: transparent;
     cursor: pointer;
+    white-space: nowrap;
 
     &:last-child {
       border-bottom: 0;

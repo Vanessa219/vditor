@@ -39,10 +39,6 @@ class WYSIWYG {
 
         this.popover = divElement.lastElementChild as HTMLDivElement;
 
-        if (vditor.currentMode !== "wysiwyg") {
-            this.element.parentElement.style.display = "none";
-        }
-
         this.bindEvent(vditor);
 
         document.execCommand("DefaultParagraphSeparator", false, "p");

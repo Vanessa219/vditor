@@ -18,10 +18,6 @@ class Editor {
         this.element.setAttribute("contenteditable", "true");
         this.element.setAttribute("spellcheck", "false");
 
-        if (vditor.currentMode !== "markdown" || vditor.currentPreviewMode === "preview") {
-            this.element.style.display = "none";
-        }
-
         this.bindEvent(vditor);
 
         focusEvent(vditor, this.element);

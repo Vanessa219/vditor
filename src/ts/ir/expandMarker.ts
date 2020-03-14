@@ -12,10 +12,11 @@ const nextIsNode = (range: Range) => {
 
     if (!nextNode) {
         // *em*|**string**
-        const markerElement = hasClosestByClassName(range.startContainer, 'vditor-ir__marker')
+        const markerElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker");
         if (markerElement && !markerElement.nextSibling) {
-            const parentNextNode = range.startContainer.parentElement.parentElement.nextSibling as HTMLElement
-            if (parentNextNode && parentNextNode.nodeType !== 3 && parentNextNode.classList.contains("vditor-ir__node")) {
+            const parentNextNode = range.startContainer.parentElement.parentElement.nextSibling as HTMLElement;
+            if (parentNextNode && parentNextNode.nodeType !== 3 &&
+                parentNextNode.classList.contains("vditor-ir__node")) {
                 return parentNextNode;
             }
         }

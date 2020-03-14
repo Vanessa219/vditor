@@ -1,5 +1,6 @@
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
+import {log} from "../util/log";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
 import {expandMarker} from "./expandMarker";
 import {processAfterRender} from "./process";
@@ -17,10 +18,6 @@ class IR {
 
         this.element = divElement.firstElementChild as HTMLPreElement;
 
-        if (vditor.currentMode !== "ir") {
-            this.element.parentElement.style.display = "none";
-        }
-
         this.bindEvent(vditor);
 
         document.execCommand("DefaultParagraphSeparator", false, "p");
@@ -32,9 +29,9 @@ class IR {
 
     private input(vditor: IVditor, range: Range, event: InputEvent) {
         range.insertNode(document.createElement("wbr"));
-        console.log(this.element.innerHTML);
+        log("SpinVditorIRDOM", this.element.innerHTML, "argument", vditor.options.debugger);
         this.element.innerHTML = vditor.lute.SpinVditorIRDOM(this.element.innerHTML);
-        console.log(this.element.innerHTML);
+        log("SpinVditorIRDOM", this.element.innerHTML, "result", vditor.options.debugger);
         setRangeByWbr(vditor.ir.element, range);
         processAfterRender(vditor, {
             enableAddUndoStack: true,

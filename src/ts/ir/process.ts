@@ -39,6 +39,6 @@ export const processAfterRender = (vditor: IVditor, options = {
                 vditor.hint.render(vditor);
             }
         }, 800);
-    }
+    };
     after();
 };

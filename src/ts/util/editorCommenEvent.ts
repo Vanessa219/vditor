@@ -83,7 +83,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (mdProcessKeydown(vditor, event)) {
                 return;
             }
-        } else {
+        } else if (vditor.currentMode === "wysiwyg") {
             if (processKeydown(vditor, event)) {
                 return;
             }
@@ -99,8 +99,10 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if (!vditor.toolbar.elements.undo && matchHotKey("⌘-Z", event)) {
             if (vditor.currentMode === "markdown") {
                 vditor.undo.undo(vditor);
-            } else {
+            } else if (vditor.currentMode === "wysiwyg") {
                 vditor.wysiwygUndo.undo(vditor);
+            } else if (vditor.currentMode === "ir") {
+                vditor.irUndo.undo(vditor);
             }
             event.preventDefault();
             return;
@@ -110,8 +112,10 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if (!vditor.toolbar.elements.redo && matchHotKey("⌘-Y", event)) {
             if (vditor.currentMode === "markdown") {
                 vditor.undo.redo(vditor);
-            } else {
+            } else if (vditor.currentMode === "wysiwyg") {
                 vditor.wysiwygUndo.redo(vditor);
+            } else if (vditor.currentMode === "ir") {
+                vditor.irUndo.redo(vditor);
             }
             event.preventDefault();
             return;
@@ -130,48 +134,50 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // toolbar action
-        vditor.options.toolbar.find((menuItem: IMenuItem) => {
-            if (!menuItem.hotkey) {
-                return false;
-            }
-            if (matchHotKey(menuItem.hotkey, event)) {
-                if (menuItem.name === "upload") {
-                    (vditor.toolbar.elements[menuItem.name].querySelector("input") as HTMLElement).click();
+        if (vditor.currentMode !== "ir") {
+            vditor.options.toolbar.find((menuItem: IMenuItem) => {
+                if (!menuItem.hotkey) {
+                    return false;
+                }
+                if (matchHotKey(menuItem.hotkey, event)) {
+                    if (menuItem.name === "upload") {
+                        (vditor.toolbar.elements[menuItem.name].querySelector("input") as HTMLElement).click();
+                    } else {
+                        vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
+                    }
+                    event.preventDefault();
+                    return true;
+                }
+            });
+
+            // h1 - h6 hotkey
+            if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[1-6]$/.test(event.code)) {
+                if (vditor.currentMode === "wysiwyg") {
+                    const tagName = event.code.replace("Digit", "H");
+                    if (hasClosestByMatchTag(getSelection().getRangeAt(0).startContainer, tagName)) {
+                        removeHeading(vditor);
+                    } else {
+                        setHeading(vditor, tagName);
+                    }
+                    afterRenderEvent(vditor);
                 } else {
-                    vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
+                    insertText(vditor,
+                        "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
+                        "", false, true);
                 }
                 event.preventDefault();
                 return true;
             }
-        });
-
-        // h1 - h6 hotkey
-        if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[1-6]$/.test(event.code)) {
-            if (vditor.currentMode === "wysiwyg") {
-                const tagName = event.code.replace("Digit", "H");
-                if (hasClosestByMatchTag(getSelection().getRangeAt(0).startContainer, tagName)) {
-                    removeHeading(vditor);
-                } else {
-                    setHeading(vditor, tagName);
-                }
-                afterRenderEvent(vditor);
-            } else {
-                insertText(vditor,
-                    "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
-                    "", false, true);
-            }
-            event.preventDefault();
-            return true;
         }
 
         // toggle edit mode
         if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[7-9]$/.test(event.code)) {
             if (event.code === "Digit7") {
-                setEditMode(event, vditor, "wysiwyg");
+                setEditMode(vditor, "wysiwyg", event);
             } else if (event.code === "Digit8") {
-                setEditMode(event, vditor, "ir");
+                setEditMode(vditor, "ir", event);
             } else if (event.code === "Digit9") {
-                setEditMode(event, vditor, "markdown");
+                setEditMode(vditor, "markdown", event);
             }
         }
     });

@@ -1,6 +1,7 @@
 import {formatRender} from "../editor/formatRender";
 import {html2md} from "../editor/html2md";
 import {processAfterRender} from "../ir/process";
+import {setEditMode} from "../toolbar/EditMode";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setTheme} from "./setTheme";
 
@@ -28,6 +29,8 @@ export const initUI = (vditor: IVditor) => {
     contentElement.appendChild(vditor.editor.element);
 
     contentElement.appendChild(vditor.ir.element.parentElement);
+
+    setEditMode(vditor, vditor.options.mode);
 
     if (vditor.preview) {
         contentElement.appendChild(vditor.preview.element);

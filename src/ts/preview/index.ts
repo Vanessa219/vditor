@@ -20,9 +20,6 @@ export class Preview {
         const previewElement = document.createElement("div");
         previewElement.className = vditor.options.classes.preview ? vditor.options.classes.preview : "vditor-reset";
         previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
-        if (vditor.currentMode !== "markdown" || vditor.currentPreviewMode === "editor") {
-            this.element.style.display = "none";
-        }
         this.element.appendChild(previewElement);
         this.render(vditor);
     }

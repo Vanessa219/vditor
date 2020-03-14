@@ -100,10 +100,6 @@ class Vditor {
             this.vditor.devtools = new DevTools();
         }
 
-        if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
-            this.vditor.preview = new Preview(this.vditor);
-        }
-
         if (mergedOptions.upload.url || mergedOptions.upload.handler) {
             this.vditor.upload = new Upload();
         }
@@ -113,6 +109,10 @@ class Vditor {
         }
 
         loadLuteJs(this.vditor);
+
+        if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
+            this.vditor.preview = new Preview(this.vditor);
+        }
 
         initUI(this.vditor);
 

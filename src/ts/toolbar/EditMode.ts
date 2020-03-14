@@ -8,21 +8,23 @@ import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
 
-export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
-    event.preventDefault();
+export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
+    if (event) {
+        event.preventDefault();
+    }
     // wysiwyg
     hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-    if (vditor.currentMode === type) {
+    if (vditor.currentMode === type && event) {
         return;
     }
     if (vditor.devtools) {
         vditor.devtools.renderEchart(vditor);
     }
-    const allToolbar = ["emoji", "headings", "bold", "italic", "strike", "line", "quote", "undo", "redo",
-        "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"];
+    const allToolbar = ["emoji", "headings", "bold", "italic", "strike", "link", "list", "ordered-list", "check",
+        "line", "quote", "code", "inline-code", "upload", "record", "table"];
 
     if (type === "ir") {
-        hideToolbar(vditor.toolbar.elements, allToolbar.concat(["format", "both", "preview"]));
+        vditor.toolbar.element.style.display = "none";
         vditor.editor.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -39,8 +41,8 @@ export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
         vditor.ir.element.focus();
         setPadding(vditor);
     } else if (type === "wysiwyg") {
-        showToolbar(vditor.toolbar.elements, allToolbar)
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        vditor.toolbar.element.style.display = "block";
         vditor.editor.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
@@ -53,7 +55,8 @@ export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
         vditor.wysiwyg.popover.style.display = "none";
         setPadding(vditor);
     } else if (type === "markdown") {
-        showToolbar(vditor.toolbar.elements, allToolbar.concat(["format", "both", "preview"]));
+        showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        vditor.toolbar.element.style.display = "block";
         removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
         enableToolbar(vditor.toolbar.elements, allToolbar);
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -110,17 +113,17 @@ export class EditMode extends MenuItem {
 
         this.panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
             // wysiwyg
-            setEditMode(event, vditor, "wysiwyg");
+            setEditMode(vditor, "wysiwyg", event);
         });
 
         this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // ir
-            setEditMode(event, vditor, "ir");
+            setEditMode(vditor, "ir", event);
         });
 
         this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
-            setEditMode(event, vditor, "markdown");
+            setEditMode(vditor, "markdown", event);
         });
     }
 }
