@@ -1,7 +1,6 @@
 import {insertText} from "../editor/insertText";
-import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n/index";
-import {getRange} from "../util/getRange";
+import {getEditorRange, setSelectionFocus} from "../util/selection";
 
 class Upload {
     public element: HTMLElement;
@@ -183,7 +182,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     }
     const editorElement = vditor.currentMode === "markdown" ? vditor.editor.element : vditor.wysiwyg.element;
 
-    vditor.upload.range = getRange(editorElement);
+    vditor.upload.range = getEditorRange(editorElement);
 
     const validateResult = validateFile(vditor, fileList);
     if (validateResult.length === 0) {

@@ -1,6 +1,6 @@
 import pauseSVG from "../../assets/icons/pause.svg";
 import playSVG from "../../assets/icons/play.svg";
-import {setSelectionFocus} from "../editor/setSelection";
+import {setSelectionFocus} from "../util/selection";
 
 declare global {
     interface Window {

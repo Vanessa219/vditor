@@ -1,9 +1,9 @@
 import {isCtrl} from "../util/compatibility";
-import {getCurrentLinePosition} from "../util/getCurrentLinePosition";
 import {getMarkdown} from "../util/getMarkdown";
 import {matchHotKey} from "../util/hotKey";
+import {getSelectPosition} from "../util/selection";
 import {formatRender} from "./formatRender";
-import {getSelectPosition} from "./getSelectPosition";
+import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {insertText} from "./insertText";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {

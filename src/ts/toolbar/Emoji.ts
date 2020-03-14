@@ -1,7 +1,7 @@
 import emojiSVG from "../../assets/icons/emoji.svg";
 import {insertText} from "../editor/insertText";
-import {setSelectionFocus} from "../editor/setSelection";
 import {getEventName} from "../util/compatibility";
+import {getEditorRange, setSelectionFocus} from "../util/selection";
 import {insertHTML} from "../wysiwyg/insertHTML";
 import {MenuItem} from "./MenuItem";
 import {hidePanel} from "./setToolbar";
@@ -61,13 +61,7 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 event.preventDefault();
                 const value = element.getAttribute("data-value");
                 if (vditor.currentMode === "wysiwyg") {
-                    if (getSelection().rangeCount === 0) {
-                        vditor.wysiwyg.element.focus();
-                    }
-                    if (!vditor.wysiwyg.element.contains(getSelection().getRangeAt(0).startContainer)) {
-                        vditor.wysiwyg.element.focus();
-                    }
-                    const range = getSelection().getRangeAt(0);
+                    const range = getEditorRange(vditor.wysiwyg.element);
                     if (value.indexOf(":") > -1) {
                         insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
                         range.insertNode(document.createTextNode(" "));

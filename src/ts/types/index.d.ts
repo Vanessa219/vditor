@@ -350,5 +350,6 @@ interface IVditor {
     };
     ir?: {
         element: HTMLElement,
+        composingLock: boolean,
     };
 }

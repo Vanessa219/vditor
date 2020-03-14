@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
-import {setSelectionFocus} from "../editor/setSelection";
 import {isChrome} from "../util/compatibility";
+import {setSelectionFocus} from "../util/selection";
 
 export const setRangeByWbr = (element: HTMLElement, range: Range) => {
     const wbrElement = element.querySelector("wbr");

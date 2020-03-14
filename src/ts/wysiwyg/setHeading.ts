@@ -1,12 +1,10 @@
 import {hasClosestBlock} from "../util/hasClosest";
+import {getEditorRange} from "../util/selection";
 import {renderToc} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {
-    if (getSelection().rangeCount === 0) {
-        vditor.wysiwyg.element.focus();
-    }
-    const range = getSelection().getRangeAt(0);
+    const range = getEditorRange(vditor.wysiwyg.element);
     let blockElement = hasClosestBlock(range.startContainer);
     if (!blockElement) {
         blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;

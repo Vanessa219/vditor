@@ -1,10 +1,10 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {formatRender} from "../editor/formatRender";
-import {getSelectPosition} from "../editor/getSelectPosition";
 import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {getMarkdown} from "../util/getMarkdown";
+import {getSelectPosition} from "../util/selection";
 
 class Undo {
     private undoStack: Array<{ patchList: patch_obj[], end: number }>;

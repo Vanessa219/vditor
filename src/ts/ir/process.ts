@@ -10,7 +10,7 @@ export const processAfterRender = (vditor: IVditor, options = {
     const after = () => {
         clearTimeout(processAfterRenderTimeoutId);
         processAfterRenderTimeoutId = window.setTimeout(() => {
-            if (vditor.wysiwyg.composingLock && isSafari()) {
+            if (vditor.ir.composingLock && isSafari()) {
                 // safari 中文输入遇到 addToUndoStack 会影响下一次的中文输入
                 return;
             }

@@ -1,6 +1,6 @@
 import previewSVG from "../../assets/icons/preview.svg";
+import {setPreviewMode} from "../ui/setPreviewMode";
 import {getEventName} from "../util/compatibility";
-import {setPreviewMode} from "../util/setPreviewMode";
 import {MenuItem} from "./MenuItem";
 
 export class Preview extends MenuItem {

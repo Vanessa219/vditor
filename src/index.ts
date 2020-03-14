@@ -6,7 +6,6 @@ import {getSelectText} from "./ts/editor/getSelectText";
 import {html2md} from "./ts/editor/html2md";
 import {Editor} from "./ts/editor/index";
 import {insertText} from "./ts/editor/insertText";
-import {setSelectionByPosition} from "./ts/editor/setSelection";
 import {getCursorPosition} from "./ts/hint/getCursorPosition";
 import {Hint} from "./ts/hint/index";
 import {IR} from "./ts/ir";
@@ -28,6 +27,7 @@ import {Toolbar} from "./ts/toolbar/index";
 import {disableToolbar} from "./ts/toolbar/setToolbar";
 import {enableToolbar} from "./ts/toolbar/setToolbar";
 import {initUI} from "./ts/ui/initUI";
+import {setPreviewMode} from "./ts/ui/setPreviewMode";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
 import {IRUndo} from "./ts/undo/IRUndo";
@@ -35,7 +35,7 @@ import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {getMarkdown} from "./ts/util/getMarkdown";
 import {Options} from "./ts/util/Options";
-import {setPreviewMode} from "./ts/util/setPreviewMode";
+import {getEditorRange, setSelectionByPosition} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
@@ -181,15 +181,11 @@ class Vditor {
     }
 
     public getSelection() {
-        let selectText = "";
-        if (window.getSelection().rangeCount !== 0) {
-            if (this.vditor.currentMode === "wysiwyg") {
-                selectText = getSelectText(this.vditor.wysiwyg.element);
-            } else {
-                selectText = getSelectText(this.vditor.editor.element);
-            }
+        if (this.vditor.currentMode === "wysiwyg") {
+            return getSelectText(this.vditor.wysiwyg.element);
+        } else {
+            return getSelectText(this.vditor.editor.element);
         }
-        return selectText;
     }
 
     public renderPreview(value?: string) {
@@ -265,21 +261,9 @@ class Vditor {
         if (this.vditor.currentMode === "markdown") {
             insertText(this.vditor, value, "");
         } else {
-            let range;
-            if (getSelection().rangeCount === 0) {
-                this.vditor.wysiwyg.element.focus();
-                range = getSelection().getRangeAt(0);
-            } else {
-                range = getSelection().getRangeAt(0);
-                if (!this.vditor.wysiwyg.element.contains(range.startContainer)) {
-                    this.vditor.wysiwyg.element.focus();
-                } else {
-                    range.collapse(true);
-                }
-            }
-
+            const range = getEditorRange(this.vditor.wysiwyg.element);
+            range.collapse(true);
             document.execCommand("insertHTML", false, value);
-
             if (render) {
                 input(this.vditor, range);
             }

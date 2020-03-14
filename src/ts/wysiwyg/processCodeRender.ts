@@ -1,6 +1,5 @@
 import codeSVG from "../../assets/icons/code.svg";
 import {Constants} from "../constants";
-import {setSelectionFocus} from "../editor/setSelection";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
@@ -9,6 +8,7 @@ import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {hasClosestByTag} from "../util/hasClosest";
+import {setSelectionFocus} from "../util/selection";
 
 export const showCode = (previewElement: HTMLElement, first = true) => {
     const previousElement = previewElement.previousElementSibling as HTMLElement;

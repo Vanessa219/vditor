@@ -1,6 +1,6 @@
 import {code160to32} from "../util/code160to32";
+import {setSelectionByPosition} from "../util/selection";
 import {inputEvent} from "./inputEvent";
-import {setSelectionByPosition} from "./setSelection";
 
 export const formatRender = (vditor: IVditor, content: string, position?: { start: number, end: number }, options = {
     enableAddUndoStack: true,

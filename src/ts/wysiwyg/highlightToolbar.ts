@@ -5,7 +5,6 @@ import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import {Constants} from "../constants";
-import {setSelectionFocus} from "../editor/setSelection";
 import {i18n} from "../i18n";
 import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
@@ -20,6 +19,7 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
+import {selectIsEditor, setSelectionFocus} from "../util/selection";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
@@ -32,7 +32,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
             return;
         }
-        if (getSelection().rangeCount === 0) {
+        if (selectIsEditor(vditor.wysiwyg.element)) {
             return;
         }
 

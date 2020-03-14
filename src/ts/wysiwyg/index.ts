@@ -1,5 +1,3 @@
-import {getSelectPosition} from "../editor/getSelectPosition";
-import {setSelectionByPosition, setSelectionFocus} from "../editor/setSelection";
 import {uploadFiles} from "../upload";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
@@ -9,6 +7,9 @@ import {
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
+import {setSelectionByPosition} from "../util/selection";
+import {getSelectPosition} from "../util/selection";
+import {setSelectionFocus} from "../util/selection";
 import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";

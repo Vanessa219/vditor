@@ -45,6 +45,10 @@ class IR {
             this.input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
         });
 
+        this.element.addEventListener("compositionstart", (event: InputEvent) => {
+            this.composingLock = true;
+        });
+
         this.element.addEventListener("input", (event: InputEvent) => {
             if (this.composingLock) {
                 return;
@@ -64,6 +68,10 @@ class IR {
             if (event.key.indexOf("Arrow") > -1) {
                 expandMarker(getSelection().getRangeAt(0), vditor);
             }
+        });
+
+        this.element.addEventListener("keydown", (event) => {
+            this.composingLock = event.isComposing;
         });
     }
 }

@@ -1,4 +1,4 @@
-export class MediaRecorder {
+export class RecordMedia {
     public SAMPLE_RATE = 5000;  // 44100 suggested by demos;
     public DEFAULT_SAMPLE_RATE: number;
     public isRecording = false;

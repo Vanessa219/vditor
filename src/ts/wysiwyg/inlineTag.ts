@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {setSelectionFocus} from "../editor/setSelection";
+import {setSelectionFocus} from "../util/selection";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const previoueIsEmptyA = (node: Node) => {

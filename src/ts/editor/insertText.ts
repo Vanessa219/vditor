@@ -1,16 +1,10 @@
 import {getMarkdown} from "../util/getMarkdown";
+import {getEditorRange, getSelectPosition} from "../util/selection";
 import {formatRender} from "./formatRender";
-import {getSelectPosition} from "./getSelectPosition";
-import {selectIsEditor} from "./selectIsEditor";
 
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
                            toggle: boolean = false) => {
-    let range: Range = window.getSelection().rangeCount === 0 ? undefined : window.getSelection().getRangeAt(0);
-    if (!selectIsEditor(vditor.editor.element)) {
-        range = vditor.editor.element.ownerDocument.createRange();
-        range.setStart(vditor.editor.element, 0);
-        range.collapse(true);
-    }
+    const range = getEditorRange(vditor.editor.element);
 
     const position = getSelectPosition(vditor.editor.element, range);
     const content = getMarkdown(vditor);

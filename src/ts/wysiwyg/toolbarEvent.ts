@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
-import {setSelectionFocus} from "../editor/setSelection";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {getEditorRange, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
@@ -160,10 +160,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
     if (vditor.wysiwyg.element.querySelector("wbr")) {
         vditor.wysiwyg.element.querySelector("wbr").remove();
     }
-    if (getSelection().rangeCount === 0) {
-        vditor.wysiwyg.element.focus();
-    }
-    const range = getSelection().getRangeAt(0);
+    const range = getEditorRange(vditor.wysiwyg.element);
     if (!vditor.wysiwyg.element.contains(range.startContainer)) {
         // 光标位于编辑器之外
         vditor.wysiwyg.element.focus();

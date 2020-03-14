@@ -1,6 +1,6 @@
 import bothSVG from "../../assets/icons/both.svg";
+import {setPreviewMode} from "../ui/setPreviewMode";
 import {getEventName} from "../util/compatibility";
-import {setPreviewMode} from "../util/setPreviewMode";
 import {MenuItem} from "./MenuItem";
 
 export class Both extends MenuItem {

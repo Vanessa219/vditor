@@ -1,8 +1,8 @@
 import formatSVG from "../../assets/icons/outdent.svg";
 import {formatRender} from "../editor/formatRender";
-import {getSelectPosition} from "../editor/getSelectPosition";
 import {getEventName} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
+import {getSelectPosition} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 
 export class Format extends MenuItem {

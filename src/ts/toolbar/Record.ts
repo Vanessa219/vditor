@@ -2,8 +2,8 @@ import recordSVG from "../../assets/icons/record.svg";
 import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
 import {getEventName} from "../util/compatibility";
-import {MediaRecorder} from "../util/MediaRecorder";
 import {MenuItem} from "./MenuItem";
+import {RecordMedia} from "./RecordMedia";
 
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -14,7 +14,7 @@ export class Record extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor) {
-        let mediaRecorder: MediaRecorder;
+        let mediaRecorder: RecordMedia;
         this.element.children[0].addEventListener(getEventName(), (event) => {
             if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
                 return;
@@ -23,7 +23,7 @@ export class Record extends MenuItem {
             const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
-                    mediaRecorder = new MediaRecorder(mediaStream);
+                    mediaRecorder = new RecordMedia(mediaStream);
                     mediaRecorder.recorder.onaudioprocess = (e: AudioProcessingEvent) => {
                         // Do nothing if not recording:
                         if (!mediaRecorder.isRecording) {
