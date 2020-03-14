@@ -1,14 +1,7 @@
-import {enableToolbar} from "../toolbar/setToolbar";
-import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {processCodeRender} from "./processCodeRender";
 
 export const renderDomByMd = (vditor: IVditor, md: string, enableInput = true) => {
-    const allToolbar = ["headings", "bold", "italic", "strike", "line", "quote",
-        "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"];
-    removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
-    enableToolbar(vditor.toolbar.elements, allToolbar);
-
     const editorElement = vditor.wysiwyg.element;
     editorElement.innerHTML = vditor.lute.Md2VditorDOM(md);
 

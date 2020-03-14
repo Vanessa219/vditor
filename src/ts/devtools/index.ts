@@ -7,7 +7,7 @@ declare const echarts: {
 
 export class DevTools {
     public element: HTMLDivElement;
-    public ASTChart: IEChart;
+    private ASTChart: IEChart;
 
     constructor() {
         this.element = document.createElement("div");
@@ -68,6 +68,7 @@ export class DevTools {
                     show: true,
                 },
             });
+            this.ASTChart.resize();
         } catch (e) {
             (this.element.lastElementChild as HTMLElement).style.display = "none";
             this.element.firstElementChild.innerHTML = e;

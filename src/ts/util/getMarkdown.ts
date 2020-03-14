@@ -9,6 +9,8 @@ export const getMarkdown = (vditor: IVditor) => {
         const tempEditorElement = vditor.wysiwyg.element.cloneNode(true) as HTMLElement;
         addP2Li(tempEditorElement);
         return vditor.lute.VditorDOM2Md(tempEditorElement.innerHTML);
+    } else if (vditor.currentMode === "ir") {
+        return vditor.lute.VditorDOM2Md(vditor.ir.element.innerHTML);
     }
     return "";
 };

@@ -39,7 +39,7 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
             break;
     }
 
-    if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
-        vditor.devtools.ASTChart.resize();
+    if (vditor.devtools) {
+        vditor.devtools.renderEchart(vditor);
     }
 };

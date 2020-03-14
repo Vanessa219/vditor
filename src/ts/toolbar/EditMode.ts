@@ -1,11 +1,12 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {formatRender} from "../editor/formatRender";
+import {setPadding} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
-import {setPadding} from "../ui/initUI";
+import {processAfterRender} from "../ir/process";
 
 export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
     event.preventDefault();
@@ -14,10 +15,14 @@ export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
     if (vditor.currentMode === type) {
         return;
     }
-    if (vditor.devtools && vditor.devtools.ASTChart && vditor.devtools.element.style.display === "block") {
-        vditor.devtools.ASTChart.resize();
+    if (vditor.devtools) {
+        vditor.devtools.renderEchart(vditor);
     }
-    setPadding(vditor);
+    const allToolbar = ["headings", "bold", "italic", "strike", "line", "quote",
+        "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"];
+    removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
+    enableToolbar(vditor.toolbar.elements, allToolbar);
+
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.editor.element.style.display = "none";
@@ -25,10 +30,16 @@ export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "block";
 
-        // const editorMD = getMarkdown(vditor);
+        const editorMD = getMarkdown(vditor);
         vditor.currentMode = "ir";
-        // TODO renderDomByMd(vditor, editorMD);
+        vditor.ir.element.innerHTML = vditor.lute.Md2VditorIRDOM(editorMD);
+        processAfterRender(vditor, {
+            enableAddUndoStack: true,
+            enableHint: false,
+            enableInput: false,
+        })
         vditor.ir.element.focus();
+        setPadding(vditor);
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.editor.element.style.display = "none";
@@ -41,6 +52,7 @@ export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
         renderDomByMd(vditor, editorMD);
         vditor.wysiwyg.element.focus();
         vditor.wysiwyg.popover.style.display = "none";
+        setPadding(vditor);
     } else if (type === "markdown") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -58,11 +70,6 @@ export const setEditMode = (event: Event, vditor: IVditor, type: string) => {
         vditor.currentMode = "markdown";
         formatRender(vditor, wysiwygMD, undefined);
         vditor.editor.element.focus();
-
-        removeCurrentToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line",
-            "quote", "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
-        enableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
-            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
     }
 };
 

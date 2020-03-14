@@ -75,6 +75,12 @@ interface ILute {
 
     // ir 输入渲染
     SpinVditorIRDOM(markdown: string): string;
+
+    // ir 获取 md
+    VditorIRDOM2Md(html: string): string;
+
+    // md 转换为 ir
+    Md2VditorIRDOM(html: string): string;
 }
 
 declare const webkitAudioContext: {
@@ -273,7 +279,6 @@ interface IVditor {
     currentPreviewMode: keyof IPreviewMode;
     devtools?: {
         element: HTMLDivElement,
-        ASTChart: IEChart,
         renderEchart(vditor: IVditor): void,
     };
     toolbar?: {
