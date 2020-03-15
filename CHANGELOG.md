@@ -54,6 +54,7 @@
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
 * 文档更新
   * 修改 `options.mode` 可选值为：'markdown', 'wysiwyg', 'typora'
+  * toolbar 中的 wysiwyg 修改为 'edit-mode'
 
 ### v2.3.0 / 2020-03-12
 
