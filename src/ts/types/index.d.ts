@@ -81,6 +81,9 @@ interface ILute {
 
     // md 转换为 ir
     Md2VditorIRDOM(html: string): string;
+
+    // 获取 HTML
+    VditorIRDOM2HTML(html: string): string;
 }
 
 declare const webkitAudioContext: {

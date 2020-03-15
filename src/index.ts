@@ -8,6 +8,8 @@ import {Editor} from "./ts/editor/index";
 import {insertText} from "./ts/editor/insertText";
 import {Hint} from "./ts/hint/index";
 import {IR} from "./ts/ir";
+import {input as irInput} from "./ts/ir/input";
+import {processAfterRender} from "./ts/ir/process";
 import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
@@ -136,16 +138,20 @@ class Vditor {
     public focus() {
         if (this.vditor.currentMode === "markdown") {
             this.vditor.editor.element.focus();
-        } else {
+        } else if (this.vditor.currentMode === "wysiwyg") {
             this.vditor.wysiwyg.element.focus();
+        } else if (this.vditor.currentMode === "ir") {
+            this.vditor.ir.element.focus();
         }
     }
 
     public blur() {
         if (this.vditor.currentMode === "markdown") {
             this.vditor.editor.element.blur();
-        } else {
+        } else if (this.vditor.currentMode === "wysiwyg") {
             this.vditor.wysiwyg.element.blur();
+        } else if (this.vditor.currentMode === "ir") {
+            this.vditor.ir.element.blur();
         }
     }
 
@@ -153,27 +159,24 @@ class Vditor {
         disableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
             "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table",
             "undo", "redo", "wysiwyg"]);
-        if (this.vditor.currentMode === "markdown") {
-            this.vditor.editor.element.setAttribute("contenteditable", "false");
-        } else {
-            this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
-        }
+        this.vditor.editor.element.setAttribute("contenteditable", "false");
+        this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
+        this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
     }
 
     public enable() {
         enableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
             "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table", "wysiwyg"]);
-        if (this.vditor.currentMode === "markdown") {
-            this.vditor.undo.enableIcon(this.vditor);
-            this.vditor.editor.element.setAttribute("contenteditable", "true");
-        } else {
-            this.vditor.wysiwygUndo.enableIcon(this.vditor);
-            this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
-        }
+        this.vditor.undo.enableIcon(this.vditor);
+        this.vditor.editor.element.setAttribute("contenteditable", "true");
+        this.vditor.wysiwygUndo.enableIcon(this.vditor);
+        this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
+        this.vditor.irUndo.enableIcon(this.vditor);
+        this.vditor.ir.element.setAttribute("contenteditable", "true");
     }
 
     public setSelection(start: number, end: number) {
-        if (this.vditor.currentMode === "wysiwyg") {
+        if (this.vditor.currentMode !== "markdown") {
             console.error("所见即所得模式暂不支持该方法");
         } else {
             setSelectionByPosition(start, end, this.vditor.editor.element);
@@ -183,8 +186,10 @@ class Vditor {
     public getSelection() {
         if (this.vditor.currentMode === "wysiwyg") {
             return getSelectText(this.vditor.wysiwyg.element);
-        } else {
+        } else if (this.vditor.currentMode === "markdown") {
             return getSelectText(this.vditor.editor.element);
+        } else if (this.vditor.currentMode === "ir") {
+            return getSelectText(this.vditor.ir.element);
         }
     }
 
@@ -197,8 +202,10 @@ class Vditor {
     public getCursorPosition() {
         if (this.vditor.currentMode === "wysiwyg") {
             return getCursorPosition(this.vditor.wysiwyg.element);
-        } else {
+        } else if (this.vditor.currentMode === "markdown") {
             return getCursorPosition(this.vditor.editor.element);
+        } else if (this.vditor.currentMode === "ir") {
+            return getCursorPosition(this.vditor.ir.element);
         }
     }
 
@@ -225,8 +232,10 @@ class Vditor {
     public getHTML() {
         if (this.vditor.currentMode === "markdown") {
             return md2htmlByVditor(getMarkdown(this.vditor), this.vditor);
-        } else {
+        } else if (this.vditor.currentMode === "wysiwyg") {
             return this.vditor.lute.VditorDOM2HTML(this.vditor.wysiwyg.element.innerHTML);
+        } else if (this.vditor.currentMode === "ir") {
+            return this.vditor.lute.VditorIRDOM2HTML(this.vditor.ir.element.innerHTML);
         }
     }
 
@@ -260,12 +269,19 @@ class Vditor {
     public insertValue(value: string, render = true) {
         if (this.vditor.currentMode === "markdown") {
             insertText(this.vditor, value, "");
-        } else {
+        } else if (this.vditor.currentMode === "wysiwyg") {
             const range = getEditorRange(this.vditor.wysiwyg.element);
             range.collapse(true);
             document.execCommand("insertHTML", false, value);
             if (render) {
                 input(this.vditor, range);
+            }
+        } else if (this.vditor.currentMode === "ir") {
+            const range = getEditorRange(this.vditor.ir.element);
+            range.collapse(true);
+            document.execCommand("insertHTML", false, value);
+            if (render) {
+                irInput(this.vditor, range);
             }
         }
     }
@@ -280,9 +296,17 @@ class Vditor {
                 enableHint: false,
                 enableInput: false,
             });
-        } else {
+        } else if (this.vditor.currentMode === "wysiwyg") {
             renderDomByMd(this.vditor, markdown, false);
+        } else {
+            this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
+            processAfterRender(this.vditor, {
+                enableAddUndoStack: true,
+                enableHint: false,
+                enableInput: false,
+            });
         }
+
         if (!markdown) {
             localStorage.removeItem("vditor" + this.vditor.id);
         }
