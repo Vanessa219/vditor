@@ -1,6 +1,7 @@
 import {insertText} from "../editor/insertText";
 import {i18n} from "../i18n/index";
 import {getEditorRange, setSelectionFocus} from "../util/selection";
+import {setHeaders} from "./setHeaders";
 
 class Upload {
     public element: HTMLElement;
@@ -205,11 +206,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     if (vditor.options.upload.withCredentials) {
         xhr.withCredentials = true;
     }
-    if (vditor.options.upload.headers) {
-        Object.keys(vditor.options.upload.headers).forEach((key) => {
-            xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
-        });
-    }
+    setHeaders(vditor, xhr);
     vditor.upload.isUploading = true;
     editorElement.setAttribute("contenteditable", "false");
 

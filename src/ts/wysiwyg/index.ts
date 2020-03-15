@@ -1,4 +1,5 @@
 import {uploadFiles} from "../upload";
+import {setHeaders} from "../upload/setHeaders";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {
@@ -176,11 +177,7 @@ class WYSIWYG {
                                         && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
                                         const xhr = new XMLHttpRequest();
                                         xhr.open("POST", vditor.options.upload.linkToImgUrl);
-                                        if (vditor.options.upload.headers) {
-                                            Object.keys(vditor.options.upload.headers).forEach((key) => {
-                                                xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
-                                            });
-                                        }
+                                        setHeaders(vditor, xhr);
                                         xhr.onreadystatechange = () => {
                                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                                 const responseJSON = JSON.parse(xhr.responseText);

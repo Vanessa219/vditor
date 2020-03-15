@@ -1,3 +1,4 @@
+import {setHeaders} from "../upload/setHeaders";
 import {processPasteCode} from "../util/processPasteCode";
 import {insertText} from "./insertText";
 import {setSelectionByInlineText} from "./setSelection";
@@ -27,11 +28,7 @@ export const html2md = (vditor: IVditor, textHTML: string, textPlain?: string) =
                         && vditor.options.upload.linkToImgUrl && typeof textPlain !== "undefined") {
                         const xhr = new XMLHttpRequest();
                         xhr.open("POST", vditor.options.upload.linkToImgUrl);
-                        if (vditor.options.upload.headers) {
-                            Object.keys(vditor.options.upload.headers).forEach((key) => {
-                                xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
-                            });
-                        }
+                        setHeaders(vditor, xhr);
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                 const responseJSON = JSON.parse(xhr.responseText);
