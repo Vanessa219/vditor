@@ -1,4 +1,5 @@
 import {formatRender} from "../editor/formatRender";
+import {processAfterRender} from "../ir/process";
 import {code160to32} from "../util/code160to32";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByClassName} from "../util/hasClosest";
@@ -8,7 +9,6 @@ import {getCursorPosition} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {insertHTML} from "../wysiwyg/insertHTML";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {processAfterRender} from "../ir/process";
 
 export class Hint {
     public timeId: number;
