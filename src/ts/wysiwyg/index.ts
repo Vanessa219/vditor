@@ -176,6 +176,11 @@ class WYSIWYG {
                                         && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
                                         const xhr = new XMLHttpRequest();
                                         xhr.open("POST", vditor.options.upload.linkToImgUrl);
+                                        if (vditor.options.upload.headers) {
+                                            Object.keys(vditor.options.upload.headers).forEach((key) => {
+                                                xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
+                                            });
+                                        }
                                         xhr.onreadystatechange = () => {
                                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                                 const responseJSON = JSON.parse(xhr.responseText);
