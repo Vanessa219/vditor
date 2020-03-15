@@ -4,17 +4,16 @@ import {
     hasClosestByClassName,
     hasClosestByTag,
 } from "../util/hasClosest";
+import {log} from "../util/log";
+import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
-import {renderToc} from "./processMD";
+import {isToC, renderToc} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
-
-    // 列表需要到最顶层
-    const topListElement = getTopList(range.startContainer);
 
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
@@ -64,48 +63,105 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             item.removeAttribute("style");
         });
 
-        if (topListElement) {
-            const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
-            if (blockquoteElement) {
-                // li 中有 blockquote 就只渲染 blockquote
-                blockElement = hasClosestBlock(range.startContainer) || blockElement;
-            } else {
-                blockElement = topListElement;
-            }
+        let html = "";
+        if (blockElement.getAttribute("data-type") === "link-ref-defs-block" || isToC(blockElement.innerText)) {
+            // 修改链接引用或 ToC
+            blockElement = vditor.wysiwyg.element;
         }
 
-        blockElement = vditor.wysiwyg.spinVditorDOM(vditor, blockElement);
+        const isWYSIWYGElement = blockElement.isEqualNode(vditor.wysiwyg.element);
+
+        if (!isWYSIWYGElement) {
+            // 列表需要到最顶层
+            const topListElement = getTopList(range.startContainer);
+            if (topListElement) {
+                const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
+                if (blockquoteElement) {
+                    // li 中有 blockquote 就只渲染 blockquote
+                    blockElement = hasClosestBlock(range.startContainer) || blockElement;
+                } else {
+                    blockElement = topListElement;
+                }
+            }
+
+            // 修改脚注
+            const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
+            if (footnoteElement) {
+                blockElement = footnoteElement;
+            }
+
+            addP2Li(blockElement);
+            html = blockElement.outerHTML;
+
+            if (blockElement.tagName === "UL" || blockElement.tagName === "OL") {
+                // 如果为列表的话，需要把上下的列表都重绘
+                const listPrevElement = blockElement.previousElementSibling;
+                const listNextElement = blockElement.nextElementSibling;
+                if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
+                    addP2Li(listPrevElement);
+                    html = listPrevElement.outerHTML + html;
+                    listPrevElement.remove();
+                }
+                if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
+                    addP2Li(listNextElement);
+                    html = html + listNextElement.outerHTML;
+                    listNextElement.remove();
+                }
+                // firefox 列表回车不会产生新的 list item https://github.com/Vanessa219/vditor/issues/194
+                html = html.replace("<div><wbr><br></div>", "<li><p><wbr><br></p></li>");
+            }
+
+            // 添加链接引用
+            const allLinkRefDefsElement = vditor.wysiwyg.element.querySelector("[data-type='link-ref-defs-block']");
+            if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
+                html += allLinkRefDefsElement.outerHTML;
+                allLinkRefDefsElement.remove();
+            }
+            // 添加脚注
+            const allFootnoteElement = vditor.wysiwyg.element.querySelector("[data-type='footnotes-block']");
+            if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement)) {
+                addP2Li(allFootnoteElement);
+                html += allFootnoteElement.outerHTML;
+                allFootnoteElement.remove();
+            }
+        } else {
+            addP2Li(vditor.wysiwyg.element);
+            html = blockElement.innerHTML;
+        }
+
+        // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
+        html = html.replace(/<\/(strong|b)><strong data-marker="\W{2}">/g, "")
+            .replace(/<\/(em|i)><em data-marker="\W{1}">/g, "")
+            .replace(/<\/(s|strike)><s data-marker="~{1,2}">/g, "");
+
+        log("SpinVditorDOM", html, "argument", vditor.options.debugger);
+
+        html = vditor.lute.SpinVditorDOM(html);
+
+        log("SpinVditorDOM", html, "result", vditor.options.debugger);
+
+        if (isWYSIWYGElement) {
+            blockElement.innerHTML = html;
+        } else {
+            blockElement.outerHTML = html;
+            const allLinkRefDefsElement = vditor.wysiwyg.element.querySelector("[data-type='link-ref-defs-block']");
+            if (allLinkRefDefsElement) {
+                vditor.wysiwyg.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+            }
+
+            const allFootnoteElement = vditor.wysiwyg.element.querySelector("[data-type='footnotes-block']");
+            if (allFootnoteElement) {
+                vditor.wysiwyg.element.insertAdjacentElement("beforeend", allFootnoteElement);
+            }
+        }
 
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
 
-        const tempTopListElement = getTopList(range.startContainer);
-        if (tempTopListElement) {
-            // 列表返回多个 block 时，应统一处理 https://github.com/Vanessa219/vditor/issues/112
-            blockElement = tempTopListElement;
-        }
-
-        const tempBlockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
-        if (tempBlockquoteElement) {
-            // BLOCKQUOTE 中存在列表，且列表中有代码块。回车，回车形成新 p
-            // https://github.com/Vanessa219/vditor/issues/156#issuecomment-588318896
-            blockElement = tempBlockquoteElement;
-        }
-
-        if (!blockElement) {
-            blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-        }
-
-        if (range.startContainer.nodeType !== 3 && !blockElement) {
-            blockElement = (range.startContainer as HTMLElement).children[range.startOffset] as HTMLElement;
-        }
-        if (blockElement && blockElement.querySelectorAll("code").length > 0) {
-            // TODO: 目前为全局渲染。可优化为只选取当前列表、当前列表紧邻的前后列表；最顶层列表；当前块进行渲染
-            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
-                (blockRenderItem: HTMLElement) => {
-                    processCodeRender(blockRenderItem, vditor);
-                });
-        }
+        // TODO: 目前为全局渲染。可优化为只选取当前列表、当前列表紧邻的前后列表；最顶层列表；当前块进行渲染
+        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockRenderItem: HTMLElement) => {
+            processCodeRender(blockRenderItem, vditor);
+        });
     }
 
     afterRenderEvent(vditor, {

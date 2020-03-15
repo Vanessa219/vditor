@@ -32,7 +32,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
             return;
         }
-        if (selectIsEditor(vditor.wysiwyg.element)) {
+        if (!selectIsEditor(vditor.wysiwyg.element)) {
             return;
         }
 

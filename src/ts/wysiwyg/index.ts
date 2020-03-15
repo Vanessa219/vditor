@@ -5,7 +5,6 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
-import {log} from "../util/log";
 import {processPasteCode} from "../util/processPasteCode";
 import {setSelectionByPosition} from "../util/selection";
 import {getSelectPosition} from "../util/selection";
@@ -17,7 +16,7 @@ import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
-import {isHeadingMD, isHrMD, isToC, renderToc} from "./processMD";
+import {isHeadingMD, isHrMD, renderToc} from "./processMD";
 import {setRangeByWbr} from "./setRangeByWbr";
 
 class WYSIWYG {
@@ -47,89 +46,6 @@ class WYSIWYG {
         focusEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
-    }
-
-    public spinVditorDOM(vditor: IVditor, element: HTMLElement) {
-        let html = "";
-        if (element.getAttribute("data-type") === "link-ref-defs-block" || isToC(element.innerText)) {
-            // 修改链接引用或 ToC
-            element = this.element;
-        }
-
-        const isWYSIWYGElement = element.isEqualNode(this.element);
-
-        if (!isWYSIWYGElement) {
-            // 修改脚注
-            const footnoteElement = hasClosestByAttribute(element, "data-type", "footnotes-block");
-            if (footnoteElement) {
-                element = footnoteElement;
-            }
-
-            addP2Li(element);
-            html = element.outerHTML;
-
-            if (element.tagName === "UL" || element.tagName === "OL") {
-                // 如果为列表的话，需要把上下的列表都重绘
-                const listPrevElement = element.previousElementSibling;
-                const listNextElement = element.nextElementSibling;
-                if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
-                    addP2Li(listPrevElement);
-                    html = listPrevElement.outerHTML + html;
-                    listPrevElement.remove();
-                }
-                if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
-                    addP2Li(listNextElement);
-                    html = html + listNextElement.outerHTML;
-                    listNextElement.remove();
-                }
-                // firefox 列表回车不会产生新的 list item https://github.com/Vanessa219/vditor/issues/194
-                html = html.replace("<div><wbr><br></div>", "<li><p><wbr><br></p></li>");
-            }
-
-            // 添加链接引用
-            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs-block']");
-            if (allLinkRefDefsElement && !element.isEqualNode(allLinkRefDefsElement)) {
-                html += allLinkRefDefsElement.outerHTML;
-                allLinkRefDefsElement.remove();
-            }
-            // 添加脚注
-            const allFootnoteElement = this.element.querySelector("[data-type='footnotes-block']");
-            if (allFootnoteElement && !element.isEqualNode(allFootnoteElement)) {
-                addP2Li(allFootnoteElement);
-                html += allFootnoteElement.outerHTML;
-                allFootnoteElement.remove();
-            }
-        } else {
-            addP2Li(vditor.wysiwyg.element);
-            html = element.innerHTML;
-        }
-
-        // 合并多个 em， strong，s。以防止多个相同元素在一起时不满足 commonmark 规范，出现标记符
-        html = html.replace(/<\/(strong|b)><strong data-marker="\W{2}">/g, "")
-            .replace(/<\/(em|i)><em data-marker="\W{1}">/g, "")
-            .replace(/<\/(s|strike)><s data-marker="~{1,2}">/g, "");
-
-        log("SpinVditorDOM", html, "argument", vditor.options.debugger);
-
-        html = vditor.lute.SpinVditorDOM(html);
-
-        log("SpinVditorDOM", html, "result", vditor.options.debugger);
-
-        if (isWYSIWYGElement) {
-            element.innerHTML = html;
-        } else {
-            element.outerHTML = html;
-            const allLinkRefDefsElement = this.element.querySelector("[data-type='link-ref-defs-block']");
-            if (allLinkRefDefsElement) {
-                this.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
-            }
-
-            const allFootnoteElement = this.element.querySelector("[data-type='footnotes-block']");
-            if (allFootnoteElement) {
-                this.element.insertAdjacentElement("beforeend", allFootnoteElement);
-            }
-        }
-        return element;
     }
 
     private bindEvent(vditor: IVditor) {

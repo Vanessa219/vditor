@@ -4,10 +4,10 @@ import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByClassName} from "../util/hasClosest";
 import {getSelectPosition} from "../util/selection";
 import {setSelectionFocus} from "../util/selection";
+import {getCursorPosition} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {insertHTML} from "../wysiwyg/insertHTML";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {getCursorPosition} from "./getCursorPosition";
 
 export class Hint {
     public timeId: number;
@@ -26,7 +26,7 @@ export class Hint {
         const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
             vditor.wysiwyg.element : vditor.editor.element);
         let currentLineValue: string;
-        if (vditor.currentMode === "wysiwyg") {
+        if (vditor.currentMode !== "markdown") {
             const range = getSelection().getRangeAt(0);
             currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
         } else {
@@ -85,7 +85,7 @@ export class Hint {
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
         const range: Range = window.getSelection().getRangeAt(0);
 
-        if (vditor.currentMode === "wysiwyg") {
+        if (vditor.currentMode !== "markdown") {
             range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
             range.deleteContents();
             if (value.indexOf(":") > -1) {
