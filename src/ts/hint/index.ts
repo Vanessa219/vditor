@@ -8,6 +8,7 @@ import {getCursorPosition} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {insertHTML} from "../wysiwyg/insertHTML";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
+import {processAfterRender} from "../ir/process";
 
 export class Hint {
     public timeId: number;
@@ -101,7 +102,12 @@ export class Hint {
             if (blockRenderElement) {
                 processCodeRender(blockRenderElement, vditor);
             }
-            afterRenderEvent(vditor);
+
+            if (vditor.currentMode === "wysiwyg") {
+                afterRenderEvent(vditor);
+            } else {
+                processAfterRender(vditor);
+            }
         } else {
             const position = getSelectPosition(vditor.editor.element, range);
             const text = getMarkdown(vditor);

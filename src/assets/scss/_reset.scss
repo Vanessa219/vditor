@@ -227,13 +227,12 @@
       padding: 3px 5px;
       font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
       line-height: 10px;
-      color: #555;
+      color: var(--textarea-text-color);
       vertical-align: middle;
-      background-color: #fcfcfc;
+      background-color: var(--textarea-background-color);
       border: solid 1px var(--border-color);
-      border-bottom-color: #bbb;
       border-radius: 3px;
-      box-shadow: inset 0 -1px 0 #bbb;
+      box-shadow: inset 0 -1px 0 var(--border-color);
     }
 
     summary {
