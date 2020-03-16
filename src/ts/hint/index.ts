@@ -1,5 +1,5 @@
-import {formatRender} from "../editor/formatRender";
 import {processAfterRender} from "../ir/process";
+import {formatRender} from "../sv/formatRender";
 import {code160to32} from "../util/code160to32";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByClassName} from "../util/hasClosest";
@@ -27,7 +27,7 @@ export class Hint {
         const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
             vditor.wysiwyg.element : vditor.editor.element);
         let currentLineValue: string;
-        if (vditor.currentMode !== "markdown") {
+        if (vditor.currentMode !== "sv") {
             const range = getSelection().getRangeAt(0);
             currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
         } else {
@@ -86,7 +86,7 @@ export class Hint {
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
         const range: Range = window.getSelection().getRangeAt(0);
 
-        if (vditor.currentMode !== "markdown") {
+        if (vditor.currentMode !== "sv") {
             range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
             range.deleteContents();
             if (value.indexOf(":") > -1) {

@@ -1,6 +1,6 @@
 import editSVG from "../../assets/icons/edit.svg";
-import {formatRender} from "../editor/formatRender";
 import {processAfterRender} from "../ir/process";
+import {formatRender} from "../sv/formatRender";
 import {setPadding} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
@@ -54,7 +54,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         vditor.wysiwyg.element.focus();
         vditor.wysiwyg.popover.style.display = "none";
         setPadding(vditor);
-    } else if (type === "markdown") {
+    } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.toolbar.element.style.display = "block";
         removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
@@ -71,7 +71,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         }
 
         const wysiwygMD = getMarkdown(vditor);
-        vditor.currentMode = "markdown";
+        vditor.currentMode = "sv";
         formatRender(vditor, wysiwygMD, undefined);
         vditor.editor.element.focus();
     }
@@ -87,9 +87,9 @@ export class EditMode extends MenuItem {
 
         this.panelElement = document.createElement("div");
         this.panelElement.className = "vditor-hint vditor-arrow";
-        this.panelElement.innerHTML = `<button data-value="wysiwyg">WYSIWYG &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
-<button data-value="markdown">Split View &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
-        // <button data-value="ir">Instant Rendering &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
+        this.panelElement.innerHTML = `<button>WYSIWYG &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
+<button>Split View &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
+        // <button>Instant Rendering &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
 
         this.element.appendChild(this.panelElement);
 
@@ -123,7 +123,7 @@ export class EditMode extends MenuItem {
 
         this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // markdown
-            setEditMode(vditor, "markdown", event);
+            setEditMode(vditor, "sv", event);
         });
     }
 }

@@ -1,6 +1,6 @@
-import {formatRender} from "../editor/formatRender";
-import {html2md} from "../editor/html2md";
 import {processAfterRender} from "../ir/process";
+import {formatRender} from "../sv/formatRender";
+import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setTheme} from "./setTheme";
@@ -112,7 +112,7 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
 
     if (vditor.options.mode === "wysiwyg") {
         renderDomByMd(vditor, initValue, false);
-    } else if (vditor.options.mode === "markdown") {
+    } else if (vditor.options.mode === "sv") {
         formatRender(vditor, initValue, undefined, {
             enableAddUndoStack: true,
             enableHint: false,

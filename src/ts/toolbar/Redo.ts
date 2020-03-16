@@ -12,7 +12,7 @@ export class Redo extends MenuItem {
             if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
                 return;
             }
-            if (vditor.currentMode === "markdown") {
+            if (vditor.currentMode === "sv") {
                 vditor.undo.redo(vditor);
             } else {
                 vditor.wysiwygUndo.redo(vditor);

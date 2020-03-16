@@ -135,7 +135,7 @@ interface IOptions {
     resize?: IResize;
     counter?: number;
     cache?: boolean;
-    mode?: "wysiwyg-show" | "markdown-show" | "wysiwyg-only" | "markdown-only";
+    mode?: "sv" | "wysiwyg" | "ir";
     preview?: IPreview;
     hint?: IHint;
     upload?: IUpload;

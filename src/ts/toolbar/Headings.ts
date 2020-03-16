@@ -1,5 +1,5 @@
 import headingsSVG from "../../assets/icons/headings.svg";
-import {insertText} from "../editor/insertText";
+import {insertText} from "../sv/insertText";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";

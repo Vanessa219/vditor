@@ -1,6 +1,6 @@
-import {getSelectText} from "../editor/getSelectText";
-import {insertText} from "../editor/insertText";
-import {processKeydown as mdProcessKeydown} from "../editor/processKeydown";
+import {getSelectText} from "../sv/getSelectText";
+import {insertText} from "../sv/insertText";
+import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {getCursorPosition} from "../util/selection";
@@ -79,7 +79,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        if (vditor.currentMode === "markdown") {
+        if (vditor.currentMode === "sv") {
             if (mdProcessKeydown(vditor, event)) {
                 return;
             }
@@ -97,7 +97,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
         // undo
         if (!vditor.toolbar.elements.undo && matchHotKey("⌘-Z", event)) {
-            if (vditor.currentMode === "markdown") {
+            if (vditor.currentMode === "sv") {
                 vditor.undo.undo(vditor);
             } else if (vditor.currentMode === "wysiwyg") {
                 vditor.wysiwygUndo.undo(vditor);
@@ -110,7 +110,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
         // redo
         if (!vditor.toolbar.elements.redo && matchHotKey("⌘-Y", event)) {
-            if (vditor.currentMode === "markdown") {
+            if (vditor.currentMode === "sv") {
                 vditor.undo.redo(vditor);
             } else if (vditor.currentMode === "wysiwyg") {
                 vditor.wysiwygUndo.redo(vditor);
@@ -177,7 +177,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             } else if (event.code === "Digit8") {
                 setEditMode(vditor, "ir", event);
             } else if (event.code === "Digit9") {
-                setEditMode(vditor, "markdown", event);
+                setEditMode(vditor, "sv", event);
             }
         }
     });

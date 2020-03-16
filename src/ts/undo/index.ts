@@ -1,5 +1,5 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
-import {formatRender} from "../editor/formatRender";
+import {formatRender} from "../sv/formatRender";
 import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
 import {scrollCenter} from "../util/editorCommenEvent";

@@ -1,11 +1,6 @@
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
 import {DevTools} from "./ts/devtools";
-import {formatRender} from "./ts/editor/formatRender";
-import {getSelectText} from "./ts/editor/getSelectText";
-import {html2md} from "./ts/editor/html2md";
-import {Editor} from "./ts/editor/index";
-import {insertText} from "./ts/editor/insertText";
 import {Hint} from "./ts/hint/index";
 import {IR} from "./ts/ir";
 import {input as irInput} from "./ts/ir/input";
@@ -23,6 +18,11 @@ import {previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
+import {formatRender} from "./ts/sv/formatRender";
+import {getSelectText} from "./ts/sv/getSelectText";
+import {html2md} from "./ts/sv/html2md";
+import {Editor} from "./ts/sv/index";
+import {insertText} from "./ts/sv/insertText";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
 import {disableToolbar} from "./ts/toolbar/setToolbar";
@@ -136,7 +136,7 @@ class Vditor {
     }
 
     public focus() {
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             this.vditor.editor.element.focus();
         } else if (this.vditor.currentMode === "wysiwyg") {
             this.vditor.wysiwyg.element.focus();
@@ -146,7 +146,7 @@ class Vditor {
     }
 
     public blur() {
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             this.vditor.editor.element.blur();
         } else if (this.vditor.currentMode === "wysiwyg") {
             this.vditor.wysiwyg.element.blur();
@@ -176,7 +176,7 @@ class Vditor {
     }
 
     public setSelection(start: number, end: number) {
-        if (this.vditor.currentMode !== "markdown") {
+        if (this.vditor.currentMode !== "sv") {
             console.error("所见即所得模式暂不支持该方法");
         } else {
             setSelectionByPosition(start, end, this.vditor.editor.element);
@@ -186,7 +186,7 @@ class Vditor {
     public getSelection() {
         if (this.vditor.currentMode === "wysiwyg") {
             return getSelectText(this.vditor.wysiwyg.element);
-        } else if (this.vditor.currentMode === "markdown") {
+        } else if (this.vditor.currentMode === "sv") {
             return getSelectText(this.vditor.editor.element);
         } else if (this.vditor.currentMode === "ir") {
             return getSelectText(this.vditor.ir.element);
@@ -194,7 +194,7 @@ class Vditor {
     }
 
     public renderPreview(value?: string) {
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             this.vditor.preview.render(this.vditor, value);
         }
     }
@@ -202,7 +202,7 @@ class Vditor {
     public getCursorPosition() {
         if (this.vditor.currentMode === "wysiwyg") {
             return getCursorPosition(this.vditor.wysiwyg.element);
-        } else if (this.vditor.currentMode === "markdown") {
+        } else if (this.vditor.currentMode === "sv") {
             return getCursorPosition(this.vditor.editor.element);
         } else if (this.vditor.currentMode === "ir") {
             return getCursorPosition(this.vditor.ir.element);
@@ -230,7 +230,7 @@ class Vditor {
     }
 
     public getHTML() {
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             return md2htmlByVditor(getMarkdown(this.vditor), this.vditor);
         } else if (this.vditor.currentMode === "wysiwyg") {
             return this.vditor.lute.VditorDOM2HTML(this.vditor.wysiwyg.element.innerHTML);
@@ -251,7 +251,7 @@ class Vditor {
         if (window.getSelection().isCollapsed) {
             return;
         }
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             insertText(this.vditor, "", "", true);
         } else {
             document.execCommand("delete", false);
@@ -259,7 +259,7 @@ class Vditor {
     }
 
     public updateValue(value: string) {
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             insertText(this.vditor, value, "", true);
         } else {
             document.execCommand("insertHTML", false, value);
@@ -267,7 +267,7 @@ class Vditor {
     }
 
     public insertValue(value: string, render = true) {
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             insertText(this.vditor, value, "");
         } else if (this.vditor.currentMode === "wysiwyg") {
             const range = getEditorRange(this.vditor.wysiwyg.element);
@@ -287,7 +287,7 @@ class Vditor {
     }
 
     public setValue(markdown: string) {
-        if (this.vditor.currentMode === "markdown") {
+        if (this.vditor.currentMode === "sv") {
             formatRender(this.vditor, markdown, {
                 end: markdown.length,
                 start: markdown.length,

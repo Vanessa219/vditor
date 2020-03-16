@@ -6,7 +6,7 @@ import {MenuItem} from "./MenuItem";
 export class Both extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        if (vditor.currentMode !== "markdown") {
+        if (vditor.currentMode !== "sv") {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || bothSVG;
@@ -19,7 +19,7 @@ export class Both extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (vditor.currentMode !== "markdown") {
+            if (vditor.currentMode !== "sv") {
                 return;
             }
             if (vditor.currentPreviewMode === "both") {

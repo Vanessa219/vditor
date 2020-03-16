@@ -6,7 +6,7 @@ import {MenuItem} from "./MenuItem";
 export class Preview extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        if (vditor.currentMode !== "markdown") {
+        if (vditor.currentMode !== "sv") {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || previewSVG;

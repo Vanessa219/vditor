@@ -244,7 +244,7 @@ interface IOptions {
     resize?: IResize;
     counter?: number;
     cache?: boolean;
-    mode?: "wysiwyg" | "markdown" | "ir";
+    mode?: "wysiwyg" | "sv" | "ir";
     preview?: IPreview;
     hint?: IHint;
     hideToolbar?: boolean;
@@ -278,7 +278,7 @@ interface IVditor {
     options: IOptions;
     originalInnerHTML: string;
     lute: ILute;
-    currentMode: "markdown" | "wysiwyg" | "ir";
+    currentMode: "sv" | "wysiwyg" | "ir";
     currentPreviewMode: keyof IPreviewMode;
     devtools?: {
         element: HTMLDivElement,

@@ -2,7 +2,7 @@ import {code160to32} from "../util/code160to32";
 import {addP2Li} from "../wysiwyg/addP2Li";
 
 export const getMarkdown = (vditor: IVditor) => {
-    if (vditor.currentMode === "markdown") {
+    if (vditor.currentMode === "sv") {
         // last char must be a `\n`.
         return code160to32(`${vditor.editor.element.textContent}\n`.replace(/\n\n$/, "\n"));
     } else if (vditor.currentMode === "wysiwyg") {

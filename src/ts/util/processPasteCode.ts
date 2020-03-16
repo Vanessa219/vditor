@@ -1,4 +1,4 @@
-export const processPasteCode = (html: string, text: string, type = "markdown") => {
+export const processPasteCode = (html: string, text: string, type = "sv") => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
     let isCode = false;

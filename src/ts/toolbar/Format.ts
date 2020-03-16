@@ -1,5 +1,5 @@
 import formatSVG from "../../assets/icons/outdent.svg";
-import {formatRender} from "../editor/formatRender";
+import {formatRender} from "../sv/formatRender";
 import {getEventName} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {getSelectPosition} from "../util/selection";
@@ -8,7 +8,7 @@ import {MenuItem} from "./MenuItem";
 export class Format extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        if (vditor.currentMode !== "markdown") {
+        if (vditor.currentMode !== "sv") {
             this.element.style.display = "none";
         }
         this.element.children[0].innerHTML = menuItem.icon || formatSVG;
