@@ -88,8 +88,8 @@ export class EditMode extends MenuItem {
         this.panelElement = document.createElement("div");
         this.panelElement.className = "vditor-hint vditor-arrow";
         this.panelElement.innerHTML = `<button data-value="wysiwyg">WYSIWYG &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
-<button data-value="ir">Instant Rendering &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
-<button data-value="markdown">Markdown &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
+<button data-value="markdown">Split View &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
+        // <button data-value="ir">Instant Rendering &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
 
         this.element.appendChild(this.panelElement);
 
@@ -116,12 +116,12 @@ export class EditMode extends MenuItem {
             setEditMode(vditor, "wysiwyg", event);
         });
 
-        this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
-            // ir
-            setEditMode(vditor, "ir", event);
-        });
+        // this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
+        //     // ir
+        //     setEditMode(vditor, "ir", event);
+        // });
 
-        this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
+        this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // markdown
             setEditMode(vditor, "markdown", event);
         });
