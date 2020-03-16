@@ -49,9 +49,14 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.0 / 未发布
+### v3.0.1 / 未发布
 
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
+
+### v3.0.0 / 未发布
+
+* [221](https://github.com/Vanessa219/vditor/issues/221) 输入复选框时出现乱码 `修复缺陷`
+* [222](https://github.com/Vanessa219/vditor/issues/222) The cursor does not enter when added in the middle of the list. `修复缺陷`
 * 文档更新
   * 修改 `options.mode` 可选值为：'markdown', 'wysiwyg', 'typora'
   * toolbar 中的 wysiwyg 修改为 'edit-mode'
