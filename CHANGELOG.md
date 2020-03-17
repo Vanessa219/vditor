@@ -55,6 +55,7 @@
 
 ### v3.0.0 / 未发布
 
+* [220](https://github.com/Vanessa219/vditor/issues/220) 软换行前进行删除，将会变为 p `修复缺陷`
 * [221](https://github.com/Vanessa219/vditor/issues/221) 输入复选框时出现乱码 `修复缺陷`
 * [222](https://github.com/Vanessa219/vditor/issues/222) The cursor does not enter when added in the middle of the list. `修复缺陷`
 * 文档更新
