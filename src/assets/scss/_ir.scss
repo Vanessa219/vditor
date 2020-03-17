@@ -24,6 +24,11 @@
     }
   }
 
+  &__link {
+    color: $blurColor;
+    text-decoration: underline;
+  }
+
   .vditor-reset {
     background-color: var(--panel-background-color);
     margin: 0;
@@ -53,6 +58,7 @@
     }
   }
 
+  // block title
   h1:before,
   h2:before,
   h3:before,

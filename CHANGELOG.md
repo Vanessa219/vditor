@@ -57,7 +57,8 @@
 
 * [220](https://github.com/Vanessa219/vditor/issues/220) 软换行前进行删除，将会变为 p `修复缺陷`
 * [221](https://github.com/Vanessa219/vditor/issues/221) 输入复选框时出现乱码 `修复缺陷`
-* [222](https://github.com/Vanessa219/vditor/issues/222) The cursor does not enter when added in the middle of the list. `修复缺陷`
+* [222](https://github.com/Vanessa219/vditor/issues/222) The cursor does not enter when added in the middle of the list `修复缺陷`
+* [223](https://github.com/Vanessa219/vditor/issues/223) 下列 a 前输入 ``` b 会消失，且返回无光标 `修复缺陷`
 * 文档更新
   * 修改 `options.mode` 可选值为：'sv', 'wysiwyg', 'ir'
   * toolbar 中的 wysiwyg 修改为 'edit-mode'
