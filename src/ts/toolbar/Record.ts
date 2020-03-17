@@ -20,7 +20,7 @@ export class Record extends MenuItem {
                 return;
             }
             event.preventDefault();
-            const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.editor.element;
+            const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.sv.element;
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new RecordMedia(mediaStream);

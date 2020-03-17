@@ -31,14 +31,14 @@ export const formatRender = (vditor: IVditor, content: string, position?: { star
 
     if (textList.length <= 2 && isEmpty) {
         // 当内容等于空或 \n 时把编辑器内部元素置空，显示 placeholder 文字
-        vditor.editor.element.innerHTML = "";
+        vditor.sv.element.innerHTML = "";
     } else {
         // TODO: 使用虚拟 Dom
-        vditor.editor.element.innerHTML = html || newLine;
+        vditor.sv.element.innerHTML = html || newLine;
     }
 
     if (position) {
-        setSelectionByPosition(position.start, position.end, vditor.editor.element);
+        setSelectionByPosition(position.start, position.end, vditor.sv.element);
     }
 
     inputEvent(vditor, {

@@ -25,7 +25,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
 
     if (type === "ir") {
         vditor.toolbar.element.style.display = "none";
-        vditor.editor.element.style.display = "none";
+        vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "block";
@@ -43,7 +43,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.toolbar.element.style.display = "block";
-        vditor.editor.element.style.display = "none";
+        vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
         vditor.ir.element.parentElement.style.display = "none";
@@ -62,18 +62,18 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";
         if (vditor.currentPreviewMode === "both") {
-            vditor.editor.element.style.display = "block";
+            vditor.sv.element.style.display = "block";
             vditor.preview.element.style.display = "block";
         } else if (vditor.currentPreviewMode === "preview") {
             vditor.preview.element.style.display = "block";
         } else if (vditor.currentPreviewMode === "editor") {
-            vditor.editor.element.style.display = "block";
+            vditor.sv.element.style.display = "block";
         }
 
         const wysiwygMD = getMarkdown(vditor);
         vditor.currentMode = "sv";
         formatRender(vditor, wysiwygMD, undefined);
-        vditor.editor.element.focus();
+        vditor.sv.element.focus();
     }
 };
 

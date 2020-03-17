@@ -1,7 +1,7 @@
+import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {getSelectText} from "../sv/getSelectText";
 import {insertText} from "../sv/insertText";
 import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
-import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {getCursorPosition} from "../util/selection";
@@ -195,7 +195,7 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("selectstart", (event: IHTMLInputEvent) => {
         editorElement.onmouseup = () => {
             const element = vditor.currentMode === "wysiwyg" ?
-                vditor.wysiwyg.element : vditor.editor.element;
+                vditor.wysiwyg.element : vditor.sv.element;
             const selectText = getSelectText(element);
             vditor.options.select(selectText);
         };

@@ -9,7 +9,7 @@ import {insertText} from "./insertText";
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.undo.recordFirstPosition(vditor);
 
-    const editorElement = vditor.editor.element;
+    const editorElement = vditor.sv.element;
     const position = getSelectPosition(editorElement);
     const text = getMarkdown(vditor);
     // tab and shift + tab

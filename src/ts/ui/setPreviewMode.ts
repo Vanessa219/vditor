@@ -9,7 +9,7 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
 
     switch (mode) {
         case "both":
-            vditor.editor.element.style.display = "block";
+            vditor.sv.element.style.display = "block";
             vditor.preview.element.style.display = "block";
             vditor.preview.render(vditor);
 
@@ -18,7 +18,7 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
 
             break;
         case "editor":
-            vditor.editor.element.style.display = "block";
+            vditor.sv.element.style.display = "block";
             vditor.preview.element.style.display = "none";
 
             removeCurrentToolbar(vditor.toolbar.elements, ["preview"]);
@@ -26,10 +26,10 @@ export const setPreviewMode = (mode: keyof IPreviewMode, vditor: IVditor) => {
 
             break;
         case "preview":
-            vditor.editor.element.style.display = "none";
+            vditor.sv.element.style.display = "none";
             vditor.preview.element.style.display = "block";
             vditor.preview.render(vditor);
-            vditor.editor.element.blur();
+            vditor.sv.element.blur();
 
             setCurrentToolbar(vditor.toolbar.elements, ["preview"]);
             removeCurrentToolbar(vditor.toolbar.elements, ["both"]);

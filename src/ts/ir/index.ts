@@ -4,7 +4,7 @@ import {expandMarker} from "./expandMarker";
 import {input} from "./input";
 
 class IR {
-    public element: HTMLElement;
+    public element: HTMLPreElement;
     public composingLock: boolean = false;
 
     constructor(vditor: IVditor) {

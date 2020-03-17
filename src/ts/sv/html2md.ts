@@ -38,7 +38,7 @@ export const html2md = (vditor: IVditor, textHTML: string, textPlain?: string) =
                                         return;
                                     }
                                     const original = responseJSON.data.originalURL;
-                                    setSelectionByInlineText(original, vditor.editor.element.childNodes);
+                                    setSelectionByInlineText(original, vditor.sv.element.childNodes);
                                     insertText(vditor, responseJSON.data.url, "", true);
                                 } else {
                                     vditor.tip.show(responseJSON.msg);

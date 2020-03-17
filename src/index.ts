@@ -83,7 +83,7 @@ class Vditor {
             this.vditor.counter = new Counter(this.vditor);
         }
 
-        this.vditor.editor = new Editor(this.vditor);
+        this.vditor.sv = new Editor(this.vditor);
         this.vditor.undo = new Undo();
         this.vditor.wysiwyg = new WYSIWYG(this.vditor);
         this.vditor.wysiwygUndo = new WysiwygUndo();
@@ -112,7 +112,7 @@ class Vditor {
 
         loadLuteJs(this.vditor);
 
-        if (this.vditor.editor && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
+        if (this.vditor.sv && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
             this.vditor.preview = new Preview(this.vditor);
         }
 
@@ -137,7 +137,7 @@ class Vditor {
 
     public focus() {
         if (this.vditor.currentMode === "sv") {
-            this.vditor.editor.element.focus();
+            this.vditor.sv.element.focus();
         } else if (this.vditor.currentMode === "wysiwyg") {
             this.vditor.wysiwyg.element.focus();
         } else if (this.vditor.currentMode === "ir") {
@@ -147,7 +147,7 @@ class Vditor {
 
     public blur() {
         if (this.vditor.currentMode === "sv") {
-            this.vditor.editor.element.blur();
+            this.vditor.sv.element.blur();
         } else if (this.vditor.currentMode === "wysiwyg") {
             this.vditor.wysiwyg.element.blur();
         } else if (this.vditor.currentMode === "ir") {
@@ -159,7 +159,7 @@ class Vditor {
         disableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
             "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table",
             "undo", "redo", "wysiwyg"]);
-        this.vditor.editor.element.setAttribute("contenteditable", "false");
+        this.vditor.sv.element.setAttribute("contenteditable", "false");
         this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
         this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
     }
@@ -168,7 +168,7 @@ class Vditor {
         enableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
             "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table", "wysiwyg"]);
         this.vditor.undo.enableIcon(this.vditor);
-        this.vditor.editor.element.setAttribute("contenteditable", "true");
+        this.vditor.sv.element.setAttribute("contenteditable", "true");
         this.vditor.wysiwygUndo.enableIcon(this.vditor);
         this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
         this.vditor.irUndo.enableIcon(this.vditor);
@@ -179,7 +179,7 @@ class Vditor {
         if (this.vditor.currentMode !== "sv") {
             console.error("所见即所得模式暂不支持该方法");
         } else {
-            setSelectionByPosition(start, end, this.vditor.editor.element);
+            setSelectionByPosition(start, end, this.vditor.sv.element);
         }
     }
 
@@ -187,7 +187,7 @@ class Vditor {
         if (this.vditor.currentMode === "wysiwyg") {
             return getSelectText(this.vditor.wysiwyg.element);
         } else if (this.vditor.currentMode === "sv") {
-            return getSelectText(this.vditor.editor.element);
+            return getSelectText(this.vditor.sv.element);
         } else if (this.vditor.currentMode === "ir") {
             return getSelectText(this.vditor.ir.element);
         }
@@ -203,7 +203,7 @@ class Vditor {
         if (this.vditor.currentMode === "wysiwyg") {
             return getCursorPosition(this.vditor.wysiwyg.element);
         } else if (this.vditor.currentMode === "sv") {
-            return getCursorPosition(this.vditor.editor.element);
+            return getCursorPosition(this.vditor.sv.element);
         } else if (this.vditor.currentMode === "ir") {
             return getCursorPosition(this.vditor.ir.element);
         }

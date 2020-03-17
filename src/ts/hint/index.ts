@@ -25,7 +25,7 @@ export class Hint {
             return;
         }
         const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
-            vditor.wysiwyg.element : vditor.editor.element);
+            vditor.wysiwyg.element : vditor.sv.element);
         let currentLineValue: string;
         if (vditor.currentMode !== "sv") {
             const range = getSelection().getRangeAt(0);
@@ -52,7 +52,7 @@ export class Hint {
                 this.timeId = window.setTimeout(() => {
                     this.genHTML(vditor.options.hint.at(key), key,
                         vditor.currentMode === "wysiwyg" ?
-                            vditor.wysiwyg.element : vditor.editor.element, vditor);
+                            vditor.wysiwyg.element : vditor.sv.element, vditor);
                 }, vditor.options.hint.delay);
             }
             if (!isAt) {
@@ -74,7 +74,7 @@ export class Hint {
                     }
                 });
                 this.genHTML(matchEmojiData, key, vditor.currentMode === "wysiwyg" ?
-                    vditor.wysiwyg.element : vditor.editor.element, vditor);
+                    vditor.wysiwyg.element : vditor.sv.element, vditor);
             }
         }
     }
@@ -109,7 +109,7 @@ export class Hint {
                 processAfterRender(vditor);
             }
         } else {
-            const position = getSelectPosition(vditor.editor.element, range);
+            const position = getSelectPosition(vditor.sv.element, range);
             const text = getMarkdown(vditor);
             const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
             formatRender(vditor, preText + value + text.substring(position.start),

@@ -3,4 +3,4 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.isComposing) {
         return false;
     }
-}
+};

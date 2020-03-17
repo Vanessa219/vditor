@@ -295,7 +295,7 @@ interface IVditor {
         element: HTMLElement
         render(vditor: IVditor, value?: string): void,
     };
-    editor?: {
+    sv?: {
         element: HTMLPreElement,
     };
     counter?: {
@@ -351,7 +351,7 @@ interface IVditor {
         composingLock: boolean,
     };
     ir?: {
-        element: HTMLElement,
+        element: HTMLPreElement,
         composingLock: boolean,
     };
 }

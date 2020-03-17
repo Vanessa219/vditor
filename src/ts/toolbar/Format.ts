@@ -11,7 +11,7 @@ export class Format extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || formatSVG;
         this.element.children[0].addEventListener(getEventName(), (event) => {
             formatRender(vditor,  vditor.lute.FormatMd( getMarkdown(vditor)),
-                getSelectPosition(vditor.editor.element, getSelection().getRangeAt(0)));
+                getSelectPosition(vditor.sv.element, getSelection().getRangeAt(0)));
             event.preventDefault();
         });
     }

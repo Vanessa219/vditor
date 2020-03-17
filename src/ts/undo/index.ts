@@ -36,12 +36,12 @@ class Undo {
 
     public recordFirstPosition(vditor: IVditor) {
         if (this.undoStack.length === 1) {
-            this.undoStack[0].end = getSelectPosition(vditor.editor.element).end;
+            this.undoStack[0].end = getSelectPosition(vditor.sv.element).end;
         }
     }
 
     public undo(vditor: IVditor) {
-        if (vditor.editor.element.getAttribute("contenteditable") === "false") {
+        if (vditor.sv.element.getAttribute("contenteditable") === "false") {
             return;
         }
         if (this.undoStack.length < 2) {
@@ -57,7 +57,7 @@ class Undo {
     }
 
     public redo(vditor: IVditor) {
-        if (vditor.editor.element.getAttribute("contenteditable") === "false") {
+        if (vditor.sv.element.getAttribute("contenteditable") === "false") {
             return;
         }
         const state = this.redoStack.pop();
@@ -78,7 +78,7 @@ class Undo {
                 return;
             }
             this.lastText = text;
-            this.undoStack.push({patchList, end: getSelectPosition(vditor.editor.element).end});
+            this.undoStack.push({patchList, end: getSelectPosition(vditor.sv.element).end});
             if (this.undoStack.length > this.stackSize) {
                 this.undoStack.shift();
             }
@@ -127,7 +127,7 @@ class Undo {
             enableInput: true,
         });
 
-        scrollCenter(vditor.editor.element);
+        scrollCenter(vditor.sv.element);
 
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);

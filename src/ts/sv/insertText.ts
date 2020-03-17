@@ -4,9 +4,9 @@ import {formatRender} from "./formatRender";
 
 export const insertText = (vditor: IVditor, prefix: string, suffix: string, replace: boolean = false,
                            toggle: boolean = false) => {
-    const range = getEditorRange(vditor.editor.element);
+    const range = getEditorRange(vditor.sv.element);
 
-    const position = getSelectPosition(vditor.editor.element, range);
+    const position = getSelectPosition(vditor.sv.element, range);
     const content = getMarkdown(vditor);
 
     // select none || select something and need replace

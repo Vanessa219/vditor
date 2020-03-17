@@ -26,7 +26,7 @@ export const initUI = (vditor: IVditor) => {
 
     contentElement.appendChild(vditor.wysiwyg.element.parentElement);
 
-    contentElement.appendChild(vditor.editor.element);
+    contentElement.appendChild(vditor.sv.element);
 
     contentElement.appendChild(vditor.ir.element.parentElement);
 

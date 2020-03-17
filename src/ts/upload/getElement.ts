@@ -5,6 +5,6 @@ export const getElement = (vditor: IVditor) => {
         case "wysiwyg":
             return vditor.wysiwyg.element;
         case "sv":
-            return vditor.editor.element;
+            return vditor.sv.element;
     }
 };
