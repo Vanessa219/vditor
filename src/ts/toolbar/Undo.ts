@@ -16,7 +16,7 @@ export class Undo extends MenuItem {
                 vditor.undo.undo(vditor);
             } else if (vditor.currentMode === "wysiwyg") {
                 vditor.wysiwygUndo.undo(vditor);
-            }else if (vditor.currentMode === "ir") {
+            } else if (vditor.currentMode === "ir") {
                 vditor.irUndo.undo(vditor);
             }
             event.preventDefault();

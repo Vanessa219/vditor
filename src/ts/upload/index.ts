@@ -1,6 +1,7 @@
 import {i18n} from "../i18n/index";
 import {insertText} from "../sv/insertText";
 import {getEditorRange, setSelectionFocus} from "../util/selection";
+import {getElement} from "./getElement";
 import {setHeaders} from "./setHeaders";
 
 class Upload {
@@ -73,7 +74,7 @@ const validateFile = (vditor: IVditor, files: File[]) => {
 };
 
 const genUploadedLabel = (responseText: string, vditor: IVditor) => {
-    const editorElement = vditor.currentMode === "sv" ? vditor.editor.element : vditor.wysiwyg.element;
+    const editorElement = getElement(vditor);
     editorElement.focus();
     const response = JSON.parse(responseText);
     let errorTip = "";
@@ -181,7 +182,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
             return;
         }
     }
-    const editorElement = vditor.currentMode === "sv" ? vditor.editor.element : vditor.wysiwyg.element;
+    const editorElement = getElement(vditor);
 
     vditor.upload.range = getEditorRange(editorElement);
 

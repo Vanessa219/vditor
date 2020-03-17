@@ -16,6 +16,8 @@ export class Redo extends MenuItem {
                 vditor.undo.redo(vditor);
             } else if (vditor.currentMode === "wysiwyg") {
                 vditor.wysiwygUndo.redo(vditor);
+            } else if (vditor.currentMode === "ir") {
+                vditor.irUndo.redo(vditor);
             }
             event.preventDefault();
         });

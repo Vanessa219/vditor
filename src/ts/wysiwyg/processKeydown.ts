@@ -116,9 +116,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (pElement.previousElementSibling && event.key === "Backspace" && !isCtrl(event) && !event.altKey &&
             !event.shiftKey && pElement.textContent.trimRight().split("\n").length > 1 &&
             getSelectPosition(pElement, range).start === 0) {
-            const lastElement = getLastNode(pElement.previousElementSibling) as HTMLElement
-            if (!lastElement.textContent.endsWith('\n')) {
-                lastElement.textContent = lastElement.textContent + '\n'
+            const lastElement = getLastNode(pElement.previousElementSibling) as HTMLElement;
+            if (!lastElement.textContent.endsWith("\n")) {
+                lastElement.textContent = lastElement.textContent + "\n";
             }
             lastElement.parentElement.insertAdjacentHTML("beforeend", `<wbr>${pElement.innerHTML}`);
             pElement.remove();

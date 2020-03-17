@@ -54,10 +54,6 @@ class IR {
                 expandMarker(getSelection().getRangeAt(0), vditor);
             }
         });
-
-        this.element.addEventListener("keydown", (event) => {
-            this.composingLock = event.isComposing;
-        });
     }
 }
 

@@ -1,6 +1,7 @@
 import {getSelectText} from "../sv/getSelectText";
 import {insertText} from "../sv/insertText";
 import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
+import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {getCursorPosition} from "../util/selection";
@@ -85,6 +86,10 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
         } else if (vditor.currentMode === "wysiwyg") {
             if (processKeydown(vditor, event)) {
+                return;
+            }
+        } else if (vditor.currentMode === "ir") {
+            if (irProcessKeydown(vditor, event)) {
                 return;
             }
         }
