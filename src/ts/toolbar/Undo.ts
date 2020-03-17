@@ -14,8 +14,10 @@ export class Undo extends MenuItem {
             }
             if (vditor.currentMode === "sv") {
                 vditor.undo.undo(vditor);
-            } else {
+            } else if (vditor.currentMode === "wysiwyg") {
                 vditor.wysiwygUndo.undo(vditor);
+            }else if (vditor.currentMode === "ir") {
+                vditor.irUndo.undo(vditor);
             }
             event.preventDefault();
         });

@@ -147,13 +147,14 @@ class WYSIWYG {
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
             } else if (code) {
-                const node = document.createElement("div");
-                node.innerHTML = `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
-                    code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
-                range.insertNode(node.firstChild);
+                const node = document.createElement("template");
+                node.innerHTML = code;
+                range.insertNode(node.content.cloneNode(true));
                 const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
                 if (blockElement) {
                     blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
+                } else {
+                    vditor.wysiwyg.element.innerHTML = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
                 }
                 vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
                     (blockRenderItem: HTMLElement) => {

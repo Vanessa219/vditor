@@ -6,9 +6,6 @@ import {MenuItem} from "./MenuItem";
 export class Both extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        if (vditor.currentMode !== "sv") {
-            this.element.style.display = "none";
-        }
         this.element.children[0].innerHTML = menuItem.icon || bothSVG;
         if (vditor.options.preview.mode === "both") {
             this.element.children[0].className =
