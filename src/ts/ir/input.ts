@@ -2,20 +2,56 @@ import {getTopList, hasClosestBlock, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
 import {processAfterRender} from "./process";
+import {getSelectPosition} from "../util/selection";
 
 export const input = (vditor: IVditor, range: Range) => {
     Array.from(vditor.ir.element.querySelectorAll(".vditor-ir__node--expand")).forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
-    range.insertNode(document.createElement("wbr"));
 
     let blockElement = hasClosestBlock(range.startContainer);
+
+    if (blockElement) {
+        // 前后空格处理
+        const startOffset = getSelectPosition(blockElement, range).start;
+
+        // 开始可以输入空格
+        let startSpace = true;
+        for (let i = startOffset - 1;
+            // 软换行后有空格
+             i > blockElement.textContent.substr(0, startOffset).lastIndexOf("\n");
+             i--) {
+            if (blockElement.textContent.charAt(i) !== " " &&
+                // 多个 tab 前删除不形成代码块 https://github.com/Vanessa219/vditor/issues/162 1
+                blockElement.textContent.charAt(i) !== "\t") {
+                startSpace = false;
+                break;
+            }
+        }
+        if (startOffset === 0) {
+            startSpace = false;
+        }
+
+        // 结尾可以输入空格
+        let endSpace = true;
+        for (let i = startOffset - 1; i < blockElement.textContent.length; i++) {
+            if (blockElement.textContent.charAt(i) !== " " && blockElement.textContent.charAt(i) !== "\n") {
+                endSpace = false;
+                break;
+            }
+        }
+
+        if (startSpace || endSpace) {
+            return
+        }
+    }
+
 
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.ir.element;
     }
-
+    range.insertNode(document.createElement("wbr"));
     const isIRElement = blockElement.isEqualNode(vditor.ir.element);
     let html = "";
     if (!isIRElement) {
