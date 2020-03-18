@@ -9,8 +9,8 @@ export const loadLuteJs = (vditor: IVditor | string) => {
     //     cdn = vditor.options.cdn;
     // }
     // addScript(`${cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript");
-    // addScript(`/src/js/lute/lute.min.js`, "vditorLuteScript");
-    addScript(`http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript");
+    addScript(`/src/js/lute/lute.min.js`, "vditorLuteScript");
+    // addScript(`http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript");
 
     if (vditor && typeof vditor === "object" && !vditor.lute) {
         vditor.lute = Lute.New();
@@ -34,6 +34,18 @@ export const md2htmlByPreview = (mdText: string, options?: IPreviewOptions) => {
         `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`}/dist/images/emoji`,
         emojis: {},
     }, options);
+    options.math = Object.assign({}, {
+        engine: "KaTeX",
+        inlineDigit: false,
+        macros: {},
+    }, options.math);
+    options.markdown = Object.assign({}, {
+        autoSpace: false,
+        chinesePunct: false,
+        fixTermTypo: false,
+        footnotes: true,
+        toc: false,
+    }, options.markdown);
 
     const lute: ILute = Lute.New();
     lute.PutEmojis(options.customEmoji);
