@@ -1,4 +1,4 @@
-import {hasClosestByClassName} from "../util/hasClosest";
+import {hasClosestByClassName, hasTopClosestByClassName} from "../util/hasClosest";
 
 const nextIsNode = (range: Range) => {
     if (range.startContainer.nodeType === 3 && range.startContainer.nodeValue.length !== range.startOffset) {
@@ -34,7 +34,7 @@ export const expandMarker = (range: Range, vditor: IVditor) => {
         item.classList.remove("vditor-ir__node--expand");
     });
 
-    const nodeElement = hasClosestByClassName(range.startContainer, "vditor-ir__node");
+    const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
     if (nodeElement) {
         nodeElement.classList.add("vditor-ir__node--expand");
     }

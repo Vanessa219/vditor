@@ -17,6 +17,21 @@ export const hasClosestByTag = (element: Node, nodeName: string) => {
     return isClosest && e;
 };
 
+export const hasTopClosestByClassName = (element: Node, className: string) => {
+    let closest = hasClosestByClassName(element, className);
+    let parentClosest: boolean | HTMLElement = false;
+    let findTop = false;
+    while (closest && !closest.classList.contains("vditor-reset") && !findTop) {
+        parentClosest = hasClosestByClassName(closest.parentElement, className);
+        if (parentClosest) {
+            closest = parentClosest;
+        } else {
+            findTop = true;
+        }
+    }
+    return closest || false;
+};
+
 export const hasClosestByAttribute = (element: Node, attr: string, value: string) => {
     if (!element) {
         return false;

@@ -60,7 +60,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
 
-    const blockElement = hasClosestBlock(range.startContainer);
+    const blockElement = hasClosestBlock(startContainer);
 
     // md 处理
     const pElement = hasClosestByMatchTag(startContainer, "P");
@@ -435,7 +435,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             if (isEmpty) {
                 (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click();
-                afterRenderEvent(vditor);
                 event.preventDefault();
                 return true;
             }
@@ -507,7 +506,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
             (event.shiftKey // 软换行
                 // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
-                || (!event.shiftKey && pElement && liElement.contains(pElement) && pElement.nextSibling))) {
+                || (!event.shiftKey && pElement && liElement.contains(pElement) && pElement.nextElementSibling))) {
             if (liElement && !liElement.textContent.endsWith("\n")) {
                 // li 结尾需 \n
                 liElement.insertAdjacentText("beforeend", "\n");
