@@ -86,10 +86,7 @@
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
     background-color: var(--textarea-background-color);
-
-    & > .vditor-reset {
-      padding: 10px;
-    }
+    padding: 10px;
 
     & > div::-webkit-scrollbar {
       display: none;
