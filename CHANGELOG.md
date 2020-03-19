@@ -49,13 +49,13 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.1 / 未发布
+### v3.0.2 / 未发布
 
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
+
+### v3.0.1 / 2020-03-19
+
 * [225](https://github.com/Vanessa219/vditor/pull/225) publish type declaration file `引入特性`
-
-### v3.0.0 / 2020-03-19
-
 * [224](https://github.com/Vanessa219/vditor/issues/224) md2html 方法报错 `修复缺陷`
 * [223](https://github.com/Vanessa219/vditor/issues/223) 下列 a 前输入 ``` b 会消失，且返回无光标 `修复缺陷`
 * [222](https://github.com/Vanessa219/vditor/issues/222) The cursor does not enter when added in the middle of the list `修复缺陷`
