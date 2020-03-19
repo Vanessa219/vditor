@@ -65,9 +65,11 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
             vditor.sv.element.style.display = "block";
             vditor.preview.element.style.display = "block";
         } else if (vditor.currentPreviewMode === "preview") {
+            vditor.sv.element.style.display = "none";
             vditor.preview.element.style.display = "block";
         } else if (vditor.currentPreviewMode === "editor") {
             vditor.sv.element.style.display = "block";
+            vditor.preview.element.style.display = "none";
         }
 
         const wysiwygMD = getMarkdown(vditor);
