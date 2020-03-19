@@ -1,8 +1,8 @@
 import {getTopList, hasClosestBlock, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
+import {getSelectPosition} from "../util/selection";
 import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
 import {processAfterRender} from "./process";
-import {getSelectPosition} from "../util/selection";
 
 export const input = (vditor: IVditor, range: Range) => {
     Array.from(vditor.ir.element.querySelectorAll(".vditor-ir__node--expand")).forEach((item) => {
@@ -42,10 +42,9 @@ export const input = (vditor: IVditor, range: Range) => {
         }
 
         if (startSpace || endSpace) {
-            return
+            return;
         }
     }
-
 
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML

@@ -296,7 +296,7 @@ class WYSIWYG {
             input(vditor, range, event);
         });
 
-        this.element.addEventListener("click", (event: IHTMLInputEvent) => {
+        this.element.addEventListener("click", (event: MouseEvent & { target: HTMLInputElement }) => {
             if (event.target.tagName === "INPUT") {
                 if (event.target.checked) {
                     event.target.setAttribute("checked", "checked");

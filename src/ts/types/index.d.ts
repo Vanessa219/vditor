@@ -91,14 +91,6 @@ declare const webkitAudioContext: {
     new(contextOptions?: AudioContextOptions): AudioContext,
 };
 
-interface IHTMLInputEvent extends Event {
-    target: HTMLInputElement & EventTarget;
-    screenX: number;
-    isComposing: boolean;
-    inputType: string;
-    key: string;
-}
-
 interface II18nLang {
     en_US: string;
     ko_KR: string;
@@ -354,4 +346,80 @@ interface IVditor {
         element: HTMLPreElement,
         composingLock: boolean,
     };
+}
+
+declare class Vditor {
+
+    public static codeRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+
+    public static graphvizRender(element: HTMLElement, cdn?: string): void;
+
+    public static highlightRender(hljsOption?: IHljs, element?: HTMLElement | Document, cdn?: string): void;
+
+    public static mathRender(element: HTMLElement, options?: { cdn?: string, math?: IMath }): void;
+
+    public static mermaidRender(element: HTMLElement, className?: string, cdn?: string): void;
+
+    public static chartRender(element?: HTMLElement | Document, cdn?: string): void;
+
+    public static abcRender(element?: HTMLElement | Document, cdn?: string): void;
+
+    public static mediaRender(element: HTMLElement): void;
+
+    public static speechRender(element: HTMLElement, lang?: (keyof II18nLang)): void;
+
+    public static md2html(mdText: string, options?: IPreviewOptions): string;
+
+    public static preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions): void;
+
+    public readonly version: string;
+
+    constructor(id: string, options?: IOptions)
+
+    public setTheme(theme: "dark" | "classic"): void;
+
+    public getValue(): string;
+
+    public insertValue(value: string, render: boolean): void;
+
+    public focus(): void;
+
+    public blur(): void;
+
+    public disabled(): void;
+
+    public enable(): void;
+
+    public setSelection(start: number, end: number): void;
+
+    public getSelection(): string;
+
+    public setValue(markdown: string): void;
+
+    public renderPreview(value?: string): void;
+
+    public getCursorPosition(editor: HTMLPreElement): {
+        left: number,
+        top: number,
+    };
+
+    public deleteValue(): void;
+
+    public updateValue(): string;
+
+    public isUploading(): boolean;
+
+    public clearCache(): void;
+
+    public disabledCache(): void;
+
+    public enableCache(): void;
+
+    public html2md(value: string): string;
+
+    public getHTML(): string;
+
+    public tip(text: string, time?: number): void;
+
+    public setPreviewMode(mode: string): void;
 }

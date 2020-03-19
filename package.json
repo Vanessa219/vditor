@@ -10,13 +10,14 @@
   "files": [
     "dist/*",
     "src/index.ts",
+    "src/method.ts",
     "src/ts/*",
     "src/assets/*"
   ],
   "dependencies": {
     "diff-match-patch": "^1.0.4"
   },
-  "types": "dist/index.d.min.ts",
+  "types": "src/ts/types/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",

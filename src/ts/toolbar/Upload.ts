@@ -14,14 +14,15 @@ export class Upload extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor) {
-        this.element.querySelector("input").addEventListener("change", (event: IHTMLInputEvent) => {
-            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
-                return;
-            }
-            if (event.target.files.length === 0) {
-                return;
-            }
-            uploadFiles(vditor, event.target.files, event.target);
-        });
+        this.element.querySelector("input").addEventListener("change",
+            (event: InputEvent & { target: HTMLInputElement }) => {
+                if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                    return;
+                }
+                if (event.target.files.length === 0) {
+                    return;
+                }
+                uploadFiles(vditor, event.target.files, event.target);
+            });
     }
 }

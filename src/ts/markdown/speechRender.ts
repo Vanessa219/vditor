@@ -77,7 +77,7 @@ export const speechRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh
         });
     }
 
-    element.addEventListener("mouseup", (event: IHTMLInputEvent) => {
+    element.addEventListener("mouseup", (event: MouseEvent) => {
         const text = getSelection().toString().trim();
         speechSynthesis.cancel();
         if (getSelection().toString().trim() === "") {

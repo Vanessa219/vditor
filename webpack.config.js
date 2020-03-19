@@ -103,7 +103,6 @@ module.exports = [
       new CopyPlugin([
         {from: 'src/images', to: 'images'},
         {from: 'src/js', to: 'js'},
-        {from: 'src/assets/index.d.min.ts', to: '.'},
       ]),
     ],
   }, {

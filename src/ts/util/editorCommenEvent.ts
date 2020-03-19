@@ -192,7 +192,7 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     if (!vditor.options.select) {
         return;
     }
-    editorElement.addEventListener("selectstart", (event: IHTMLInputEvent) => {
+    editorElement.addEventListener("selectstart", (event: Event) => {
         editorElement.onmouseup = () => {
             const element = vditor.currentMode === "wysiwyg" ?
                 vditor.wysiwyg.element : vditor.sv.element;
