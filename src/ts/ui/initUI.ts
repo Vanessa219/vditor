@@ -30,8 +30,6 @@ export const initUI = (vditor: IVditor) => {
 
     contentElement.appendChild(vditor.ir.element.parentElement);
 
-    setEditMode(vditor, vditor.options.mode);
-
     if (vditor.preview) {
         contentElement.appendChild(vditor.preview.element);
     }
@@ -61,6 +59,8 @@ export const initUI = (vditor: IVditor) => {
     vditorElement.appendChild(contentElement);
 
     afterRender(vditor, contentElement);
+
+    setEditMode(vditor, vditor.options.mode);
 };
 
 export const setPadding = (vditor: IVditor) => {
