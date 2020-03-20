@@ -7,6 +7,7 @@ import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {i18n} from "../i18n";
 
 export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     if (event) {
@@ -99,9 +100,9 @@ export class EditMode extends MenuItem {
 
         this.panelElement = document.createElement("div");
         this.panelElement.className = "vditor-hint vditor-arrow";
-        this.panelElement.innerHTML = `<button>WYSIWYG &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
-<button>Split View &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
-        // <button>Instant Rendering &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
+        this.panelElement.innerHTML = `<button>${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
+<button>${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
+<button>${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
 
         this.element.appendChild(this.panelElement);
 
@@ -128,12 +129,12 @@ export class EditMode extends MenuItem {
             setEditMode(vditor, "wysiwyg", event);
         });
 
-        // this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
-        //     // ir
-        //     setEditMode(vditor, "ir", event);
-        // });
-
         this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
+            // ir
+            setEditMode(vditor, "ir", event);
+        });
+
+        this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
             setEditMode(vditor, "sv", event);
         });
