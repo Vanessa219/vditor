@@ -52,8 +52,9 @@
 ### v3.0.3 / 未发布
 
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
-* [228](https://github.com/Vanessa219/vditor/pull/228) menu misplaced when vditor is not first child `改进功能`
 * [229](https://github.com/Vanessa219/vditor/issues/229) 初始化时不应该自动获取焦点 `改进功能`
+* [228](https://github.com/Vanessa219/vditor/pull/228) menu misplaced when vditor is not first child `改进功能`
+* [227](https://github.com/Vanessa219/vditor/pull/227) add jsdoc `引入特性`
 
 ### v3.0.2 / 2020-03-19
 
