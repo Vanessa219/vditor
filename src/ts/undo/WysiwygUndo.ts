@@ -4,10 +4,10 @@ import {enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {setSelectionFocus} from "../util/selection";
+import {setRangeByWbr} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];

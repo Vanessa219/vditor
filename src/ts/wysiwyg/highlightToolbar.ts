@@ -20,10 +20,10 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {selectIsEditor, setSelectionFocus} from "../util/selection";
+import {setRangeByWbr} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
-import {setRangeByWbr} from "./setRangeByWbr";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);

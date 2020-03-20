@@ -1,3 +1,4 @@
+import VditorMethod from "./method";
 import {VDITOR_VERSION} from "./ts/constants";
 import {Counter} from "./ts/counter/index";
 import {DevTools} from "./ts/devtools";
@@ -31,15 +32,14 @@ import {getEditorRange, setSelectionByPosition} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
-import VditorMethod from './method'
 
 class Vditor extends VditorMethod {
-    
+
     public readonly version: string;
     public vditor: IVditor;
 
     constructor(id: string, options?: IOptions) {
-        super()
+        super();
         this.version = VDITOR_VERSION;
 
         const getOptions = new Options(options);
@@ -158,7 +158,6 @@ class Vditor extends VditorMethod {
         this.vditor.sv.element.setAttribute("contenteditable", "true");
         this.vditor.wysiwygUndo.enableIcon(this.vditor);
         this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
-        this.vditor.irUndo.enableIcon(this.vditor);
         this.vditor.ir.element.setAttribute("contenteditable", "true");
     }
 

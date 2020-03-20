@@ -5,11 +5,11 @@ import {
     hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
+import {setRangeByWbr} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
 import {isToC, renderToc} from "./processMD";
-import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);

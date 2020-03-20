@@ -123,10 +123,10 @@ interface IUpload {
     withCredentials?: boolean;
     /** 请求头设置 */
     headers?: { [key: string]: string };
-    
+
     /** 上传成功回调 */
     success?(editor: HTMLPreElement, msg: string): void;
-    
+
     /** 上传失败回调 */
     error?(msg: string): void;
 
@@ -410,7 +410,6 @@ interface IVditor {
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
         recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
-        enableIcon(vditor: IVditor): void,
     };
     wysiwyg?: {
         element: HTMLPreElement,
