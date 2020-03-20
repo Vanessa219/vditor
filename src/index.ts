@@ -113,7 +113,7 @@ class Vditor extends VditorMethod {
         setTheme(this.vditor);
     }
 
-    /**	获取编辑器内容 */
+    /** 获取编辑器内容 */
     public getValue() {
         return getMarkdown(this.vditor);
     }
