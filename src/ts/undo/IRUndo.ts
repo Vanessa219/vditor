@@ -1,7 +1,5 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {processAfterRender} from "../ir/process";
-import {disableToolbar} from "../toolbar/setToolbar";
-import {enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {setSelectionFocus} from "../util/selection";
@@ -102,11 +100,6 @@ class IRUndo {
         if (this.hasUndo) {
             this.redoStack = [];
             this.hasUndo = false;
-            disableToolbar(vditor.toolbar.elements, ["redo"]);
-        }
-
-        if (this.undoStack.length > 1) {
-            enableToolbar(vditor.toolbar.elements, ["undo"]);
         }
     }
 

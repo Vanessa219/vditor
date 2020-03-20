@@ -11,6 +11,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return false;
     }
 
+    // 添加第一次记录 undo 的光标
+    if (event.key.indexOf("Arrow") === -1) {
+        vditor.irUndo.recordFirstWbr(vditor, event);
+    }
+
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" &&
         !isCtrl(event) && event.key !== "Escape") {
