@@ -184,6 +184,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             } else if (event.code === "Digit9") {
                 setEditMode(vditor, "sv", event);
             }
+            return true;
         }
     });
 };

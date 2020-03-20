@@ -38,7 +38,11 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
             enableHint: false,
             enableInput: false,
         });
-        vditor.ir.element.focus();
+
+        if (event) {
+            // 初始化不 focus
+           vditor.ir.element.focus();
+        }
         setPadding(vditor);
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
@@ -51,7 +55,10 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         const editorMD = getMarkdown(vditor);
         vditor.currentMode = "wysiwyg";
         renderDomByMd(vditor, editorMD);
-        vditor.wysiwyg.element.focus();
+        if (event) {
+            // 初始化不 focus
+            vditor.wysiwyg.element.focus();
+        }
         vditor.wysiwyg.popover.style.display = "none";
         setPadding(vditor);
     } else if (type === "sv") {
@@ -75,7 +82,10 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         const wysiwygMD = getMarkdown(vditor);
         vditor.currentMode = "sv";
         formatRender(vditor, wysiwygMD, undefined);
-        vditor.sv.element.focus();
+        if (event) {
+            // 初始化不 focus
+            vditor.sv.element.focus();
+        }
     }
 };
 
