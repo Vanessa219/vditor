@@ -49,15 +49,15 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.3 / 未发布
+### v3.0.4 / 未发布
 
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
+
+### v3.0.3 / 2020-03-20
+
 * [229](https://github.com/Vanessa219/vditor/issues/229) 初始化时不应该自动获取焦点 `改进功能`
 * [228](https://github.com/Vanessa219/vditor/pull/228) menu misplaced when vditor is not first child `改进功能`
 * [227](https://github.com/Vanessa219/vditor/pull/227) add jsdoc `引入特性`
-
-### v3.0.2 / 2020-03-19
-
 * [225](https://github.com/Vanessa219/vditor/pull/225) publish type declaration file `引入特性`
 * [224](https://github.com/Vanessa219/vditor/issues/224) md2html 方法报错 `修复缺陷`
 * [223](https://github.com/Vanessa219/vditor/issues/223) 下列 a 前输入 ``` b 会消失，且返回无光标 `修复缺陷`
