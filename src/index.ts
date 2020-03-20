@@ -5,17 +5,7 @@ import {Hint} from "./ts/hint/index";
 import {IR} from "./ts/ir";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
-import {abcRender} from "./ts/markdown/abcRender";
-import {chartRender} from "./ts/markdown/chartRender";
-import {codeRender} from "./ts/markdown/codeRender";
-import {graphvizRender} from "./ts/markdown/graphvizRender";
-import {highlightRender} from "./ts/markdown/highlightRender";
-import {mathRender} from "./ts/markdown/mathRender";
-import {loadLuteJs, md2htmlByPreview, md2htmlByVditor} from "./ts/markdown/md2html";
-import {mediaRender} from "./ts/markdown/mediaRender";
-import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {previewRender} from "./ts/markdown/previewRender";
-import {speechRender} from "./ts/markdown/speechRender";
+import {loadLuteJs, md2htmlByVditor} from "./ts/markdown/md2html";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {formatRender} from "./ts/sv/formatRender";
@@ -41,24 +31,15 @@ import {getEditorRange, setSelectionByPosition} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import VditorMethod from './method'
 
-class Vditor {
-
-    public static codeRender = codeRender;
-    public static graphvizRender = graphvizRender;
-    public static highlightRender = highlightRender;
-    public static mathRender = mathRender;
-    public static mermaidRender = mermaidRender;
-    public static chartRender = chartRender;
-    public static abcRender = abcRender;
-    public static mediaRender = mediaRender;
-    public static speechRender = speechRender;
-    public static md2html = md2htmlByPreview;
-    public static preview = previewRender;
+class Vditor extends VditorMethod {
+    
     public readonly version: string;
     public vditor: IVditor;
 
     constructor(id: string, options?: IOptions) {
+        super()
         this.version = VDITOR_VERSION;
 
         const getOptions = new Options(options);
@@ -126,15 +107,18 @@ class Vditor {
         }
     }
 
+    /** 设置主题 */
     public setTheme(theme: "dark" | "classic") {
         this.vditor.options.theme = theme;
         setTheme(this.vditor);
     }
 
+    /**	获取编辑器内容 */
     public getValue() {
         return getMarkdown(this.vditor);
     }
 
+    /** 聚焦到编辑器 */
     public focus() {
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.element.focus();
@@ -145,6 +129,7 @@ class Vditor {
         }
     }
 
+    /** 让编辑器失焦 */
     public blur() {
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.element.blur();
@@ -155,6 +140,7 @@ class Vditor {
         }
     }
 
+    /** 禁用编辑器 */
     public disabled() {
         disableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
             "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table",
@@ -164,6 +150,7 @@ class Vditor {
         this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
     }
 
+    /** 解除编辑器禁用 */
     public enable() {
         enableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
             "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table", "wysiwyg"]);
@@ -175,6 +162,7 @@ class Vditor {
         this.vditor.ir.element.setAttribute("contenteditable", "true");
     }
 
+    /** 选中从 start 开始到 end 结束的字符串，不支持 wysiwyg 模式 */
     public setSelection(start: number, end: number) {
         if (this.vditor.currentMode !== "sv") {
             console.error("所见即所得模式暂不支持该方法");
@@ -183,6 +171,7 @@ class Vditor {
         }
     }
 
+    /** 返回选中的字符串 */
     public getSelection() {
         if (this.vditor.currentMode === "wysiwyg") {
             return getSelectText(this.vditor.wysiwyg.element);
@@ -193,12 +182,14 @@ class Vditor {
         }
     }
 
+    /** 设置预览区域内容 */
     public renderPreview(value?: string) {
         if (this.vditor.currentMode === "sv") {
             this.vditor.preview.render(this.vditor, value);
         }
     }
 
+    /** 获取焦点位置 */
     public getCursorPosition() {
         if (this.vditor.currentMode === "wysiwyg") {
             return getCursorPosition(this.vditor.wysiwyg.element);
@@ -209,26 +200,32 @@ class Vditor {
         }
     }
 
+    /** 上传是否还在进行中 */
     public isUploading() {
         return this.vditor.upload.isUploading;
     }
 
+    /** 清除缓存 */
     public clearCache() {
         localStorage.removeItem("vditor" + this.vditor.id);
     }
 
+    /** 禁用缓存 */
     public disabledCache() {
         this.vditor.options.cache = false;
     }
 
+    /** 启用缓存 */
     public enableCache() {
         this.vditor.options.cache = true;
     }
 
+    /** HTML 转 md */
     public html2md(value: string) {
         return html2md(this.vditor, value);
     }
 
+    /** 获取预览区内容 */
     public getHTML() {
         if (this.vditor.currentMode === "sv") {
             return md2htmlByVditor(getMarkdown(this.vditor), this.vditor);
@@ -239,14 +236,17 @@ class Vditor {
         }
     }
 
+    /** 消息提示。time 为 0 将一直显示 */
     public tip(text: string, time?: number) {
         this.vditor.tip.show(text, time);
     }
 
+    /** 设置预览模式 */
     public setPreviewMode(mode: keyof IPreviewMode) {
         setPreviewMode(mode, this.vditor);
     }
 
+    /** 删除选中内容 */
     public deleteValue() {
         if (window.getSelection().isCollapsed) {
             return;
@@ -258,6 +258,7 @@ class Vditor {
         }
     }
 
+    /** 更新选中内容 */
     public updateValue(value: string) {
         if (this.vditor.currentMode === "sv") {
             insertText(this.vditor, value, "", true);
@@ -266,6 +267,7 @@ class Vditor {
         }
     }
 
+    /** 在焦点处插入内容，并默认进行 Markdown 渲染 */
     public insertValue(value: string, render = true) {
         if (this.vditor.currentMode === "sv") {
             insertText(this.vditor, value, "");
@@ -286,6 +288,7 @@ class Vditor {
         }
     }
 
+    /** 设置编辑器内容 */
     public setValue(markdown: string) {
         if (this.vditor.currentMode === "sv") {
             formatRender(this.vditor, markdown, {
