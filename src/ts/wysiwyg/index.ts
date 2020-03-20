@@ -10,7 +10,6 @@ import {processPasteCode} from "../util/processPasteCode";
 import {setSelectionByPosition} from "../util/selection";
 import {getSelectPosition} from "../util/selection";
 import {setSelectionFocus} from "../util/selection";
-import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
@@ -109,8 +108,6 @@ class WYSIWYG {
             const tempElement = document.createElement("div");
             tempElement.appendChild(range.cloneContents());
 
-            addP2Li(tempElement);
-
             event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
             event.clipboardData.setData("text/html", "");
         });
@@ -168,7 +165,6 @@ class WYSIWYG {
                     tempElement.querySelectorAll("[style]").forEach((e) => {
                         e.removeAttribute("style");
                     });
-                    addP2Li(tempElement);
                     vditor.lute.SetJSRenderers({
                         renderers: {
                             HTML2VditorDOM: {

@@ -20,7 +20,6 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {selectIsEditor, setSelectionFocus} from "../util/selection";
-import {addP2Li} from "./addP2Li";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
@@ -188,12 +187,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                         `<${parentTagName} data-block="0"><li data-marker="${marker}">${liElement.innerHTML}</li></${parentTagName}>`);
                     liElement.remove();
 
-                    // D 说需要调用 2 次，方可没有 p
-                    addP2Li(topListElement);
-                    const tempELement = document.createElement("div");
-                    tempELement.innerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
-                    addP2Li(tempELement);
-                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(tempELement.innerHTML);
+                    topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
 
                     setRangeByWbr(vditor.wysiwyg.element, range);
                     const tempTopListElement = getTopList(range.startContainer);
@@ -889,7 +883,6 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
         liParentLiElement.insertAdjacentElement("afterend", liElement);
         liElement.insertAdjacentElement("beforeend", liParentAfterElement);
 
-        addP2Li(topListElement);
         topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
 
         setRangeByWbr(vditor.wysiwyg.element, range);
