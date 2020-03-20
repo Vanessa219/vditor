@@ -31,6 +31,13 @@ $transition: all .15s ease-in-out !default;
   --heading-border-color: #eaecef;
   --blockquote-color: #6a737d;
 
+  --ir-heading-color: #660e7a;
+  --ir-code-color: #808080;
+  --ir-bi-color: #000080;
+  --ir-link-color: #008000;
+  --ir-bracket-color: #0000ff;
+  --ir-paren-color: #008000;
+
   &--dark {
     --border-color: #141414;
     --second-color: rgba(185, 185, 185, .36);
@@ -52,6 +59,13 @@ $transition: all .15s ease-in-out !default;
     --code-background-color: #{rgba($blurColor, .36)};
     --heading-border-color: var(--textarea-text-color);
     --blockquote-color: var(--toolbar-icon-color);
+
+    --ir-heading-color: #9876aa;
+    --ir-code-color: #808080;
+    --ir-bi-color: #cc7832;
+    --ir-link-color: #ffc66d;
+    --ir-bracket-color: #287bde;
+    --ir-paren-color: #6a8759;
   }
 }
 
