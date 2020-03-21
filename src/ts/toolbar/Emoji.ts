@@ -1,8 +1,7 @@
 import emojiSVG from "../../assets/icons/emoji.svg";
 import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
-import {getEditorRange, setSelectionFocus} from "../util/selection";
-import {insertHTML} from "../wysiwyg/insertHTML";
+import {getEditorRange, insertHTML, setSelectionFocus} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 import {hidePanel} from "./setToolbar";
 

@@ -422,5 +422,6 @@ interface IVditor {
     ir?: {
         element: HTMLPreElement,
         composingLock: boolean,
+        preventInput: boolean,
     };
 }

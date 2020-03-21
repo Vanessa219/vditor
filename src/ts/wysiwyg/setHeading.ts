@@ -1,6 +1,5 @@
 import {hasClosestBlock} from "../util/hasClosest";
-import {getEditorRange} from "../util/selection";
-import {setRangeByWbr} from "../util/selection";
+import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {renderToc} from "./processMD";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {

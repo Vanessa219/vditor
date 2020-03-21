@@ -1,6 +1,5 @@
 import {Constants} from "../constants";
-import {setSelectionFocus} from "../util/selection";
-import {setRangeByWbr} from "../util/selection";
+import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 
 export const previoueIsEmptyA = (node: Node) => {
     let previousNode = node.previousSibling as HTMLElement;

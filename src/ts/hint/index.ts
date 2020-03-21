@@ -3,11 +3,8 @@ import {formatRender} from "../sv/formatRender";
 import {code160to32} from "../util/code160to32";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByClassName} from "../util/hasClosest";
-import {getSelectPosition} from "../util/selection";
-import {setSelectionFocus} from "../util/selection";
-import {getCursorPosition} from "../util/selection";
+import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
-import {insertHTML} from "../wysiwyg/insertHTML";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 
 export class Hint {

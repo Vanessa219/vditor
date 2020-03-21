@@ -2,8 +2,7 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {processAfterRender} from "../ir/process";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {setSelectionFocus} from "../util/selection";
-import {setRangeByWbr} from "../util/selection";
+import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 
 class IRUndo {
     private undoStack: patch_obj[][];

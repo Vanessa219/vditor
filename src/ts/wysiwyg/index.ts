@@ -7,15 +7,11 @@ import {
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
-import {setSelectionByPosition} from "../util/selection";
-import {getSelectPosition} from "../util/selection";
-import {setSelectionFocus} from "../util/selection";
-import {setRangeByWbr} from "../util/selection";
+import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
-import {insertHTML} from "./insertHTML";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD, renderToc} from "./processMD";
 

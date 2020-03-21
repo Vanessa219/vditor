@@ -1,8 +1,7 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
-import {getSelectPosition} from "../util/selection";
-import {setRangeByWbr} from "../util/selection";
+import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {

@@ -19,8 +19,7 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {selectIsEditor, setSelectionFocus} from "../util/selection";
-import {setRangeByWbr} from "../util/selection";
+import {selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
