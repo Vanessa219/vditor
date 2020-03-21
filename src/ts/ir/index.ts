@@ -72,6 +72,10 @@ class IR {
         });
 
         // TODO
+        this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
+
+        })
+
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop",
                 (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
