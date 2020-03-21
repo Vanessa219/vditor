@@ -300,7 +300,7 @@ interface IOptions {
     counter?: number;
     /** 是否使用 localStorage 进行缓存。默认值: 'auto' */
     cache?: boolean;
-    /** 模式 */
+    /** 编辑模式。默认值: 'wysiwyg' */
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://hacpai.com/article/1549638745630#options-preview */
     preview?: IPreview;
