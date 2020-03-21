@@ -101,29 +101,37 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // undo
-        if (!vditor.toolbar.elements.undo && matchHotKey("⌘-Z", event)) {
-            if (vditor.currentMode === "sv") {
+        if (matchHotKey("⌘-Z", event)) {
+            if (vditor.currentMode === "sv" && !vditor.toolbar.elements.undo) {
                 vditor.undo.undo(vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
+                event.preventDefault();
+                return;
+            } else if (vditor.currentMode === "wysiwyg" && !vditor.toolbar.elements.undo) {
                 vditor.wysiwygUndo.undo(vditor);
+                event.preventDefault();
+                return;
             } else if (vditor.currentMode === "ir") {
                 vditor.irUndo.undo(vditor);
+                event.preventDefault();
+                return;
             }
-            event.preventDefault();
-            return;
         }
 
         // redo
-        if (!vditor.toolbar.elements.redo && matchHotKey("⌘-Y", event)) {
-            if (vditor.currentMode === "sv") {
+        if (matchHotKey("⌘-Y", event)) {
+            if (vditor.currentMode === "sv" && !vditor.toolbar.elements.redo) {
                 vditor.undo.redo(vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
+                event.preventDefault();
+                return;
+            } else if (vditor.currentMode === "wysiwyg" && !vditor.toolbar.elements.redo) {
                 vditor.wysiwygUndo.redo(vditor);
+                event.preventDefault();
+                return;
             } else if (vditor.currentMode === "ir") {
                 vditor.irUndo.redo(vditor);
+                event.preventDefault();
+                return;
             }
-            event.preventDefault();
-            return;
         }
 
         // esc
@@ -184,6 +192,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             } else if (event.code === "Digit9") {
                 setEditMode(vditor, "sv", event);
             }
+            return true;
         }
     });
 };

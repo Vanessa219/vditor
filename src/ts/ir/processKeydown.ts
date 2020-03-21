@@ -1,14 +1,18 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
-import {getSelectPosition} from "../util/selection";
-import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
+import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
     if (event.isComposing) {
         return false;
+    }
+
+    // 添加第一次记录 undo 的光标
+    if (event.key.indexOf("Arrow") === -1) {
+        vditor.irUndo.recordFirstWbr(vditor, event);
     }
 
     // 仅处理以下快捷键操作

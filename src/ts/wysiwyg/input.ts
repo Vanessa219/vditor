@@ -5,12 +5,11 @@ import {
     hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
-import {addP2Li} from "./addP2Li";
+import {setRangeByWbr} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
 import {isToC, renderToc} from "./processMD";
-import {setRangeByWbr} from "./setRangeByWbr";
 
 export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
@@ -90,7 +89,6 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
                 blockElement = footnoteElement;
             }
 
-            addP2Li(blockElement);
             html = blockElement.outerHTML;
 
             if (blockElement.tagName === "UL" || blockElement.tagName === "OL") {
@@ -98,12 +96,10 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
                 const listPrevElement = blockElement.previousElementSibling;
                 const listNextElement = blockElement.nextElementSibling;
                 if (listPrevElement && (listPrevElement.tagName === "UL" || listPrevElement.tagName === "OL")) {
-                    addP2Li(listPrevElement);
                     html = listPrevElement.outerHTML + html;
                     listPrevElement.remove();
                 }
                 if (listNextElement && (listNextElement.tagName === "UL" || listNextElement.tagName === "OL")) {
-                    addP2Li(listNextElement);
                     html = html + listNextElement.outerHTML;
                     listNextElement.remove();
                 }
@@ -120,12 +116,10 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             // 添加脚注
             const allFootnoteElement = vditor.wysiwyg.element.querySelector("[data-type='footnotes-block']");
             if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement)) {
-                addP2Li(allFootnoteElement);
                 html += allFootnoteElement.outerHTML;
                 allFootnoteElement.remove();
             }
         } else {
-            addP2Li(vditor.wysiwyg.element);
             html = blockElement.innerHTML;
         }
 

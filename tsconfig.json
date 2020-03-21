@@ -7,13 +7,15 @@
     "noUnusedLocals": true,
     "lib": [
       "dom",
-      "es2015"
+      "ESNext"
     ],
     "moduleResolution": "node",
     "esModuleInterop": true,
     "typeRoots": [
       "./node_modules/@types"
-    ]
+    ],
+    "types": ["./types"],
+    "declaration": true
   },
   "include": [
     "src"

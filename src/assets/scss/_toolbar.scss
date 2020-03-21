@@ -16,6 +16,7 @@
 
     &__item {
       float: left;
+      position: relative;
 
       .vditor-tooltipped {
         color: var(--toolbar-icon-color);

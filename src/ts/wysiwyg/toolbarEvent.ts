@@ -1,12 +1,11 @@
 import {Constants} from "../constants";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
-import {getEditorRange, setSelectionFocus} from "../util/selection";
+import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
-import {setRangeByWbr} from "./setRangeByWbr";
 
 const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
     const itemElement = hasClosestByMatchTag(range.startContainer, "LI");

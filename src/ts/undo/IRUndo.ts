@@ -1,16 +1,9 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
-import {disableToolbar} from "../toolbar/setToolbar";
-import {enableToolbar} from "../toolbar/setToolbar";
+import {processAfterRender} from "../ir/process";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {setSelectionFocus} from "../util/selection";
-import {addP2Li} from "../wysiwyg/addP2Li";
-import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
+import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 
-// TODO
 class IRUndo {
     private undoStack: patch_obj[][];
     private redoStack: patch_obj[][];
@@ -28,18 +21,8 @@ class IRUndo {
         this.hasUndo = false;
     }
 
-    public enableIcon(vditor: IVditor) {
-        if (this.undoStack.length > 1) {
-            enableToolbar(vditor.toolbar.elements, ["undo"]);
-        }
-
-        if (this.redoStack.length !== 0) {
-            enableToolbar(vditor.toolbar.elements, ["redo"]);
-        }
-    }
-
     public undo(vditor: IVditor) {
-        if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
+        if (vditor.ir.element.getAttribute("contenteditable") === "false") {
             return;
         }
         if (this.undoStack.length < 2) {
@@ -55,7 +38,7 @@ class IRUndo {
     }
 
     public redo(vditor: IVditor) {
-        if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
+        if (vditor.ir.element.getAttribute("contenteditable") === "false") {
             return;
         }
         const state = this.redoStack.pop();
@@ -79,33 +62,26 @@ class IRUndo {
             return;
         }
         getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
-        const cloneEditorElement = document.createElement("pre");
-        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-        addP2Li(cloneEditorElement);
-        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
+        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(vditor.ir.element.innerHTML);
         this.lastText = this.undoStack[0][0].diffs[0][1];
-        if (vditor.wysiwyg.element.querySelector("wbr")) {
-            vditor.wysiwyg.element.querySelector("wbr").remove();
+        if (vditor.ir.element.querySelector("wbr")) {
+            vditor.ir.element.querySelector("wbr").remove();
         }
         // 不能添加 setSelectionFocus(cloneRange); 否则 windows chrome 首次输入会烂
     }
 
     public addToUndoStack(vditor: IVditor) {
-        // wysiwyg/afterRenderEvent.ts 已经 debounce
         let cloneRange: Range;
-        if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
+        if (getSelection().rangeCount !== 0 && !vditor.ir.element.querySelector("wbr")) {
             const range = getSelection().getRangeAt(0);
             cloneRange = range.cloneRange();
-            if (vditor.wysiwyg.element.contains(range.startContainer)) {
+            if (vditor.ir.element.contains(range.startContainer)) {
                 range.insertNode(document.createElement("wbr"));
             }
         }
-        const cloneEditorElement = document.createElement("pre");
-        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-        addP2Li(cloneEditorElement);
-        const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
-        if (vditor.wysiwyg.element.querySelector("wbr")) {
-            vditor.wysiwyg.element.querySelector("wbr").remove();
+        const text = vditor.lute.SpinVditorDOM(vditor.ir.element.innerHTML);
+        if (vditor.ir.element.querySelector("wbr")) {
+            vditor.ir.element.querySelector("wbr").remove();
         }
         if (cloneRange) {
             setSelectionFocus(cloneRange);
@@ -123,11 +99,6 @@ class IRUndo {
         if (this.hasUndo) {
             this.redoStack = [];
             this.hasUndo = false;
-            disableToolbar(vditor.toolbar.elements, ["redo"]);
-        }
-
-        if (this.undoStack.length > 1) {
-            enableToolbar(vditor.toolbar.elements, ["undo"]);
         }
     }
 
@@ -146,31 +117,14 @@ class IRUndo {
         }
 
         this.lastText = text;
-
-        vditor.wysiwyg.element.innerHTML = text;
-        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
-            processCodeRender(blockElement, vditor);
-        });
-        setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
-        scrollCenter(vditor.wysiwyg.element);
-        afterRenderEvent(vditor, {
+        vditor.ir.element.innerHTML = text;
+        setRangeByWbr(vditor.ir.element, vditor.ir.element.ownerDocument.createRange());
+        scrollCenter(vditor.ir.element);
+        processAfterRender(vditor, {
             enableAddUndoStack: false,
             enableHint: false,
             enableInput: true,
         });
-        highlightToolbar(vditor);
-
-        if (this.undoStack.length > 1) {
-            enableToolbar(vditor.toolbar.elements, ["undo"]);
-        } else {
-            disableToolbar(vditor.toolbar.elements, ["undo"]);
-        }
-
-        if (this.redoStack.length !== 0) {
-            enableToolbar(vditor.toolbar.elements, ["redo"]);
-        } else {
-            disableToolbar(vditor.toolbar.elements, ["redo"]);
-        }
     }
 }
 

@@ -135,7 +135,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         }
     });
     setSelectionFocus(vditor.upload.range);
-    if (vditor.currentMode === "wysiwyg") {
+    if (vditor.currentMode !== "sv") {
         document.execCommand("insertHTML", false, succFileText);
     } else {
         insertText(vditor, succFileText, "", true);

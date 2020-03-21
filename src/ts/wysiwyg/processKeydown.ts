@@ -8,15 +8,13 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {matchHotKey} from "../util/hotKey";
-import {getSelectPosition} from "../util/selection";
-import {setSelectionFocus} from "../util/selection";
+import {getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {listOutdent} from "./highlightToolbar";
 import {getLastNode, nextIsCode} from "./inlineTag";
 import {processCodeRender, showCode} from "./processCodeRender";
 import {isHeadingMD, isHrMD} from "./processMD";
 import {removeHeading, setHeading} from "./setHeading";
-import {setRangeByWbr} from "./setRangeByWbr";
 
 const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
     let previousElement = cellElement.previousElementSibling;

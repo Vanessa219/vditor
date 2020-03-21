@@ -1,4 +1,5 @@
 import editSVG from "../../assets/icons/edit.svg";
+import {i18n} from "../i18n";
 import {processAfterRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {setPadding} from "../ui/initUI";
@@ -38,7 +39,11 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
             enableHint: false,
             enableInput: false,
         });
-        vditor.ir.element.focus();
+
+        if (event) {
+            // 初始化不 focus
+           vditor.ir.element.focus();
+        }
         setPadding(vditor);
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
@@ -51,7 +56,10 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         const editorMD = getMarkdown(vditor);
         vditor.currentMode = "wysiwyg";
         renderDomByMd(vditor, editorMD);
-        vditor.wysiwyg.element.focus();
+        if (event) {
+            // 初始化不 focus
+            vditor.wysiwyg.element.focus();
+        }
         vditor.wysiwyg.popover.style.display = "none";
         setPadding(vditor);
     } else if (type === "sv") {
@@ -75,7 +83,10 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         const wysiwygMD = getMarkdown(vditor);
         vditor.currentMode = "sv";
         formatRender(vditor, wysiwygMD, undefined);
-        vditor.sv.element.focus();
+        if (event) {
+            // 初始化不 focus
+            vditor.sv.element.focus();
+        }
     }
 };
 
@@ -89,9 +100,9 @@ export class EditMode extends MenuItem {
 
         this.panelElement = document.createElement("div");
         this.panelElement.className = "vditor-hint vditor-arrow";
-        this.panelElement.innerHTML = `<button>WYSIWYG &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
-<button>Split View &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
-        // <button>Instant Rendering &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
+        this.panelElement.innerHTML = `<button>${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
+<button>${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
+<button>${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
 
         this.element.appendChild(this.panelElement);
 
@@ -118,12 +129,12 @@ export class EditMode extends MenuItem {
             setEditMode(vditor, "wysiwyg", event);
         });
 
-        // this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
-        //     // ir
-        //     setEditMode(vditor, "ir", event);
-        // });
-
         this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
+            // ir
+            setEditMode(vditor, "ir", event);
+        });
+
+        this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
             setEditMode(vditor, "sv", event);
         });

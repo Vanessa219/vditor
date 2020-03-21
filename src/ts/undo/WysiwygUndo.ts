@@ -3,12 +3,10 @@ import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {setSelectionFocus} from "../util/selection";
-import {addP2Li} from "../wysiwyg/addP2Li";
+import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {setRangeByWbr} from "../wysiwyg/setRangeByWbr";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -78,10 +76,7 @@ class WysiwygUndo {
             return;
         }
         getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
-        const cloneEditorElement = document.createElement("pre");
-        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-        addP2Li(cloneEditorElement);
-        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
+        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
         this.lastText = this.undoStack[0][0].diffs[0][1];
         if (vditor.wysiwyg.element.querySelector("wbr")) {
             vditor.wysiwyg.element.querySelector("wbr").remove();
@@ -99,10 +94,7 @@ class WysiwygUndo {
                 range.insertNode(document.createElement("wbr"));
             }
         }
-        const cloneEditorElement = document.createElement("pre");
-        cloneEditorElement.innerHTML = vditor.wysiwyg.element.innerHTML;
-        addP2Li(cloneEditorElement);
-        const text = vditor.lute.SpinVditorDOM(cloneEditorElement.innerHTML);
+        const text = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
         if (vditor.wysiwyg.element.querySelector("wbr")) {
             vditor.wysiwyg.element.querySelector("wbr").remove();
         }

@@ -13,6 +13,31 @@
       display: inline-block;
       height: 0;
       transition: $transition;
+
+      &--heading {
+        color: var(--ir-heading-color);
+      }
+
+      &--code {
+        color: var(--ir-code-color);
+      }
+
+      &--bi {
+        color: var(--ir-bi-color);
+      }
+
+      &--link {
+        color: var(--ir-link-color);
+      }
+
+      &--bracket {
+        color: var(--ir-bracket-color);
+        text-decoration: underline;
+      }
+
+      &--paren {
+        color: var(--ir-paren-color);
+      }
     }
 
     &--expand {
@@ -25,7 +50,7 @@
   }
 
   &__link {
-    color: $blurColor;
+    color: var(--ir-bracket-color);
     text-decoration: underline;
   }
 
