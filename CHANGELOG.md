@@ -49,7 +49,6 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-
 ### v3.0.3 / 2020-03-20
 
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
