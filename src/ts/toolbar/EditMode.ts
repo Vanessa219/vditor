@@ -7,7 +7,7 @@ import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
-import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar, setToolbarEnabled} from "./setToolbar";
 
 export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     if (event) {
@@ -25,7 +25,9 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         "line", "quote", "code", "inline-code", "upload", "record", "table"];
 
     if (type === "ir") {
-        vditor.toolbar.element.style.display = "none";
+        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        setToolbarEnabled(vditor.toolbar.elements, false);
+        setToolbarEnabled(vditor.toolbar.elements, true, ["edit-mode"]);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -47,6 +49,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         setPadding(vditor);
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        setToolbarEnabled(vditor.toolbar.elements)
         vditor.toolbar.element.style.display = "block";
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
@@ -64,6 +67,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         setPadding(vditor);
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        setToolbarEnabled(vditor.toolbar.elements)
         vditor.toolbar.element.style.display = "block";
         removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
         enableToolbar(vditor.toolbar.elements, allToolbar);

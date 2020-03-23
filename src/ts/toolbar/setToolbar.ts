@@ -46,6 +46,25 @@ export const disableToolbar = (toolbar: { [key: string]: HTMLElement }, names: s
     });
 };
 
+const CLASS_DISABLED = 'vditor-menu--disabled'
+
+/** 
+ * 设置工具栏内容启用/禁用状态。
+ * @param enabled 启用或者禁用
+ * @param names 指定要操作的元素名称。默认为全部元素。
+ */
+export function setToolbarEnabled(
+  toolbar: { [key: string]: HTMLElement },
+  enabled: boolean = true,
+  names?: string[]
+): void {
+  for (const [k, v] of Object.entries(toolbar)) {
+    if (!names || names.includes(k)) {
+      v.classList.toggle(CLASS_DISABLED, !enabled);
+    }
+  }
+}
+
 export const hideToolbar = (toolbar: { [key: string]: HTMLElement }, names: string[]) => {
     names.forEach((name) => {
         if (!toolbar[name]) {
