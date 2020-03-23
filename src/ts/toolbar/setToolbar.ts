@@ -47,13 +47,6 @@ export const disableToolbar = (toolbar: { [key: string]: HTMLElement }, names: s
 };
 
 const CLASS_DISABLED = 'vditor-menu--disabled'
-function setEnabled(e: HTMLElement, v: boolean){
-  if(v){
-    e.classList.remove(CLASS_DISABLED)
-  } else {
-    e.classList.add(CLASS_DISABLED)
-  }
-}
 
 /** 
  * 设置工具栏内容启用/禁用状态。
@@ -67,7 +60,7 @@ export function setToolbarEnabled(
 ): void {
   for (const [k, v] of Object.entries(toolbar)) {
     if (!names || names.includes(k)) {
-      setEnabled(v, enabled);
+      v.classList.toggle(CLASS_DISABLED, !enabled);
     }
   }
 }
