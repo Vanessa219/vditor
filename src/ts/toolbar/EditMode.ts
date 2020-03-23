@@ -25,7 +25,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         "line", "quote", "code", "inline-code", "upload", "record", "table"];
 
     if (type === "ir") {
-        vditor.toolbar.element.style.display = "none";
+        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
