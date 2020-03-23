@@ -6,6 +6,13 @@
 
 
   &__node {
+    &[data-type="code-block"] {
+      &:before,
+      &:after {
+        content: ' ';
+      }
+    }
+
     .vditor-ir__marker {
       color: var(--second-color);
       width: 0;
@@ -18,16 +25,16 @@
         color: var(--ir-heading-color);
       }
 
-      &--code {
-        color: var(--ir-code-color);
-      }
-
       &--bi {
         color: var(--ir-bi-color);
       }
 
       &--link {
         color: var(--ir-link-color);
+      }
+
+      &--title {
+        color: var(--ir-title-color);
       }
 
       &--bracket {
@@ -46,6 +53,19 @@
         height: auto;
         width: auto;
       }
+
+      &[data-type="code-block"] {
+        &:before,
+        &:after {
+          content: '```';
+          color: var(--second-color);
+        }
+      }
+    }
+
+    span[data-type="code-block-open-marker"],
+    span[data-type="code-block-close-marker"]{
+      display: none;
     }
   }
 

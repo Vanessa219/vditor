@@ -77,7 +77,7 @@ class IRUndo {
             return;
         }
         getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
-        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorDOM(vditor.ir.element.innerHTML);
+        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorIRDOM(vditor.ir.element.innerHTML);
         this.lastText = this.undoStack[0][0].diffs[0][1];
         if (vditor.ir.element.querySelector("wbr")) {
             vditor.ir.element.querySelector("wbr").remove();
@@ -94,7 +94,7 @@ class IRUndo {
                 range.insertNode(document.createElement("wbr"));
             }
         }
-        const text = vditor.lute.SpinVditorDOM(vditor.ir.element.innerHTML);
+        const text = vditor.lute.SpinVditorIRDOM(vditor.ir.element.innerHTML);
         if (vditor.ir.element.querySelector("wbr")) {
             vditor.ir.element.querySelector("wbr").remove();
         }

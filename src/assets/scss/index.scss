@@ -32,7 +32,7 @@ $transition: all .15s ease-in-out !default;
   --blockquote-color: #6a737d;
 
   --ir-heading-color: #660e7a;
-  --ir-code-color: #808080;
+  --ir-title-color: #808080;
   --ir-bi-color: #000080;
   --ir-link-color: #008000;
   --ir-bracket-color: #0000ff;
@@ -61,7 +61,7 @@ $transition: all .15s ease-in-out !default;
     --blockquote-color: var(--toolbar-icon-color);
 
     --ir-heading-color: #9876aa;
-    --ir-code-color: #808080;
+    --ir-title-color: #808080;
     --ir-bi-color: #cc7832;
     --ir-link-color: #ffc66d;
     --ir-bracket-color: #287bde;
