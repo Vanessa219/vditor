@@ -3,6 +3,7 @@ import {processAfterRender} from "../ir/process";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
 
 class IRUndo {
     private undoStack: patch_obj[][];
@@ -19,6 +20,20 @@ class IRUndo {
         this.dmp = new DiffMatchPatch();
         this.lastText = "";
         this.hasUndo = false;
+    }
+
+    public resetIcon(vditor: IVditor) {
+        if (this.undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["undo"])
+        }
+
+        if (this.redoStack.length !== 0) {
+            enableToolbar(vditor.toolbar.elements, ["redo"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["redo"])
+        }
     }
 
     public undo(vditor: IVditor) {
@@ -100,6 +115,10 @@ class IRUndo {
             this.redoStack = [];
             this.hasUndo = false;
         }
+
+        if (this.undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        }
     }
 
     private renderDiff(state: patch_obj[], vditor: IVditor, isRedo: boolean = false) {
@@ -125,6 +144,18 @@ class IRUndo {
             enableHint: false,
             enableInput: true,
         });
+
+        if (this.undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["undo"]);
+        }
+
+        if (this.redoStack.length !== 0) {
+            enableToolbar(vditor.toolbar.elements, ["redo"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["redo"]);
+        }
     }
 }
 

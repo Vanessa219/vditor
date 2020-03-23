@@ -153,9 +153,9 @@ class Vditor extends VditorMethod {
     public enable() {
         enableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
             "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table", "wysiwyg"]);
-        this.vditor.undo.enableIcon(this.vditor);
+        this.vditor.undo.resetIcon(this.vditor);
         this.vditor.sv.element.setAttribute("contenteditable", "true");
-        this.vditor.wysiwygUndo.enableIcon(this.vditor);
+        this.vditor.wysiwygUndo.resetIcon(this.vditor);
         this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
         this.vditor.ir.element.setAttribute("contenteditable", "true");
     }

@@ -1,3 +1,5 @@
+import {Constants} from "../constants";
+
 export const removeCurrentToolbar = (toolbar: { [key: string]: HTMLElement }, names: string[]) => {
     names.forEach((name) => {
         if (!toolbar[name]) {
@@ -28,8 +30,8 @@ export const enableToolbar = (toolbar: { [key: string]: HTMLElement }, names: st
             return;
         }
         const itemElement = toolbar[name].children[0];
-        if (itemElement && itemElement.classList.contains("vditor-menu--disabled")) {
-            itemElement.classList.remove("vditor-menu--disabled");
+        if (itemElement && itemElement.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+            itemElement.classList.remove(Constants.CLASS_MENU_DISABLED);
         }
     });
 };
@@ -40,30 +42,11 @@ export const disableToolbar = (toolbar: { [key: string]: HTMLElement }, names: s
             return;
         }
         const itemElement = toolbar[name].children[0];
-        if (itemElement && !itemElement.classList.contains("vditor-menu--disabled")) {
-            itemElement.classList.add("vditor-menu--disabled");
+        if (itemElement && !itemElement.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+            itemElement.classList.add(Constants.CLASS_MENU_DISABLED);
         }
     });
 };
-
-const CLASS_DISABLED = 'vditor-menu--disabled'
-
-/** 
- * 设置工具栏内容启用/禁用状态。
- * @param enabled 启用或者禁用
- * @param names 指定要操作的元素名称。默认为全部元素。
- */
-export function setToolbarEnabled(
-  toolbar: { [key: string]: HTMLElement },
-  enabled: boolean = true,
-  names?: string[]
-): void {
-  for (const [k, v] of Object.entries(toolbar)) {
-    if (!names || names.includes(k)) {
-      v.classList.toggle(CLASS_DISABLED, !enabled);
-    }
-  }
-}
 
 export const hideToolbar = (toolbar: { [key: string]: HTMLElement }, names: string[]) => {
     names.forEach((name) => {

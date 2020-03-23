@@ -5,6 +5,7 @@ import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {MenuItem} from "./MenuItem";
 import {hidePanel} from "./setToolbar";
+import {Constants} from "../constants";
 
 export class Headings extends MenuItem {
     public element: HTMLElement;
@@ -30,7 +31,7 @@ export class Headings extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
 

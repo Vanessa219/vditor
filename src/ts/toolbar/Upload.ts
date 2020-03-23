@@ -1,6 +1,7 @@
 import uploadSVG from "../../assets/icons/upload.svg";
 import {uploadFiles} from "../upload/index";
 import {MenuItem} from "./MenuItem";
+import {Constants} from "../constants";
 
 export class Upload extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -16,7 +17,7 @@ export class Upload extends MenuItem {
     public _bindEvent(vditor: IVditor) {
         this.element.querySelector("input").addEventListener("change",
             (event: InputEvent & { target: HTMLInputElement }) => {
-                if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+                if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                     return;
                 }
                 if (event.target.files.length === 0) {

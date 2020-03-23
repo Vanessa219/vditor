@@ -399,20 +399,21 @@ interface IVditor {
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
         recordFirstPosition(vditor: IVditor): void,
-        enableIcon(vditor: IVditor): void,
+        resetIcon(vditor: IVditor): void,
     };
     wysiwygUndo?: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
         recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
-        enableIcon(vditor: IVditor): void,
+        resetIcon(vditor: IVditor): void,
     };
     irUndo?: {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
         recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
+        resetIcon(vditor: IVditor): void,
     };
     wysiwyg?: {
         element: HTMLPreElement,

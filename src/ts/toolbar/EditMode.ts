@@ -7,7 +7,8 @@ import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
-import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar, setToolbarEnabled} from "./setToolbar";
+import {disableToolbar, enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {Constants} from "../constants";
 
 export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     if (event) {
@@ -26,8 +27,8 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
 
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        setToolbarEnabled(vditor.toolbar.elements, false);
-        setToolbarEnabled(vditor.toolbar.elements, true, ["edit-mode"]);
+        disableToolbar(vditor.toolbar.elements, allToolbar);
+        vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -49,8 +50,8 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         setPadding(vditor);
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        setToolbarEnabled(vditor.toolbar.elements)
-        vditor.toolbar.element.style.display = "block";
+        enableToolbar(vditor.toolbar.elements, allToolbar);
+        vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
@@ -67,10 +68,9 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         setPadding(vditor);
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        setToolbarEnabled(vditor.toolbar.elements)
-        vditor.toolbar.element.style.display = "block";
-        removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
         enableToolbar(vditor.toolbar.elements, allToolbar);
+        removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
+        vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";
         if (vditor.currentPreviewMode === "both") {
@@ -115,7 +115,7 @@ export class EditMode extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
 

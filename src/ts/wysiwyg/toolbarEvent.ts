@@ -153,7 +153,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
 
     let useHighlight = true;
     let useRender = true;
-    if (actionBtn.classList.contains("vditor-menu--disabled")) {
+    if (actionBtn.classList.contains(Constants.CLASS_MENU_DISABLED)) {
         return;
     }
     if (vditor.wysiwyg.element.querySelector("wbr")) {

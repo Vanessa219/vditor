@@ -2,6 +2,7 @@ import redoSVG from "../../assets/icons/redo.svg";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {disableToolbar} from "./setToolbar";
+import {Constants} from "../constants";
 
 export class Redo extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -9,7 +10,7 @@ export class Redo extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || redoSVG;
         disableToolbar({redo: this.element}, ["redo"]);
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
             if (vditor.currentMode === "sv") {

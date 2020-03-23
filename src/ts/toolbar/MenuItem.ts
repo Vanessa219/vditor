@@ -3,6 +3,7 @@ import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
 import {updateHotkeyTip} from "../util/compatibility";
 import {toolbarEvent} from "../wysiwyg/toolbarEvent";
+import {Constants} from "../constants";
 
 export class MenuItem {
     public element: HTMLElement;
@@ -24,7 +25,7 @@ export class MenuItem {
 
     public bindEvent(vditor: IVditor, replace: boolean = false) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
             if (vditor.currentMode === "wysiwyg") {

@@ -4,6 +4,7 @@ import {uploadFiles} from "../upload/index";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {RecordMedia} from "./RecordMedia";
+import {Constants} from "../constants";
 
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -16,7 +17,7 @@ export class Record extends MenuItem {
     public _bindEvent(vditor: IVditor) {
         let mediaRecorder: RecordMedia;
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
             event.preventDefault();

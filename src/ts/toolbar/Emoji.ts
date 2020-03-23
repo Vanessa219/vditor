@@ -4,6 +4,7 @@ import {getEventName} from "../util/compatibility";
 import {getEditorRange, insertHTML, setSelectionFocus} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 import {hidePanel} from "./setToolbar";
+import {Constants} from "../constants";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;
@@ -43,7 +44,7 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
-            if (this.element.firstElementChild.classList.contains("vditor-menu--disabled")) {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
             if (this.panelElement.style.display === "block") {
