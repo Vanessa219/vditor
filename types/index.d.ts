@@ -23,6 +23,7 @@ interface ILute {
     SetJSRenderers(options?: {
         renderers: {
             HTML2VditorDOM?: ILuteRender,
+            HTML2VditorIRDOM?: ILuteRender,
             HTML2Md?: ILuteRender,
         },
     }): void;
@@ -423,5 +424,6 @@ interface IVditor {
         element: HTMLPreElement,
         composingLock: boolean,
         preventInput: boolean,
+        processTimeoutId: number,
     };
 }

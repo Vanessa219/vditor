@@ -81,6 +81,10 @@
       height: var(--editor-bottom);
       display: block;
     }
+
+    pre {
+      margin: 0;
+    }
   }
 
   // block title
