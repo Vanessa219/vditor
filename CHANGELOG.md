@@ -52,7 +52,7 @@
 ### v3.0.4 / 未发布
 
 * [232](https://github.com/Vanessa219/vditor/issues/232) 【IR&WYSIWYG】围栏代码块 info 部分自动完成 `引入特性`
-* [230](https://gi  thub.com/Vanessa219/vditor/pull/230) 切换 IR 模式后依然展示工具栏 `改进功能`
+* [230](https://github.com/Vanessa219/vditor/pull/230) 切换 IR 模式后依然展示工具栏 `改进功能`
 
 ### v3.0.3 / 2020-03-20
 
