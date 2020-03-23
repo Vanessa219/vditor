@@ -1,8 +1,9 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
-import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByMatchTag, hasClosestByTag} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
+import {scrollCenter} from "../util/editorCommenEvent";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -42,6 +43,36 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const pElement = hasClosestByMatchTag(startContainer, "P");
+
+    const preRenderElement = hasClosestByTag(startContainer, "PRE");
+    if (preRenderElement) {
+        const codeRenderElement = preRenderElement.firstChild as HTMLElement
+
+        // 换行
+        if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
+            if (!codeRenderElement.textContent.endsWith("\n")) {
+                codeRenderElement.insertAdjacentText("beforeend", "\n");
+            }
+            range.insertNode(document.createTextNode("\n"));
+            range.collapse(false);
+            processAfterRender(vditor);
+            scrollCenter(vditor.ir.element);
+            event.preventDefault();
+            return true;
+        }
+
+        // tab
+        if (vditor.options.tab && event.key === "Tab" && !event.shiftKey && range.toString() === "") {
+            range.insertNode(document.createTextNode(vditor.options.tab));
+            range.collapse(false);
+            processAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        // TODO shift + tab, shift and 选中文字
+    }
+
     const liElement = hasClosestByMatchTag(startContainer, "LI");
     if (liElement) {
         if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&

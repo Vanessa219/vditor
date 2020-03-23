@@ -23,13 +23,13 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
     if (isCode) {
         const code = text || html;
         if (/\n/.test(code) || pres.length === 1) {
-            if (type !== "sv") {
+            if (type === "wysiwyg") {
                 return `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
                     code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
             }
             return "```\n" + code + "\n```";
         } else {
-            if (type !== "sv") {
+            if (type === "wysiwyg") {
                 return `<code>${code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code><wbr>`;
             }
             return `\`${code}\``;

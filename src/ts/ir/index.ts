@@ -2,11 +2,9 @@ import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
-import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import { hasClosestByMatchTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
-import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "../util/selection";
-import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
-import {processCodeRender} from "../wysiwyg/processCodeRender";
+import {getSelectPosition, insertHTML, setSelectionByPosition} from "../util/selection";
 import {expandMarker} from "./expandMarker";
 import {input} from "./input";
 import {processAfterRender} from "./process";
@@ -51,7 +49,6 @@ class IR {
             event.clipboardData.setData("text/html", "");
         });
 
-        // TODO
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
             event.stopPropagation();
             event.preventDefault();
@@ -73,8 +70,7 @@ class IR {
             }
 
             // process code
-            const code = processPasteCode(textHTML, textPlain, "wysiwyg");
-            const range = getSelection().getRangeAt(0);
+            const code = processPasteCode(textHTML, textPlain, "ir");
             const codeElement = hasClosestByMatchTag(event.target, "CODE");
             if (codeElement) {
                 // 粘贴在代码位置
@@ -84,20 +80,7 @@ class IR {
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
             } else if (code) {
-                const node = document.createElement("template");
-                node.innerHTML = code;
-                range.insertNode(node.content.cloneNode(true));
-                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-                if (blockElement) {
-                    blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
-                } else {
-                    vditor.wysiwyg.element.innerHTML = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
-                }
-                vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
-                    (blockRenderItem: HTMLElement) => {
-                        processCodeRender(blockRenderItem, vditor);
-                    });
-                setRangeByWbr(vditor.wysiwyg.element, range);
+                document.execCommand("insertHTML", false, code);
             } else {
                 if (textHTML.trim() !== "") {
                     const tempElement = document.createElement("div");
@@ -123,11 +106,12 @@ class IR {
                                                         vditor.tip.show(responseJSON.msg);
                                                         return;
                                                     }
+                                                    // TODO
                                                     const original = responseJSON.data.originalURL;
                                                     const imgElement: HTMLImageElement =
                                                         this.element.querySelector(`img[src="${original}"]`);
                                                     imgElement.src = responseJSON.data.url;
-                                                    afterRenderEvent(vditor);
+                                                    processAfterRender(vditor);
                                                 } else {
                                                     vditor.tip.show(responseJSON.msg);
                                                 }
@@ -140,13 +124,11 @@ class IR {
                             },
                         },
                     });
-                    const pasteHTML = vditor.lute.HTML2VditorDOM(tempElement.innerHTML);
-                    insertHTML(pasteHTML, vditor);
+                    insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                    const vditorDomHTML = vditor.lute.Md2VditorDOM(textPlain);
-                    insertHTML(vditorDomHTML, vditor);
+                    insertHTML(vditor.lute.Md2VditorIRDOM(textPlain), vditor);
                 }
             }
 
