@@ -636,6 +636,24 @@ export const highlightToolbar = (vditor: IVditor) => {
                             range.collapse(true);
                             setSelectionFocus(range);
                         }
+                        vditor.hint.select(event, vditor);
+                    };
+                    language.onkeyup = (event: KeyboardEvent) => {
+                        if (event.isComposing || event.key.indexOf("Arrow") > -1 || event.key === "Enter") {
+                            return;
+                        }
+                        const matchLangData: IHintData[] = [];
+                        const key = language.value;
+                        Constants.CODE_LANGUAGES.forEach((keyName) => {
+                            if (keyName.indexOf(key.toLowerCase()) === 0) {
+                                matchLangData.push({
+                                    html: keyName,
+                                    value: keyName,
+                                });
+                            }
+                        });
+                        vditor.hint.genHTML(matchLangData, key, vditor);
+                        event.preventDefault();
                     };
                     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
                 }

@@ -1,11 +1,11 @@
 import headingsSVG from "../../assets/icons/headings.svg";
+import {Constants} from "../constants";
 import {insertText} from "../sv/insertText";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {MenuItem} from "./MenuItem";
 import {hidePanel} from "./setToolbar";
-import {Constants} from "../constants";
 
 export class Headings extends MenuItem {
     public element: HTMLElement;

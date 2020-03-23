@@ -31,52 +31,9 @@ export const scrollCenter = (editorElement: HTMLElement) => {
 };
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    const hint = (event: KeyboardEvent, hintElement: HTMLElement) => {
-        if (!hintElement) {
-            return false;
-        }
-
-        if (hintElement.querySelectorAll("button").length === 0 ||
-            hintElement.style.display === "none") {
-            return false;
-        }
-
-        const currentHintElement: HTMLElement = hintElement.querySelector(".vditor-hint--current");
-
-        if (event.key === "ArrowDown") {
-            event.preventDefault();
-            event.stopPropagation();
-            if (!currentHintElement.nextElementSibling) {
-                hintElement.children[0].className = "vditor-hint--current";
-            } else {
-                currentHintElement.nextElementSibling.className = "vditor-hint--current";
-            }
-            currentHintElement.removeAttribute("class");
-            return true;
-        } else if (event.key === "ArrowUp") {
-            event.preventDefault();
-            event.stopPropagation();
-            if (!currentHintElement.previousElementSibling) {
-                const length = hintElement.children.length;
-                hintElement.children[length - 1].className = "vditor-hint--current";
-            } else {
-                currentHintElement.previousElementSibling.className = "vditor-hint--current";
-            }
-            currentHintElement.removeAttribute("class");
-            return true;
-        } else if (event.key === "Enter") {
-            event.preventDefault();
-            event.stopPropagation();
-            vditor.hint.fillEmoji(currentHintElement, vditor);
-            return true;
-        }
-        return false;
-    };
-
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
-        const hintElement = vditor.hint && vditor.hint.element;
         // hint: 上下选择
-        if ((vditor.options.hint.at || vditor.toolbar.elements.emoji) && hint(event, hintElement)) {
+        if ((vditor.options.hint.at || vditor.toolbar.elements.emoji) && vditor.hint.select(event, vditor)) {
             return;
         }
 
@@ -139,6 +96,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (vditor.options.esc) {
                 vditor.options.esc(getMarkdown(vditor));
             }
+            const hintElement = vditor.hint && vditor.hint.element;
             if (hintElement && hintElement.style.display === "block") {
                 hintElement.style.display = "none";
             }

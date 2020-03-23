@@ -1,9 +1,9 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
+import {scrollCenter} from "../util/editorCommenEvent";
 import {hasClosestByAttribute, hasClosestByMatchTag, hasClosestByTag} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
-import {scrollCenter} from "../util/editorCommenEvent";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -46,7 +46,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const preRenderElement = hasClosestByTag(startContainer, "PRE");
     if (preRenderElement) {
-        const codeRenderElement = preRenderElement.firstChild as HTMLElement
+        const codeRenderElement = preRenderElement.firstChild as HTMLElement;
 
         // 换行
         if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
@@ -71,6 +71,20 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // TODO shift + tab, shift and 选中文字
+    }
+
+    const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
+    if (preBeforeElement) {
+        if (event.key === "Backspace" && preBeforeElement.textContent.replace(Constants.ZWSP, "").trim() === "") {
+            event.preventDefault();
+            return true;
+        }
+        if (event.key === "Enter") {
+            range.selectNodeContents(preBeforeElement.nextElementSibling.firstChild);
+            range.collapse(true);
+            event.preventDefault();
+            return true;
+        }
     }
 
     const liElement = hasClosestByMatchTag(startContainer, "LI");

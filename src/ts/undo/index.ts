@@ -28,13 +28,13 @@ class Undo {
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {
-            disableToolbar(vditor.toolbar.elements, ["undo"])
+            disableToolbar(vditor.toolbar.elements, ["undo"]);
         }
 
         if (this.redoStack.length !== 0) {
             enableToolbar(vditor.toolbar.elements, ["redo"]);
         } else {
-            disableToolbar(vditor.toolbar.elements, ["redo"])
+            disableToolbar(vditor.toolbar.elements, ["redo"]);
         }
     }
 

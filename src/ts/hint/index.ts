@@ -1,8 +1,9 @@
+import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {code160to32} from "../util/code160to32";
 import {getMarkdown} from "../util/getMarkdown";
-import {hasClosestByClassName} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
@@ -47,9 +48,7 @@ export class Hint {
             if (isAt && vditor.options.hint.at) {
                 clearTimeout(this.timeId);
                 this.timeId = window.setTimeout(() => {
-                    this.genHTML(vditor.options.hint.at(key), key,
-                        vditor.currentMode === "wysiwyg" ?
-                            vditor.wysiwyg.element : vditor.sv.element, vditor);
+                    this.genHTML(vditor.options.hint.at(key), key, vditor);
                 }, vditor.options.hint.delay);
             }
             if (!isAt) {
@@ -70,75 +69,22 @@ export class Hint {
                         }
                     }
                 });
-                this.genHTML(matchEmojiData, key, vditor.currentMode === "wysiwyg" ?
-                    vditor.wysiwyg.element : vditor.sv.element, vditor);
+                this.genHTML(matchEmojiData, key, vditor);
             }
         }
     }
 
-    public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
-        this.element.style.display = "none";
-
-        const value = element.getAttribute("data-value");
-        const splitChar = value.indexOf("@") === 0 ? "@" : ":";
-        const range: Range = window.getSelection().getRangeAt(0);
-
-        if (vditor.currentMode !== "sv") {
-            range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
-            range.deleteContents();
-            if (value.indexOf(":") > -1) {
-                insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
-                range.insertNode(document.createTextNode(" "));
-            } else {
-                range.insertNode(document.createTextNode(value));
-            }
-            range.collapse(false);
-            setSelectionFocus(range);
-
-            const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-            if (blockRenderElement) {
-                processCodeRender(blockRenderElement, vditor);
-            }
-
-            if (vditor.currentMode === "wysiwyg") {
-                afterRenderEvent(vditor);
-            } else {
-                processAfterRender(vditor);
-            }
-        } else {
-            const position = getSelectPosition(vditor.sv.element, range);
-            const text = getMarkdown(vditor);
-            const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
-            formatRender(vditor, preText + value + text.substring(position.start),
-                {
-                    end: (preText + value).length,
-                    start: (preText + value).length,
-                });
-        }
-    }
-
-    private getKey(currentLineValue: string, splitChar: string) {
-        const lineArray = currentLineValue.split(splitChar);
-        let key;
-        const lastItem = lineArray[lineArray.length - 1];
-        const maxLength = 32;
-        if (lineArray.length > 1 && lastItem.trim() === lastItem) {
-            if (lineArray.length === 2 && lineArray[0] === "" && lineArray[1].length < maxLength) {
-                key = lineArray[1];
-            } else {
-                const preChar = lineArray[lineArray.length - 2].slice(-1);
-                if (code160to32(preChar) === " " && lastItem.length < maxLength) {
-                    key = lastItem;
-                }
-            }
-        }
-        return key;
-    }
-
-    private genHTML(data: IHintData[], key: string, editorElement: HTMLElement, vditor: IVditor) {
+    public genHTML(data: IHintData[], key: string, vditor: IVditor) {
         if (data.length === 0) {
             this.element.style.display = "none";
             return;
+        }
+
+        let editorElement = vditor.sv.element;
+        if (vditor.currentMode === "wysiwyg") {
+            editorElement = vditor.wysiwyg.element;
+        } else if (vditor.currentMode === "ir") {
+            editorElement = vditor.ir.element;
         }
 
         const textareaPosition = getCursorPosition(editorElement);
@@ -184,5 +130,122 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         if (this.element.getBoundingClientRect().bottom > window.innerHeight) {
             this.element.style.top = `${y - this.element.offsetHeight}px`;
         }
+    }
+
+    public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
+        this.element.style.display = "none";
+
+        const value = element.getAttribute("data-value");
+        const splitChar = value.indexOf("@") === 0 ? "@" : ":";
+        const range: Range = window.getSelection().getRangeAt(0);
+
+        if (vditor.currentMode !== "sv") {
+            if (vditor.currentMode === "ir") {
+                const preBeforeElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block-info");
+                if (preBeforeElement) {
+                    preBeforeElement.textContent = Constants.ZWSP + value.trimRight();
+                    range.selectNodeContents(preBeforeElement);
+                    range.collapse(false);
+                    processAfterRender(vditor);
+                    return;
+                }
+            }
+            if (vditor.currentMode === "wysiwyg" && range.startContainer.nodeType !== 3 &&
+                (range.startContainer as HTMLElement).firstElementChild.classList.contains("vditor-input")) {
+                const inputElement = (range.startContainer as HTMLElement).firstElementChild as HTMLInputElement;
+                inputElement.value = value.trimRight();
+                range.selectNodeContents(inputElement);
+                range.collapse(false);
+                inputElement.dispatchEvent(new CustomEvent("input"));
+                return;
+            }
+
+            range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
+            range.deleteContents();
+            if (value.indexOf(":") > -1) {
+                insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
+                range.insertNode(document.createTextNode(" "));
+            } else {
+                range.insertNode(document.createTextNode(value));
+            }
+            range.collapse(false);
+            setSelectionFocus(range);
+
+            if (vditor.currentMode === "wysiwyg") {
+                const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
+                if (blockRenderElement) {
+                    processCodeRender(blockRenderElement, vditor);
+                }
+                afterRenderEvent(vditor);
+            } else {
+                processAfterRender(vditor);
+            }
+        } else {
+            const position = getSelectPosition(vditor.sv.element, range);
+            const text = getMarkdown(vditor);
+            const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
+            formatRender(vditor, preText + value + text.substring(position.start),
+                {
+                    end: (preText + value).length,
+                    start: (preText + value).length,
+                });
+        }
+    }
+
+    public select(event: KeyboardEvent, vditor: IVditor) {
+
+        if (this.element.querySelectorAll("button").length === 0 ||
+            this.element.style.display === "none") {
+            return false;
+        }
+
+        const currentHintElement: HTMLElement = this.element.querySelector(".vditor-hint--current");
+
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            event.stopPropagation();
+            currentHintElement.removeAttribute("class");
+            if (!currentHintElement.nextElementSibling) {
+                this.element.children[0].className = "vditor-hint--current";
+            } else {
+                currentHintElement.nextElementSibling.className = "vditor-hint--current";
+            }
+            return true;
+        } else if (event.key === "ArrowUp") {
+            event.preventDefault();
+            event.stopPropagation();
+            currentHintElement.removeAttribute("class");
+            if (!currentHintElement.previousElementSibling) {
+                const length = this.element.children.length;
+                this.element.children[length - 1].className = "vditor-hint--current";
+            } else {
+                currentHintElement.previousElementSibling.className = "vditor-hint--current";
+            }
+            return true;
+        } else if (event.key === "Enter") {
+            event.preventDefault();
+            event.stopPropagation();
+            this.fillEmoji(currentHintElement, vditor);
+            return true;
+        }
+        return false;
+    }
+
+    private getKey(currentLineValue: string, splitChar: string) {
+        const lineArray = currentLineValue.split(splitChar);
+        let key;
+        const lastItem = lineArray[lineArray.length - 1];
+        const maxLength = 32;
+        if (lineArray.length > 1 && lastItem.trim() === lastItem) {
+            if (lineArray.length === 2 && lineArray[0] === "" && lineArray[1].length < maxLength) {
+                key = lineArray[1];
+            } else {
+                const preChar = lineArray[lineArray.length - 2].slice(-1);
+                if (code160to32(preChar) === " " && lastItem.length < maxLength) {
+                    key = lastItem;
+                }
+            }
+        }
+        return key;
     }
 }

@@ -12,7 +12,7 @@ interface ILuteRender {
                 Type: number,
             },
         }
-    },               entering: boolean) => [string, number];
+    }, entering: boolean) => [string, number];
 }
 
 interface ILute {
@@ -227,8 +227,10 @@ interface IPreview {
     math?: IMath;
     /** @link https://hacpai.com/article/1549638745630#options-preview-markdown */
     markdown?: IMarkdownConfig;
+
     /** 预览回调 */
     parse?(element: HTMLElement): void;
+
     /** 渲染之前回调 */
     transform?(html: string): string;
 }
@@ -383,6 +385,8 @@ interface IVditor {
         element: HTMLDivElement
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
+        genHTML(data: IHintData[], key: string, vditor: IVditor): void
+        select(event: KeyboardEvent, vditor: IVditor): boolean
     };
     tip: {
         element: HTMLElement

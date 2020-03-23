@@ -1,4 +1,5 @@
 import editSVG from "../../assets/icons/edit.svg";
+import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {processAfterRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
@@ -8,7 +9,6 @@ import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {disableToolbar, enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
-import {Constants} from "../constants";
 
 export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     if (event) {

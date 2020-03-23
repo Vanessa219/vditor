@@ -29,13 +29,13 @@ class WysiwygUndo {
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {
-            disableToolbar(vditor.toolbar.elements, ["undo"])
+            disableToolbar(vditor.toolbar.elements, ["undo"]);
         }
 
         if (this.redoStack.length !== 0) {
             enableToolbar(vditor.toolbar.elements, ["redo"]);
         } else {
-            disableToolbar(vditor.toolbar.elements, ["redo"])
+            disableToolbar(vditor.toolbar.elements, ["redo"]);
         }
     }
 
@@ -93,8 +93,8 @@ class WysiwygUndo {
         let cloneRange: Range;
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
             const range = getSelection().getRangeAt(0);
-            cloneRange = range.cloneRange();
             if (vditor.wysiwyg.element.contains(range.startContainer)) {
+                cloneRange = range.cloneRange();
                 range.insertNode(document.createElement("wbr"));
             }
         }

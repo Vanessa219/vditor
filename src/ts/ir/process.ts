@@ -1,14 +1,33 @@
+import {Constants} from "../constants";
 import {isSafari} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
+import {hasClosestByAttribute} from "../util/hasClosest";
+import {getEditorRange} from "../util/selection";
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,
     enableHint: false,
     enableInput: true,
 }) => {
-    if (options.enableHint && vditor.hint) {
+    const startContainer = getEditorRange(vditor.ir.element).startContainer;
+    // 代码块语言提示
+    const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
+    if (options.enableHint && preBeforeElement) {
+        const matchLangData: IHintData[] = [];
+        const key = preBeforeElement.textContent.replace(Constants.ZWSP, "").trim();
+        Constants.CODE_LANGUAGES.forEach((keyName) => {
+            if (keyName.indexOf(key.toLowerCase()) === 0) {
+                matchLangData.push({
+                    html: keyName,
+                    value: keyName,
+                });
+            }
+        });
+        vditor.hint.genHTML(matchLangData, key, vditor);
+    } else if (options.enableHint && vditor.hint) {
         vditor.hint.render(vditor);
     }
+
     clearTimeout(vditor.ir.processTimeoutId);
     vditor.ir.processTimeoutId = window.setTimeout(() => {
         if (vditor.ir.composingLock && isSafari()) {

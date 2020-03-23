@@ -1,8 +1,8 @@
 import redoSVG from "../../assets/icons/redo.svg";
+import {Constants} from "../constants";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {disableToolbar} from "./setToolbar";
-import {Constants} from "../constants";
 
 export class Redo extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

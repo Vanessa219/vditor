@@ -1,10 +1,10 @@
 import recordSVG from "../../assets/icons/record.svg";
+import {Constants} from "../constants";
 import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {RecordMedia} from "./RecordMedia";
-import {Constants} from "../constants";
 
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

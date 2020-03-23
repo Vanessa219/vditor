@@ -1,10 +1,10 @@
 import emojiSVG from "../../assets/icons/emoji.svg";
+import {Constants} from "../constants";
 import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
 import {getEditorRange, insertHTML, setSelectionFocus} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 import {hidePanel} from "./setToolbar";
-import {Constants} from "../constants";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;

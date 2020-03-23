@@ -1,9 +1,9 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {processAfterRender} from "../ir/process";
+import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
-import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
 
 class IRUndo {
     private undoStack: patch_obj[][];
@@ -26,13 +26,13 @@ class IRUndo {
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {
-            disableToolbar(vditor.toolbar.elements, ["undo"])
+            disableToolbar(vditor.toolbar.elements, ["undo"]);
         }
 
         if (this.redoStack.length !== 0) {
             enableToolbar(vditor.toolbar.elements, ["redo"]);
         } else {
-            disableToolbar(vditor.toolbar.elements, ["redo"])
+            disableToolbar(vditor.toolbar.elements, ["redo"]);
         }
     }
 

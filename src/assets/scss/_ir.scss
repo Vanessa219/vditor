@@ -6,11 +6,9 @@
 
 
   &__node {
-    &[data-type="code-block"] {
-      &:before,
-      &:after {
-        content: ' ';
-      }
+    &[data-type="code-block"]:before,
+    span[data-type="code-block-close-marker-zwsp"]:before {
+      content: ' ';
     }
 
     .vditor-ir__marker {
@@ -45,6 +43,10 @@
       &--paren {
         color: var(--ir-paren-color);
       }
+
+      &--info {
+        color: var(--ir-heading-color);
+      }
     }
 
     &--expand {
@@ -54,17 +56,15 @@
         width: auto;
       }
 
-      &[data-type="code-block"] {
-        &:before,
-        &:after {
-          content: '```';
-          color: var(--second-color);
-        }
+      &[data-type="code-block"]:before,
+      span[data-type="code-block-close-marker-zwsp"]:before {
+        content: '```';
+        color: var(--second-color);
       }
     }
 
     span[data-type="code-block-open-marker"],
-    span[data-type="code-block-close-marker"]{
+    span[data-type="code-block-close-marker"] {
       display: none;
     }
   }

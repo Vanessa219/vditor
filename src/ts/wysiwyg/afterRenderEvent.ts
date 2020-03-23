@@ -6,6 +6,9 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
+    if (options.enableHint && vditor.hint) {
+        vditor.hint.render(vditor);
+    }
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
         if (vditor.wysiwyg.composingLock && isSafari()) {
@@ -31,10 +34,6 @@ export const afterRenderEvent = (vditor: IVditor, options = {
 
         if (options.enableAddUndoStack) {
             vditor.wysiwygUndo.addToUndoStack(vditor);
-        }
-
-        if (options.enableHint && vditor.hint) {
-            vditor.hint.render(vditor);
         }
     }, 800);
 };

@@ -1,7 +1,7 @@
 import uploadSVG from "../../assets/icons/upload.svg";
+import {Constants} from "../constants";
 import {uploadFiles} from "../upload/index";
 import {MenuItem} from "./MenuItem";
-import {Constants} from "../constants";
 
 export class Upload extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
