@@ -7,6 +7,7 @@ import { graphvizRender } from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {scrollCenter} from "../util/editorCommenEvent";
 import {hasClosestByTag} from "../util/hasClosest";
 import {setSelectionFocus} from "../util/selection";
 
@@ -34,6 +35,7 @@ export const showCode = (previewElement: HTMLElement, first = true) => {
         range.collapse(false);
     }
     setSelectionFocus(range);
+    scrollCenter(previewElement.parentElement.parentElement);
 };
 
 // html, math, math-inline, code block, abc, chart, mermaid, graphviz
