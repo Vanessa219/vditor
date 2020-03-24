@@ -12,8 +12,8 @@ export const abcRender = (element: (HTMLElement | Document) = document,
         addScript(`${cdn}/dist/js/abcjs/abcjs_basic.min.js`, "vditorAbcjsScript");
         abcElements.forEach((e: HTMLDivElement) => {
             const divElement = document.createElement("div");
-            divElement.style.backgroundColor = "var(--code-background-color)";
-            e.parentNode.parentNode.replaceChild(divElement, e.parentNode);
+            divElement.style.backgroundColor = "var(--preview-background-color)";
+            e.parentNode.replaceChild(divElement, e);
             ABCJS.renderAbc(divElement, e.textContent.trim());
             divElement.style.overflowX = "auto";
         });

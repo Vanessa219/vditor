@@ -66,11 +66,9 @@ export const processAfterRender = (vditor: IVditor, options = {
 export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
     const language = previewPanel.querySelector("code").className.replace("language-", "");
     if (language === "abc") {
-        previewPanel.style.marginTop = "1em";
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {
-        mermaidRender(previewPanel, ".vditor-ir__preview .language-mermaid",
-            vditor.options.cdn);
+        mermaidRender(previewPanel, ".vditor-ir__preview .language-mermaid", vditor.options.cdn);
     } else if (language === "echarts") {
         chartRender(previewPanel, vditor.options.cdn);
     } else if (language === "graphviz") {

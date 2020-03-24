@@ -28,6 +28,7 @@ $transition: all .15s ease-in-out !default;
   --resize-hover-background-color: var(--toolbar-icon-hover-color);
 
   --code-background-color: rgba(27, 31, 35, .05);
+  --preview-background-color: rgba(27, 31, 35, .02);
   --heading-border-color: #eaecef;
   --blockquote-color: #6a737d;
 
@@ -57,6 +58,7 @@ $transition: all .15s ease-in-out !default;
     --resize-hover-background-color: rgba(185, 185, 185, .86);
 
     --code-background-color: #{rgba($blurColor, .36)};
+    --preview-background-color: rgba(120, 146, 190, 0.55);
     --heading-border-color: var(--textarea-text-color);
     --blockquote-color: var(--toolbar-icon-color);
 

@@ -50,6 +50,12 @@
 
       &--pre {
         color: var(--textarea-text-color);
+
+        .language-mermaid,
+        .language-graphviz,
+        .language-echarts {
+          background-color: var(--code-background-color) !important;
+        }
       }
     }
 

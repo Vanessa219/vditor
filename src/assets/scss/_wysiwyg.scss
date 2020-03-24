@@ -69,9 +69,14 @@
       display: none;
 
       & > code {
-        border: 1px solid var(--border-color);
         overflow: auto !important;
         display: block;
+
+        &.language-mermaid,
+        &.language-graphviz,
+        &.language-echarts {
+          background-color: var(--code-background-color) !important;
+        }
       }
     }
 

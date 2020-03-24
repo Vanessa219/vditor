@@ -60,7 +60,6 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         // 代码块下方输入中文会消失，因此要 trim
         previewPanel.innerHTML = `<pre><code class="${codeElement.className}">${innerHTML.trimRight()}</code></pre>`;
         if (language === "abc") {
-            previewPanel.style.marginTop = "1em";
             abcRender(previewPanel, vditor.options.cdn);
         } else if (language === "mermaid") {
             mermaidRender(previewPanel, ".vditor-wysiwyg__preview .language-mermaid",

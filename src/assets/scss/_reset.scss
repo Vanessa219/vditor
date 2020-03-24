@@ -201,6 +201,12 @@
       background-size: 20px 20px;
       white-space: pre-wrap;
       background-color: var(--code-background-color);
+
+      &.language-mermaid,
+      &.language-graphviz,
+      &.language-echarts {
+        background-color: var(--preview-background-color);
+      }
     }
 
     pre > code {
