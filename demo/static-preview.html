@@ -644,8 +644,12 @@ https://www.youtube.com/watch?v=S4xoOW4DVKE
     document.getElementById('VditorForYou').href = '/'
   }
 
+  let textElement = document.getElementById(`${location.search.split('=')[1]}Text`)
+  if (!textElement) {
+    textElement = document.getElementById('zh_CNText')
+  }
   Vditor.preview(document.getElementById('preview'),
-    document.getElementById(`${location.search.split('=')[1]}Text`).textContent, {
+    textElement.textContent, {
       speech: {
         enable: true,
       },

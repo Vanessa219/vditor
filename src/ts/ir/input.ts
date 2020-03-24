@@ -1,7 +1,7 @@
 import {getTopList, hasClosestBlock, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
-import {processAfterRender} from "./process";
+import {processAfterRender, processCodeRender} from "./process";
 
 export const input = (vditor: IVditor, range: Range) => {
     Array.from(vditor.ir.element.querySelectorAll(".vditor-ir__node--expand")).forEach((item) => {
@@ -101,6 +101,11 @@ export const input = (vditor: IVditor, range: Range) => {
     }
 
     setRangeByWbr(vditor.ir.element, range);
+
+    vditor.ir.element.querySelectorAll(".vditor-ir__preview").forEach((item: HTMLElement) => {
+        processCodeRender(item, vditor);
+    });
+
     processAfterRender(vditor, {
         enableAddUndoStack: true,
         enableHint: true,

@@ -3,6 +3,12 @@ import {isSafari} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByAttribute} from "../util/hasClosest";
 import {getEditorRange} from "../util/selection";
+import {abcRender} from "../markdown/abcRender";
+import {mermaidRender} from "../markdown/mermaidRender";
+import {chartRender} from "../markdown/chartRender";
+import {graphvizRender} from "../markdown/graphvizRender";
+import {highlightRender} from "../markdown/highlightRender";
+import {codeRender} from "../markdown/codeRender";
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,
@@ -16,7 +22,7 @@ export const processAfterRender = (vditor: IVditor, options = {
         const matchLangData: IHintData[] = [];
         const key = preBeforeElement.textContent.replace(Constants.ZWSP, "").trim();
         Constants.CODE_LANGUAGES.forEach((keyName) => {
-            if (keyName.indexOf(key.toLowerCase()) === 0) {
+            if (keyName.indexOf(key.toLowerCase()) > -1) {
                 matchLangData.push({
                     html: keyName,
                     value: keyName,
@@ -56,3 +62,22 @@ export const processAfterRender = (vditor: IVditor, options = {
         }
     }, 800);
 };
+
+export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
+    const language = previewPanel.querySelector('code').className.replace('language-', '');
+    if (language === "abc") {
+        previewPanel.style.marginTop = "1em";
+        abcRender(previewPanel, vditor.options.cdn);
+    } else if (language === "mermaid") {
+        mermaidRender(previewPanel, ".vditor-ir__preview .language-mermaid",
+            vditor.options.cdn);
+    } else if (language === "echarts") {
+        chartRender(previewPanel, vditor.options.cdn);
+    } else if (language === "graphviz") {
+        graphvizRender(previewPanel, vditor.options.cdn);
+    } else {
+        highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),
+            previewPanel, vditor.options.cdn);
+        codeRender(previewPanel, vditor.options.lang);
+    }
+}

@@ -645,7 +645,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                         const matchLangData: IHintData[] = [];
                         const key = language.value;
                         Constants.CODE_LANGUAGES.forEach((keyName) => {
-                            if (keyName.indexOf(key.toLowerCase()) === 0) {
+                            if (keyName.indexOf(key.toLowerCase()) > -1) {
                                 matchLangData.push({
                                     html: keyName,
                                     value: keyName,

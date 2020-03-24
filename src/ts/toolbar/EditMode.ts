@@ -1,7 +1,7 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
-import {processAfterRender} from "../ir/process";
+import {processAfterRender, processCodeRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {setPadding} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
@@ -48,6 +48,10 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
            vditor.ir.element.focus();
         }
         setPadding(vditor);
+
+        vditor.ir.element.querySelectorAll(".vditor-ir__preview").forEach((item: HTMLElement) => {
+            processCodeRender(item, vditor);
+        });
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         enableToolbar(vditor.toolbar.elements, allToolbar);

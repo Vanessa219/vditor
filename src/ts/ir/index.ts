@@ -2,12 +2,12 @@ import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
-import { hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByMatchTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
 import {getSelectPosition, insertHTML, setSelectionByPosition} from "../util/selection";
 import {expandMarker} from "./expandMarker";
 import {input} from "./input";
-import {processAfterRender} from "./process";
+import {processAfterRender, processCodeRender} from "./process";
 
 class IR {
     public element: HTMLPreElement;
@@ -79,6 +79,9 @@ class IR {
                     + textPlain + codeElement.textContent.substring(position.end);
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
+                const previewElement = codeElement.parentElement.parentElement.querySelector('.vditor-ir__preview') as HTMLElement
+                previewElement.innerHTML = codeElement.outerHTML
+                processCodeRender(previewElement, vditor)
             } else if (code) {
                 document.execCommand("insertHTML", false, code);
             } else {

@@ -17,8 +17,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 仅处理以下快捷键操作
-    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" &&
-        !isCtrl(event) && event.key !== "Escape") {
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key !== "ArrowLeft" &&
+        event.key !== "ArrowUp" && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }
 
@@ -71,10 +71,24 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // TODO shift + tab, shift and 选中文字
-    }
 
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
+            const codePosition = getSelectPosition(codeRenderElement, range);
+            if ((codePosition.start === 0 ||
+                (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
+                && range.toString() === "") {
+                // Backspace: 光标位于第零个字符，仅删除代码块标签
+                preRenderElement.parentElement.outerHTML =
+                    `<p data-block="0"><wbr>${codeRenderElement.innerHTML}</p>`;
+                setRangeByWbr(vditor.wysiwyg.element, range);
+                processAfterRender(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
+    }
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
-    if (preBeforeElement) {
+    if (preBeforeElement && range.toString() === "") {
         if (event.key === "Backspace" && preBeforeElement.textContent.replace(Constants.ZWSP, "").trim() === "") {
             event.preventDefault();
             return true;
@@ -82,6 +96,25 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (event.key === "Enter") {
             range.selectNodeContents(preBeforeElement.nextElementSibling.firstChild);
             range.collapse(true);
+            event.preventDefault();
+            return true;
+        }
+
+        if (!preBeforeElement.parentElement.previousElementSibling && (event.key === "ArrowUp" || event.key === "ArrowLeft")
+            && getSelectPosition(preBeforeElement, range).start < 2) {
+            preBeforeElement.parentElement.insertAdjacentHTML("beforebegin",
+                `<p data-block="0">${Constants.ZWSP}<wbr></p>`)
+            setRangeByWbr(vditor.ir.element, range);
+            event.preventDefault();
+            return true;
+        }
+    }
+    const preAfterElement = hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker-zwsp");
+    if (preAfterElement) {
+        if (event.key === "Enter") {
+            preAfterElement.parentElement.insertAdjacentHTML("afterend",
+                `<p data-block="0">${Constants.ZWSP}<wbr></p>`)
+            setRangeByWbr(vditor.ir.element, range);
             event.preventDefault();
             return true;
         }

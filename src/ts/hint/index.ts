@@ -7,6 +7,7 @@ import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
+import {processCodeRender as processIRCodeRender} from "../ir/process";
 
 export class Hint {
     public timeId: number;
@@ -147,6 +148,10 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                     range.selectNodeContents(preBeforeElement);
                     range.collapse(false);
                     processAfterRender(vditor);
+                    preBeforeElement.parentElement.querySelectorAll('code').forEach(item => {
+                        item.className = 'language-' + value.trimRight();
+                    })
+                    processIRCodeRender(preBeforeElement.parentElement.querySelector('.vditor-ir__preview'), vditor)
                     return;
                 }
             }
@@ -201,7 +206,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
 
         const currentHintElement: HTMLElement = this.element.querySelector(".vditor-hint--current");
 
-        if (event.key === "ArrowDown") {
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
             event.preventDefault();
             event.stopPropagation();
             currentHintElement.removeAttribute("class");
@@ -211,7 +216,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 currentHintElement.nextElementSibling.className = "vditor-hint--current";
             }
             return true;
-        } else if (event.key === "ArrowUp") {
+        } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
             event.preventDefault();
             event.stopPropagation();
             currentHintElement.removeAttribute("class");

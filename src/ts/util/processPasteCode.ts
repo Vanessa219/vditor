@@ -1,4 +1,3 @@
-
 export const processPasteCode = (html: string, text: string, type = "sv") => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
@@ -26,6 +25,9 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
             if (type === "wysiwyg") {
                 return `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
                     code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
+            }
+            if (type === 'ir') {
+                return "```\n" + code.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "\n```"
             }
             return "```\n" + code + "\n```";
         } else {
