@@ -4,6 +4,7 @@ import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
+import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {isSafari} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
@@ -73,6 +74,10 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         chartRender(previewPanel, vditor.options.cdn);
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);
+    } else if (language === "math") {
+        previewPanel.innerHTML = `<code class="language-math"><div class="vditor-math">${
+            previewPanel.innerHTML}</div></code>`;
+        mathRender(previewPanel.parentElement, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     } else {
         highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),
             previewPanel, vditor.options.cdn);

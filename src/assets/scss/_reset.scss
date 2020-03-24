@@ -203,6 +203,7 @@
       background-color: var(--code-background-color);
 
       &.language-mermaid,
+      &.language-math,
       &.language-graphviz,
       &.language-echarts {
         background-color: var(--preview-background-color);

@@ -1,7 +1,7 @@
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {isCtrl} from "../util/compatibility";
-import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
+import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
 import {getSelectPosition, insertHTML, setSelectionByPosition, setSelectionFocus} from "../util/selection";
@@ -203,6 +203,7 @@ class IR {
                 range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
                 range.collapse(true);
                 setSelectionFocus(range);
+                scrollCenter(this.element);
             }
         });
 
@@ -227,7 +228,7 @@ class IR {
             const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
             if (previewRenderElement && event.key.indexOf("Arrow") > -1) {
                 if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-                    range.selectNodeContents(previewRenderElement.parentElement.querySelector('[data-type="code-block-close-marker-zwsp"]'));
+                    range.selectNodeContents(previewRenderElement.parentElement.lastElementChild);
                 } else {
                     range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
                 }

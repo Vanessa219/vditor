@@ -28,6 +28,9 @@ export const scrollCenter = (editorElement: HTMLElement) => {
     if (cursorTop > center) {
         editorElement.scrollTop = editorElement.scrollTop + (cursorTop - center);
     }
+    if (cursorTop < 0) {
+        editorElement.scrollTop = editorElement.scrollTop + cursorTop;
+    }
 };
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {

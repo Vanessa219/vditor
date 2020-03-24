@@ -85,6 +85,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 return true;
             }
         }
+        // 数学公式上无元素，按上或左将添加新块
+        if ((event.key === "ArrowUp" || event.key === "ArrowLeft") &&
+            codeRenderElement.getAttribute("data-type") === "math-block"
+            && !preRenderElement.parentElement.previousElementSibling &&
+            getSelectPosition(codeRenderElement, range).start === 0) {
+            preRenderElement.parentElement.insertAdjacentHTML("beforebegin",
+                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+            setRangeByWbr(vditor.ir.element, range);
+            event.preventDefault();
+            return true;
+        }
     }
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
     if (preBeforeElement && range.toString() === "") {
@@ -108,7 +119,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
     }
-    const preAfterElement = hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker-zwsp");
+    const preAfterElement = hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker-zwsp")
+        || hasClosestByAttribute(startContainer, "data-type", "math-block-close-marker-zwsp");
     if (preAfterElement) {
         if (event.key === "Enter") {
             preAfterElement.parentElement.insertAdjacentHTML("afterend",

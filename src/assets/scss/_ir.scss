@@ -52,6 +52,7 @@
         color: var(--textarea-text-color);
 
         .language-mermaid,
+        .language-math,
         .language-graphviz,
         .language-echarts {
           background-color: var(--code-background-color) !important;
@@ -71,10 +72,18 @@
         content: '```';
         color: var(--second-color);
       }
+
+      &[data-type="math-block"]:before,
+      span[data-type="math-block-close-marker-zwsp"]:before {
+        content: '$$';
+        color: var(--second-color);
+      }
     }
 
     span[data-type="code-block-open-marker"],
-    span[data-type="code-block-close-marker"] {
+    span[data-type="code-block-close-marker"],
+    span[data-type="math-block-open-marker"],
+    span[data-type="math-block-close-marker"]{
       display: none;
     }
   }
