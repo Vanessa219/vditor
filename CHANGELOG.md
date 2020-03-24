@@ -49,13 +49,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.4 / 未发布
+### v3.0.4 / 2020-03-25
 
 * [232](https://github.com/Vanessa219/vditor/issues/232) 【IR&WYSIWYG】围栏代码块 info 部分自动完成 `引入特性`
 * [230](https://github.com/Vanessa219/vditor/pull/230) 切换 IR 模式后依然展示工具栏 `改进功能`
-
-### v3.0.3 / 2020-03-20
-
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`
 * [229](https://github.com/Vanessa219/vditor/issues/229) 初始化时不应该自动获取焦点 `改进功能`
 * [228](https://github.com/Vanessa219/vditor/pull/228) menu misplaced when vditor is not first child `改进功能`

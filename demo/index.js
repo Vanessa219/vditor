@@ -10,6 +10,9 @@ window.vditor = new Vditor('vditor', {
     markdown: {
       toc: true,
     },
+    hljs: {
+      style: 'native'
+    }
   },
   counter: 100,
   height: 500,
