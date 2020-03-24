@@ -92,11 +92,11 @@ export const processHeading = (vditor: IVditor, value: string) => {
     if (headingElement) {
         if (value === "") {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
-            range.selectNodeContents(headingMarkerElement)
+            range.selectNodeContents(headingMarkerElement);
             document.execCommand("delete");
         } else {
-            range.selectNodeContents(headingElement)
-            range.collapse(true)
+            range.selectNodeContents(headingElement);
+            range.collapse(true);
             document.execCommand("insertHTML", false, value);
         }
         highlightToolbar(vditor);
@@ -121,4 +121,4 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
             processAfterRender(vditor);
         }
     }
-}
+};

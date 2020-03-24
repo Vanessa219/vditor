@@ -1,10 +1,10 @@
 import {Constants} from "../constants";
 import {i18n} from "../i18n/index";
+import {processToolbar} from "../ir/process";
 import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
 import {updateHotkeyTip} from "../util/compatibility";
 import {toolbarEvent} from "../wysiwyg/toolbarEvent";
-import {processToolbar} from "../ir/process";
 
 export class MenuItem {
     public element: HTMLElement;
