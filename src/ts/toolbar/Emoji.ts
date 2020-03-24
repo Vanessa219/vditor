@@ -60,19 +60,30 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
             element.addEventListener(getEventName(), (event: Event) => {
                 event.preventDefault();
                 const value = element.getAttribute("data-value");
-                if (vditor.currentMode === "wysiwyg") {
-                    const range = getEditorRange(vditor.wysiwyg.element);
+                if (vditor.currentMode === "sv") {
+                    insertText(vditor, value, "", true);
+                } else {
+                    let range;
+                    let html = "";
+                    if (vditor.currentMode === "wysiwyg") {
+                        range = getEditorRange(vditor.wysiwyg.element);
+                        html = vditor.lute.SpinVditorDOM(value);
+                    } else if (vditor.currentMode === "ir") {
+                        range = getEditorRange(vditor.ir.element);
+                        html = vditor.lute.SpinVditorIRDOM(value);
+                    }
                     if (value.indexOf(":") > -1) {
-                        insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
-                        range.insertNode(document.createTextNode(" "));
+                        const tempElement = document.createElement("div");
+                        tempElement.innerHTML = html;
+                        html = tempElement.firstElementChild.firstElementChild.outerHTML + " ";
+                        insertHTML(html, vditor);
                     } else {
                         range.insertNode(document.createTextNode(value));
                     }
                     range.collapse(false);
                     setSelectionFocus(range);
-                } else {
-                    insertText(vditor, value, "", true);
                 }
+
                 this.panelElement.style.display = "none";
             });
             element.addEventListener("mouseover", (event: Event) => {

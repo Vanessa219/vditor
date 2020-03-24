@@ -216,7 +216,12 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     const pasteElement = document.createElement("template");
     pasteElement.innerHTML = html;
 
-    const range = getSelection().getRangeAt(0);
+    let range;
+    if (vditor.currentMode === "wysiwyg") {
+        range = getEditorRange(vditor.wysiwyg.element);
+    } else if (vditor.currentMode === "ir") {
+        range = getEditorRange(vditor.ir.element);
+    }
     if (range.toString() !== "") {
         if (vditor.currentMode === "wysiwyg") {
             vditor.wysiwyg.preventInput = true;

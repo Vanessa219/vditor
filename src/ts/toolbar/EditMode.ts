@@ -24,10 +24,13 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     }
     const allToolbar = ["emoji", "headings", "bold", "italic", "strike", "link", "list", "ordered-list", "check",
         "line", "quote", "code", "inline-code", "upload", "record", "table"];
+    enableToolbar(vditor.toolbar.elements, allToolbar);
+    removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
 
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        disableToolbar(vditor.toolbar.elements, allToolbar);
+        disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "link", "list", "ordered-list", "check",
+            "line", "quote", "code", "inline-code", "upload", "record", "table"]);
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
@@ -54,7 +57,6 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         });
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        enableToolbar(vditor.toolbar.elements, allToolbar);
         vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
@@ -72,8 +74,6 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         setPadding(vditor);
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        enableToolbar(vditor.toolbar.elements, allToolbar);
-        removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
         vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";
