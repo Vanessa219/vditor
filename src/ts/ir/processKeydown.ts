@@ -46,7 +46,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement) {
         const codeRenderElement = preRenderElement.firstChild as HTMLElement;
-
+        const codePosition = getSelectPosition(codeRenderElement, range);
         // 换行
         if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
             if (!codeRenderElement.textContent.endsWith("\n")) {
@@ -72,7 +72,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // TODO shift + tab, shift and 选中文字
 
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
-            const codePosition = getSelectPosition(codeRenderElement, range);
             if ((codePosition.start === 0 ||
                 (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
                 && range.toString() === "") {
@@ -90,7 +89,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if ((event.key === "ArrowUp" || event.key === "ArrowLeft") &&
             codeRenderElement.getAttribute("data-type") === "math-block"
             && !preRenderElement.parentElement.previousElementSibling &&
-            getSelectPosition(codeRenderElement, range).start === 0) {
+            codePosition.start === 0) {
             preRenderElement.parentElement.insertAdjacentHTML("beforebegin",
                 `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
             setRangeByWbr(vditor.ir.element, range);
@@ -99,14 +98,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // 代码块下无元素，添加空块
-        if ((event.key === "ArrowDown" || event.key === "ArrowRight") &&
-            getSelectPosition(codeRenderElement, range).start >= codeRenderElement.textContent.trimRight().length) {
+        if ((event.key === "ArrowDown" && codeRenderElement.textContent.trimRight().substr(codePosition.start).indexOf("\n") === -1) ||
+            (event.key === "ArrowRight" && codePosition.start >= codeRenderElement.textContent.trimRight().length)) {
             if (!preRenderElement.parentElement.nextElementSibling) {
                 preRenderElement.parentElement.insertAdjacentHTML("afterend",
                     `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
                 setRangeByWbr(vditor.ir.element, range);
             } else {
-                range.selectNodeContents(preRenderElement.parentElement.nextElementSibling)
+                range.selectNodeContents(preRenderElement.parentElement.nextElementSibling);
                 range.collapse(true);
             }
             event.preventDefault();
