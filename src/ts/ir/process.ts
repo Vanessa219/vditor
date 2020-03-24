@@ -1,14 +1,14 @@
 import {Constants} from "../constants";
+import {abcRender} from "../markdown/abcRender";
+import {chartRender} from "../markdown/chartRender";
+import {codeRender} from "../markdown/codeRender";
+import {graphvizRender} from "../markdown/graphvizRender";
+import {highlightRender} from "../markdown/highlightRender";
+import {mermaidRender} from "../markdown/mermaidRender";
 import {isSafari} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByAttribute} from "../util/hasClosest";
 import {getEditorRange} from "../util/selection";
-import {abcRender} from "../markdown/abcRender";
-import {mermaidRender} from "../markdown/mermaidRender";
-import {chartRender} from "../markdown/chartRender";
-import {graphvizRender} from "../markdown/graphvizRender";
-import {highlightRender} from "../markdown/highlightRender";
-import {codeRender} from "../markdown/codeRender";
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,
@@ -64,7 +64,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 };
 
 export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
-    const language = previewPanel.querySelector('code').className.replace('language-', '');
+    const language = previewPanel.querySelector("code").className.replace("language-", "");
     if (language === "abc") {
         previewPanel.style.marginTop = "1em";
         abcRender(previewPanel, vditor.options.cdn);
@@ -80,4 +80,4 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
             previewPanel, vditor.options.cdn);
         codeRender(previewPanel, vditor.options.lang);
     }
-}
+};

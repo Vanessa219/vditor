@@ -103,7 +103,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (!preBeforeElement.parentElement.previousElementSibling && (event.key === "ArrowUp" || event.key === "ArrowLeft")
             && getSelectPosition(preBeforeElement, range).start < 2) {
             preBeforeElement.parentElement.insertAdjacentHTML("beforebegin",
-                `<p data-block="0">${Constants.ZWSP}<wbr></p>`)
+                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
             setRangeByWbr(vditor.ir.element, range);
             event.preventDefault();
             return true;
@@ -113,7 +113,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (preAfterElement) {
         if (event.key === "Enter") {
             preAfterElement.parentElement.insertAdjacentHTML("afterend",
-                `<p data-block="0">${Constants.ZWSP}<wbr></p>`)
+                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
             setRangeByWbr(vditor.ir.element, range);
             event.preventDefault();
             return true;

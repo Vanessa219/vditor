@@ -79,9 +79,10 @@ class IR {
                     + textPlain + codeElement.textContent.substring(position.end);
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
-                const previewElement = codeElement.parentElement.parentElement.querySelector('.vditor-ir__preview') as HTMLElement
-                previewElement.innerHTML = codeElement.outerHTML
-                processCodeRender(previewElement, vditor)
+                const previewElement =
+                    codeElement.parentElement.parentElement.querySelector(".vditor-ir__preview") as HTMLElement;
+                previewElement.innerHTML = codeElement.outerHTML;
+                processCodeRender(previewElement, vditor);
             } else if (code) {
                 document.execCommand("insertHTML", false, code);
             } else {

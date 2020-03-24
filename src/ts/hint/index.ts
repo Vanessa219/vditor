@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
+import {processCodeRender as processIRCodeRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {code160to32} from "../util/code160to32";
 import {getMarkdown} from "../util/getMarkdown";
@@ -7,7 +8,6 @@ import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {processCodeRender as processIRCodeRender} from "../ir/process";
 
 export class Hint {
     public timeId: number;
@@ -148,10 +148,10 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                     range.selectNodeContents(preBeforeElement);
                     range.collapse(false);
                     processAfterRender(vditor);
-                    preBeforeElement.parentElement.querySelectorAll('code').forEach(item => {
-                        item.className = 'language-' + value.trimRight();
-                    })
-                    processIRCodeRender(preBeforeElement.parentElement.querySelector('.vditor-ir__preview'), vditor)
+                    preBeforeElement.parentElement.querySelectorAll("code").forEach((item) => {
+                        item.className = "language-" + value.trimRight();
+                    });
+                    processIRCodeRender(preBeforeElement.parentElement.querySelector(".vditor-ir__preview"), vditor);
                     return;
                 }
             }
