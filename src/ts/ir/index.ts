@@ -2,9 +2,9 @@ import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
-import {hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
-import {getSelectPosition, insertHTML, setSelectionByPosition} from "../util/selection";
+import {getSelectPosition, insertHTML, setSelectionByPosition, setSelectionFocus} from "../util/selection";
 import {expandMarker} from "./expandMarker";
 import {input} from "./input";
 import {processAfterRender, processCodeRender} from "./process";
@@ -185,6 +185,19 @@ class IR {
             }
 
             expandMarker(getSelection().getRangeAt(0), vditor);
+
+            // 点击后光标落于预览区
+            const range = getSelection().getRangeAt(0);
+            let previewElement = hasClosestByClassName(event.target, "vditor-ir__preview");
+            if (!previewElement) {
+                previewElement = hasClosestByClassName(
+                    range.startContainer, "vditor-ir__preview");
+            }
+            if (previewElement) {
+                range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
+                range.collapse(true);
+                setSelectionFocus(range);
+            }
         });
 
         this.element.addEventListener("keyup", (event) => {
@@ -199,8 +212,22 @@ class IR {
                 vditor.ir.element.innerHTML = "";
                 return;
             }
+
             if (event.key.indexOf("Arrow") > -1) {
                 expandMarker(getSelection().getRangeAt(0), vditor);
+            }
+
+            const range = getSelection().getRangeAt(0);
+            const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
+            if (previewRenderElement && event.key.indexOf("Arrow") > -1) {
+                if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+                    range.selectNodeContents(previewRenderElement.parentElement.querySelector('[data-type="code-block-close-marker-zwsp"]'));
+                } else {
+                    range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
+                }
+                range.collapse(false);
+                event.preventDefault();
+                return true;
             }
         });
     }

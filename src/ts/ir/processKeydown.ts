@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {hasClosestByAttribute, hasClosestByMatchTag, hasClosestByTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
@@ -43,8 +43,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const pElement = hasClosestByMatchTag(startContainer, "P");
-
-    const preRenderElement = hasClosestByTag(startContainer, "PRE");
+    const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement) {
         const codeRenderElement = preRenderElement.firstChild as HTMLElement;
 
