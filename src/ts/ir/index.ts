@@ -224,17 +224,15 @@ class IR {
                 expandMarker(getSelection().getRangeAt(0), vditor);
             }
 
-            const range = getSelection().getRangeAt(0);
-            const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
-            if (previewRenderElement && event.key.indexOf("Arrow") > -1) {
-                if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-                    range.selectNodeContents(previewRenderElement.parentElement.lastElementChild);
-                } else {
+            if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+                const range = getSelection().getRangeAt(0);
+                const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
+                if (previewRenderElement) {
                     range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
+                    range.collapse(false);
+                    event.preventDefault();
+                    return true;
                 }
-                range.collapse(false);
-                event.preventDefault();
-                return true;
             }
         });
     }

@@ -30,7 +30,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "link", "list", "ordered-list", "check",
-            "line", "quote", "code", "inline-code", "upload", "record", "table"]);
+            "line", "quote", "code", "inline-code", "table"]);
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";

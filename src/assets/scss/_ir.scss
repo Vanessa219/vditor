@@ -7,8 +7,11 @@
 
   &__node {
     &[data-type="code-block"]:before,
-    span[data-type="code-block-close-marker-zwsp"]:before {
+    &[data-type="code-block"]:after,
+    &[data-type="math-block"]:before,
+    &[data-type="math-block"]:after {
       content: ' ';
+      color: var(--second-color);
     }
 
     .vditor-ir__marker {
@@ -68,22 +71,20 @@
       }
 
       &[data-type="code-block"]:before,
-      span[data-type="code-block-close-marker-zwsp"]:before {
+      &[data-type="code-block"]:after {
         content: '```';
-        color: var(--second-color);
       }
 
       &[data-type="math-block"]:before,
-      span[data-type="math-block-close-marker-zwsp"]:before {
+      &[data-type="math-block"]:after {
         content: '$$';
-        color: var(--second-color);
       }
     }
 
     span[data-type="code-block-open-marker"],
     span[data-type="code-block-close-marker"],
     span[data-type="math-block-open-marker"],
-    span[data-type="math-block-close-marker"]{
+    span[data-type="math-block-close-marker"] {
       display: none;
     }
   }

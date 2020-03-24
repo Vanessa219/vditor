@@ -17,8 +17,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 仅处理以下快捷键操作
-    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key !== "ArrowLeft" &&
-        event.key !== "ArrowUp" && !isCtrl(event) && event.key !== "Escape") {
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
+        && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }
 
@@ -85,6 +85,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 return true;
             }
         }
+
         // 数学公式上无元素，按上或左将添加新块
         if ((event.key === "ArrowUp" || event.key === "ArrowLeft") &&
             codeRenderElement.getAttribute("data-type") === "math-block"
@@ -96,7 +97,24 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
+
+        // 代码块下无元素，添加空块
+        if ((event.key === "ArrowDown" || event.key === "ArrowRight") &&
+            getSelectPosition(codeRenderElement, range).start >= codeRenderElement.textContent.trimRight().length) {
+            if (!preRenderElement.parentElement.nextElementSibling) {
+                preRenderElement.parentElement.insertAdjacentHTML("afterend",
+                    `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+                setRangeByWbr(vditor.ir.element, range);
+            } else {
+                range.selectNodeContents(preRenderElement.parentElement.nextElementSibling)
+                range.collapse(true);
+            }
+            event.preventDefault();
+            return true;
+
+        }
     }
+    // 代码块语言
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
     if (preBeforeElement && range.toString() === "") {
         if (event.key === "Backspace" && preBeforeElement.textContent.replace(Constants.ZWSP, "").trim() === "") {
@@ -110,20 +128,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
+        // 上无元素，按上或左将添加新块
         if (!preBeforeElement.parentElement.previousElementSibling && (event.key === "ArrowUp" || event.key === "ArrowLeft")
             && getSelectPosition(preBeforeElement, range).start < 2) {
             preBeforeElement.parentElement.insertAdjacentHTML("beforebegin",
-                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-            setRangeByWbr(vditor.ir.element, range);
-            event.preventDefault();
-            return true;
-        }
-    }
-    const preAfterElement = hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker-zwsp")
-        || hasClosestByAttribute(startContainer, "data-type", "math-block-close-marker-zwsp");
-    if (preAfterElement) {
-        if (event.key === "Enter") {
-            preAfterElement.parentElement.insertAdjacentHTML("afterend",
                 `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
             setRangeByWbr(vditor.ir.element, range);
             event.preventDefault();
