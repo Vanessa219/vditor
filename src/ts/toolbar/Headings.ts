@@ -1,5 +1,6 @@
 import headingsSVG from "../../assets/icons/headings.svg";
 import {Constants} from "../constants";
+import {processHeading} from "../ir/process";
 import {insertText} from "../sv/insertText";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
@@ -39,6 +40,8 @@ export class Headings extends MenuItem {
             if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
                 removeHeading(vditor);
                 afterRenderEvent(vditor);
+            } else if (vditor.currentMode === "ir" && actionBtn.classList.contains("vditor-menu--current")) {
+                processHeading(vditor, "");
             } else {
                 if (this.panelElement.style.display === "block") {
                     this.panelElement.style.display = "none";
@@ -55,6 +58,8 @@ export class Headings extends MenuItem {
                 if (vditor.currentMode === "wysiwyg") {
                     setHeading(vditor, (event.target as HTMLElement).getAttribute("data-tag"));
                     afterRenderEvent(vditor);
+                } else if (vditor.currentMode === "ir") {
+                    processHeading(vditor, (event.target as HTMLElement).getAttribute("data-value"));
                 } else {
                     insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                         false, true);

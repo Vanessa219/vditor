@@ -153,17 +153,10 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
 
     let useHighlight = true;
     let useRender = true;
-    if (actionBtn.classList.contains(Constants.CLASS_MENU_DISABLED)) {
-        return;
-    }
     if (vditor.wysiwyg.element.querySelector("wbr")) {
         vditor.wysiwyg.element.querySelector("wbr").remove();
     }
     const range = getEditorRange(vditor.wysiwyg.element);
-    if (!vditor.wysiwyg.element.contains(range.startContainer)) {
-        // 光标位于编辑器之外
-        vditor.wysiwyg.element.focus();
-    }
 
     let commandName = actionBtn.getAttribute("data-type");
 

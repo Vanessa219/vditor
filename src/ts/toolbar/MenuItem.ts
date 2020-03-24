@@ -4,6 +4,7 @@ import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
 import {updateHotkeyTip} from "../util/compatibility";
 import {toolbarEvent} from "../wysiwyg/toolbarEvent";
+import {processToolbar} from "../ir/process";
 
 export class MenuItem {
     public element: HTMLElement;
@@ -30,6 +31,8 @@ export class MenuItem {
             }
             if (vditor.currentMode === "wysiwyg") {
                 toolbarEvent(vditor, this.element.children[0]);
+            } else if (vditor.currentMode === "ir") {
+                processToolbar(vditor, this.element.children[0]);
             } else {
                 insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                     replace, true);

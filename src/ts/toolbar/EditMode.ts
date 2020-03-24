@@ -8,7 +8,7 @@ import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
-import {disableToolbar, enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
 
 export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     if (event) {
@@ -27,10 +27,10 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     enableToolbar(vditor.toolbar.elements, allToolbar);
     removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
 
+    const irUnUsedToolbar = ["bold", "italic", "strike", "link", "list", "ordered-list", "check", "quote", "code", "inline-code", "table"]
+    showToolbar(vditor.toolbar.elements, irUnUsedToolbar)
     if (type === "ir") {
-        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "link", "list", "ordered-list", "check",
-            "line", "quote", "code", "inline-code", "table"]);
+        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"].concat(irUnUsedToolbar));
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";
@@ -48,7 +48,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
 
         if (event) {
             // 初始化不 focus
-           vditor.ir.element.focus();
+            vditor.ir.element.focus();
         }
         setPadding(vditor);
 

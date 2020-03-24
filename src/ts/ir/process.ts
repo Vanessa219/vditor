@@ -8,8 +8,9 @@ import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {isSafari} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
-import {hasClosestByAttribute} from "../util/hasClosest";
-import {getEditorRange} from "../util/selection";
+import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
+import {getEditorRange, setRangeByWbr} from "../util/selection";
+import {highlightToolbar} from "./highlightToolbar";
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,
@@ -84,3 +85,40 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         codeRender(previewPanel, vditor.options.lang);
     }
 };
+
+export const processHeading = (vditor: IVditor, value: string) => {
+    const range = getSelection().getRangeAt(0);
+    const headingElement = hasClosestBlock(range.startContainer);
+    if (headingElement) {
+        if (value === "") {
+            const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
+            range.selectNodeContents(headingMarkerElement)
+            document.execCommand("delete");
+        } else {
+            range.selectNodeContents(headingElement)
+            range.collapse(true)
+            document.execCommand("insertHTML", false, value);
+        }
+        highlightToolbar(vditor);
+    }
+};
+
+export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
+    const range = getEditorRange(vditor.ir.element);
+    const commandName = actionBtn.getAttribute("data-type");
+    // 移除
+    if (actionBtn.classList.contains("vditor-menu--current")) {
+
+    } else {
+        // 添加
+        if (commandName === "line") {
+            let element = range.startContainer as HTMLElement;
+            if (element.nodeType === 3) {
+                element = range.startContainer.parentElement;
+            }
+            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            setRangeByWbr(vditor.ir.element, range);
+            processAfterRender(vditor);
+        }
+    }
+}

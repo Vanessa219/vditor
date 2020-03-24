@@ -6,12 +6,14 @@ import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
 import {getSelectPosition, insertHTML, setSelectionByPosition, setSelectionFocus} from "../util/selection";
 import {expandMarker} from "./expandMarker";
+import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {processAfterRender, processCodeRender} from "./process";
 
 class IR {
     public element: HTMLPreElement;
     public processTimeoutId: number;
+    public hlToolbarTimeoutId: number;
     public composingLock: boolean = false;
     public preventInput: boolean;
 
@@ -191,6 +193,7 @@ class IR {
             }
 
             expandMarker(getSelection().getRangeAt(0), vditor);
+            highlightToolbar(vditor);
 
             // 点击后光标落于预览区
             const range = getSelection().getRangeAt(0);
@@ -211,6 +214,7 @@ class IR {
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
+            highlightToolbar(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.ir.element.innerHTML !== "" && vditor.ir.element.childNodes.length === 1 &&
                 vditor.ir.element.firstElementChild && vditor.ir.element.firstElementChild.tagName === "P"

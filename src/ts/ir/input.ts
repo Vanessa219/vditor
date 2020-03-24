@@ -41,6 +41,7 @@ export const input = (vditor: IVditor, range: Range) => {
         }
 
         if (startSpace || endSpace) {
+            blockElement.classList.add("vditor-ir__node--expand");
             return;
         }
     }

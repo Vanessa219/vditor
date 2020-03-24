@@ -212,4 +212,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
         }
     }
+
+    if (event.key === "Enter") {
+        scrollCenter(vditor.ir.element);
+    }
+
+    return false;
 };
