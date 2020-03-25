@@ -44,7 +44,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const pElement = hasClosestByMatchTag(startContainer, "P");
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
-    if (preRenderElement) {
+    if (preRenderElement && preRenderElement.tagName === "PRE") {
         const codeRenderElement = preRenderElement.firstChild as HTMLElement;
         const codePosition = getSelectPosition(codeRenderElement, range);
         // 换行
@@ -97,10 +97,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        // 代码块下无元素，添加空块
+        // 代码块下无元素或者为代码块元素，添加空块
         if ((event.key === "ArrowDown" && codeRenderElement.textContent.trimRight().substr(codePosition.start).indexOf("\n") === -1) ||
             (event.key === "ArrowRight" && codePosition.start >= codeRenderElement.textContent.trimRight().length)) {
-            if (!preRenderElement.parentElement.nextElementSibling) {
+            const nextElement = preRenderElement.parentElement.nextElementSibling
+            if (!nextElement || (nextElement && nextElement.getAttribute('data-type'))) {
                 preRenderElement.parentElement.insertAdjacentHTML("afterend",
                     `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
                 setRangeByWbr(vditor.ir.element, range);
@@ -151,7 +152,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.insertNode(document.createTextNode("\n"));
             range.collapse(false);
             processAfterRender(vditor);
-            // processCodeRender(liElement, vditor);
             event.preventDefault();
             return true;
         }

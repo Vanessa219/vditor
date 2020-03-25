@@ -76,8 +76,11 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);
     } else if (language === "math") {
-        previewPanel.innerHTML = `<code class="language-math"><div class="vditor-math">${
-            previewPanel.innerHTML}</div></code>`;
+        let tag = "div";
+        if (previewPanel.tagName === "SPAN") {
+            tag = "span";
+        }
+        previewPanel.innerHTML = `<code class="language-math"><${tag} class="vditor-math">${previewPanel.innerHTML}</${tag}></code>`;
         mathRender(previewPanel.parentElement, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     } else {
         highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),

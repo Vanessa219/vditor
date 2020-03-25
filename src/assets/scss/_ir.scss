@@ -14,60 +14,65 @@
       color: var(--second-color);
     }
 
+
+    &:not(.vditor-ir__node--expand) .vditor-ir__marker {
+      padding: 0 !important;
+    }
+
     .vditor-ir__marker {
-      color: var(--second-color);
       width: 0;
       overflow: hidden;
       display: inline-block;
       height: 0;
       transition: $transition;
-
-      &--heading {
-        color: var(--ir-heading-color);
-      }
-
-      &--bi {
-        color: var(--ir-bi-color);
-      }
-
-      &--link {
-        color: var(--ir-link-color);
-      }
-
-      &--title {
-        color: var(--ir-title-color);
-      }
-
-      &--bracket {
-        color: var(--ir-bracket-color);
-        text-decoration: underline;
-      }
-
-      &--paren {
-        color: var(--ir-paren-color);
-      }
-
-      &--info {
-        color: var(--ir-heading-color);
-      }
-
-      &--pre {
-        color: var(--textarea-text-color);
-
-        .language-mermaid,
-        .language-math,
-        .language-graphviz,
-        .language-echarts {
-          background-color: var(--code-background-color) !important;
-        }
-      }
     }
 
     &--expand {
       .vditor-ir__marker {
+        color: var(--second-color);
         display: inline;
         height: auto;
         width: auto;
+
+        &--heading {
+          color: var(--ir-heading-color);
+        }
+
+        &--bi {
+          color: var(--ir-bi-color);
+        }
+
+        &--link {
+          color: var(--ir-link-color);
+        }
+
+        &--title {
+          color: var(--ir-title-color);
+        }
+
+        &--bracket {
+          color: var(--ir-bracket-color);
+          text-decoration: underline;
+        }
+
+        &--paren {
+          color: var(--ir-paren-color);
+        }
+
+        &--info {
+          color: var(--ir-heading-color);
+        }
+
+        &--pre {
+          color: var(--textarea-text-color);
+
+          .language-mermaid,
+          .language-math,
+          .language-graphviz,
+          .language-echarts {
+            background-color: var(--code-background-color) !important;
+          }
+        }
       }
 
       &[data-type="code-block"]:before,

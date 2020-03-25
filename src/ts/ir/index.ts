@@ -4,7 +4,12 @@ import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
-import {getSelectPosition, insertHTML, setSelectionByPosition, setSelectionFocus} from "../util/selection";
+import {
+    getSelectPosition,
+    insertHTML,
+    setSelectionByPosition,
+    setSelectionFocus
+} from "../util/selection";
 import {expandMarker} from "./expandMarker";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
@@ -203,7 +208,12 @@ class IR {
                     range.startContainer, "vditor-ir__preview");
             }
             if (previewElement) {
-                range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
+                if (previewElement.previousElementSibling.firstElementChild) {
+                    range.selectNodeContents(previewElement.previousElementSibling.firstElementChild);
+                } else {
+                    // 行内数学公式
+                    range.selectNodeContents(previewElement.previousElementSibling);
+                }
                 range.collapse(true);
                 setSelectionFocus(range);
                 scrollCenter(this.element);
@@ -228,11 +238,25 @@ class IR {
                 expandMarker(getSelection().getRangeAt(0), vditor);
             }
 
-            if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
-                const range = getSelection().getRangeAt(0);
-                const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
-                if (previewRenderElement) {
-                    range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
+            const range = getSelection().getRangeAt(0);
+            const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
+
+            if (previewRenderElement) {
+                if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+                    if (previewRenderElement.previousElementSibling.firstElementChild) {
+                        range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
+                    } else {
+                        // 行内数学公式
+                        range.selectNodeContents(previewRenderElement.previousElementSibling);
+                    }
+                    range.collapse(false);
+                    event.preventDefault();
+                    return true;
+                }
+                // 行内数学公式
+                if (previewRenderElement.tagName === "SPAN" &&
+                    (event.key === "ArrowDown" || event.key === "ArrowRight")) {
+                    range.selectNodeContents(previewRenderElement.parentElement.lastElementChild)
                     range.collapse(false);
                     event.preventDefault();
                     return true;

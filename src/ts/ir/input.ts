@@ -1,4 +1,4 @@
-import {getTopList, hasClosestBlock, hasClosestByTag} from "../util/hasClosest";
+import {getTopList, hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender, processCodeRender} from "./process";
@@ -51,6 +51,16 @@ export const input = (vditor: IVditor, range: Range) => {
         blockElement = vditor.ir.element;
     }
     if (!blockElement.querySelector("wbr")) {
+        const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
+        if (previewRenderElement) {
+            // 光标如果落在预览区域中，则重置到代码区域
+            if (previewRenderElement.previousElementSibling.firstElementChild) {
+                range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
+            } else {
+                range.selectNodeContents(previewRenderElement.previousElementSibling);
+            }
+            range.collapse(false);
+        }
         // document.exeComment insertHTML 会插入 wbr
         range.insertNode(document.createElement("wbr"));
     }
