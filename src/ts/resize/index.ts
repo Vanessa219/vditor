@@ -15,10 +15,9 @@ export class Resize {
         this.element.addEventListener("mousedown", (event: MouseEvent) => {
 
             const documentSelf = document;
-            const vditorElement = document.getElementById(vditor.id);
             const y = event.clientY;
-            const height = vditorElement.offsetHeight;
-            const minHeight = 63 + vditorElement.querySelector(".vditor-toolbar").clientHeight;
+            const height = vditor.el.offsetHeight;
+            const minHeight = 63 + vditor.el.querySelector(".vditor-toolbar").clientHeight;
             documentSelf.ondragstart = () => false;
 
             if (window.captureEvents) {
@@ -29,9 +28,9 @@ export class Resize {
 
             documentSelf.onmousemove = (moveEvent: MouseEvent) => {
                 if (vditor.options.resize.position === "top") {
-                    vditorElement.style.height = Math.max(minHeight, height + (y - moveEvent.clientY)) + "px";
+                    vditor.el.style.height = Math.max(minHeight, height + (y - moveEvent.clientY)) + "px";
                 } else {
-                    vditorElement.style.height = Math.max(minHeight, height + (moveEvent.clientY - y)) + "px";
+                    vditor.el.style.height = Math.max(minHeight, height + (moveEvent.clientY - y)) + "px";
                 }
                 if (vditor.options.typewriterMode) {
                     vditor.sv.element.style.paddingBottom =
@@ -41,7 +40,7 @@ export class Resize {
 
             documentSelf.onmouseup = () => {
                 if (vditor.options.resize.after) {
-                    vditor.options.resize.after(vditorElement.offsetHeight - height);
+                    vditor.options.resize.after(vditor.el.offsetHeight - height);
                 }
 
                 if (window.captureEvents) {

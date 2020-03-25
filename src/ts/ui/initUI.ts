@@ -6,20 +6,19 @@ import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setTheme} from "./setTheme";
 
 export const initUI = (vditor: IVditor) => {
-    const vditorElement = document.getElementById(vditor.id);
-    vditorElement.innerHTML = "";
-    vditorElement.classList.add("vditor");
+    vditor.el.innerHTML = "";
+    vditor.el.classList.add("vditor");
     setTheme(vditor);
     if (typeof vditor.options.height === "number") {
-        vditorElement.style.height = vditor.options.height + "px";
+        vditor.el.style.height = vditor.options.height + "px";
     }
     if (typeof vditor.options.width === "number") {
-        vditorElement.style.width = vditor.options.width + "px";
+        vditor.el.style.width = vditor.options.width + "px";
     } else {
-        vditorElement.style.width = vditor.options.width;
+        vditor.el.style.width = vditor.options.width;
     }
 
-    vditorElement.appendChild(vditor.toolbar.element);
+    vditor.el.appendChild(vditor.toolbar.element);
 
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";
@@ -56,7 +55,7 @@ export const initUI = (vditor: IVditor) => {
 
     contentElement.appendChild(vditor.tip.element);
 
-    vditorElement.appendChild(contentElement);
+    vditor.el.appendChild(contentElement);
 
     afterRender(vditor, contentElement);
 
@@ -95,13 +94,16 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     });
 
     // set default value
-    let initValue = localStorage.getItem("vditor" + vditor.id);
-    if (!vditor.options.cache || !initValue) {
+    let initValue =
+        typeof vditor.cacheKey === "string"
+            ? localStorage.getItem(vditor.cacheKey)
+            : "";
+    if (!vditor.cacheKey || !initValue) {
         if (vditor.options.value) {
             initValue = vditor.options.value;
         } else if (vditor.originalInnerHTML) {
             initValue = html2md(vditor, vditor.originalInnerHTML);
-        } else if (!vditor.options.cache) {
+        } else if (!vditor.cacheKey) {
             initValue = "";
         }
     }

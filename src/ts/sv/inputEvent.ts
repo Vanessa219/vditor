@@ -14,8 +14,8 @@ export const inputEvent = (vditor: IVditor, options = {
     if (vditor.hint && options.enableHint) {
         vditor.hint.render(vditor);
     }
-    if (vditor.options.cache) {
-        localStorage.setItem(`vditor${vditor.id}`, getMarkdown(vditor));
+    if (vditor.cacheKey) {
+        localStorage.setItem(vditor.cacheKey, getMarkdown(vditor));
     }
     if (vditor.preview) {
         vditor.preview.render(vditor);
