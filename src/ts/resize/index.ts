@@ -16,8 +16,8 @@ export class Resize {
 
             const documentSelf = document;
             const y = event.clientY;
-            const height = vditor.el.offsetHeight;
-            const minHeight = 63 + vditor.el.querySelector(".vditor-toolbar").clientHeight;
+            const height = vditor.element.offsetHeight;
+            const minHeight = 63 + vditor.element.querySelector(".vditor-toolbar").clientHeight;
             documentSelf.ondragstart = () => false;
 
             if (window.captureEvents) {
@@ -28,9 +28,9 @@ export class Resize {
 
             documentSelf.onmousemove = (moveEvent: MouseEvent) => {
                 if (vditor.options.resize.position === "top") {
-                    vditor.el.style.height = Math.max(minHeight, height + (y - moveEvent.clientY)) + "px";
+                    vditor.element.style.height = Math.max(minHeight, height + (y - moveEvent.clientY)) + "px";
                 } else {
-                    vditor.el.style.height = Math.max(minHeight, height + (moveEvent.clientY - y)) + "px";
+                    vditor.element.style.height = Math.max(minHeight, height + (moveEvent.clientY - y)) + "px";
                 }
                 if (vditor.options.typewriterMode) {
                     vditor.sv.element.style.paddingBottom =
@@ -40,7 +40,7 @@ export class Resize {
 
             documentSelf.onmouseup = () => {
                 if (vditor.options.resize.after) {
-                    vditor.options.resize.after(vditor.el.offsetHeight - height);
+                    vditor.options.resize.after(vditor.element.offsetHeight - height);
                 }
 
                 if (window.captureEvents) {

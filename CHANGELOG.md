@@ -49,6 +49,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.0.5 / undefined
+ 
+* [231](https://github.com/Vanessa219/vditor/issues/231) 支持直接传入元素进行初始化 `引入特性`
+
 ### v3.0.4 / 2020-03-25
 
 * [232](https://github.com/Vanessa219/vditor/issues/232) 【IR&WYSIWYG】围栏代码块 info 部分自动完成 `引入特性`
@@ -66,6 +70,8 @@
 * 文档更新
   * 修改 `options.mode` 可选值为：'sv', 'wysiwyg', 'ir'
   * toolbar 中的 wysiwyg 修改为 'edit-mode'
+  * id 可以传入 element
+  * cache 修改为 {enable: boolean, id: string}
 
 ### v2.3.0 / 2020-03-12
 

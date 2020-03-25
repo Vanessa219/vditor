@@ -4,7 +4,9 @@ export class Options {
     public options: IOptions;
     private defaultOptions: IOptions = {
         after: undefined,
-        cache: true,
+        cache: {
+            enable: true,
+        },
         cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
         classes: {
             preview: "",
@@ -231,6 +233,13 @@ export class Options {
 
             if (this.options.upload) {
                 this.options.upload = Object.assign({}, this.defaultOptions.upload, this.options.upload);
+            }
+
+            if (this.options.cache) {
+                this.options.cache = Object.assign({}, this.defaultOptions.cache, this.options.cache);
+                if (this.options.cache && !this.options.cache.id) {
+                    throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");
+                }
             }
 
             if (this.options.classes) {

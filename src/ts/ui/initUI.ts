@@ -6,19 +6,19 @@ import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setTheme} from "./setTheme";
 
 export const initUI = (vditor: IVditor) => {
-    vditor.el.innerHTML = "";
-    vditor.el.classList.add("vditor");
+    vditor.element.innerHTML = "";
+    vditor.element.classList.add("vditor");
     setTheme(vditor);
     if (typeof vditor.options.height === "number") {
-        vditor.el.style.height = vditor.options.height + "px";
+        vditor.element.style.height = vditor.options.height + "px";
     }
     if (typeof vditor.options.width === "number") {
-        vditor.el.style.width = vditor.options.width + "px";
+        vditor.element.style.width = vditor.options.width + "px";
     } else {
-        vditor.el.style.width = vditor.options.width;
+        vditor.element.style.width = vditor.options.width;
     }
 
-    vditor.el.appendChild(vditor.toolbar.element);
+    vditor.element.appendChild(vditor.toolbar.element);
 
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";
@@ -55,7 +55,7 @@ export const initUI = (vditor: IVditor) => {
 
     contentElement.appendChild(vditor.tip.element);
 
-    vditor.el.appendChild(contentElement);
+    vditor.element.appendChild(contentElement);
 
     afterRender(vditor, contentElement);
 
@@ -94,16 +94,13 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     });
 
     // set default value
-    let initValue =
-        typeof vditor.cacheKey === "string"
-            ? localStorage.getItem(vditor.cacheKey)
-            : "";
-    if (!vditor.cacheKey || !initValue) {
+    let initValue = localStorage.getItem(vditor.options.cache.id);
+    if (!vditor.options.cache.enable || !initValue) {
         if (vditor.options.value) {
             initValue = vditor.options.value;
         } else if (vditor.originalInnerHTML) {
             initValue = html2md(vditor, vditor.originalInnerHTML);
-        } else if (!vditor.cacheKey) {
+        } else if (!vditor.options.cache.enable) {
             initValue = "";
         }
     }

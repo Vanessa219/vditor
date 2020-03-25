@@ -38,47 +38,35 @@ class Vditor extends VditorMethod {
     public vditor: IVditor;
 
     /**
-     * @param target 要挂载 Vditor 的元素或者元素 ID。
+     * @param id 要挂载 Vditor 的元素或者元素 ID。
      * @param options Vditor 参数
      */
-    constructor(target: string | HTMLElement, options?: IOptions) {
+    constructor(id: string | HTMLElement, options?: IOptions) {
         super();
         this.version = VDITOR_VERSION;
-        const id = typeof target === "string" ? target : undefined;
-        const el =
-            target instanceof HTMLElement
-                ? target
-                : document.getElementById(id);
 
-        let cacheKey: string | undefined;
-        if (options.cache === false) {
-            cacheKey = undefined;
-        } else if (typeof options.cache === "string") {
-            cacheKey = options.cache;
-        } else if (id) {
-            cacheKey = `vditor${id}`;
-        } else if (options.cache === true) {
-            throw new Error(
-                "Options cache must be a string when init without id.",
-            );
+        if (typeof id === "string") {
+            id = document.getElementById(id);
+            if (!options.cache.id) {
+                options.cache.id = `vditor${id}`;
+            }
         }
 
         const getOptions = new Options(options);
         const mergedOptions = getOptions.merge();
 
         if (!(mergedOptions.lang === "en_US" || mergedOptions.lang === "ko_KR" || mergedOptions.lang === "zh_CN")) {
-            console.error("options.lang error, see https://hacpai.com/article/1549638745630#options");
+            throw new Error("options.lang error, see https://hacpai.com/article/1549638745630#options");
             return;
         }
 
         this.vditor = {
-            cacheKey,
             currentMode: mergedOptions.mode,
             currentPreviewMode: mergedOptions.preview.mode,
-            el,
+            element: id,
             lute: undefined,
             options: mergedOptions,
-            originalInnerHTML: el.innerHTML,
+            originalInnerHTML: id.innerHTML,
             tip: new Tip(),
         };
 
@@ -228,34 +216,21 @@ class Vditor extends VditorMethod {
 
     /** 清除缓存 */
     public clearCache() {
-        if (typeof this.vditor.cacheKey !== "string") {
-            return;
-        }
-        localStorage.removeItem(this.vditor.cacheKey);
+        localStorage.removeItem(this.vditor.options.cache.id);
     }
 
     /** 禁用缓存 */
     public disabledCache() {
-        this.vditor.cacheKey = undefined;
+        this.vditor.options.cache.enable = false;
     }
 
-    /** 启用缓存
-     * @param key 缓存 key，默认和初始化时相同。
-     */
-    public enableCache(key?: string) {
-        if (typeof key === "string") {
-            this.vditor.cacheKey = key;
+    /** 启用缓存 */
+    public enableCache() {
+        if (!this.vditor.options.cache.id) {
+            throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");
             return;
         }
-        if (this.vditor.cacheKey) {
-            return;
-        }
-
-        if (this.vditor.el.id) {
-            this.vditor.cacheKey = `vditor${this.vditor.el.id}`;
-            return;
-        }
-        throw new Error("Missing cache key.");
+        this.vditor.options.cache.enable = true;
     }
 
     /** HTML 转 md */
@@ -349,7 +324,7 @@ class Vditor extends VditorMethod {
         }
 
         if (!markdown) {
-            this.clearCache()
+            this.clearCache();
         }
     }
 }

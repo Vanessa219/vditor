@@ -51,8 +51,8 @@ export const processAfterRender = (vditor: IVditor, options = {
             vditor.counter.render(text.length, vditor.options.counter);
         }
 
-        if (vditor.cacheKey) {
-            localStorage.setItem(vditor.cacheKey, text);
+        if (vditor.options.cache.enable) {
+            localStorage.setItem(vditor.options.cache.id, text);
         }
 
         if (vditor.devtools) {

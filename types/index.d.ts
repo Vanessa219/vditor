@@ -303,22 +303,11 @@ interface IOptions {
     resize?: IResize;
     /** 计数器。默认值: '0' */
     counter?: number;
-    /** 
-     * 是否使用 localStorage 进行缓存。
-     * 
-     * 为 string 时使用传入值作为 key 。
-     * 
-     * 使用元素 id 初始化时:
-     *    true:  启用，`vditor${id}` 作为 key。
-     *    false: 禁用。
-     *    默认: true
-     * 
-     * 使用元素初始化时:
-     *    true:  报错，必须使用 string。
-     *    false: 禁用。
-     *    默认: false
-     */
-    cache?: boolean | string;
+    /** 是否使用 localStorage 进行缓存。默认值: {enable: true} */
+    cache?: {
+        id?: string;
+        enable?: boolean;
+    };
     /** 编辑模式。默认值: 'wysiwyg' */
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://hacpai.com/article/1549638745630#options-preview */
@@ -363,9 +352,8 @@ interface IEChart {
 }
 
 interface IVditor {
-    el: HTMLElement;
-    cacheKey?: string;
-    options: Omit<IOptions, "cache">;
+    element: HTMLElement;
+    options: IOptions;
     originalInnerHTML: string;
     lute: ILute;
     currentMode: "sv" | "wysiwyg" | "ir";
