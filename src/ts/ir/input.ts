@@ -50,7 +50,7 @@ export const input = (vditor: IVditor, range: Range) => {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.ir.element;
     }
-    if (!blockElement.querySelector('wbr')) {
+    if (!blockElement.querySelector("wbr")) {
         // document.exeComment insertHTML 会插入 wbr
         range.insertNode(document.createElement("wbr"));
     }

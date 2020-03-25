@@ -18,28 +18,28 @@ export const highlightToolbar = (vditor: IVditor) => {
         enableToolbar(vditor.toolbar.elements, allToolbar);
 
         const range = getEditorRange(vditor.ir.element);
-        let typeElement = range.startContainer as HTMLElement
+        let typeElement = range.startContainer as HTMLElement;
         if (range.startContainer.nodeType === 3) {
             typeElement = range.startContainer.parentElement;
         }
         if (typeElement.classList.contains("vditor-reset")) {
-            typeElement = typeElement.childNodes[range.startOffset] as HTMLElement
+            typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 
-        const headingElement = hasClosestByTag(typeElement, "H")
+        const headingElement = hasClosestByTag(typeElement, "H");
         if (headingElement && headingElement.tagName.length === 2) {
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
         }
 
-        const quoteElement = hasClosestByMatchTag(typeElement, "BLOCKQUOTE")
+        const quoteElement = hasClosestByMatchTag(typeElement, "BLOCKQUOTE");
         if (quoteElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["quote"]);
         }
-        const aElement = hasClosestByAttribute(typeElement, "data-type", "a")
+        const aElement = hasClosestByAttribute(typeElement, "data-type", "a");
         if (aElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
-        const emElement = hasClosestByAttribute(typeElement, "data-type", "em")
+        const emElement = hasClosestByAttribute(typeElement, "data-type", "em");
         if (emElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["italic"]);
         }

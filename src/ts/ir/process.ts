@@ -106,9 +106,9 @@ export const processHeading = (vditor: IVditor, value: string) => {
 export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
     const range = getEditorRange(vditor.ir.element);
     const commandName = actionBtn.getAttribute("data-type");
-    let typeElement = range.startContainer as HTMLElement
+    let typeElement = range.startContainer as HTMLElement;
     if (range.startContainer.nodeType !== 3 && typeElement.classList.contains("vditor-reset")) {
-        typeElement = typeElement.childNodes[range.startOffset] as HTMLElement
+        typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
     }
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
@@ -122,12 +122,12 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
         } else if (commandName === "link") {
             const aElement = hasClosestByAttribute(range.startContainer, "data-type", "a") as HTMLElement;
             if (aElement) {
-                const aTextElement = hasClosestByClassName(range.startContainer, "vditor-ir__link")
+                const aTextElement = hasClosestByClassName(range.startContainer, "vditor-ir__link");
                 if (aTextElement) {
                     range.insertNode(document.createElement("wbr"));
                     aElement.outerHTML = aTextElement.innerHTML;
                 } else {
-                    aElement.outerHTML = aElement.querySelector('.vditor-ir__link').innerHTML + "<wbr>"
+                    aElement.outerHTML = aElement.querySelector(".vditor-ir__link").innerHTML + "<wbr>";
                 }
             }
         }
@@ -148,13 +148,13 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
             }
         } else if (commandName === "link") {
             if (range.toString() === "") {
-                document.execCommand("insertHTML", false, "[<wbr>]()")
+                document.execCommand("insertHTML", false, "[<wbr>]()");
             } else {
-                document.execCommand("insertHTML", false, `[${range.toString()}](<wbr>)`)
+                document.execCommand("insertHTML", false, `[${range.toString()}](<wbr>)`);
             }
         }
     }
     setRangeByWbr(vditor.ir.element, range);
     processAfterRender(vditor);
     highlightToolbar(vditor);
-}
+};
