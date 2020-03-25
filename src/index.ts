@@ -37,9 +37,31 @@ class Vditor extends VditorMethod {
     public readonly version: string;
     public vditor: IVditor;
 
-    constructor(id: string, options?: IOptions) {
+    /**
+     * @param target 要挂载 Vditor 的元素或者元素 ID。
+     * @param options Vditor 参数
+     */
+    constructor(target: string | HTMLElement, options?: IOptions) {
         super();
         this.version = VDITOR_VERSION;
+        const id = typeof target === "string" ? target : undefined;
+        const el =
+            target instanceof HTMLElement
+                ? target
+                : document.getElementById(id);
+
+        let cacheKey: string | undefined;
+        if (options.cache === false) {
+            cacheKey = undefined;
+        } else if (typeof options.cache === "string") {
+            cacheKey = options.cache;
+        } else if (id) {
+            cacheKey = `vditor${id}`;
+        } else if (options.cache === true) {
+            throw new Error(
+                "Options cache must be a string when init without id.",
+            );
+        }
 
         const getOptions = new Options(options);
         const mergedOptions = getOptions.merge();
@@ -50,12 +72,13 @@ class Vditor extends VditorMethod {
         }
 
         this.vditor = {
+            cacheKey,
             currentMode: mergedOptions.mode,
             currentPreviewMode: mergedOptions.preview.mode,
-            id,
+            el,
             lute: undefined,
             options: mergedOptions,
-            originalInnerHTML: document.getElementById(id).innerHTML,
+            originalInnerHTML: el.innerHTML,
             tip: new Tip(),
         };
 
@@ -205,17 +228,34 @@ class Vditor extends VditorMethod {
 
     /** 清除缓存 */
     public clearCache() {
-        localStorage.removeItem("vditor" + this.vditor.id);
+        if (typeof this.vditor.cacheKey !== "string") {
+            return;
+        }
+        localStorage.removeItem(this.vditor.cacheKey);
     }
 
     /** 禁用缓存 */
     public disabledCache() {
-        this.vditor.options.cache = false;
+        this.vditor.cacheKey = undefined;
     }
 
-    /** 启用缓存 */
-    public enableCache() {
-        this.vditor.options.cache = true;
+    /** 启用缓存
+     * @param key 缓存 key，默认和初始化时相同。
+     */
+    public enableCache(key?: string) {
+        if (typeof key === "string") {
+            this.vditor.cacheKey = key;
+            return;
+        }
+        if (this.vditor.cacheKey) {
+            return;
+        }
+
+        if (this.vditor.el.id) {
+            this.vditor.cacheKey = `vditor${this.vditor.el.id}`;
+            return;
+        }
+        throw new Error("Missing cache key.");
     }
 
     /** HTML 转 md */
@@ -309,7 +349,7 @@ class Vditor extends VditorMethod {
         }
 
         if (!markdown) {
-            localStorage.removeItem("vditor" + this.vditor.id);
+            this.clearCache()
         }
     }
 }
