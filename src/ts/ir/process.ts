@@ -103,7 +103,19 @@ export const processHeading = (vditor: IVditor, value: string) => {
     }
 };
 
-export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
+const removeInline = (range: Range, vditor: IVditor, type: string) => {
+    const inlineElement = hasClosestByAttribute(range.startContainer, "data-type", type) as HTMLElement;
+    if (inlineElement) {
+        inlineElement.firstElementChild.remove();
+        inlineElement.lastElementChild.remove();
+        range.insertNode(document.createElement("wbr"));
+        const tempElement = document.createElement("div");
+        tempElement.innerHTML = vditor.lute.SpinVditorIRDOM(inlineElement.outerHTML);
+        inlineElement.outerHTML = tempElement.firstElementChild.innerHTML.trim();
+    }
+};
+
+export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: string, suffix: string) => {
     const range = getEditorRange(vditor.ir.element);
     const commandName = actionBtn.getAttribute("data-type");
     let typeElement = range.startContainer as HTMLElement;
@@ -130,6 +142,14 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
                     aElement.outerHTML = aElement.querySelector(".vditor-ir__link").innerHTML + "<wbr>";
                 }
             }
+        } else if (commandName === "italic") {
+            removeInline(range, vditor, "em");
+        } else if (commandName === "bold") {
+            removeInline(range, vditor, "strong");
+        } else if (commandName === "strike") {
+            removeInline(range, vditor, "s");
+        } else if (commandName === "inline-code") {
+            removeInline(range, vditor, "code");
         }
     } else {
         // 添加
@@ -147,11 +167,22 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
                 blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
             }
         } else if (commandName === "link") {
+            let html;
             if (range.toString() === "") {
-                document.execCommand("insertHTML", false, "[<wbr>]()");
+                html = `${prefix}<wbr>${suffix}`;
             } else {
-                document.execCommand("insertHTML", false, `[${range.toString()}](<wbr>)`);
+                html = `${prefix}${range.toString()}${suffix.replace(")", "<wbr>)")}`;
             }
+            document.execCommand("insertHTML", false, html);
+        } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
+            || commandName === "inline-code" || commandName === "code") {
+            let html;
+            if (range.toString() === "") {
+                html = `${prefix}<wbr>${suffix}`;
+            } else {
+                html = `${prefix}${range.toString()}<wbr>${prefix}`;
+            }
+            document.execCommand("insertHTML", false, html);
         }
     }
     setRangeByWbr(vditor.ir.element, range);

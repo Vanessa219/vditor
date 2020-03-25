@@ -1,4 +1,4 @@
-import {enableToolbar, removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
+import {disableToolbar, enableToolbar, removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestByAttribute, hasClosestByMatchTag, hasClosestByTag} from "../util/hasClosest";
 import {getEditorRange, selectIsEditor} from "../util/selection";
 
@@ -42,6 +42,26 @@ export const highlightToolbar = (vditor: IVditor) => {
         const emElement = hasClosestByAttribute(typeElement, "data-type", "em");
         if (emElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["italic"]);
+        }
+        const strongElement = hasClosestByAttribute(typeElement, "data-type", "strong");
+        if (strongElement) {
+            setCurrentToolbar(vditor.toolbar.elements, ["bold"]);
+        }
+        const sElement = hasClosestByAttribute(typeElement, "data-type", "s");
+        if (sElement) {
+            setCurrentToolbar(vditor.toolbar.elements, ["strike"]);
+        }
+        const codeElement = hasClosestByAttribute(typeElement, "data-type", "code");
+        if (codeElement) {
+            disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
+                "list", "ordered-list", "check", "code",  "upload", "link", "table", "record"]);
+            setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
+        }
+        const codeBlockElement = hasClosestByAttribute(typeElement, "data-type", "code-block");
+        if (codeBlockElement) {
+            disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
+                "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
+            setCurrentToolbar(vditor.toolbar.elements, ["code"]);
         }
 
     }, 200);

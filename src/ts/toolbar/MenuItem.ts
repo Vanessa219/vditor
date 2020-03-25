@@ -32,7 +32,8 @@ export class MenuItem {
             if (vditor.currentMode === "wysiwyg") {
                 toolbarEvent(vditor, this.element.children[0]);
             } else if (vditor.currentMode === "ir") {
-                processToolbar(vditor, this.element.children[0]);
+                processToolbar(vditor, this.element.children[0],
+                    this.menuItem.prefix || "", this.menuItem.suffix || "");
             } else {
                 insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                     replace, true);
