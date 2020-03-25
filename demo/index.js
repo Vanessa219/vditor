@@ -11,8 +11,8 @@ window.vditor = new Vditor('vditor', {
       toc: true,
     },
     hljs: {
-      style: 'native'
-    }
+      style: 'native',
+    },
   },
   counter: 100,
   height: 500,

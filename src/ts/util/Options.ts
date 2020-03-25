@@ -237,9 +237,6 @@ export class Options {
 
             if (this.options.cache) {
                 this.options.cache = Object.assign({}, this.defaultOptions.cache, this.options.cache);
-                if (this.options.cache && !this.options.cache.id) {
-                    throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");
-                }
             }
 
             if (this.options.classes) {
@@ -279,6 +276,10 @@ export class Options {
 
         if (toolbar.length > 0) {
             mergedOptions.toolbar = toolbar;
+        }
+
+        if (mergedOptions.cache.enable && !mergedOptions.cache.id) {
+            throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");
         }
 
         return mergedOptions;
