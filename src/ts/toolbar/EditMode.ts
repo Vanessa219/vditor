@@ -27,7 +27,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     enableToolbar(vditor.toolbar.elements, allToolbar);
     removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
 
-    const irUnUsedToolbar = ["bold", "italic", "strike", "link", "list", "ordered-list", "check", "quote", "code", "inline-code", "table"];
+    const irUnUsedToolbar = ["bold", "italic", "strike", "list", "ordered-list", "check", "code", "inline-code", "table"];
     showToolbar(vditor.toolbar.elements, irUnUsedToolbar);
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"].concat(irUnUsedToolbar));

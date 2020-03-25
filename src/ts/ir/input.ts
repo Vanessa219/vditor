@@ -50,7 +50,15 @@ export const input = (vditor: IVditor, range: Range) => {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.ir.element;
     }
-    range.insertNode(document.createElement("wbr"));
+    if (!blockElement.querySelector('wbr')) {
+        // document.exeComment insertHTML 会插入 wbr
+        range.insertNode(document.createElement("wbr"));
+    }
+    // 清除浏览器自带的样式
+    blockElement.querySelectorAll("[style]").forEach((item) => {
+        item.removeAttribute("style");
+    });
+
     const isIRElement = blockElement.isEqualNode(vditor.ir.element);
     let html = "";
     if (!isIRElement) {

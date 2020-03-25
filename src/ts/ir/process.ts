@@ -8,7 +8,7 @@ import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {isSafari} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
-import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {highlightToolbar} from "./highlightToolbar";
 
@@ -106,19 +106,55 @@ export const processHeading = (vditor: IVditor, value: string) => {
 export const processToolbar = (vditor: IVditor, actionBtn: Element) => {
     const range = getEditorRange(vditor.ir.element);
     const commandName = actionBtn.getAttribute("data-type");
+    let typeElement = range.startContainer as HTMLElement
+    if (range.startContainer.nodeType !== 3 && typeElement.classList.contains("vditor-reset")) {
+        typeElement = typeElement.childNodes[range.startOffset] as HTMLElement
+    }
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
-
+        if (commandName === "quote") {
+            const quoteElement = hasClosestByMatchTag(typeElement, "BLOCKQUOTE");
+            if (quoteElement) {
+                range.insertNode(document.createElement("wbr"));
+                quoteElement.outerHTML = quoteElement.innerHTML.trim() === "" ?
+                    `<p data-block="0">${quoteElement.innerHTML}</p>` : quoteElement.innerHTML;
+            }
+        } else if (commandName === "link") {
+            const aElement = hasClosestByAttribute(range.startContainer, "data-type", "a") as HTMLElement;
+            if (aElement) {
+                const aTextElement = hasClosestByClassName(range.startContainer, "vditor-ir__link")
+                if (aTextElement) {
+                    range.insertNode(document.createElement("wbr"));
+                    aElement.outerHTML = aTextElement.innerHTML;
+                } else {
+                    aElement.outerHTML = aElement.querySelector('.vditor-ir__link').innerHTML + "<wbr>"
+                }
+            }
+        }
     } else {
         // 添加
-        if (commandName === "line") {
-            let element = range.startContainer as HTMLElement;
-            if (element.nodeType === 3) {
-                element = range.startContainer.parentElement;
-            }
-            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+        if (vditor.ir.element.childNodes.length === 0) {
+            vditor.ir.element.innerHTML = '<p data-block="0"><wbr></p>';
             setRangeByWbr(vditor.ir.element, range);
-            processAfterRender(vditor);
+        }
+
+        if (commandName === "line") {
+            typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+        } else if (commandName === "quote") {
+            const blockElement = hasClosestBlock(range.startContainer);
+            if (blockElement) {
+                range.insertNode(document.createElement("wbr"));
+                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+            }
+        } else if (commandName === "link") {
+            if (range.toString() === "") {
+                document.execCommand("insertHTML", false, "[<wbr>]()")
+            } else {
+                document.execCommand("insertHTML", false, `[${range.toString()}](<wbr>)`)
+            }
         }
     }
-};
+    setRangeByWbr(vditor.ir.element, range);
+    processAfterRender(vditor);
+    highlightToolbar(vditor);
+}
