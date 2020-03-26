@@ -11,6 +11,7 @@ import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {highlightToolbar} from "./highlightToolbar";
+import {listToggle} from "../util/fixBrowserBehavior";
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,
@@ -153,6 +154,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             removeInline(range, vditor, "s");
         } else if (commandName === "inline-code") {
             removeInline(range, vditor, "code");
+        }else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
+            listToggle(vditor, range, commandName);
         }
     } else {
         // 添加
@@ -189,6 +192,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 html = "\n" + html + "\n";
             }
             document.execCommand("insertHTML", false, html);
+        } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
+            listToggle(vditor, range, commandName, false);
         }
     }
     setRangeByWbr(vditor.ir.element, range);

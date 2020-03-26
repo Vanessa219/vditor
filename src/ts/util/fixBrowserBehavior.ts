@@ -5,7 +5,7 @@ import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
-import {getTopList, hasClosestBlock, hasClosestByMatchTag} from "./hasClosest";
+import {getTopList, hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, setRangeByWbr} from "./selection";
@@ -28,6 +28,75 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
         range.selectNodeContents(previousElement);
         if (!isSelected) {
             range.collapse(false);
+        }
+    }
+};
+
+export const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
+    const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
+    vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
+        wbr.remove();
+    });
+    range.insertNode(document.createElement("wbr"));
+
+    if (cancel && itemElement) {
+        // 取消
+        let pHTML = "";
+        for (let i = 0; i < itemElement.parentElement.childElementCount; i++) {
+            const inputElement = itemElement.parentElement.children[i].querySelector("input");
+            if (inputElement) {
+                inputElement.remove();
+            }
+            pHTML += `<p data-block="0">${itemElement.parentElement.children[i].innerHTML.trimLeft()}</p>`;
+        }
+        itemElement.parentElement.insertAdjacentHTML("beforebegin", pHTML);
+        itemElement.parentElement.remove();
+    } else {
+        if (!itemElement) {
+            // 添加
+            let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+            if (!blockElement) {
+                vditor[vditor.currentMode].element.querySelector("wbr").remove();
+                blockElement = vditor[vditor.currentMode].element.querySelector("p");
+                blockElement.innerHTML = "<wbr>";
+            }
+            if (type === "check") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li></ul>`);
+                blockElement.remove();
+            } else if (type === "list") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ul data-block="0"><li>${blockElement.innerHTML}</li></ul>`);
+                blockElement.remove();
+            } else if (type === "ordered-list") {
+                blockElement.insertAdjacentHTML("beforebegin",
+                    `<ol data-block="0"><li>${blockElement.innerHTML}</li></ol>`);
+                blockElement.remove();
+            }
+        } else {
+            // 切换
+            if (type === "check") {
+                itemElement.parentElement.querySelectorAll("li").forEach((item) => {
+                    item.insertAdjacentHTML("afterbegin",
+                        `<input type="checkbox" />${item.textContent.indexOf(" ") === 0 ? '' : ' '}`);
+                    item.classList.add("vditor-task");
+                });
+            } else {
+                if (itemElement.querySelector("input")) {
+                    itemElement.parentElement.querySelectorAll("li").forEach((item) => {
+                        item.querySelector("input").remove();
+                        item.classList.remove("vditor-task");
+                    });
+                }
+                let element;
+                if (type === "list") {
+                    element = document.createElement("ul");
+                } else {
+                    element = document.createElement("ol");
+                }
+                element.innerHTML = itemElement.parentElement.innerHTML;
+                itemElement.parentElement.parentNode.replaceChild(element, itemElement.parentElement);
+            }
         }
     }
 };

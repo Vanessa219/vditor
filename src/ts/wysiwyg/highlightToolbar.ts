@@ -60,13 +60,12 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         // 工具栏高亮和禁用
         const liElement = hasClosestByMatchTag(typeElement, "LI");
-        if (hasClosestByClassName(typeElement, "vditor-task")) {
-            setCurrentToolbar(vditor.toolbar.elements, ["check"]);
-        } else {
-            if (liElement && liElement.parentElement.tagName === "OL") {
+        if (liElement) {
+            if (liElement.classList.contains("vditor-task")) {
+                setCurrentToolbar(vditor.toolbar.elements, ["check"]);
+            } else if (liElement.parentElement.tagName === "OL") {
                 setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
-            }
-            if (liElement && liElement.parentElement.tagName === "UL") {
+            } else if (liElement.parentElement.tagName === "UL") {
                 setCurrentToolbar(vditor.toolbar.elements, ["list"]);
             }
         }

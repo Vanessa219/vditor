@@ -27,10 +27,8 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     enableToolbar(vditor.toolbar.elements, allToolbar);
     removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
 
-    const irUnUsedToolbar = ["list", "ordered-list", "check"];
-    showToolbar(vditor.toolbar.elements, irUnUsedToolbar);
     if (type === "ir") {
-        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"].concat(irUnUsedToolbar));
+        hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.preview.element.style.display = "none";

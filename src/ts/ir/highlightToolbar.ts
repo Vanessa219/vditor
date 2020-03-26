@@ -54,7 +54,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         const codeElement = hasClosestByAttribute(typeElement, "data-type", "code");
         if (codeElement) {
             disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
-                "list", "ordered-list", "check", "code",  "upload", "link", "table", "record"]);
+                "list", "ordered-list", "check", "code", "upload", "link", "table", "record"]);
             setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
         }
         const codeBlockElement = hasClosestByAttribute(typeElement, "data-type", "code-block");
@@ -66,6 +66,16 @@ export const highlightToolbar = (vditor: IVditor) => {
         const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
         if (tableElement) {
             disableToolbar(vditor.toolbar.elements, ["table"]);
+        }
+        const liElement = hasClosestByMatchTag(typeElement, "LI");
+        if (liElement) {
+            if (liElement.classList.contains("vditor-task")) {
+                setCurrentToolbar(vditor.toolbar.elements, ["check"]);
+            } else if (liElement.parentElement.tagName === "OL") {
+                setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
+            } else if (liElement.parentElement.tagName === "UL") {
+                setCurrentToolbar(vditor.toolbar.elements, ["list"]);
+            }
         }
 
     }, 200);

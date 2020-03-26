@@ -11,7 +11,8 @@ export const input = (vditor: IVditor, range: Range) => {
 
     let blockElement = hasClosestBlock(range.startContainer);
 
-    if (blockElement) {
+    // 前后可以输入空格，但是 insert html 中有换行需忽略（使用 wbr 标识）
+    if (blockElement && !blockElement.querySelector("wbr")) {
         // 前后空格处理
         const startOffset = getSelectPosition(blockElement, range).start;
 
@@ -41,9 +42,7 @@ export const input = (vditor: IVditor, range: Range) => {
             }
         }
 
-        if ((startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML))
-            // insert table
-            && !blockElement.querySelector("wbr")) {
+        if ((startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML))) {
             blockElement.classList.add("vditor-ir__node--expand");
             return;
         }
