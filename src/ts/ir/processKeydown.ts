@@ -42,19 +42,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const pElement = hasClosestByMatchTag(startContainer, "P");
-    if (pElement) {
-        // md 处理
-        if (fixMarkdown(event, vditor, pElement, range)) {
-            return true;
-        }
-        // li
-        if (fixList(range, vditor, pElement, event)) {
-            return true;
-        }
-        // blockquote
-        if (fixBlockquote(vditor, range, event, pElement)) {
-            return true;
-        }
+    // md 处理
+    if (fixMarkdown(event, vditor, pElement, range)) {
+        return true;
+    }
+    // li
+    if (fixList(range, vditor, pElement, event)) {
+        return true;
+    }
+    // blockquote
+    if (fixBlockquote(vditor, range, event, pElement)) {
+        return true;
     }
 
     // 代码块

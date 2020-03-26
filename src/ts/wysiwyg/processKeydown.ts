@@ -1,7 +1,15 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {fixBlockquote, fixCodeBlock, fixList, fixMarkdown, fixTab, fixTable} from "../util/fixBrowserBehavior";
+import {
+    fixBlockquote,
+    fixCodeBlock,
+    fixList,
+    fixMarkdown,
+    fixTab,
+    fixTable,
+    listOutdent,
+} from "../util/fixBrowserBehavior";
 import {
     getLastNode,
     getTopList, hasClosestBlock, hasClosestByAttribute,
@@ -12,7 +20,6 @@ import {
 import {matchHotKey} from "../util/hotKey";
 import {getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {listOutdent} from "./highlightToolbar";
 import {nextIsCode} from "./inlineTag";
 import {showCode} from "./processCodeRender";
 import {removeHeading, setHeading} from "./setHeading";
@@ -41,19 +48,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const blockElement = hasClosestBlock(startContainer);
     const pElement = hasClosestByMatchTag(startContainer, "P");
 
-    if (pElement) {
-        // md 处理
-        if (fixMarkdown(event, vditor, pElement, range)) {
-            return true;
-        }
-        // li
-        if (fixList(range, vditor, pElement, event)) {
-            return true;
-        }
-        // blockquote
-        if (fixBlockquote(vditor, range, event, pElement)) {
-            return true;
-        }
+    // md 处理
+    if (fixMarkdown(event, vditor, pElement, range)) {
+        return true;
+    }
+
+    // li
+    if (fixList(range, vditor, pElement, event)) {
+        return true;
     }
 
     // table
@@ -87,6 +89,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             fixCodeBlock(vditor, event, codeRenderElement.firstElementChild as HTMLElement, range)) {
             return true;
         }
+    }
+
+    // blockquote
+    if (fixBlockquote(vditor, range, event, pElement)) {
+        return true;
     }
 
     // 顶层 blockquote

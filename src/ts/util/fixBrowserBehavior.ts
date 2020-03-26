@@ -1,9 +1,11 @@
 import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
+import {highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
-import {hasClosestBlock, hasClosestByMatchTag} from "./hasClosest";
+import {getTopList, hasClosestBlock, hasClosestByMatchTag} from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, setRangeByWbr} from "./selection";
@@ -27,6 +29,88 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
         if (!isSelected) {
             range.collapse(false);
         }
+    }
+};
+
+export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range, topListElement: HTMLElement) => {
+    if (liElement && liElement.previousElementSibling) {
+        vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
+            wbr.remove();
+        });
+        range.insertNode(document.createElement("wbr"));
+        const parentTagName = liElement.parentElement.tagName;
+        let marker = liElement.getAttribute("data-marker");
+        if (marker.length !== 1) {
+            marker = `1${marker.slice(-1)}`;
+        }
+        liElement.previousElementSibling.insertAdjacentHTML("beforeend",
+            `<${parentTagName} data-block="0"><li data-marker="${marker}">${liElement.innerHTML}</li></${parentTagName}>`);
+        liElement.remove();
+
+        topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+
+        setRangeByWbr(vditor[vditor.currentMode].element, range);
+        const tempTopListElement = getTopList(range.startContainer);
+        if (tempTopListElement && vditor.currentMode === "wysiwyg") {
+            tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
+                .forEach((blockElement: HTMLElement) => {
+                    processCodeRender(blockElement, vditor);
+                    blockElement.firstElementChild.setAttribute("style", "display:none");
+                });
+        }
+        execAfterRender(vditor);
+        if (vditor.currentMode === "wysiwyg") {
+            highlightToolbar(vditor);
+        }
+    } else {
+        vditor[vditor.currentMode].element.focus();
+    }
+};
+
+export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Range, topListElement: HTMLElement) => {
+    const liParentLiElement = hasClosestByMatchTag(liElement.parentElement, "LI");
+    if (liParentLiElement) {
+        vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
+            wbr.remove();
+        });
+        range.insertNode(document.createElement("wbr"));
+
+        const liParentElement = liElement.parentElement;
+        const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
+
+        let isMatch = false;
+        let afterHTML = "";
+        liParentElement.querySelectorAll("li").forEach((item) => {
+            if (isMatch) {
+                afterHTML += item.outerHTML;
+                item.remove();
+            }
+            if (item.isEqualNode(liElement)) {
+                isMatch = true;
+            }
+        });
+        liParentAfterElement.innerHTML = afterHTML;
+
+        liParentLiElement.insertAdjacentElement("afterend", liElement);
+        liElement.insertAdjacentElement("beforeend", liParentAfterElement);
+
+        topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+
+        setRangeByWbr(vditor[vditor.currentMode].element, range);
+        const tempTopListElement = getTopList(range.startContainer);
+        if (tempTopListElement) {
+            tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
+                .forEach((blockElement: HTMLElement) => {
+                    processCodeRender(blockElement, vditor);
+                    blockElement.firstElementChild.setAttribute("style", "display:none");
+                });
+        }
+        execAfterRender(vditor);
+        if (vditor.currentMode === "wysiwyg") {
+            highlightToolbar(vditor);
+        }
+    } else {
+        vditor[vditor.currentMode].element.focus();
     }
 };
 
@@ -123,7 +207,7 @@ export const execAfterRender = (vditor: IVditor) => {
     }
 };
 
-export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement, event: KeyboardEvent) => {
+export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | false, event: KeyboardEvent) => {
     const startContainer = range.startContainer;
     const liElement = hasClosestByMatchTag(startContainer, "LI");
     if (liElement) {
@@ -173,12 +257,11 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement, ev
                 isFirst = true;
             }
 
-            // TODO
             if (isFirst) {
                 if (event.shiftKey) {
-                    vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]').dispatchEvent(new CustomEvent("click"));
+                    listOutdent(vditor, liElement, range, liElement.parentElement);
                 } else {
-                    vditor.wysiwyg.popover.querySelector('button[data-type="indent"]').dispatchEvent(new CustomEvent("click"));
+                    listIndent(vditor, liElement, range, liElement.parentElement);
                 }
                 event.preventDefault();
                 return true;
@@ -209,7 +292,10 @@ export const fixTab = (vditor: IVditor, range: Range, event: KeyboardEvent) => {
     }
 };
 
-export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLElement, range: Range) => {
+export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLElement | false, range: Range) => {
+    if (!pElement) {
+        return;
+    }
     if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
         const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
         const pTextList = pText.split("|");
@@ -528,7 +614,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
     return false;
 };
 
-export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEvent, pElement: HTMLElement) => {
+export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEvent, pElement: HTMLElement | false) => {
     const startContainer = range.startContainer;
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.toString() === "") {
