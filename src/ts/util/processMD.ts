@@ -1,3 +1,5 @@
+import {processAfterRender} from "../ir/process";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
 import {getLastNode} from "./hasClosest";
@@ -68,8 +70,7 @@ export const renderToc = (editorElement: HTMLPreElement) => {
     tocElement.innerHTML = tocHTML || "[ToC]";
 };
 
-export const mdKeydown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLElement, range: Range,
-                          afterRenderEvent: (vditor: IVditor) => void) => {
+export const mdKeydown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLElement, range: Range) => {
     if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
         const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
         const pTextList = pText.split("|");
@@ -80,7 +81,7 @@ export const mdKeydown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLE
                 pElement.textContent + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + "\n|<wbr>";
             pElement.outerHTML = vditor.lute.SpinVditorDOM(tableHeaderMD);
             setRangeByWbr(vditor[vditor.currentMode].element, range);
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             scrollCenter(vditor[vditor.currentMode].element);
             event.preventDefault();
             return true;
@@ -100,7 +101,7 @@ export const mdKeydown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLE
                 `${pInnerHTML}<hr data-block="0"><p data-block="0">\n<wbr></p>`);
             pElement.remove();
             setRangeByWbr(vditor[vditor.currentMode].element, range);
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             scrollCenter(vditor[vditor.currentMode].element);
             event.preventDefault();
             return true;
@@ -110,7 +111,7 @@ export const mdKeydown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLE
             // heading 渲染
             pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0">\n<wbr></p>');
             setRangeByWbr(vditor[vditor.currentMode].element, range);
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             scrollCenter(vditor[vditor.currentMode].element);
             event.preventDefault();
             return true;
@@ -131,4 +132,33 @@ export const mdKeydown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLE
         return false;
     }
     return false;
+};
+
+// tab 处理: block code render, table, 列表第一个字符中的 tab 处理单独写在上面
+export const processTab = (vditor: IVditor, range: Range, event: KeyboardEvent) => {
+    if (vditor.options.tab && event.key === "Tab") {
+        if (event.shiftKey) {
+            // TODO shift+tab
+        } else {
+            if (range.toString() === "") {
+                range.insertNode(document.createTextNode(vditor.options.tab));
+                range.collapse(false);
+            } else {
+                range.extractContents();
+                range.insertNode(document.createTextNode(vditor.options.tab));
+                range.collapse(false);
+            }
+        }
+        execAfterRender(vditor);
+        event.preventDefault();
+        return true;
+    }
+};
+
+export const execAfterRender = (vditor: IVditor) => {
+    if (vditor.currentMode === "wysiwyg") {
+        afterRenderEvent(vditor);
+    } else if (vditor.currentMode === "ir") {
+        processAfterRender(vditor);
+    }
 };

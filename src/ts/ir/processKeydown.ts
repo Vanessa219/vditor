@@ -2,7 +2,8 @@ import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {mdKeydown} from "../util/processMD";
+import {processList} from "../util/processList";
+import {mdKeydown, processTab} from "../util/processMD";
 import {tableHotkey} from "../util/processTable";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
@@ -27,10 +28,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getSelection().getRangeAt(0);
     const startContainer = range.startContainer;
 
+    // 斜体、粗体、内联代码块中换行
     const newlineElement = hasClosestByAttribute(startContainer, "data-newline", "1");
     if (!isCtrl(event) && !event.altKey && !event.shiftKey && event.key === "Enter" && newlineElement
         && range.startOffset < newlineElement.textContent.length) {
-        // 斜体、粗体、内联代码块中换行
         const beforeMarkerElement = newlineElement.previousElementSibling;
         if (beforeMarkerElement) {
             range.insertNode(document.createTextNode(beforeMarkerElement.textContent));
@@ -45,7 +46,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const pElement = hasClosestByMatchTag(startContainer, "P");
     if (pElement) {
-        if (mdKeydown(event, vditor, pElement, range, processAfterRender)) {
+        // md 处理
+        if (mdKeydown(event, vditor, pElement, range)) {
+            return true;
+        }
+        // li
+        if (processList(range, vditor, pElement, event)) {
             return true;
         }
     }
@@ -147,43 +153,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    const liElement = hasClosestByMatchTag(startContainer, "LI");
-    if (liElement) {
-        if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
-            (event.shiftKey // 软换行
-                // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
-                || (!event.shiftKey && pElement && liElement.contains(pElement) && pElement.nextElementSibling))) {
-            if (liElement && !liElement.textContent.endsWith("\n")) {
-                // li 结尾需 \n
-                liElement.insertAdjacentText("beforeend", "\n");
-            }
-            range.insertNode(document.createTextNode("\n"));
-            range.collapse(false);
-            processAfterRender(vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
-            !liElement.previousElementSibling && range.toString() === "" &&
-            getSelectPosition(liElement, range).start === 0) {
-            // 光标位于点和第一个字符中间时，无法删除 li 元素
-            if (liElement.nextElementSibling) {
-                liElement.parentElement.insertAdjacentHTML("beforebegin",
-                    `<p data-block="0"><wbr>${liElement.innerHTML}</p>`);
-                liElement.remove();
-            } else {
-                liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
-            }
-            setRangeByWbr(vditor.ir.element, range);
-            processAfterRender(vditor);
-            event.preventDefault();
-            return true;
-        }
-    }
-
     // table
-    if (tableHotkey(vditor, event, range, processAfterRender)) {
+    if (tableHotkey(vditor, event, range)) {
         return true;
     }
 
@@ -224,6 +195,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 return true;
             }
         }
+    }
+
+    if (processTab(vditor, range, event)) {
+        return true;
     }
 
     if (event.key === "Enter") {

@@ -9,7 +9,8 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {matchHotKey} from "../util/hotKey";
-import {mdKeydown} from "../util/processMD";
+import {processList} from "../util/processList";
+import {mdKeydown, processTab} from "../util/processMD";
 import {tableHotkey} from "../util/processTable";
 import {getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -40,17 +41,21 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const startContainer = range.startContainer;
 
     const blockElement = hasClosestBlock(startContainer);
-
-    // md 处理
     const pElement = hasClosestByMatchTag(startContainer, "P");
+
     if (pElement) {
-        if (mdKeydown(event, vditor, pElement, range, afterRenderEvent)) {
+        // md 处理
+        if (mdKeydown(event, vditor, pElement, range)) {
+            return true;
+        }
+        // li
+        if (processList(range, vditor, pElement, event)) {
             return true;
         }
     }
 
     // table
-    if (tableHotkey(vditor, event, range, afterRenderEvent)) {
+    if (tableHotkey(vditor, event, range)) {
         return true;
     }
 
@@ -247,69 +252,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // li
-    const liElement = hasClosestByMatchTag(startContainer, "LI");
-    if (liElement) {
-        if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
-            (event.shiftKey // 软换行
-                // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
-                || (!event.shiftKey && pElement && liElement.contains(pElement) && pElement.nextElementSibling))) {
-            if (liElement && !liElement.textContent.endsWith("\n")) {
-                // li 结尾需 \n
-                liElement.insertAdjacentText("beforeend", "\n");
-            }
-            range.insertNode(document.createTextNode("\n"));
-            range.collapse(false);
-            afterRenderEvent(vditor);
-            processCodeRender(liElement, vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
-            !liElement.previousElementSibling && range.toString() === "" &&
-            getSelectPosition(liElement, range).start === 0) {
-            // 光标位于点和第一个字符中间时，无法删除 li 元素
-            if (liElement.nextElementSibling) {
-                liElement.parentElement.insertAdjacentHTML("beforebegin",
-                    `<p data-block="0"><wbr>${liElement.innerHTML}</p>`);
-                liElement.remove();
-            } else {
-                liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
-            }
-            setRangeByWbr(vditor.wysiwyg.element, range);
-            afterRenderEvent(vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        if (!isCtrl(event) && !event.altKey && event.key === "Tab") {
-            // 光标位于第一/零字符时，tab 用于列表的缩进
-            let isFirst = false;
-            if (range.startOffset === 0
-                && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
-                    || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
-                // 有序/无序列表
-                isFirst = true;
-            } else if (liElement.classList.contains("vditor-task") && range.startOffset === 1
-                && startContainer.previousSibling.nodeType !== 3
-                && (startContainer.previousSibling as HTMLElement).tagName === "INPUT") {
-                // 任务列表
-                isFirst = true;
-            }
-
-            if (isFirst) {
-                if (event.shiftKey) {
-                    vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]').dispatchEvent(new CustomEvent("click"));
-                } else {
-                    vditor.wysiwyg.popover.querySelector('button[data-type="indent"]').dispatchEvent(new CustomEvent("click"));
-                }
-                event.preventDefault();
-                return true;
-            }
-        }
-    }
-
     // task list
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
@@ -485,25 +427,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // tab 处理: block code render, table, 列表第一个字符中的 tab 处理单独写在上面
-    if (vditor.options.tab && event.key === "Tab") {
-        if (event.shiftKey) {
-            // TODO shift+tab
-        } else {
-            if (range.toString() === "") {
-                range.insertNode(document.createTextNode(vditor.options.tab));
-                range.collapse(false);
-                if (codeRenderElement) {
-                    processCodeRender(codeRenderElement, vditor);
-                }
-            } else {
-                range.extractContents();
-                range.insertNode(document.createTextNode(vditor.options.tab));
-                range.collapse(false);
-            }
-        }
-        afterRenderEvent(vditor);
-        event.preventDefault();
+    if (processTab(vditor, range, event)) {
         return true;
     }
 

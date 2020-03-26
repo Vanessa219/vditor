@@ -2,6 +2,7 @@ import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
+import {execAfterRender} from "./processMD";
 import {setRangeByWbr} from "./selection";
 
 // 光标设置到前一个表格中
@@ -46,8 +47,7 @@ export const setTableAlign = (tableElement: HTMLTableElement, type: string) => {
     }
 };
 
-export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
-                            afterRenderEvent: (vditor: IVditor) => void) => {
+export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range) => {
     const startContainer = range.startContainer;
     const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
         hasClosestByMatchTag(startContainer, "TH");
@@ -62,7 +62,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
             const brElement = document.createElement("br");
             range.insertNode(brElement);
             range.setStartAfter(brElement);
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             scrollCenter(vditor[vditor.currentMode].element);
             event.preventDefault();
             return true;
@@ -121,7 +121,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
 
             range.collapse(false);
             event.preventDefault();
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             return true;
         }
 
@@ -139,7 +139,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
             }
 
             setRangeByWbr(vditor[vditor.currentMode].element, range);
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             scrollCenter(vditor[vditor.currentMode].element);
             event.preventDefault();
             return true;
@@ -162,7 +162,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
                 }
             }
 
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             event.preventDefault();
             return true;
         }
@@ -186,7 +186,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
                     tableElement.rows[i].cells[index].remove();
                 }
             }
-            afterRenderEvent(vditor);
+            execAfterRender(vditor);
             event.preventDefault();
             return true;
         }
@@ -195,7 +195,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
         if (matchHotKey("⌘-⇧-L", event)) {
             if (vditor.currentMode === "ir") {
                 setTableAlign(tableElement, "left");
-                afterRenderEvent(vditor);
+                execAfterRender(vditor);
                 event.preventDefault();
                 return true;
             } else {
@@ -212,7 +212,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
         if (matchHotKey("⌘-⇧-C", event)) {
             if (vditor.currentMode === "ir") {
                 setTableAlign(tableElement, "center");
-                afterRenderEvent(vditor);
+                execAfterRender(vditor);
                 event.preventDefault();
                 return true;
             } else {
@@ -228,7 +228,7 @@ export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range,
         if (matchHotKey("⌘-⇧-R", event)) {
             if (vditor.currentMode === "ir") {
                 setTableAlign(tableElement, "right");
-                afterRenderEvent(vditor);
+                execAfterRender(vditor);
                 event.preventDefault();
                 return true;
             } else {
