@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {isCtrl} from "./compatibility";
@@ -6,7 +7,6 @@ import {hasClosestBlock, hasClosestByMatchTag} from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, setRangeByWbr} from "./selection";
-import {Constants} from "../constants";
 
 // 光标设置到前一个表格中
 const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
@@ -525,11 +525,11 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         event.preventDefault();
         return true;
     }
-    return false
-}
+    return false;
+};
 
 export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEvent, pElement: HTMLElement) => {
-    const startContainer = range.startContainer
+    const startContainer = range.startContainer;
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.toString() === "") {
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
@@ -584,4 +584,4 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
         }
     }
     return false;
-}
+};
