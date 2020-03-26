@@ -1,6 +1,6 @@
 import {hasClosestBlock} from "../util/hasClosest";
+import {renderToc} from "../util/processMD";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
-import {renderToc} from "./processMD";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {
     const range = getEditorRange(vditor.wysiwyg.element);

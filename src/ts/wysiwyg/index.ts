@@ -6,6 +6,7 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
+import {isHeadingMD, isHrMD, renderToc} from "../util/processMD";
 import {processPasteCode} from "../util/processPasteCode";
 import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -13,7 +14,6 @@ import {highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {processCodeRender, showCode} from "./processCodeRender";
-import {isHeadingMD, isHrMD, renderToc} from "./processMD";
 
 class WYSIWYG {
     public element: HTMLPreElement;

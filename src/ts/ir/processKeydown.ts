@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {mdKeydown} from "../util/processMD";
 import {tableHotkey} from "../util/processTable";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
@@ -27,7 +28,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const startContainer = range.startContainer;
 
     const newlineElement = hasClosestByAttribute(startContainer, "data-newline", "1");
-
     if (!isCtrl(event) && !event.altKey && !event.shiftKey && event.key === "Enter" && newlineElement
         && range.startOffset < newlineElement.textContent.length) {
         // 斜体、粗体、内联代码块中换行
@@ -44,6 +44,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const pElement = hasClosestByMatchTag(startContainer, "P");
+    if (pElement) {
+        if (mdKeydown(event, vditor, pElement, range, processAfterRender)) {
+            return true;
+        }
+    }
+
     // 代码块
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement && preRenderElement.tagName === "PRE") {

@@ -159,3 +159,10 @@ export const getTopList = (element: Node) => {
     }
     return topListElement;
 };
+
+export const getLastNode = (node: Node) => {
+    while (node && node.lastChild) {
+        node = node.lastChild;
+    }
+    return node;
+};

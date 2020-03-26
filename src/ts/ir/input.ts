@@ -1,5 +1,6 @@
 import {getTopList, hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
+import {isHeadingMD, isHrMD} from "../util/processMD";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender, processCodeRender} from "./process";
 
@@ -40,7 +41,7 @@ export const input = (vditor: IVditor, range: Range) => {
             }
         }
 
-        if ((startSpace || endSpace)
+        if ((startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML))
             // insert table
             && !blockElement.querySelector("wbr")) {
             blockElement.classList.add("vditor-ir__node--expand");

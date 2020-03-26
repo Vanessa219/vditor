@@ -79,13 +79,6 @@ export const getRenderElementNextNode = (blockCodeElement: HTMLElement) => {
     return nextNode.nextSibling;
 };
 
-export const getLastNode = (node: Node) => {
-    while (node && node.lastChild) {
-        node = node.lastChild;
-    }
-    return node;
-};
-
 export const splitElement = (range: Range) => {
     const previousHTML = getPreviousHTML(range.startContainer);
     const nextHTML = getNextHTML(range.startContainer);
