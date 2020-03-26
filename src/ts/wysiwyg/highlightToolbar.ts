@@ -19,7 +19,7 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
@@ -429,24 +429,6 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
-            const hotkey = (event: KeyboardEvent, nextInputElement: HTMLInputElement) => {
-                if (event.isComposing) {
-                    return;
-                }
-                if (event.key === "Tab") {
-                    nextInputElement.focus();
-                    nextInputElement.select();
-                    event.preventDefault();
-                    return;
-                }
-                if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
-                    range.selectNodeContents(linkRefElement);
-                    range.collapse(false);
-                    setSelectionFocus(range);
-                    event.preventDefault();
-                }
-            };
-
             const inputWrap = document.createElement("span");
             inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
             inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -460,7 +442,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLinkRef();
             };
             input.onkeydown = (event) => {
-                hotkey(event, input1);
+                linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input1);
             };
 
             const input1Wrap = document.createElement("span");
@@ -475,7 +457,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLinkRef();
             };
             input1.onkeydown = (event) => {
-                hotkey(event, input);
+                linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
             };
 
             genClose(vditor.wysiwyg.popover, linkRefElement, vditor);
@@ -784,6 +766,27 @@ const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) =
     popover.insertAdjacentElement("beforeend", close);
 };
 
+const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEvent, nextInputElement: HTMLInputElement) => {
+    if (event.isComposing) {
+        return;
+    }
+    if (event.key === "Tab") {
+        nextInputElement.focus();
+        nextInputElement.select();
+        event.preventDefault();
+        return;
+    }
+    if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
+        const range = getEditorRange(editor);
+        // firefox 不会打断 link https://github.com/Vanessa219/vditor/issues/193
+        element.insertAdjacentHTML("afterend", Constants.ZWSP);
+        range.setStartAfter(element.nextSibling);
+        range.collapse(true);
+        setSelectionFocus(range);
+        event.preventDefault();
+    }
+};
+
 export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     vditor.wysiwyg.popover.innerHTML = "";
 
@@ -793,27 +796,6 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         }
         aElement.setAttribute("href", input1.value);
         aElement.setAttribute("title", input2.value);
-    };
-
-    const hotkey = (event: KeyboardEvent, nextInputElement: HTMLInputElement) => {
-        if (event.isComposing) {
-            return;
-        }
-        if (event.key === "Tab") {
-            nextInputElement.focus();
-            nextInputElement.select();
-            event.preventDefault();
-            return;
-        }
-        if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
-            const range = vditor.wysiwyg.element.ownerDocument.createRange();
-            // firefox 不会打断 link https://github.com/Vanessa219/vditor/issues/193
-            aElement.insertAdjacentHTML("afterend", Constants.ZWSP);
-            range.setStartAfter(aElement.nextSibling);
-            range.collapse(true);
-            setSelectionFocus(range);
-            event.preventDefault();
-        }
     };
 
     aElement.querySelectorAll("[data-marker]").forEach((item: HTMLElement) => {
@@ -832,7 +814,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input.onkeydown = (event) => {
-        hotkey(event, input1);
+        linkHotkey(vditor.wysiwyg.element, aElement, event, input1);
     };
 
     const input1Wrap = document.createElement("span");
@@ -847,7 +829,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input1.onkeydown = (event) => {
-        hotkey(event, input2);
+        linkHotkey(vditor.wysiwyg.element, aElement, event, input2);
     };
 
     const input2Wrap = document.createElement("span");
@@ -863,7 +845,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input2.onkeydown = (event) => {
-        hotkey(event, input);
+        linkHotkey(vditor.wysiwyg.element, aElement, event, input);
     };
 
     genClose(vditor.wysiwyg.popover, aElement, vditor);

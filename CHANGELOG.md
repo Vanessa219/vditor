@@ -51,6 +51,7 @@
 
 ### v3.0.5 / undefined
  
+* [210](https://github.com/Vanessa219/vditor/issues/210) inks with korean character(windows chrome & firefox) `修复缺陷`
 * [231](https://github.com/Vanessa219/vditor/issues/231) 支持直接传入元素进行初始化 `引入特性`
 
 ### v3.0.4 / 2020-03-25
