@@ -1,10 +1,9 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {fixList, fixMarkdown, fixTab, fixTable} from "../util/fixBrowserBehavior";
+import {fixBlockquote, fixCodeBlock, fixList, fixMarkdown, fixTab, fixTable} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
-import {processAfterRender} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -52,6 +51,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (fixList(range, vditor, pElement, event)) {
             return true;
         }
+        // blockquote
+        if (fixBlockquote(vditor, range, event, pElement)) {
+            return true;
+        }
     }
 
     // 代码块
@@ -59,44 +62,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (preRenderElement && preRenderElement.tagName === "PRE") {
         const codeRenderElement = preRenderElement.firstChild as HTMLElement;
         const codePosition = getSelectPosition(codeRenderElement, range);
-        // 换行
-        if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
-            if (!codeRenderElement.textContent.endsWith("\n")) {
-                codeRenderElement.insertAdjacentText("beforeend", "\n");
-            }
-            range.insertNode(document.createTextNode("\n"));
-            range.collapse(false);
-            processAfterRender(vditor);
-            scrollCenter(vditor.ir.element);
-            event.preventDefault();
-            return true;
-        }
-
-        // tab
-        if (vditor.options.tab && event.key === "Tab" && !event.shiftKey && range.toString() === "") {
-            range.insertNode(document.createTextNode(vditor.options.tab));
-            range.collapse(false);
-            processAfterRender(vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        // TODO shift + tab, shift and 选中文字
-
-        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
-            if ((codePosition.start === 0 ||
-                (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
-                && range.toString() === "") {
-                // Backspace: 光标位于第零个字符，仅删除代码块标签
-                preRenderElement.parentElement.outerHTML =
-                    `<p data-block="0"><wbr>${codeRenderElement.innerHTML}</p>`;
-                setRangeByWbr(vditor.ir.element, range);
-                processAfterRender(vditor);
-                event.preventDefault();
-                return true;
-            }
-        }
-
         // 数学公式上无元素，按上或左将添加新块
         if ((event.key === "ArrowUp" || event.key === "ArrowLeft") &&
             codeRenderElement.getAttribute("data-type") === "math-block"
@@ -123,7 +88,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             event.preventDefault();
             return true;
+        }
 
+        if (fixCodeBlock(vditor, event, preRenderElement, range)) {
+            return true;
         }
     }
     // 代码块语言
@@ -154,45 +122,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // table
     if (fixTable(vditor, event, range)) {
         return true;
-    }
-
-    // blockquote
-    const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
-    if (blockquoteElement && range.toString() === "") {
-        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
-            getSelectPosition(blockquoteElement, range).start === 0) {
-            // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
-            range.insertNode(document.createElement("wbr"));
-            blockquoteElement.outerHTML = blockquoteElement.innerHTML;
-            setRangeByWbr(vditor.ir.element, range);
-            processAfterRender(vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey
-            && pElement.parentElement.tagName === "BLOCKQUOTE") {
-            // Enter: 空行回车应逐层跳出
-            let isEmpty = false;
-            if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
-                // 空 P
-                isEmpty = true;
-                pElement.remove();
-            } else if (pElement.innerHTML.endsWith("\n\n") &&
-                getSelectPosition(pElement, range).start === pElement.textContent.length - 1) {
-                // 软换行
-                pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
-                isEmpty = true;
-            }
-            if (isEmpty) {
-                // 需添加零宽字符，否则的话无法记录 undo
-                blockquoteElement.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
-                setRangeByWbr(vditor.ir.element, range);
-                processAfterRender(vditor);
-                event.preventDefault();
-                return true;
-            }
-        }
     }
 
     if (fixTab(vditor, range, event)) {

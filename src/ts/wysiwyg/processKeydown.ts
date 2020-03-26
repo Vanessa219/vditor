@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {fixList, fixMarkdown, fixTab, fixTable} from "../util/fixBrowserBehavior";
+import {fixBlockquote, fixCodeBlock, fixList, fixMarkdown, fixTab, fixTable} from "../util/fixBrowserBehavior";
 import {
     getLastNode,
     getTopList, hasClosestBlock, hasClosestByAttribute,
@@ -14,7 +14,7 @@ import {getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selec
 import {afterRenderEvent} from "./afterRenderEvent";
 import {listOutdent} from "./highlightToolbar";
 import {nextIsCode} from "./inlineTag";
-import {processCodeRender, showCode} from "./processCodeRender";
+import {showCode} from "./processCodeRender";
 import {removeHeading, setHeading} from "./setHeading";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
@@ -50,6 +50,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (fixList(range, vditor, pElement, event)) {
             return true;
         }
+        // blockquote
+        if (fixBlockquote(vditor, range, event, pElement)) {
+            return true;
+        }
     }
 
     // table
@@ -68,6 +72,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
+
         // alt+enter: 代码块切换到语言 https://github.com/Vanessa219/vditor/issues/54
         if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter" &&
             codeRenderElement.getAttribute("data-type") === "code-block") {
@@ -78,55 +83,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        // 行级代码块中 command + a，近对当前代码块进行全选
-        if (codeRenderElement.getAttribute("data-block") === "0" && matchHotKey("⌘-A", event)) {
-            range.selectNodeContents(codeRenderElement.firstElementChild.firstElementChild);
-            event.preventDefault();
+        if (codeRenderElement.getAttribute("data-block") === "0" &&
+            fixCodeBlock(vditor, event, codeRenderElement.firstElementChild as HTMLElement, range)) {
             return true;
-        }
-
-        // 换行
-        if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
-            codeRenderElement.getAttribute("data-block") === "0") {
-            if (!codeRenderElement.firstElementChild.firstElementChild.textContent.endsWith("\n")) {
-                codeRenderElement.firstElementChild.firstElementChild.insertAdjacentText("beforeend", "\n");
-            }
-            range.insertNode(document.createTextNode("\n"));
-            range.collapse(false);
-            afterRenderEvent(vditor);
-            processCodeRender(codeRenderElement, vditor);
-            scrollCenter(vditor.wysiwyg.element);
-            event.preventDefault();
-            return true;
-        }
-
-        // tab
-        if (vditor.options.tab && event.key === "Tab" && !event.shiftKey && range.toString() === "" &&
-            codeRenderElement.getAttribute("data-block") === "0") {
-            range.insertNode(document.createTextNode(vditor.options.tab));
-            range.collapse(false);
-            afterRenderEvent(vditor);
-            processCodeRender(codeRenderElement, vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        // TODO shift + tab, shift and 选中文字
-
-        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
-            && codeRenderElement.getAttribute("data-block") === "0") {
-            const codePosition = getSelectPosition(codeRenderElement, range);
-            if ((codePosition.start === 0 ||
-                (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
-                && range.toString() === "") {
-                // Backspace: 光标位于第零个字符，仅删除代码块标签
-                codeRenderElement.outerHTML =
-                    `<p data-block="0"><wbr>${codeRenderElement.firstElementChild.firstElementChild.innerHTML}</p>`;
-                setRangeByWbr(vditor.wysiwyg.element, range);
-                afterRenderEvent(vditor);
-                event.preventDefault();
-                return true;
-            }
         }
     }
 
@@ -150,52 +109,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             setSelectionFocus(range);
             afterRenderEvent(vditor);
             scrollCenter(vditor.wysiwyg.element);
-            event.preventDefault();
-            return true;
-        }
-    }
-
-    // blockquote
-    const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
-    if (blockquoteElement && range.toString() === "") {
-        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
-            getSelectPosition(blockquoteElement, range).start === 0) {
-            // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
-            range.insertNode(document.createElement("wbr"));
-            blockquoteElement.outerHTML = blockquoteElement.innerHTML;
-            setRangeByWbr(vditor.wysiwyg.element, range);
-            afterRenderEvent(vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey
-            && pElement.parentElement.tagName === "BLOCKQUOTE") {
-            // Enter: 空行回车应逐层跳出
-            let isEmpty = false;
-            if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
-                // 空 P
-                isEmpty = true;
-                pElement.remove();
-            } else if (pElement.innerHTML.endsWith("\n\n") &&
-                getSelectPosition(pElement, range).start === pElement.textContent.length - 1) {
-                // 软换行
-                pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
-                isEmpty = true;
-            }
-            if (isEmpty) {
-                (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click();
-                event.preventDefault();
-                return true;
-            }
-        }
-
-        if (blockElement && matchHotKey("⌘-⇧-:", event)) {
-            // 插入 blockquote
-            range.insertNode(document.createElement("wbr"));
-            blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
-            setRangeByWbr(vditor.wysiwyg.element, range);
-            afterRenderEvent(vditor);
             event.preventDefault();
             return true;
         }
@@ -429,7 +342,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行、li 软换行处理单独写在上面
+    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面
     if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
         if (["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
             // 行内元素软换行需继续 https://github.com/Vanessa219/vditor/issues/170

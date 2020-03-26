@@ -2,10 +2,11 @@ import {processAfterRender} from "../ir/process";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
-import {hasClosestByMatchTag} from "./hasClosest";
+import {hasClosestBlock, hasClosestByMatchTag} from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, setRangeByWbr} from "./selection";
+import {Constants} from "../constants";
 
 // 光标设置到前一个表格中
 const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
@@ -127,9 +128,8 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement, ev
     const liElement = hasClosestByMatchTag(startContainer, "LI");
     if (liElement) {
         if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
-            (event.shiftKey // 软换行
-                // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
-                || (!event.shiftKey && pElement && liElement.contains(pElement) && pElement.nextElementSibling))) {
+            // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
+            (!event.shiftKey && pElement && liElement.contains(pElement) && pElement.nextElementSibling)) {
             if (liElement && !liElement.textContent.endsWith("\n")) {
                 // li 结尾需 \n
                 liElement.insertAdjacentText("beforeend", "\n");
@@ -479,3 +479,109 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
     }
     return false;
 };
+
+export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderElement: HTMLElement, range: Range) => {
+    // 行级代码块中 command + a，近对当前代码块进行全选
+    if (codeRenderElement.tagName === "PRE" && matchHotKey("⌘-A", event)) {
+        range.selectNodeContents(codeRenderElement.firstElementChild);
+        event.preventDefault();
+        return true;
+    }
+
+    // tab
+    // TODO shift + tab, shift and 选中文字
+    if (vditor.options.tab && event.key === "Tab" && !event.shiftKey && range.toString() === "") {
+        range.insertNode(document.createTextNode(vditor.options.tab));
+        range.collapse(false);
+        execAfterRender(vditor);
+        event.preventDefault();
+        return true;
+    }
+
+    // Backspace: 光标位于第零个字符，仅删除代码块标签
+    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
+        const codePosition = getSelectPosition(codeRenderElement, range);
+        if ((codePosition.start === 0 ||
+            (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
+            && range.toString() === "") {
+            codeRenderElement.parentElement.outerHTML =
+                `<p data-block="0"><wbr>${codeRenderElement.firstElementChild.innerHTML}</p>`;
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // 换行
+    if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
+        if (!codeRenderElement.firstElementChild.textContent.endsWith("\n")) {
+            codeRenderElement.firstElementChild.insertAdjacentText("beforeend", "\n");
+        }
+        range.insertNode(document.createTextNode("\n"));
+        range.collapse(false);
+        execAfterRender(vditor);
+        scrollCenter(vditor[vditor.currentMode].element);
+        event.preventDefault();
+        return true;
+    }
+    return false
+}
+
+export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEvent, pElement: HTMLElement) => {
+    const startContainer = range.startContainer
+    const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
+    if (blockquoteElement && range.toString() === "") {
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
+            getSelectPosition(blockquoteElement, range).start === 0) {
+            // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
+            range.insertNode(document.createElement("wbr"));
+            blockquoteElement.outerHTML = blockquoteElement.innerHTML;
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey
+            && pElement.parentElement.tagName === "BLOCKQUOTE") {
+            // Enter: 空行回车应逐层跳出
+            let isEmpty = false;
+            if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
+                // 空 P
+                isEmpty = true;
+                pElement.remove();
+            } else if (pElement.innerHTML.endsWith("\n\n") &&
+                getSelectPosition(pElement, range).start === pElement.textContent.length - 1) {
+                // 软换行
+                pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
+                isEmpty = true;
+            }
+            if (isEmpty) {
+                if (vditor.currentMode === "wysiwyg") {
+                    (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click();
+                    event.preventDefault();
+                    return true;
+                } else {
+                    // 需添加零宽字符，否则的话无法记录 undo
+                    blockquoteElement.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
+                    setRangeByWbr(vditor[vditor.currentMode].element, range);
+                    processAfterRender(vditor);
+                    event.preventDefault();
+                    return true;
+                }
+            }
+        }
+        const blockElement = hasClosestBlock(startContainer);
+        if (vditor.currentMode === "wysiwyg" && blockElement && matchHotKey("⌘-⇧-:", event)) {
+            // 插入 blockquote
+            range.insertNode(document.createElement("wbr"));
+            blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+            setRangeByWbr(vditor.wysiwyg.element, range);
+            afterRenderEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+    }
+    return false;
+}
