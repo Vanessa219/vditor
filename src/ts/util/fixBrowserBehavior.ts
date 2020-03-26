@@ -78,7 +78,7 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
             if (type === "check") {
                 itemElement.parentElement.querySelectorAll("li").forEach((item) => {
                     item.insertAdjacentHTML("afterbegin",
-                        `<input type="checkbox" />${item.textContent.indexOf(" ") === 0 ? '' : ' '}`);
+                        `<input type="checkbox" />${item.textContent.indexOf(" ") === 0 ? "" : " "}`);
                     item.classList.add("vditor-task");
                 });
             } else {

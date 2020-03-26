@@ -1,12 +1,12 @@
 import {Constants} from "../constants";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
+import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
-import {listToggle} from "../util/fixBrowserBehavior";
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
     let element = range.startContainer.parentElement;
     let jump = false;
