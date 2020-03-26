@@ -185,6 +185,9 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             } else {
                 html = `${prefix}${range.toString()}<wbr>${prefix}`;
             }
+            if (commandName === "table" || commandName === "code") {
+                html = "\n" + html + "\n";
+            }
             document.execCommand("insertHTML", false, html);
         }
     }

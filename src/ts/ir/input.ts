@@ -40,7 +40,9 @@ export const input = (vditor: IVditor, range: Range) => {
             }
         }
 
-        if (startSpace || endSpace) {
+        if ((startSpace || endSpace)
+            // insert table
+            && !blockElement.querySelector("wbr")) {
             blockElement.classList.add("vditor-ir__node--expand");
             return;
         }
