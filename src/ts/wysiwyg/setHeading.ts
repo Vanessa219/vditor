@@ -1,5 +1,5 @@
+import {renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock} from "../util/hasClosest";
-import {renderToc} from "../util/processMD";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {

@@ -1,6 +1,6 @@
+import {isHeadingMD, isHrMD} from "../util/fixBrowserBehavior";
 import {getTopList, hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
 import {log} from "../util/log";
-import {isHeadingMD, isHrMD} from "../util/processMD";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender, processCodeRender} from "./process";
 

@@ -2,11 +2,11 @@ import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
+import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
-import {isHeadingMD, isHrMD, renderToc} from "../util/processMD";
 import {processPasteCode} from "../util/processPasteCode";
 import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";

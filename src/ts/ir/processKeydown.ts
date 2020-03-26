@@ -1,10 +1,8 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
+import {fixList, fixMarkdown, fixTab, fixTable} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {processList} from "../util/processList";
-import {mdKeydown, processTab} from "../util/processMD";
-import {tableHotkey} from "../util/processTable";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
@@ -47,11 +45,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const pElement = hasClosestByMatchTag(startContainer, "P");
     if (pElement) {
         // md 处理
-        if (mdKeydown(event, vditor, pElement, range)) {
+        if (fixMarkdown(event, vditor, pElement, range)) {
             return true;
         }
         // li
-        if (processList(range, vditor, pElement, event)) {
+        if (fixList(range, vditor, pElement, event)) {
             return true;
         }
     }
@@ -154,7 +152,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // table
-    if (tableHotkey(vditor, event, range)) {
+    if (fixTable(vditor, event, range)) {
         return true;
     }
 
@@ -197,7 +195,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    if (processTab(vditor, range, event)) {
+    if (fixTab(vditor, range, event)) {
         return true;
     }
 

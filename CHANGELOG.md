@@ -51,6 +51,7 @@
 
 ### v3.0.5 / undefined
  
+* [235](https://github.com/Vanessa219/vditor/pull/235) 修复父元素自定义行高时工具栏垂直不居中 `修复缺陷`
 * [210](https://github.com/Vanessa219/vditor/issues/210) inks with korean character(windows chrome & firefox) `修复缺陷`
 * [231](https://github.com/Vanessa219/vditor/issues/231) 支持直接传入元素进行初始化 `引入特性`
 

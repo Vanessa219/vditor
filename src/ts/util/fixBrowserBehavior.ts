@@ -1,9 +1,11 @@
+import {processAfterRender} from "../ir/process";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
 import {hasClosestByMatchTag} from "./hasClosest";
+import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
-import {execAfterRender} from "./processMD";
-import {setRangeByWbr} from "./selection";
+import {getSelectPosition, setRangeByWbr} from "./selection";
 
 // 光标设置到前一个表格中
 const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
@@ -47,7 +49,231 @@ export const setTableAlign = (tableElement: HTMLTableElement, type: string) => {
     }
 };
 
-export const tableHotkey = (vditor: IVditor, event: KeyboardEvent, range: Range) => {
+export const isHrMD = (text: string) => {
+    // - _ *
+    const marker = text.trimRight().split("\n").pop();
+    if (marker === "") {
+        return false;
+    }
+    if (marker.replace(/ |-/g, "") === ""
+        || marker.replace(/ |_/g, "") === ""
+        || marker.replace(/ |\*/g, "") === "") {
+        if (marker.replace(/ /g, "").length > 2) {
+            if (marker.indexOf("-") > -1 && marker.trimLeft().indexOf(" ") === -1
+                && text.trimRight().split("\n").length > 1) {
+                // 满足 heading
+                return false;
+            }
+            if (marker.indexOf("    ") === 0 || marker.indexOf("\t") === 0) {
+                // 代码块
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+    return false;
+};
+
+export const isHeadingMD = (text: string) => {
+    // - =
+    const textArray = text.trimRight().split("\n");
+    text = textArray.pop();
+
+    if (text.indexOf("    ") === 0 || text.indexOf("\t") === 0) {
+        return false;
+    }
+
+    text = text.trimLeft();
+    if (text === "" || textArray.length === 0) {
+        return false;
+    }
+    if (text.replace(/-/g, "") === ""
+        || text.replace(/=/g, "") === "") {
+        return true;
+    }
+    return false;
+};
+
+export const isToC = (text: string) => {
+    return text.trim().toLowerCase() === "[toc]";
+};
+
+export const renderToc = (editorElement: HTMLPreElement) => {
+    const tocElement = editorElement.querySelector('[data-type="toc-block"]');
+    if (!tocElement) {
+        return;
+    }
+    let tocHTML = "";
+    Array.from(editorElement.children).forEach((item: HTMLElement) => {
+        if (item.tagName.indexOf("H") === 0 && item.tagName.length === 2 && item.textContent.trim() !== "") {
+            const space = new Array((parseInt(item.tagName.substring(1), 10) - 1) * 2).fill("&emsp;").join("");
+            tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
+        }
+    });
+    tocElement.innerHTML = tocHTML || "[ToC]";
+};
+
+export const execAfterRender = (vditor: IVditor) => {
+    if (vditor.currentMode === "wysiwyg") {
+        afterRenderEvent(vditor);
+    } else if (vditor.currentMode === "ir") {
+        processAfterRender(vditor);
+    }
+};
+
+export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement, event: KeyboardEvent) => {
+    const startContainer = range.startContainer;
+    const liElement = hasClosestByMatchTag(startContainer, "LI");
+    if (liElement) {
+        if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
+            (event.shiftKey // 软换行
+                // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
+                || (!event.shiftKey && pElement && liElement.contains(pElement) && pElement.nextElementSibling))) {
+            if (liElement && !liElement.textContent.endsWith("\n")) {
+                // li 结尾需 \n
+                liElement.insertAdjacentText("beforeend", "\n");
+            }
+            range.insertNode(document.createTextNode("\n"));
+            range.collapse(false);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+            !liElement.previousElementSibling && range.toString() === "" &&
+            getSelectPosition(liElement, range).start === 0) {
+            // 光标位于点和第一个字符中间时，无法删除 li 元素
+            if (liElement.nextElementSibling) {
+                liElement.parentElement.insertAdjacentHTML("beforebegin",
+                    `<p data-block="0"><wbr>${liElement.innerHTML}</p>`);
+                liElement.remove();
+            } else {
+                liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
+            }
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        if (!isCtrl(event) && !event.altKey && event.key === "Tab") {
+            // 光标位于第一/零字符时，tab 用于列表的缩进
+            let isFirst = false;
+            if (range.startOffset === 0
+                && ((startContainer.nodeType === 3 && !startContainer.previousSibling)
+                    || (startContainer.nodeType !== 3 && startContainer.nodeName === "LI"))) {
+                // 有序/无序列表
+                isFirst = true;
+            } else if (liElement.classList.contains("vditor-task") && range.startOffset === 1
+                && startContainer.previousSibling.nodeType !== 3
+                && (startContainer.previousSibling as HTMLElement).tagName === "INPUT") {
+                // 任务列表
+                isFirst = true;
+            }
+
+            // TODO
+            if (isFirst) {
+                if (event.shiftKey) {
+                    vditor.wysiwyg.popover.querySelector('button[data-type="outdent"]').dispatchEvent(new CustomEvent("click"));
+                } else {
+                    vditor.wysiwyg.popover.querySelector('button[data-type="indent"]').dispatchEvent(new CustomEvent("click"));
+                }
+                event.preventDefault();
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+// tab 处理: block code render, table, 列表第一个字符中的 tab 处理单独写在上面
+export const fixTab = (vditor: IVditor, range: Range, event: KeyboardEvent) => {
+    if (vditor.options.tab && event.key === "Tab") {
+        if (event.shiftKey) {
+            // TODO shift+tab
+        } else {
+            if (range.toString() === "") {
+                range.insertNode(document.createTextNode(vditor.options.tab));
+                range.collapse(false);
+            } else {
+                range.extractContents();
+                range.insertNode(document.createTextNode(vditor.options.tab));
+                range.collapse(false);
+            }
+        }
+        execAfterRender(vditor);
+        event.preventDefault();
+        return true;
+    }
+};
+
+export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTMLElement, range: Range) => {
+    if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
+        const pText = String.raw`${pElement.textContent}`.replace(/\\\|/g, "").trim();
+        const pTextList = pText.split("|");
+        if (pText.startsWith("|") && pText.endsWith("|") && pTextList.length > 3) {
+            // table 自动完成
+            let tableHeaderMD = pTextList.map(() => "---").join("|");
+            tableHeaderMD =
+                pElement.textContent + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + "\n|<wbr>";
+            pElement.outerHTML = vditor.lute.SpinVditorDOM(tableHeaderMD);
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            scrollCenter(vditor[vditor.currentMode].element);
+            event.preventDefault();
+            return true;
+        }
+
+        // hr 渲染
+        if (isHrMD(pElement.innerHTML)) {
+            // 软换行后 hr 前有内容
+            let pInnerHTML = "";
+            const innerHTMLList = pElement.innerHTML.trimRight().split("\n");
+            if (innerHTMLList.length > 1) {
+                innerHTMLList.pop();
+                pInnerHTML = `<p data-block="0">${innerHTMLList.join("\n")}</p>`;
+            }
+
+            pElement.insertAdjacentHTML("afterend",
+                `${pInnerHTML}<hr data-block="0"><p data-block="0">\n<wbr></p>`);
+            pElement.remove();
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            scrollCenter(vditor[vditor.currentMode].element);
+            event.preventDefault();
+            return true;
+        }
+
+        if (isHeadingMD(pElement.innerHTML)) {
+            // heading 渲染
+            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0">\n<wbr></p>');
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            scrollCenter(vditor[vditor.currentMode].element);
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // 软换行会被切割 https://github.com/Vanessa219/vditor/issues/220
+    if (pElement.previousElementSibling && event.key === "Backspace" && !isCtrl(event) && !event.altKey &&
+        !event.shiftKey && pElement.textContent.trimRight().split("\n").length > 1 &&
+        getSelectPosition(pElement, range).start === 0) {
+        const lastElement = getLastNode(pElement.previousElementSibling) as HTMLElement;
+        if (!lastElement.textContent.endsWith("\n")) {
+            lastElement.textContent = lastElement.textContent + "\n";
+        }
+        lastElement.parentElement.insertAdjacentHTML("beforeend", `<wbr>${pElement.innerHTML}`);
+        pElement.remove();
+        setRangeByWbr(vditor[vditor.currentMode].element, range);
+        return false;
+    }
+    return false;
+};
+
+export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) => {
     const startContainer = range.startContainer;
     const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
         hasClosestByMatchTag(startContainer, "TH");

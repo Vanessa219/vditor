@@ -1,3 +1,4 @@
+import {isToC, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
@@ -5,7 +6,6 @@ import {
     hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
-import {isToC, renderToc} from "../util/processMD";
 import {setRangeByWbr} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
