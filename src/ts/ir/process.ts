@@ -178,7 +178,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             }
             document.execCommand("insertHTML", false, html);
         } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
-            || commandName === "inline-code" || commandName === "code") {
+            || commandName === "inline-code" || commandName === "code" || commandName === "table") {
             let html;
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;

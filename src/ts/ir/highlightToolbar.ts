@@ -63,6 +63,10 @@ export const highlightToolbar = (vditor: IVditor) => {
                 "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"]);
             setCurrentToolbar(vditor.toolbar.elements, ["code"]);
         }
+        const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
+        if (tableElement) {
+            disableToolbar(vditor.toolbar.elements, ["table"]);
+        }
 
     }, 200);
 };

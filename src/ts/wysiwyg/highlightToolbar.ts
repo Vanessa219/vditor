@@ -19,6 +19,7 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
+import {setTableAlign} from "../util/processTable";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsImg} from "./inlineTag";
@@ -271,24 +272,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const setAlign = (type: string) => {
-                const cell = getSelection().getRangeAt(0).startContainer.parentElement;
-
-                const columnCnt = tableElement.rows[0].cells.length;
-                const rowCnt = tableElement.rows.length;
-                let currentColumn = 0;
-
-                for (let i = 0; i < rowCnt; i++) {
-                    for (let j = 0; j < columnCnt; j++) {
-                        if (tableElement.rows[i].cells[j].isEqualNode(cell)) {
-                            currentColumn = j;
-                            break;
-                        }
-                    }
-                }
-                for (let k = 0; k < rowCnt; k++) {
-                    tableElement.rows[k].cells[currentColumn].setAttribute("align", type);
-                }
-
+                setTableAlign(tableElement, type);
                 if (type === "right") {
                     left.classList.remove("vditor-icon--current");
                     center.classList.remove("vditor-icon--current");
@@ -766,7 +750,8 @@ const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) =
     popover.insertAdjacentElement("beforeend", close);
 };
 
-const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEvent, nextInputElement: HTMLInputElement) => {
+const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEvent,
+                    nextInputElement: HTMLInputElement) => {
     if (event.isComposing) {
         return;
     }

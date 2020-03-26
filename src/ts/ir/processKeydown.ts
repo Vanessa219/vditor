@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {tableHotkey} from "../util/processTable";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
@@ -43,6 +44,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const pElement = hasClosestByMatchTag(startContainer, "P");
+    // 代码块
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement && preRenderElement.tagName === "PRE") {
         const codeRenderElement = preRenderElement.firstChild as HTMLElement;
@@ -78,7 +80,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 // Backspace: 光标位于第零个字符，仅删除代码块标签
                 preRenderElement.parentElement.outerHTML =
                     `<p data-block="0"><wbr>${codeRenderElement.innerHTML}</p>`;
-                setRangeByWbr(vditor.wysiwyg.element, range);
+                setRangeByWbr(vditor.ir.element, range);
                 processAfterRender(vditor);
                 event.preventDefault();
                 return true;
@@ -100,8 +102,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // 代码块下无元素或者为代码块元素，添加空块
         if ((event.key === "ArrowDown" && codeRenderElement.textContent.trimRight().substr(codePosition.start).indexOf("\n") === -1) ||
             (event.key === "ArrowRight" && codePosition.start >= codeRenderElement.textContent.trimRight().length)) {
-            const nextElement = preRenderElement.parentElement.nextElementSibling
-            if (!nextElement || (nextElement && nextElement.getAttribute('data-type'))) {
+            const nextElement = preRenderElement.parentElement.nextElementSibling;
+            if (!nextElement || (nextElement && nextElement.getAttribute("data-type"))) {
                 preRenderElement.parentElement.insertAdjacentHTML("afterend",
                     `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
                 setRangeByWbr(vditor.ir.element, range);
@@ -172,6 +174,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
+    }
+
+    // table
+    if (tableHotkey(vditor, event, range, processAfterRender)) {
+        return true;
     }
 
     // blockquote

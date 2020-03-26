@@ -81,13 +81,7 @@ export class Hint {
             return;
         }
 
-        let editorElement = vditor.sv.element;
-        if (vditor.currentMode === "wysiwyg") {
-            editorElement = vditor.wysiwyg.element;
-        } else if (vditor.currentMode === "ir") {
-            editorElement = vditor.ir.element;
-        }
-
+        const editorElement = vditor[vditor.currentMode].element;
         const textareaPosition = getCursorPosition(editorElement);
         const x = textareaPosition.left;
         const y = textareaPosition.top;

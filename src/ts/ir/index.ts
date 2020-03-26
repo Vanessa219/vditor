@@ -8,7 +8,7 @@ import {
     getSelectPosition,
     insertHTML,
     setSelectionByPosition,
-    setSelectionFocus
+    setSelectionFocus,
 } from "../util/selection";
 import {expandMarker} from "./expandMarker";
 import {highlightToolbar} from "./highlightToolbar";
@@ -256,7 +256,7 @@ class IR {
                 // 行内数学公式
                 if (previewRenderElement.tagName === "SPAN" &&
                     (event.key === "ArrowDown" || event.key === "ArrowRight")) {
-                    range.selectNodeContents(previewRenderElement.parentElement.lastElementChild)
+                    range.selectNodeContents(previewRenderElement.parentElement.lastElementChild);
                     range.collapse(false);
                     event.preventDefault();
                     return true;
