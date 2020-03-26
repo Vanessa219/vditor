@@ -5,7 +5,13 @@ import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
-import {getTopList, hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
+import {
+    getTopList,
+    hasClosestBlock,
+    hasClosestByAttribute,
+    hasClosestByClassName,
+    hasClosestByMatchTag,
+} from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, setRangeByWbr} from "./selection";
@@ -734,6 +740,118 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
             blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
             setRangeByWbr(vditor.wysiwyg.element, range);
             afterRenderEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+    }
+    return false;
+};
+
+export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => {
+    const startContainer = range.startContainer;
+    const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
+    if (taskItemElement) {
+        if (matchHotKey("⌘-⇧-J", event)) {
+            // ctrl + shift: toggle checked
+            const inputElement = taskItemElement.firstElementChild as HTMLInputElement;
+            if (inputElement.checked) {
+                inputElement.removeAttribute("checked");
+            } else {
+                inputElement.setAttribute("checked", "checked");
+            }
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        // Backspace: 在选择框前进行删除
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
+            && range.startOffset === 1
+            && ((startContainer.nodeType === 3 && startContainer.previousSibling &&
+                (startContainer.previousSibling as HTMLElement).tagName === "INPUT")
+                || startContainer.nodeType !== 3)) {
+            const previousElement = taskItemElement.previousElementSibling;
+            taskItemElement.querySelector("input").remove();
+            if (previousElement) {
+                const lastNode = getLastNode(previousElement);
+                lastNode.parentElement.insertAdjacentHTML("beforeend", "<wbr>" + taskItemElement.innerHTML.trim());
+                taskItemElement.remove();
+            } else {
+                taskItemElement.parentElement.insertAdjacentHTML("beforebegin",
+                    `<p data-block="0"><wbr>${taskItemElement.innerHTML.trim() || "\n"}</p>`);
+                if (taskItemElement.nextElementSibling) {
+                    taskItemElement.remove();
+                } else {
+                    taskItemElement.parentElement.remove();
+                }
+            }
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        if (event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
+            if (taskItemElement.textContent.trim() === "") {
+                // 当前任务列表无文字
+                if (hasClosestByClassName(taskItemElement.parentElement, "vditor-task")) {
+                    // 为子元素时，需进行反向缩进
+                    const topListElement = getTopList(startContainer);
+                    if (topListElement) {
+                        listOutdent(vditor, taskItemElement, range, topListElement);
+                    }
+                } else {
+                    // 仅有一级任务列表
+                    if (taskItemElement.nextElementSibling) {
+                        // 任务列表下方还有元素，需要使用用段落隔断
+                        let afterHTML = "";
+                        let beforeHTML = "";
+                        let isAfter = false;
+                        Array.from(taskItemElement.parentElement.children).forEach((taskItem) => {
+                            if (taskItemElement.isEqualNode(taskItem)) {
+                                isAfter = true;
+                            } else {
+                                if (isAfter) {
+                                    afterHTML += taskItem.outerHTML;
+                                } else {
+                                    beforeHTML += taskItem.outerHTML;
+                                }
+                            }
+                        });
+                        const parentTagName = taskItemElement.parentElement.tagName;
+                        const dataMarker = taskItemElement.parentElement.tagName === "OL" ? "" : ` data-marker="${taskItemElement.parentElement.getAttribute("data-marker")}"`;
+                        let startAttribute = "";
+                        if (beforeHTML) {
+                            startAttribute = taskItemElement.parentElement.tagName === "UL" ? "" : ` start="1"`;
+                            beforeHTML = `<${parentTagName} data-tight="true"${dataMarker} data-block="0">${beforeHTML}</${parentTagName}>`;
+                        }
+                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0">\n<wbr></p><${parentTagName}
+ data-tight="true"${dataMarker} data-block="0"${startAttribute}>${afterHTML}</${parentTagName}>`;
+                    } else {
+                        // 任务列表下方无任务列表元素
+                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0">\n<wbr></p>`);
+                        if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
+                            // 任务列表仅有一项时，使用 p 元素替换
+                            taskItemElement.parentElement.remove();
+                        } else {
+                            // 任务列表有多项时，当前任务列表位于最后一项，移除该任务列表
+                            taskItemElement.remove();
+                        }
+                    }
+                }
+            } else if (startContainer.nodeType !== 3 && range.startOffset === 0 &&
+                (startContainer.firstChild as HTMLElement).tagName === "INPUT") {
+                // 光标位于 input 之前
+                range.setStart(startContainer.childNodes[1], 1);
+            } else {
+                // 当前任务列表有文字，光标后的文字需添加到新任务列表中
+                range.setEndAfter(taskItemElement.lastChild);
+                taskItemElement.insertAdjacentHTML("afterend", `<li class="vditor-task" data-marker="${taskItemElement.getAttribute("data-marker")}"><input type="checkbox"> <wbr></li>`);
+                document.querySelector("wbr").after(range.extractContents());
+            }
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            scrollCenter(vditor[vditor.currentMode].element);
             event.preventDefault();
             return true;
         }

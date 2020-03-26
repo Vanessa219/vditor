@@ -49,14 +49,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.5 / undefined
- 
+### v3.0.5 / 2020-03-26
+
 * [235](https://github.com/Vanessa219/vditor/pull/235) 修复父元素自定义行高时工具栏垂直不居中 `修复缺陷`
 * [210](https://github.com/Vanessa219/vditor/issues/210) inks with korean character(windows chrome & firefox) `修复缺陷`
 * [231](https://github.com/Vanessa219/vditor/issues/231) 支持直接传入元素进行初始化 `引入特性`
-
-### v3.0.4 / 2020-03-25
-
 * [232](https://github.com/Vanessa219/vditor/issues/232) 【IR&WYSIWYG】围栏代码块 info 部分自动完成 `引入特性`
 * [230](https://github.com/Vanessa219/vditor/pull/230) 切换 IR 模式后依然展示工具栏 `改进功能`
 * [27](https://github.com/Vanessa219/vditor/issues/27) 支持类似 Typora 的及时渲染模式 `引入特性`

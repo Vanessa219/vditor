@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {fixBlockquote, fixCodeBlock, fixList, fixMarkdown, fixTab, fixTable} from "../util/fixBrowserBehavior";
+import {fixBlockquote, fixCodeBlock, fixList, fixMarkdown, fixTab, fixTable, fixTask} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 
@@ -122,6 +122,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
+    // task list
+    if (fixTask(vditor, range, event)) {
+        return true;
+    }
+
+    // tab
     if (fixTab(vditor, range, event)) {
         return true;
     }

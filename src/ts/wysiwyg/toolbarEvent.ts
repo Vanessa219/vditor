@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {setCurrentToolbar} from "../toolbar/setToolbar";
+import {removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
@@ -7,6 +7,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
+
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
     let element = range.startContainer.parentElement;
     let jump = false;
@@ -166,6 +167,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             listToggle(vditor, range, commandName, false);
             setRangeByWbr(vditor.wysiwyg.element, range);
             useHighlight = false;
+            removeCurrentToolbar(vditor.toolbar.elements, ["check", "list", "ordered-list"]);
             actionBtn.classList.add("vditor-menu--current");
         } else if (commandName === "inline-code") {
             if (range.toString() === "") {
