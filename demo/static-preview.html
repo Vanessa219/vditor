@@ -215,6 +215,18 @@ public class HelloWorld {
 
 使用空行在 Markdown 排版中相当重要。（这是第二段）
 
+### 链接引用
+
+[链接文本][链接标识]
+
+[链接标识]: https://b3log.org
+
+```
+[链接文本][链接标识]
+
+[链接标识]: https://b3log.org
+```
+
 ### 数学公式
 
 多行公式块：
@@ -350,6 +362,35 @@ digraph finite_state_machine {
 支持 v.qq.com，youtube.com，youku.com，coub.com，facebook.com/video，dailymotion.com，.mp4，.m4v，.ogg，.ogv，.webm，.mp3，.wav 链接解析
 
 https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html
+
+### 脚注
+
+这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。
+
+[^1]: 第一个脚注定义。
+[^bignote]: 脚注定义可使用多段内容。
+
+    缩进对齐的段落包含在这个脚注定义内。
+
+    ```
+    可以使用代码块。
+    ```
+
+    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。
+
+```
+这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。
+[^1]: 第一个脚注定义。
+[^bignote]: 脚注定义可使用多段内容。
+
+    缩进对齐的段落包含在这个脚注定义内。
+
+    ```
+    可以使用代码块。
+    ```
+
+    还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。
+```
 
 ## 快捷键
 
