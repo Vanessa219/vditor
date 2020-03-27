@@ -49,7 +49,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.6 / 2020-03-xx
+### v3.0.6 / 2020-03-27
 
 * [240](https://github.com/Vanessa219/vditor/issues/240) multiple markdown at one line `修复缺陷`
 * [241](https://github.com/Vanessa219/vditor/issues/241) When editing the heading, not converted using the cursor key `修复缺陷`
@@ -57,9 +57,6 @@
 * [243](https://github.com/Vanessa219/vditor/issues/243) can not delete the table with "backspace" `修复缺陷`
 * [246](https://github.com/Vanessa219/vditor/issues/246) 报错index.min.js:27 `修复缺陷`
 * [248](https://github.com/Vanessa219/vditor/issues/248) enter after heading `修复缺陷`
-
-### v3.0.5 / 2020-03-26
-
 * [235](https://github.com/Vanessa219/vditor/pull/235) 修复父元素自定义行高时工具栏垂直不居中 `修复缺陷`
 * [210](https://github.com/Vanessa219/vditor/issues/210) inks with korean character(windows chrome & firefox) `修复缺陷`
 * [231](https://github.com/Vanessa219/vditor/issues/231) 支持直接传入元素进行初始化 `引入特性`
