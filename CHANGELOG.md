@@ -49,6 +49,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.0.6 / 2020-03-xx
+
+* [246](https://github.com/Vanessa219/vditor/issues/246) 报错index.min.js:27 `修复缺陷`
+
 ### v3.0.5 / 2020-03-26
 
 * [235](https://github.com/Vanessa219/vditor/pull/235) 修复父元素自定义行高时工具栏垂直不居中 `修复缺陷`

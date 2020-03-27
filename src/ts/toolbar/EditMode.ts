@@ -22,6 +22,13 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
     if (vditor.devtools) {
         vditor.devtools.renderEchart(vditor);
     }
+    if (vditor.preview) {
+        if ((vditor.currentPreviewMode === "both" || vditor.currentPreviewMode === "preview") && type === "sv") {
+            vditor.preview.element.style.display = "block";
+        } else {
+            vditor.preview.element.style.display = "none";
+        }
+    }
     const allToolbar = ["emoji", "headings", "bold", "italic", "strike", "link", "list", "ordered-list", "check",
         "line", "quote", "code", "inline-code", "upload", "record", "table"];
     enableToolbar(vditor.toolbar.elements, allToolbar);
@@ -31,7 +38,6 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
-        vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "block";
 
@@ -57,7 +63,6 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
-        vditor.preview.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
         vditor.ir.element.parentElement.style.display = "none";
 
@@ -77,15 +82,11 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         vditor.ir.element.parentElement.style.display = "none";
         if (vditor.currentPreviewMode === "both") {
             vditor.sv.element.style.display = "block";
-            vditor.preview.element.style.display = "block";
         } else if (vditor.currentPreviewMode === "preview") {
             vditor.sv.element.style.display = "none";
-            vditor.preview.element.style.display = "block";
         } else if (vditor.currentPreviewMode === "editor") {
             vditor.sv.element.style.display = "block";
-            vditor.preview.element.style.display = "none";
         }
-
         const wysiwygMD = getMarkdown(vditor);
         vditor.currentMode = "sv";
         formatRender(vditor, wysiwygMD, undefined);
