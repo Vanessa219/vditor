@@ -3,7 +3,7 @@ import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
     fixBlockquote,
-    fixCodeBlock,
+    fixCodeBlock, fixDelete,
     fixList,
     fixMarkdown,
     fixTab,
@@ -263,16 +263,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 删除
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
-        const offsetChildNode = startContainer.childNodes[range.startOffset] as HTMLElement;
-        if (startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
-            (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
-            // 光标位于 table/hr 前，table/hr 前有内容
-            range.selectNodeContents(offsetChildNode.previousElementSibling);
-            range.collapse(false);
-            event.preventDefault();
+        if (fixDelete(range, event)) {
             return true;
         }
-
         if (blockElement) {
             if (blockElement.previousElementSibling
                 && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")

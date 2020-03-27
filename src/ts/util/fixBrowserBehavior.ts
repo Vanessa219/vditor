@@ -36,6 +36,7 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
             range.collapse(false);
         }
     }
+    return previousElement
 };
 
 export const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
@@ -455,14 +456,6 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             return true;
         }
 
-        // Backspace：光标移动到前一个 cell
-        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
-            && range.startOffset === 0 && range.toString() === "") {
-            goPreviousCell(cellElement, range, false);
-            event.preventDefault();
-            return true;
-        }
-
         // tab：光标移向下一个 cell
         if (event.key === "Tab") {
             if (event.shiftKey) {
@@ -532,8 +525,31 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             return true;
         }
 
-        // 后方新添加一列
+        // focus row input, only wysiwyg
+        if (vditor.currentMode === "wysiwyg" &&
+            !isCtrl(event) && event.key === "Enter" && !event.shiftKey && event.altKey) {
+            const inputElement = (vditor.wysiwyg.popover.querySelector(".vditor-input") as HTMLInputElement);
+            inputElement.focus();
+            inputElement.select();
+            event.preventDefault();
+            return true;
+        }
+
+        // Backspace：光标移动到前一个 cell
         const tableElement = cellElement.parentElement.parentElement.parentElement as HTMLTableElement;
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
+            && range.startOffset === 0 && range.toString() === "") {
+            const previousCellElement = goPreviousCell(cellElement, range, false);
+            if (!previousCellElement && tableElement) {
+                tableElement.outerHTML = `<p data-block="0"><wbr>${tableElement.textContent}</p>`
+                setRangeByWbr(vditor[vditor.currentMode].element, range);
+                execAfterRender(vditor);
+            }
+            event.preventDefault();
+            return true;
+        }
+
+        // 后方新添加一列
         if (matchHotKey("⌘-⇧-=", event)) {
             let index = 0;
             let previousElement = cellElement.previousElementSibling;
@@ -626,16 +642,6 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                     return true;
                 }
             }
-        }
-
-        // focus row input
-        if (vditor.currentMode === "wysiwyg" &&
-            !isCtrl(event) && event.key === "Enter" && !event.shiftKey && event.altKey) {
-            const inputElement = (vditor.wysiwyg.popover.querySelector(".vditor-input") as HTMLInputElement);
-            inputElement.focus();
-            inputElement.select();
-            event.preventDefault();
-            return true;
         }
     }
     return false;
@@ -855,6 +861,19 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
             event.preventDefault();
             return true;
         }
+    }
+    return false;
+};
+
+export const fixDelete = (range: Range, event: KeyboardEvent) => {
+    const offsetChildNode = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+    if (range.startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
+        (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
+        // 光标位于 table/hr 前，table/hr 前有内容
+        range.selectNodeContents(offsetChildNode.previousElementSibling);
+        range.collapse(false);
+        event.preventDefault();
+        return true;
     }
     return false;
 };

@@ -1,7 +1,16 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
-import {fixBlockquote, fixCodeBlock, fixList, fixMarkdown, fixTab, fixTable, fixTask} from "../util/fixBrowserBehavior";
+import {
+    fixBlockquote,
+    fixCodeBlock,
+    fixDelete,
+    fixList,
+    fixMarkdown,
+    fixTab,
+    fixTable,
+    fixTask,
+} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 
@@ -130,6 +139,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // tab
     if (fixTab(vditor, range, event)) {
         return true;
+    }
+
+    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
+        if (fixDelete(range, event)) {
+            return true;
+        }
     }
 
     if (event.key === "Enter") {
