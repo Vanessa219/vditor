@@ -36,7 +36,7 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
             range.collapse(false);
         }
     }
-    return previousElement
+    return previousElement;
 };
 
 export const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
@@ -541,7 +541,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             && range.startOffset === 0 && range.toString() === "") {
             const previousCellElement = goPreviousCell(cellElement, range, false);
             if (!previousCellElement && tableElement) {
-                tableElement.outerHTML = `<p data-block="0"><wbr>${tableElement.textContent}</p>`
+                tableElement.outerHTML = `<p data-block="0"><wbr>${tableElement.textContent}</p>`;
                 setRangeByWbr(vditor[vditor.currentMode].element, range);
                 execAfterRender(vditor);
             }

@@ -5,14 +5,14 @@ import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender, processCodeRender} from "./process";
 
 export const input = (vditor: IVditor, range: Range) => {
-    Array.from(vditor.ir.element.querySelectorAll(".vditor-ir__node--expand")).forEach((item) => {
-        item.classList.remove("vditor-ir__node--expand");
-    });
-
     let blockElement = hasClosestBlock(range.startContainer);
-
+    let afterSpace = "";
     // 前后可以输入空格，但是 insert html 中有换行需忽略（使用 wbr 标识）
     if (blockElement && !blockElement.querySelector("wbr")) {
+        if (isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
+            return;
+        }
+
         // 前后空格处理
         const startOffset = getSelectPosition(blockElement, range).start;
 
@@ -42,13 +42,20 @@ export const input = (vditor: IVditor, range: Range) => {
             }
         }
 
-        if (startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
-            if (blockElement.classList.contains("vditor-ir__node")) {
-                blockElement.classList.add("vditor-ir__node--expand");
+        if (startSpace || endSpace) {
+            const markerElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker");
+            if (markerElement && endSpace) {
+                // inline marker space https://github.com/Vanessa219/vditor/issues/239
+                afterSpace = " ";
+            } else {
+                return;
             }
-            return;
         }
     }
+
+    Array.from(vditor.ir.element.querySelectorAll(".vditor-ir__node--expand")).forEach((item) => {
+        item.classList.remove("vditor-ir__node--expand");
+    });
 
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
@@ -114,7 +121,7 @@ export const input = (vditor: IVditor, range: Range) => {
     }
 
     log("SpinVditorIRDOM", html, "argument", vditor.options.debugger);
-    html = vditor.lute.SpinVditorIRDOM(html);
+    html = vditor.lute.SpinVditorIRDOM(html) + afterSpace;
     log("SpinVditorIRDOM", html, "result", vditor.options.debugger);
 
     if (isIRElement) {

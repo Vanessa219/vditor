@@ -51,6 +51,7 @@
 
 ### v3.0.6 / 2020-03-xx
 
+* [240](https://github.com/Vanessa219/vditor/issues/240) multiple markdown at one line `修复缺陷`
 * [241](https://github.com/Vanessa219/vditor/issues/241) When editing the heading, not converted using the cursor key `修复缺陷`
 * [242](https://github.com/Vanessa219/vditor/issues/242) combined lists "+" and "-" `修复缺陷`
 * [243](https://github.com/Vanessa219/vditor/issues/243) can not delete the table with "backspace" `修复缺陷`
