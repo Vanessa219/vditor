@@ -68,6 +68,7 @@ class Vditor extends VditorMethod {
             currentMode: mergedOptions.mode,
             currentPreviewMode: mergedOptions.preview.mode,
             element: id,
+            hint: new Hint(),
             lute: undefined,
             options: mergedOptions,
             originalInnerHTML: id.innerHTML,
@@ -99,10 +100,6 @@ class Vditor extends VditorMethod {
 
         if (mergedOptions.upload.url || mergedOptions.upload.handler) {
             this.vditor.upload = new Upload();
-        }
-
-        if (this.vditor.options.hint.at || this.vditor.toolbar.elements.emoji) {
-            this.vditor.hint = new Hint();
         }
 
         loadLuteJs(this.vditor);

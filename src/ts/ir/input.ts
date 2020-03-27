@@ -42,8 +42,10 @@ export const input = (vditor: IVditor, range: Range) => {
             }
         }
 
-        if ((startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML))) {
-            blockElement.classList.add("vditor-ir__node--expand");
+        if (startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
+            if (blockElement.classList.contains("vditor-ir__node")) {
+                blockElement.classList.add("vditor-ir__node--expand");
+            }
             return;
         }
     }

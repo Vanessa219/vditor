@@ -99,9 +99,8 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (vditor.options.esc) {
                 vditor.options.esc(getMarkdown(vditor));
             }
-            const hintElement = vditor.hint && vditor.hint.element;
-            if (hintElement && hintElement.style.display === "block") {
-                hintElement.style.display = "none";
+            if (vditor.hint.element.style.display === "block") {
+                vditor.hint.element.style.display = "none";
             }
             event.preventDefault();
             return;

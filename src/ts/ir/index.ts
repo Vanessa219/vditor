@@ -41,6 +41,10 @@ class IR {
     }
 
     private bindEvent(vditor: IVditor) {
+        this.element.addEventListener("scroll", () => {
+            vditor.hint.element.style.display = "none";
+        });
+
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
             const range = getSelection().getRangeAt(0);
             if (range.toString() === "") {

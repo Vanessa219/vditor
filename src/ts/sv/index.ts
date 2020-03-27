@@ -61,6 +61,7 @@ class Editor {
         });
 
         this.element.addEventListener("scroll", () => {
+            vditor.hint.element.style.display = "none";
             if (!vditor.preview || (vditor.preview && vditor.preview.element.style.display === "none")) {
                 return;
             }

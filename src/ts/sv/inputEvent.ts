@@ -11,7 +11,7 @@ export const inputEvent = (vditor: IVditor, options = {
         vditor.options.input(getMarkdown(vditor),
             vditor.preview && vditor.preview.element);
     }
-    if (vditor.hint && options.enableHint) {
+    if (options.enableHint) {
         vditor.hint.render(vditor);
     }
     if (vditor.options.cache.enable) {

@@ -49,9 +49,7 @@ export const initUI = (vditor: IVditor) => {
         contentElement.appendChild(vditor.resize.element);
     }
 
-    if (vditor.hint) {
-        contentElement.appendChild(vditor.hint.element);
-    }
+    contentElement.appendChild(vditor.hint.element);
 
     contentElement.appendChild(vditor.tip.element);
 

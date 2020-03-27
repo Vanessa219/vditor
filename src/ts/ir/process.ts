@@ -21,20 +21,21 @@ export const processAfterRender = (vditor: IVditor, options = {
     const startContainer = getEditorRange(vditor.ir.element).startContainer;
     // 代码块语言提示
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
-    if (options.enableHint && preBeforeElement) {
-        const matchLangData: IHintData[] = [];
-        const key = preBeforeElement.textContent.replace(Constants.ZWSP, "").trim();
-        Constants.CODE_LANGUAGES.forEach((keyName) => {
-            if (keyName.indexOf(key.toLowerCase()) > -1) {
-                matchLangData.push({
-                    html: keyName,
-                    value: keyName,
-                });
-            }
-        });
-        vditor.hint.genHTML(matchLangData, key, vditor);
-    } else if (options.enableHint && vditor.hint) {
+    if (options.enableHint) {
         vditor.hint.render(vditor);
+        if (preBeforeElement) {
+            const matchLangData: IHintData[] = [];
+            const key = preBeforeElement.textContent.replace(Constants.ZWSP, "").trim();
+            Constants.CODE_LANGUAGES.forEach((keyName) => {
+                if (keyName.indexOf(key.toLowerCase()) > -1) {
+                    matchLangData.push({
+                        html: keyName,
+                        value: keyName,
+                    });
+                }
+            });
+            vditor.hint.genHTML(matchLangData, key, vditor);
+        }
     }
 
     clearTimeout(vditor.ir.processTimeoutId);

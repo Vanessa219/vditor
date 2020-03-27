@@ -383,7 +383,7 @@ interface IVditor {
     resize?: {
         element: HTMLElement,
     };
-    hint?: {
+    hint: {
         timeId: number
         element: HTMLDivElement
         fillEmoji(element: HTMLElement, vditor: IVditor): void

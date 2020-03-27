@@ -6,7 +6,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
-    if (options.enableHint && vditor.hint) {
+    if (options.enableHint) {
         vditor.hint.render(vditor);
     }
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);

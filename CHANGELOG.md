@@ -51,6 +51,9 @@
 
 ### v3.0.6 / 2020-03-xx
 
+* [241](https://github.com/Vanessa219/vditor/issues/241) When editing the heading, not converted using the cursor key `修复缺陷`
+* [242](https://github.com/Vanessa219/vditor/issues/242) combined lists "+" and "-" `修复缺陷`
+* [248](https://github.com/Vanessa219/vditor/issues/248) enter after heading `修复缺陷`
 * [246](https://github.com/Vanessa219/vditor/issues/246) 报错index.min.js:27 `修复缺陷`
 
 ### v3.0.5 / 2020-03-26

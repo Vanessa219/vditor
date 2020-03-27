@@ -80,7 +80,7 @@ export const hidePanel = (vditor: IVditor, panels: string[]) => {
     if (vditor.toolbar.editModePanelElement && panels.includes("edit-mode")) {
         vditor.toolbar.editModePanelElement.style.display = "none";
     }
-    if (vditor.hint && panels.includes("hint")) {
+    if (panels.includes("hint")) {
         vditor.hint.element.style.display = "none";
     }
 };

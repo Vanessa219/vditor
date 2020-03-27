@@ -60,6 +60,7 @@ class WYSIWYG {
         }
 
         this.element.addEventListener("scroll", () => {
+            vditor.hint.element.style.display = "none";
             if (this.popover.style.display !== "block") {
                 return;
             }
