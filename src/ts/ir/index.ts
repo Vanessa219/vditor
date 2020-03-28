@@ -238,6 +238,16 @@ class IR {
                 return;
             }
 
+            if (event.key === "Backspace") {
+                // 数学公式前是空块，空块前是 table，在空块前删除，数学公式会多一个 br
+                this.element.querySelectorAll('.language-math').forEach((item) => {
+                    const brElement = item.querySelector('br')
+                    if(brElement) {
+                        brElement.remove();
+                    }
+                })
+            }
+
             if (event.key.indexOf("Arrow") > -1) {
                 expandMarker(getSelection().getRangeAt(0), vditor);
             }
