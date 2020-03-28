@@ -93,7 +93,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
 
 export const processHeading = (vditor: IVditor, value: string) => {
     const range = getSelection().getRangeAt(0);
-    const headingElement = hasClosestBlock(range.startContainer);
+    const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
         if (value === "") {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
@@ -124,8 +124,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     const range = getEditorRange(vditor.ir.element);
     const commandName = actionBtn.getAttribute("data-type");
     let typeElement = range.startContainer as HTMLElement;
-    if (range.startContainer.nodeType !== 3 && typeElement.classList.contains("vditor-reset")) {
-        typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
+    if (typeElement.nodeType === 3) {
+        typeElement = typeElement.parentElement;
     }
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
@@ -166,7 +166,11 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         }
 
         if (commandName === "line") {
-            typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            if (typeElement.classList.contains("vditor-reset")) {
+                typeElement.innerHTML = '<hr data-block="0"><p data-block="0">\n<wbr></p>';
+            } else {
+                typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            }
         } else if (commandName === "quote") {
             const blockElement = hasClosestBlock(range.startContainer);
             if (blockElement) {
