@@ -16,6 +16,22 @@ import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, setRangeByWbr} from "./selection";
 
+export const isFirstCell = (cellElement: HTMLElement) => {
+    const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
+    if (tableElement && tableElement.rows[0].cells[0].isEqualNode(cellElement)) {
+        return tableElement;
+    }
+    return false;
+}
+
+export const isLastCell = (cellElement: HTMLElement) => {
+    const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
+    if (tableElement && tableElement.lastElementChild.lastElementChild.lastElementChild.isEqualNode(cellElement)) {
+        return tableElement;
+    }
+    return false;
+}
+
 // 光标设置到前一个表格中
 const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
     let previousElement = cellElement.previousElementSibling;
@@ -45,7 +61,8 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
     if ((event.key === "ArrowDown" && element.textContent.trimRight().substr(position.start).indexOf("\n") === -1) ||
         (event.key === "ArrowRight" && position.start >= element.textContent.trimRight().length)) {
         const nextElement = blockElement.nextElementSibling;
-        if (!nextElement || (nextElement && nextElement.getAttribute("data-type"))) {
+        if (!nextElement ||
+            (nextElement && (nextElement.tagName === "TABLE" || nextElement.getAttribute("data-type")))) {
             blockElement.insertAdjacentHTML("afterend",
                 `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
             setRangeByWbr(vditor.ir.element, range);
@@ -62,16 +79,18 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
 export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
                                   blockElement: HTMLElement) => {
     const position = getSelectPosition(element, range);
-    if ((event.key === "ArrowUp" &&  element.textContent.substr(position.start).indexOf("\n") === -1) ||
+    if ((event.key === "ArrowUp" && element.textContent.substr(position.start).indexOf("\n") === -1) ||
         (event.key === "ArrowLeft" && position.start === 0)) {
         const previousElement = blockElement.previousElementSibling;
-        if (!previousElement || (previousElement && previousElement.getAttribute("data-type"))) {
+        // table || code
+        if (!previousElement ||
+            (previousElement && (previousElement.tagName === "TABLE" || previousElement.getAttribute("data-type")))) {
             blockElement.insertAdjacentHTML("beforebegin",
                 `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
             setRangeByWbr(vditor.ir.element, range);
         } else {
             range.selectNodeContents(previousElement);
-            range.collapse(true);
+            range.collapse(false);
         }
         event.preventDefault();
         return true;

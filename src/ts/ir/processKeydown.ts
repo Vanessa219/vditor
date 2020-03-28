@@ -10,7 +10,7 @@ import {
     fixTab,
     fixTable,
     fixTask,
-    insertAfterBlock, insertBeforeBlock,
+    insertAfterBlock, insertBeforeBlock, isFirstCell, isLastCell,
 } from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 
@@ -104,6 +104,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // table
+    const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+        hasClosestByMatchTag(startContainer, "TH");
+    if (event.key.indexOf("Arrow") > -1 && cellElement) {
+        const tableElement = isFirstCell(cellElement)
+        if (tableElement && insertBeforeBlock(vditor, event, range, cellElement, tableElement)) {
+            return true;
+        }
+
+        const table2Element = isLastCell(cellElement)
+        if (table2Element && insertAfterBlock(vditor, event, range, cellElement, table2Element)) {
+            return true;
+        }
+    }
     if (fixTable(vditor, event, range)) {
         return true;
     }
