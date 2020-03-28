@@ -12,6 +12,7 @@ import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
+import {processHeading} from "../ir/process";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -107,40 +108,40 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // toolbar action
-        if (vditor.currentMode !== "ir") {
-            vditor.options.toolbar.find((menuItem: IMenuItem) => {
-                if (!menuItem.hotkey) {
-                    return false;
-                }
-                if (matchHotKey(menuItem.hotkey, event)) {
-                    if (menuItem.name === "upload") {
-                        (vditor.toolbar.elements[menuItem.name].querySelector("input") as HTMLElement).click();
-                    } else {
-                        vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
-                    }
-                    event.preventDefault();
-                    return true;
-                }
-            });
-
-            // h1 - h6 hotkey
-            if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[1-6]$/.test(event.code)) {
-                if (vditor.currentMode === "wysiwyg") {
-                    const tagName = event.code.replace("Digit", "H");
-                    if (hasClosestByMatchTag(getSelection().getRangeAt(0).startContainer, tagName)) {
-                        removeHeading(vditor);
-                    } else {
-                        setHeading(vditor, tagName);
-                    }
-                    afterRenderEvent(vditor);
+        vditor.options.toolbar.find((menuItem: IMenuItem) => {
+            if (!menuItem.hotkey) {
+                return false;
+            }
+            if (matchHotKey(menuItem.hotkey, event)) {
+                if (menuItem.name === "upload") {
+                    (vditor.toolbar.elements[menuItem.name].querySelector("input") as HTMLElement).click();
                 } else {
-                    insertText(vditor,
-                        "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
-                        "", false, true);
+                    vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
                 }
                 event.preventDefault();
                 return true;
             }
+        });
+
+        // h1 - h6 hotkey
+        if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[1-6]$/.test(event.code)) {
+            if (vditor.currentMode === "wysiwyg") {
+                const tagName = event.code.replace("Digit", "H");
+                if (hasClosestByMatchTag(getSelection().getRangeAt(0).startContainer, tagName)) {
+                    removeHeading(vditor);
+                } else {
+                    setHeading(vditor, tagName);
+                }
+                afterRenderEvent(vditor);
+            } else if (vditor.currentMode === "sv") {
+                insertText(vditor,
+                    "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
+                    "", false, true);
+            } else if (vditor.currentMode === "ir") {
+                processHeading(vditor, "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ");
+            }
+            event.preventDefault();
+            return true;
         }
 
         // toggle edit mode
