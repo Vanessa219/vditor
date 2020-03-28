@@ -39,7 +39,7 @@
 
 ## ✨  特性
 
-* 所见即所得编辑模式
+* 支持三种编辑模式：所见即所得、即时渲染、分屏预览
 * 支持任务列表、at、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://github.com/Vanessa219/vditor/issues/5)、语音阅读、标题锚点渲染
 * 支持[**快捷键**](https://hacpai.com/article/1582778815353)操作
 * 支持 Markdown **格式化**， Markdown **语法树**实时渲染
@@ -56,15 +56,36 @@
 * 支持主流浏览器和移动端
 
 ![demo](https://img.hacpai.com/file/2020/02/%E6%88%AA%E5%9B%BE%E4%B8%93%E7%94%A8-ef21ef12.png)
+
 ![render](https://img.hacpai.com/file/2019/12/6434107230ebd600d01a11e98e8ab30c24364b58-2f777b2d.png)
+
+## 🔮 编辑模式
+
+### 所见即所得
+
+*所见即所得*模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。
+
+![vditor-wysiwyg](https://img.hacpai.com/file/2020/03/wysiwyg-94c13d78.gif)
+
+### 即时渲染
+
+*即时渲染*模式对熟悉 Typora 的用户应该不会感到陌生，理论上这是最优雅的 Markdown 编辑方式。
+
+![vditor-ir](https://img.hacpai.com/file/2020/03/ir-6d784c1f.gif)
+
+### 分屏预览
+
+传统的*分屏预览*模式适合大屏下的 Markdown 编辑。
+
+![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
 
 ## 🗃 案例
 
-* [🎶Sym](https://github.com/88250/symphony) 一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
-* [🎸Solo](https://github.com/88250/solo) & [🎷Pipe](https://github.com/88250/pipe) B3log 分布式社区的博客端节点，欢迎加入下一代社区网络
-* [📒链滴笔记](https://github.com/88250/liandi) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
-* [🌟Starfire](https://github.com/88250/starfire) 一个分布式的内容分享讨论社区，星星之火可以燎原
-* [📝Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器，支持流程图、甘特图、时序图、任务列表、HTML 自动转换为 Markdown 等功能
+* [🎶 Sym](https://github.com/88250/symphony) 一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
+* [🎸 Solo](https://github.com/88250/solo) & [🎷Pipe](https://github.com/88250/pipe) B3log 分布式社区的博客端节点，欢迎加入下一代社区网络
+* [📕 链滴笔记](https://github.com/88250/liandi) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
+* [🌟 Starfire](https://github.com/88250/starfire) 一个分布式的内容分享讨论社区，星星之火可以燎原
+* [📝 Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器
 
 ## 🛠️ 使用文档
 
@@ -111,12 +132,17 @@ const vditor = new Vditor(id, {options...})
 
 ### API
 
+#### id
+
+可填入元素 `id` 或元素自身 `HTMLElement`
+
+⚠️：当填入元素自身的 `HTMLElement` 时需设置 `options.cache.id` 或将 `options.cache.enable` 设置为 `false`
+
 #### options
 
 |   | 说明 | 默认值 |
 | - | - | - |
 | after | 编辑器异步渲染完成后的回调方法 | undefined |
-| cache | 是否使用 localStorage 进行缓存 | true |
 | height | 编辑器总高度 | 'auto' |
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
@@ -131,7 +157,7 @@ const vditor = new Vditor(id, {options...})
 | tab | tab 键操作字符串，支持 `\t` 及任意字符串 | - |
 | typewriterMode | 是否启用打字机模式 | false |
 | cdn | 配置自建 CDN 地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
-| mode | 可选模式："wysiwyg-show", "markdown-show", "wysiwyg-only", "markdown-only | 'wysiwyg-show' |
+| mode | 可选模式："sv", "ir", "wysiwyg" | 'wysiwyg' |
 | debugger | 是否显示日志 | false |
 | value | 编辑器初始化值 | '' |
 | theme | 主题："classic"，"dark" | 'classic' |
@@ -140,7 +166,7 @@ const vditor = new Vditor(id, {options...})
 #### options.toolbar
 
 * 工具栏，可使用 name 进行简写： `toolbar: ['emoji', 'br', 'bold', '|', 'line']` 。默认值参见 [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
-* name 可枚举为： `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `both` , `preview` , `format` , `fullscreen` , `devtools` , `info` , `help` , `br`
+* name 可枚举为： `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `devtools` , `info` , `help` , `br`
 * 当 `name` 不在枚举中时，可以添加自定义按钮，格式如下：
 
 ```js
@@ -166,6 +192,13 @@ const vditor = new Vditor(id, {options...})
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
 | click | 自定义按钮点击时触发的事件 ():viod | - |
+
+#### options.cache
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| enable | 是否使用 localStorage 进行缓存 | true |
+| id | 缓存 key，第一个参数为元素且启用缓存时**必填** | - |
 
 #### options.preview
 
