@@ -1,3 +1,4 @@
+import {processHeading} from "../ir/process";
 import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {getSelectText} from "../sv/getSelectText";
 import {insertText} from "../sv/insertText";
@@ -12,7 +13,6 @@ import {isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
-import {processHeading} from "../ir/process";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {

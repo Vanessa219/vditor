@@ -10,9 +10,9 @@ import {
     fixTab,
     fixTable,
     fixTask,
+    insertAfterBlock, insertBeforeBlock,
 } from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {getSelectPosition, setRangeByWbr} from "../util/selection";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -68,32 +68,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement && preRenderElement.tagName === "PRE") {
         const codeRenderElement = preRenderElement.firstChild as HTMLElement;
-        const codePosition = getSelectPosition(codeRenderElement, range);
         // 数学公式上无元素，按上或左将添加新块
-        if ((event.key === "ArrowUp" || event.key === "ArrowLeft") &&
-            codeRenderElement.getAttribute("data-type") === "math-block"
-            && !preRenderElement.parentElement.previousElementSibling &&
-            codePosition.start === 0) {
-            preRenderElement.parentElement.insertAdjacentHTML("beforebegin",
-                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-            setRangeByWbr(vditor.ir.element, range);
-            event.preventDefault();
+        if (codeRenderElement.getAttribute("data-type") === "math-block" &&
+            insertBeforeBlock(vditor, event, range, codeRenderElement, preRenderElement.parentElement)) {
             return true;
         }
 
-        // 代码块下无元素或者为代码块元素，添加空块
-        if ((event.key === "ArrowDown" && codeRenderElement.textContent.trimRight().substr(codePosition.start).indexOf("\n") === -1) ||
-            (event.key === "ArrowRight" && codePosition.start >= codeRenderElement.textContent.trimRight().length)) {
-            const nextElement = preRenderElement.parentElement.nextElementSibling;
-            if (!nextElement || (nextElement && nextElement.getAttribute("data-type"))) {
-                preRenderElement.parentElement.insertAdjacentHTML("afterend",
-                    `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-                setRangeByWbr(vditor.ir.element, range);
-            } else {
-                range.selectNodeContents(preRenderElement.parentElement.nextElementSibling);
-                range.collapse(true);
-            }
-            event.preventDefault();
+        // 代码块下无元素或者为代码块/table 元素，添加空块
+        if (insertAfterBlock(vditor, event, range, codeRenderElement, preRenderElement.parentElement)) {
             return true;
         }
 
@@ -116,12 +98,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // 上无元素，按上或左将添加新块
-        if (!preBeforeElement.parentElement.previousElementSibling && (event.key === "ArrowUp" || event.key === "ArrowLeft")
-            && getSelectPosition(preBeforeElement, range).start < 2) {
-            preBeforeElement.parentElement.insertAdjacentHTML("beforebegin",
-                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-            setRangeByWbr(vditor.ir.element, range);
-            event.preventDefault();
+        if (insertBeforeBlock(vditor, event, range, preBeforeElement, preBeforeElement.parentElement)) {
             return true;
         }
     }

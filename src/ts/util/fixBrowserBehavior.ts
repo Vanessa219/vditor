@@ -39,6 +39,46 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
     return previousElement;
 };
 
+export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
+                                 blockElement: HTMLElement) => {
+    const position = getSelectPosition(element, range);
+    if ((event.key === "ArrowDown" && element.textContent.trimRight().substr(position.start).indexOf("\n") === -1) ||
+        (event.key === "ArrowRight" && position.start >= element.textContent.trimRight().length)) {
+        const nextElement = blockElement.nextElementSibling;
+        if (!nextElement || (nextElement && nextElement.getAttribute("data-type"))) {
+            blockElement.insertAdjacentHTML("afterend",
+                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+            setRangeByWbr(vditor.ir.element, range);
+        } else {
+            range.selectNodeContents(nextElement);
+            range.collapse(true);
+        }
+        event.preventDefault();
+        return true;
+    }
+    return false;
+}
+
+export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
+                                  blockElement: HTMLElement) => {
+    const position = getSelectPosition(element, range);
+    if ((event.key === "ArrowUp" &&  element.textContent.substr(position.start).indexOf("\n") === -1) ||
+        (event.key === "ArrowLeft" && position.start === 0)) {
+        const previousElement = blockElement.previousElementSibling;
+        if (!previousElement || (previousElement && previousElement.getAttribute("data-type"))) {
+            blockElement.insertAdjacentHTML("beforebegin",
+                `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+            setRangeByWbr(vditor.ir.element, range);
+        } else {
+            range.selectNodeContents(previousElement);
+            range.collapse(true);
+        }
+        event.preventDefault();
+        return true;
+    }
+    return false;
+}
+
 export const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
     const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
     vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {

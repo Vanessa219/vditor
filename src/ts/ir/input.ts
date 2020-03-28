@@ -48,7 +48,7 @@ export const input = (vditor: IVditor, range: Range) => {
                     // inline marker space https://github.com/Vanessa219/vditor/issues/239
                 } else {
                     const previousNode = range.startContainer.previousSibling as HTMLElement;
-                    if (previousNode.nodeType !== 3 && previousNode.classList.contains("vditor-ir__node--expand")) {
+                    if (previousNode && previousNode.nodeType !== 3 && previousNode.classList.contains("vditor-ir__node--expand")) {
                         // FireFox https://github.com/Vanessa219/vditor/issues/239
                         previousNode.classList.remove("vditor-ir__node--expand");
                     }
