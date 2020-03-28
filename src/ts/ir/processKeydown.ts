@@ -107,12 +107,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
         hasClosestByMatchTag(startContainer, "TH");
     if (event.key.indexOf("Arrow") > -1 && cellElement) {
-        const tableElement = isFirstCell(cellElement)
+        const tableElement = isFirstCell(cellElement);
         if (tableElement && insertBeforeBlock(vditor, event, range, cellElement, tableElement)) {
             return true;
         }
 
-        const table2Element = isLastCell(cellElement)
+        const table2Element = isLastCell(cellElement);
         if (table2Element && insertAfterBlock(vditor, event, range, cellElement, table2Element)) {
             return true;
         }
@@ -132,7 +132,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
-        if (fixDelete(range, event)) {
+        if (pElement && fixDelete(vditor, range, event, pElement)) {
             return true;
         }
     }

@@ -3,7 +3,7 @@ import {processAfterRender} from "../ir/process";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {isCtrl} from "./compatibility";
+import {isCtrl, isFirefox} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
 import {
     getTopList,
@@ -22,7 +22,7 @@ export const isFirstCell = (cellElement: HTMLElement) => {
         return tableElement;
     }
     return false;
-}
+};
 
 export const isLastCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
@@ -30,7 +30,7 @@ export const isLastCell = (cellElement: HTMLElement) => {
         return tableElement;
     }
     return false;
-}
+};
 
 // 光标设置到前一个表格中
 const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = true) => {
@@ -74,7 +74,7 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
         return true;
     }
     return false;
-}
+};
 
 export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
                                   blockElement: HTMLElement) => {
@@ -96,7 +96,7 @@ export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: 
         return true;
     }
     return false;
-}
+};
 
 export const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
     const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
@@ -924,13 +924,25 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
     return false;
 };
 
-export const fixDelete = (range: Range, event: KeyboardEvent) => {
+export const fixDelete = (vditor: IVditor, range: Range, event: KeyboardEvent, pElement: HTMLElement) => {
     const offsetChildNode = range.startContainer.childNodes[range.startOffset] as HTMLElement;
     if (range.startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
         (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
         // 光标位于 table/hr 前，table/hr 前有内容
         range.selectNodeContents(offsetChildNode.previousElementSibling);
         range.collapse(false);
+        event.preventDefault();
+        return true;
+    }
+    // firefox table 后删除 https://github.com/Vanessa219/vditor/issues/243
+    const tableElement = pElement.previousElementSibling;
+    if (event.key === "Backspace" && isFirefox() && tableElement.tagName === "TABLE" &&
+        getSelectPosition(pElement, range).start === 0) {
+        const lastCellElement = tableElement.lastElementChild.lastElementChild.lastElementChild;
+        lastCellElement.innerHTML = lastCellElement.innerHTML.trimLeft() + "<wbr>" + pElement.textContent.trim();
+        pElement.remove();
+        setRangeByWbr(vditor[vditor.currentMode].element, range);
+        execAfterRender(vditor);
         event.preventDefault();
         return true;
     }

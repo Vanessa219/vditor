@@ -263,7 +263,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 删除
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
-        if (fixDelete(range, event)) {
+        if (pElement && fixDelete(vditor, range, event, pElement)) {
             return true;
         }
         if (blockElement) {
