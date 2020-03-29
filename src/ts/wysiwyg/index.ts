@@ -13,7 +13,7 @@ import {
     insertHTML,
     setRangeByWbr,
     setSelectionByPosition,
-    setSelectionFocus
+    setSelectionFocus,
 } from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
@@ -356,6 +356,10 @@ class WYSIWYG {
             if (event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "Backspace"
                 && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {
                 return;
+            }
+
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                vditor.hint.render(vditor);
             }
 
             // 上下左右，删除遇到块预览的处理

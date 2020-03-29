@@ -1,4 +1,3 @@
-import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
@@ -68,6 +67,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement && preRenderElement.tagName === "PRE") {
         const codeRenderElement = preRenderElement.firstChild as HTMLElement;
+        if (fixCodeBlock(vditor, event, preRenderElement, range)) {
+            return true;
+        }
         // 数学公式上无元素，按上或左将添加新块
         if (codeRenderElement.getAttribute("data-type") === "math-block" &&
             insertBeforeBlock(vditor, event, range, codeRenderElement, preRenderElement.parentElement)) {
@@ -78,23 +80,25 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (insertAfterBlock(vditor, event, range, codeRenderElement, preRenderElement.parentElement)) {
             return true;
         }
-
-        if (fixCodeBlock(vditor, event, preRenderElement, range)) {
-            return true;
-        }
     }
     // 代码块语言
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
-    if (preBeforeElement && range.toString() === "") {
-        if (event.key === "Backspace" && preBeforeElement.textContent.replace(Constants.ZWSP, "").trim() === "") {
-            event.preventDefault();
-            return true;
-        }
-        if (event.key === "Enter") {
+    if (preBeforeElement) {
+        if (event.key === "Enter" || event.key === "Tab") {
             range.selectNodeContents(preBeforeElement.nextElementSibling.firstChild);
             range.collapse(true);
             event.preventDefault();
             return true;
+        }
+
+        if (event.key === "Backspace") {
+            if (range.startOffset === 1) {
+                range.setStart(startContainer, 0);
+            }
+            if (range.startOffset === 2) {
+                // 删除时清空语言
+                vditor.hint.recentLanguage = "";
+            }
         }
 
         // 上无元素，按上或左将添加新块

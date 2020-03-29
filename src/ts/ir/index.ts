@@ -13,7 +13,7 @@ import {
 import {expandMarker} from "./expandMarker";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
-import {processAfterRender, processCodeRender} from "./process";
+import {processAfterRender, processCodeRender, processHint} from "./process";
 
 class IR {
     public element: HTMLPreElement;
@@ -252,6 +252,9 @@ class IR {
                     }
                 });
             } else if (event.key.indexOf("Arrow") > -1) {
+                if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                    processHint(vditor);
+                }
                 expandMarker(range, vditor);
             }
 

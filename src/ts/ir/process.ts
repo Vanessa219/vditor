@@ -10,22 +10,23 @@ import {isSafari} from "../util/compatibility";
 import {listToggle} from "../util/fixBrowserBehavior";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {getEditorRange, setRangeByWbr} from "../util/selection";
+import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
 import {highlightToolbar} from "./highlightToolbar";
 
-export const processAfterRender = (vditor: IVditor, options = {
-    enableAddUndoStack: true,
-    enableHint: false,
-    enableInput: true,
-}) => {
+export const processHint = (vditor: IVditor) => {
+    vditor.hint.render(vditor);
     const startContainer = getEditorRange(vditor.ir.element).startContainer;
     // 代码块语言提示
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
-    if (options.enableHint) {
-        vditor.hint.render(vditor);
-        if (preBeforeElement) {
+    if (preBeforeElement) {
+        if (preBeforeElement.textContent.replace(Constants.ZWSP, "") === "" && vditor.hint.recentLanguage) {
+            preBeforeElement.textContent = Constants.ZWSP + vditor.hint.recentLanguage;
+            const range = getEditorRange(vditor.ir.element);
+            range.selectNodeContents(preBeforeElement);
+        } else {
             const matchLangData: IHintData[] = [];
-            const key = preBeforeElement.textContent.replace(Constants.ZWSP, "").trim();
+            const key = preBeforeElement.textContent.substring(0, getSelectPosition(preBeforeElement).start)
+                .replace(Constants.ZWSP, "");
             Constants.CODE_LANGUAGES.forEach((keyName) => {
                 if (keyName.indexOf(key.toLowerCase()) > -1) {
                     matchLangData.push({
@@ -36,6 +37,16 @@ export const processAfterRender = (vditor: IVditor, options = {
             });
             vditor.hint.genHTML(matchLangData, key, vditor);
         }
+    }
+};
+
+export const processAfterRender = (vditor: IVditor, options = {
+    enableAddUndoStack: true,
+    enableHint: false,
+    enableInput: true,
+}) => {
+    if (options.enableHint) {
+        processHint(vditor);
     }
 
     clearTimeout(vditor.ir.processTimeoutId);

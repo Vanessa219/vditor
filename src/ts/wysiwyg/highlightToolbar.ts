@@ -559,7 +559,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     language.className = "vditor-input";
                     language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥-Enter") + ">");
                     language.value = codeElement.className.indexOf("language-") > -1 ?
-                        codeElement.className.split("-")[1].split(" ")[0] : "";
+                        codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
                     language.oninput = () => {
                         updateLanguage();
                         processCodeRender(blockRenderElement, vditor);
@@ -577,11 +577,11 @@ export const highlightToolbar = (vditor: IVditor) => {
                         vditor.hint.select(event, vditor);
                     };
                     language.onkeyup = (event: KeyboardEvent) => {
-                        if (event.isComposing || event.key.indexOf("Arrow") > -1 || event.key === "Enter") {
+                        if (event.isComposing || event.key === "Enter" || event.key === "ArrowUp" || event.key === "ArrowDown") {
                             return;
                         }
                         const matchLangData: IHintData[] = [];
-                        const key = language.value;
+                        const key = language.value.substring(0, language.selectionStart);
                         Constants.CODE_LANGUAGES.forEach((keyName) => {
                             if (keyName.indexOf(key.toLowerCase()) > -1) {
                                 matchLangData.push({

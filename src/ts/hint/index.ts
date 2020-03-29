@@ -12,11 +12,13 @@ import {processCodeRender} from "../wysiwyg/processCodeRender";
 export class Hint {
     public timeId: number;
     public element: HTMLDivElement;
+    public recentLanguage: string;
 
     constructor() {
         this.timeId = -1;
         this.element = document.createElement("div");
         this.element.className = "vditor-hint";
+        this.recentLanguage = "";
     }
 
     public render(vditor: IVditor) {
@@ -146,6 +148,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                         item.className = "language-" + value.trimRight();
                     });
                     processIRCodeRender(preBeforeElement.parentElement.querySelector(".vditor-ir__preview"), vditor);
+                    this.recentLanguage = value.trimRight();
                     return;
                 }
             }
@@ -156,6 +159,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 range.selectNodeContents(inputElement);
                 range.collapse(false);
                 inputElement.dispatchEvent(new CustomEvent("input"));
+                this.recentLanguage = value.trimRight();
                 return;
             }
 
@@ -200,7 +204,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
 
         const currentHintElement: HTMLElement = this.element.querySelector(".vditor-hint--current");
 
-        if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+        if (event.key === "ArrowDown") {
             event.preventDefault();
             event.stopPropagation();
             currentHintElement.removeAttribute("class");
@@ -210,7 +214,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 currentHintElement.nextElementSibling.className = "vditor-hint--current";
             }
             return true;
-        } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+        } else if (event.key === "ArrowUp") {
             event.preventDefault();
             event.stopPropagation();
             currentHintElement.removeAttribute("class");
