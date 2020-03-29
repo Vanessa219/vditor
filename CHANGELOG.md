@@ -51,6 +51,7 @@
 
 ### v3.0.7 / 2020-03-xx
 
+* [211](https://github.com/Vanessa219/vditor/issues/211) Heading when backspace (Windows Firefox) `修复缺陷`
 * [239](https://github.com/Vanessa219/vditor/issues/239) be converted after spaces in FF `修复缺陷`
 
 ### v3.0.6 / 2020-03-27

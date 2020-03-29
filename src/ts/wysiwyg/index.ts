@@ -1,6 +1,6 @@
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
-import {isCtrl} from "../util/compatibility";
+import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
 import {
@@ -8,7 +8,13 @@ import {
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
-import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition, setSelectionFocus} from "../util/selection";
+import {
+    getSelectPosition,
+    insertHTML,
+    setRangeByWbr,
+    setSelectionByPosition,
+    setSelectionFocus
+} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
@@ -334,6 +340,13 @@ class WYSIWYG {
             }
 
             const range = getSelection().getRangeAt(0);
+
+            if (event.key === "Backspace") {
+                // firefox headings https://github.com/Vanessa219/vditor/issues/211
+                if (isFirefox() && range.startContainer.textContent === "\n" && range.startOffset === 1) {
+                    range.startContainer.textContent = "";
+                }
+            }
 
             // 没有被块元素包裹
             modifyPre(vditor, range);

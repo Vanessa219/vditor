@@ -3,7 +3,7 @@ import {processAfterRender} from "../ir/process";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {processCodeRender} from "../wysiwyg/processCodeRender";
-import {isCtrl, isFirefox} from "./compatibility";
+import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
 import {
     getTopList,
@@ -934,9 +934,9 @@ export const fixDelete = (vditor: IVditor, range: Range, event: KeyboardEvent, p
         event.preventDefault();
         return true;
     }
-    // firefox table 后删除 https://github.com/Vanessa219/vditor/issues/243
+    // table 后删除 https://github.com/Vanessa219/vditor/issues/243
     const tableElement = pElement.previousElementSibling;
-    if (event.key === "Backspace" && isFirefox() && tableElement.tagName === "TABLE" &&
+    if (event.key === "Backspace" && tableElement.tagName === "TABLE" &&
         getSelectPosition(pElement, range).start === 0) {
         const lastCellElement = tableElement.lastElementChild.lastElementChild.lastElementChild;
         lastCellElement.innerHTML = lastCellElement.innerHTML.trimLeft() + "<wbr>" + pElement.textContent.trim();

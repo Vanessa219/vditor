@@ -1,6 +1,6 @@
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
-import {isCtrl} from "../util/compatibility";
+import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
@@ -237,8 +237,12 @@ class IR {
                 vditor.ir.element.innerHTML = "";
                 return;
             }
-
+            const range = getSelection().getRangeAt(0);
             if (event.key === "Backspace") {
+                // firefox headings https://github.com/Vanessa219/vditor/issues/211
+                if (isFirefox() && range.startContainer.textContent === "\n" && range.startOffset === 1) {
+                    range.startContainer.textContent = "";
+                }
                 // 数学公式前是空块，空块前是 table，在空块前删除，数学公式会多一个 br
                 this.element.querySelectorAll(".language-math").forEach((item) => {
                     const brElement = item.querySelector("br");
@@ -248,11 +252,10 @@ class IR {
                 });
             }
 
-            if (event.key.indexOf("Arrow") > -1) {
-                expandMarker(getSelection().getRangeAt(0), vditor);
+            if (event.key.indexOf("Arrow") > -1 || event.key === "Backspace") {
+                expandMarker(range, vditor);
             }
 
-            const range = getSelection().getRangeAt(0);
             const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
 
             if (previewRenderElement) {
