@@ -3,7 +3,7 @@ import {Constants} from "../constants";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
-import { graphvizRender } from "../markdown/graphvizRender";
+import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
@@ -85,8 +85,14 @@ export const processCodeRender = (blockElement: HTMLElement, vditor: IVditor) =>
         }
         previewPanel.innerHTML = tempHTML;
     } else if (blockType.indexOf("math") > -1) {
-        previewPanel.innerHTML = `<${tagName} class="vditor-math">${
-            innerHTML.replace(Constants.ZWSP, "")}</${tagName}>`;
+        if (tagName === "span") {
+            previewPanel.innerHTML = `<code class="language-math"><${tagName} class="vditor-math">${
+                innerHTML.replace(Constants.ZWSP, "")}</${tagName}></code>`;
+        } else {
+            previewPanel.innerHTML = `<pre><code class="language-math"><${tagName} class="vditor-math">${
+                innerHTML.replace(Constants.ZWSP, "")}</${tagName}></code></pre>`;
+        }
+
         mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     }
 

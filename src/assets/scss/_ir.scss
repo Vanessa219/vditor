@@ -27,6 +27,10 @@
       transition: $transition;
     }
 
+    .vditor-ir__preview code:not(.hljs):not(.highlight-chroma) {
+      background-color: var(--preview-background-color);
+    }
+
     &--expand {
       .vditor-ir__marker {
         color: var(--second-color);

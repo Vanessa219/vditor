@@ -51,9 +51,14 @@
   }
 
   &__block {
-    &[data-type="html-block"] > pre,
-    &[data-type="math-block"] > pre {
-      margin-bottom: 0;
+    &[data-type="html-block"] {
+      & > pre {
+        margin-bottom: 0;
+      }
+
+      .vditor-wysiwyg__preview {
+        background-color: var(--preview-background-color);
+      }
     }
 
     code {
@@ -93,6 +98,10 @@
     cursor: pointer;
     white-space: initial;
     min-height: 27px;
+
+    code:not(.hljs):not(.highlight-chroma) {
+      background-color: var(--preview-background-color);
+    }
 
     pre {
       margin-bottom: 1em !important;

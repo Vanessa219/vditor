@@ -79,7 +79,11 @@ export const processAfterRender = (vditor: IVditor, options = {
 };
 
 export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
-    const language = previewPanel.querySelector("code").className.replace("language-", "");
+    const codeElement = previewPanel.querySelector("code")
+    if (!codeElement) {
+        return;
+    }
+    const language = codeElement.className.replace("language-", "");
     if (language === "abc") {
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {
