@@ -242,6 +242,7 @@ class IR {
                 // firefox headings https://github.com/Vanessa219/vditor/issues/211
                 if (isFirefox() && range.startContainer.textContent === "\n" && range.startOffset === 1) {
                     range.startContainer.textContent = "";
+                    expandMarker(range, vditor);
                 }
                 // 数学公式前是空块，空块前是 table，在空块前删除，数学公式会多一个 br
                 this.element.querySelectorAll(".language-math").forEach((item) => {
@@ -250,9 +251,7 @@ class IR {
                         brElement.remove();
                     }
                 });
-            }
-
-            if (event.key.indexOf("Arrow") > -1 || event.key === "Backspace") {
+            } else if (event.key.indexOf("Arrow") > -1) {
                 expandMarker(range, vditor);
             }
 

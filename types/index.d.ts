@@ -386,6 +386,7 @@ interface IVditor {
     hint: {
         timeId: number
         element: HTMLDivElement
+        recentLanguage: string
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
         genHTML(data: IHintData[], key: string, vditor: IVditor): void
