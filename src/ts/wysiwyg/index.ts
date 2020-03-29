@@ -13,10 +13,9 @@ import {
     insertHTML,
     setRangeByWbr,
     setSelectionByPosition,
-    setSelectionFocus,
 } from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {highlightToolbar} from "./highlightToolbar";
+import {genImagePopover, highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {processCodeRender, showCode} from "./processCodeRender";
@@ -295,12 +294,13 @@ class WYSIWYG {
             input(vditor, range, event);
         });
 
-        this.element.addEventListener("click", (event: MouseEvent & { target: HTMLInputElement }) => {
+        this.element.addEventListener("click", (event: MouseEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "INPUT") {
-                if (event.target.checked) {
-                    event.target.setAttribute("checked", "checked");
+                const checkElement = event.target as HTMLInputElement;
+                if (checkElement.checked) {
+                    checkElement.setAttribute("checked", "checked");
                 } else {
-                    event.target.removeAttribute("checked");
+                    checkElement.removeAttribute("checked");
                 }
                 this.preventInput = true;
                 afterRenderEvent(vditor);
@@ -308,10 +308,8 @@ class WYSIWYG {
             }
 
             if (event.target.tagName === "IMG") {
-                const range = this.element.ownerDocument.createRange();
-                range.selectNode(event.target);
-                range.collapse(true);
-                setSelectionFocus(range);
+                genImagePopover(event, vditor)
+                return;
             }
 
             highlightToolbar(vditor);

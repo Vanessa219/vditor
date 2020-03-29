@@ -21,7 +21,6 @@ import {
 } from "../util/hasClosest";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {nextIsImg} from "./inlineTag";
 import {processCodeRender} from "./processCodeRender";
 
 export const highlightToolbar = (vditor: IVditor) => {
@@ -459,80 +458,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             setPopoverPosition(vditor, footnotesRefElement);
         }
 
-        // img popover
-        let imgElement = nextIsImg(range) as HTMLElement;
-        if ((range.startContainer.nodeType !== 3 && range.startContainer.childNodes.length > range.startOffset &&
-            range.startContainer.childNodes[range.startOffset].nodeName === "IMG") || imgElement) {
-            // 光标在图片前面，或在文字后面
-            if (!imgElement) {
-                imgElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
-            }
-            vditor.wysiwyg.popover.innerHTML = "";
-            const updateImg = () => {
-                imgElement.setAttribute("src", input.value);
-                imgElement.setAttribute("alt", alt.value);
-                if (aHref.value === "") {
-                    if (imgElement.parentElement.nodeName === "A") {
-                        imgElement.parentElement.replaceWith(imgElement);
-                    }
-                } else {
-                    if (imgElement.parentElement.nodeName === "A") {
-                        imgElement.parentElement.setAttribute("href", aHref.value);
-                    } else {
-                        const link = document.createElement("a");
-                        link.innerHTML = imgElement.outerHTML;
-                        link.setAttribute("href", aHref.value);
-
-                        const linkElement = imgElement.parentNode.insertBefore(link, imgElement);
-                        imgElement.remove();
-                        imgElement = linkElement.querySelector("img");
-                    }
-                }
-            };
-
-            const inputWrap = document.createElement("span");
-            inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].imageURL);
-            inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const input = document.createElement("input");
-            inputWrap.appendChild(input);
-            input.className = "vditor-input";
-            input.setAttribute("placeholder", i18n[vditor.options.lang].imageURL);
-            input.value = imgElement.getAttribute("src") || "";
-            input.oninput = () => {
-                updateImg();
-            };
-            const altWrap = document.createElement("span");
-            altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
-            altWrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const alt = document.createElement("input");
-            altWrap.appendChild(alt);
-            alt.className = "vditor-input";
-            alt.setAttribute("placeholder", i18n[vditor.options.lang].alternateText);
-            alt.style.width = "52px";
-            alt.value = imgElement.getAttribute("alt") || "";
-            alt.oninput = () => {
-                updateImg();
-            };
-
-            const aHrefWrap = document.createElement("span");
-            aHrefWrap.setAttribute("aria-label", i18n[vditor.options.lang].link);
-            aHrefWrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const aHref = document.createElement("input");
-            aHrefWrap.appendChild(aHref);
-            aHref.className = "vditor-input";
-            aHref.setAttribute("placeholder", i18n[vditor.options.lang].link);
-            aHref.value =
-                imgElement.parentElement.nodeName === "A" ? imgElement.parentElement.getAttribute("href") : "";
-            aHref.oninput = () => {
-                updateImg();
-            };
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", aHrefWrap);
-
-            setPopoverPosition(vditor, imgElement);
-        }
-
         const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
         if (blockRenderElement) {
             // block popover: math-inline, math-block, html-block, html-inline, code-block
@@ -643,7 +568,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             genAPopover(vditor, aElement);
         }
 
-        if (!blockquoteElement && !imgElement && !topListElement && !tableElement && !blockRenderElement && !aElement
+        if (!blockquoteElement && !topListElement && !tableElement && !blockRenderElement && !aElement
             && !linkRefElement && !footnotesRefElement && !headingElement && !tocElement) {
             vditor.wysiwyg.popover.style.display = "none";
         }
@@ -811,3 +736,71 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
     setPopoverPosition(vditor, aElement);
 };
+
+export const genImagePopover = (event: Event, vditor: IVditor) => {
+    let imgElement = event.target as HTMLImageElement
+    vditor.wysiwyg.popover.innerHTML = "";
+    const updateImg = () => {
+        imgElement.setAttribute("src", inputElement.value);
+        imgElement.setAttribute("alt", alt.value);
+        if (aHref.value === "") {
+            if (imgElement.parentElement.nodeName === "A") {
+                imgElement.parentElement.replaceWith(imgElement);
+            }
+        } else {
+            if (imgElement.parentElement.nodeName === "A") {
+                imgElement.parentElement.setAttribute("href", aHref.value);
+            } else {
+                const link = document.createElement("a");
+                link.innerHTML = imgElement.outerHTML;
+                link.setAttribute("href", aHref.value);
+
+                const linkElement = imgElement.parentNode.insertBefore(link, imgElement);
+                imgElement.remove();
+                imgElement = linkElement.querySelector("img");
+            }
+        }
+    };
+
+    const inputWrap = document.createElement("span");
+    inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].imageURL);
+    inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const inputElement = document.createElement("input");
+    inputWrap.appendChild(inputElement);
+    inputElement.className = "vditor-input";
+    inputElement.setAttribute("placeholder", i18n[vditor.options.lang].imageURL);
+    inputElement.value = imgElement.getAttribute("src") || "";
+    inputElement.oninput = () => {
+        updateImg();
+    };
+    const altWrap = document.createElement("span");
+    altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
+    altWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const alt = document.createElement("input");
+    altWrap.appendChild(alt);
+    alt.className = "vditor-input";
+    alt.setAttribute("placeholder", i18n[vditor.options.lang].alternateText);
+    alt.style.width = "52px";
+    alt.value = imgElement.getAttribute("alt") || "";
+    alt.oninput = () => {
+        updateImg();
+    };
+
+    const aHrefWrap = document.createElement("span");
+    aHrefWrap.setAttribute("aria-label", i18n[vditor.options.lang].link);
+    aHrefWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const aHref = document.createElement("input");
+    aHrefWrap.appendChild(aHref);
+    aHref.className = "vditor-input";
+    aHref.setAttribute("placeholder", i18n[vditor.options.lang].link);
+    aHref.value =
+        imgElement.parentElement.nodeName === "A" ? imgElement.parentElement.getAttribute("href") : "";
+    aHref.oninput = () => {
+        updateImg();
+    };
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", aHrefWrap);
+
+    setPopoverPosition(vditor, imgElement);
+}
