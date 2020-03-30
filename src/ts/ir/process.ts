@@ -104,6 +104,8 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
             previewPanel, vditor.options.cdn);
         codeRender(previewPanel, vditor.options.lang);
     }
+
+    previewPanel.setAttribute('data-render', '1');
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {

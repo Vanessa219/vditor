@@ -140,16 +140,18 @@ class IR {
                         },
                     });
                     insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
-                    vditor.ir.element.querySelectorAll(".vditor-ir__preview").forEach((item: HTMLElement) => {
-                        processCodeRender(item, vditor);
-                    });
+                    vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']")
+                        .forEach((item: HTMLElement) => {
+                            processCodeRender(item, vditor);
+                        });
                 } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
                     uploadFiles(vditor, event.clipboardData.files);
                 } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
                     insertHTML(vditor.lute.Md2VditorIRDOM(textPlain), vditor);
-                    vditor.ir.element.querySelectorAll(".vditor-ir__preview").forEach((item: HTMLElement) => {
-                        processCodeRender(item, vditor);
-                    });
+                    vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']")
+                        .forEach((item: HTMLElement) => {
+                            processCodeRender(item, vditor);
+                        });
                 }
             }
 

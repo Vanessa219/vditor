@@ -139,7 +139,7 @@ export const input = (vditor: IVditor, range: Range) => {
 
     setRangeByWbr(vditor.ir.element, range);
 
-    vditor.ir.element.querySelectorAll(".vditor-ir__preview").forEach((item: HTMLElement) => {
+    vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
         processCodeRender(item, vditor);
     });
 

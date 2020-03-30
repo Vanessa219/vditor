@@ -56,7 +56,7 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         }
         setPadding(vditor);
 
-        vditor.ir.element.querySelectorAll(".vditor-ir__preview").forEach((item: HTMLElement) => {
+        vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
             processCodeRender(item, vditor);
         });
     } else if (type === "wysiwyg") {
