@@ -86,7 +86,6 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
         contentElement.style.setProperty("--editor-bottom", height / 2 + "px");
     }
 
-    setPadding(vditor);
     window.addEventListener("resize", () => {
         setPadding(vditor);
     });

@@ -69,13 +69,13 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
 
         const editorMD = getMarkdown(vditor);
         vditor.currentMode = "wysiwyg";
+        setPadding(vditor);
         renderDomByMd(vditor, editorMD);
         if (event) {
             // 初始化不 focus
             vditor.wysiwyg.element.focus();
         }
         vditor.wysiwyg.popover.style.display = "none";
-        setPadding(vditor);
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.undo.resetIcon(vditor);
