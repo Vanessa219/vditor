@@ -1,11 +1,12 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
-import {processAfterRender, processCodeRender} from "../ir/process";
+import {processAfterRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {setPadding} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
+import {processCodeRender} from "../util/processCode";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";

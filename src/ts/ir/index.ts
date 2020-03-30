@@ -3,7 +3,7 @@ import {setHeaders} from "../upload/setHeaders";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {processPasteCode} from "../util/processPasteCode";
+import {processCodeRender, processPasteCode} from "../util/processCode";
 import {
     getSelectPosition,
     insertHTML,
@@ -13,7 +13,7 @@ import {
 import {expandMarker} from "./expandMarker";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
-import {processAfterRender, processCodeRender, processHint} from "./process";
+import {processAfterRender, processHint} from "./process";
 
 class IR {
     public element: HTMLPreElement;
@@ -90,10 +90,8 @@ class IR {
                     + textPlain + codeElement.textContent.substring(position.end);
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
-                const previewElement =
-                    codeElement.parentElement.parentElement.querySelector(".vditor-ir__preview") as HTMLElement;
-                previewElement.innerHTML = codeElement.outerHTML;
-                processCodeRender(previewElement, vditor);
+                codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
+                processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
             } else if (code) {
                 document.execCommand("insertHTML", false, code);
             } else {

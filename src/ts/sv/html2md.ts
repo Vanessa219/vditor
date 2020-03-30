@@ -1,5 +1,5 @@
 import {setHeaders} from "../upload/setHeaders";
-import {processPasteCode} from "../util/processPasteCode";
+import {processPasteCode} from "../util/processCode";
 import {insertText} from "./insertText";
 import {setSelectionByInlineText} from "./setSelection";
 

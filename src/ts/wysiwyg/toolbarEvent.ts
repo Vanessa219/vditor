@@ -2,11 +2,11 @@ import {Constants} from "../constants";
 import {removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {processCodeRender} from "../util/processCode";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genAPopover, highlightToolbar} from "./highlightToolbar";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
-import {processCodeRender} from "./processCodeRender";
 
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
     let element = range.startContainer.parentElement;
@@ -203,9 +203,9 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             }
             setRangeByWbr(vditor.wysiwyg.element, range);
-            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
-                (blockRenderItem: HTMLElement) => {
-                    processCodeRender(blockRenderItem, vditor);
+            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']").forEach(
+                (item: HTMLElement) => {
+                    processCodeRender(item, vditor);
                 });
         } else if (commandName === "link") {
             if (range.toString() === "") {

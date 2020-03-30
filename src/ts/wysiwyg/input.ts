@@ -2,14 +2,14 @@ import {isToC, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
-    hasClosestByClassName, hasClosestByHeadings,
+    hasClosestByHeadings,
     hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
+import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
-import {processCodeRender} from "./processCodeRender";
 
 export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
@@ -19,16 +19,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         blockElement = vditor.wysiwyg.element;
     }
 
-    const renderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-    const codeElement = hasClosestByTag(range.startContainer, "CODE");
-    if (codeElement && renderElement && renderElement.getAttribute("data-block") === "0") {
-        if (renderElement.firstElementChild.tagName === "PRE") {
-            processCodeRender(renderElement, vditor);
-        } else {
-            // 代码块前为空行，按下向后删除键，代码块内容会被删除
-            renderElement.outerHTML = `<p data-block="0">${renderElement.textContent}</p>`;
-        }
-    } else if (event && event.inputType !== "formatItalic"
+    if (event && event.inputType !== "formatItalic"
         && event.inputType !== "deleteByDrag"
         && event.inputType !== "insertFromDrop"
         && event.inputType !== "formatBold"
@@ -152,9 +143,9 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         // 设置光标
         setRangeByWbr(vditor.wysiwyg.element, range);
 
-        // TODO: 目前为全局渲染。可优化为只选取当前列表、当前列表紧邻的前后列表；最顶层列表；当前块进行渲染
-        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockRenderItem: HTMLElement) => {
-            processCodeRender(blockRenderItem, vditor);
+        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']")
+            .forEach((item: HTMLElement) => {
+            processCodeRender(item, vditor);
         });
     }
 

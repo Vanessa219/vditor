@@ -1,13 +1,12 @@
 import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
-import {processCodeRender as processIRCodeRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {code160to32} from "../util/code160to32";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
+import {processCodeRender} from "../util/processCode";
 import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
-import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
-import {processCodeRender} from "../wysiwyg/processCodeRender";
+import {execAfterRender} from "../util/fixBrowserBehavior";
 
 export class Hint {
     public timeId: number;
@@ -147,7 +146,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                     preBeforeElement.parentElement.querySelectorAll("code").forEach((item) => {
                         item.className = "language-" + value.trimRight();
                     });
-                    processIRCodeRender(preBeforeElement.parentElement.querySelector(".vditor-ir__preview"), vditor);
+                    processCodeRender(preBeforeElement.parentElement.querySelector(".vditor-ir__preview"), vditor);
                     this.recentLanguage = value.trimRight();
                     return;
                 }
@@ -175,14 +174,19 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
             setSelectionFocus(range);
 
             if (vditor.currentMode === "wysiwyg") {
-                const blockRenderElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-                if (blockRenderElement) {
-                    processCodeRender(blockRenderElement, vditor);
-                }
-                afterRenderEvent(vditor);
+                 const preElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
+                 if (preElement) {
+                     preElement.lastElementChild.innerHTML = preElement.firstElementChild.innerHTML
+                     processCodeRender(preElement.lastElementChild as HTMLElement, vditor);
+                 }
             } else {
-                processAfterRender(vditor);
+                const preElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker--pre");
+                if (preElement) {
+                    preElement.nextElementSibling.innerHTML = preElement.innerHTML;
+                    processCodeRender(preElement.nextElementSibling as HTMLElement, vditor);
+                }
             }
+            execAfterRender(vditor);
         } else {
             const position = getSelectPosition(vditor.sv.element, range);
             const text = getMarkdown(vditor);

@@ -1,8 +1,8 @@
 import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
+import {processCodeRender} from "../util/processCode";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {processCodeRender} from "../wysiwyg/processCodeRender";
 import {isCtrl} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
 import {
@@ -186,11 +186,13 @@ export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range
 
         setRangeByWbr(vditor[vditor.currentMode].element, range);
         const tempTopListElement = getTopList(range.startContainer);
-        if (tempTopListElement && vditor.currentMode === "wysiwyg") {
-            tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
-                .forEach((blockElement: HTMLElement) => {
-                    processCodeRender(blockElement, vditor);
-                    blockElement.firstElementChild.setAttribute("style", "display:none");
+        if (tempTopListElement) {
+            tempTopListElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+                .forEach((item: HTMLElement) => {
+                    processCodeRender(item, vditor);
+                    if (vditor.currentMode === "wysiwyg") {
+                        item.previousElementSibling.setAttribute("style", "display:none");
+                    }
                 });
         }
         execAfterRender(vditor);
@@ -234,10 +236,12 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
         setRangeByWbr(vditor[vditor.currentMode].element, range);
         const tempTopListElement = getTopList(range.startContainer);
         if (tempTopListElement) {
-            tempTopListElement.querySelectorAll(".vditor-wysiwyg__block")
-                .forEach((blockElement: HTMLElement) => {
-                    processCodeRender(blockElement, vditor);
-                    blockElement.firstElementChild.setAttribute("style", "display:none");
+            tempTopListElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+                .forEach((item: HTMLElement) => {
+                    processCodeRender(item, vditor);
+                    if (vditor.currentMode === "wysiwyg") {
+                        item.previousElementSibling.setAttribute("style", "display:none");
+                    }
                 });
         }
         execAfterRender(vditor);

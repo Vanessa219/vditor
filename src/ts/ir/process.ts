@@ -1,11 +1,4 @@
 import {Constants} from "../constants";
-import {abcRender} from "../markdown/abcRender";
-import {chartRender} from "../markdown/chartRender";
-import {codeRender} from "../markdown/codeRender";
-import {graphvizRender} from "../markdown/graphvizRender";
-import {highlightRender} from "../markdown/highlightRender";
-import {mathRender} from "../markdown/mathRender";
-import {mermaidRender} from "../markdown/mermaidRender";
 import {isSafari} from "../util/compatibility";
 import {listToggle} from "../util/fixBrowserBehavior";
 import {getMarkdown} from "../util/getMarkdown";
@@ -76,36 +69,6 @@ export const processAfterRender = (vditor: IVditor, options = {
             vditor.irUndo.addToUndoStack(vditor);
         }
     }, 800);
-};
-
-export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
-    const codeElement = previewPanel.querySelector("code");
-    if (!codeElement) {
-        return;
-    }
-    const language = codeElement.className.replace("language-", "");
-    if (language === "abc") {
-        abcRender(previewPanel, vditor.options.cdn);
-    } else if (language === "mermaid") {
-        mermaidRender(previewPanel, ".vditor-ir__preview .language-mermaid", vditor.options.cdn);
-    } else if (language === "echarts") {
-        chartRender(previewPanel, vditor.options.cdn);
-    } else if (language === "graphviz") {
-        graphvizRender(previewPanel, vditor.options.cdn);
-    } else if (language === "math") {
-        let tag = "div";
-        if (previewPanel.tagName === "SPAN") {
-            tag = "span";
-        }
-        previewPanel.innerHTML = `<code class="language-math"><${tag} class="vditor-math">${previewPanel.innerHTML}</${tag}></code>`;
-        mathRender(previewPanel.parentElement, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
-    } else {
-        highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),
-            previewPanel, vditor.options.cdn);
-        codeRender(previewPanel, vditor.options.lang);
-    }
-
-    previewPanel.setAttribute("data-render", "1");
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {

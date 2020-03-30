@@ -19,9 +19,9 @@ import {
     hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
+import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {processCodeRender} from "./processCodeRender";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -488,7 +488,8 @@ export const highlightToolbar = (vditor: IVditor) => {
                         codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
                     language.oninput = () => {
                         updateLanguage();
-                        processCodeRender(blockRenderElement, vditor);
+                        blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML
+                        processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
                         afterRenderEvent(vditor);
                     };
                     language.onkeydown = (event: KeyboardEvent) => {

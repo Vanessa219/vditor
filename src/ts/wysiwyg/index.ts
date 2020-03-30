@@ -7,7 +7,7 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByHeadings, hasClosestByMatchTag,
 } from "../util/hasClosest";
-import {processPasteCode} from "../util/processPasteCode";
+import {processCodeRender, processPasteCode} from "../util/processCode";
 import {
     getEditorRange,
     getSelectPosition,
@@ -19,7 +19,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {genImagePopover, highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
-import {processCodeRender, showCode} from "./processCodeRender";
+import {showCode} from "./showCode";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -146,6 +146,8 @@ class WYSIWYG {
                     + textPlain + codeElement.textContent.substring(position.end);
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
+                codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
+                processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
             } else if (code) {
                 const node = document.createElement("template");
                 node.innerHTML = code;
@@ -156,10 +158,6 @@ class WYSIWYG {
                 } else {
                     vditor.wysiwyg.element.innerHTML = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
                 }
-                vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach(
-                    (blockRenderItem: HTMLElement) => {
-                        processCodeRender(blockRenderItem, vditor);
-                    });
                 setRangeByWbr(vditor.wysiwyg.element, range);
             } else {
                 if (textHTML.trim() !== "") {
@@ -213,8 +211,8 @@ class WYSIWYG {
                 }
             }
 
-            this.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
-                processCodeRender(blockElement, vditor);
+            this.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']").forEach((item: HTMLElement) => {
+                processCodeRender(item, vditor);
             });
 
             afterRenderEvent(vditor);

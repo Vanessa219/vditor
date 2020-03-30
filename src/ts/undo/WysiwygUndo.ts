@@ -3,10 +3,10 @@ import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
+import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {processCodeRender} from "../wysiwyg/processCodeRender";
 
 class WysiwygUndo {
     private undoStack: patch_obj[][];
@@ -143,7 +143,7 @@ class WysiwygUndo {
         this.lastText = text;
 
         vditor.wysiwyg.element.innerHTML = text;
-        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((blockElement: HTMLElement) => {
+        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']").forEach((blockElement: HTMLElement) => {
             processCodeRender(blockElement, vditor);
         });
         setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
