@@ -143,9 +143,10 @@ class WysiwygUndo {
         this.lastText = text;
 
         vditor.wysiwyg.element.innerHTML = text;
-        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']").forEach((blockElement: HTMLElement) => {
-            processCodeRender(blockElement, vditor);
-        });
+        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']")
+            .forEach((blockElement: HTMLElement) => {
+                processCodeRender(blockElement, vditor);
+            });
         setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
         scrollCenter(vditor.wysiwyg.element);
         afterRenderEvent(vditor, {

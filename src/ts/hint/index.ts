@@ -2,11 +2,11 @@ import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {code160to32} from "../util/code160to32";
+import {execAfterRender} from "../util/fixBrowserBehavior";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
 import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
-import {execAfterRender} from "../util/fixBrowserBehavior";
 
 export class Hint {
     public timeId: number;
@@ -176,7 +176,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
             if (vditor.currentMode === "wysiwyg") {
                  const preElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
                  if (preElement) {
-                     preElement.lastElementChild.innerHTML = preElement.firstElementChild.innerHTML
+                     preElement.lastElementChild.innerHTML = preElement.firstElementChild.innerHTML;
                      processCodeRender(preElement.lastElementChild as HTMLElement, vditor);
                  }
             } else {
