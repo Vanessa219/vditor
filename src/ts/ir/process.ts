@@ -79,7 +79,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 };
 
 export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
-    const codeElement = previewPanel.querySelector("code")
+    const codeElement = previewPanel.querySelector("code");
     if (!codeElement) {
         return;
     }
@@ -105,7 +105,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         codeRender(previewPanel, vditor.options.lang);
     }
 
-    previewPanel.setAttribute('data-render', '1');
+    previewPanel.setAttribute("data-render", "1");
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {

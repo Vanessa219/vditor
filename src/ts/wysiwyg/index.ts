@@ -5,10 +5,11 @@ import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
 import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
-    hasClosestByClassName, hasClosestByMatchTag,
+    hasClosestByClassName, hasClosestByHeadings, hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {processPasteCode} from "../util/processPasteCode";
 import {
+    getEditorRange,
     getSelectPosition,
     insertHTML,
     setRangeByWbr,
@@ -225,9 +226,8 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("compositionend", (event: InputEvent) => {
-            const blockElement = hasClosestBlock(getSelection().getRangeAt(0).startContainer);
-            if (blockElement && blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
-                && blockElement.tagName.length === 2) {
+            const headingElement = hasClosestByHeadings(getSelection().getRangeAt(0).startContainer);
+            if (headingElement && headingElement.textContent === "") {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
                 renderToc(this.element);
                 return;
@@ -280,8 +280,8 @@ class WYSIWYG {
                 }
             }
 
-            if (blockElement.tagName.indexOf("H") === 0 && blockElement.textContent === ""
-                && blockElement.tagName.length === 2) {
+            const headingElement = hasClosestByHeadings(getSelection().getRangeAt(0).startContainer);
+            if (headingElement && headingElement.textContent === "") {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
                 renderToc(this.element);
                 return;
@@ -308,7 +308,7 @@ class WYSIWYG {
             }
 
             if (event.target.tagName === "IMG") {
-                genImagePopover(event, vditor)
+                genImagePopover(event, vditor);
                 return;
             }
 
@@ -337,7 +337,7 @@ class WYSIWYG {
                 vditor.wysiwyg.element.innerHTML = "";
             }
 
-            const range = getSelection().getRangeAt(0);
+            const range = getEditorRange(this.element);
 
             if (event.key === "Backspace") {
                 // firefox headings https://github.com/Vanessa219/vditor/issues/211

@@ -14,7 +14,7 @@ import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {listIndent, listOutdent, setTableAlign} from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
-    hasClosestByClassName,
+    hasClosestByClassName, hasClosestByHeadings,
     hasClosestByMatchTag,
     hasClosestByTag,
     hasTopClosestByTag,
@@ -90,6 +90,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);
         }
         const tableElement = hasClosestByMatchTag(typeElement, "TABLE") as HTMLTableElement;
+        const headingElement = hasClosestByHeadings(typeElement) as HTMLElement;
         if (hasClosestByMatchTag(typeElement, "CODE")) {
             if (hasClosestByMatchTag(typeElement, "PRE")) {
                 disableToolbar(vditor.toolbar.elements, ["headings", "bold", "italic", "strike", "line", "quote",
@@ -100,7 +101,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     "list", "ordered-list", "check", "code", "upload", "link", "table", "record"]);
                 setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
             }
-        } else if (hasClosestByTag(typeElement, "H")) {
+        } else if (headingElement) {
             disableToolbar(vditor.toolbar.elements, ["bold"]);
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
         } else if (tableElement) {
@@ -528,8 +529,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             });
         }
 
-        let headingElement = hasClosestByTag(typeElement, "H") as HTMLElement;
-        if (headingElement && headingElement.tagName.length === 2) {
+        if (headingElement) {
             vditor.wysiwyg.popover.innerHTML = "";
 
             const inputWrap = document.createElement("span");
@@ -559,8 +559,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             genClose(vditor.wysiwyg.popover, headingElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             setPopoverPosition(vditor, headingElement);
-        } else {
-            headingElement = undefined;
         }
 
         // a popover
@@ -738,7 +736,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
 };
 
 export const genImagePopover = (event: Event, vditor: IVditor) => {
-    let imgElement = event.target as HTMLImageElement
+    let imgElement = event.target as HTMLImageElement;
     vditor.wysiwyg.popover.innerHTML = "";
     const updateImg = () => {
         imgElement.setAttribute("src", inputElement.value);
@@ -803,4 +801,4 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", aHrefWrap);
 
     setPopoverPosition(vditor, imgElement);
-}
+};

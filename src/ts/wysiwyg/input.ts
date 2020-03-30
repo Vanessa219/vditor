@@ -2,7 +2,7 @@ import {isToC, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
-    hasClosestByClassName,
+    hasClosestByClassName, hasClosestByHeadings,
     hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
@@ -47,7 +47,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             previousAEmptyElement.remove();
         }
 
-        if (blockElement.tagName.indexOf("H") === 0 && blockElement.tagName.length === 2) {
+        if (hasClosestByHeadings(blockElement)) {
             renderToc(vditor.wysiwyg.element);
         }
 

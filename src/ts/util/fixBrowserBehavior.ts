@@ -9,7 +9,7 @@ import {
     getTopList,
     hasClosestBlock,
     hasClosestByAttribute,
-    hasClosestByClassName,
+    hasClosestByClassName, hasClosestByHeadings,
     hasClosestByMatchTag,
 } from "./hasClosest";
 import {getLastNode} from "./hasClosest";
@@ -326,7 +326,7 @@ export const renderToc = (editorElement: HTMLPreElement) => {
     }
     let tocHTML = "";
     Array.from(editorElement.children).forEach((item: HTMLElement) => {
-        if (item.tagName.indexOf("H") === 0 && item.tagName.length === 2 && item.textContent.trim() !== "") {
+        if (hasClosestByHeadings(item)) {
             const space = new Array((parseInt(item.tagName.substring(1), 10) - 1) * 2).fill("&emsp;").join("");
             tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
         }

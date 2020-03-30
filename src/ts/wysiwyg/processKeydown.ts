@@ -13,8 +13,8 @@ import {
 import {
     hasClosestBlock,
     hasClosestByAttribute,
-    hasClosestByClassName,
-    hasClosestByMatchTag, hasClosestByTag,
+    hasClosestByClassName, hasClosestByHeadings,
+    hasClosestByMatchTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {matchHotKey} from "../util/hotKey";
@@ -122,8 +122,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // h1-h6
-    const headingElement = hasClosestByTag(startContainer, "H");
-    if (headingElement && headingElement.tagName.length === 2) {
+    const headingElement = hasClosestByHeadings(startContainer);
+    if (headingElement) {
         if (headingElement.tagName === "H6" && startContainer.textContent.length === range.startOffset &&
             !isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter") {
             // enter: H6 回车解析问题 https://github.com/Vanessa219/vditor/issues/48

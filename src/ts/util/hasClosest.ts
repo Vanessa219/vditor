@@ -1,3 +1,11 @@
+export const hasClosestByHeadings = (element: Node) => {
+    const headingElement = hasClosestByTag(element, "H");
+    if (headingElement && headingElement.tagName.length === 2 && headingElement.tagName !== "HR") {
+       return headingElement;
+    }
+    return false;
+};
+
 export const hasClosestByTag = (element: Node, nodeName: string) => {
     if (!element) {
         return false;

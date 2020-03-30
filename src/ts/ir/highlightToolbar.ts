@@ -1,5 +1,5 @@
 import {disableToolbar, enableToolbar, removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
-import {hasClosestByAttribute, hasClosestByMatchTag, hasClosestByTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByHeadings, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, selectIsEditor} from "../util/selection";
 
 export const highlightToolbar = (vditor: IVditor) => {
@@ -26,8 +26,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 
-        const headingElement = hasClosestByTag(typeElement, "H");
-        if (headingElement && headingElement.tagName.length === 2) {
+        const headingElement = hasClosestByHeadings(typeElement);
+        if (headingElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
         }
 
