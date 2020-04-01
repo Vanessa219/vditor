@@ -71,7 +71,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
         // 数学公式上无元素，按上或左将添加新块
-        if (codeRenderElement.getAttribute("data-type") === "math-block" &&
+        if ((codeRenderElement.getAttribute("data-type") === "math-block"
+            || codeRenderElement.getAttribute("data-type") === "html-block") &&
             insertBeforeBlock(vditor, event, range, codeRenderElement, preRenderElement.parentElement)) {
             return true;
         }

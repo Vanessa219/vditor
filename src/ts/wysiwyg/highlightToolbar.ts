@@ -459,9 +459,9 @@ export const highlightToolbar = (vditor: IVditor) => {
             setPopoverPosition(vditor, footnotesRefElement);
         }
 
-        const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
+        let blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block") as HTMLElement;
+        // block popover: math-inline, math-block, html-block, html-inline, code-block
         if (blockRenderElement && blockRenderElement.getAttribute("data-type").indexOf("block") > -1) {
-            // block popover: math-inline, math-block, html-block, html-inline, code-block
             vditor.wysiwyg.popover.innerHTML = "";
             genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
             genInsertBefore(range, blockRenderElement, vditor);
@@ -524,9 +524,13 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
             setPopoverPosition(vditor, blockRenderElement);
         } else {
-            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview").forEach((itemElement) => {
-                (itemElement.previousElementSibling as HTMLElement).style.display = "none";
-            });
+            if (!blockRenderElement) {
+                vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview").forEach((itemElement) => {
+                    const previousElement = itemElement.previousElementSibling as HTMLElement
+                    previousElement.style.display = "none";
+                });
+            }
+            blockRenderElement = undefined;
         }
 
         if (headingElement) {
