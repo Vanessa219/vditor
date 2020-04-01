@@ -49,6 +49,9 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
 };
 
 export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
+    if (!previewPanel) {
+        return;
+    }
     const codeElement = previewPanel.querySelector("code");
     if (!codeElement) {
         return;

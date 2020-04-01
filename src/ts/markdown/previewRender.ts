@@ -28,6 +28,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         markdown: {
             autoSpace: false,
             chinesePunct: false,
+            codeBlockPreview: true,
             fixTermTypo: false,
             footnotes: true,
             toc: false,
@@ -63,6 +64,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
         const lute = setLute({
             autoSpace: mergedOptions.markdown.autoSpace,
             chinesePunct: mergedOptions.markdown.chinesePunct,
+            codeBlockPreview: mergedOptions.markdown.codeBlockPreview,
             emojiSite: mergedOptions.emojiPath,
             emojis: mergedOptions.customEmoji,
             fixTermTypo: mergedOptions.markdown.fixTermTypo,

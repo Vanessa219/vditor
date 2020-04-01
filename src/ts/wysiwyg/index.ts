@@ -146,8 +146,10 @@ class WYSIWYG {
                     + textPlain + codeElement.textContent.substring(position.end);
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
-                codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
-                processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+                if (codeElement.parentElement.nextElementSibling.classList.contains("vditor-wysiwyg__preview")) {
+                    codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
+                    processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+                }
             } else if (code) {
                 const node = document.createElement("template");
                 node.innerHTML = code;

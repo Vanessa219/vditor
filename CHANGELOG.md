@@ -49,8 +49,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.7 / 2020-03-xx
+### v3.0.7 / 2020-04-01
 
+* [250](https://github.com/Vanessa219/vditor/issues/250) 支持配置是否开启 wysiwyg 模式下代码块渲染 `引入特性`
 * [258](https://github.com/Vanessa219/vditor/issues/258) wysiwyg a 元素子导航居右被挤变形 `修复缺陷`
 * [212](https://github.com/Vanessa219/vditor/issues/212) Sync XMLHttpRequest Deprecation message `改进功能`
 * [251](https://github.com/Vanessa219/vditor/issues/251) 所见即所得模式下，光标后图片工具层会遮挡文字 `改进功能`
@@ -87,6 +88,7 @@
   * id 可以传入 element
   * cache 修改为 {enable: boolean, id: string}
   * md2html 改为异步
+  * 添加 `options.preview.markdown.codeBlockPreview`
 
 ### v2.3.0 / 2020-03-12
 

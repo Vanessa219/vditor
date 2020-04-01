@@ -46,6 +46,7 @@ export class Options {
             markdown: {
                 autoSpace: false,
                 chinesePunct: false,
+                codeBlockPreview: true,
                 fixTermTypo: false,
                 footnotes: true,
                 toc: false,

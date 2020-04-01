@@ -486,8 +486,10 @@ export const highlightToolbar = (vditor: IVditor) => {
                     codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
                 language.oninput = () => {
                     updateLanguage();
-                    blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML;
-                    processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
+                    if (blockRenderElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
+                        blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML;
+                        processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
+                    }
                     afterRenderEvent(vditor);
                 };
                 language.onkeydown = (event: KeyboardEvent) => {

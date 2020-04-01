@@ -90,8 +90,10 @@ class IR {
                     + textPlain + codeElement.textContent.substring(position.end);
                 setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
                     codeElement.parentElement);
-                codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
-                processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+                if (codeElement.parentElement.nextElementSibling.classList.contains("vditor-ir__preview")) {
+                    codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
+                    processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+                }
             } else if (code) {
                 document.execCommand("insertHTML", false, code);
             } else {

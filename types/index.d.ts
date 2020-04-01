@@ -12,21 +12,15 @@ interface ILuteRender {
                 Type: number,
             },
         }
-    }, entering: boolean) => [string, number];
+    },               entering: boolean) => [string, number];
 }
 
-interface ILuteOptions {
+interface ILuteOptions extends IMarkdownConfig {
     emojis: { [key: string]: string };
-    emojiSite: string
-    headingAnchor: boolean
-    inlineMathDigit: boolean
-    autoSpace: boolean
-    toc: boolean
-    footnotes: boolean
-    chinesePunct: boolean
-    fixTermTypo: boolean
+    emojiSite: string;
+    headingAnchor: boolean;
+    inlineMathDigit: boolean;
 }
-
 
 interface ILute {
     WalkStop: number;
@@ -56,6 +50,8 @@ interface ILute {
     SetFixTermTypo(enable: boolean): void;
 
     SetEmojiSite(emojiSite: string): void;
+
+    SetVditorCodeBlockPreview(enable: boolean): void;
 
     PutEmojis(emojis: { [key: string]: string }): void;
 
@@ -222,6 +218,8 @@ interface IMarkdownConfig {
     toc?: boolean;
     /** 脚注。默认值: true */
     footnotes?: boolean;
+    /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
+    codeBlockPreview: boolean;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview */
@@ -403,7 +401,7 @@ interface IVditor {
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
         genHTML(data: IHintData[], key: string, vditor: IVditor): void
-        select(event: KeyboardEvent, vditor: IVditor): boolean
+        select(event: KeyboardEvent, vditor: IVditor): boolean,
     };
     tip: {
         element: HTMLElement
