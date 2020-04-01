@@ -49,6 +49,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.0.8 / 2020-04-0x
+
+
+
 ### v3.0.7 / 2020-04-01
 
 * [250](https://github.com/Vanessa219/vditor/issues/250) 支持配置是否开启 wysiwyg 模式下代码块渲染 `引入特性`
@@ -58,9 +62,6 @@
 * [249](https://github.com/Vanessa219/vditor/issues/249) 代码块语言选择优化 `改进功能`
 * [211](https://github.com/Vanessa219/vditor/issues/211) Heading when backspace (Windows Firefox) `修复缺陷`
 * [239](https://github.com/Vanessa219/vditor/issues/239) be converted after spaces in FF `修复缺陷`
-
-### v3.0.6 / 2020-03-27
-
 * [240](https://github.com/Vanessa219/vditor/issues/240) multiple markdown at one line `修复缺陷`
 * [241](https://github.com/Vanessa219/vditor/issues/241) When editing the heading, not converted using the cursor key `修复缺陷`
 * [242](https://github.com/Vanessa219/vditor/issues/242) combined lists "+" and "-" `修复缺陷`
