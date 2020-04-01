@@ -5,7 +5,6 @@ import {codeRender} from "../markdown/codeRender";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
-import {md2htmlByVditor} from "../markdown/md2html";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {getMarkdown} from "../util/getMarkdown";
@@ -66,7 +65,7 @@ export class Preview {
                             this.element.children[0].innerHTML = responseJSON.data;
                             this.afterRender(vditor, renderStartTime);
                         } else {
-                            let html = md2htmlByVditor(markdownText, vditor);
+                            let html = vditor.lute.Md2HTML(markdownText);
                             if (vditor.options.preview.transform) {
                                 html = vditor.options.preview.transform(html);
                             }
@@ -78,7 +77,7 @@ export class Preview {
 
                 xhr.send(JSON.stringify({markdownText}));
             } else {
-                let html = md2htmlByVditor(markdownText, vditor);
+                let html = vditor.lute.Md2HTML(markdownText);
                 if (vditor.options.preview.transform) {
                     html = vditor.options.preview.transform(html);
                 }

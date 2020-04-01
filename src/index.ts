@@ -6,7 +6,7 @@ import {Hint} from "./ts/hint/index";
 import {IR} from "./ts/ir";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
-import {loadLuteJs, md2htmlByVditor} from "./ts/markdown/md2html";
+import {setLute} from "./ts/markdown/setLute";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {formatRender} from "./ts/sv/formatRender";
@@ -25,6 +25,7 @@ import {Undo} from "./ts/undo";
 import {IRUndo} from "./ts/undo/IRUndo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
+import {addScript} from "./ts/util/addScript";
 import {getMarkdown} from "./ts/util/getMarkdown";
 import {Options} from "./ts/util/Options";
 import {getCursorPosition, getEditorRange, setSelectionByPosition} from "./ts/util/selection";
@@ -61,7 +62,6 @@ class Vditor extends VditorMethod {
 
         if (!(mergedOptions.lang === "en_US" || mergedOptions.lang === "ko_KR" || mergedOptions.lang === "zh_CN")) {
             throw new Error("options.lang error, see https://hacpai.com/article/1549638745630#options");
-            return;
         }
 
         this.vditor = {
@@ -102,20 +102,32 @@ class Vditor extends VditorMethod {
             this.vditor.upload = new Upload();
         }
 
-        loadLuteJs(this.vditor);
+        // `http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`
+        // "'src/js/lute/lute.min.js"'
+        // `${mergedOptions.cdn}/dist/js/lute/lute.min.js`
+        addScript("/src/js/lute/lute.min.js", "vditorLuteScript").then(() => {
+            this.vditor.lute = setLute({
+                autoSpace: this.vditor.options.preview.markdown.autoSpace,
+                chinesePunct: this.vditor.options.preview.markdown.chinesePunct,
+                emojiSite: this.vditor.options.hint.emojiPath,
+                emojis: this.vditor.options.hint.emoji,
+                fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
+                footnotes: this.vditor.options.preview.markdown.footnotes,
+                headingAnchor: false,
+                inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
+                toc: this.vditor.options.preview.markdown.toc,
+            });
 
-        if (this.vditor.sv && (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both)) {
-            this.vditor.preview = new Preview(this.vditor);
-        }
+            if (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both) {
+                this.vditor.preview = new Preview(this.vditor);
+            }
 
-        initUI(this.vditor);
+            initUI(this.vditor);
 
-        if (mergedOptions.after) {
-            // fix after constructor
-            setTimeout(() => {
+            if (mergedOptions.after) {
                 mergedOptions.after();
-            }, 0);
-        }
+            }
+        });
     }
 
     /** 设置主题 */
@@ -242,7 +254,7 @@ class Vditor extends VditorMethod {
     /** 获取预览区内容 */
     public getHTML() {
         if (this.vditor.currentMode === "sv") {
-            return md2htmlByVditor(getMarkdown(this.vditor), this.vditor);
+            return this.vditor.lute.Md2HTML(getMarkdown(this.vditor));
         } else if (this.vditor.currentMode === "wysiwyg") {
             return this.vditor.lute.VditorDOM2HTML(this.vditor.wysiwyg.element.innerHTML);
         } else if (this.vditor.currentMode === "ir") {

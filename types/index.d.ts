@@ -15,6 +15,19 @@ interface ILuteRender {
     }, entering: boolean) => [string, number];
 }
 
+interface ILuteOptions {
+    emojis: { [key: string]: string };
+    emojiSite: string
+    headingAnchor: boolean
+    inlineMathDigit: boolean
+    autoSpace: boolean
+    toc: boolean
+    footnotes: boolean
+    chinesePunct: boolean
+    fixTermTypo: boolean
+}
+
+
 interface ILute {
     WalkStop: number;
 
@@ -303,7 +316,7 @@ interface IOptions {
     resize?: IResize;
     /** 计数器。默认值: '0' */
     counter?: number;
-    /** 是否使用 localStorage 进行缓存。默认值: {enable: true} */
+    /** @link https://hacpai.com/article/1549638745630#options-cache */
     cache?: {
         id?: string;
         enable?: boolean;

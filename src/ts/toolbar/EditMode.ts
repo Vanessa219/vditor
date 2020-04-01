@@ -11,13 +11,16 @@ import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
 
-export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
-    if (event) {
+export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
+    let markdownText;
+    if (typeof event !== "string") {
+        hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
         event.preventDefault();
+        markdownText = getMarkdown(vditor);
+    } else {
+        markdownText = event;
     }
-    // wysiwyg
-    hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-    if (vditor.currentMode === type && event) {
+    if (vditor.currentMode === type && typeof event !== "string") {
         return;
     }
     if (vditor.devtools) {
@@ -42,16 +45,15 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "block";
 
-        const editorMD = getMarkdown(vditor);
         vditor.currentMode = "ir";
-        vditor.ir.element.innerHTML = vditor.lute.Md2VditorIRDOM(editorMD);
+        vditor.ir.element.innerHTML = vditor.lute.Md2VditorIRDOM(markdownText);
         processAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,
             enableInput: false,
         });
 
-        if (event) {
+        if (typeof event !== "string") {
             // 初始化不 focus
             vditor.ir.element.focus();
         }
@@ -67,11 +69,11 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         vditor.wysiwyg.element.parentElement.style.display = "block";
         vditor.ir.element.parentElement.style.display = "none";
 
-        const editorMD = getMarkdown(vditor);
         vditor.currentMode = "wysiwyg";
         setPadding(vditor);
-        renderDomByMd(vditor, editorMD);
-        if (event) {
+        renderDomByMd(vditor, markdownText, false);
+
+        if (typeof event !== "string") {
             // 初始化不 focus
             vditor.wysiwyg.element.focus();
         }
@@ -88,10 +90,13 @@ export const setEditMode = (vditor: IVditor, type: string, event?: Event) => {
         } else if (vditor.currentPreviewMode === "editor") {
             vditor.sv.element.style.display = "block";
         }
-        const wysiwygMD = getMarkdown(vditor);
         vditor.currentMode = "sv";
-        formatRender(vditor, wysiwygMD, undefined);
-        if (event) {
+        formatRender(vditor, markdownText, undefined, {
+            enableAddUndoStack: true,
+            enableHint: false,
+            enableInput: false,
+        });
+        if (typeof event !== "string") {
             // 初始化不 focus
             vditor.sv.element.focus();
         }

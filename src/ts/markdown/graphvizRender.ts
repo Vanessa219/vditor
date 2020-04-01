@@ -13,30 +13,30 @@ export const graphvizRender = (element: HTMLElement, cdn = `https://cdn.jsdelivr
     if (graphvizElements.length === 0) {
         return;
     }
-    addScript(`${cdn}/dist/js/graphviz/viz.js`, "vditorGraphVizScript");
+    addScript(`${cdn}/dist/js/graphviz/viz.js`, "vditorGraphVizScript").then(() => {
+        graphvizElements.forEach((e: HTMLDivElement) => {
+            if (e.getAttribute("data-processed") === "true") {
+                return;
+            }
 
-    graphvizElements.forEach((e: HTMLDivElement) => {
-        if (e.getAttribute("data-processed") === "true") {
-            return;
-        }
+            try {
+                const blob = new Blob([`importScripts('${cdn}/dist/js/graphviz/full.render.js');`],
+                    {type: "application/javascript"});
+                const url = window.URL || window.webkitURL;
+                const blobUrl = url.createObjectURL(blob);
+                const worker = new Worker(blobUrl);
+                new Viz({worker})
+                    .renderSVGElement(e.textContent).then((result: HTMLElement) => {
+                    e.innerHTML = result.outerHTML;
+                }).catch((error) => {
+                    e.innerHTML = `graphviz render error: <br>${error}`;
+                    e.className = "vditor-math vditor-reset--error";
+                });
+            } catch (e) {
+                console.error("graphviz error", e);
+            }
 
-        try {
-            const blob = new Blob([`importScripts('${cdn}/dist/js/graphviz/full.render.js');`],
-                {type: "application/javascript"});
-            const url = window.URL || window.webkitURL;
-            const blobUrl = url.createObjectURL(blob);
-            const worker = new Worker(blobUrl);
-            new Viz({worker})
-                .renderSVGElement(e.textContent).then((result: HTMLElement) => {
-                e.innerHTML = result.outerHTML;
-            }).catch((error) => {
-                e.innerHTML = `graphviz render error: <br>${error}`;
-                e.className = "vditor-math vditor-reset--error";
-            });
-        } catch (e) {
-            console.error("graphviz error", e);
-        }
-
-        e.setAttribute("data-processed", "true");
+            e.setAttribute("data-processed", "true");
+        });
     });
 };

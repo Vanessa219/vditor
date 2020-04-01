@@ -4,10 +4,9 @@ import {codeRender} from "./ts/markdown/codeRender";
 import {graphvizRender} from "./ts/markdown/graphvizRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
 import {mathRender} from "./ts/markdown/mathRender";
-import {md2htmlByPreview} from "./ts/markdown/md2html";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
-import {previewRender} from "./ts/markdown/previewRender";
+import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
 class Vditor {
 
@@ -30,7 +29,7 @@ class Vditor {
     /** 对选中的文字进行阅读 */
     public static speechRender = speechRender;
     /** Markdown 文本转换为 HTML */
-    public static md2html = md2htmlByPreview;
+    public static md2html = md2html;
     /** 页面 Markdown 文章渲染 */
     public static preview = previewRender;
 }

@@ -1,8 +1,5 @@
-import {processAfterRender} from "../ir/process";
-import {formatRender} from "../sv/formatRender";
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
-import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {setTheme} from "./setTheme";
 
 export const initUI = (vditor: IVditor) => {
@@ -55,9 +52,7 @@ export const initUI = (vditor: IVditor) => {
 
     vditor.element.appendChild(contentElement);
 
-    afterRender(vditor, contentElement);
-
-    setEditMode(vditor, vditor.options.mode);
+    setEditMode(vditor, vditor.options.mode,  afterRender(vditor, contentElement));
 };
 
 export const setPadding = (vditor: IVditor) => {
@@ -101,25 +96,5 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
             initValue = "";
         }
     }
-
-    if (!initValue) {
-        return;
-    }
-
-    if (vditor.options.mode === "wysiwyg") {
-        renderDomByMd(vditor, initValue, false);
-    } else if (vditor.options.mode === "sv") {
-        formatRender(vditor, initValue, undefined, {
-            enableAddUndoStack: true,
-            enableHint: false,
-            enableInput: false,
-        });
-    } else if (vditor.options.mode === "ir") {
-        vditor.ir.element.innerHTML = vditor.lute.Md2VditorIRDOM(initValue);
-        processAfterRender(vditor, {
-            enableAddUndoStack: true,
-            enableHint: false,
-            enableInput: false,
-        });
-    }
+    return initValue;
 };

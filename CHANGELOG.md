@@ -51,6 +51,7 @@
 
 ### v3.0.7 / 2020-03-xx
 
+* [212](https://github.com/Vanessa219/vditor/issues/212) Sync XMLHttpRequest Deprecation message `改进功能`
 * [251](https://github.com/Vanessa219/vditor/issues/251) 所见即所得模式下，光标后图片工具层会遮挡文字 `改进功能`
 * [249](https://github.com/Vanessa219/vditor/issues/249) 代码块语言选择优化 `改进功能`
 * [211](https://github.com/Vanessa219/vditor/issues/211) Heading when backspace (Windows Firefox) `修复缺陷`
@@ -84,6 +85,7 @@
   * toolbar 中的 wysiwyg 修改为 'edit-mode'
   * id 可以传入 element
   * cache 修改为 {enable: boolean, id: string}
+  * md2html 改为异步
 
 ### v2.3.0 / 2020-03-12
 

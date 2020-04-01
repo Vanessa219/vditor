@@ -1,5 +1,5 @@
 import {VDITOR_VERSION} from "../constants";
-import {addScript} from "../util/addScript";
+import {addScript, addScriptSync} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
 
@@ -39,35 +39,46 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
     options = Object.assign({}, defaultOptions, options);
 
     if (options.math.engine === "KaTeX") {
-        addScript(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript");
         addStyle(`${options.cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
-        mathElements.forEach((mathElement) => {
-            if (mathElement.getAttribute("data-math")) {
-                return;
-            }
-            const math = code160to32(mathElement.textContent);
-            mathElement.setAttribute("data-math", math);
-            try {
-                mathElement.innerHTML = katex.renderToString(math, {
-                    displayMode: mathElement.tagName === "DIV",
-                    output: "html",
-                });
-            } catch (e) {
-                mathElement.innerHTML = e.message;
-                mathElement.className = "vditor-math vditor-reset--error";
-            }
+        addScript(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript").then(() => {
+            mathElements.forEach((mathElement) => {
+                if (mathElement.getAttribute("data-math")) {
+                    return;
+                }
+                const math = code160to32(mathElement.textContent);
+                mathElement.setAttribute("data-math", math);
+                try {
+                    mathElement.innerHTML = katex.renderToString(math, {
+                        displayMode: mathElement.tagName === "DIV",
+                        output: "html",
+                    });
+                } catch (e) {
+                    mathElement.innerHTML = e.message;
+                    mathElement.className = "vditor-math vditor-reset--error";
+                }
 
-            mathElement.addEventListener("copy", (event: ClipboardEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-                const vditorMathElement = (event.currentTarget as HTMLElement).closest(".vditor-math");
-                event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
-                event.clipboardData.setData("text/plain",
-                    vditorMathElement.getAttribute("data-math"));
+                mathElement.addEventListener("copy", (event: ClipboardEvent) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    const vditorMathElement = (event.currentTarget as HTMLElement).closest(".vditor-math");
+                    event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
+                    event.clipboardData.setData("text/plain",
+                        vditorMathElement.getAttribute("data-math"));
+                });
             });
         });
     } else if (options.math.engine === "MathJax") {
-        const renderMathJax = () => {
+        if (!window.MathJax) {
+            window.MathJax = {
+                tex: {
+                    macros: options.math.macros,
+                },
+            };
+        }
+        // 循环加载会抛异常
+        addScriptSync(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript")
+        // 等到 js 文件执行完成
+        setTimeout(() => {
             mathElements.forEach((mathElement) => {
                 if (mathElement.getAttribute("data-math")) {
                     return;
@@ -90,20 +101,6 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                     }
                 });
             });
-        };
-
-        if (!window.MathJax) {
-            window.MathJax = {
-                tex: {
-                    macros: options.math.macros,
-                },
-            };
-            addScript(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript");
-        }
-
-        // fix 并发调用下 ready 不支持 await
-        setTimeout(() => {
-            renderMathJax();
-        }, 0);
+        });
     }
 };

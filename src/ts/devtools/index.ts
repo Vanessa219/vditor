@@ -20,58 +20,58 @@ export class DevTools {
             return;
         }
 
-        if (!this.ASTChart) {
-            addScript(`${vditor.options.cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript");
-            this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
-        }
-
-        try {
-            (this.element.lastElementChild as HTMLElement).style.display = "block";
-            this.element.firstElementChild.innerHTML = "";
-            this.ASTChart.setOption({
-                series: [
-                    {
-                        data: JSON.parse(vditor.lute.RenderEChartsJSON(getMarkdown(vditor))),
-                        initialTreeDepth: -1,
-                        label: {
-                            align: "left",
-                            fontSize: 12,
-                            offset: [9, 12],
-                            position: "top",
-                            verticalAlign: "middle",
+        addScript(`${vditor.options.cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
+            if (!this.ASTChart) {
+                this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
+            }
+            try {
+                (this.element.lastElementChild as HTMLElement).style.display = "block";
+                this.element.firstElementChild.innerHTML = "";
+                this.ASTChart.setOption({
+                    series: [
+                        {
+                            data: JSON.parse(vditor.lute.RenderEChartsJSON(getMarkdown(vditor))),
+                            initialTreeDepth: -1,
+                            label: {
+                                align: "left",
+                                fontSize: 12,
+                                offset: [9, 12],
+                                position: "top",
+                                verticalAlign: "middle",
+                            },
+                            lineStyle: {
+                                color: "#4285f4",
+                                type: "curve",
+                            },
+                            orient: "vertical",
+                            roam: true,
+                            type: "tree",
                         },
-                        lineStyle: {
-                            color: "#4285f4",
-                            type: "curve",
+                    ],
+                    toolbox: {
+                        bottom: 25,
+                        emphasis: {
+                            iconStyle: {
+                                color: "#4285f4",
+                            },
                         },
-                        orient: "vertical",
-                        roam: true,
-                        type: "tree",
+                        feature: {
+                            restore: {
+                                show: true,
+                            },
+                            saveAsImage: {
+                                show: true,
+                            },
+                        },
+                        right: 15,
+                        show: true,
                     },
-                ],
-                toolbox: {
-                    bottom: 25,
-                    emphasis: {
-                        iconStyle: {
-                            color: "#4285f4",
-                        },
-                    },
-                    feature: {
-                        restore: {
-                            show: true,
-                        },
-                        saveAsImage: {
-                            show: true,
-                        },
-                    },
-                    right: 15,
-                    show: true,
-                },
-            });
-            this.ASTChart.resize();
-        } catch (e) {
-            (this.element.lastElementChild as HTMLElement).style.display = "none";
-            this.element.firstElementChild.innerHTML = e;
-        }
+                });
+                this.ASTChart.resize();
+            } catch (e) {
+                (this.element.lastElementChild as HTMLElement).style.display = "none";
+                this.element.firstElementChild.innerHTML = e;
+            }
+        });
     }
 }
