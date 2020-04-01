@@ -50,11 +50,17 @@
     padding-right: 0 !important;
   }
 
-  &__block pre:first-child {
-    margin-bottom: -1em;
+  &__block {
+    pre:first-child {
+      margin-bottom: -1em;
 
-    code {
-      background-color: var(--code-background-color) !important;
+      code {
+        background-color: var(--code-background-color) !important;
+      }
+    }
+
+    pre:last-child {
+      margin-bottom: 1em;
     }
   }
 
