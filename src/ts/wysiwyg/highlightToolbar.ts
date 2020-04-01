@@ -460,73 +460,70 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
 
         const blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block");
-        if (blockRenderElement) {
+        if (blockRenderElement && blockRenderElement.getAttribute("data-type").indexOf("block") > -1) {
             // block popover: math-inline, math-block, html-block, html-inline, code-block
-            const blockType = blockRenderElement.getAttribute("data-type");
             vditor.wysiwyg.popover.innerHTML = "";
+            genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
+            genInsertBefore(range, blockRenderElement, vditor);
+            genInsertAfter(range, blockRenderElement, vditor);
 
-            const languageWrap = document.createElement("span");
-            languageWrap.setAttribute("aria-label", i18n[vditor.options.lang].language +
-                "<" + updateHotkeyTip("⌥-Enter") + ">");
-            languageWrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const language = document.createElement("input");
-            languageWrap.appendChild(language);
-            if (blockType.indexOf("block") > -1) {
-                genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
-                genInsertBefore(range, blockRenderElement, vditor);
-                genInsertAfter(range, blockRenderElement, vditor);
+            if (blockRenderElement.getAttribute("data-type") === "code-block") {
+                const languageWrap = document.createElement("span");
+                languageWrap.setAttribute("aria-label", i18n[vditor.options.lang].language +
+                    "<" + updateHotkeyTip("⌥-Enter") + ">");
+                languageWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+                const language = document.createElement("input");
+                languageWrap.appendChild(language);
 
-                if (blockType === "code-block") {
-                    const codeElement = blockRenderElement.firstElementChild.firstElementChild;
+                const codeElement = blockRenderElement.firstElementChild.firstElementChild;
 
-                    const updateLanguage = () => {
-                        codeElement.className = `language-${language.value}`;
-                    };
-                    language.className = "vditor-input";
-                    language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥-Enter") + ">");
-                    language.value = codeElement.className.indexOf("language-") > -1 ?
-                        codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
-                    language.oninput = () => {
-                        updateLanguage();
-                        blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML;
-                        processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
-                        afterRenderEvent(vditor);
-                    };
-                    language.onkeydown = (event: KeyboardEvent) => {
-                        if (event.isComposing) {
-                            return;
+                const updateLanguage = () => {
+                    codeElement.className = `language-${language.value}`;
+                };
+                language.className = "vditor-input";
+                language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥-Enter") + ">");
+                language.value = codeElement.className.indexOf("language-") > -1 ?
+                    codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
+                language.oninput = () => {
+                    updateLanguage();
+                    blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML;
+                    processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
+                    afterRenderEvent(vditor);
+                };
+                language.onkeydown = (event: KeyboardEvent) => {
+                    if (event.isComposing) {
+                        return;
+                    }
+                    if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
+                        range.setStart(codeElement.firstChild, 0);
+                        range.collapse(true);
+                        setSelectionFocus(range);
+                    }
+                    vditor.hint.select(event, vditor);
+                };
+                language.onkeyup = (event: KeyboardEvent) => {
+                    if (event.isComposing || event.key === "Enter" || event.key === "ArrowUp" || event.key === "ArrowDown") {
+                        return;
+                    }
+                    const matchLangData: IHintData[] = [];
+                    const key = language.value.substring(0, language.selectionStart);
+                    Constants.CODE_LANGUAGES.forEach((keyName) => {
+                        if (keyName.indexOf(key.toLowerCase()) > -1) {
+                            matchLangData.push({
+                                html: keyName,
+                                value: keyName,
+                            });
                         }
-                        if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
-                            range.setStart(codeElement.firstChild, 0);
-                            range.collapse(true);
-                            setSelectionFocus(range);
-                        }
-                        vditor.hint.select(event, vditor);
-                    };
-                    language.onkeyup = (event: KeyboardEvent) => {
-                        if (event.isComposing || event.key === "Enter" || event.key === "ArrowUp" || event.key === "ArrowDown") {
-                            return;
-                        }
-                        const matchLangData: IHintData[] = [];
-                        const key = language.value.substring(0, language.selectionStart);
-                        Constants.CODE_LANGUAGES.forEach((keyName) => {
-                            if (keyName.indexOf(key.toLowerCase()) > -1) {
-                                matchLangData.push({
-                                    html: keyName,
-                                    value: keyName,
-                                });
-                            }
-                        });
-                        vditor.hint.genHTML(matchLangData, key, vditor);
-                        event.preventDefault();
-                    };
-                    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
-                }
+                    });
+                    vditor.hint.genHTML(matchLangData, key, vditor);
+                    event.preventDefault();
+                };
+                vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
             }
             setPopoverPosition(vditor, blockRenderElement);
         } else {
-            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__block").forEach((itemElement) => {
-                (itemElement.firstElementChild as HTMLElement).style.display = "none";
+            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview").forEach((itemElement) => {
+                (itemElement.previousElementSibling as HTMLElement).style.display = "none";
             });
         }
 
@@ -590,10 +587,13 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     if (tableElement) {
         targetElement = tableElement;
     }
-    vditor.wysiwyg.popover.style.top = Math.max(-11, targetElement.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
-    vditor.wysiwyg.popover.style.left = targetElement.offsetLeft + "px";
-    vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
+    vditor.wysiwyg.popover.style.left = "0";
     vditor.wysiwyg.popover.style.display = "block";
+    vditor.wysiwyg.popover.style.top = Math.max(-11, targetElement.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
+    vditor.wysiwyg.popover.style.left =
+        Math.min(targetElement.offsetLeft, vditor.wysiwyg.element.clientWidth - vditor.wysiwyg.popover.clientWidth) + "px";
+    vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
+
 };
 
 const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) => {

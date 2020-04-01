@@ -76,7 +76,7 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
             };
         }
         // 循环加载会抛异常
-        addScriptSync(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript")
+        addScriptSync(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript");
         // 等到 js 文件执行完成
         setTimeout(() => {
             mathElements.forEach((mathElement) => {
