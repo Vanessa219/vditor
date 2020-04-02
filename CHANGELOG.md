@@ -49,13 +49,13 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.8 / 2020-04-0x
+### v3.0.9 / 2020-04-0x
 
+### v3.0.8 / 2020-04-02
+
+* [261](https://github.com/Vanessa219/vditor/issues/261) When link with "" and ctrl+k `修复缺陷`
 * [262](https://github.com/Vanessa219/vditor/issues/262) ctrl+m... delete, and enter `修复缺陷`
 * [260](https://github.com/Vanessa219/vditor/issues/260) Not working typewritermode at code block `修复缺陷`
-
-### v3.0.7 / 2020-04-01
-
 * [250](https://github.com/Vanessa219/vditor/issues/250) 支持配置是否开启 wysiwyg 模式下代码块渲染 `引入特性`
 * [258](https://github.com/Vanessa219/vditor/issues/258) wysiwyg a 元素子导航居右被挤变形 `修复缺陷`
 * [212](https://github.com/Vanessa219/vditor/issues/212) Sync XMLHttpRequest Deprecation message `改进功能`

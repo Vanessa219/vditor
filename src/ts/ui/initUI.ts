@@ -96,5 +96,5 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
             initValue = "";
         }
     }
-    return initValue;
+    return initValue || "";
 };

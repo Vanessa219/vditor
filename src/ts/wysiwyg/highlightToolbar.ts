@@ -526,7 +526,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         } else {
             if (!blockRenderElement) {
                 vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview").forEach((itemElement) => {
-                    const previousElement = itemElement.previousElementSibling as HTMLElement
+                    const previousElement = itemElement.previousElementSibling as HTMLElement;
                     previousElement.style.display = "none";
                 });
             }
