@@ -51,7 +51,7 @@
 
 ### v3.0.8 / 2020-04-0x
 
-
+* [260](https://github.com/Vanessa219/vditor/issues/260) Not working typewritermode at code block `修复缺陷`
 
 ### v3.0.7 / 2020-04-01
 
