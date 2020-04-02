@@ -604,7 +604,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             && range.startOffset === 0 && range.toString() === "") {
             const previousCellElement = goPreviousCell(cellElement, range, false);
             if (!previousCellElement && tableElement) {
-                tableElement.outerHTML = `<p data-block="0"><wbr>${tableElement.textContent}</p>`;
+                tableElement.outerHTML = `<p data-block="0"><wbr>${tableElement.textContent.trim()}</p>`;
                 setRangeByWbr(vditor[vditor.currentMode].element, range);
                 execAfterRender(vditor);
             }

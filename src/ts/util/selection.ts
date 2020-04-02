@@ -31,11 +31,13 @@ export const getCursorPosition = (editor: HTMLElement) => {
             children[range.startOffset].getClientRects().length > 0) {
             // markdown 模式回车
             cursorRect = children[range.startOffset].getClientRects()[0];
-        } else {
+        } else if (range.startContainer.childNodes.length > 0) {
             // in table or code block
             range.selectNode(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)])
             cursorRect = range.getClientRects()[0];
             range.collapse(false);
+        } else {
+            cursorRect = (range.startContainer as HTMLElement).getClientRects()[0];
         }
         if (!cursorRect) {
             let parentElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
@@ -169,6 +171,9 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
         if (wbrElement.previousSibling) {
             // text<wbr>
             range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
+        } else if (wbrElement.nextSibling) {
+            // <wbr>text
+            range.setStart(wbrElement.nextSibling, 0);
         } else {
             // 内容为空
             range.setStart(wbrElement.parentElement, 0);
