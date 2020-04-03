@@ -94,6 +94,11 @@ export const input = (vditor: IVditor, range: Range) => {
         item.removeAttribute("style");
     });
 
+    if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
+        // 修改链接引用
+        blockElement = vditor.ir.element;
+    }
+
     const isIRElement = blockElement.isEqualNode(vditor.ir.element);
     let html = "";
     if (!isIRElement) {
@@ -130,6 +135,19 @@ export const input = (vditor: IVditor, range: Range) => {
             html = blockElement.previousElementSibling.outerHTML + html;
             blockElement.previousElementSibling.remove();
         }
+
+        // 添加链接引用
+        const allLinkRefDefsElement = vditor.ir.element.querySelector("[data-type='link-ref-defs-block']");
+        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
+            html += allLinkRefDefsElement.outerHTML;
+            allLinkRefDefsElement.remove();
+        }
+        // 添加脚注
+        const allFootnoteElement = vditor.ir.element.querySelector("[data-type='footnotes-block']");
+        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement)) {
+            html += allFootnoteElement.outerHTML;
+            allFootnoteElement.remove();
+        }
     } else {
         html = blockElement.innerHTML;
     }
@@ -142,6 +160,16 @@ export const input = (vditor: IVditor, range: Range) => {
         blockElement.innerHTML = html;
     } else {
         blockElement.outerHTML = html;
+
+        const allLinkRefDefsElement = vditor.ir.element.querySelector("[data-type='link-ref-defs-block']");
+        if (allLinkRefDefsElement) {
+            vditor.ir.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+        }
+
+        const allFootnoteElement = vditor.ir.element.querySelector("[data-type='footnotes-block']");
+        if (allFootnoteElement) {
+            vditor.ir.element.insertAdjacentElement("beforeend", allFootnoteElement);
+        }
     }
 
     setRangeByWbr(vditor.ir.element, range);
