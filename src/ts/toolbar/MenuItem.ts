@@ -14,6 +14,9 @@ export class MenuItem {
         this.menuItem = menuItem;
         this.element = document.createElement("div");
         this.element.className = "vditor-toolbar__item";
+        if (menuItem.className) {
+            this.element.classList.add(...menuItem.className.split(" "));
+        }
         const iconElement = document.createElement(menuItem.name === "upload" ? "div" : "button");
         iconElement.setAttribute("data-type", menuItem.name);
         iconElement.className = `vditor-tooltipped vditor-tooltipped__${menuItem.tipPosition}`;

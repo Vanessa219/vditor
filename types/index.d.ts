@@ -164,6 +164,8 @@ interface IMenuItem {
     name: string;
     /** svg 图标 HTML */
     icon?: string;
+    /** 元素的样式名称 */
+    className?: string;
     /** 提示 */
     tip?: string;
     /** 快捷键，支持⌘/ctrl-key 或 ⌘/ctrl-⇧/shif-key 格式的配置，不支持 wysiwyg 模式 */
@@ -174,6 +176,7 @@ interface IMenuItem {
     prefix?: string;
     /** 提示位置：ne, nw */
     tipPosition?: string;
+    /** 点击元素后展开的弹层 */
     panelElement?: HTMLElement;
 
     /** 自定义按钮点击时触发的事件 */

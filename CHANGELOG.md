@@ -51,6 +51,8 @@
 
 ### v3.0.9 / 2020-04-0x
 
+* [265](https://github.com/Vanessa219/vditor/issues/265) ir 模式中 toc， 链接引用，脚注 `引入特性`
+* [271](https://github.com/Vanessa219/vditor/issues/271) options.toolbar支持自定义绑定class `引入特性`
 * [267](https://github.com/Vanessa219/vditor/issues/267) 设置 codeBlockPreview false， esc 后代码块消失 `修复缺陷`
 * [270](https://github.com/Vanessa219/vditor/issues/270) 支持捂脸表情 `改进功能`
 * [264](https://github.com/Vanessa219/vditor/issues/264) table at IR mdoe `修复缺陷`
@@ -96,6 +98,7 @@
   * cache 修改为 {enable: boolean, id: string}
   * md2html 改为异步
   * 添加 `options.preview.markdown.codeBlockPreview`
+  * 为 `options.toolbar` 添加 `className`
 
 ### v2.3.0 / 2020-03-12
 
