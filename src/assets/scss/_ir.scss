@@ -45,6 +45,10 @@
         height: auto;
         width: auto;
 
+        &--hide {
+          display: none;
+        }
+
         &--heading {
           color: var(--ir-heading-color);
         }
