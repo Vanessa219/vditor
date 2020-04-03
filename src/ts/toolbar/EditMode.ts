@@ -127,6 +127,7 @@ export class EditMode extends MenuItem {
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
+            (this.element.firstElementChild as HTMLElement).blur();
 
             if (this.panelElement.style.display === "block") {
                 this.panelElement.style.display = "none";

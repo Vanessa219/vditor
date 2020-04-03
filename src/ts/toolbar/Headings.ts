@@ -35,7 +35,7 @@ export class Headings extends MenuItem {
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-
+            (this.element.firstElementChild as HTMLElement).blur();
             const actionBtn = this.element.children[0];
             if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
                 removeHeading(vditor);

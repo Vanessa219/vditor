@@ -17,6 +17,7 @@
 .vditor-tooltipped {
   position: relative;
   cursor: pointer;
+
   &::after {
     position: absolute;
     z-index: 1000000;
@@ -162,3 +163,9 @@
   }
 }
 
+@media screen and (max-width: 520px) {
+  .vditor-tooltipped:before,
+  .vditor-tooltipped:after {
+    content: none;
+  }
+}
