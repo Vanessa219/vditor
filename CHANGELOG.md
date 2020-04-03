@@ -51,6 +51,7 @@
 
 ### v3.0.9 / 2020-04-0x
 
+* [270](https://github.com/Vanessa219/vditor/issues/270) 支持捂脸表情 `改进功能`
 * [264](https://github.com/Vanessa219/vditor/issues/264) table at IR mdoe `修复缺陷`
 * [253](https://github.com/Vanessa219/vditor/issues/253) 所见即所得复制粘贴问题 `修复缺陷`
 
