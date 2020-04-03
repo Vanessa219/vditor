@@ -548,23 +548,25 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
         }
 
         // 删除当前行
-        if (cellElement.tagName === "TD" && matchHotKey("⌘--", event)) {
-            const tbodyElement = cellElement.parentElement.parentElement;
-            if (cellElement.parentElement.previousElementSibling) {
-                range.selectNodeContents(cellElement.parentElement.previousElementSibling.lastElementChild);
-            } else {
-                range.selectNodeContents(tbodyElement.previousElementSibling.lastElementChild.lastElementChild);
-            }
+        if (matchHotKey("⌘--", event)) {
+            if (cellElement.tagName === "TD") {
+                const tbodyElement = cellElement.parentElement.parentElement;
+                if (cellElement.parentElement.previousElementSibling) {
+                    range.selectNodeContents(cellElement.parentElement.previousElementSibling.lastElementChild);
+                } else {
+                    range.selectNodeContents(tbodyElement.previousElementSibling.lastElementChild.lastElementChild);
+                }
 
-            if (tbodyElement.childElementCount === 1) {
-                tbodyElement.remove();
-            } else {
-                cellElement.parentElement.remove();
-            }
+                if (tbodyElement.childElementCount === 1) {
+                    tbodyElement.remove();
+                } else {
+                    cellElement.parentElement.remove();
+                }
 
-            range.collapse(false);
+                range.collapse(false);
+                execAfterRender(vditor);
+            }
             event.preventDefault();
-            execAfterRender(vditor);
             return true;
         }
 
@@ -646,11 +648,12 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                 range.collapse(true);
             }
             for (let i = 0; i < tableElement.rows.length; i++) {
-                if (tableElement.rows.length === 1) {
+                const cells = tableElement.rows[i].cells
+                if (cells.length === 1) {
                     tableElement.remove();
-                } else {
-                    tableElement.rows[i].cells[index].remove();
+                    break;
                 }
+                cells[index].remove();
             }
             execAfterRender(vditor);
             event.preventDefault();

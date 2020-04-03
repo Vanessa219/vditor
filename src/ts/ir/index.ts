@@ -103,6 +103,9 @@ class IR {
                     tempElement.querySelectorAll("[style]").forEach((e) => {
                         e.removeAttribute("style");
                     });
+                    tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
+                        e.remove();
+                    });
                     vditor.lute.SetJSRenderers({
                         renderers: {
                             HTML2VditorIRDOM: {
