@@ -102,7 +102,7 @@ class Vditor extends VditorMethod {
             this.vditor.upload = new Upload();
         }
 
-        // addScript("'src/js/lute/lute.min.js"', "vditorLuteScript").then(() => {
+        // addScript("src/js/lute/lute.min.js", "vditorLuteScript").then(() => {
         // addScript(`http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript").then(() => {
         addScript(`${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript").then(() => {
             this.vditor.lute = setLute({
