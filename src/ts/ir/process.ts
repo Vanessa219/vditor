@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {isSafari} from "../util/compatibility";
-import {listToggle} from "../util/fixBrowserBehavior";
+import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
@@ -85,6 +85,7 @@ export const processHeading = (vditor: IVditor, value: string) => {
             document.execCommand("insertHTML", false, value);
         }
         highlightToolbar(vditor);
+        renderToc(vditor.ir.element);
     }
 };
 

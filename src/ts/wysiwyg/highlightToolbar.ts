@@ -113,9 +113,6 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (!tocElement) {
             const blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
             if (blockElement) {
-                if (blockElement.nextElementSibling?.classList.contains("vditor-toc")) {
-                    tocElement = blockElement.nextElementSibling as HTMLElement;
-                }
                 if (blockElement.previousElementSibling?.classList.contains("vditor-toc")) {
                     tocElement = blockElement.previousElementSibling as HTMLElement;
                 }

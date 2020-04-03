@@ -329,10 +329,16 @@ export const renderToc = (editorElement: HTMLPreElement) => {
         return;
     }
     let tocHTML = "";
+    const isIR = editorElement.parentElement.classList.contains("vditor-ir");
     Array.from(editorElement.children).forEach((item: HTMLElement) => {
         if (hasClosestByHeadings(item)) {
-            const space = new Array((parseInt(item.tagName.substring(1), 10) - 1) * 2).fill("&emsp;").join("");
-            tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
+            const headingNo = parseInt(item.tagName.substring(1), 10);
+            const space = new Array((headingNo - 1) * 2).fill("&emsp;").join("");
+            if (isIR) {
+                tocHTML += `${space}<span data-type="toc-h">${item.textContent.substring(headingNo + 1).trim()}</span><br>`;
+            } else {
+                tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
+            }
         }
     });
     tocElement.innerHTML = tocHTML || "[ToC]";
@@ -648,7 +654,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                 range.collapse(true);
             }
             for (let i = 0; i < tableElement.rows.length; i++) {
-                const cells = tableElement.rows[i].cells
+                const cells = tableElement.rows[i].cells;
                 if (cells.length === 1) {
                     tableElement.remove();
                     break;

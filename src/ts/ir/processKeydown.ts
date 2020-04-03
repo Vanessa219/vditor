@@ -63,6 +63,13 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (fixBlockquote(vditor, range, event, pElement)) {
         return true;
     }
+    // toc 前无元素，插入空块
+    if (pElement && pElement.previousElementSibling &&
+        pElement.previousElementSibling.classList.contains("vditor-toc")) {
+        if (insertBeforeBlock(vditor, event, range, pElement, pElement.previousElementSibling as HTMLElement)) {
+            return true;
+        }
+    }
 
     // 代码块
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");

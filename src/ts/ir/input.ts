@@ -1,5 +1,10 @@
-import {isHeadingMD, isHrMD} from "../util/fixBrowserBehavior";
-import {getTopList, hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "../util/hasClosest";
+import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
+import {
+    getTopList,
+    hasClosestBlock,
+    hasClosestByClassName,
+    hasClosestByTag,
+} from "../util/hasClosest";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
@@ -69,6 +74,7 @@ export const input = (vditor: IVditor, range: Range) => {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.ir.element;
     }
+
     if (!blockElement.querySelector("wbr")) {
         const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
         if (previewRenderElement) {
@@ -119,7 +125,7 @@ export const input = (vditor: IVditor, range: Range) => {
             }
             // firefox 列表回车不会产生新的 list item https://github.com/Vanessa219/vditor/issues/194
             html = html.replace("<div><wbr><br></div>", "<li><p><wbr><br></p></li>");
-        } else if (blockElement.previousElementSibling) {
+        } else if (blockElement.previousElementSibling && blockElement.previousElementSibling.textContent !== "") {
             // 换行时需要处理上一段落
             html = blockElement.previousElementSibling.outerHTML + html;
             blockElement.previousElementSibling.remove();
@@ -143,6 +149,8 @@ export const input = (vditor: IVditor, range: Range) => {
     vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
         processCodeRender(item, vditor);
     });
+
+    renderToc(vditor.ir.element);
 
     processAfterRender(vditor, {
         enableAddUndoStack: true,
