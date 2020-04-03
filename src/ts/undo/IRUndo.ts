@@ -65,6 +65,9 @@ class IRUndo {
     }
 
     public recordFirstWbr(vditor: IVditor, event: KeyboardEvent) {
+        if (getSelection().rangeCount === 0) {
+            return;
+        }
         if (this.undoStack.length !== 1 || this.undoStack[0].length === 0) {
             return;
         }

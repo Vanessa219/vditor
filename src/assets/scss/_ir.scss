@@ -198,7 +198,14 @@
     content: '^F';
   }
 
-  .vditor-toc:before {
-    content: "ToC";
+  .vditor-toc {
+    &:before {
+      content: "ToC";
+    }
+
+    span[data-type="toc-h"] {
+      color: $blurColor;
+      text-decoration: underline;
+    }
   }
 }

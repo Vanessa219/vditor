@@ -12,6 +12,7 @@ import {
     insertAfterBlock, insertBeforeBlock, isFirstCell, isLastCell,
 } from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {getEditorRange} from "../util/selection";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -30,7 +31,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return false;
     }
 
-    const range = getSelection().getRangeAt(0);
+    const range = getEditorRange(vditor.ir.element);
     const startContainer = range.startContainer;
 
     // 斜体、粗体、内联代码块中换行

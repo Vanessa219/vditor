@@ -5,6 +5,7 @@ import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editor
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {processCodeRender, processPasteCode} from "../util/processCode";
 import {
+    getEditorRange,
     getSelectPosition,
     insertHTML,
     setSelectionByPosition,
@@ -206,11 +207,11 @@ class IR {
                 return;
             }
 
-            expandMarker(getSelection().getRangeAt(0), vditor);
+            const range = getEditorRange(this.element);
+            expandMarker(range, vditor);
             highlightToolbar(vditor);
 
             // 点击后光标落于预览区
-            const range = getSelection().getRangeAt(0);
             let previewElement = hasClosestByClassName(event.target, "vditor-ir__preview");
             if (!previewElement) {
                 previewElement = hasClosestByClassName(
@@ -242,7 +243,7 @@ class IR {
                 vditor.ir.element.innerHTML = "";
                 return;
             }
-            const range = getSelection().getRangeAt(0);
+            const range = getEditorRange(this.element);
             if (event.key === "Backspace") {
                 // firefox headings https://github.com/Vanessa219/vditor/issues/211
                 if (isFirefox() && range.startContainer.textContent === "\n" && range.startOffset === 1) {

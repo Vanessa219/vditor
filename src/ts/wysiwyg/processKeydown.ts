@@ -18,7 +18,7 @@ import {
     hasTopClosestByTag,
 } from "../util/hasClosest";
 import {matchHotKey} from "../util/hotKey";
-import {getSelectPosition, setSelectionFocus} from "../util/selection";
+import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsCode} from "./inlineTag";
 import {removeHeading, setHeading} from "./setHeading";
@@ -42,7 +42,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return false;
     }
 
-    const range = getSelection().getRangeAt(0);
+    const range = getEditorRange(vditor.wysiwyg.element);
     const startContainer = range.startContainer;
 
     const blockElement = hasClosestBlock(startContainer);
