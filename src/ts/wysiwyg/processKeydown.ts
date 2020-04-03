@@ -67,7 +67,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const codeRenderElement = hasClosestByClassName(startContainer, "vditor-wysiwyg__block");
     if (codeRenderElement) {
         // esc: 退出编辑，仅展示渲染
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && codeRenderElement.children.length === 2) {
             vditor.wysiwyg.popover.style.display = "none";
             (codeRenderElement.firstElementChild as HTMLElement).style.display = "none";
             vditor.wysiwyg.element.blur();

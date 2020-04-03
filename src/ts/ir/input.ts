@@ -1,7 +1,7 @@
 import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
-    hasClosestBlock,
+    hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByTag,
 } from "../util/hasClosest";
@@ -112,6 +112,12 @@ export const input = (vditor: IVditor, range: Range) => {
             } else {
                 blockElement = topListElement;
             }
+        }
+
+        // 修改脚注
+        const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
+        if (footnoteElement) {
+            blockElement = footnoteElement;
         }
 
         html = blockElement.outerHTML;

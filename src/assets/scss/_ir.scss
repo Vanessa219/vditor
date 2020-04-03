@@ -17,9 +17,13 @@
       color: var(--second-color);
     }
 
-
     &:not(.vditor-ir__node--expand) .vditor-ir__marker {
       padding: 0 !important;
+    }
+
+    &[data-type="link-ref"],
+    &[data-type="footnotes-ref"] {
+      color: $blurColor;
     }
 
     .vditor-ir__marker {
@@ -190,13 +194,24 @@
     content: 'H6';
   }
 
-  div[data-type="link-ref-defs-block"]:before {
-    content: '"A"';
+  div[data-type="link-ref-defs-block"] {
+    &:before {
+      content: '"A"';
+    }
+
+    color: var(--blockquote-color);
   }
 
-  div[data-type="footnotes-block"]:before {
-    content: '^F';
+  div[data-type="footnotes-block"] {
+    &:before {
+      content: '^F';
+    }
+
+    border-top: 2px solid var(--heading-border-color);
+    padding-top: 24px;
+    margin-top: 24px;
   }
+
 
   .vditor-toc {
     &:before {
