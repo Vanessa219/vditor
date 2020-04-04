@@ -51,6 +51,7 @@
 
 ### v3.0.10 / 2020-04-0x
 
+* [208](https://github.com/Vanessa219/vditor/issues/208) hr in Firefox `修复缺陷`
 * [274](https://github.com/Vanessa219/vditor/issues/274) Toc demo at Preview `文档相关`
 * [269](https://github.com/Vanessa219/vditor/issues/269) 分屏预览支持 list-style-type CSS `引入特性`
 

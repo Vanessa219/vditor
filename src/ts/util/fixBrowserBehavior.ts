@@ -3,7 +3,7 @@ import {processAfterRender} from "../ir/process";
 import {processCodeRender} from "../util/processCode";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {isCtrl} from "./compatibility";
+import {isCtrl, isFirefox} from "./compatibility";
 import {scrollCenter} from "./editorCommenEvent";
 import {
     getTopList,
@@ -937,27 +937,44 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
     return false;
 };
 
-export const fixDelete = (vditor: IVditor, range: Range, event: KeyboardEvent, pElement: HTMLElement) => {
-    const offsetChildNode = range.startContainer.childNodes[range.startOffset] as HTMLElement;
-    if (range.startContainer.nodeType !== 3 && offsetChildNode && range.startOffset > 0 &&
-        (offsetChildNode.tagName === "TABLE" || offsetChildNode.tagName === "HR")) {
-        // 光标位于 table/hr 前，table/hr 前有内容
-        range.selectNodeContents(offsetChildNode.previousElementSibling);
-        range.collapse(false);
-        event.preventDefault();
-        return true;
+export const fixDelete = (vditor: IVditor, range: Range, event: KeyboardEvent, pElement: HTMLElement | false) => {
+    if (range.startContainer.nodeType !== 3) {
+        // 光标位于 hr 前，hr 前有内容
+        const rangeElement = (range.startContainer as HTMLElement).children[range.startOffset]
+        if (rangeElement && rangeElement.tagName === 'HR') {
+            range.selectNodeContents(rangeElement.previousElementSibling);
+            range.collapse(false);
+            event.preventDefault();
+            return true;
+        }
     }
-    // table 后删除 https://github.com/Vanessa219/vditor/issues/243
-    const tableElement = pElement.previousElementSibling;
-    if (tableElement && event.key === "Backspace" && tableElement.tagName === "TABLE" &&
-        getSelectPosition(pElement, range).start === 0) {
-        const lastCellElement = tableElement.lastElementChild.lastElementChild.lastElementChild;
-        lastCellElement.innerHTML = lastCellElement.innerHTML.trimLeft() + "<wbr>" + pElement.textContent.trim();
-        pElement.remove();
-        setRangeByWbr(vditor[vditor.currentMode].element, range);
-        execAfterRender(vditor);
-        event.preventDefault();
-        return true;
+
+    if (pElement) {
+        const previousElement = pElement.previousElementSibling;
+        if (previousElement && getSelectPosition(pElement, range).start === 0 &&
+            ((isFirefox() && previousElement.tagName === "HR") || previousElement.tagName === "TABLE")) {
+            if (previousElement.tagName === "TABLE") {
+                // table 后删除 https://github.com/Vanessa219/vditor/issues/243
+                const lastCellElement = previousElement.lastElementChild.lastElementChild.lastElementChild;
+                lastCellElement.innerHTML =
+                    lastCellElement.innerHTML.trimLeft() + "<wbr>" + pElement.textContent.trim();
+                pElement.remove();
+            } else {
+                // 光标位于 hr 后进行删除
+                previousElement.remove();
+            }
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
     }
     return false;
 };
+
+export const fixHR = (range: Range) => {
+    if (isFirefox() && range.startContainer.nodeType !== 3 &&
+        (range.startContainer as HTMLElement).tagName === "HR") {
+        range.setStartBefore(range.startContainer);
+    }
+}

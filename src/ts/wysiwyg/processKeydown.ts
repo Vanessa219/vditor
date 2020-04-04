@@ -3,7 +3,7 @@ import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommenEvent";
 import {
     fixBlockquote,
-    fixCodeBlock, fixDelete,
+    fixCodeBlock, fixDelete, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -36,14 +36,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.wysiwygUndo.recordFirstWbr(vditor, event);
     }
 
+    const range = getEditorRange(vditor.ir.element);
+    const startContainer = range.startContainer;
+
+    fixHR(range);
+
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
         && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }
-
-    const range = getEditorRange(vditor.wysiwyg.element);
-    const startContainer = range.startContainer;
 
     const blockElement = hasClosestBlock(startContainer);
     const pElement = hasClosestByMatchTag(startContainer, "P");
@@ -263,7 +265,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 删除
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
-        if (pElement && fixDelete(vditor, range, event, pElement)) {
+        if (fixDelete(vditor, range, event, pElement)) {
             return true;
         }
         if (blockElement) {

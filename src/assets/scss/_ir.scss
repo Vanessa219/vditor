@@ -147,6 +147,12 @@
     }
   }
 
+  hr {
+    display: inline-block;
+    margin: 12px 0;
+    width: 100%;
+  }
+
   blockquote:empty::before,
   pre > code:empty::before,
   p:empty::before,

@@ -3,7 +3,7 @@ import {scrollCenter} from "../util/editorCommenEvent";
 import {
     fixBlockquote,
     fixCodeBlock,
-    fixDelete,
+    fixDelete, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -25,14 +25,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.irUndo.recordFirstWbr(vditor, event);
     }
 
+    const range = getEditorRange(vditor.ir.element);
+    const startContainer = range.startContainer;
+
+    fixHR(range);
+
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
         && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }
-
-    const range = getEditorRange(vditor.ir.element);
-    const startContainer = range.startContainer;
 
     // 斜体、粗体、内联代码块中换行
     const newlineElement = hasClosestByAttribute(startContainer, "data-newline", "1");
@@ -144,10 +146,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
-        if (pElement && fixDelete(vditor, range, event, pElement)) {
-            return true;
-        }
+    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
+        && fixDelete(vditor, range, event, pElement)) {
+        return true;
     }
 
     if (event.key === "Enter") {
