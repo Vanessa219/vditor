@@ -102,6 +102,7 @@
   * md2html 改为异步
   * 添加 `options.preview.markdown.codeBlockPreview`
   * 为 `options.toolbar` 添加 `className`
+  * 添加 getCurrentMode 方法
 
 ### v2.3.0 / 2020-03-12
 

@@ -3,6 +3,5 @@ export const setHeaders = (vditor: IVditor, xhr: XMLHttpRequest) => {
         Object.keys(vditor.options.upload.headers).forEach((key) => {
             xhr.setRequestHeader(key, vditor.options.upload.headers[key]);
         });
-        xhr.setRequestHeader("X-Mode", vditor.currentMode);
     }
 };

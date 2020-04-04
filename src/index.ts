@@ -141,6 +141,11 @@ class Vditor extends VditorMethod {
         return getMarkdown(this.vditor);
     }
 
+    /** 获取编辑器当前编辑模式 */
+    public getCurrentMode() {
+        return this.vditor.currentMode;
+    }
+
     /** 聚焦到编辑器 */
     public focus() {
         if (this.vditor.currentMode === "sv") {
