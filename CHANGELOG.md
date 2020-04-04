@@ -51,6 +51,9 @@
 
 ### v3.0.10 / 2020-04-0x
 
+* [274](https://github.com/Vanessa219/vditor/issues/274) Toc demo at Preview `文档相关`
+* [269](https://github.com/Vanessa219/vditor/issues/269) 分屏预览支持 list-style-type CSS `引入特性`
+
 ### v3.0.9 / 2020-04-04
 
 * [265](https://github.com/Vanessa219/vditor/issues/265) ir 模式中 toc， 链接引用，脚注 `引入特性`
