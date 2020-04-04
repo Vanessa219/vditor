@@ -119,26 +119,28 @@ class IR {
                                         setHeaders(vditor, xhr);
                                         xhr.onreadystatechange = () => {
                                             if (xhr.readyState === XMLHttpRequest.DONE) {
-                                                const responseJSON = JSON.parse(xhr.responseText);
                                                 if (xhr.status === 200) {
+                                                    const responseJSON = JSON.parse(xhr.responseText);
                                                     if (responseJSON.code !== 0) {
                                                         vditor.tip.show(responseJSON.msg);
                                                         return;
                                                     }
-                                                    // TODO
                                                     const original = responseJSON.data.originalURL;
                                                     const imgElement: HTMLImageElement =
                                                         this.element.querySelector(`img[src="${original}"]`);
                                                     imgElement.src = responseJSON.data.url;
+                                                    imgElement.previousElementSibling.previousElementSibling.innerHTML =
+                                                        responseJSON.data.url;
                                                     processAfterRender(vditor);
                                                 } else {
-                                                    vditor.tip.show(responseJSON.msg);
+                                                    vditor.tip.show(xhr.responseText);
                                                 }
                                             }
                                         };
                                         xhr.send(JSON.stringify({url: src}));
                                     }
-                                    return ["", Lute.WalkStop];
+                                    return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`,
+                                        Lute.WalkStop];
                                 },
                             },
                         },

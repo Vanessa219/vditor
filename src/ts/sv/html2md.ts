@@ -31,8 +31,8 @@ export const html2md = (vditor: IVditor, textHTML: string, textPlain?: string) =
                         setHeaders(vditor, xhr);
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
-                                const responseJSON = JSON.parse(xhr.responseText);
                                 if (xhr.status === 200) {
+                                    const responseJSON = JSON.parse(xhr.responseText);
                                     if (responseJSON.code !== 0) {
                                         vditor.tip.show(responseJSON.msg);
                                         return;
@@ -41,7 +41,7 @@ export const html2md = (vditor: IVditor, textHTML: string, textPlain?: string) =
                                     setSelectionByInlineText(original, vditor.sv.element.childNodes);
                                     insertText(vditor, responseJSON.data.url, "", true);
                                 } else {
-                                    vditor.tip.show(responseJSON.msg);
+                                    vditor.tip.show(xhr.responseText);
                                 }
                             }
                         };

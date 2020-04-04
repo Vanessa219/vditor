@@ -184,8 +184,8 @@ class WYSIWYG {
                                         setHeaders(vditor, xhr);
                                         xhr.onreadystatechange = () => {
                                             if (xhr.readyState === XMLHttpRequest.DONE) {
-                                                const responseJSON = JSON.parse(xhr.responseText);
                                                 if (xhr.status === 200) {
+                                                    const responseJSON = JSON.parse(xhr.responseText);
                                                     if (responseJSON.code !== 0) {
                                                         vditor.tip.show(responseJSON.msg);
                                                         return;
@@ -196,7 +196,7 @@ class WYSIWYG {
                                                     imgElement.src = responseJSON.data.url;
                                                     afterRenderEvent(vditor);
                                                 } else {
-                                                    vditor.tip.show(responseJSON.msg);
+                                                    vditor.tip.show(xhr.responseText);
                                                 }
                                             }
                                         };
