@@ -36,7 +36,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.wysiwygUndo.recordFirstWbr(vditor, event);
     }
 
-    const range = getEditorRange(vditor.ir.element);
+    const range = getEditorRange(vditor.wysiwyg.element);
     const startContainer = range.startContainer;
 
     fixHR(range);
