@@ -49,9 +49,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.11 / 2020-04-0x
+### v3.0.12 / 2020-04-0x
 
-### v3.0.10 / 2020-04-04
+### v3.0.11 / 2020-04-05
 
 * [266](https://github.com/Vanessa219/vditor/issues/266) linkToImgUrl 图片重复上传 `修复缺陷`
 * [208](https://github.com/Vanessa219/vditor/issues/208) hr in Firefox `修复缺陷`

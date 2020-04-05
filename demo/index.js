@@ -4,7 +4,6 @@ import '../src/assets/scss/index.scss'
 window.vditor = new Vditor('vditor', {
   debugger: true,
   typewriterMode: true,
-  mode: 'ir',
   placeholder: 'placeholder',
   preview: {
     markdown: {
