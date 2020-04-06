@@ -1,5 +1,6 @@
 import contractSVG from "../../assets/icons/contract.svg";
 import fullscreenSVG from "../../assets/icons/fullscreen.svg";
+import {setPadding} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 
@@ -40,6 +41,8 @@ export class Fullscreen extends MenuItem {
             if (menuItem.click) {
                 menuItem.click(vditor.element.classList.contains("vditor--fullscreen"));
             }
+
+            setPadding(vditor);
         });
     }
 }
