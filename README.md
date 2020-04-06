@@ -55,9 +55,9 @@
 * 多语言支持、内置中英文
 * 支持主流浏览器和移动端
 
-![demo](https://img.hacpai.com/file/2020/02/%E6%88%AA%E5%9B%BE%E4%B8%93%E7%94%A8-ef21ef12.png)
+![demo](https://img.hacpai.com/file/2020/04/截图专用-b8789fd6.png?imageView2/2/interlace/1)
 
-![render](https://img.hacpai.com/file/2019/12/6434107230ebd600d01a11e98e8ab30c24364b58-2f777b2d.png)
+![render](https://img.hacpai.com/file/2020/04/%E6%88%AA%E5%9B%BE%E4%B8%93%E7%94%A8800-74ca3eb5.png?imageView2/2/interlace/1)
 
 ## 🔮 编辑模式
 
@@ -175,6 +175,7 @@ const vditor = new Vditor(id, {options...})
  name: 'format',  
  tipPosition: 'ne',  
  tip: 'format',  
+ className: '',
  icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="0 0 768 768"><path d="M342 426v-84h426v84h-426zM342 256v-86h426v86h-426zM0 0h768v86h-768v-86zM342 598v-86h426v86h-426zM0 214l170 170-170 170v-340zM0 768v-86h768v86h-768z"></path></svg>',  
  click: () => {  
    alert('custom toolbar')  
@@ -192,6 +193,7 @@ const vditor = new Vditor(id, {options...})
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
 | click | 自定义按钮点击时触发的事件 ():viod | - |
+| className | 样式名 | '' |
 
 #### options.cache
 
@@ -228,6 +230,7 @@ const vditor = new Vditor(id, {options...})
 | chinesePunct | 自动矫正标点 | false |
 | toc | 插入目录 | false |
 | footnotes | 脚注 | true |
+| codeBlockPreview | wysiwyg，ir 模式下是否对代码块进行渲染 | true |
 
 #### options.preview.math
 
@@ -242,7 +245,7 @@ const vditor = new Vditor(id, {options...})
 |   | 说明 | 默认值 |
 | - | - | - |
 | delay | 提示 debounce 毫秒间隔 | 200 |
-| emoji | 默认表情，可从[lute/emoji_map](https://github.com/88250/lute/blob/master/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️ ', 'cold_sweat': '😰' } |
+| emoji | 默认表情，可从[lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️ ', 'cold_sweat': '😰' } |
 | emojiTail | 常用表情提示 | - |
 | emojiPath | 表情图片地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
 | at | @用户回调，(value: string): Array\<any> ，需同步返回数组[{value: '', html: ''}] | - |
@@ -348,6 +351,7 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 | tip(text:string, time:number) | 消息提示。time 为 0 将一直显示 |
 | setPreviewMode(mode: string) | 设置预览模式。mode: 'both', 'editor', 'preview' |
 | setTheme(theme: "dark"\|"classic") | 设置主题 |
+| getCurrentMode(): string | 获取编辑器当前编辑模式 |
 
 #### static methods
 
@@ -391,7 +395,7 @@ options?: IPreviewOptions {
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
 | chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | 图表渲染 |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | 五线谱渲染 |
-| md2html(mdText: string, options?: IPreviewOptions): string | Markdown 文本转换为 HTML |
+| md2html(mdText: string, options?: IPreviewOptions):`Promise<string>` | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
 | highlightRender(hljsOption?:IHljs, element?: HTMLElement\| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
 | mediaRender(element: HTMLElement) | 为[特定链接](https://github.com/Vanessa219/vditor/issues/7)分别渲染为视频、音频、嵌入的 iframe |

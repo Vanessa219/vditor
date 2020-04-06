@@ -1,7 +1,15 @@
 ## Vditor change log
 
 ### 升级
-
+* v3.0
+  * `options.mode` 可选值为：'wysiwyg', 'sv', 'ir'
+  * toolbar 中的 `wysiwyg` 修改为 `edit-mode`
+  * new 支持传入 element
+  * `options.cache` 修改为 `{enable: boolean, id: string}`
+  * `md2html` 方法改为异步
+  * 添加 `options.preview.markdown.codeBlockPreview` 配置
+  * 为 `options.toolbar` 添加 `className` 配置
+  * 添加 `getCurrentMode` 方法
 * v2.2
   * 移除 `IPreviewOptions` 中的 `className`
   * `insertValue` 添加 `render` 参数，以便配置是否需要进行 Markdown 处理

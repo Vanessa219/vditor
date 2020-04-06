@@ -63,7 +63,7 @@ interface ILute {
     RenderEChartsJSON(text: string): string;
 
     // md 转换为 html
-    Md2HTML(markdown: string): string;
+    Md2HTML(markdown: string): Promise<string>;
 
     // 粘贴时将 html 转换为 md
     HTML2Md(html: string): string;
