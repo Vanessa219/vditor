@@ -49,12 +49,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.0.12 / 2020-04-0x
+### v3.0.12 / 2020-04-06
 
 * [276](https://github.com/Vanessa219/vditor/issues/276) 当设置编辑器宽度后，模式切换导致样式错误 `修复缺陷`
-
-### v3.0.11 / 2020-04-05
-
 * [266](https://github.com/Vanessa219/vditor/issues/266) linkToImgUrl 图片重复上传 `修复缺陷`
 * [208](https://github.com/Vanessa219/vditor/issues/208) hr in Firefox `修复缺陷`
 * [274](https://github.com/Vanessa219/vditor/issues/274) Toc demo at Preview `文档相关`
