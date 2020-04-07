@@ -28,7 +28,7 @@ class Vditor {
     public static mediaRender = mediaRender;
     /** 对选中的文字进行阅读 */
     public static speechRender = speechRender;
-    /** Markdown 文本转换为 HTML */
+    /** Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vaness) */
     public static md2html = md2html;
     /** 页面 Markdown 文章渲染 */
     public static preview = previewRender;
