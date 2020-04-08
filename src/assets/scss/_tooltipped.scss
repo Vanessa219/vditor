@@ -163,7 +163,7 @@
   }
 }
 
-@media screen and (max-width: 520px) {
+@media screen and (max-width: $max-width) {
   .vditor-tooltipped:before,
   .vditor-tooltipped:after {
     content: none;

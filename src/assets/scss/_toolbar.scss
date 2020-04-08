@@ -22,12 +22,12 @@
       .vditor-tooltipped {
         color: var(--toolbar-icon-color);
         border: 0;
-        margin: 0;
-        padding: 10px 5px;
+        padding: 10px 6px;
         background-color: transparent;
         height: 35px;
-        width: 25px;
+        width: 27px;
         box-sizing: border-box;
+        margin: 0 4px;
 
         &:focus {
           outline: none;
@@ -61,7 +61,7 @@
 
     &__divider {
       float: left;
-      width: 10px;
+      width: 16px;
       height: 35px;
     }
 
@@ -150,5 +150,12 @@
       float: left;
       margin: 3px 0 0 3px;
     }
+  }
+}
+
+@media screen and (max-width: $max-width) {
+  .vditor-toolbar__item .vditor-tooltipped {
+    padding: 10px 8px;
+    width: 31px;
   }
 }
