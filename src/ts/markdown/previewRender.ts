@@ -73,7 +73,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             headingAnchor: mergedOptions.anchor,
             inlineMathDigit: mergedOptions.math.inlineDigit,
             setext: mergedOptions.markdown.setext,
-            toc: mergedOptions.markdown.toc
+            toc: mergedOptions.markdown.toc,
         });
         return lute.Md2HTML(mdText);
     });
