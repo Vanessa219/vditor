@@ -1,19 +1,15 @@
 import {uploadFiles} from "../upload";
-import {setHeaders} from "../upload/setHeaders";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommenEvent";
-import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
+import {isHeadingMD, isHrMD, paste, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByHeadings, hasClosestByMatchTag,
 } from "../util/hasClosest";
-import {processCodeRender, processPasteCode} from "../util/processCode";
 import {
     getEditorRange,
     getSelectPosition,
-    insertHTML,
     setRangeByWbr,
-    setSelectionByPosition,
 } from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genImagePopover, highlightToolbar} from "./highlightToolbar";
@@ -116,112 +112,21 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
-            event.stopPropagation();
-            event.preventDefault();
-            let textHTML = event.clipboardData.getData("text/html");
-            const textPlain = event.clipboardData.getData("text/plain");
-
-            // 浏览器地址栏拷贝处理
-            if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                `<a href="${textPlain}">${textPlain}</a>` ||
-                textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
-                textHTML = "";
-            }
-
-            // process word
-            const doc = new DOMParser().parseFromString(textHTML, "text/html");
-            if (doc.body) {
-                textHTML = doc.body.innerHTML;
-            }
-
-            // process code
-            const code = processPasteCode(textHTML, textPlain, "wysiwyg");
-            const range = getSelection().getRangeAt(0);
-            const codeElement = hasClosestByMatchTag(event.target, "CODE");
-            if (codeElement) {
-                // 粘贴在代码位置
-                const position = getSelectPosition(event.target);
-                codeElement.textContent = codeElement.textContent.substring(0, position.start)
-                    + textPlain + codeElement.textContent.substring(position.end);
-                setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
-                    codeElement.parentElement);
-                if (codeElement.parentElement.nextElementSibling.classList.contains("vditor-wysiwyg__preview")) {
-                    codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
-                    processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
-                }
-            } else if (code) {
-                const node = document.createElement("template");
-                node.innerHTML = code;
-                range.insertNode(node.content.cloneNode(true));
-                const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-                if (blockElement) {
-                    blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
-                } else {
-                    vditor.wysiwyg.element.innerHTML = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
-                }
-                setRangeByWbr(vditor.wysiwyg.element, range);
-            } else {
-                if (textHTML.trim() !== "") {
-                    const tempElement = document.createElement("div");
-                    tempElement.innerHTML = textHTML;
-                    tempElement.querySelectorAll("[style]").forEach((e) => {
-                        e.removeAttribute("style");
-                    });
-                    tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
-                        e.remove();
-                    });
-
-                    vditor.lute.SetJSRenderers({
-                        renderers: {
-                            HTML2VditorDOM: {
-                                renderLinkDest: (node) => {
-                                    const src = node.TokensStr();
-                                    if (node.__internal_object__.Parent.Type === 34 && src
-                                        && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
-                                        const xhr = new XMLHttpRequest();
-                                        xhr.open("POST", vditor.options.upload.linkToImgUrl);
-                                        setHeaders(vditor, xhr);
-                                        xhr.onreadystatechange = () => {
-                                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                                if (xhr.status === 200) {
-                                                    const responseJSON = JSON.parse(xhr.responseText);
-                                                    if (responseJSON.code !== 0) {
-                                                        vditor.tip.show(responseJSON.msg);
-                                                        return;
-                                                    }
-                                                    const original = responseJSON.data.originalURL;
-                                                    const imgElement: HTMLImageElement =
-                                                        this.element.querySelector(`img[src="${original}"]`);
-                                                    imgElement.src = responseJSON.data.url;
-                                                    afterRenderEvent(vditor);
-                                                } else {
-                                                    vditor.tip.show(xhr.responseText);
-                                                }
-                                            }
-                                        };
-                                        xhr.send(JSON.stringify({url: src}));
-                                    }
-                                    return ["", Lute.WalkStop];
-                                },
-                            },
-                        },
-                    });
-                    const pasteHTML = vditor.lute.HTML2VditorDOM(tempElement.innerHTML);
-                    insertHTML(pasteHTML, vditor);
-                } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
-                    uploadFiles(vditor, event.clipboardData.files);
-                } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                    const vditorDomHTML = vditor.lute.Md2VditorDOM(textPlain);
-                    insertHTML(vditorDomHTML, vditor);
-                }
-            }
-
-            this.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']").forEach((item: HTMLElement) => {
-                processCodeRender(item, vditor);
+            paste(vditor, event, {
+                pasteCode: (code: string) => {
+                    const range = getEditorRange(this.element);
+                    const node = document.createElement("template");
+                    node.innerHTML = code;
+                    range.insertNode(node.content.cloneNode(true));
+                    const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+                    if (blockElement) {
+                        blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
+                    } else {
+                        vditor.wysiwyg.element.innerHTML = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
+                    }
+                    setRangeByWbr(vditor.wysiwyg.element, range);
+                },
             });
-
-            afterRenderEvent(vditor);
         });
 
         // 中文处理

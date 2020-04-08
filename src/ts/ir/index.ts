@@ -1,14 +1,10 @@
 import {uploadFiles} from "../upload";
-import {setHeaders} from "../upload/setHeaders";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
-import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {processCodeRender, processPasteCode} from "../util/processCode";
+import {paste} from "../util/fixBrowserBehavior";
+import {hasClosestByClassName} from "../util/hasClosest";
 import {
     getEditorRange,
-    getSelectPosition,
-    insertHTML,
-    setSelectionByPosition,
     setSelectionFocus,
 } from "../util/selection";
 import {expandMarker} from "./expandMarker";
@@ -62,106 +58,11 @@ class IR {
         });
 
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
-            event.stopPropagation();
-            event.preventDefault();
-            let textHTML = event.clipboardData.getData("text/html");
-            const textPlain = event.clipboardData.getData("text/plain");
-
-            // 浏览器地址栏拷贝处理
-            if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                `<a href="${textPlain}">${textPlain}</a>` ||
-                textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
-                textHTML = "";
-            }
-
-            // process word
-            const doc = new DOMParser().parseFromString(textHTML, "text/html");
-            if (doc.body) {
-                textHTML = doc.body.innerHTML;
-            }
-
-            // process code
-            const code = processPasteCode(textHTML, textPlain, "ir");
-            const codeElement = hasClosestByMatchTag(event.target, "CODE");
-            if (codeElement) {
-                // 粘贴在代码位置
-                const position = getSelectPosition(event.target);
-                codeElement.textContent = codeElement.textContent.substring(0, position.start)
-                    + textPlain + codeElement.textContent.substring(position.end);
-                setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
-                    codeElement.parentElement);
-                if (codeElement.parentElement.nextElementSibling.classList.contains("vditor-ir__preview")) {
-                    codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
-                    processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
-                }
-            } else if (code) {
-                document.execCommand("insertHTML", false, code);
-            } else {
-                if (textHTML.trim() !== "") {
-                    const tempElement = document.createElement("div");
-                    tempElement.innerHTML = textHTML;
-                    tempElement.querySelectorAll("[style]").forEach((e) => {
-                        e.removeAttribute("style");
-                    });
-                    tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
-                        e.remove();
-                    });
-                    vditor.lute.SetJSRenderers({
-                        renderers: {
-                            HTML2VditorIRDOM: {
-                                renderLinkDest: (node) => {
-                                    const src = node.TokensStr();
-                                    if (node.__internal_object__.Parent.Type === 34 && src
-                                        && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
-                                        const xhr = new XMLHttpRequest();
-                                        xhr.open("POST", vditor.options.upload.linkToImgUrl);
-                                        setHeaders(vditor, xhr);
-                                        xhr.onreadystatechange = () => {
-                                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                                if (xhr.status === 200) {
-                                                    const responseJSON = JSON.parse(xhr.responseText);
-                                                    if (responseJSON.code !== 0) {
-                                                        vditor.tip.show(responseJSON.msg);
-                                                        return;
-                                                    }
-                                                    const original = responseJSON.data.originalURL;
-                                                    const imgElement: HTMLImageElement =
-                                                        this.element.querySelector(`img[src="${original}"]`);
-                                                    imgElement.src = responseJSON.data.url;
-                                                    imgElement.previousElementSibling.previousElementSibling.innerHTML =
-                                                        responseJSON.data.url;
-                                                    processAfterRender(vditor);
-                                                } else {
-                                                    vditor.tip.show(xhr.responseText);
-                                                }
-                                            }
-                                        };
-                                        xhr.send(JSON.stringify({url: src}));
-                                    }
-                                    return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`,
-                                        Lute.WalkStop];
-                                },
-                            },
-                        },
-                    });
-                    insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
-                    vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']")
-                        .forEach((item: HTMLElement) => {
-                            processCodeRender(item, vditor);
-                        });
-                } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
-                    uploadFiles(vditor, event.clipboardData.files);
-                } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                    insertHTML(vditor.lute.Md2VditorIRDOM(textPlain), vditor);
-                    vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']")
-                        .forEach((item: HTMLElement) => {
-                            processCodeRender(item, vditor);
-                        });
-                }
-            }
-
-            processAfterRender(vditor);
+            paste(vditor, event, {
+                pasteCode: (code: string) => {
+                    document.execCommand("insertHTML", false, code);
+                },
+            });
         });
 
         if (vditor.options.upload.url || vditor.options.upload.handler) {
