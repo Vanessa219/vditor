@@ -43,6 +43,10 @@ class WYSIWYG {
         if (this.iPopoverShouldDisplay && this.iPopoverState) {
             this.popover.style.display = "block";
         } else {
+            const inputs = this.popover.getElementsByTagName("input");
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].blur();
+            }
             this.popover.style.display = "none";
         }
     }
