@@ -4,6 +4,9 @@
     border-bottom: 1px solid var(--border-color);
     padding: 0 5px;
     line-height: 1;
+    position: sticky;
+    top: 1px;
+    z-index: 1;
 
     &--hide {
       transition: $transition;
