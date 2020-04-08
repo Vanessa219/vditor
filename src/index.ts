@@ -115,6 +115,7 @@ class Vditor extends VditorMethod {
                 footnotes: this.vditor.options.preview.markdown.footnotes,
                 headingAnchor: false,
                 inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
+                setext: this.vditor.options.preview.markdown.setext,
                 toc: this.vditor.options.preview.markdown.toc,
             });
 

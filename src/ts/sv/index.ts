@@ -106,7 +106,18 @@ class Editor {
                         `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
                         // https://github.com/b3log/vditor/issues/37
                     } else {
-                        const mdValue = html2md(vditor, textHTML, textPlain).trimRight();
+                        const tempElement = document.createElement("div");
+                        tempElement.innerHTML = textHTML;
+                        tempElement.querySelectorAll("[style]").forEach((e) => {
+                            e.removeAttribute("style");
+                        });
+                        tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
+                            e.remove();
+                        });
+                        tempElement.querySelectorAll(".vditor-anchor").forEach((e) => {
+                            e.remove();
+                        });
+                        const mdValue = html2md(vditor, tempElement.innerHTML, textPlain).trimRight();
                         insertText(vditor, mdValue, "", true);
                         return;
                     }

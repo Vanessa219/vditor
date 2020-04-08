@@ -10,5 +10,6 @@ export const setLute = (options: ILuteOptions) => {
     lute.SetChinesePunct(options.chinesePunct);
     lute.SetFixTermTypo(options.fixTermTypo);
     lute.SetVditorCodeBlockPreview(options.codeBlockPreview);
+    lute.SetSetext(options.setext);
     return lute;
 };

@@ -49,6 +49,7 @@ export class Options {
                 codeBlockPreview: true,
                 fixTermTypo: false,
                 footnotes: true,
+                setext: true,
                 toc: false,
             },
             math: {

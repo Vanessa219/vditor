@@ -57,6 +57,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.1.0 / 2020-04-0x
+
+* [283](https://github.com/Vanessa219/vditor/issues/283) 添加 SetSetext 配置 `引入特性`
+* [278](https://github.com/Vanessa219/vditor/issues/278) IR 细节修改 `修复缺陷`
+
 ### v3.0.12 / 2020-04-06
 
 * [276](https://github.com/Vanessa219/vditor/issues/276) 当设置编辑器宽度后，模式切换导致样式错误 `修复缺陷`

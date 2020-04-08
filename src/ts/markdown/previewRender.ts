@@ -31,6 +31,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
             codeBlockPreview: true,
             fixTermTypo: false,
             footnotes: true,
+            setext: true,
             toc: false,
         },
         math: {
@@ -71,6 +72,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             footnotes: mergedOptions.markdown.footnotes,
             headingAnchor: mergedOptions.anchor,
             inlineMathDigit: mergedOptions.math.inlineDigit,
+            setext: mergedOptions.markdown.setext,
             toc: mergedOptions.markdown.toc,
         });
         return lute.Md2HTML(mdText);

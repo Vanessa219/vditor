@@ -51,6 +51,8 @@ interface ILute {
 
     SetEmojiSite(emojiSite: string): void;
 
+    SetSetext(enable: boolean): void;
+
     SetVditorCodeBlockPreview(enable: boolean): void;
 
     PutEmojis(emojis: { [key: string]: string }): void;
@@ -63,7 +65,7 @@ interface ILute {
     RenderEChartsJSON(text: string): string;
 
     // md 转换为 html
-    Md2HTML(markdown: string): Promise<string>;
+    Md2HTML(markdown: string): string;
 
     // 粘贴时将 html 转换为 md
     HTML2Md(html: string): string;
@@ -223,6 +225,8 @@ interface IMarkdownConfig {
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview: boolean;
+    /* 是否解析 setext 标题。默认值: true */
+    setext: boolean;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview */
