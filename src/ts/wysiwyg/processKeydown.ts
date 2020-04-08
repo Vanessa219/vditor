@@ -70,7 +70,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (codeRenderElement) {
         // esc: 退出编辑，仅展示渲染
         if (event.key === "Escape" && codeRenderElement.children.length === 2) {
-            vditor.wysiwyg.popover.style.display = "none";
+            vditor.wysiwyg.popoverState = false;
             (codeRenderElement.firstElementChild as HTMLElement).style.display = "none";
             vditor.wysiwyg.element.blur();
             event.preventDefault();

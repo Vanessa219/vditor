@@ -448,6 +448,7 @@ interface IVditor {
         hlToolbarTimeoutId: number,
         preventInput: boolean,
         composingLock: boolean,
+        popoverState: boolean,
     };
     ir?: {
         element: HTMLPreElement,

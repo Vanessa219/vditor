@@ -24,6 +24,26 @@ class WYSIWYG {
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
     public composingLock: boolean = false;
+    private iPopoverState: boolean = false;
+    private iPopoverShouldDisplay: boolean = true;
+
+    public set popoverState(state: boolean) {
+        this.iPopoverState = state;
+        if (state) {
+            this.updatePopoverDisplay();
+        } else {
+            this.popover.style.display = "none";
+        }
+    }
+
+    private set popoverShouldDisplay(state: boolean) {
+        this.iPopoverShouldDisplay = state;
+        if (this.iPopoverShouldDisplay && this.iPopoverState) {
+            this.popover.style.display = "block";
+        } else {
+            this.popover.style.display = "none";
+        }
+    }
 
     constructor(vditor: IVditor) {
         const divElement = document.createElement("div");
@@ -46,6 +66,21 @@ class WYSIWYG {
         selectEvent(vditor, this.element);
     }
 
+    private updatePopoverDisplay() {
+        if (this.popover === undefined || parseInt(this.popover.getAttribute("data-top"), 10) === null) {
+            return;
+        }
+        const top = parseInt(this.popover.getAttribute("data-top"), 10) - this.element.scrollTop;
+        const computedTop = Math.max(-11, Math.min(top, this.element.clientHeight - 21));
+        // tslint:disable-next-line: max-line-length
+        if (this.element.scrollTop !== 0 && computedTop < 0) {
+            this.popoverShouldDisplay = false;
+        } else {
+            this.popover.style.top = computedTop + "px";
+            this.popoverShouldDisplay = true;
+        }
+    }
+
     private bindEvent(vditor: IVditor) {
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop",
@@ -61,13 +96,11 @@ class WYSIWYG {
                 });
         }
 
+        window.addEventListener("scroll", this.updatePopoverDisplay);
+
         this.element.addEventListener("scroll", () => {
             vditor.hint.element.style.display = "none";
-            if (this.popover.style.display !== "block") {
-                return;
-            }
-            const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
-            this.popover.style.top = Math.max(-11, Math.min(top, this.element.clientHeight - 21)) + "px";
+            this.updatePopoverDisplay();
         });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
@@ -122,9 +155,9 @@ class WYSIWYG {
                     if (blockElement) {
                         blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
                     } else {
-                        vditor.wysiwyg.element.innerHTML = vditor.lute.SpinVditorDOM(vditor.wysiwyg.element.innerHTML);
+                        this.element.innerHTML = vditor.lute.SpinVditorDOM(this.element.innerHTML);
                     }
-                    setRangeByWbr(vditor.wysiwyg.element, range);
+                    setRangeByWbr(this.element, range);
                 },
             });
         });
@@ -239,11 +272,11 @@ class WYSIWYG {
             }
 
             if ((event.key === "Backspace" || event.key === "Delete") &&
-                vditor.wysiwyg.element.innerHTML !== "" && vditor.wysiwyg.element.childNodes.length === 1 &&
-                vditor.wysiwyg.element.firstElementChild && vditor.wysiwyg.element.firstElementChild.tagName === "P"
-                && (vditor.wysiwyg.element.textContent === "" || vditor.wysiwyg.element.textContent === "\n")) {
+                this.element.innerHTML !== "" && this.element.childNodes.length === 1 &&
+                this.element.firstElementChild && this.element.firstElementChild.tagName === "P"
+                && (this.element.textContent === "" || this.element.textContent === "\n")) {
                 // 为空时显示 placeholder
-                vditor.wysiwyg.element.innerHTML = "";
+                this.element.innerHTML = "";
             }
 
             const range = getEditorRange(this.element);

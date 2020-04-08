@@ -569,7 +569,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         if (!blockquoteElement && !topListElement && !tableElement && !blockRenderElement && !aElement
             && !linkRefElement && !footnotesRefElement && !headingElement && !tocElement) {
-            vditor.wysiwyg.popover.style.display = "none";
+            vditor.wysiwyg.popoverState = false;
         }
 
         // 反斜杠特殊处理
@@ -590,13 +590,14 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     if (tableElement) {
         targetElement = tableElement;
     }
+
+    vditor.wysiwyg.popoverState = true;
+
     vditor.wysiwyg.popover.style.left = "0";
-    vditor.wysiwyg.popover.style.display = "block";
     vditor.wysiwyg.popover.style.top = Math.max(-11, targetElement.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
     vditor.wysiwyg.popover.style.left =
         Math.min(targetElement.offsetLeft, vditor.wysiwyg.element.clientWidth - vditor.wysiwyg.popover.clientWidth) + "px";
     vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
-
 };
 
 const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) => {

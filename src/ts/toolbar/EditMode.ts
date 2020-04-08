@@ -77,7 +77,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             // 初始化不 focus
             vditor.wysiwyg.element.focus();
         }
-        vditor.wysiwyg.popover.style.display = "none";
+        vditor.wysiwyg.popoverState = false;
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         vditor.undo.resetIcon(vditor);
