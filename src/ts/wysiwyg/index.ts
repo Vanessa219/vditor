@@ -27,6 +27,7 @@ class WYSIWYG {
     private iPopoverState: boolean = false;
     private iPopoverShouldDisplay: boolean = true;
 
+    // popover 开启状态
     public set popoverState(state: boolean) {
         this.iPopoverState = state;
         if (state) {
@@ -36,6 +37,7 @@ class WYSIWYG {
         }
     }
 
+    // popover 显示状态
     private set popoverShouldDisplay(state: boolean) {
         this.iPopoverShouldDisplay = state;
         if (this.iPopoverShouldDisplay && this.iPopoverState) {
@@ -66,13 +68,13 @@ class WYSIWYG {
         selectEvent(vditor, this.element);
     }
 
+    // 更新 popover 显示状态与相对位置
     private updatePopoverDisplay() {
-        if (this.popover === undefined || parseInt(this.popover.getAttribute("data-top"), 10) === null) {
+        if (this.popover === undefined || this.popover.getAttribute("data-top") === null) {
             return;
         }
         const top = parseInt(this.popover.getAttribute("data-top"), 10) - this.element.scrollTop;
         const computedTop = Math.max(-11, Math.min(top, this.element.clientHeight - 21));
-        // tslint:disable-next-line: max-line-length
         if (this.element.scrollTop !== 0 && computedTop < 0) {
             this.popoverShouldDisplay = false;
         } else {
@@ -96,8 +98,8 @@ class WYSIWYG {
                 });
         }
 
+        // 滚动时更新 popover 位置
         window.addEventListener("scroll", this.updatePopoverDisplay);
-
         this.element.addEventListener("scroll", () => {
             vditor.hint.element.style.display = "none";
             this.updatePopoverDisplay();
