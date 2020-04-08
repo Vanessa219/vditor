@@ -57,9 +57,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.3 / 2020-04-0x
+### v3.1.4 / 2020-04-0x
 
-### v3.1.2 / 2020-04-08
+### v3.1.3 / 2020-04-08
 
 * [71](https://github.com/Vanessa219/vditor/issues/71) 优化移动端体验 `改进功能`
 * [283](https://github.com/Vanessa219/vditor/issues/283) 添加 SetSetext 配置 `引入特性`
