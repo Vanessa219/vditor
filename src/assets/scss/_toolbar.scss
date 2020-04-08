@@ -4,9 +4,6 @@
     border-bottom: 1px solid var(--border-color);
     padding: 0 5px;
     line-height: 1;
-    position: sticky;
-    top: 0px;
-    z-index: 1;
 
     &--hide {
       transition: $transition;
@@ -25,10 +22,10 @@
       .vditor-tooltipped {
         color: var(--toolbar-icon-color);
         border: 0;
-        padding: 10px 6px;
+        padding: 10px 5px;
         background-color: transparent;
         height: 35px;
-        width: 27px;
+        width: 25px;
         box-sizing: border-box;
         margin: 0 4px;
 
@@ -157,6 +154,11 @@
 }
 
 @media screen and (max-width: $max-width) {
+  .vditor-toolbar {
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+  }
   .vditor-toolbar__item .vditor-tooltipped {
     padding: 10px 8px;
     width: 31px;
