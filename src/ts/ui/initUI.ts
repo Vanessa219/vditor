@@ -76,7 +76,7 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     if (vditor.options.typewriterMode) {
         let height: number = window.innerHeight - 37;
         if (typeof vditor.options.height === "number") {
-            height = vditor.options.height - 37;
+            height = Math.min(window.innerHeight, vditor.options.height) - 37;
         }
         // 由于 Firefox padding-bottom bug，只能使用 :after
         contentElement.style.setProperty("--editor-bottom", height / 2 + "px");
