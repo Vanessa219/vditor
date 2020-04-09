@@ -72,8 +72,9 @@
     }
 
     &:after {
+      $height: var(--editor-bottom);
       content: "";
-      height: var(--editor-bottom);
+      height: var(--editor-bottom-actual, $height);
       display: block;
     }
   }
@@ -211,14 +212,14 @@
 
     &__close {
       position: absolute;
-      color:  var(--toolbar-icon-color);
+      color: var(--toolbar-icon-color);
       top: -7px;
       right: -15px;
       font-weight: bold;
       cursor: pointer;
 
       &:hover {
-        color:  var(--toolbar-icon-hover-color);
+        color: var(--toolbar-icon-hover-color);
       }
     }
   }

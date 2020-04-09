@@ -137,8 +137,9 @@
     }
 
     &:after {
+      $height: var(--editor-bottom);
       content: "";
-      height: var(--editor-bottom);
+      height: var(--editor-bottom-actual, $height);
       display: block;
     }
 
