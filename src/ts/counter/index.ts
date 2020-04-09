@@ -9,13 +9,13 @@ export class Counter {
 
     }
 
-    public render(text: string, counter: number, label: string = "Markdown") {
+    public render(text: string, counter: number) {
         const length = text.endsWith("\n") ? text.length - 1 : text.length;
         if (length > counter) {
             this.element.className = "vditor-counter vditor-counter--error";
         } else {
             this.element.className = "vditor-counter";
         }
-        this.element.innerHTML = `${label}: ${length}/${counter}`;
+        this.element.innerHTML = `Markdown: ${length}/${counter}`;
     }
 }
