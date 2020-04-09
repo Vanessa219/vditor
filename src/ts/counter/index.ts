@@ -5,11 +5,12 @@ export class Counter {
         this.element = document.createElement("div");
         this.element.className = "vditor-counter";
 
-        this.render(0, vditor.options.counter);
+        this.render("", vditor.options.counter);
 
     }
 
-    public render(length: number, counter: number) {
+    public render(text: string, counter: number) {
+        const length = text.endsWith("\n") ? text.length - 1 : text.length;
         if (length > counter) {
             this.element.className = "vditor-counter vditor-counter--error";
         } else {

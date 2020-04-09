@@ -396,7 +396,7 @@ interface IVditor {
     };
     counter?: {
         element: HTMLElement
-        render(length: number, counter: number): void,
+        render(text: string, counter: number): void,
     };
     resize?: {
         element: HTMLElement,

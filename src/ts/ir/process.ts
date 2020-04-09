@@ -54,7 +54,7 @@ export const processAfterRender = (vditor: IVditor, options = {
         }
 
         if (vditor.options.counter > 0) {
-            vditor.counter.render(text.length, vditor.options.counter);
+            vditor.counter.render(text, vditor.options.counter);
         }
 
         if (vditor.options.cache.enable) {
