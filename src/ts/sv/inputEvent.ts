@@ -5,7 +5,7 @@ export const inputEvent = (vditor: IVditor, options = {
     enableInput: true,
 }) => {
     if (vditor.options.counter > 0) {
-        vditor.counter.render(getMarkdown(vditor).length, vditor.options.counter);
+        vditor.counter.render(getMarkdown(vditor), vditor.options.counter);
     }
     if (typeof vditor.options.input === "function" && options.enableInput) {
         vditor.options.input(getMarkdown(vditor),
