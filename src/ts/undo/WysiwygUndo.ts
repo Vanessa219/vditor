@@ -2,7 +2,7 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
-import {scrollCenter} from "../util/editorCommenEvent";
+import {scrollCenter} from "../util/editorCommonEvent";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";

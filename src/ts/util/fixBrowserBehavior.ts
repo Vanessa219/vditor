@@ -6,7 +6,7 @@ import {processCodeRender, processPasteCode} from "../util/processCode";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {isCtrl, isFirefox} from "./compatibility";
-import {scrollCenter} from "./editorCommenEvent";
+import {scrollCenter} from "./editorCommonEvent";
 import {
     getTopList,
     hasClosestBlock,
