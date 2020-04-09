@@ -34,6 +34,9 @@
     animation-timing-function: cubic-bezier(.2, 0, .13, 1.5);
     color: var(--toolbar-icon-color);
 
+    --anchor-offset: 0px;
+    --sticky-offset: 0px;
+
     &--none {
       padding: 0;
       animation: none;

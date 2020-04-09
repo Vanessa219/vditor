@@ -74,12 +74,13 @@ class WYSIWYG {
 
     // 更新 popover 显示状态与相对位置
     private updatePopoverDisplay() {
-        if (this.popover === undefined || this.popover.getAttribute("data-top") === null) {
+        if (this.popover === undefined) {
             return;
         }
-        const top = parseInt(this.popover.getAttribute("data-top"), 10) - this.element.scrollTop;
+        const top = parseInt(this.popover.style.getPropertyValue("--anchor-offset"), 10) - this.element.scrollTop;
         const computedTop = Math.max(-11, Math.min(top, this.element.clientHeight - 21));
-        if (this.element.scrollTop !== 0 && computedTop < 0) {
+        const stickyOffset = parseInt(this.popover.style.getPropertyValue("--sticky-offset"), 10);
+        if (this.element.scrollTop !== 0 && computedTop + stickyOffset < 0) {
             this.popoverShouldDisplay = false;
         } else {
             this.popover.style.top = computedTop + "px";

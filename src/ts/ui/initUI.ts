@@ -85,6 +85,13 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
         setPadding(vditor);
     });
 
+    // 监听因为 sticky 导致的 toolbar 与 content 相对位置变化
+    window.addEventListener("scroll", () => {
+        // tslint:disable-next-line: max-line-length
+        const stickyOffset = vditor.wysiwyg.element.parentElement.parentElement.offsetTop - vditor.toolbar.element.offsetTop - vditor.toolbar.element.offsetHeight;
+        vditor.wysiwyg.popover.style.setProperty("--sticky-offset", stickyOffset + "px");
+    });
+
     // set default value
     let initValue = localStorage.getItem(vditor.options.cache.id);
     if (!vditor.options.cache.enable || !initValue) {

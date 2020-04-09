@@ -597,7 +597,7 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     vditor.wysiwyg.popover.style.top = Math.max(-11, targetElement.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
     vditor.wysiwyg.popover.style.left =
         Math.min(targetElement.offsetLeft, vditor.wysiwyg.element.clientWidth - vditor.wysiwyg.popover.clientWidth) + "px";
-    vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
+    vditor.wysiwyg.popover.style.setProperty("--anchor-offset", (targetElement.offsetTop - 21) + "px");
 };
 
 const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) => {
