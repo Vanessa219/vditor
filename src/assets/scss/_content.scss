@@ -235,3 +235,9 @@
     border-bottom-color: var(--panel-background-color);
   }
 }
+
+@media screen and (max-width: $max-width) {
+  .vditor-arrow:before {
+    left: 12px;
+  }
+}

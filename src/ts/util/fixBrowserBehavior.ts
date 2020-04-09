@@ -184,7 +184,11 @@ export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range
             `<${parentTagName} data-block="0"><li data-marker="${marker}">${liElement.innerHTML}</li></${parentTagName}>`);
         liElement.remove();
 
-        topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+        if (vditor.currentMode === "wysiwyg") {
+            topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+        } else {
+            topListElement.outerHTML = vditor.lute.SpinVditorIRDOM(topListElement.outerHTML);
+        }
 
         setRangeByWbr(vditor[vditor.currentMode].element, range);
         const tempTopListElement = getTopList(range.startContainer);
@@ -222,18 +226,26 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
         liParentElement.querySelectorAll("li").forEach((item) => {
             if (isMatch) {
                 afterHTML += item.outerHTML;
-                item.remove();
+                if (!item.nextElementSibling && !item.previousElementSibling) {
+                    item.parentElement.remove();
+                } else {
+                    item.remove();
+                }
             }
             if (item.isEqualNode(liElement)) {
                 isMatch = true;
             }
         });
-        liParentAfterElement.innerHTML = afterHTML;
-
         liParentLiElement.insertAdjacentElement("afterend", liElement);
-        liElement.insertAdjacentElement("beforeend", liParentAfterElement);
-
-        topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+        if (afterHTML) {
+            liParentAfterElement.innerHTML = afterHTML;
+            liElement.insertAdjacentElement("beforeend", liParentAfterElement);
+        }
+        if (vditor.currentMode === "wysiwyg") {
+            topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+        } else {
+            topListElement.outerHTML = vditor.lute.SpinVditorIRDOM(topListElement.outerHTML);
+        }
 
         setRangeByWbr(vditor[vditor.currentMode].element, range);
         const tempTopListElement = getTopList(range.startContainer);
