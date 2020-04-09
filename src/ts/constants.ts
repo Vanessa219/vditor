@@ -8,7 +8,7 @@ export abstract class Constants {
     public static readonly ZWSP: string = "\u200b";
     public static readonly CLASS_MENU_DISABLED: string = "vditor-menu--disabled";
     public static readonly TOOLBARS: string[] = ["emoji", "headings", "bold", "italic", "strike", "link", "list",
-        "ordered-list", "outdent", "indent", "check", "line", "quote", "code", "inline-code", "upload", "record", "table"]
+        "ordered-list", "outdent", "indent", "check", "line", "quote", "code", "inline-code", "upload", "record", "table"];
     public static readonly CODE_LANGUAGES: string[] = [
         "abc",
         "mermaid",

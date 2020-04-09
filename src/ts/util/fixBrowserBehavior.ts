@@ -169,25 +169,25 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
     }
 };
 
-export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range, topListElement: HTMLElement) => {
+export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range) => {
     if (liElement && liElement.previousElementSibling) {
         vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
             wbr.remove();
         });
         range.insertNode(document.createElement("wbr"));
-        const parentTagName = liElement.parentElement.tagName;
+        const liParentElement = liElement.parentElement;
         let marker = liElement.getAttribute("data-marker");
         if (marker.length !== 1) {
             marker = `1${marker.slice(-1)}`;
         }
         liElement.previousElementSibling.insertAdjacentHTML("beforeend",
-            `<${parentTagName} data-block="0"><li data-marker="${marker}">${liElement.innerHTML}</li></${parentTagName}>`);
+            `<${liParentElement.tagName} data-block="0"><li data-marker="${marker}">${liElement.innerHTML}</li></${liParentElement.tagName}>`);
         liElement.remove();
 
         if (vditor.currentMode === "wysiwyg") {
-            topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
+            liParentElement.outerHTML = vditor.lute.SpinVditorDOM(liParentElement.outerHTML);
         } else {
-            topListElement.outerHTML = vditor.lute.SpinVditorIRDOM(topListElement.outerHTML);
+            liParentElement.outerHTML = vditor.lute.SpinVditorIRDOM(liParentElement.outerHTML);
         }
 
         setRangeByWbr(vditor[vditor.currentMode].element, range);
@@ -420,7 +420,7 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
                 if (event.shiftKey) {
                     listOutdent(vditor, liElement, range, liElement.parentElement);
                 } else {
-                    listIndent(vditor, liElement, range, liElement.parentElement);
+                    listIndent(vditor, liElement, range);
                 }
                 event.preventDefault();
                 return true;

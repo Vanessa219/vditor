@@ -12,6 +12,7 @@ import {Format} from "./Format";
 import {Fullscreen} from "./Fullscreen";
 import {Headings} from "./Headings";
 import {Help} from "./Help";
+import {Indent} from "./Indent";
 import {Info} from "./Info";
 import {InlineCode} from "./InlineCode";
 import {Italic} from "./Italic";
@@ -19,6 +20,7 @@ import {Line} from "./Line";
 import {Link} from "./Link";
 import {List} from "./List";
 import {OrderedList} from "./OrderedList";
+import {Outdent} from "./Outdent";
 import {Preview} from "./Preview";
 import {Quote} from "./Quote";
 import {Record} from "./Record";
@@ -27,8 +29,6 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {Outdent} from "./Outdent";
-import {Indent} from "./Indent";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };

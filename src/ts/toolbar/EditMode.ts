@@ -1,17 +1,17 @@
 import editSVG from "../../assets/icons/edit.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
+import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
 import {setPadding} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {processCodeRender} from "../util/processCode";
+import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
@@ -40,7 +40,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
 
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        showToolbar(vditor.toolbar.elements, ["outdent", "indent"])
+        showToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -66,7 +66,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         });
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        showToolbar(vditor.toolbar.elements, ["outdent", "indent"])
+        showToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
         vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
@@ -84,7 +84,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.wysiwyg.popover.style.display = "none";
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        hideToolbar(vditor.toolbar.elements, ["outdent", "indent"])
+        hideToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
         vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";

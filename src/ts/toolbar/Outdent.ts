@@ -1,10 +1,10 @@
 import outdentSVG from "../../assets/icons/outdent.svg";
-import {MenuItem} from "./MenuItem";
-import {getEventName} from "../util/compatibility";
 import {Constants} from "../constants";
-import {getEditorRange} from "../util/selection";
-import {hasClosestByMatchTag} from "../util/hasClosest";
+import {getEventName} from "../util/compatibility";
 import { listOutdent} from "../util/fixBrowserBehavior";
+import {hasClosestByMatchTag} from "../util/hasClosest";
+import {getEditorRange} from "../util/selection";
+import {MenuItem} from "./MenuItem";
 
 export class Outdent extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -16,7 +16,7 @@ export class Outdent extends MenuItem {
                 return;
             }
             const range = getEditorRange(vditor[vditor.currentMode].element);
-            const liElement = hasClosestByMatchTag(range.startContainer, "LI")
+            const liElement = hasClosestByMatchTag(range.startContainer, "LI");
             if (liElement) {
                 listOutdent(vditor, liElement, range, liElement.parentElement);
             }

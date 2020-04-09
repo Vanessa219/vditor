@@ -1,10 +1,10 @@
 import indentSVG from "../../assets/icons/indent.svg";
-import {MenuItem} from "./MenuItem";
-import {getEventName} from "../util/compatibility";
 import {Constants} from "../constants";
-import {getEditorRange} from "../util/selection";
+import {getEventName} from "../util/compatibility";
 import {listIndent} from "../util/fixBrowserBehavior";
 import {hasClosestByMatchTag} from "../util/hasClosest";
+import {getEditorRange} from "../util/selection";
+import {MenuItem} from "./MenuItem";
 
 export class Indent extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -17,9 +17,9 @@ export class Indent extends MenuItem {
                 return;
             }
             const range = getEditorRange(vditor[vditor.currentMode].element);
-            const liElement = hasClosestByMatchTag(range.startContainer, "LI")
+            const liElement = hasClosestByMatchTag(range.startContainer, "LI");
             if (liElement) {
-                listIndent(vditor, liElement, range, liElement.parentElement);
+                listIndent(vditor, liElement, range);
             }
             event.preventDefault();
         });
