@@ -1,5 +1,6 @@
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
+import {scrollCenter} from "../util/editorCommonEvent";
 import {setTheme} from "./setTheme";
 
 export const initUI = (vditor: IVditor) => {
@@ -73,26 +74,32 @@ export const setPadding = (vditor: IVditor) => {
 };
 
 const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
-    if (vditor.options.typewriterMode) {
-        let height: number = window.innerHeight - 37;
-        if (typeof vditor.options.height === "number") {
-            height = Math.min(window.innerHeight, vditor.options.height) - 37;
+    const setTypewriterPosition = () => {
+        let height: number;
+        if (typeof vditor.options.height !== "number") {
+            height = window.innerHeight;
+        } else {
+            height = vditor.options.height;
+            if (typeof vditor.options.minHeight === "number") {
+                height = Math.max(height, vditor.options.minHeight + vditor.toolbar.element.offsetHeight);
+            }
+            height = Math.min(window.innerHeight, height);
         }
         // 由于 Firefox padding-bottom bug，只能使用 :after
-        contentElement.style.setProperty("--editor-bottom", height / 2 + "px");
+        contentElement.style.setProperty("--editor-bottom", (height / 2 - 18) + "px");
+    };
+
+    if (vditor.options.typewriterMode) {
+        setTypewriterPosition();
     }
 
     window.addEventListener("resize", () => {
         setPadding(vditor);
+        if (vditor.options.typewriterMode) {
+            setTypewriterPosition();
+            scrollCenter(vditor);
+        }
     });
-
-    // TODO: 监听因为 sticky 导致的 toolbar 与 content 相对位置变化
-    // window.addEventListener("scroll", () => {
-    //     // tslint:disable-next-line: max-line-length
-    //     const stickyOffset = vditor.wysiwyg.element.parentElement.parentElement.offsetTop
-    //     - vditor.toolbar.element.offsetTop - vditor.toolbar.element.offsetHeight;
-    //     vditor.wysiwyg.popover.style.setProperty("--sticky-offset", stickyOffset + "px");
-    // });
 
     // set default value
     let initValue = localStorage.getItem(vditor.options.cache.id);
