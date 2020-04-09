@@ -151,7 +151,7 @@ class WysiwygUndo {
                 processCodeRender(blockElement, vditor);
             });
         setRangeByWbr(vditor.wysiwyg.element, vditor.wysiwyg.element.ownerDocument.createRange());
-        scrollCenter(vditor.wysiwyg.element);
+        scrollCenter(vditor);
         afterRenderEvent(vditor, {
             enableAddUndoStack: false,
             enableHint: false,

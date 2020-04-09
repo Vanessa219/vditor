@@ -310,7 +310,7 @@ interface IOptions {
     keymap?: { [key: string]: string };
     /** 编辑器总高度。默认值: 'auto' */
     height?: number | string;
-    /** 编辑器高度为 'auto' 时最小的编辑区高度。默认值: 0 */
+    /** 编辑器最小高度 */
     minHeight?: number;
     /** 编辑器总宽度，支持 %。默认值: 'auto' */
     width?: number | string;

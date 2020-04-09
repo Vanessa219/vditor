@@ -131,7 +131,7 @@ class Undo {
             enableInput: true,
         });
 
-        scrollCenter(vditor.sv.element);
+        scrollCenter(vditor);
 
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);

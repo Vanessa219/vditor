@@ -129,7 +129,7 @@ class IR {
                 }
                 range.collapse(true);
                 setSelectionFocus(range);
-                scrollCenter(this.element);
+                scrollCenter(vditor);
             }
         });
 

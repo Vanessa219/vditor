@@ -35,7 +35,7 @@ class Editor {
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
             if (!isCtrl(event) && event.key === "Enter") {
                 insertText(vditor, "\n", "", true);
-                scrollCenter(this.element);
+                scrollCenter(vditor);
                 event.preventDefault();
             }
         });

@@ -152,7 +152,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     if (event.key === "Enter") {
-        scrollCenter(vditor.ir.element);
+        scrollCenter(vditor);
     }
 
     return false;

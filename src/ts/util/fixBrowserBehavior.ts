@@ -454,7 +454,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             pElement.outerHTML = vditor.lute.SpinVditorDOM(tableHeaderMD);
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
-            scrollCenter(vditor[vditor.currentMode].element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }
@@ -474,7 +474,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             pElement.remove();
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
-            scrollCenter(vditor[vditor.currentMode].element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }
@@ -484,7 +484,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0">\n<wbr></p>');
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
-            scrollCenter(vditor[vditor.currentMode].element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }
@@ -522,7 +522,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             range.insertNode(brElement);
             range.setStartAfter(brElement);
             execAfterRender(vditor);
-            scrollCenter(vditor[vditor.currentMode].element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }
@@ -593,7 +593,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
 
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
-            scrollCenter(vditor[vditor.currentMode].element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }
@@ -762,7 +762,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         execAfterRender(vditor);
-        scrollCenter(vditor[vditor.currentMode].element);
+        scrollCenter(vditor);
         event.preventDefault();
         return true;
     }
@@ -931,7 +931,7 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
             }
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
-            scrollCenter(vditor[vditor.currentMode].element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }

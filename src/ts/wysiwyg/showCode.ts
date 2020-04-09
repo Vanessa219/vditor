@@ -1,7 +1,7 @@
 import {scrollCenter} from "../util/editorCommenEvent";
 import {setSelectionFocus} from "../util/selection";
 
-export const showCode = (previewElement: HTMLElement, first = true) => {
+export const showCode = (previewElement: HTMLElement, vditor: IVditor, first = true) => {
     const previousElement = previewElement.previousElementSibling as HTMLElement;
     const range = previousElement.ownerDocument.createRange();
     if (previousElement.tagName === "CODE") {
@@ -25,5 +25,5 @@ export const showCode = (previewElement: HTMLElement, first = true) => {
         range.collapse(false);
     }
     setSelectionFocus(range);
-    scrollCenter(previewElement.parentElement.parentElement);
+    scrollCenter(vditor);
 };

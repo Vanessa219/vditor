@@ -141,7 +141,7 @@ class IRUndo {
         this.lastText = text;
         vditor.ir.element.innerHTML = text;
         setRangeByWbr(vditor.ir.element, vditor.ir.element.ownerDocument.createRange());
-        scrollCenter(vditor.ir.element);
+        scrollCenter(vditor);
         processAfterRender(vditor, {
             enableAddUndoStack: false,
             enableHint: false,

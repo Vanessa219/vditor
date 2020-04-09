@@ -117,7 +117,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.collapse(true);
             setSelectionFocus(range);
             afterRenderEvent(vditor);
-            scrollCenter(vditor.wysiwyg.element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }
@@ -136,7 +136,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.setStart(pTempElement, 0);
             setSelectionFocus(range);
             afterRenderEvent(vditor);
-            scrollCenter(vditor.wysiwyg.element);
+            scrollCenter(vditor);
             event.preventDefault();
             return true;
         }
@@ -258,7 +258,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         range.collapse(false);
         setSelectionFocus(range);
         afterRenderEvent(vditor);
-        scrollCenter(vditor.wysiwyg.element);
+        scrollCenter(vditor);
         event.preventDefault();
         return true;
     }
@@ -275,7 +275,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 const rangeStart = getSelectPosition(blockElement, range).start;
                 if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                     // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
-                    showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, false);
+                    showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor,  false);
                     if (blockElement.innerHTML.trim() === "") {
                         // 当前块为空且不是最后一个时，需要删除
                         blockElement.remove();
@@ -319,7 +319,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 除 md 处理、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、
     // 任务列表换行、软换行外需在换行时调整文档位置
     if (event.key === "Enter") {
-        scrollCenter(vditor.wysiwyg.element);
+        scrollCenter(vditor);
     }
 
     return false;

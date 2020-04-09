@@ -229,7 +229,7 @@ class WYSIWYG {
                 previewElement = hasClosestByClassName(getEditorRange(this.element).startContainer, "vditor-wysiwyg__preview");
             }
             if (previewElement) {
-                showCode(previewElement);
+                showCode(previewElement, vditor);
             }
         });
 
@@ -284,9 +284,9 @@ class WYSIWYG {
             const previousElement = previewElement.previousElementSibling as HTMLElement;
             if (previousElement.style.display === "none") {
                 if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-                    showCode(previewElement);
+                    showCode(previewElement, vditor);
                 } else {
-                    showCode(previewElement, false);
+                    showCode(previewElement, vditor, false);
                 }
                 return;
             }
@@ -303,7 +303,7 @@ class WYSIWYG {
                     // 下一节点依旧为代码渲染块
                     const nextRenderElement = nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement;
                     if (nextRenderElement) {
-                        showCode(nextRenderElement);
+                        showCode(nextRenderElement, vditor);
                         return;
                     }
                 }
