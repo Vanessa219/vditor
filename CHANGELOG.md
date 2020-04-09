@@ -59,6 +59,7 @@
 
 ### v3.1.4 / 2020-04-0x
 
+* [286](https://github.com/Vanessa219/vditor/issues/286) add indent & outdent button `引入特性`
 * [291](https://github.com/Vanessa219/vditor/pull/291) 🎨 改进 Counter `修复缺陷`
 * [285](https://github.com/Vanessa219/vditor/issues/285) shift+tab is not working at lists `修复缺陷`
 * [292](https://github.com/Vanessa219/vditor/pull/292) 🐛 全屏模式文末空白 `修复缺陷`
@@ -72,6 +73,7 @@
 * [278](https://github.com/Vanessa219/vditor/issues/278) IR 细节修改 `修复缺陷`
 * 文档更新
   * 添加 `options.minHeight`
+  * 为 toolbar 添加 outdent，indent
 
 ### v3.0.12 / 2020-04-06
 

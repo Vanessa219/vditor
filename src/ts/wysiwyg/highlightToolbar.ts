@@ -11,7 +11,7 @@ import {enableToolbar} from "../toolbar/setToolbar";
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
-import {listIndent, listOutdent, setTableAlign} from "../util/fixBrowserBehavior";
+import {setTableAlign} from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
     hasClosestByClassName, hasClosestByHeadings,
@@ -33,10 +33,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             return;
         }
 
-        const allToolbar = ["headings", "bold", "italic", "strike", "line", "quote",
-            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"];
-        removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
-        enableToolbar(vditor.toolbar.elements, allToolbar);
+        removeCurrentToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
+        enableToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
 
         const range = getSelection().getRangeAt(0);
         let typeElement = range.startContainer as HTMLElement;
@@ -67,6 +65,9 @@ export const highlightToolbar = (vditor: IVditor) => {
             } else if (liElement.parentElement.tagName === "UL") {
                 setCurrentToolbar(vditor.toolbar.elements, ["list"]);
             }
+            enableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
         }
 
         if (hasClosestByMatchTag(typeElement, "BLOCKQUOTE")) {
@@ -148,37 +149,9 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
         if (topListElement) {
             vditor.wysiwyg.popover.innerHTML = "";
-            const outdent = document.createElement("button");
-            outdent.innerHTML = outdentSVG;
-            outdent.setAttribute("data-type", "outdent");
-            outdent.setAttribute("aria-label", i18n[vditor.options.lang].unindent +
-                "<" + updateHotkeyTip("⌘-⇧-O") + ">");
-            outdent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
-            outdent.onclick = () => {
-                if (!liElement) {
-                    return;
-                }
-                listOutdent(vditor, liElement, range, topListElement);
-            };
-
-            const indent = document.createElement("button");
-            indent.innerHTML = indentSVG;
-            indent.setAttribute("data-type", "indent");
-            indent.setAttribute("aria-label", i18n[vditor.options.lang].indent +
-                "<" + updateHotkeyTip("⌘-⇧-I") + ">");
-            indent.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
-            indent.onclick = () => {
-                if (!liElement) {
-                    return;
-                }
-                listIndent(vditor, liElement, range, topListElement);
-            };
-
             genClose(vditor.wysiwyg.popover, topListElement, vditor);
             genInsertBefore(range, topListElement, vditor);
             genInsertAfter(range, topListElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", outdent);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", indent);
 
             setPopoverPosition(vditor, topListElement);
         }

@@ -115,6 +115,14 @@ export class Options {
             prefix: "* [ ] ",
             tipPosition: "n",
         }, {
+            hotkey: "⌘-⇧-I",
+            name: "outdent",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-O",
+            name: "indent",
+            tipPosition: "n",
+        }, {
             name: "|",
         }, {
             hotkey: "⌘-;",

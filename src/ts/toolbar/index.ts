@@ -27,6 +27,8 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
+import {Outdent} from "./Outdent";
+import {Indent} from "./Indent";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -128,6 +130,12 @@ export class Toolbar {
                     break;
                 case "devtools":
                     menuItemObj = new Devtools(vditor, menuItem);
+                    break;
+                case "outdent":
+                    menuItemObj = new Outdent(vditor, menuItem);
+                    break;
+                case "indent":
+                    menuItemObj = new Indent(vditor, menuItem);
                     break;
                 default:
                     menuItemObj = new Custom(vditor, menuItem);

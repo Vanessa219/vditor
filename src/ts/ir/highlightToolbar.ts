@@ -1,6 +1,7 @@
 import {disableToolbar, enableToolbar, removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestByAttribute, hasClosestByHeadings, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, selectIsEditor} from "../util/selection";
+import {Constants} from "../constants";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.ir.hlToolbarTimeoutId);
@@ -12,10 +13,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             return;
         }
 
-        const allToolbar = ["headings", "bold", "italic", "strike", "line", "quote",
-            "list", "ordered-list", "check", "code", "inline-code", "upload", "link", "table", "record"];
-        removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
-        enableToolbar(vditor.toolbar.elements, allToolbar);
+        removeCurrentToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
+        enableToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
 
         const range = getEditorRange(vditor.ir.element);
         let typeElement = range.startContainer as HTMLElement;
@@ -76,6 +75,9 @@ export const highlightToolbar = (vditor: IVditor) => {
             } else if (liElement.parentElement.tagName === "UL") {
                 setCurrentToolbar(vditor.toolbar.elements, ["list"]);
             }
+            enableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
+        } else {
+            disableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
         }
 
     }, 200);

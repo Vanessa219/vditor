@@ -223,26 +223,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // 对有子工具栏的块缩进
-    if (matchHotKey("⌘-⇧-I", event)) {
-        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
-        if (itemElement) {
-            itemElement.click();
-            event.preventDefault();
-            return true;
-        }
-    }
-
-    // 对有子工具栏的块反向缩进
-    if (matchHotKey("⌘-⇧-O", event)) {
-        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
-        if (itemElement) {
-            itemElement.click();
-            event.preventDefault();
-            return true;
-        }
-    }
-
     if (fixTab(vditor, range, event)) {
         return true;
     }

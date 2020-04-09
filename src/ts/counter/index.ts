@@ -16,6 +16,6 @@ export class Counter {
         } else {
             this.element.className = "vditor-counter";
         }
-        this.element.innerHTML = `Markdown: ${length}/${counter}`;
+        this.element.innerHTML = `md ${length}/${counter}`;
     }
 }

@@ -10,6 +10,8 @@ import {processCodeRender} from "../util/processCode";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
@@ -33,13 +35,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.preview.element.style.display = "none";
         }
     }
-    const allToolbar = ["emoji", "headings", "bold", "italic", "strike", "link", "list", "ordered-list", "check",
-        "line", "quote", "code", "inline-code", "upload", "record", "table"];
-    enableToolbar(vditor.toolbar.elements, allToolbar);
-    removeCurrentToolbar(vditor.toolbar.elements, allToolbar);
+    enableToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
+    removeCurrentToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
 
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        showToolbar(vditor.toolbar.elements, ["outdent", "indent"])
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -56,6 +57,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         if (typeof event !== "string") {
             // 初始化不 focus
             vditor.ir.element.focus();
+            IRHighlightToolbar(vditor);
         }
         setPadding(vditor);
 
@@ -64,6 +66,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         });
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        showToolbar(vditor.toolbar.elements, ["outdent", "indent"])
         vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
@@ -76,10 +79,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         if (typeof event !== "string") {
             // 初始化不 focus
             vditor.wysiwyg.element.focus();
+            highlightToolbar(vditor);
         }
         vditor.wysiwyg.popover.style.display = "none";
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
+        hideToolbar(vditor.toolbar.elements, ["outdent", "indent"])
         vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";
