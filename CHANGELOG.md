@@ -59,6 +59,7 @@
 
 ### v3.1.4 / 2020-04-0x
 
+* [293](https://github.com/Vanessa219/vditor/issues/293) iOS Safari 快捷键显示为 Windows 版本 `修复缺陷`
 * [290](https://github.com/Vanessa219/vditor/pull/290) 🎨 add minHeight `改进功能`
 
 ### v3.1.3 / 2020-04-08

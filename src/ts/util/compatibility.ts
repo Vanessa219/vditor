@@ -42,7 +42,7 @@ export const isCtrl = (event: KeyboardEvent) => {
 
 // Mac，Windows 快捷键展示
 export const updateHotkeyTip = (hotkey: string) => {
-    if (/Mac/.test(navigator.platform)) {
+    if (/Mac/.test(navigator.platform) || navigator.platform === 'iPhone') {
         hotkey = hotkey.replace("ctrl", "⌘").replace("shift", "⇧")
             .replace("alt", "⌥");
         if (hotkey.indexOf("⇧") > -1) {
