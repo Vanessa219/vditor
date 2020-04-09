@@ -28,7 +28,6 @@
         height: 35px;
         width: 25px;
         box-sizing: border-box;
-        margin: 0 4px;
 
         &:focus {
           outline: none;
@@ -157,8 +156,9 @@
 @media screen and (max-width: $max-width) {
   .vditor-toolbar {
     position: sticky;
-    top: 0px;
+    top: 0;
     z-index: 1;
+    margin: 0 4px;
   }
   .vditor-toolbar__item .vditor-tooltipped {
     padding: 10px 8px;
