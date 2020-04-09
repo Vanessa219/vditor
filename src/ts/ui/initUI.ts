@@ -8,6 +8,10 @@ export const initUI = (vditor: IVditor) => {
     setTheme(vditor);
     if (typeof vditor.options.height === "number") {
         vditor.element.style.height = vditor.options.height + "px";
+    } else if (typeof vditor.options.minHeight === "number") {
+        vditor.wysiwyg.element.style.minHeight = vditor.options.minHeight + "px";
+        vditor.sv.element.style.minHeight = vditor.options.minHeight + "px";
+        vditor.ir.element.style.minHeight = vditor.options.minHeight + "px";
     }
     if (typeof vditor.options.width === "number") {
         vditor.element.style.width = vditor.options.width + "px";
@@ -52,7 +56,7 @@ export const initUI = (vditor: IVditor) => {
 
     vditor.element.appendChild(contentElement);
 
-    setEditMode(vditor, vditor.options.mode,  afterRender(vditor, contentElement));
+    setEditMode(vditor, vditor.options.mode, afterRender(vditor, contentElement));
 };
 
 export const setPadding = (vditor: IVditor) => {
@@ -83,6 +87,13 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
 
     window.addEventListener("resize", () => {
         setPadding(vditor);
+    });
+
+    // 监听因为 sticky 导致的 toolbar 与 content 相对位置变化
+    window.addEventListener("scroll", () => {
+        // tslint:disable-next-line: max-line-length
+        const stickyOffset = vditor.wysiwyg.element.parentElement.parentElement.offsetTop - vditor.toolbar.element.offsetTop - vditor.toolbar.element.offsetHeight;
+        vditor.wysiwyg.popover.style.setProperty("--sticky-offset", stickyOffset + "px");
     });
 
     // set default value
