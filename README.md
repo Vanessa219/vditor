@@ -144,11 +144,11 @@ const vditor = new Vditor(id, {options...})
 | - | - | - |
 | after | 编辑器异步渲染完成后的回调方法 | - |
 | height | 编辑器总高度 | 'auto' |
-| minHeight | 编辑区域最小高度，优先级高于 `height` | 'auto' |
+| minHeight | 编辑区域最小高度 | - |
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
 | lang | 多语言：en_US, ko_KR, zh_CN | 'zh_CN' |
-| counter | 是否开启字数统计 / 字数统计阈值 | false |
+| counter | 计数器 | 0 |
 | input | 输入后触发 (value: string, previewElement?: HTMLElement): void | - |
 | focus | 聚焦后触发 (value: string): void | - |
 | blur | 失焦后触发 (value: string): void | - |
@@ -167,7 +167,7 @@ const vditor = new Vditor(id, {options...})
 #### options.toolbar
 
 * 工具栏，可使用 name 进行简写： `toolbar: ['emoji', 'br', 'bold', '|', 'line']` 。默认值参见 [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
-* name 可枚举为： `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `devtools` , `info` , `help` , `br`
+* name 可枚举为： `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `devtools` , `info` , `help` , `br`
 * 当 `name` 不在枚举中时，可以添加自定义按钮，格式如下：
 
 ```js
@@ -219,7 +219,7 @@ const vditor = new Vditor(id, {options...})
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否启用代码高亮 | true |
-| style | 可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | 'github' |
+| style | 可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
 | lineNumber | 是否启用行号 | false |
 
 #### options.preview.markdown
