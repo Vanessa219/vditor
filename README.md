@@ -249,11 +249,11 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
-| delay | 提示 debounce 毫秒间隔 | 200 |
-| emoji | 默认表情，可从 [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
-| emojiTail | 常用表情提示 | - |
-| emojiPath | 表情图片地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
-| at | @用户回调 (value: string): Array\<any>，需同步返回数组 [{value: '', html: ''}] | - |
+| delay | Tip debounce millisecond interval | 200 |
+| emoji | The default emoji can be selected from [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go), or can be customized | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
+| emojiTail | Common emoji | - |
+| emojiPath | Emoji path | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
+| at | @user callback (value: string): Array\<any>, Need to return array synchronously [{value: '', html: ''}] | - |
 
 #### options.upload
 
