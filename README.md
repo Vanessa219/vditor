@@ -321,14 +321,14 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 |   | Explanation | Default |
 | - | - | - |
-| preview | 预览元素上的 className | '' |
+| preview | Preview on the element className | '' |
 
 #### options.keymap
 
 |   | Explanation | Default |
 | - | - | - |
-| deleteLine | 删除光标所在行或选中的行 | '⌘-Backspace' |
-| duplicate | 复制当前行或选中的内容 | '⌘-D' |
+| deleteLine | Delete the cursor line or selected line | '⌘-Backspace' |
+| duplicate | Copy current line or selected content | '⌘-D' |
 
 #### methods
 
