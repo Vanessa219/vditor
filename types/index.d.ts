@@ -170,7 +170,7 @@ interface IMenuItem {
     className?: string;
     /** 提示 */
     tip?: string;
-    /** 快捷键，支持⌘/ctrl-key 或 ⌘/ctrl-⇧/shif-key 格式的配置，不支持 wysiwyg 模式 */
+    /** 快捷键，支持⌘/ctrl-key 或 ⌘/ctrl-⇧/shift-key 格式的配置，不支持 wysiwyg 模式 */
     hotkey?: string;
     /** 插入编辑器中的后缀 */
     suffix?: string;
@@ -321,8 +321,8 @@ interface IOptions {
     /** @link https://hacpai.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
     resize?: IResize;
-    /** 计数器。默认值: '0' */
-    counter?: number;
+    /** 计数器。默认值: false */
+    counter?: number | boolean;
     /** @link https://hacpai.com/article/1549638745630#options-cache */
     cache?: {
         id?: string;
@@ -398,7 +398,7 @@ interface IVditor {
     };
     counter?: {
         element: HTMLElement
-        render(text: string, counter: number): void,
+        render(text: string, counter: number | boolean, type?: string): void,
     };
     resize?: {
         element: HTMLElement,

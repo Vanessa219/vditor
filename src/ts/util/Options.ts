@@ -11,7 +11,7 @@ export class Options {
         classes: {
             preview: "",
         },
-        counter: 0,
+        counter: false,
         debugger: false,
         height: "auto",
         hideToolbar: false,

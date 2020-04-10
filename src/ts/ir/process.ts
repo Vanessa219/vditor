@@ -53,7 +53,7 @@ export const processAfterRender = (vditor: IVditor, options = {
             vditor.options.input(text);
         }
 
-        if (vditor.options.counter > 0) {
+        if (vditor.options.counter !== false) {
             vditor.counter.render(text, vditor.options.counter);
         }
 

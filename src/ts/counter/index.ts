@@ -9,13 +9,17 @@ export class Counter {
 
     }
 
-    public render(text: string, counter: number) {
+    public render(text: string, counter: number | boolean, type: string = "md") {
         const length = text.endsWith("\n") ? text.length - 1 : text.length;
-        if (length > counter) {
-            this.element.className = "vditor-counter vditor-counter--error";
+        if (typeof counter === "number") {
+            if (length > counter) {
+                this.element.className = "vditor-counter vditor-counter--error";
+            } else {
+                this.element.className = "vditor-counter";
+            }
+            this.element.innerHTML = `${type} ${length}/${counter}`;
         } else {
-            this.element.className = "vditor-counter";
+            this.element.innerHTML = `${type} ${length}`;
         }
-        this.element.innerHTML = `md ${length}/${counter}`;
     }
 }
