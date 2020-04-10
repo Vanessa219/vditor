@@ -313,9 +313,9 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 |   | Explanation | Default |
 | - | - | - |
-| enable | 是否支持大小拖拽 | false |
-| position | 拖拽栏位置：top, bottom | 'bottom' |
-| after | 拖拽结束的回调 (height: number): void | - |
+| enable | Whether to support size drag | false |
+| position | Drag column position:top, bottom | 'bottom' |
+| after | Callback when dragging ends (height: number): void | - |
 
 #### options.classes
 
