@@ -2,7 +2,7 @@
 <img alt="Vditor" src="https://b3log.org/images/brand/vditor-128.png" />
 
 <br>
-下一代的 Markdown 编辑器，为未来而构建
+The next generation of Markdown editor, built for the future
 <br><br>
 <a title="MIT" target="_blank" href="https://opensource.org/licenses/MIT"><img src="http://img.shields.io/badge/license-MIT-orange.svg?style=flat-square"></a>
 <a title="npm bundle size" target="_blank" href="https://www.npmjs.com/package/vditor"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/vditor?style=flat-square&color=blueviolet"></a>
@@ -17,87 +17,85 @@
 <a title="Author GitHub Followers" target="_blank" href="https://github.com/vanessa219"><img src="https://img.shields.io/github/followers/vanessa219.svg?label=Followers&style=social"></a>
 </p>
 
-## 💡 简介
+## 💡 Introduction
 
-[Vditor](https://github.com/Vanessa219/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。支持原生 JavaScript、Vue、React、Angular。
+[Vditor](https://github.com/Vanessa219/vditor) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular.
 
-欢迎到 [Vditor 官方讨论区](https://hacpai.com/tag/vditor)了解更多。同时也欢迎关注 B3log 开源社区微信公众号 `B3log开源`：
+Welcome to [Vditor Official Discussion Area](https://hacpai.com/tag/vditor) to learn more.
 
-![b3logos.png](https://img.hacpai.com/file/2019/10/image-d3c00d78.png)
+## 📽️ Background
 
-## 📽️ 背景
+In the initial stage of developing [Sym](https://github.com/88250/symphony), we directly used WYSIWYG rich text editor. At that time, HTML-based editors were very popular, and it was very convenient to quote them in the project, which also conformed to the usage habits of users at that time.
 
-我们在开发 [Sym](https://github.com/88250/symphony) 的初期是直接使用 WYSIWYG 富文本编辑器的。那时候基于 HTML 的编辑器非常流行，项目中引用起来也很方便，也符合用户当时的使用习惯。
+Later, the rise of Markdown gradually changed everyone's typography. In addition, several of our other projects are for programmer users, so it is also a general trend to migrate to md. We chose [CodeMirror](https://github.com/codemirror/CodeMirror), which is an excellent editor, it provides a rich programming interface for developers, and is also compatible with various browsers. it is good.
 
-后来，Markdown 的崛起逐步改变了大家的排版方式。再加上我们其他几个项目都是面向程序员用户的，所以迁移到 md 上也是大势所趋。我们选择了 [CodeMirror](https://github.com/codemirror/CodeMirror)，这是一款优秀的编辑器，它对开发者提供了丰富的编程接口，对各种浏览器的兼容性也比较好。
+Later, as the business needs of our projects have precipitated, using CodeMirror sometimes feels more "cumbersome." For example, to implement @automatically complete the user name list, insert Emoji, upload files, etc., it requires more in-depth secondary development, and these business requirements are precisely common and necessary in many project scenarios.
 
-再后来，随着我们项目业务需求方面的沉淀，使用 CodeMirror 有时候会感到比较“笨重”。比如要实现 @自动完成用户名列表、插入 Emoji、上传文件等就需要比较深入的二次开发，而这些业务需求恰恰是很多项目场景共有且必备的。
+Finally, we decided to start implementing the editor ourselves in Sym. With the iterations of several versions, Sym's editor has matured. In the community [HacPai](https://hacpai.com) that we operate, people have asked us if we can separate the editor for everyone to use. At the same time, our front-end main programmer [V](https://hacpai.com/member/Vanessa) also felt a little bit overwhelmed with maintaining the editors scattered in various projects, plus a good impression of TypeScript, so I decided Use ts to implement a new browser-side md editor.
 
-终于，我们决定开始在 Sym 中自己实现编辑器。随着几个版本的迭代，Sym 的编辑器也日趋成熟。在我们运营的社区[黑客派](https://hacpai.com)上陆续有人问我们是否能将编辑器单独抽离出来提供给大家使用。与此同时，我们的前端主程 [V](https://hacpai.com/member/Vanessa) 同学对于维护分散在各个项目中的编辑器也感到有点力不从心，外加对 TypeScript 的好感，所以就决定使用 ts 来实现一个全新的浏览器端 md 编辑器。
+So, Vditor was born.
 
-于是，Vditor 就这样诞生了。
+## ✨  Features
 
-## ✨  特性
-
-* 支持三种编辑模式：所见即所得、即时渲染、分屏预览
-* 支持任务列表、at、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://github.com/Vanessa219/vditor/issues/5)、语音阅读、标题锚点渲染
-* 支持[**快捷键**](https://hacpai.com/article/1582778815353)操作
-* 支持 Markdown **格式化**， Markdown **语法树**实时渲染
-* **表情**自动补全，设置常用表情，支持表情自定义
-* 自定义**工具栏**按钮、提示、插入字符、快捷键，支持工具栏添加按钮
-* 可使用拖拽、剪切板粘贴上传，显示实时上传进度，支持 CORS 跨域上传
-* 实时保存内容，防止意外丢失
-* 录音支持，用户可直接**发布语音**
-* 粘贴 HTML **自动转换**为 Markdown，如粘贴中包含外链图片可通过指定接口上传到服务器
-* 提供实时预览、滚动同步定位
-* 支持主窗口大小拖拽、字符计数
-* 多主题支持，内置黑白两套主题
-* 多语言支持，内置中、英、韩文本地化
-* 支持主流浏览器和移动端
+* Support three editing modes: WYSIWYG, Instant Rendering and Split View
+* Support task list, at, chart, flow chart, Gantt chart, sequence chart, stave, [multimedia](https://github.com/Vanessa219/vditor/issues/5), voice reading, title anchor rendering
+* Support [**Shortcut Key**](https://hacpai.com/article/1582778815353) operation
+* Support Markdown **Formatting**, Markdown **Syntax Tree** Real-time Rendering
+* **Emoji** Automatically complete, set common emoticons, support emoticon customization
+* Customize **Toolbar** button, prompt, insert character, shortcut key, support toolbar to add button
+* Can use drag and drop, clipboard to paste upload, display real-time upload progress, support CORS cross-domain upload
+* Save content in real time to prevent accidental loss
+* Recording support, users can directly **publish voice**
+* Paste HTML **Automatic conversion** to Markdown, if the paste contains images of external links, it can be uploaded to the server through the specified interface
+* Provide real-time preview, scroll synchronization positioning
+* Support main window size drag and drop, character counting
+* Multi-theme support, built-in black and white themes
+* Multi-language support, built-in Chinese, English, Korean text localization
+* Support mainstream browsers and mobile-end
 
 ![demo](https://img.hacpai.com/file/2020/04/截图专用-b8789fd6.png?imageView2/2/interlace/1)
 
 ![render](https://img.hacpai.com/file/2020/04/%E6%88%AA%E5%9B%BE%E4%B8%93%E7%94%A8800-74ca3eb5.png?imageView2/2/interlace/1)
 
-## 🔮 编辑模式
+## 🔮 Editing Modes
 
-### 所见即所得
+### WYSIWYG
 
-*所见即所得*模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。
+*WYSIWYG* mode is more friendly to users who are not familiar with Markdown, and you can use it seamlessly if you are familiar with Markdown.
 
 ![vditor-wysiwyg](https://img.hacpai.com/file/2020/03/wysiwyg-94c13d78.gif)
 
-### 即时渲染
+### Instant Rendering
 
-*即时渲染*模式对熟悉 Typora 的用户应该不会感到陌生，理论上这是最优雅的 Markdown 编辑方式。
+*Instant Rendering* mode should not be unfamiliar to users who are familiar with Typora. In theory, this is the most elegant Markdown editing method.
 
 ![vditor-ir](https://img.hacpai.com/file/2020/03/ir-6d784c1f.gif)
 
-### 分屏预览
+### Split View
 
-传统的*分屏预览*模式适合大屏下的 Markdown 编辑。
+The traditional *Split View* mode is suitable for Markdown editing on a large screen.
 
 ![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
 
-## 🗃 案例
+## 🗃 Showcases
 
-* [🎶 Sym](https://github.com/88250/symphony) 一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
-* [🎸 Solo](https://github.com/88250/solo) & [🎷 Pipe](https://github.com/88250/pipe) B3log 分布式社区的博客端节点，欢迎加入下一代社区网络
-* [📕 链滴笔记](https://github.com/88250/liandi) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
-* [🌟 Starfire](https://github.com/88250/starfire) 一个分布式的内容分享讨论社区，星星之火可以燎原
-* [📝 Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器
+* [🎶 Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
+* [🎸 Solo](https://github.com/88250/solo) & [🎷 Pipe](https://github.com/88250/pipe) B3log distributed community blog end node, welcome to join the next generation community network
+* [📕 链滴笔记](https://github.com/88250/liandi) A desktop note application that supports Windows, Mac and Linux
+* [🌟 Starfire](https://github.com/88250/starfire) A distributed content-sharing and discussion community, the spark can catch fire
+* [📝 Arya](https://github.com/nicejade/markdown-online-editor) Based on Vue, Vditor, built online Markdown editor
 
-## 🛠️ 使用文档
+## 🛠️ User Guide
 
 ### CommonJS
 
-* 安装依赖
+* Install dependencies
 
 ```shell
 npm install vditor --save
 ```
 
-* 在代码中引入并初始化对象，可参考 [index.js](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
+* Introduce and initialize objects in the code, you can refer to [index.js](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
 
 ```ts
 import Vditor from 'vditor'
@@ -108,39 +106,39 @@ const vditor = new Vditor(id, {options...})
 
 ### HTML script
 
-* 在 HTML 中插入 CSS 和 js，可参考 [static.html](https://github.com/Vanessa219/vditor/blob/master/demo/static.html)
+* Insert CSS and js in HTML, you can refer to [static.html](https://github.com/Vanessa219/vditor/blob/master/demo/static.html)
 
 ```html
-<!-- ⚠️生产环境请指定版本号，如 https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
+<!-- ⚠️Please specify the version number in the production environment, such as https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
 <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>
 ```
 
-### 示例代码
+### Demo code
 
 * [CommonJS](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
 * [HTML script](https://github.com/Vanessa219/vditor/blob/master/demo/static.html)
 * [Preview](https://github.com/Vanessa219/vditor/blob/master/demo/static-preview.html)
 * [Vue](https://github.com/88250/pipe/blob/master/console/pages/admin/articles/post/index.vue)
 
-### 主题
+### Themes
 
-* 支持黑白两套主题：classic/dark
-* 参考现有样式后使用自己开发的 scss/css 进行样式的完全自定制
-* 可通过修改 [index.scss](https://github.com/Vanessa219/vditor/blob/master/src/assets/scss/index.scss) 中的变量对主题颜色进行定制
-* 在内容显示元素上添加 `class="vditor-reset"` （经典主题） 或 `class="vditor-reset vditor-reset--dark"`（黑色主题） 属性可对内容进行更为友好的展示
+* Support two sets of black and white themes: classic/dark
+* Use the scss/css developed by yourself to fully customize the style after referring to the existing style
+* Theme colors can be customized by modifying variables in [index.scss](https://github.com/Vanessa219/vditor/blob/master/src/assets/scss/index.scss)
+* Adding `class="vditor-reset"` (classic theme) or `class="vditor-reset vditor-reset--dark"` (black theme) attribute on the content display element can display the content more friendly
 
 ### API
 
 #### id
 
-可填入元素 `id` 或元素自身 `HTMLElement`
+Can be filled with element `id` or element itself` HTMLElement`
 
-⚠️：当填入元素自身的 `HTMLElement` 时需设置 `options.cache.id` 或将 `options.cache.enable` 设置为 `false`
+⚠️: When filling in the element's `HTMLElement`, you need to set `options.cache.id` or set `options.cache.enable` to `false`
 
 #### options
 
-|   | 说明 | 默认值 |
+|   | Explanation | 默认值 |
 | - | - | - |
 | after | 编辑器异步渲染完成后的回调方法 | - |
 | height | 编辑器总高度 | 'auto' |
@@ -184,7 +182,7 @@ const vditor = new Vditor(id, {options...})
 }
 ```
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | name | 唯一标示 | - |
 | icon | svg 图标 | - |
@@ -198,14 +196,14 @@ const vditor = new Vditor(id, {options...})
 
 #### options.cache
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | enable | 是否使用 localStorage 进行缓存 | true |
 | id | 缓存 key，第一个参数为元素且启用缓存时**必填** | - |
 
 #### options.preview
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | delay | 预览 debounce 毫秒间隔 | 1000 |
 | maxWidth | 预览区域最大宽度 | 768 |
@@ -216,7 +214,7 @@ const vditor = new Vditor(id, {options...})
 
 #### options.preview.hljs
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | enable | 是否启用代码高亮 | true |
 | style | 可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
@@ -224,7 +222,7 @@ const vditor = new Vditor(id, {options...})
 
 #### options.preview.markdown
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | autoSpace | 自动空格 | false |
 | fixTermTypo | 自动矫正术语 | false |
@@ -235,7 +233,7 @@ const vditor = new Vditor(id, {options...})
 
 #### options.preview.math
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | inlineDigit | 内联数学公式起始 $ 后是否允许数字 | false |
 | macros | 使用 MathJax 渲染时传入的宏定义 | {} |
@@ -243,7 +241,7 @@ const vditor = new Vditor(id, {options...})
 
 #### options.hint
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | delay | 提示 debounce 毫秒间隔 | 200 |
 | emoji | 默认表情，可从 [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
@@ -253,7 +251,7 @@ const vditor = new Vditor(id, {options...})
 
 #### options.upload
 
-* 文件上传的数据结构如下。后端返回的数据结构不一致时，可使用 `format` 进行转换。
+* The data structure of the file upload is as follows. When the data structure returned by the backend is inconsistent, you can use `format` for conversion.
 
 ```js
 // POST data  
@@ -272,11 +270,11 @@ xhr.send(formData);  // formData = FormData.append("file[]", File)
 }
 ```
 
-* 为了防止站外图片失效， `linkToImgUrl` 可将剪贴板中的站外图片地址传到服务器端进行保存处理，其数据结构如下：
+* In order to prevent the off-site pictures from being invalid, `linkToImgUrl` can transfer the off-site picture addresses in the clipboard to the server for saving and processing. The data structure is as follows:
 
 ```js
 // POST data  
-xhr.send(JSON.stringify({url: src})); // src 为站外图片地址  
+xhr.send(JSON.stringify({url: src})); // src is the address of the image outside the station
 // return data  
 {  
  msg: '',  
@@ -288,7 +286,7 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 }
 ```
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | url | 上传 url | '' |
 | max | 上传文件最大 Byte | 10 * 1024 * 1024 |
@@ -307,7 +305,7 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 
 #### options.resize
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | enable | 是否支持大小拖拽 | false |
 | position | 拖拽栏位置：top, bottom | 'bottom' |
@@ -315,20 +313,20 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 
 #### options.classes
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | preview | 预览元素上的 className | '' |
 
 #### options.keymap
 
-|   | 说明 | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
 | deleteLine | 删除光标所在行或选中的行 | '⌘-Backspace' |
 | duplicate | 复制当前行或选中的内容 | '⌘-D' |
 
 #### methods
 
-|   | 说明 |
+|   | Explanation |
 | - | - |
 | getValue() | 获取编辑器内容 |
 | getHTML() | 获取预览区内容 |
@@ -390,7 +388,7 @@ options?: IPreviewOptions {
 
 * ⚠️ `method.min.js`  和 `index.min.js` 不可同时引入
 
-|   | 说明 |
+|   | Explanation |
 | - | - |
 | mermaidRender(element: HTMLElement, className = ".language-mermaid", cdn = options.cdn) | 转换 element 中 class 为 className 的元素为流程图/时序图/甘特图 |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
@@ -404,55 +402,55 @@ options?: IPreviewOptions {
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
 
-## 🏗 开发文档
+## 🏗 Developer Guide
 
-### 原理相关
+### Principle related
 
-* [关于所见即所得 Markdown 编辑器的讨论](https://hacpai.com/article/1579414663700)
-* [Vditor 实现 Markdown 所见即所得](https://hacpai.com/article/1577370404903)
-* [Lute 一款对中文语境优化的 Markdown 引擎，支持 Go 和 JavaScript](https://hacpai.com/article/1567047822949)
+* [Discussion on WYSIWYG Markdown Editor](https://hacpai.com/article/1579414663700)
+* [Vditor implements Markdown WYSIWYG](https://hacpai.com/article/1577370404903)
+* [Lute is a Markdown engine optimized for Chinese context, supports Go and JavaScript](https://hacpai.com/article/1567047822949)
 
-### 环境
+### Environment
 
-1. 安装 [node](https://nodejs.org/) LTS 版本
-2. [下载](https://github.com/Vanessa219/vditor/archive/master.zip)最新代码并解压
-3. 根目录运行 `npm install`
-4. `npm run start` 启动本地服务器，打开 http://localhost:9000
-5. 修改代码
-6. `npm run build` 打包代码到 dist 目录
+1. Install [node](https://nodejs.org/) LTS version
+2. [Download](https://github.com/Vanessa219/vditor/archive/master.zip) latest code and unzip
+3. Run `npm install` in the root directory
+4. `npm run start` Start the local server, open http: // localhost: 9000
+5. Modify the code
+6. `npm run build` package code to dist directory
 
-### CDN 切换
+### CDN switch
 
-由于使用了按需加载的机制，默认 CDN 为 [https://cdn.jsdelivr.net/npm/vditor](https://cdn.jsdelivr.net/npm/vditor)@版本号
+Due to the on-demand loading mechanism, the default CDN is [https://cdn.jsdelivr.net/npm/vditor](https://cdn.jsdelivr.net/npm/vditor)@version number
 
-如果代码有修改或需要使用自建 CDN 的话，可按以下步骤进行操作：
+If the code is modified or you need to use a self-built CDN, you can follow the steps below:
 
-* 初始化的 `options` 及 `IPreviewOptions` 中需添加 `cdn` 配置
-* `highlightRender` , `mathRender` , `abcRender` , `chartRender` , `mermaidRender` 方法中需添加 cdn 参数
-* 将 build 成功的 dist 目录或 [jsDelivr](https://www.jsdelivr.com/package/npm/vditor?path=dist) 中的 dist 目录拷贝至正确的位置
+* The initial `options` and` IPreviewOptions` need to add `cdn` configuration
+* `highlightRender`,` mathRender`, `abcRender`,` chartRender`, `mermaidRender` methods need to add cdn parameter
+* Copy the dist directory in the successful build or [jsDelivr](https://www.jsdelivr.com/package/npm/vditor?path=dist) to the correct location
 
-### 升级
+### Upgrade
 
-版本升级时请**仔细阅读** [CHANGELOG](https://github.com/Vanessa219/vditor/blob/master/CHANGELOG.md) 中的**升级**部分
+Please read [CHANGELOG](https://github.com/Vanessa219/vditor/blob/master/CHANGELOG.md) carefully when upgrading the version.
 
-## Ⓜ️ Markdown 使用指南
+## Ⓜ️ Markdown User Guide
 
-* [基础语法](https://hacpai.com/article/1583129520165)
-* [扩展语法](https://hacpai.com/article/1583305480675)
-* [速查手册](https://hacpai.com/article/1583308420519)
+* [Basic syntax](https://hacpai.com/article/1583129520165)
+* [Extended syntax](https://hacpai.com/article/1583305480675)
+* [Quick Reference Manual](https://hacpai.com/article/1583308420519)
 
-## 🏘️ 社区
+## 🏘️ Community
 
-* [讨论区](https://hacpai.com/tag/vditor)
-* [报告问题](https://github.com/Vanessa219/vditor/issues/new)
+* [Forum](https://hacpai.com/tag/vditor)
+* [Issues](https://github.com/Vanessa219/vditor/issues/new)
 
-## 📄 授权
+## 📄 License
 
-Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
+Vditor uses the [MIT](https://opensource.org/licenses/MIT) open source license.
 
-## 🙏 鸣谢
+## 🙏 Acknowledgement
 
-* [Lute](https://github.com/88250/lute)：🎼 一款结构化的 Markdown 引擎，支持 Go 和 JavaScript
+* [Lute](https://github.com/88250/lute)：🎼 A structured Markdown engine that supports Go and JavaScript
 * [highlight.js](https://github.com/highlightjs/highlight.js)：JavaScript syntax highlighter
 * [mermaid](https://github.com/knsv/mermaid)：Generation of diagram and flowchart from text in a similar manner as Markdown
 * [incubator-echarts](https://github.com/apache/incubator-echarts)：A powerful, interactive charting and visualization library for browser
