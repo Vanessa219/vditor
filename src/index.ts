@@ -75,7 +75,7 @@ class Vditor extends VditorMethod {
             tip: new Tip(),
         };
 
-        if (mergedOptions.counter > 0) {
+        if (mergedOptions.counter !== false) {
             this.vditor.counter = new Counter(this.vditor);
         }
 
