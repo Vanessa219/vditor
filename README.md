@@ -51,8 +51,8 @@
 * 粘贴 HTML **自动转换**为 Markdown，如粘贴中包含外链图片可通过指定接口上传到服务器
 * 提供实时预览、滚动同步定位
 * 支持主窗口大小拖拽、字符计数
-* 多主题支持、内置黑白两套
-* 多语言支持、内置中英文
+* 多主题支持，内置黑白两套主题
+* 多语言支持，内置中、英、韩文本地化
 * 支持主流浏览器和移动端
 
 ![demo](https://img.hacpai.com/file/2020/04/截图专用-b8789fd6.png?imageView2/2/interlace/1)
@@ -142,25 +142,26 @@ const vditor = new Vditor(id, {options...})
 
 |   | 说明 | 默认值 |
 | - | - | - |
-| after | 编辑器异步渲染完成后的回调方法 | undefined |
+| after | 编辑器异步渲染完成后的回调方法 | - |
 | height | 编辑器总高度 | 'auto' |
+| minHeight | 编辑区域最小高度，优先级高于 `height` | 'auto' |
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
-| lang | 多语言：en_US, zh_CN | 'zh_CN' |
-| counter | 计数器 | 0 |
+| lang | 多语言：en_US, ko_KR, zh_CN | 'zh_CN' |
+| counter | 是否开启字数统计 / 字数统计阈值 | false |
 | input | 输入后触发 (value: string, previewElement?: HTMLElement): void | - |
 | focus | 聚焦后触发 (value: string): void | - |
 | blur | 失焦后触发 (value: string): void | - |
 | esc | <kbd>esc</kbd> 按下后触发 (value: string): void | - |
 | ctrlEnter | <kbd>⌘/ctrl+enter</kbd> 按下后触发 (value: string): void | - |
 | select | 编辑器中选中文字后触发 (value: string): void | - |
-| tab | tab 键操作字符串，支持 `\t` 及任意字符串 | - |
+| tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
 | typewriterMode | 是否启用打字机模式 | false |
 | cdn | 配置自建 CDN 地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
-| mode | 可选模式："sv", "ir", "wysiwyg" | 'wysiwyg' |
+| mode | 可选模式：sv, ir, wysiwyg | 'wysiwyg' |
 | debugger | 是否显示日志 | false |
 | value | 编辑器初始化值 | '' |
-| theme | 主题："classic"，"dark" | 'classic' |
+| theme | 主题：classic, dark | 'classic' |
 | hideToolbar | 是否隐藏工具栏 | false |
 
 #### options.toolbar
@@ -189,10 +190,10 @@ const vditor = new Vditor(id, {options...})
 | icon | svg 图标 | - |
 | tip | 提示 | - |
 | tipPosition | 提示位置：ne, nw | - |
-| hotkey | 快捷键，支持<kbd> ⌘/ctrl-key </kbd>  或  <kbd> ⌘/ctrl-⇧/shif-key </kbd>  格式的配置，不支持 wysiwyg 模式 | - |
+| hotkey | 快捷键，支持 <kbd>⌘/ctrl-key</kbd> 或 <kbd>⌘/ctrl-⇧/shift-key</kbd> 格式的配置，不支持 wysiwyg 模式 | - |
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
-| click | 自定义按钮点击时触发的事件 ():viod | - |
+| click | 自定义按钮点击时触发的事件 (): void | - |
 | className | 样式名 | '' |
 
 #### options.cache
@@ -208,17 +209,17 @@ const vditor = new Vditor(id, {options...})
 | - | - | - |
 | delay | 预览 debounce 毫秒间隔 | 1000 |
 | maxWidth | 预览区域最大宽度 | 768 |
-| mode | 显示模式：'both', 'editor', 'preview' | 'both' |
+| mode | 显示模式：both, editor, preview | 'both' |
 | url | md 解析请求 | - |
 | parse | 预览回调 (element: HTMLElement): void | - |
-| transform | 渲染之前回调(html: string): string | - |
+| transform | 渲染之前回调 (html: string): string | - |
 
 #### options.preview.hljs
 
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否启用代码高亮 | true |
-| style | 可选值参见[Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
+| style | 可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | 'github' |
 | lineNumber | 是否启用行号 | false |
 
 #### options.preview.markdown
@@ -230,7 +231,7 @@ const vditor = new Vditor(id, {options...})
 | chinesePunct | 自动矫正标点 | false |
 | toc | 插入目录 | false |
 | footnotes | 脚注 | true |
-| codeBlockPreview | wysiwyg，ir 模式下是否对代码块进行渲染 | true |
+| codeBlockPreview | wysiwyg 和 ir 模式下是否对代码块进行渲染 | true |
 
 #### options.preview.math
 
@@ -238,17 +239,17 @@ const vditor = new Vditor(id, {options...})
 | - | - | - |
 | inlineDigit | 内联数学公式起始 $ 后是否允许数字 | false |
 | macros | 使用 MathJax 渲染时传入的宏定义 | {} |
-| engine | 数学公式渲染引擎："KaTeX", "MathJax" | 'KaTeX' |
+| engine | 数学公式渲染引擎：KaTeX, MathJax | 'KaTeX' |
 
 #### options.hint
 
 |   | 说明 | 默认值 |
 | - | - | - |
 | delay | 提示 debounce 毫秒间隔 | 200 |
-| emoji | 默认表情，可从[lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️ ', 'cold_sweat': '😰' } |
+| emoji | 默认表情，可从 [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | 常用表情提示 | - |
 | emojiPath | 表情图片地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
-| at | @用户回调，(value: string): Array\<any> ，需同步返回数组[{value: '', html: ''}] | - |
+| at | @用户回调 (value: string): Array\<any>，需同步返回数组 [{value: '', html: ''}] | - |
 
 #### options.upload
 
@@ -297,10 +298,10 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 | token | CORS 上传验证，头为 X-Upload-Token | - |
 | withCredentials | 跨站点访问控制 | false |
 | headers | 请求头设置 | - |
-| filename | 文件名安全处理 (name: string): string | name => name.replace(/\W/g, '') |
-| accept | 文件上传类型，同[input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
-| validate | 校验，成功时返回 true 否则返回错误信息 (files: File[]) => string\| boolean | - |
-| handler | 自定义上传，当发生错误时返回错误信息 (files: File[]) => string\| null | - |
+| filename | 文件名安全处理 (name: string): string \| name => name.replace(/\W/g, '') |
+| accept | 文件上传类型，同 [input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
+| validate | 校验，成功时返回 true 否则返回错误信息 (files: File[]) => string \| boolean | - |
+| handler | 自定义上传，当发生错误时返回错误信息 (files: File[]) => string \| null | - |
 | format | 对服务端返回的数据进行转换，以满足内置的数据结构 (files: File[], responseText: string): string | - |
 | file | 将上传的文件处理后再返回 (files: File[]): File[] | - |
 
@@ -322,8 +323,8 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 
 |   | 说明 | 默认值 |
 | - | - | - |
-| deleteLine | 删除光标所在行或选中的行 | <kbd> ⌘-Backspace </kbd> |
-| duplicate | 复制当前行或选中的内容 | <kbd> ⌘-d </kbd> |
+| deleteLine | 删除光标所在行或选中的行 | '⌘-Backspace' |
+| duplicate | 复制当前行或选中的内容 | '⌘-D' |
 
 #### methods
 
@@ -337,7 +338,7 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 | disabled() | 禁用编辑器 |
 | enable() | 解除编辑器禁用 |
 | setSelection(start: number, end: number) | 选中从 start 开始到 end 结束的字符串，不支持 wysiwyg 模式 |
-| getSelection():string | 返回选中的字符串 |
+| getSelection(): string | 返回选中的字符串 |
 | setValue(markdown: string) | 设置编辑器内容 |
 | renderPreview(value?: string) | 设置预览区域内容 |
 | getCursorPosition():{top: number, left: number} | 获取焦点位置 |
@@ -348,9 +349,9 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 | disabledCache() | 禁用缓存 |
 | enableCache() | 启用缓存 |
 | html2md(value: string) | HTML 转 md |
-| tip(text:string, time:number) | 消息提示。time 为 0 将一直显示 |
-| setPreviewMode(mode: string) | 设置预览模式。mode: 'both', 'editor', 'preview' |
-| setTheme(theme: "dark"\|"classic") | 设置主题 |
+| tip(text: string, time: number) | 消息提示。time 为 0 将一直显示 |
+| setPreviewMode(mode: "both" \| "editor" \| "preview") | 设置预览模式 |
+| setTheme(theme: "dark" \| "classic") | 设置主题 |
 | getCurrentMode(): string | 获取编辑器当前编辑模式 |
 
 #### static methods
@@ -395,9 +396,9 @@ options?: IPreviewOptions {
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
 | chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | 图表渲染 |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | 五线谱渲染 |
-| md2html(mdText: string, options?: IPreviewOptions):`Promise<string>` | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
+| md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
-| highlightRender(hljsOption?:IHljs, element?: HTMLElement\| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
+| highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
 | mediaRender(element: HTMLElement) | 为[特定链接](https://github.com/Vanessa219/vditor/issues/7)分别渲染为视频、音频、嵌入的 iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
@@ -414,7 +415,7 @@ options?: IPreviewOptions {
 ### 环境
 
 1. 安装 [node](https://nodejs.org/) LTS 版本
-2. [下载](https://github.com/Vanessa219/vditor/archive/master.zip) 最新代码并解压
+2. [下载](https://github.com/Vanessa219/vditor/archive/master.zip)最新代码并解压
 3. 根目录运行 `npm install`
 4. `npm run start` 启动本地服务器，打开 http://localhost:9000
 5. 修改代码

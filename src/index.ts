@@ -60,7 +60,7 @@ class Vditor extends VditorMethod {
         const getOptions = new Options(options);
         const mergedOptions = getOptions.merge();
 
-        if (!(mergedOptions.lang === "en_US" || mergedOptions.lang === "ko_KR" || mergedOptions.lang === "zh_CN")) {
+        if (!["en_US", "ko_KR", "zh_CN"].includes(mergedOptions.lang)) {
             throw new Error("options.lang error, see https://hacpai.com/article/1549638745630#options");
         }
 

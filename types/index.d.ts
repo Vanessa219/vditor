@@ -170,7 +170,7 @@ interface IMenuItem {
     className?: string;
     /** 提示 */
     tip?: string;
-    /** 快捷键，支持⌘/ctrl-key 或 ⌘/ctrl-⇧/shif-key 格式的配置，不支持 wysiwyg 模式 */
+    /** 快捷键，支持⌘/ctrl-key 或 ⌘/ctrl-⇧/shift-key 格式的配置，不支持 wysiwyg 模式 */
     hotkey?: string;
     /** 插入编辑器中的后缀 */
     suffix?: string;
