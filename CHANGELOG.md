@@ -59,6 +59,8 @@
 
 ### v3.1.5 / 2020-04-0x
 
+* [301](https://github.com/Vanessa219/vditor/issues/301) Add README in English `文档相关`
+
 ### v3.1.4 / 2020-04-10
 
 * [299](https://github.com/Vanessa219/vditor/issues/299) 表格解析异常 `修复缺陷`
