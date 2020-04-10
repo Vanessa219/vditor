@@ -396,17 +396,17 @@ options?: IPreviewOptions {
 
 |   | Explanation |
 | - | - |
-| mermaidRender(element: HTMLElement, className = ".language-mermaid", cdn = options.cdn) | 转换 element 中 class 为 className 的元素为流程图/时序图/甘特图 |
-| codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
-| chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | 图表渲染 |
-| abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | 五线谱渲染 |
-| md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
-| preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
-| highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
-| mediaRender(element: HTMLElement) | 为[特定链接](https://github.com/Vanessa219/vditor/issues/7)分别渲染为视频、音频、嵌入的 iframe |
-| mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
-| speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
-| graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
+| mermaidRender(element: HTMLElement, className = ".language-mermaid", cdn = options.cdn) | Convert elements in class to className in element to flowchart/sequence diagram/gantt diagram |
+| codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | Add a copy button for the code block in element |
+| chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Chart rendering |
+| abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Stave rendering |
+| md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
+| preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | Page Markdown article rendering |
+| highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | Highlight the code block in element |
+| mediaRender(element: HTMLElement) | Rendering as [specific link](https://github.com/Vanessa219/vditor/issues/7) as video, audio, embedded iframe |
+| mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
+| speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
+| graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
 
 ## 🏗 Developer Guide
 
