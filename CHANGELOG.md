@@ -57,7 +57,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.4 / 2020-04-0x
+### v3.1.5 / 2020-04-0x
+
+### v3.1.4 / 2020-04-10
 
 * [299](https://github.com/Vanessa219/vditor/issues/299) 表格解析异常 `修复缺陷`
 * [226](https://github.com/Vanessa219/vditor/issues/226) Vulnerable to Self-XSS `修复缺陷`
@@ -71,9 +73,6 @@
 * [292](https://github.com/Vanessa219/vditor/pull/292) 🐛 全屏模式文末空白 `修复缺陷`
 * [293](https://github.com/Vanessa219/vditor/issues/293) iOS Safari 快捷键显示为 Windows 版本 `修复缺陷`
 * [290](https://github.com/Vanessa219/vditor/pull/290) 🎨 add minHeight `改进功能`
-
-### v3.1.3 / 2020-04-08
-
 * [71](https://github.com/Vanessa219/vditor/issues/71) 优化移动端体验 `改进功能`
 * [283](https://github.com/Vanessa219/vditor/issues/283) 添加 SetSetext 配置 `引入特性`
 * [278](https://github.com/Vanessa219/vditor/issues/278) IR 细节修改 `修复缺陷`
