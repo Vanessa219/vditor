@@ -294,20 +294,20 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 |   | Explanation | Default |
 | - | - | - |
-| url | 上传 url | '' |
-| max | 上传文件最大 Byte | 10 * 1024 * 1024 |
-| linkToImgUrl | 剪切板中包含图片地址时，使用此 url 重新上传 | '' |
-| success | 上传成功回调 (editor: HTMLPreElement, msg: string): void | - |
-| error | 上传失败回调 (msg: string): void | - |
-| token | CORS 上传验证，头为 X-Upload-Token | - |
-| withCredentials | 跨站点访问控制 | false |
-| headers | 请求头设置 | - |
-| filename | 文件名安全处理 (name: string): string \| name => name.replace(/\W/g, '') |
-| accept | 文件上传类型，同 [input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
-| validate | 校验，成功时返回 true 否则返回错误信息 (files: File[]) => string \| boolean | - |
-| handler | 自定义上传，当发生错误时返回错误信息 (files: File[]) => string \| null | - |
-| format | 对服务端返回的数据进行转换，以满足内置的数据结构 (files: File[], responseText: string): string | - |
-| file | 将上传的文件处理后再返回 (files: File[]): File[] | - |
+| url | Upload url | '' |
+| max | The largest upload file Byte | 10 * 1024 * 1024 |
+| linkToImgUrl | When the clipboard contains the image address, use this url to re-upload | '' |
+| success | Upload success callback (editor: HTMLPreElement, msg: string): void | - |
+| error | Upload failure callback (msg: string): void | - |
+| token | CORS upload verification, header is X-Upload-Token | - |
+| withCredentials | Cross-site access control | false |
+| headers | Request header settings | - |
+| filename | Sanitizing file names (name: string): string \| name => name.replace(/\W/g, '') |
+| accept | File upload type, same as [input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
+| validate | Check, return true if successful, otherwise return error message (files: File[]) => string \| boolean | - |
+| handler | Custom upload, return error message when an error occurs (files: File[]) => string \| null | - |
+| format | Transform the data returned by the server to meet the built-in data structure (files: File[], responseText: string): string | - |
+| file | Process the uploaded file before returning (files: File[]): File[] | - |
 
 #### options.resize
 
