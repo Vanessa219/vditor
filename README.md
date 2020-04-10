@@ -18,9 +18,7 @@ The next generation of Markdown editor, built for the future
 </p>
 
 <p align="center">
-
-[中文](https://hacpai.com/article/1549638745630)
-
+<a href="https://hacpai.com/article/1549638745630">中文</a>
 </p>
 
 ## 💡 Introduction
