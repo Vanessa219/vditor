@@ -1,6 +1,5 @@
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
-import {scrollCenter} from "../util/editorCommonEvent";
 import {setTheme} from "./setTheme";
 
 export const initUI = (vditor: IVditor) => {
@@ -73,32 +72,32 @@ export const setPadding = (vditor: IVditor) => {
     }
 };
 
-const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
-    const setTypewriterPosition = () => {
-        let height: number;
-        if (typeof vditor.options.height !== "number") {
-            height = window.innerHeight;
-        } else {
-            height = vditor.options.height;
-            if (typeof vditor.options.minHeight === "number") {
-                height = Math.max(height, vditor.options.minHeight + vditor.toolbar.element.offsetHeight);
-            }
-            height = Math.min(window.innerHeight, height);
-        }
-        // 由于 Firefox padding-bottom bug，只能使用 :after
-        contentElement.style.setProperty("--editor-bottom", (height / 2 - 18) + "px");
-    };
-
-    if (vditor.options.typewriterMode) {
-        setTypewriterPosition();
+export const setTypewriterPosition = (vditor: IVditor) => {
+    if (!vditor.options.typewriterMode) {
+        return;
     }
+    let height: number = window.innerHeight;
+    if (typeof vditor.options.height === "number") {
+        height = vditor.options.height;
+        if (typeof vditor.options.minHeight === "number") {
+            height = Math.max(height, vditor.options.minHeight);
+        }
+        height = Math.min(window.innerHeight, height);
+    }
+    if (vditor.element.classList.contains("vditor--fullscreen")) {
+        height = window.innerHeight;
+    }
+    // 由于 Firefox padding-bottom bug，只能使用 :after
+    vditor[vditor.currentMode].element.style.setProperty("--editor-bottom",
+        ((height - vditor.toolbar.element.offsetHeight) / 2) + "px");
+};
+
+const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
+    setTypewriterPosition(vditor);
 
     window.addEventListener("resize", () => {
         setPadding(vditor);
-        if (vditor.options.typewriterMode) {
-            setTypewriterPosition();
-            scrollCenter(vditor);
-        }
+        setTypewriterPosition(vditor);
     });
 
     // set default value

@@ -4,14 +4,14 @@ import {i18n} from "../i18n";
 import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
 import {formatRender} from "../sv/formatRender";
-import {setPadding} from "../ui/initUI";
+import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 import {processCodeRender} from "../util/processCode";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
-import {enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {disableToolbar, enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
@@ -37,6 +37,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     }
     enableToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
     removeCurrentToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
+    disableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
 
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
@@ -106,6 +107,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.sv.element.focus();
         }
     }
+    setTypewriterPosition(vditor);
 };
 
 export class EditMode extends MenuItem {

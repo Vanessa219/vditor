@@ -27,9 +27,8 @@
     }
 
     &:after {
-      $height: var(--editor-bottom);
       content: "";
-      height: var(--editor-bottom-fullscreen, $height);
+      height: var(--editor-bottom);
       display: block;
     }
   }

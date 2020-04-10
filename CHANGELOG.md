@@ -59,6 +59,7 @@
 
 ### v3.1.4 / 2020-04-0x
 
+* [294](https://github.com/Vanessa219/vditor/pull/294) 🐛 计算全屏 typewriterMode 位置 `修复缺陷`
 * [286](https://github.com/Vanessa219/vditor/issues/286) add indent & outdent button `引入特性`
 * [291](https://github.com/Vanessa219/vditor/pull/291) 🎨 改进 Counter `修复缺陷`
 * [285](https://github.com/Vanessa219/vditor/issues/285) shift+tab is not working at lists `修复缺陷`
