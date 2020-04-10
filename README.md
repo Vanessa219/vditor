@@ -241,9 +241,9 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
-| inlineDigit | 内联数学公式起始 $ 后是否允许数字 | false |
-| macros | 使用 MathJax 渲染时传入的宏定义 | {} |
-| engine | 数学公式渲染引擎：KaTeX, MathJax | 'KaTeX' |
+| inlineDigit | Whether numbers are allowed after the inline math formula starting with $ | false |
+| macros | Macro definition passed in when rendering with MathJax | {} |
+| engine | Math formula rendering engine: KaTeX, MathJax | 'KaTeX' |
 
 #### options.hint
 
