@@ -59,6 +59,8 @@
 
 ### v3.1.4 / 2020-04-0x
 
+* [299](https://github.com/Vanessa219/vditor/issues/299) 表格解析异常 `修复缺陷`
+* [226](https://github.com/Vanessa219/vditor/issues/226) Vulnerable to Self-XSS `修复缺陷`
 * [297](https://github.com/Vanessa219/vditor/issues/297) 纯文本字数统计 `引入特性`
 * [298](https://github.com/Vanessa219/vditor/pull/298) ✨ 允许开启 counter 而不设置限值 & README 优化 `引入特性`
 * [295](https://github.com/Vanessa219/vditor/issues/295) 全屏模式下打字机行为异常 `修复缺陷`
