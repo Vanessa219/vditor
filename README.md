@@ -204,8 +204,8 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
-| enable | 是否使用 localStorage 进行缓存 | true |
-| id | 缓存 key，第一个参数为元素且启用缓存时**必填** | - |
+| enable | Whether to use localStorage for caching | true |
+| id | Cache key, the first parameter is an element and when caching is enabled **required** | - |
 
 #### options.preview
 
