@@ -371,28 +371,28 @@ import VditorPreview from 'vditor/dist/method.min'
 VditorPreview.mermaidRender(document)
 ```
 
-* 需要对页面中的 Markdown 进行渲染时可直接调用 `preview` 方法，参数如下：
+* When you need to render Markdown on the page, you can directly call the `preview` method with the following parameters:
 
 ```js
-previewElement: HTMLDivElement,   // 使用该元素进行渲染
-markdown: string,  // 需要渲染的 markdown 原文
+previewElement: HTMLDivElement,   // Use this element for rendering
+markdown: string,  // The original markdown to be rendered
 options?: IPreviewOptions {  
- anchor?: boolean;  // 为标题添加锚点
- theme?: string;  // 主题：'classic' | 'dark'，默认为 'classic'
- customEmoji?: { [key: string]: string };    // 自定义 emoji，默认为 {}  
- lang?: (keyof II18nLang);    // 语言，默认为 'zh_CN'  
- emojiPath?: string;    // 表情图片路径 
- hljs?: IHljs // 参见 options.preview.hljs 
- speech?: {  // 对选中后的内容进行阅读
+ anchor?: boolean;  // Add an anchor to the title
+ theme?: string;  // Theme: 'classic' | 'dark', default is 'classic'
+ customEmoji?: { [key: string]: string };    // Custom emoji, default is {}
+ lang?: (keyof II18nLang);    // Language, default is 'zh_CN'  
+ emojiPath?: string;    // Emoji picture path 
+ hljs?: IHljs // Refer to options.preview.hljs 
+ speech?: {  // Read the selected content
   enable?: boolean
  }
- math?: IMath // 数学公式渲染配置
- transform?(html: string): string // 在渲染前进行的回调方法
- cdn?: string // 自建 CDN 地址
+ math?: IMath // Math formula rendering configuration
+ transform?(html: string): string // Callback method before rendering
+ cdn?: string // Self-built CDN address
 }
 ```
 
-* ⚠️ `method.min.js`  和 `index.min.js` 不可同时引入
+* ⚠️`method.min.js` and` index.min.js` cannot be introduced at the same time
 
 |   | Explanation |
 | - | - |
