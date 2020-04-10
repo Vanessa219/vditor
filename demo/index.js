@@ -13,7 +13,10 @@ window.vditor = new Vditor('vditor', {
       style: 'native',
     },
   },
-  counter: 100,
+  counter: {
+    enable: true,
+    max: 100,
+  },
   height: 500,
   hint: {
     emojiPath: 'https://cdn.jsdelivr.net/npm/vditor@1.8.3/dist/images/emoji',

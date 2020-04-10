@@ -20,8 +20,8 @@ export const afterRenderEvent = (vditor: IVditor, options = {
             vditor.options.input(text);
         }
 
-        if (vditor.options.counter !== false) {
-            vditor.counter.render(text, vditor.options.counter);
+        if (vditor.options.counter.enable) {
+            vditor.counter.render(vditor, text);
         }
 
         if (vditor.options.cache.enable) {

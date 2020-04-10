@@ -4,18 +4,18 @@ export const inputEvent = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
-    if (vditor.options.counter !== false) {
-        vditor.counter.render(getMarkdown(vditor), vditor.options.counter);
+    const text = getMarkdown(vditor);
+    if (vditor.options.counter.enable) {
+        vditor.counter.render(vditor, text);
     }
     if (typeof vditor.options.input === "function" && options.enableInput) {
-        vditor.options.input(getMarkdown(vditor),
-            vditor.preview && vditor.preview.element);
+        vditor.options.input(text, vditor.preview && vditor.preview.element);
     }
     if (options.enableHint) {
         vditor.hint.render(vditor);
     }
     if (vditor.options.cache.enable) {
-        localStorage.setItem(vditor.options.cache.id, getMarkdown(vditor));
+        localStorage.setItem(vditor.options.cache.id, text);
     }
     if (vditor.preview) {
         vditor.preview.render(vditor);

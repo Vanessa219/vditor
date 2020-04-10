@@ -11,7 +11,10 @@ export class Options {
         classes: {
             preview: "",
         },
-        counter: false,
+        counter: {
+            enable: false,
+            type: "md",
+        },
         debugger: false,
         height: "auto",
         hideToolbar: false,
@@ -279,6 +282,10 @@ export class Options {
 
             if (this.options.resize) {
                 this.options.resize = Object.assign({}, this.defaultOptions.resize, this.options.resize);
+            }
+
+            if (this.options.counter) {
+                this.options.counter = Object.assign({}, this.defaultOptions.counter, this.options.counter);
             }
         }
 

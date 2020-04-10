@@ -59,6 +59,7 @@
 
 ### v3.1.4 / 2020-04-0x
 
+* [297](https://github.com/Vanessa219/vditor/issues/297) 纯文本字数统计 `引入特性`
 * [298](https://github.com/Vanessa219/vditor/pull/298) ✨ 允许开启 counter 而不设置限值 & README 优化 `引入特性`
 * [295](https://github.com/Vanessa219/vditor/issues/295) 全屏模式下打字机行为异常 `修复缺陷`
 * [294](https://github.com/Vanessa219/vditor/pull/294) 🐛 计算全屏 typewriterMode 位置 `修复缺陷`
@@ -76,7 +77,8 @@
 * [278](https://github.com/Vanessa219/vditor/issues/278) IR 细节修改 `修复缺陷`
 * 文档更新
   * 添加 `options.minHeight`
-  * 为 toolbar 添加 outdent，indent
+  * 为 `options.toolbar` 添加 outdent，indent
+  * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "md" | "text"; }`
 
 ### v3.0.12 / 2020-04-06
 

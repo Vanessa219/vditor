@@ -321,8 +321,12 @@ interface IOptions {
     /** @link https://hacpai.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
     resize?: IResize;
-    /** 计数器。默认值: false */
-    counter?: number | boolean;
+    /** @link https://hacpai.com/article/1549638745630#options-counter */
+    counter?: {
+        enable: boolean;
+        max?: number;
+        type: "md" | "text";
+    };
     /** @link https://hacpai.com/article/1549638745630#options-cache */
     cache?: {
         id?: string;
@@ -398,7 +402,7 @@ interface IVditor {
     };
     counter?: {
         element: HTMLElement
-        render(text: string, counter: number | boolean, type?: string): void,
+        render(vditor: IVditor, mdText?: string): void,
     };
     resize?: {
         element: HTMLElement,
