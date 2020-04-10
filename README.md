@@ -211,12 +211,12 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
-| delay | 预览 debounce 毫秒间隔 | 1000 |
-| maxWidth | 预览区域最大宽度 | 768 |
-| mode | 显示模式：both, editor, preview | 'both' |
-| url | md 解析请求 | - |
-| parse | 预览回调 (element: HTMLElement): void | - |
-| transform | 渲染之前回调 (html: string): string | - |
+| delay | Preview debounce millisecond interval | 1000 |
+| maxWidth | Preview area maximum width | 768 |
+| mode | Display mode: both, editor, preview | 'both' |
+| url | md parsing request | - |
+| parse | Preview callback (element: HTMLElement): void | - |
+| transform | Callback before rendering (html: string): string | - |
 
 #### options.preview.hljs
 
