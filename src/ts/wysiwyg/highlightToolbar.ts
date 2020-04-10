@@ -565,7 +565,7 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     }
     vditor.wysiwyg.popover.style.left = "0";
     vditor.wysiwyg.popover.style.display = "block";
-    vditor.wysiwyg.popover.style.top = Math.max(-11, targetElement.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
+    vditor.wysiwyg.popover.style.top = Math.max(-8, targetElement.offsetTop - 21 - vditor.wysiwyg.element.scrollTop) + "px";
     vditor.wysiwyg.popover.style.left =
         Math.min(targetElement.offsetLeft, vditor.wysiwyg.element.clientWidth - vditor.wysiwyg.popover.clientWidth) + "px";
     vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());

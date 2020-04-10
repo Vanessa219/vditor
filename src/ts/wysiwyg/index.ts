@@ -1,3 +1,4 @@
+import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
@@ -62,12 +63,12 @@ class WYSIWYG {
         }
 
         this.element.addEventListener("scroll", () => {
-            vditor.hint.element.style.display = "none";
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             if (this.popover.style.display !== "block") {
                 return;
             }
             const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
-            this.popover.style.top = Math.max(-11, Math.min(top, this.element.clientHeight - 21)) + "px";
+            this.popover.style.top = Math.max(-8, Math.min(top, this.element.clientHeight - 21)) + "px";
         });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
