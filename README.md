@@ -334,33 +334,33 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 |   | Explanation |
 | - | - |
-| getValue() | 获取编辑器内容 |
-| getHTML() | 获取预览区内容 |
-| insertValue(value: string, render = true) | 在焦点处插入内容，并默认进行 Markdown 渲染 |
-| focus() | 聚焦到编辑器 |
-| blur() | 让编辑器失焦 |
-| disabled() | 禁用编辑器 |
-| enable() | 解除编辑器禁用 |
-| setSelection(start: number, end: number) | 选中从 start 开始到 end 结束的字符串，不支持 wysiwyg 模式 |
-| getSelection(): string | 返回选中的字符串 |
-| setValue(markdown: string) | 设置编辑器内容 |
-| renderPreview(value?: string) | 设置预览区域内容 |
-| getCursorPosition():{top: number, left: number} | 获取焦点位置 |
-| deleteValue() | 删除选中内容 |
-| updateValue(value: string) | 更新选中内容 |
-| isUploading() | 上传是否还在进行中 |
-| clearCache() | 清除缓存 |
-| disabledCache() | 禁用缓存 |
-| enableCache() | 启用缓存 |
-| html2md(value: string) | HTML 转 md |
-| tip(text: string, time: number) | 消息提示。time 为 0 将一直显示 |
-| setPreviewMode(mode: "both" \| "editor" \| "preview") | 设置预览模式 |
-| setTheme(theme: "dark" \| "classic") | 设置主题 |
-| getCurrentMode(): string | 获取编辑器当前编辑模式 |
+| getValue() | Get editor content |
+| getHTML() | Get preview area content |
+| insertValue(value: string, render = true) | Insert content at the focus and markdown rendering by default |
+| focus() | Focus on the editor |
+| blur() | Make the editor out of focus |
+| disabled() | Disable editor |
+| enable() | Unedit editor |
+| setSelection(start: number, end: number) | Select the string from start to end and does not support wysiwyg mode |
+| getSelection(): string | Returns the selected string |
+| setValue(markdown: string) | Set editor content |
+| renderPreview(value?: string) | Set preview area content |
+| getCursorPosition():{top: number, left: number} | Get focus position |
+| deleteValue() | Delete selected content |
+| updateValue(value: string) | Update selected content |
+| isUploading() | Whether the upload is still in progress |
+| clearCache() | clear cache |
+| disabledCache() | Disable cache |
+| enableCache() | Enable caching |
+| html2md(value: string) | HTML to md |
+| tip(text: string, time: number) | notification. time is 0 will always display |
+| setPreviewMode(mode: "both" \| "editor" \| "preview") | Set preview mode |
+| setTheme(theme: "dark" \| "classic") | Set theme |
+| getCurrentMode(): string | Get the editor's current editing mode |
 
 #### static methods
 
-* 不需要进行编辑操作时，仅需引入 [`method.min.js`](https://cdn.jsdelivr.net/npm/vditor/dist/) 后如下直接调用
+* When no editing operation is required, just introduce [`method.min.js`](https://cdn.jsdelivr.net/npm/vditor/dist/) and directly call
 
 ```js
 Vditor.mermaidRender(document)
@@ -456,8 +456,8 @@ Vditor uses the [MIT](https://opensource.org/licenses/MIT) open source license.
 
 ## 🙏 Acknowledgement
 
-* [Lute](https://github.com/88250/lute)：🎼 A structured Markdown engine that supports Go and JavaScript
-* [highlight.js](https://github.com/highlightjs/highlight.js)：JavaScript syntax highlighter
-* [mermaid](https://github.com/knsv/mermaid)：Generation of diagram and flowchart from text in a similar manner as Markdown
-* [incubator-echarts](https://github.com/apache/incubator-echarts)：A powerful, interactive charting and visualization library for browser
-* [abcjs](https://github.com/paulrosen/abcjs)：JavaScript library for rendering standard music notation in a browser
+* [Lute](https://github.com/88250/lute): 🎼 A structured Markdown engine that supports Go and JavaScript
+* [highlight.js](https://github.com/highlightjs/highlight.js): JavaScript syntax highlighter
+* [mermaid](https://github.com/knsv/mermaid): Generation of diagram and flowchart from text in a similar manner as Markdown
+* [incubator-echarts](https://github.com/apache/incubator-echarts): A powerful, interactive charting and visualization library for browser
+* [abcjs](https://github.com/paulrosen/abcjs): JavaScript library for rendering standard music notation in a browser
