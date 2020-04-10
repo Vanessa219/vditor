@@ -1,6 +1,6 @@
 import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommenEvent";
+import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {hasClosestByClassName} from "../util/hasClosest";
 import {

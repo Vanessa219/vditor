@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {isCtrl} from "../util/compatibility";
-import {scrollCenter} from "../util/editorCommenEvent";
+import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote,
     fixCodeBlock, fixDelete, fixHR,

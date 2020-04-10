@@ -2,7 +2,7 @@ import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
 import {processAfterRender} from "../ir/process";
 import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
-import {scrollCenter} from "../util/editorCommenEvent";
+import {scrollCenter} from "../util/editorCommonEvent";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 
 class IRUndo {

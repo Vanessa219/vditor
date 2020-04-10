@@ -12,10 +12,17 @@ export class Fullscreen extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
+        const setTypewriterPosition = () => {
+            // 由于 Firefox padding-bottom bug，只能使用 :after
+            vditor.element.style.setProperty("--editor-bottom-fullscreen", (window.innerHeight / 2 - 18) + "px");
+        };
+
         this.element.children[0].addEventListener(getEventName(), function(event) {
             event.preventDefault();
-            if (vditor.element.className.indexOf("vditor--fullscreen") > -1) {
+            if (vditor.element.className.includes("vditor--fullscreen")) {
                 this.innerHTML = menuItem.icon || fullscreenSVG;
+                vditor.element.style.removeProperty("--editor-bottom-fullscreen");
+                window.removeEventListener("resize", setTypewriterPosition);
                 vditor.element.classList.remove("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;
@@ -25,6 +32,8 @@ export class Fullscreen extends MenuItem {
                 });
             } else {
                 this.innerHTML = menuItem.icon || contractSVG;
+                setTypewriterPosition();
+                window.addEventListener("resize", setTypewriterPosition);
                 vditor.element.classList.add("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;

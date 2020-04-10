@@ -1,4 +1,4 @@
-import {scrollCenter} from "../util/editorCommenEvent";
+import {scrollCenter} from "../util/editorCommonEvent";
 import {setSelectionFocus} from "../util/selection";
 
 export const showCode = (previewElement: HTMLElement, vditor: IVditor, first = true) => {
