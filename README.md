@@ -222,20 +222,20 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
-| enable | 是否启用代码高亮 | true |
-| style | 可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
-| lineNumber | 是否启用行号 | false |
+| enable | Whether to enable code syntax highlighting | true |
+| style | For optional values, see [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
+| lineNumber | Whether to enable line number | false |
 
 #### options.preview.markdown
 
 |   | Explanation | Default |
 | - | - | - |
-| autoSpace | 自动空格 | false |
-| fixTermTypo | 自动矫正术语 | false |
-| chinesePunct | 自动矫正标点 | false |
-| toc | 插入目录 | false |
-| footnotes | 脚注 | true |
-| codeBlockPreview | wysiwyg 和 ir 模式下是否对代码块进行渲染 | true |
+| autoSpace | Autospace | false |
+| fixTermTypo | Automatically correct terminology | false |
+| chinesePunct | Automatic punctuation correction | false |
+| toc | Insert Table of Contents | false |
+| footnotes | Footnotes | true |
+| codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
 
 #### options.preview.math
 
