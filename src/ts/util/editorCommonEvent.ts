@@ -24,17 +24,18 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const scrollCenter = (vditor: IVditor) => {
-    if (vditor.options.typewriterMode && typeof vditor.options.height === "string") {
+    if (vditor.options.typewriterMode && typeof vditor.options.height === "string"
+        && !vditor.element.classList.contains("vditor--fullscreen")) {
         window.scrollTo(window.scrollX, vditor.element.clientHeight + vditor.element.offsetTop - window.innerHeight);
+
     }
-    if (typeof vditor.options.height === "number") {
+    if (typeof vditor.options.height === "number" || vditor.element.classList.contains("vditor--fullscreen")) {
         const editorElement = vditor[vditor.currentMode].element;
         const cursorTop = getCursorPosition(editorElement).top;
         const center = editorElement.clientHeight / 2;
         if (cursorTop > center) {
-            editorElement.scrollTop = editorElement.scrollTop + (cursorTop - center);
-        }
-        if (cursorTop < 0) {
+            editorElement.scrollTop = editorElement.scrollTop + (cursorTop - center) + 32;
+        } else if (cursorTop < 0) {
             editorElement.scrollTop = editorElement.scrollTop + cursorTop;
         }
     }

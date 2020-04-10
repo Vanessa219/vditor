@@ -137,6 +137,9 @@ class IR {
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
+            if (event.key === "Enter") {
+                scrollCenter(vditor);
+            }
             highlightToolbar(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.ir.element.innerHTML !== "" && vditor.ir.element.childNodes.length === 1 &&

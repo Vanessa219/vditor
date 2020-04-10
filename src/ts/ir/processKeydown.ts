@@ -1,5 +1,4 @@
 import {isCtrl} from "../util/compatibility";
-import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote,
     fixCodeBlock,
@@ -149,10 +148,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
         && fixDelete(vditor, range, event, pElement)) {
         return true;
-    }
-
-    if (event.key === "Enter") {
-        scrollCenter(vditor);
     }
 
     return false;

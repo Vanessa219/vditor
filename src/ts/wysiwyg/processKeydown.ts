@@ -295,12 +295,5 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             });
         }
     }
-
-    // 除 md 处理、cell 内换行、table 添加新行/列、代码块语言切换、block render 换行、跳出/逐层跳出 blockquote、h6 换行、
-    // 任务列表换行、软换行外需在换行时调整文档位置
-    if (event.key === "Enter") {
-        scrollCenter(vditor);
-    }
-
     return false;
 };
