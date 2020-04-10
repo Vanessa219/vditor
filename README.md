@@ -190,15 +190,15 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
-| name | 唯一标示 | - |
-| icon | svg 图标 | - |
-| tip | 提示 | - |
-| tipPosition | 提示位置：ne, nw | - |
-| hotkey | 快捷键，支持 <kbd>⌘/ctrl-key</kbd> 或 <kbd>⌘/ctrl-⇧/shift-key</kbd> 格式的配置，不支持 wysiwyg 模式 | - |
-| suffix | 插入编辑器中的后缀 | - |
-| prefix | 插入编辑器中的前缀 | - |
-| click | 自定义按钮点击时触发的事件 (): void | - |
-| className | 样式名 | '' |
+| name | Unique label | - |
+| icon | svg icon | - |
+| tip | Prompt | - |
+| tipPosition | Prompt location: ne, nw | - |
+| hotkey | Shortcut keys, support <kbd>⌘/ctrl-key</kbd> or <kbd>⌘/ctrl-⇧/shift-key</kbd> format configuration, do not support wysiwyg mode | - |
+| suffix | Insert the suffix in the editor | - |
+| prefix | Insert the prefix in the editor | - |
+| click | Custom event triggered when button is clicked (): void | - |
+| className | Style name | '' |
 
 #### options.cache
 
