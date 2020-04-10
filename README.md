@@ -105,7 +105,7 @@ npm install vditor --save
 
 ```ts
 import Vditor from 'vditor'
-import "~vditor/src/assets/scss/index" // 或者使用 dark
+import "~vditor/src/assets/scss/index" // Or use dark
 
 const vditor = new Vditor(id, {options...})
 ```
@@ -144,35 +144,35 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 #### options
 
-|   | Explanation | 默认值 |
+|   | Explanation | Default |
 | - | - | - |
-| after | 编辑器异步渲染完成后的回调方法 | - |
-| height | 编辑器总高度 | 'auto' |
-| minHeight | 编辑区域最小高度 | - |
-| width | 编辑器总宽度，支持 % | 'auto' |
-| placeholder | 输入区域为空时的提示 | '' |
-| lang | 多语言：en_US, ko_KR, zh_CN | 'zh_CN' |
-| counter | 计数器 | 0 |
-| input | 输入后触发 (value: string, previewElement?: HTMLElement): void | - |
-| focus | 聚焦后触发 (value: string): void | - |
-| blur | 失焦后触发 (value: string): void | - |
-| esc | <kbd>esc</kbd> 按下后触发 (value: string): void | - |
-| ctrlEnter | <kbd>⌘/ctrl+enter</kbd> 按下后触发 (value: string): void | - |
-| select | 编辑器中选中文字后触发 (value: string): void | - |
-| tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
-| typewriterMode | 是否启用打字机模式 | false |
-| cdn | 配置自建 CDN 地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
-| mode | 可选模式：sv, ir, wysiwyg | 'wysiwyg' |
-| debugger | 是否显示日志 | false |
-| value | 编辑器初始化值 | '' |
-| theme | 主题：classic, dark | 'classic' |
-| hideToolbar | 是否隐藏工具栏 | false |
+| after | Callback method after editor asynchronous rendering is completed | - |
+| height | Total editor height | 'auto' |
+| minHeight | Editing area minimum height | - |
+| width | Total editor width, supports % | 'auto' |
+| placeholder | Tips when the input area is empty | '' |
+| lang | i18n: en_US, ko_KR, zh_CN | 'zh_CN' |
+| counter | Counter | 0 |
+| input | Trigger after input (value: string, previewElement?: HTMLElement): void | - |
+| focus | Trigger after focusing (value: string): void | - |
+| blur | Trigger after out of focus (value: string): void | - |
+| esc | Trigger after pressing <kbd>esc</kbd> (value: string): void | - |
+| ctrlEnter | Trigger after pressing <kbd>⌘/ctrl+enter</kbd> (value: string): void | - |
+| select | Triggered after selecting text in the editor (value: string): void | - |
+| tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
+| typewriterMode | Whether to enable typewriter mode | false |
+| cdn | Configure self-built CDN address | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
+| mode | Editing mode: sv, ir, wysiwyg | 'wysiwyg' |
+| debugger | Whether to display the log | false |
+| value | Editor initialization value | '' |
+| theme | Theme: classic, dark | 'classic' |
+| hideToolbar | Whether to hide the toolbar | false |
 
 #### options.toolbar
 
-* 工具栏，可使用 name 进行简写： `toolbar: ['emoji', 'br', 'bold', '|', 'line']` 。默认值参见 [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
-* name 可枚举为： `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `devtools` , `info` , `help` , `br`
-* 当 `name` 不在枚举中时，可以添加自定义按钮，格式如下：
+* Toolbar, you can use name for shorthand: `toolbar: ['emoji', 'br', 'bold', '|', 'line']`. See default [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
+* name can be enumerated as: `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `devtools` , `info` , `help` , `br`
+* When `name` is not in the enumeration, you can add a custom button in the following format: 
 
 ```js
 {  
