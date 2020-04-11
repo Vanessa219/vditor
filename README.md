@@ -85,7 +85,7 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
 
 * [🎶 Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
 * [🎸 Solo](https://github.com/88250/solo) & [🎷 Pipe](https://github.com/88250/pipe) B3log distributed community blog end node, welcome to join the next generation community network
-* [📕 链滴笔记](https://github.com/88250/liandi) A desktop note application that supports Windows, Mac and Linux
+* [📕 LianDi Note](https://github.com/88250/liandi) A desktop note application that supports Windows, Mac and Linux
 * [🌟 Starfire](https://github.com/88250/starfire) A distributed content-sharing and discussion community, the spark can catch fire
 * [📝 Arya](https://github.com/nicejade/markdown-online-editor) Based on Vue, Vditor, built online Markdown editor
 
@@ -454,7 +454,7 @@ Vditor uses the [MIT](https://opensource.org/licenses/MIT) open source license.
 
 ## 🙏 Acknowledgement
 
-* [Lute](https://github.com/88250/lute): 🎼 A structured Markdown engine that supports Go and JavaScript
+* [Lute](https://github.com/88250/lute): A structured Markdown engine that supports Go and JavaScript
 * [highlight.js](https://github.com/highlightjs/highlight.js): JavaScript syntax highlighter
 * [mermaid](https://github.com/knsv/mermaid): Generation of diagram and flowchart from text in a similar manner as Markdown
 * [incubator-echarts](https://github.com/apache/incubator-echarts): A powerful, interactive charting and visualization library for browser
