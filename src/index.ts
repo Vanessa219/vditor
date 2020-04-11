@@ -1,6 +1,5 @@
 import VditorMethod from "./method";
 import {VDITOR_VERSION} from "./ts/constants";
-import {Counter} from "./ts/counter/index";
 import {DevTools} from "./ts/devtools";
 import {Hint} from "./ts/hint/index";
 import {IR} from "./ts/ir";
@@ -74,10 +73,6 @@ class Vditor extends VditorMethod {
             originalInnerHTML: id.innerHTML,
             tip: new Tip(),
         };
-
-        if (mergedOptions.counter.enable) {
-            this.vditor.counter = new Counter(this.vditor);
-        }
 
         this.vditor.sv = new Editor(this.vditor);
         this.vditor.undo = new Undo();

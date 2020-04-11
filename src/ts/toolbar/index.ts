@@ -29,6 +29,7 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
+import {Counter} from "./Counter";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -161,6 +162,11 @@ export class Toolbar {
 
         if (vditor.options.hideToolbar) {
             this.element.classList.add("vditor-toolbar--hide");
+        }
+
+        if (vditor.options.counter.enable) {
+            vditor.counter = new Counter(vditor);
+            this.element.appendChild(vditor.counter.element);
         }
     }
 }

@@ -109,15 +109,14 @@
   }
 
   &-counter {
-    padding: 0 3px;
-    position: absolute;
-    bottom: 10px;
-    right: 20px;
+    padding: 3px;
     color: var(--toolbar-icon-color);
     background-color: var(--code-background-color);
     border-radius: 3px;
     font-size: 12px;
     user-select: none;
+    float: right;
+    margin: 8px 3px 0 0;
 
     &--error {
       color: $errorColor;

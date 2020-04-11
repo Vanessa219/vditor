@@ -37,10 +37,6 @@ export const initUI = (vditor: IVditor) => {
         contentElement.appendChild(vditor.devtools.element);
     }
 
-    if (vditor.options.counter.enable) {
-        contentElement.appendChild(vditor.counter.element);
-    }
-
     if (vditor.upload) {
         contentElement.appendChild(vditor.upload.element);
     }

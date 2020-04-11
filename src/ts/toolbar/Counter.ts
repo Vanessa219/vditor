@@ -2,7 +2,7 @@ export class Counter {
     public element: HTMLElement;
 
     constructor(vditor: IVditor) {
-        this.element = document.createElement("div");
+        this.element = document.createElement("span");
         this.element.className = "vditor-counter";
 
         this.render(vditor, "");
