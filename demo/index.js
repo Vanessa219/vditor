@@ -15,7 +15,7 @@ window.vditor = new Vditor('vditor', {
   },
   counter: {
     enable: true,
-    max: 100,
+    type: 'text'
   },
   height: 500,
   hint: {

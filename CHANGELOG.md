@@ -59,6 +59,7 @@
 
 ### v3.1.5 / 2020-04-0x
 
+* [302](https://github.com/Vanessa219/vditor/issues/302) Editing Heading(IR mode) `修复缺陷`
 * [301](https://github.com/Vanessa219/vditor/issues/301) Add README in English `文档相关`
 
 ### v3.1.4 / 2020-04-10
