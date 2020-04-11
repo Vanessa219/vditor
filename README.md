@@ -150,7 +150,6 @@ Can be filled with element `id` or element itself` HTMLElement`
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
 | lang | i18n: en_US, ko_KR, zh_CN | 'zh_CN' |
-| counter | Counter | 0 |
 | input | Trigger after input (value: string, previewElement?: HTMLElement): void | - |
 | focus | Trigger after focusing (value: string): void | - |
 | blur | Trigger after out of focus (value: string): void | - |
@@ -164,7 +163,6 @@ Can be filled with element `id` or element itself` HTMLElement`
 | debugger | Whether to display the log | false |
 | value | Editor initialization value | '' |
 | theme | Theme: classic, dark | 'classic' |
-| hideToolbar | Whether to hide the toolbar | false |
 
 #### options.toolbar
 
@@ -197,6 +195,21 @@ Can be filled with element `id` or element itself` HTMLElement`
 | prefix | Insert the prefix in the editor | - |
 | click | Custom event triggered when button is clicked (): void | - |
 | className | Style name | '' |
+
+#### options.toolbarConfig
+
+|   | Explanation | Default |
+| - | - | - |
+| hide | Whether to hide the toolbar | false |
+| pin | Whether to pin the toolbar | false |
+
+#### options.counter
+
+|   | Explanation | Default |
+| - | - | - |
+| enable | Whether to use counter | false |
+| max | max counter | - |
+| type | counter type: md, text | 'md' |
 
 #### options.cache
 
