@@ -57,15 +57,16 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.5 / 2020-04-0x
+### v3.1.6 / 2020-04-0x
 
+
+### v3.1.5 / 2020-04-12
+
+* [303](https://github.com/Vanessa219/vditor/issues/303) Inline HTML parsing issue `修复缺陷`
 * [304](https://github.com/Vanessa219/vditor/issues/304) 为 toolbar 添加是否 pin 的配置 `引入特性`
 * [296](https://github.com/Vanessa219/vditor/issues/296) 打字机模式下字数统计标签不可见 `改进功能`
 * [302](https://github.com/Vanessa219/vditor/issues/302) Editing Heading(IR mode) `修复缺陷`
 * [301](https://github.com/Vanessa219/vditor/issues/301) Add README in English `文档相关`
-
-### v3.1.4 / 2020-04-10
-
 * [299](https://github.com/Vanessa219/vditor/issues/299) 表格解析异常 `修复缺陷`
 * [226](https://github.com/Vanessa219/vditor/issues/226) Vulnerable to Self-XSS `修复缺陷`
 * [297](https://github.com/Vanessa219/vditor/issues/297) 纯文本字数统计 `引入特性`
