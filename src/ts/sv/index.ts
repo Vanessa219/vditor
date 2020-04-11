@@ -6,6 +6,7 @@ import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
+import {hidePanel} from "../toolbar/setToolbar";
 
 class Editor {
     public element: HTMLPreElement;
@@ -61,7 +62,7 @@ class Editor {
         });
 
         this.element.addEventListener("scroll", () => {
-            vditor.hint.element.style.display = "none";
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
             if (!vditor.preview || (vditor.preview && vditor.preview.element.style.display === "none")) {
                 return;
             }

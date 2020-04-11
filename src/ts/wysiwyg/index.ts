@@ -62,14 +62,25 @@ class WYSIWYG {
                 });
         }
 
-        this.element.addEventListener("scroll", () => {
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-            if (this.popover.style.display !== "block") {
-                return;
-            }
-            const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
-            this.popover.style.top = Math.max(-8, Math.min(top, this.element.clientHeight - 21)) + "px";
-        });
+        if (vditor.options.typewriterMode) {
+            window.addEventListener("scroll", () => {
+                hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+                if (this.popover.style.display !== "block") {
+                    return;
+                }
+                const top = parseInt(this.popover.getAttribute("data-top"), 10);
+                this.popover.style.top = Math.max(top, (window.scrollY - vditor.element.offsetTop - 8)) + "px";
+            });
+        } else {
+            this.element.addEventListener("scroll", () => {
+                hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+                if (this.popover.style.display !== "block") {
+                    return;
+                }
+                const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
+                this.popover.style.top = Math.max(-8, Math.min(top, this.element.clientHeight - 21)) + "px";
+            });
+        }
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
             const range = getSelection().getRangeAt(0);

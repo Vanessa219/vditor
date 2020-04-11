@@ -11,6 +11,7 @@ import {expandMarker} from "./expandMarker";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
+import {hidePanel} from "../toolbar/setToolbar";
 
 class IR {
     public element: HTMLPreElement;
@@ -39,7 +40,7 @@ class IR {
 
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("scroll", () => {
-            vditor.hint.element.style.display = "none";
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
         });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
