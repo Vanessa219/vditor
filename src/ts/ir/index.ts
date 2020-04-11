@@ -1,3 +1,4 @@
+import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
@@ -11,7 +12,6 @@ import {expandMarker} from "./expandMarker";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
-import {hidePanel} from "../toolbar/setToolbar";
 
 class IR {
     public element: HTMLPreElement;
