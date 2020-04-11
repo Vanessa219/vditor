@@ -338,8 +338,11 @@ interface IOptions {
     preview?: IPreview;
     /** @link https://hacpai.com/article/1549638745630#options-hint */
     hint?: IHint;
-    /** 是否隐藏工具栏。默认值: false */
-    hideToolbar?: boolean;
+    /** @link https://hacpai.com/article/1549638745630#options-toolbarconfig */
+    toolbarConfig: {
+        hide?: boolean,
+        pin?: boolean,
+    };
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
     /** @link https://hacpai.com/article/1549638745630#options-upload */

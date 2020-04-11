@@ -17,7 +17,6 @@ export class Options {
         },
         debugger: false,
         height: "auto",
-        hideToolbar: false,
         hint: {
             delay: 200,
             emoji: {
@@ -210,6 +209,10 @@ export class Options {
         }, {
             name: "br",
         }],
+        toolbarConfig: {
+            hide: false,
+            pin: false,
+        },
         typewriterMode: false,
         upload: {
             filename: (name: string) => name.replace(/\W/g, ""),
@@ -286,6 +289,11 @@ export class Options {
 
             if (this.options.counter) {
                 this.options.counter = Object.assign({}, this.defaultOptions.counter, this.options.counter);
+            }
+
+            if (this.options.toolbarConfig) {
+                this.options.toolbarConfig =
+                    Object.assign({}, this.defaultOptions.toolbarConfig, this.options.toolbarConfig);
             }
         }
 

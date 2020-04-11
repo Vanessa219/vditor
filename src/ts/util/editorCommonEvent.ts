@@ -25,7 +25,7 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
 export const scrollCenter = (vditor: IVditor) => {
     if (!vditor.options.typewriterMode) {
-        return
+        return;
     }
     const editorElement = vditor[vditor.currentMode].element;
     const cursorTop = getCursorPosition(editorElement).top;

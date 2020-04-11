@@ -3,6 +3,7 @@ import {Both} from "./Both";
 import {Br} from "./Br";
 import {Check} from "./Check";
 import {Code} from "./Code";
+import {Counter} from "./Counter";
 import {Custom} from "./Custom";
 import {Devtools} from "./Devtools";
 import {Divider} from "./Divider";
@@ -29,7 +30,6 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {Counter} from "./Counter";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -160,8 +160,11 @@ export class Toolbar {
             this.element.appendChild(this.elements[key]);
         });
 
-        if (vditor.options.hideToolbar) {
+        if (vditor.options.toolbarConfig.hide) {
             this.element.classList.add("vditor-toolbar--hide");
+        }
+        if (vditor.options.toolbarConfig.pin) {
+            this.element.classList.add("vditor-toolbar--pin");
         }
 
         if (vditor.options.counter.enable) {

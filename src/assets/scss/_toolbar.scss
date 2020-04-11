@@ -4,6 +4,13 @@
     border-bottom: 1px solid var(--border-color);
     padding: 0 5px;
     line-height: 1;
+    overflow: hidden;
+
+    &--pin {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
 
     &--hide {
       transition: $transition;
@@ -153,11 +160,6 @@
 }
 
 @media screen and (max-width: $max-width) {
-  .vditor-toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
   .vditor-toolbar__item .vditor-tooltipped {
     padding: 10px 8px;
     width: 31px;

@@ -59,6 +59,7 @@
 
 ### v3.1.5 / 2020-04-0x
 
+* [304](https://github.com/Vanessa219/vditor/issues/304) 为 toolbar 添加是否 pin 的配置 `引入特性`
 * [296](https://github.com/Vanessa219/vditor/issues/296) 打字机模式下字数统计标签不可见 `改进功能`
 * [302](https://github.com/Vanessa219/vditor/issues/302) Editing Heading(IR mode) `修复缺陷`
 * [301](https://github.com/Vanessa219/vditor/issues/301) Add README in English `文档相关`
@@ -85,6 +86,7 @@
   * 为 `options.toolbar` 添加 outdent，indent
   * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "md" | "text"; }`
   * counter 位置移动到 toolbar 上
+  * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
 
 ### v3.0.12 / 2020-04-06
 
