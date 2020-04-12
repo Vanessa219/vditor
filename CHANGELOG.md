@@ -57,7 +57,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.6 / 2020-04-0x
+### v3.1.7 / 2020-04-0x
 
 
 ### v3.1.6 / 2020-04-12
