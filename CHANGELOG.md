@@ -60,8 +60,10 @@
 ### v3.1.6 / 2020-04-0x
 
 
-### v3.1.5 / 2020-04-12
+### v3.1.6 / 2020-04-12
 
+* [309](https://github.com/Vanessa219/vditor/issues/309) 添加 options.upload.setHeaders `引入特性`
+* [306](https://github.com/Vanessa219/vditor/issues/306) IR mode ATX heading change `改进功能`
 * [303](https://github.com/Vanessa219/vditor/issues/303) Inline HTML parsing issue `修复缺陷`
 * [304](https://github.com/Vanessa219/vditor/issues/304) 为 toolbar 添加是否 pin 的配置 `引入特性`
 * [296](https://github.com/Vanessa219/vditor/issues/296) 打字机模式下字数统计标签不可见 `改进功能`

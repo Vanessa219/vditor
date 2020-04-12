@@ -10,8 +10,13 @@ import {
     fixTask,
     insertAfterBlock, insertBeforeBlock, isFirstCell, isLastCell,
 } from "../util/fixBrowserBehavior";
-import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {getEditorRange} from "../util/selection";
+import {
+    hasClosestByAttribute,
+    hasClosestByClassName,
+    hasClosestByHeadings,
+    hasClosestByMatchTag,
+} from "../util/hasClosest";
+import {getEditorRange, getSelectPosition} from "../util/selection";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -145,9 +150,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
-        && fixDelete(vditor, range, event, pElement)) {
-        return true;
+    if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
+        if (fixDelete(vditor, range, event, pElement)) {
+            return true;
+        }
+        // 光标位于标题前，marker 后
+        const headingElement = hasClosestByHeadings(startContainer);
+        if (headingElement) {
+            const headingLength = headingElement.firstElementChild.textContent.length;
+            if (getSelectPosition(headingElement).start === headingLength) {
+                range.setStart(headingElement.firstElementChild.firstChild, headingLength - 1);
+                range.collapse(true);
+            }
+        }
     }
 
     return false;
