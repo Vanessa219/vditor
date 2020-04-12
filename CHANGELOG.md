@@ -88,6 +88,7 @@
   * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "md" | "text"; }`
   * counter 位置移动到 toolbar 上
   * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
+  * 添加 `options.upload.setHeaders: { [key: string]: string }`
 
 ### v3.0.12 / 2020-04-06
 
