@@ -139,7 +139,7 @@ interface IUpload {
     headers?: { [key: string]: string };
 
     /** 每次上传前都会重新设置请求头 */
-    setHeaders(): { [key: string]: string };
+    setHeaders?(): { [key: string]: string };
 
     /** 上传成功回调 */
     success?(editor: HTMLPreElement, msg: string): void;
