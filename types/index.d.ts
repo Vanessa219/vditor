@@ -328,7 +328,7 @@ interface IOptions {
     counter?: {
         enable: boolean;
         max?: number;
-        type: "md" | "text";
+        type: "markdown" | "text";
     };
     /** @link https://hacpai.com/article/1549638745630#options-cache */
     cache?: {

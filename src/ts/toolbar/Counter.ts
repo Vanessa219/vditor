@@ -3,7 +3,7 @@ export class Counter {
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("span");
-        this.element.className = "vditor-counter";
+        this.element.className = "vditor-counter vditor-tooltipped vditor-tooltipped__n";
 
         this.render(vditor, "");
 
@@ -24,9 +24,10 @@ export class Counter {
             } else {
                 this.element.className = "vditor-counter";
             }
-            this.element.innerHTML = `${vditor.options.counter.type} ${length}/${vditor.options.counter.max}`;
+            this.element.innerHTML = `${length}/${vditor.options.counter.max}`;
         } else {
-            this.element.innerHTML = `${vditor.options.counter.type} ${length}`;
+            this.element.innerHTML = `${length}`;
         }
+        this.element.setAttribute("aria-label", vditor.options.counter.type);
     }
 }

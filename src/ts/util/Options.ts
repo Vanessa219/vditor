@@ -13,7 +13,7 @@ export class Options {
         },
         counter: {
             enable: false,
-            type: "md",
+            type: "markdown",
         },
         debugger: false,
         height: "auto",

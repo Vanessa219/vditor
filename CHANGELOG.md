@@ -87,7 +87,7 @@
 * 文档更新
   * 添加 `options.minHeight`
   * 为 `options.toolbar` 添加 outdent，indent
-  * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "md" | "text"; }`
+  * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "markdown" | "text"; }`
   * counter 位置移动到 toolbar 上
   * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
   * 添加 `options.upload.setHeaders: { [key: string]: string }`
