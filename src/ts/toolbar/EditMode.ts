@@ -3,10 +3,10 @@ import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
-import {outlineRender} from "../markdown/outlineRender";
 import {formatRender} from "../sv/formatRender";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
+import {renderOutline} from "../util/fixBrowserBehavior";
 import {getMarkdown} from "../util/getMarkdown";
 import {processCodeRender} from "../util/processCode";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
@@ -65,7 +65,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
 
         if (vditor.toolbar.elements.outline && vditor.toolbar.elements.outline.firstElementChild.classList.contains("vditor-menu--current")) {
             vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:block");
-            outlineRender(vditor.ir.element, vditor.element.querySelector(".vditor-outline"));
+            renderOutline(vditor);
         }
 
         setPadding(vditor);
@@ -85,7 +85,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
 
         if (vditor.toolbar.elements.outline && vditor.toolbar.elements.outline.firstElementChild.classList.contains("vditor-menu--current")) {
             vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:block");
-            outlineRender(vditor.wysiwyg.element, vditor.element.querySelector(".vditor-outline"));
+            renderOutline(vditor);
         }
 
         setPadding(vditor);

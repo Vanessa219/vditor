@@ -1,6 +1,6 @@
 import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 
-export const outlineRender = (contentElement: HTMLElement, targetElement: HTMLElement) => {
+export const outlineRender = (contentElement: HTMLElement, targetElement: Element) => {
     let tocHTML = "";
     const isIR = contentElement.parentElement.classList.contains("vditor-ir");
     Array.from(contentElement.children).forEach((item: HTMLElement) => {
@@ -14,5 +14,5 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: HTMLEl
             }
         }
     });
-    targetElement.innerHTML = tocHTML || "[ToC]";
+    targetElement.innerHTML = tocHTML || 'Outline';
 };

@@ -46,7 +46,7 @@
     resize: none;
     padding: 10px 9px 10px 10px;
     box-sizing: border-box;
-    background-color:  var(--panel-background-color);
+    background-color: var(--panel-background-color);
     outline: 0 none;
     font-size: 16px;
     line-height: 22px;
@@ -68,7 +68,7 @@
     }
 
     &:focus {
-      background-color:var(--textarea-background-color);
+      background-color: var(--textarea-background-color);
     }
 
     &:after {
@@ -102,7 +102,7 @@
     background-color: var(--textarea-background-color);
     overflow: auto;
     flex: 1;
-    box-shadow: inset 1px 0  var(--border-color);
+    box-shadow: inset 1px 0 var(--border-color);
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
     padding: 10px;
@@ -164,7 +164,7 @@
       height: 3px;
       display: block;
       margin: 0 auto;
-      color:  var(--resize-icon-color);
+      color: var(--resize-icon-color);
     }
   }
 
@@ -239,6 +239,18 @@
     border-right: 1px solid var(--border-color);
     background-color: var(--textarea-background-color);
     display: none;
+
+    & > div {
+      position: sticky;
+      overflow: auto;
+      top: 40px;
+      padding: 10px;
+      max-height: 100vh;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 }
 

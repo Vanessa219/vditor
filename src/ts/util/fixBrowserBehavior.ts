@@ -339,8 +339,16 @@ export const isToC = (text: string) => {
     return text.trim().toLowerCase() === "[toc]";
 };
 
+export const renderOutline = (vditor: IVditor) => {
+    const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
+    if (outlineElement && outlineElement.style.display === "block") {
+        outlineRender(vditor[vditor.currentMode].element, outlineElement.firstElementChild);
+    }
+};
+
 export const renderToc = (vditor: IVditor) => {
     const editorElement = vditor[vditor.currentMode].element;
+    renderOutline(vditor);
     const tocElement = editorElement.querySelector('[data-type="toc-block"]');
     if (!tocElement) {
         return;
@@ -358,8 +366,6 @@ export const renderToc = (vditor: IVditor) => {
         }
     });
     tocElement.innerHTML = tocHTML || "[ToC]";
-
-    outlineRender(editorElement, vditor.element.querySelector(".vditor-outline"));
 };
 
 export const execAfterRender = (vditor: IVditor) => {

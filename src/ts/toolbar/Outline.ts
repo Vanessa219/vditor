@@ -1,8 +1,8 @@
 import alignCenterSVG from "../../assets/icons/align-center.svg";
 import {Constants} from "../constants";
-import {outlineRender} from "../markdown/outlineRender";
 import {setPadding} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
+import {renderOutline} from "../util/fixBrowserBehavior";
 import {MenuItem} from "./MenuItem";
 
 export class Outline extends MenuItem {
@@ -20,8 +20,8 @@ export class Outline extends MenuItem {
                 outlineElement.style.display = "none";
                 btnElement.classList.remove("vditor-menu--current");
             } else {
-                outlineRender(vditor[vditor.currentMode].element, vditor.element.querySelector(".vditor-outline"));
                 outlineElement.style.display = "block";
+                renderOutline(vditor);
                 btnElement.classList.add("vditor-menu--current");
             }
             setPadding(vditor);

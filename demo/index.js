@@ -13,9 +13,12 @@ window.vditor = new Vditor('vditor', {
       style: 'native',
     },
   },
+  toolbarConfig: {
+    pin: true,
+  },
   counter: {
     enable: true,
-    type: 'text'
+    type: 'text',
   },
   hint: {
     emojiPath: 'https://cdn.jsdelivr.net/npm/vditor@1.8.3/dist/images/emoji',

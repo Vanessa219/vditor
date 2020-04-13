@@ -26,6 +26,7 @@ export const initUI = (vditor: IVditor) => {
     if (vditor.toolbar.elements.outline) {
         const outlineElement = document.createElement("div");
         outlineElement.className = "vditor-outline";
+        outlineElement.innerHTML = "<div></div>";
         contentElement.appendChild(outlineElement);
     }
 
