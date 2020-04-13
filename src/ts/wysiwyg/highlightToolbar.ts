@@ -14,11 +14,11 @@ import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {setTableAlign} from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
-    hasClosestByClassName, hasClosestByHeadings,
+    hasClosestByClassName,
     hasClosestByMatchTag,
-    hasClosestByTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
+import {   hasClosestByHeadings,  hasClosestByTag} from '../util/hasClosestByHEadings'
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";

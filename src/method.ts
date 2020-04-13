@@ -8,6 +8,7 @@ import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
+import {outlineRender} from "./ts/markdown/outlineRender";
 class Vditor {
 
     /** 为 element 中的代码块添加复制按钮 */
@@ -24,6 +25,8 @@ class Vditor {
     public static chartRender = chartRender;
     /** 五线谱渲染 */
     public static abcRender = abcRender;
+    /** 大纲渲染 */
+    public static outlineRender = outlineRender;
     /** 为[特定链接](https://github.com/Vanessa219/vditor/issues/7)分别渲染为视频、音频、嵌入的 iframe */
     public static mediaRender = mediaRender;
     /** 对选中的文字进行阅读 */

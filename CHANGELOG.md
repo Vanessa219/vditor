@@ -59,6 +59,7 @@
 
 ### v3.1.7 / 2020-04-0x
 
+* [94](https://github.com/Vanessa219/vditor/issues/94) 获取大纲内容及同步滚动效果 `引入特性`
 
 ### v3.1.6 / 2020-04-12
 
@@ -86,11 +87,12 @@
 * [278](https://github.com/Vanessa219/vditor/issues/278) IR 细节修改 `修复缺陷`
 * 文档更新
   * 添加 `options.minHeight`
-  * 为 `options.toolbar` 添加 outdent，indent
   * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "markdown" | "text"; }`
   * counter 位置移动到 toolbar 上
   * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
   * 添加 `options.upload.setHeaders: { [key: string]: string }`
+  * 为 `options.toolbar` 添加 outdent，indent, outline
+  * 添加静态方法 `outlineRender`
 
 ### v3.0.12 / 2020-04-06
 

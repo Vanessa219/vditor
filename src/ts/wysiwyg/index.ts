@@ -5,7 +5,7 @@ import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editor
 import {isHeadingMD, isHrMD, paste, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
-    hasClosestByClassName, hasClosestByHeadings, hasClosestByMatchTag,
+    hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {
     getEditorRange,
@@ -17,6 +17,7 @@ import {genImagePopover, highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {showCode} from "./showCode";
+import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 
 class WYSIWYG {
     public element: HTMLPreElement;
@@ -150,7 +151,7 @@ class WYSIWYG {
             const headingElement = hasClosestByHeadings(getSelection().getRangeAt(0).startContainer);
             if (headingElement && headingElement.textContent === "") {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
-                renderToc(this.element);
+                renderToc(vditor);
                 return;
             }
             input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
@@ -204,7 +205,7 @@ class WYSIWYG {
             const headingElement = hasClosestByHeadings(getSelection().getRangeAt(0).startContainer);
             if (headingElement && headingElement.textContent === "") {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
-                renderToc(this.element);
+                renderToc(vditor);
                 return;
             }
 

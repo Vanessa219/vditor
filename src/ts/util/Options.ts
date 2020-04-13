@@ -198,6 +198,9 @@ export class Options {
             name: "fullscreen",
             tipPosition: "nw",
         }, {
+            name: "outline",
+            tipPosition: "nw",
+        }, {
             name: "devtools",
             tipPosition: "nw",
         }, {

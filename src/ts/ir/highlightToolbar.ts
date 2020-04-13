@@ -1,7 +1,8 @@
 import {Constants} from "../constants";
 import {disableToolbar, enableToolbar, removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
-import {hasClosestByAttribute, hasClosestByHeadings, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, selectIsEditor} from "../util/selection";
+import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.ir.hlToolbarTimeoutId);

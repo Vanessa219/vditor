@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
+import {outlineRender} from "../markdown/outlineRender";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
@@ -11,12 +12,13 @@ import {
     getTopList,
     hasClosestBlock,
     hasClosestByAttribute,
-    hasClosestByClassName, hasClosestByHeadings,
+    hasClosestByClassName,
     hasClosestByMatchTag,
 } from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
+import {hasClosestByHeadings} from "./hasClosestByHEadings";
 
 export const isFirstCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
@@ -337,18 +339,18 @@ export const isToC = (text: string) => {
     return text.trim().toLowerCase() === "[toc]";
 };
 
-export const renderToc = (editorElement: HTMLPreElement) => {
+export const renderToc = (vditor: IVditor) => {
+    const editorElement = vditor[vditor.currentMode].element;
     const tocElement = editorElement.querySelector('[data-type="toc-block"]');
     if (!tocElement) {
         return;
     }
     let tocHTML = "";
-    const isIR = editorElement.parentElement.classList.contains("vditor-ir");
     Array.from(editorElement.children).forEach((item: HTMLElement) => {
         if (hasClosestByHeadings(item)) {
             const headingNo = parseInt(item.tagName.substring(1), 10);
             const space = new Array((headingNo - 1) * 2).fill("&emsp;").join("");
-            if (isIR) {
+            if (vditor.currentMode === "ir") {
                 tocHTML += `${space}<span data-type="toc-h">${item.textContent.substring(headingNo + 1).trim()}</span><br>`;
             } else {
                 tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
@@ -356,6 +358,8 @@ export const renderToc = (editorElement: HTMLPreElement) => {
         }
     });
     tocElement.innerHTML = tocHTML || "[ToC]";
+
+    outlineRender(editorElement, vditor.element.querySelector(".vditor-outline"));
 };
 
 export const execAfterRender = (vditor: IVditor) => {

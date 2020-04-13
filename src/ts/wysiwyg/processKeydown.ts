@@ -13,7 +13,7 @@ import {
 import {
     hasClosestBlock,
     hasClosestByAttribute,
-    hasClosestByClassName, hasClosestByHeadings,
+    hasClosestByClassName,
     hasClosestByMatchTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
@@ -23,6 +23,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsCode} from "./inlineTag";
 import {removeHeading, setHeading} from "./setHeading";
 import {showCode} from "./showCode";
+import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // Chrome firefox 触发 compositionend 机制不一致 https://github.com/Vanessa219/vditor/issues/188

@@ -23,6 +23,12 @@ export const initUI = (vditor: IVditor) => {
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";
 
+    if (vditor.toolbar.elements.outline) {
+        const outlineElement = document.createElement("div");
+        outlineElement.className = "vditor-outline";
+        contentElement.appendChild(outlineElement);
+    }
+
     contentElement.appendChild(vditor.wysiwyg.element.parentElement);
 
     contentElement.appendChild(vditor.sv.element);

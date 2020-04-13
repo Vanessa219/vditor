@@ -13,10 +13,10 @@ import {
 import {
     hasClosestByAttribute,
     hasClosestByClassName,
-    hasClosestByHeadings,
     hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {getEditorRange, getSelectPosition} from "../util/selection";
+import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;

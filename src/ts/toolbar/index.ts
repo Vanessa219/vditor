@@ -22,6 +22,7 @@ import {Link} from "./Link";
 import {List} from "./List";
 import {OrderedList} from "./OrderedList";
 import {Outdent} from "./Outdent";
+import {Outline} from "./Outline";
 import {Preview} from "./Preview";
 import {Quote} from "./Quote";
 import {Record} from "./Record";
@@ -137,6 +138,9 @@ export class Toolbar {
                     break;
                 case "indent":
                     menuItemObj = new Indent(vditor, menuItem);
+                    break;
+                case "outline":
+                    menuItemObj = new Outline(vditor, menuItem);
                     break;
                 default:
                     menuItemObj = new Custom(vditor, menuItem);

@@ -85,7 +85,7 @@ export const processHeading = (vditor: IVditor, value: string) => {
             document.execCommand("insertHTML", false, value);
         }
         highlightToolbar(vditor);
-        renderToc(vditor.ir.element);
+        renderToc(vditor);
     }
 };
 

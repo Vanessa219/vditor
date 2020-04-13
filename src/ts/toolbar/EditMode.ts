@@ -3,6 +3,7 @@ import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
+import {outlineRender} from "../markdown/outlineRender";
 import {formatRender} from "../sv/formatRender";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
@@ -35,13 +36,14 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.preview.element.style.display = "none";
         }
     }
+
     enableToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
     removeCurrentToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
     disableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
 
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        showToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
+        showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline"]);
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
@@ -60,6 +62,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.ir.element.focus();
             IRHighlightToolbar(vditor);
         }
+
+        if (vditor.toolbar.elements.outline && vditor.toolbar.elements.outline.firstElementChild.classList.contains("vditor-menu--current")) {
+            vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:block");
+            outlineRender(vditor.ir.element, vditor.element.querySelector(".vditor-outline"));
+        }
+
         setPadding(vditor);
 
         vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
@@ -67,13 +75,19 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         });
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        showToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
+        showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline"]);
         vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
         vditor.ir.element.parentElement.style.display = "none";
 
         vditor.currentMode = "wysiwyg";
+
+        if (vditor.toolbar.elements.outline && vditor.toolbar.elements.outline.firstElementChild.classList.contains("vditor-menu--current")) {
+            vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:block");
+            outlineRender(vditor.wysiwyg.element, vditor.element.querySelector(".vditor-outline"));
+        }
+
         setPadding(vditor);
         renderDomByMd(vditor, markdownText, false);
 
@@ -85,7 +99,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.wysiwyg.popover.style.display = "none";
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
-        hideToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
+        hideToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline"]);
         vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";
@@ -102,6 +116,9 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             enableHint: false,
             enableInput: false,
         });
+        if (vditor.toolbar.elements.outline && type === "sv") {
+            vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:none");
+        }
         if (typeof event !== "string") {
             // 初始化不 focus
             vditor.sv.element.focus();

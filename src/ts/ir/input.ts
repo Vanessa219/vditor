@@ -3,12 +3,12 @@ import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
-    hasClosestByTag,
 } from "../util/hasClosest";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
+import {hasClosestByTag} from "../util/hasClosestByHEadings";
 
 export const input = (vditor: IVditor, range: Range) => {
     let blockElement = hasClosestBlock(range.startContainer);
@@ -184,7 +184,7 @@ export const input = (vditor: IVditor, range: Range) => {
         processCodeRender(item, vditor);
     });
 
-    renderToc(vditor.ir.element);
+    renderToc(vditor);
 
     processAfterRender(vditor, {
         enableAddUndoStack: true,
