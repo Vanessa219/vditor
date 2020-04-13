@@ -16,9 +16,9 @@ import {
     hasClosestByMatchTag,
 } from "./hasClosest";
 import {getLastNode} from "./hasClosest";
+import {hasClosestByHeadings} from "./hasClosestByHEadings";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
-import {hasClosestByHeadings} from "./hasClosestByHEadings";
 
 export const isFirstCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;

@@ -7,6 +7,7 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
+import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 import {
     getEditorRange,
     getSelectPosition,
@@ -17,7 +18,6 @@ import {genImagePopover, highlightToolbar} from "./highlightToolbar";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {showCode} from "./showCode";
-import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 
 class WYSIWYG {
     public element: HTMLPreElement;

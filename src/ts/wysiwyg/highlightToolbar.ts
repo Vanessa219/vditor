@@ -18,7 +18,7 @@ import {
     hasClosestByMatchTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {   hasClosestByHeadings,  hasClosestByTag} from '../util/hasClosestByHEadings'
+import {   hasClosestByHeadings,  hasClosestByTag} from "../util/hasClosestByHEadings";
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";

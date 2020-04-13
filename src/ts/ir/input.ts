@@ -4,11 +4,11 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
 } from "../util/hasClosest";
+import {hasClosestByTag} from "../util/hasClosestByHEadings";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
-import {hasClosestByTag} from "../util/hasClosestByHEadings";
 
 export const input = (vditor: IVditor, range: Range) => {
     let blockElement = hasClosestBlock(range.startContainer);

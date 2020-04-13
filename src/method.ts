@@ -6,9 +6,9 @@ import {highlightRender} from "./ts/markdown/highlightRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
+import {outlineRender} from "./ts/markdown/outlineRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
-import {outlineRender} from "./ts/markdown/outlineRender";
 class Vditor {
 
     /** 为 element 中的代码块添加复制按钮 */
