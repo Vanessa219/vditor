@@ -12,7 +12,7 @@ export class Fullscreen extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener(getEventName(), function(event) {
+        this.element.children[0].addEventListener(getEventName(), function (event) {
             event.preventDefault();
             if (vditor.element.className.includes("vditor--fullscreen")) {
                 this.innerHTML = menuItem.icon || fullscreenSVG;
@@ -23,7 +23,9 @@ export class Fullscreen extends MenuItem {
                         svgElement.className = svgElement.className.replace("__s", "__n");
                     }
                 });
-                vditor.counter.element.className = vditor.counter.element.className.replace("__s", "__n");
+                if (vditor.counter) {
+                    vditor.counter.element.className = vditor.counter.element.className.replace("__s", "__n");
+                }
             } else {
                 this.innerHTML = menuItem.icon || contractSVG;
                 vditor.element.classList.add("vditor--fullscreen");
@@ -33,7 +35,9 @@ export class Fullscreen extends MenuItem {
                         svgElement.className = svgElement.className.replace("__n", "__s");
                     }
                 });
-                vditor.counter.element.className = vditor.counter.element.className.replace("__n", "__s");
+                if (vditor.counter) {
+                    vditor.counter.element.className = vditor.counter.element.className.replace("__n", "__s");
+                }
             }
 
             if (vditor.devtools) {
