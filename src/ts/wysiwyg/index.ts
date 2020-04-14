@@ -63,25 +63,36 @@ class WYSIWYG {
                 });
         }
 
-        if (vditor.options.typewriterMode) {
-            window.addEventListener("scroll", () => {
-                hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-                if (this.popover.style.display !== "block") {
-                    return;
+        window.addEventListener("scroll", () => {
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+            if (this.popover.style.display !== "block") {
+                return;
+            }
+            const top = parseInt(this.popover.getAttribute("data-top"), 10);
+            if (vditor.options.height !== "auto") {
+                if (vditor.options.toolbarConfig.pin && vditor.toolbar.element.getBoundingClientRect().top === 0) {
+                    this.popover.style.top = Math.max(window.scrollY - vditor.element.offsetTop - 8,
+                        Math.min(top - vditor.wysiwyg.element.scrollTop, this.element.clientHeight - 21)) + "px";
                 }
-                const top = parseInt(this.popover.getAttribute("data-top"), 10);
-                this.popover.style.top = Math.max(top, (window.scrollY - vditor.element.offsetTop - 8)) + "px";
-            });
-        } else {
-            this.element.addEventListener("scroll", () => {
-                hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
-                if (this.popover.style.display !== "block") {
-                    return;
-                }
-                const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
-                this.popover.style.top = Math.max(-8, Math.min(top, this.element.clientHeight - 21)) + "px";
-            });
-        }
+                return;
+            } else if (!vditor.options.toolbarConfig.pin) {
+                return;
+            }
+            this.popover.style.top = Math.max(top, (window.scrollY - vditor.element.offsetTop - 8)) + "px";
+        });
+
+        this.element.addEventListener("scroll", () => {
+            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+            if (this.popover.style.display !== "block") {
+                return;
+            }
+            const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
+            let max = -8
+            if (vditor.options.toolbarConfig.pin && vditor.toolbar.element.getBoundingClientRect().top === 0) {
+                max = window.scrollY - vditor.element.offsetTop + max;
+            }
+            this.popover.style.top = Math.max(max, Math.min(top, this.element.clientHeight - 21)) + "px";
+        });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
             const range = getSelection().getRangeAt(0);
