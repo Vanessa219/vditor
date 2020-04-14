@@ -235,6 +235,7 @@
   }
 
   &-outline {
+    min-width: 250px;
     width: 250px;
     border-right: 1px solid var(--border-color);
     background-color: var(--panel-background-color);
@@ -243,6 +244,10 @@
     &__item {
       padding: 5px 10px;
       cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
       &:hover {
         color: var(--toolbar-icon-hover-color);
         background-color: var(--toolbar-background-color);

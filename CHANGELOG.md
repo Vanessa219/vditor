@@ -57,9 +57,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.9 / 2020-04-1x
+### v3.1.10 / 2020-04-1x
 
-### v3.1.8 / 2020-04-15
+### v3.1.9 / 2020-04-15
 
 * [311](https://github.com/Vanessa219/vditor/issues/311) preview demo `改进功能`
 * [94](https://github.com/Vanessa219/vditor/issues/94) 获取大纲内容及同步滚动效果 `引入特性`
