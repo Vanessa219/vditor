@@ -1,18 +1,40 @@
 import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 
-export const outlineRender = (contentElement: HTMLElement, targetElement: Element) => {
+export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) => {
     let tocHTML = "";
-    const isIR = contentElement.parentElement.classList.contains("vditor-ir");
     Array.from(contentElement.children).forEach((item: HTMLElement) => {
         if (hasClosestByHeadings(item)) {
             const headingNo = parseInt(item.tagName.substring(1), 10);
             const space = new Array((headingNo - 1) * 2).fill("&emsp;").join("");
-            if (isIR) {
-                tocHTML += `${space}<span data-type="toc-h">${item.textContent.substring(headingNo + 1).trim()}</span><br>`;
+            let text = "";
+            if (vditor && vditor.currentMode === "ir") {
+                text = item.textContent.substring(headingNo + 1).trim();
             } else {
-                tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
+                text = item.textContent.trim();
+            }
+            tocHTML += `<div data-id="${item.id}" class="vditor-outline__item">${space}${text}</div>`;
+        }
+    });
+    targetElement.innerHTML = tocHTML || "<div>Outline</div>";
+
+    targetElement.addEventListener("click", (event: Event & { target: HTMLElement }) => {
+        const itemElement = event.target;
+        if (itemElement.classList.contains("vditor-outline__item")) {
+            if (vditor) {
+                const id = itemElement.getAttribute("data-id");
+                if (vditor.options.height === "auto") {
+                    let windowScrollY = document.getElementById(id).offsetTop + vditor.element.offsetTop
+                    if (!vditor.options.toolbarConfig.pin) {
+                        windowScrollY += vditor.toolbar.element.offsetHeight
+                    }
+                    window.scrollTo(window.scrollX, windowScrollY);
+                } else {
+                    if (vditor.element.offsetTop < window.scrollY) {
+                        window.scrollTo(window.scrollX, vditor.element.offsetTop);
+                    }
+                    contentElement.scrollTop = document.getElementById(id).offsetTop;
+                }
             }
         }
     });
-    targetElement.innerHTML = tocHTML || 'Outline';
 };

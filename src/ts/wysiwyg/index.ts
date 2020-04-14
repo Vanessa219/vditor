@@ -87,7 +87,7 @@ class WYSIWYG {
                 return;
             }
             const top = parseInt(this.popover.getAttribute("data-top"), 10) - vditor.wysiwyg.element.scrollTop;
-            let max = -8
+            let max = -8;
             if (vditor.options.toolbarConfig.pin && vditor.toolbar.element.getBoundingClientRect().top === 0) {
                 max = window.scrollY - vditor.element.offsetTop + max;
             }

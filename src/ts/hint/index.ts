@@ -84,7 +84,11 @@ export class Hint {
 
         const editorElement = vditor[vditor.currentMode].element;
         const textareaPosition = getCursorPosition(editorElement);
-        const x = textareaPosition.left;
+        let x = textareaPosition.left;
+        const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
+        if (outlineElement) {
+            x = x + outlineElement.offsetWidth;
+        }
         const y = textareaPosition.top;
         let hintsHTML = "";
 
@@ -174,11 +178,11 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
             setSelectionFocus(range);
 
             if (vditor.currentMode === "wysiwyg") {
-                 const preElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-                 if (preElement && preElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
-                     preElement.lastElementChild.innerHTML = preElement.firstElementChild.innerHTML;
-                     processCodeRender(preElement.lastElementChild as HTMLElement, vditor);
-                 }
+                const preElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
+                if (preElement && preElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
+                    preElement.lastElementChild.innerHTML = preElement.firstElementChild.innerHTML;
+                    processCodeRender(preElement.lastElementChild as HTMLElement, vditor);
+                }
             } else {
                 const preElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker--pre");
                 if (preElement && preElement.nextElementSibling.classList.contains("vditor-ir__preview")) {

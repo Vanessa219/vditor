@@ -26,7 +26,11 @@ export const initUI = (vditor: IVditor) => {
     if (vditor.toolbar.elements.outline) {
         const outlineElement = document.createElement("div");
         outlineElement.className = "vditor-outline";
-        outlineElement.innerHTML = `<div style='top:${vditor.toolbar.element.clientHeight}px'></div>`;
+        let top = 0
+        if (vditor.options.toolbarConfig.pin) {
+            top = vditor.toolbar.element.clientHeight
+        }
+        outlineElement.innerHTML = `<div style='top:${top}px'></div>`;
         contentElement.appendChild(outlineElement);
     }
 

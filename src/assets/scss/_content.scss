@@ -237,15 +237,25 @@
   &-outline {
     width: 250px;
     border-right: 1px solid var(--border-color);
-    background-color: var(--textarea-background-color);
+    background-color: var(--panel-background-color);
     display: none;
+
+    &__item {
+      padding: 5px 10px;
+      cursor: pointer;
+      &:hover {
+        color: var(--toolbar-icon-hover-color);
+        background-color: var(--toolbar-background-color);
+      }
+    }
 
     & > div {
       position: sticky;
       overflow: auto;
       top: 35px;
-      padding: 10px;
+      padding: 10px 0;
       max-height: 100vh;
+      color: var(--textarea-text-color);
 
       &::-webkit-scrollbar {
         display: none;
