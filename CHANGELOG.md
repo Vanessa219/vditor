@@ -57,12 +57,12 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.7 / 2020-04-0x
+### v3.1.8 / 2020-04-1x
 
+### v3.1.7 / 2020-04-15
+
+* [311](https://github.com/Vanessa219/vditor/issues/311) preview demo `改进功能`
 * [94](https://github.com/Vanessa219/vditor/issues/94) 获取大纲内容及同步滚动效果 `引入特性`
-
-### v3.1.6 / 2020-04-12
-
 * [309](https://github.com/Vanessa219/vditor/issues/309) 添加 options.upload.setHeaders `引入特性`
 * [306](https://github.com/Vanessa219/vditor/issues/306) IR mode ATX heading change `改进功能`
 * [303](https://github.com/Vanessa219/vditor/issues/303) Inline HTML parsing issue `修复缺陷`
