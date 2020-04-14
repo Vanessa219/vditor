@@ -24,7 +24,9 @@ export class Outline extends MenuItem {
                 renderOutline(vditor);
                 btnElement.classList.add("vditor-menu--current");
             }
+            vditor[vditor.currentMode].element.parentElement.style.overflow = 'auto'
             setPadding(vditor);
+            vditor[vditor.currentMode].element.parentElement.style.overflow = 'visible'
             event.preventDefault();
         });
     }
