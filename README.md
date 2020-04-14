@@ -319,6 +319,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | handler | Custom upload, return error message when an error occurs (files: File[]) => string \| null | - |
 | format | Transform the data returned by the server to meet the built-in data structure (files: File[], responseText: string): string | - |
 | file | Process the uploaded file before returning (files: File[]): File[] | - |
+| setHeaders | Use the return value to set the header before uploading (): { [key: string]: string } | - |
 
 #### options.resize
 

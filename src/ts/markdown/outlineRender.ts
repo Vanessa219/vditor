@@ -15,7 +15,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
             tocHTML += `<div data-id="${item.id}" class="vditor-outline__item">${space}${text}</div>`;
         }
     });
-    targetElement.innerHTML = tocHTML || "<div>Outline</div>";
+    targetElement.innerHTML = tocHTML;
 
     targetElement.addEventListener("click", (event: Event & { target: HTMLElement }) => {
         const itemElement = event.target;
