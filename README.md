@@ -167,7 +167,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 #### options.toolbar
 
 * Toolbar, you can use name for shorthand: `toolbar: ['emoji', 'br', 'bold', '|', 'line']`. See default [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
-* name can be enumerated as: `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `devtools` , `info` , `help` , `br`
+* name can be enumerated as: `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `outline` , `devtools` , `info` , `help` , `br`
 * When `name` is not in the enumeration, you can add a custom button in the following format: 
 
 ```js
@@ -399,6 +399,7 @@ options?: IPreviewOptions {
  }
  math?: IMath // Math formula rendering configuration
  transform?(html: string): string // Callback method before rendering
+ after?(): void // Callback method after rendering
  cdn?: string // Self-built CDN address
 }
 ```
@@ -411,6 +412,7 @@ options?: IPreviewOptions {
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | Add a copy button for the code block in element |
 | chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Chart rendering |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Stave rendering |
+| outlineRender(contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) | Outline rendering |
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | Page Markdown article rendering |
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | Highlight the code block in element |
