@@ -20,12 +20,12 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     targetElement.addEventListener("click", (event: Event & { target: HTMLElement }) => {
         const itemElement = event.target;
         if (itemElement.classList.contains("vditor-outline__item")) {
+            const id = itemElement.getAttribute("data-id");
             if (vditor) {
-                const id = itemElement.getAttribute("data-id");
                 if (vditor.options.height === "auto") {
-                    let windowScrollY = document.getElementById(id).offsetTop + vditor.element.offsetTop
+                    let windowScrollY = document.getElementById(id).offsetTop + vditor.element.offsetTop;
                     if (!vditor.options.toolbarConfig.pin) {
-                        windowScrollY += vditor.toolbar.element.offsetHeight
+                        windowScrollY += vditor.toolbar.element.offsetHeight;
                     }
                     window.scrollTo(window.scrollX, windowScrollY);
                 } else {
@@ -34,6 +34,8 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                     }
                     contentElement.scrollTop = document.getElementById(id).offsetTop;
                 }
+            } else {
+                window.scrollTo(window.scrollX, document.getElementById(id).offsetTop);
             }
         }
     });

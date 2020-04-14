@@ -34,14 +34,24 @@
     <meta name="twitter:url" content="https://hacpai.com/tag/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@latest/dist/index.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/vditor@latest/dist/method.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.7/dist/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.7/dist/method.min.js"></script>
     <style>
         .preview {
             max-width: 90%;
             width: 600px;
             margin: 0 auto;
             padding-bottom: 20px;
+        }
+
+        #outline {
+            position: fixed;
+            width: 290px;
+            top: 20px;
+            right: 20px;
+            bottom: 20px;
+            overflow: auto;
+            color: var(--textarea-text-color);
         }
     </style>
 </head>
@@ -60,6 +70,7 @@
 <div id="previewWrap">
     <div id="preview" class="preview vditor-reset--dark"></div>
 </div>
+<div id="outline" class="vditor"></div>
 <textarea id="zh_CNText" style="display:none;">[ToC]
 ## 教程
 
@@ -696,23 +707,29 @@ https://www.youtube.com/watch?v=S4xoOW4DVKE
         toc: true,
       },
       hljs: {
-        style: 'native'
+        style: 'native',
       },
       speech: {
         enable: true,
       },
       anchor: true,
+      after () {
+        Vditor.outlineRender(document.getElementById('preview'), document.getElementById('outline'))
+      },
     })
 
   const setTheme = (theme) => {
     const previewWrapElement = document.getElementById('previewWrap')
     const previewElement = document.getElementById('preview')
+    const outlineElement = document.getElementById('outline')
     if (theme === 'dark') {
-      previewWrapElement.className = 'vditor-reset--dark'
+      document.body.classList.add('vditor-reset--dark')
       previewElement.classList.add('vditor-reset--dark')
+      outlineElement.classList.add('vditor-reset--dark')
     } else {
-      previewWrapElement.className = ''
+      document.body.classList.remove('vditor-reset--dark')
       previewElement.classList.remove('vditor-reset--dark')
+      outlineElement.classList.remove('vditor-reset--dark')
     }
   }
 </script>

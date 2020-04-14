@@ -271,6 +271,8 @@ interface IPreviewOptions {
     markdown?: IMarkdownConfig;
 
     transform?(html: string): string;
+
+    after?(): void;
 }
 
 interface IHintData {

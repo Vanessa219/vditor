@@ -112,4 +112,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.anchor) {
         anchorRender();
     }
+    if (mergedOptions.after) {
+        mergedOptions.after();
+    }
 };

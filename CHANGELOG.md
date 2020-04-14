@@ -93,6 +93,7 @@
   * 添加 `options.upload.setHeaders: { [key: string]: string }`
   * 为 `options.toolbar` 添加 outdent，indent, outline
   * 添加静态方法 `outlineRender`
+  * IPreviewOptions 添加 `after`
 
 ### v3.0.12 / 2020-04-06
 
