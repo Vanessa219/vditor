@@ -342,7 +342,8 @@ export const isToC = (text: string) => {
 export const renderOutline = (vditor: IVditor) => {
     const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
     if (outlineElement && outlineElement.style.display === "block") {
-        outlineRender(vditor[vditor.currentMode].element, outlineElement.querySelector('.vditor-outline__content'), vditor);
+        outlineRender(vditor[vditor.currentMode].element,
+            outlineElement.querySelector(".vditor-outline__content"), vditor);
     }
 };
 
@@ -1110,6 +1111,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             } else {
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             }
+            renderOutline(vditor);
         } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
             uploadFiles(vditor, event.clipboardData.files);
         } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
@@ -1118,6 +1120,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             } else {
                 insertHTML(vditor.lute.Md2VditorDOM(textPlain), vditor);
             }
+            renderOutline(vditor);
         }
     }
     vditor.ir.element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)

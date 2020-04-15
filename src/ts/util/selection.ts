@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {isChrome} from "./compatibility";
+import {hasClosestBlock} from "./hasClosest";
 
 export const getEditorRange = (element: HTMLElement) => {
     let range: Range;
@@ -224,20 +225,19 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     const pasteElement = document.createElement("template");
     pasteElement.innerHTML = html;
 
-    let range;
-    if (vditor.currentMode === "wysiwyg") {
-        range = getEditorRange(vditor.wysiwyg.element);
-    } else if (vditor.currentMode === "ir") {
-        range = getEditorRange(vditor.ir.element);
-    }
-    if (range.toString() !== "") {
-        if (vditor.currentMode === "wysiwyg") {
-            vditor.wysiwyg.preventInput = true;
-        } else if (vditor.currentMode === "ir") {
-            vditor.ir.preventInput = true;
-        }
+    const range = getEditorRange(vditor[vditor.currentMode].element);
+    if (range.toString() !== "" && vditor.currentMode !== "sv") {
+        vditor[vditor.currentMode].preventInput = true;
         document.execCommand("delete", false, "");
     }
-    range.insertNode(pasteElement.content.cloneNode(true));
-    range.collapse(false);
+
+    const blockElement = hasClosestBlock(range.startContainer);
+    if (pasteElement.content.firstElementChild &&
+        pasteElement.content.firstElementChild.getAttribute("data-block") === "0" && blockElement) {
+        // 粘贴内容为块元素时，应在下一段落中插入
+        blockElement.insertAdjacentHTML("afterend", html);
+    } else {
+        range.insertNode(pasteElement.content.cloneNode(true));
+        range.collapse(false);
+    }
 };
