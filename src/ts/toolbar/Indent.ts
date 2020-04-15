@@ -12,6 +12,7 @@ export class Indent extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || indentSVG;
 
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED) ||
                 vditor.currentMode === "sv") {
                 return;
@@ -21,7 +22,6 @@ export class Indent extends MenuItem {
             if (liElement) {
                 listIndent(vditor, liElement, range);
             }
-            event.preventDefault();
         });
     }
 }

@@ -59,6 +59,8 @@
 
 ### v3.1.11 / 2020-04-1x
 
+* [313](https://github.com/Vanessa219/vditor/issues/313) html 页面 点击禁用button 引起回调 `修复缺陷`
+
 ### v3.1.10 / 2020-04-15
 
 * [311](https://github.com/Vanessa219/vditor/issues/311) preview demo `改进功能`

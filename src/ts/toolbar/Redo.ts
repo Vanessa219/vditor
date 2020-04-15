@@ -10,6 +10,7 @@ export class Redo extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || redoSVG;
         disableToolbar({redo: this.element}, ["redo"]);
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
@@ -20,7 +21,6 @@ export class Redo extends MenuItem {
             } else if (vditor.currentMode === "ir") {
                 vditor.irUndo.redo(vditor);
             }
-            event.preventDefault();
         });
     }
 }

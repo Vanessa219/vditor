@@ -29,6 +29,7 @@ export class MenuItem {
 
     public bindEvent(vditor: IVditor, replace: boolean = false) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
@@ -41,7 +42,6 @@ export class MenuItem {
                 insertText(vditor, this.menuItem.prefix || "", this.menuItem.suffix || "",
                     replace, true);
             }
-            event.preventDefault();
         });
     }
 }

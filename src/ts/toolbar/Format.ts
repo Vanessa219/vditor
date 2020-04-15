@@ -10,9 +10,9 @@ export class Format extends MenuItem {
         super(vditor, menuItem);
         this.element.children[0].innerHTML = menuItem.icon || formatSVG;
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             formatRender(vditor,  vditor.lute.FormatMd( getMarkdown(vditor)),
                 getSelectPosition(vditor.sv.element, getSelection().getRangeAt(0)));
-            event.preventDefault();
         });
     }
 }

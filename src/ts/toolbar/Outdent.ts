@@ -11,6 +11,7 @@ export class Outdent extends MenuItem {
         super(vditor, menuItem);
         this.element.children[0].innerHTML = menuItem.icon || outdentSVG;
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED) ||
                 vditor.currentMode === "sv") {
                 return;
@@ -20,7 +21,6 @@ export class Outdent extends MenuItem {
             if (liElement) {
                 listOutdent(vditor, liElement, range, liElement.parentElement);
             }
-            event.preventDefault();
         });
     }
 }

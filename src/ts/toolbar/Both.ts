@@ -16,6 +16,7 @@ export class Both extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (vditor.currentMode !== "sv") {
                 return;
             }
@@ -24,7 +25,6 @@ export class Both extends MenuItem {
             } else {
                 setPreviewMode("both", vditor);
             }
-            event.preventDefault();
         });
     }
 }

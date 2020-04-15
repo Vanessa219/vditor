@@ -44,6 +44,7 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
@@ -54,7 +55,6 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 this.panelElement.style.display = "block";
             }
             hidePanel(vditor, ["hint", "headings", "edit-mode"]);
-            event.preventDefault();
         });
 
         this.panelElement.querySelectorAll(".vditor-emojis button").forEach((element) => {

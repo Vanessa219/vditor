@@ -10,6 +10,7 @@ export class Outline extends MenuItem {
         super(vditor, menuItem);
         this.element.children[0].innerHTML = menuItem.icon || alignCenterSVG;
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             const btnElement = this.element.firstElementChild;
             if (btnElement.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
@@ -28,7 +29,6 @@ export class Outline extends MenuItem {
             vditor[vditor.currentMode].element.parentElement.style.overflow = "auto";
             setPadding(vditor);
             vditor[vditor.currentMode].element.parentElement.style.overflow = "visible";
-            event.preventDefault();
         });
     }
 }

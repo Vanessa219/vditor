@@ -10,6 +10,7 @@ export class Undo extends MenuItem {
         this.element.children[0].innerHTML = menuItem.icon || undoSVG;
         disableToolbar({undo: this.element}, ["undo"]);
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
@@ -20,7 +21,6 @@ export class Undo extends MenuItem {
             } else if (vditor.currentMode === "ir") {
                 vditor.irUndo.undo(vditor);
             }
-            event.preventDefault();
         });
     }
 }

@@ -17,10 +17,10 @@ export class Record extends MenuItem {
     public _bindEvent(vditor: IVditor) {
         let mediaRecorder: RecordMedia;
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-            event.preventDefault();
             const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.sv.element;
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {

@@ -148,6 +148,7 @@ export class EditMode extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
@@ -159,7 +160,6 @@ export class EditMode extends MenuItem {
                 this.panelElement.style.display = "block";
             }
             hidePanel(vditor, ["hint", "headings", "emoji"]);
-            event.preventDefault();
         });
 
         this.panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {

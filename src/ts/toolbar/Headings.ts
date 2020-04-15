@@ -32,6 +32,7 @@ export class Headings extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
@@ -50,11 +51,11 @@ export class Headings extends MenuItem {
                 }
             }
             hidePanel(vditor, ["hint", "emoji", "edit-mode"]);
-            event.preventDefault();
         });
 
         for (let i = 0; i < 6; i++) {
             this.panelElement.children.item(i).addEventListener(getEventName(), (event: Event) => {
+                event.preventDefault();
                 if (vditor.currentMode === "wysiwyg") {
                     setHeading(vditor, (event.target as HTMLElement).getAttribute("data-tag"));
                     afterRenderEvent(vditor);
@@ -65,7 +66,6 @@ export class Headings extends MenuItem {
                         false, true);
                 }
                 this.panelElement.style.display = "none";
-                event.preventDefault();
             });
         }
     }

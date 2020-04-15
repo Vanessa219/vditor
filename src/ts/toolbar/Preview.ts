@@ -16,6 +16,7 @@ export class Preview extends MenuItem {
 
     public _bindEvent(vditor: IVditor) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
+            event.preventDefault();
             if (vditor.currentMode === "wysiwyg") {
                 return;
             }
@@ -24,7 +25,6 @@ export class Preview extends MenuItem {
             } else {
                 setPreviewMode("preview", vditor);
             }
-            event.preventDefault();
         });
     }
 }
