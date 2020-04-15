@@ -12,7 +12,7 @@ export class Fullscreen extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener(getEventName(), function (event) {
+        this.element.children[0].addEventListener(getEventName(), function(event) {
             event.preventDefault();
             if (vditor.element.className.includes("vditor--fullscreen")) {
                 this.innerHTML = menuItem.icon || fullscreenSVG;

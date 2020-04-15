@@ -261,6 +261,7 @@
       padding: 10px 0;
       max-height: 100vh;
       color: var(--textarea-text-color);
+      box-sizing: border-box;
 
       &::-webkit-scrollbar {
         display: none;

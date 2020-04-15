@@ -77,6 +77,20 @@ export const setPadding = (vditor: IVditor) => {
             - vditor.options.preview.maxWidth) / 2;
         vditor.ir.element.style.padding = `10px ${Math.max(35, padding)}px`;
     }
+
+    if (vditor.toolbar.elements.outline) {
+        let height: number;
+        if (vditor.options.height === "auto") {
+            height = Math.min(vditor.element.clientHeight, window.innerHeight);
+        } else {
+            height = vditor.options.height as number;
+        }
+        if (vditor.element.classList.contains("vditor--fullscreen")) {
+            height = window.innerHeight;
+        }
+        (vditor.element.querySelector(".vditor-outline").firstElementChild as HTMLElement).style.height =
+            (height - vditor.toolbar.element.offsetHeight) + "px";
+    }
 };
 
 export const setTypewriterPosition = (vditor: IVditor) => {
