@@ -254,18 +254,24 @@
       }
     }
 
-    & > div {
+    &__panel {
       position: sticky;
       overflow: auto;
       top: 35px;
-      padding: 10px 0;
-      max-height: 100vh;
+      padding-bottom: 10px;
       color: var(--textarea-text-color);
       box-sizing: border-box;
 
       &::-webkit-scrollbar {
         display: none;
       }
+    }
+
+    &__title {
+      border-bottom: 1px dashed var(--border-color);
+      padding: 5px 10px;
+      color: var(--toolbar-icon-color);
+      font-size: 12px;
     }
   }
 }

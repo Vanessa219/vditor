@@ -342,7 +342,7 @@ export const isToC = (text: string) => {
 export const renderOutline = (vditor: IVditor) => {
     const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
     if (outlineElement && outlineElement.style.display === "block") {
-        outlineRender(vditor[vditor.currentMode].element, outlineElement.firstElementChild, vditor);
+        outlineRender(vditor[vditor.currentMode].element, outlineElement.querySelector('.vditor-outline__content'), vditor);
     }
 };
 

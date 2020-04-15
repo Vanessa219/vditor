@@ -1,3 +1,4 @@
+import {i18n} from "../i18n";
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
 import {setTheme} from "./setTheme";
@@ -30,7 +31,10 @@ export const initUI = (vditor: IVditor) => {
         if (vditor.options.toolbarConfig.pin) {
             top = vditor.toolbar.element.clientHeight;
         }
-        outlineElement.innerHTML = `<div style='top:${top}px'></div>`;
+        outlineElement.innerHTML = `<div class="vditor-outline__panel" style='top:${top}px'>
+<div class="vditor-outline__title" style='top:${top}px'>${i18n[vditor.options.lang].outline}</div>
+<div class="vditor-outline__content"></div>
+</div>`;
         contentElement.appendChild(outlineElement);
     }
 
@@ -88,7 +92,7 @@ export const setPadding = (vditor: IVditor) => {
         if (vditor.element.classList.contains("vditor--fullscreen")) {
             height = window.innerHeight;
         }
-        (vditor.element.querySelector(".vditor-outline").firstElementChild as HTMLElement).style.height =
+        (vditor.element.querySelector(".vditor-outline__panel")as HTMLElement).style.height =
             (height - vditor.toolbar.element.offsetHeight) + "px";
     }
 };
