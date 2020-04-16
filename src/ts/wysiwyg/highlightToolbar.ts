@@ -4,6 +4,8 @@ import beforeSVG from "../../assets/icons/before.svg";
 import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
+import upSVG from "../../assets/icons/up.svg";
+import downSVG from "../../assets/icons/down.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {disableToolbar} from "../toolbar/setToolbar";
@@ -18,10 +20,11 @@ import {
     hasClosestByMatchTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {   hasClosestByHeadings,  hasClosestByTag} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHEadings";
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
+import {scrollCenter} from "../util/editorCommonEvent";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -131,6 +134,8 @@ export const highlightToolbar = (vditor: IVditor) => {
         const blockquoteElement = hasClosestByTag(typeElement, "BLOCKQUOTE") as HTMLTableElement;
         if (blockquoteElement) {
             vditor.wysiwyg.popover.innerHTML = "";
+            genUp(range, blockquoteElement, vditor);
+            genDown(range, blockquoteElement, vditor);
             genClose(vditor.wysiwyg.popover, blockquoteElement, vditor);
             genInsertBefore(range, blockquoteElement, vditor);
             genInsertAfter(range, blockquoteElement, vditor);
@@ -149,6 +154,9 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
         if (topListElement) {
             vditor.wysiwyg.popover.innerHTML = "";
+
+            genUp(range, topListElement, vditor);
+            genDown(range, topListElement, vditor);
             genClose(vditor.wysiwyg.popover, topListElement, vditor);
             genInsertBefore(range, topListElement, vditor);
             genInsertAfter(range, topListElement, vditor);
@@ -328,6 +336,8 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
+            genUp(range, tableElement, vditor);
+            genDown(range, tableElement, vditor);
             genClose(vditor.wysiwyg.popover, tableElement, vditor);
             genInsertBefore(range, tableElement, vditor);
             genInsertAfter(range, tableElement, vditor);
@@ -433,6 +443,8 @@ export const highlightToolbar = (vditor: IVditor) => {
         // block popover: math-inline, math-block, html-block, html-inline, code-block
         if (blockRenderElement && blockRenderElement.getAttribute("data-type").indexOf("block") > -1) {
             vditor.wysiwyg.popover.innerHTML = "";
+            genUp(range, blockRenderElement, vditor);
+            genDown(range, blockRenderElement, vditor);
             genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
             genInsertBefore(range, blockRenderElement, vditor);
             genInsertAfter(range, blockRenderElement, vditor);
@@ -530,6 +542,8 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
+            genUp(range, headingElement, vditor);
+            genDown(range, headingElement, vditor);
             genClose(vditor.wysiwyg.popover, headingElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             setPopoverPosition(vditor, headingElement);
@@ -542,7 +556,17 @@ export const highlightToolbar = (vditor: IVditor) => {
 
         if (!blockquoteElement && !topListElement && !tableElement && !blockRenderElement && !aElement
             && !linkRefElement && !footnotesRefElement && !headingElement && !tocElement) {
-            vditor.wysiwyg.popover.style.display = "none";
+            const blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
+            if (blockElement && blockElement.parentElement.isEqualNode(vditor.wysiwyg.element)) {
+                vditor.wysiwyg.popover.innerHTML = "";
+                genUp(range, blockElement, vditor);
+                genDown(range, blockElement, vditor);
+                genClose(vditor.wysiwyg.popover, blockElement, vditor);
+
+                setPopoverPosition(vditor, blockElement);
+            } else {
+                vditor.wysiwyg.popover.style.display = "none";
+            }
         }
 
         // 反斜杠特殊处理
@@ -570,6 +594,50 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
         Math.min(targetElement.offsetLeft, vditor.wysiwyg.element.clientWidth - vditor.wysiwyg.popover.clientWidth) + "px";
     vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
 
+};
+
+const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
+    const previousElement = element.previousElementSibling
+    if (!previousElement || !element.parentElement.isEqualNode(vditor.wysiwyg.element)) {
+        return;
+    }
+    const upElement = document.createElement("span");
+    upElement.setAttribute("data-type", "up");
+    upElement.setAttribute("aria-label", i18n[vditor.options.lang].up +
+        "<" + updateHotkeyTip("⌘-⇧-U") + ">");
+    upElement.innerHTML = upSVG;
+    upElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+    upElement.onclick = () => {
+        range.insertNode(document.createElement("wbr"));
+        previousElement.insertAdjacentElement("beforebegin", element);
+        setRangeByWbr(vditor.wysiwyg.element, range);
+        afterRenderEvent(vditor);
+        highlightToolbar(vditor);
+        scrollCenter(vditor);
+    };
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", upElement);
+};
+
+const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
+    const nextElement = element.nextElementSibling
+    if (!nextElement || !element.parentElement.isEqualNode(vditor.wysiwyg.element)) {
+        return;
+    }
+    const downElement = document.createElement("span");
+    downElement.setAttribute("data-type", "down");
+    downElement.setAttribute("aria-label", i18n[vditor.options.lang].down +
+        "<" + updateHotkeyTip("⌘-⇧-D") + ">");
+    downElement.innerHTML = downSVG;
+    downElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+    downElement.onclick = () => {
+        range.insertNode(document.createElement("wbr"));
+        nextElement.insertAdjacentElement("afterend", element);
+        setRangeByWbr(vditor.wysiwyg.element, range);
+        afterRenderEvent(vditor);
+        highlightToolbar(vditor);
+        scrollCenter(vditor);
+    };
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", downElement);
 };
 
 const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) => {

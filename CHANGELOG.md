@@ -59,6 +59,7 @@
 
 ### v3.1.11 / 2020-04-1x
 
+* [312](https://github.com/Vanessa219/vditor/issues/312) 支持块级元素上下移动 `引入特性`
 * [318](https://github.com/Vanessa219/vditor/issues/318) 工具栏和编辑器区域对齐 `改进功能`
 * [313](https://github.com/Vanessa219/vditor/issues/313) html 页面 点击禁用button 引起回调 `修复缺陷`
 
@@ -97,6 +98,7 @@
   * 为 `options.toolbar` 添加 outdent，indent, outline
   * 添加静态方法 `outlineRender`
   * IPreviewOptions 添加 `after`
+  * insert line 默认快捷键由 `⌘-⇧-D` 修改为 `⌘-⇧-H`，添加下移 `⌘-⇧-D`、上移 `⌘-⇧-U` 快捷键，移除上传快捷键
 
 ### v3.0.12 / 2020-04-06
 

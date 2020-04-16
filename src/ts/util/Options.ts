@@ -132,7 +132,7 @@ export class Options {
             prefix: "> ",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-⇧-D",
+            hotkey: "⌘-⇧-H",
             name: "line",
             prefix: "---",
             tipPosition: "n",
@@ -151,7 +151,6 @@ export class Options {
         }, {
             name: "|",
         }, {
-            hotkey: "⌘-⇧-U",
             name: "upload",
             tipPosition: "n",
         }, {

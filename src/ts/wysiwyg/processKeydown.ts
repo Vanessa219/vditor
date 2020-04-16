@@ -204,8 +204,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 在有子工具栏的块后插入行
     if (matchHotKey("⌘-⇧-E", event)) {
-        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]')
-            || vditor.wysiwyg.popover.querySelector('[data-type="indent"]');
+        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]');
         if (itemElement) {
             itemElement.click();
             event.preventDefault();
@@ -215,8 +214,27 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 在有子工具栏的块前插入行
     if (matchHotKey("⌘-⇧-S", event)) {
-        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]')
-            || vditor.wysiwyg.popover.querySelector('[data-type="outdent"]');
+        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]');
+        if (itemElement) {
+            itemElement.click();
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // 对有子工具栏的块上移
+    if (matchHotKey("⌘-⇧-U", event)) {
+        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="up"]');
+        if (itemElement) {
+            itemElement.click();
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // 对有子工具栏的块下移
+    if (matchHotKey("⌘-⇧-D", event)) {
+        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="down"]');
         if (itemElement) {
             itemElement.click();
             event.preventDefault();

@@ -117,11 +117,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 return false;
             }
             if (matchHotKey(menuItem.hotkey, event)) {
-                if (menuItem.name === "upload") {
-                    (vditor.toolbar.elements[menuItem.name].querySelector("input") as HTMLElement).click();
-                } else {
-                    vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
-                }
+                vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
                 event.preventDefault();
                 return true;
             }
