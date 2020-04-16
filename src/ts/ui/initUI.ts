@@ -95,6 +95,8 @@ export const setPadding = (vditor: IVditor) => {
         (vditor.element.querySelector(".vditor-outline__panel")as HTMLElement).style.height =
             (height - vditor.toolbar.element.offsetHeight) + "px";
     }
+
+    vditor.toolbar.element.style.paddingLeft = vditor[vditor.currentMode].element.style.paddingLeft;
 };
 
 export const setTypewriterPosition = (vditor: IVditor) => {

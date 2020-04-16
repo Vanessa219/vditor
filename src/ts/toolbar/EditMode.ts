@@ -123,6 +123,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             // 初始化不 focus
             vditor.sv.element.focus();
         }
+        setPadding(vditor);
     }
     setTypewriterPosition(vditor);
 };
