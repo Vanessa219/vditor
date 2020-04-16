@@ -149,7 +149,7 @@ export class Options {
             suffix: "`",
             tipPosition: "n",
         }, {
-            hotkey: "⌘-⇧-S",
+            hotkey: "⌘-⇧-B",
             name: "insert-before",
             tipPosition: "n",
         }, {

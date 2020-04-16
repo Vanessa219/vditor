@@ -167,7 +167,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 #### options.toolbar
 
 * Toolbar, you can use name for shorthand: `toolbar: ['emoji', 'br', 'bold', '|', 'line']`. See default [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
-* name can be enumerated as: `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` , `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `outline` , `devtools` , `info` , `help` , `br`
+* name can be enumerated as: `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` `insert-after`, `insert-before`, `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `format` , `fullscreen` , `outline` , `devtools` , `info` , `help` , `br`
 * When `name` is not in the enumeration, you can add a custom button in the following format: 
 
 ```js
@@ -223,7 +223,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 |   | Explanation | Default |
 | - | - | - |
 | delay | Preview debounce millisecond interval | 1000 |
-| maxWidth | Preview area maximum width | 768 |
+| maxWidth | Preview area maximum width | 800 |
 | mode | Display mode: both, editor, preview | 'both' |
 | url | md parsing request | - |
 | parse | Preview callback (element: HTMLElement): void | - |
