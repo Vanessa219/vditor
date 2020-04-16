@@ -31,6 +31,8 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
+import {InsertAfter} from "./InsertAfter";
+import {InsertBefore} from "./InsertBefore";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -141,6 +143,12 @@ export class Toolbar {
                     break;
                 case "outline":
                     menuItemObj = new Outline(vditor, menuItem);
+                    break;
+                case "insert-after":
+                    menuItemObj = new InsertAfter(vditor, menuItem);
+                    break;
+                case "insert-before":
+                    menuItemObj = new InsertBefore(vditor, menuItem);
                     break;
                 default:
                     menuItemObj = new Custom(vditor, menuItem);

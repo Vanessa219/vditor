@@ -57,14 +57,14 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.11 / 2020-04-1x
+### v3.1.12 / 2020-04-1x
 
+### v3.1.11 / 2020-04-16
+
+* [319](https://github.com/Vanessa219/vditor/issues/319) add ctrl+shift+e button to toolbar for smartphone `改进功能`
 * [312](https://github.com/Vanessa219/vditor/issues/312) 支持块级元素上下移动 `引入特性`
 * [318](https://github.com/Vanessa219/vditor/issues/318) 工具栏和编辑器区域对齐 `改进功能`
 * [313](https://github.com/Vanessa219/vditor/issues/313) html 页面 点击禁用button 引起回调 `修复缺陷`
-
-### v3.1.10 / 2020-04-15
-
 * [311](https://github.com/Vanessa219/vditor/issues/311) preview demo `改进功能`
 * [94](https://github.com/Vanessa219/vditor/issues/94) 获取大纲内容及同步滚动效果 `引入特性`
 * [309](https://github.com/Vanessa219/vditor/issues/309) 添加 options.upload.setHeaders `引入特性`
@@ -99,6 +99,8 @@
   * 添加静态方法 `outlineRender`
   * IPreviewOptions 添加 `after`
   * insert line 默认快捷键由 `⌘-⇧-D` 修改为 `⌘-⇧-H`，添加下移 `⌘-⇧-D`、上移 `⌘-⇧-U` 快捷键，移除上传快捷键
+  * 为 `options.toolbar` 添加 outdent，indent, outline, insert-after, insert-before
+  * options.preview.maxWidth 默认值改为 800
 
 ### v3.0.12 / 2020-04-06
 

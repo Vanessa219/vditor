@@ -1,6 +1,4 @@
-import afterSVG from "../../assets/icons/after.svg";
 import alignCenterSVG from "../../assets/icons/align-center.svg";
-import beforeSVG from "../../assets/icons/before.svg";
 import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
@@ -52,8 +50,6 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (footnotesElement) {
             vditor.wysiwyg.popover.innerHTML = "";
             genClose(vditor.wysiwyg.popover, footnotesElement, vditor);
-            genInsertBefore(range, footnotesElement, vditor);
-            genInsertAfter(range, footnotesElement, vditor);
             setPopoverPosition(vditor, footnotesElement);
             return;
         }
@@ -125,8 +121,6 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (tocElement) {
             vditor.wysiwyg.popover.innerHTML = "";
             genClose(vditor.wysiwyg.popover, tocElement, vditor);
-            genInsertBefore(range, tocElement, vditor);
-            genInsertAfter(range, tocElement, vditor);
             setPopoverPosition(vditor, tocElement);
         }
 
@@ -137,8 +131,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             genUp(range, blockquoteElement, vditor);
             genDown(range, blockquoteElement, vditor);
             genClose(vditor.wysiwyg.popover, blockquoteElement, vditor);
-            genInsertBefore(range, blockquoteElement, vditor);
-            genInsertAfter(range, blockquoteElement, vditor);
             setPopoverPosition(vditor, blockquoteElement);
         }
 
@@ -158,8 +150,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             genUp(range, topListElement, vditor);
             genDown(range, topListElement, vditor);
             genClose(vditor.wysiwyg.popover, topListElement, vditor);
-            genInsertBefore(range, topListElement, vditor);
-            genInsertAfter(range, topListElement, vditor);
 
             setPopoverPosition(vditor, topListElement);
         }
@@ -339,8 +329,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             genUp(range, tableElement, vditor);
             genDown(range, tableElement, vditor);
             genClose(vditor.wysiwyg.popover, tableElement, vditor);
-            genInsertBefore(range, tableElement, vditor);
-            genInsertAfter(range, tableElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", left);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", center);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", right);
@@ -446,8 +434,6 @@ export const highlightToolbar = (vditor: IVditor) => {
             genUp(range, blockRenderElement, vditor);
             genDown(range, blockRenderElement, vditor);
             genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
-            genInsertBefore(range, blockRenderElement, vditor);
-            genInsertAfter(range, blockRenderElement, vditor);
 
             if (blockRenderElement.getAttribute("data-type") === "code-block") {
                 const languageWrap = document.createElement("span");
@@ -638,40 +624,6 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
         scrollCenter(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", downElement);
-};
-
-const genInsertBefore = (range: Range, element: HTMLElement, vditor: IVditor) => {
-    const insertBefore = document.createElement("span");
-    insertBefore.setAttribute("data-type", "insert-before");
-    insertBefore.setAttribute("aria-label", i18n[vditor.options.lang].insertBefore +
-        "<" + updateHotkeyTip("⌘-⇧-S") + ">");
-    insertBefore.innerHTML = beforeSVG;
-    insertBefore.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
-    insertBefore.onclick = () => {
-        // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("beforebegin", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
-        setRangeByWbr(vditor.wysiwyg.element, range);
-        highlightToolbar(vditor);
-        afterRenderEvent(vditor);
-    };
-    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertBefore);
-};
-
-const genInsertAfter = (range: Range, element: HTMLElement, vditor: IVditor) => {
-    const insertAfter = document.createElement("span");
-    insertAfter.setAttribute("data-type", "insert-after");
-    insertAfter.setAttribute("aria-label", i18n[vditor.options.lang].insertAfter +
-        "<" + updateHotkeyTip("⌘-⇧-E") + ">");
-    insertAfter.innerHTML = afterSVG;
-    insertAfter.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
-    insertAfter.onclick = () => {
-        // 需添加零宽字符，否则的话无法记录 undo
-        element.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
-        setRangeByWbr(vditor.wysiwyg.element, range);
-        highlightToolbar(vditor);
-        afterRenderEvent(vditor);
-    };
-    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertAfter);
 };
 
 const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) => {

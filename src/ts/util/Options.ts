@@ -59,7 +59,7 @@ export class Options {
                 inlineDigit: false,
                 macros: {},
             },
-            maxWidth: 768,
+            maxWidth: 800,
             mode: "both",
         },
         resize: {
@@ -147,6 +147,14 @@ export class Options {
             name: "inline-code",
             prefix: "`",
             suffix: "`",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-S",
+            name: "insert-before",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-E",
+            name: "insert-after",
             tipPosition: "n",
         }, {
             name: "|",

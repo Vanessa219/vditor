@@ -202,26 +202,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    // 在有子工具栏的块后插入行
-    if (matchHotKey("⌘-⇧-E", event)) {
-        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]');
-        if (itemElement) {
-            itemElement.click();
-            event.preventDefault();
-            return true;
-        }
-    }
-
-    // 在有子工具栏的块前插入行
-    if (matchHotKey("⌘-⇧-S", event)) {
-        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="insert-before"]');
-        if (itemElement) {
-            itemElement.click();
-            event.preventDefault();
-            return true;
-        }
-    }
-
     // 对有子工具栏的块上移
     if (matchHotKey("⌘-⇧-U", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="up"]');
