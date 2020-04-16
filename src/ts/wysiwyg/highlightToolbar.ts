@@ -1,9 +1,9 @@
 import alignCenterSVG from "../../assets/icons/align-center.svg";
+import downSVG from "../../assets/icons/down.svg";
 import indentSVG from "../../assets/icons/indent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import upSVG from "../../assets/icons/up.svg";
-import downSVG from "../../assets/icons/down.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {disableToolbar} from "../toolbar/setToolbar";
@@ -11,6 +11,7 @@ import {enableToolbar} from "../toolbar/setToolbar";
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
+import {scrollCenter} from "../util/editorCommonEvent";
 import {setTableAlign} from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
@@ -22,7 +23,6 @@ import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHEading
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {scrollCenter} from "../util/editorCommonEvent";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -583,7 +583,7 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
 };
 
 const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
-    const previousElement = element.previousElementSibling
+    const previousElement = element.previousElementSibling;
     if (!previousElement || !element.parentElement.isEqualNode(vditor.wysiwyg.element)) {
         return;
     }
@@ -605,7 +605,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
 };
 
 const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
-    const nextElement = element.nextElementSibling
+    const nextElement = element.nextElementSibling;
     if (!nextElement || !element.parentElement.isEqualNode(vditor.wysiwyg.element)) {
         return;
     }

@@ -1,12 +1,12 @@
 import beforeSVG from "../../assets/icons/before.svg";
 import {Constants} from "../constants";
+import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 import {getEventName} from "../util/compatibility";
 import {execAfterRender} from "../util/fixBrowserBehavior";
 import {hasClosestBlock} from "../util/hasClosest";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
-import {MenuItem} from "./MenuItem";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
-import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
+import {MenuItem} from "./MenuItem";
 
 export class InsertBefore extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

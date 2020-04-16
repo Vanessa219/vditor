@@ -16,6 +16,8 @@ import {Help} from "./Help";
 import {Indent} from "./Indent";
 import {Info} from "./Info";
 import {InlineCode} from "./InlineCode";
+import {InsertAfter} from "./InsertAfter";
+import {InsertBefore} from "./InsertBefore";
 import {Italic} from "./Italic";
 import {Line} from "./Line";
 import {Link} from "./Link";
@@ -31,8 +33,6 @@ import {Strike} from "./Strike";
 import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {InsertAfter} from "./InsertAfter";
-import {InsertBefore} from "./InsertBefore";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
