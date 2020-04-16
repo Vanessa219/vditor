@@ -59,6 +59,7 @@
 
 ### v3.1.11 / 2020-04-1x
 
+* [318](https://github.com/Vanessa219/vditor/issues/318) 工具栏和编辑器区域对齐 `改进功能`
 * [313](https://github.com/Vanessa219/vditor/issues/313) html 页面 点击禁用button 引起回调 `修复缺陷`
 
 ### v3.1.10 / 2020-04-15
