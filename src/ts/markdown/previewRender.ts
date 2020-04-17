@@ -6,12 +6,12 @@ import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
 import {graphvizRender} from "./graphvizRender";
 import {highlightRender} from "./highlightRender";
+import {lazyLoadImageRender} from "./lazyLoadImageRender";
 import {mathRender} from "./mathRender";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
-import {lazyLoadImageRender} from "./lazyLoadImageRender";
 
 const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption = {

@@ -3,13 +3,13 @@ import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {graphvizRender} from "./ts/markdown/graphvizRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
+import {lazyLoadImageRender} from "./ts/markdown/lazyLoadImageRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
-import {lazyLoadImageRender} from "./ts/markdown/lazyLoadImageRender";
 class Vditor {
 
     /** 为 element 中的代码块添加复制按钮 */
