@@ -12,7 +12,7 @@ interface ILuteRender {
                 Type: number,
             },
         }
-    },               entering: boolean) => [string, number];
+    }, entering: boolean) => [string, number];
 }
 
 interface ILuteOptions extends IMarkdownConfig {
@@ -20,6 +20,7 @@ interface ILuteOptions extends IMarkdownConfig {
     emojiSite: string;
     headingAnchor: boolean;
     inlineMathDigit: boolean;
+    lazyLoadImage?: string;
 }
 
 interface ILute {
@@ -36,6 +37,8 @@ interface ILute {
     }): void;
 
     SetHeadingAnchor(enable: boolean): void;
+
+    SetImageLazyLoading(imagePath: string): void;
 
     SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
@@ -260,6 +263,7 @@ interface IPreviewOptions {
     theme?: "classic" | "dark";
     customEmoji?: { [key: string]: string };
     lang?: (keyof II18nLang);
+    lazyLoadImage?: string;
     emojiPath?: string;
     hljs?: IHljs;
     speech?: {

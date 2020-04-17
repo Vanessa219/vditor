@@ -11,6 +11,7 @@ import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
+import {lazyLoadImageRender} from "./lazyLoadImageRender";
 
 const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption = {
@@ -72,6 +73,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             footnotes: mergedOptions.markdown.footnotes,
             headingAnchor: mergedOptions.anchor,
             inlineMathDigit: mergedOptions.math.inlineDigit,
+            lazyLoadImage: mergedOptions.lazyLoadImage,
             setext: mergedOptions.markdown.setext,
             toc: mergedOptions.markdown.toc,
         });
@@ -114,5 +116,8 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     if (mergedOptions.after) {
         mergedOptions.after();
+    }
+    if (mergedOptions.lazyLoadImage) {
+        lazyLoadImageRender(previewElement);
     }
 };

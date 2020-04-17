@@ -9,6 +9,7 @@ import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
+import {lazyLoadImageRender} from "./ts/markdown/lazyLoadImageRender";
 class Vditor {
 
     /** 为 element 中的代码块添加复制按钮 */
@@ -31,6 +32,8 @@ class Vditor {
     public static mediaRender = mediaRender;
     /** 对选中的文字进行阅读 */
     public static speechRender = speechRender;
+    /** 对图片进行懒加载 */
+    public static lazyLoadImageRender = lazyLoadImageRender;
     /** Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vaness) */
     public static md2html = md2html;
     /** 页面 Markdown 文章渲染 */

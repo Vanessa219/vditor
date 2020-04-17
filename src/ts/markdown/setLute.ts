@@ -11,5 +11,8 @@ export const setLute = (options: ILuteOptions) => {
     lute.SetFixTermTypo(options.fixTermTypo);
     lute.SetVditorCodeBlockPreview(options.codeBlockPreview);
     lute.SetSetext(options.setext);
+    if (options.lazyLoadImage) {
+        lute.SetImageLazyLoading(options.lazyLoadImage);
+    }
     return lute;
 };
