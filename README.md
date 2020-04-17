@@ -385,7 +385,7 @@ VditorPreview.mermaidRender(document)
 
 * When you need to render Markdown on the page, you can directly call the `preview` method with the following parameters:
 
-```js
+```ts
 previewElement: HTMLDivElement,   // Use this element for rendering
 markdown: string,  // The original markdown to be rendered
 options?: IPreviewOptions {  
@@ -394,14 +394,15 @@ options?: IPreviewOptions {
  customEmoji?: { [key: string]: string };    // Custom emoji, default is {}
  lang?: (keyof II18nLang);    // Language, default is 'zh_CN'  
  emojiPath?: string;    // Emoji picture path 
- hljs?: IHljs // Refer to options.preview.hljs 
+ hljs?: IHljs; // Refer to options.preview.hljs 
  speech?: {  // Read the selected content
-  enable?: boolean
- }
- math?: IMath // Math formula rendering configuration
- transform?(html: string): string // Callback method before rendering
- after?(): void // Callback method after rendering
- cdn?: string // Self-built CDN address
+  enable?: boolean,
+ };
+ math?: IMath; // Math formula rendering configuration
+ transform?(html: string): string; // Callback method before rendering
+ after?(): void; // Callback method after rendering
+ cdn?: string; // Self-built CDN address
+ lazyLoadImage?: string; // 可使用类似 "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" 图片对原始图片进行懒加载
 }
 ```
 
@@ -421,6 +422,7 @@ options?: IPreviewOptions {
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
 | graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
+| lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 
 ## 🏗 Developer Guide
 
