@@ -627,6 +627,9 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
 };
 
 const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) => {
+    if (vditor.wysiwyg.element.children.length === 1 && vditor.wysiwyg.element.firstElementChild.tagName === "P") {
+        return;
+    }
     const close = document.createElement("span");
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +

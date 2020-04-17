@@ -15,7 +15,7 @@ import {Editor} from "./ts/sv/index";
 import {insertText} from "./ts/sv/insertText";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
-import {disableToolbar} from "./ts/toolbar/setToolbar";
+import {disableToolbar, hidePanel} from "./ts/toolbar/setToolbar";
 import {enableToolbar} from "./ts/toolbar/setToolbar";
 import {initUI} from "./ts/ui/initUI";
 import {setPreviewMode} from "./ts/ui/setPreviewMode";
@@ -338,6 +338,10 @@ class Vditor extends VditorMethod {
         }
 
         if (!markdown) {
+            hidePanel(this.vditor, ["emoji", "headings", "edit-mode", "hint"]);
+            if (this.vditor.wysiwyg.popover) {
+                this.vditor.wysiwyg.popover.style.display = "none";
+            }
             this.clearCache();
         }
     }
