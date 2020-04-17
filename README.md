@@ -25,7 +25,7 @@ The next generation of Markdown editor, built for the future
 
 [Vditor](https://github.com/Vanessa219/vditor) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular.
 
-Welcome to [Vditor Official Discussion Area](https://hacpai.com/tag/vditor) to learn more.
+Welcome to [Vditor Official Discussion Forum](https://hacpai.com/tag/vditor) to learn more.
 
 ## 📽️ Background
 
