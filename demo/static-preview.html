@@ -34,8 +34,8 @@
     <meta name="twitter:url" content="https://hacpai.com/tag/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.8/dist/index.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.8/dist/method.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.12/dist/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.12/dist/method.min.js"></script>
     <style>
         .preview {
             max-width: 90%;
@@ -51,7 +51,10 @@
             right: 20px;
             bottom: 20px;
             overflow: auto;
+            font-size: 13px;
             color: var(--textarea-text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
         }
     </style>
 </head>
@@ -68,9 +71,11 @@
 </h2>
 <h2><a href="static.html" id="VditorForYou">Vditor for you</a></h2>
 <div id="previewWrap">
-    <div id="preview" class="preview vditor-reset--dark"></div>
+    <div id="preview" class="preview"></div>
 </div>
-<div id="outline" class="vditor"></div>
+<div class="vditor" style="border: 0">
+    <div id="outline"></div>
+</div>
 <textarea id="zh_CNText" style="display:none;">## 教程
 
 这是一篇讲解如何正确使用 **Markdown** 的排版示例，学会这个很有必要，能让你的文章有更佳清晰的排版。
@@ -721,7 +726,7 @@ https://www.youtube.com/watch?v=S4xoOW4DVKE
   const setTheme = (theme) => {
     const previewWrapElement = document.getElementById('previewWrap')
     const previewElement = document.getElementById('preview')
-    const outlineElement = document.getElementById('outline')
+    const outlineElement = document.getElementById('outline').parentElement
     if (theme === 'dark') {
       document.body.classList.add('vditor-reset--dark')
       previewElement.classList.add('vditor-reset--dark')
