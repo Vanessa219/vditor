@@ -18,6 +18,16 @@ export const codeRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh_C
             return;
         }
 
+        let codeText = e.innerText;
+        if (e.classList.contains("highlight-chroma")) {
+            const codeElement = document.createElement("code");
+            codeElement.innerHTML = e.innerHTML;
+            codeElement.querySelectorAll(".highlight-ln").forEach((item: HTMLElement) => {
+                item.remove();
+            });
+            codeText = codeElement.innerText;
+        }
+
         const divElement = document.createElement("div");
         divElement.className = "vditor-copy";
         divElement.innerHTML = `<span aria-label="${i18n[lang].copy}"
@@ -26,7 +36,7 @@ class="vditor-tooltipped vditor-tooltipped__w"
 onclick="this.previousElementSibling.select();document.execCommand('copy');` +
             `this.setAttribute('aria-label', '${i18n[lang].copied}')">${copySVG}</span>`;
         const textarea = document.createElement("textarea");
-        textarea.value = code160to32(e.innerText);
+        textarea.value = code160to32(codeText);
         divElement.insertAdjacentElement("afterbegin", textarea);
 
         e.before(divElement);

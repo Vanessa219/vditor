@@ -61,6 +61,7 @@
 
 ### v3.1.12 / 2020-04-17
 
+* [320](https://github.com/Vanessa219/vditor/issues/320) 代码区点击复制代码时自动去掉行号 `修复缺陷`
 * [314](https://github.com/Vanessa219/vditor/issues/314) 添加图片懒加载设置 `引入特性`
 * [319](https://github.com/Vanessa219/vditor/issues/319) add ctrl+shift+e button to toolbar for smartphone `改进功能`
 * [312](https://github.com/Vanessa219/vditor/issues/312) 支持块级元素上下移动 `引入特性`
