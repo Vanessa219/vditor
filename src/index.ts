@@ -338,7 +338,7 @@ class Vditor extends VditorMethod {
         }
 
         if (!markdown) {
-            hidePanel(this.vditor, ["emoji", "headings", "edit-mode", "hint"]);
+            hidePanel(this.vditor, ["emoji", "headings", "submenu", "hint"]);
             if (this.vditor.wysiwyg.popover) {
                 this.vditor.wysiwyg.popover.style.display = "none";
             }

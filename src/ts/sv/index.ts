@@ -62,7 +62,7 @@ class Editor {
         });
 
         this.element.addEventListener("scroll", () => {
-            hidePanel(vditor, ["hint", "headings", "emoji"]);
+            hidePanel(vditor, ["hint", "headings", "emoji", "submenu"]);
             if (!vditor.preview || (vditor.preview && vditor.preview.element.style.display === "none")) {
                 return;
             }

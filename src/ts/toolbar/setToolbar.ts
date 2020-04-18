@@ -70,7 +70,7 @@ export const showToolbar = (toolbar: { [key: string]: HTMLElement }, names: stri
     });
 };
 
-// ["hint", "headings", "popover", "emoji"]
+// ["headings", "emoji", "submenu", "popover", "hint"]
 export const hidePanel = (vditor: IVditor, panels: string[]) => {
     if (vditor.toolbar.elements.emoji && panels.includes("emoji")) {
         (vditor.toolbar.elements.emoji.lastElementChild as HTMLElement).style.display = "none";
@@ -83,5 +83,10 @@ export const hidePanel = (vditor: IVditor, panels: string[]) => {
     }
     if (vditor.wysiwyg.popover && panels.includes("popover")) {
         vditor.wysiwyg.popover.style.display = "none";
+    }
+    if (panels.includes("submenu")) {
+        vditor.toolbar.element.querySelectorAll(".vditor-panel--left").forEach((item: HTMLElement) => {
+            item.style.display = "none";
+        });
     }
 };

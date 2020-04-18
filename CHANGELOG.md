@@ -102,12 +102,12 @@
   * 添加 `options.upload.setHeaders: { [key: string]: string }`
   * 为 `options.toolbar` 添加 outdent，indent, outline
   * 添加静态方法 `outlineRender`
-  * insert line 默认快捷键由 `⌘-⇧-D` 修改为 `⌘-⇧-H`，添加下移 `⌘-⇧-D`、上移 `⌘-⇧-U` 快捷键，移除上传快捷键
-  * 为 `options.toolbar` 添加 outdent，indent, outline, insert-after, insert-before
   * options.preview.maxWidth 默认值改为 800
   * IPreviewOptions 添加 `after`，`lazyLoadImage`
   * 添加 lazyLoadImageRender 静态方法
   * `setTheme` 方法添加 `codeTheme` 参数
+  * insert line 默认快捷键由 `⌘-⇧-D` 修改为 `⌘-⇧-H`，添加下移 `⌘-⇧-D`、上移 `⌘-⇧-U` 快捷键，移除上传、编辑器模式切换快捷键
+  * 为 `options.toolbar` 添加 outdent，indent, outline, insert-after, insert-before, 子菜单，code-theme
 
 ### v3.0.12 / 2020-04-06
 

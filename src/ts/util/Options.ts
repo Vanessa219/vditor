@@ -241,7 +241,12 @@ export class Options {
             tipPosition: "nw",
             toolbar: [
                 {
-                    hotkey: "⌘-⇧-M",
+                    hotkey: "⌘-'",
+                    icon: fullscreenSVG,
+                    name: "fullscreen",
+                    tipPosition: "nw",
+                },
+                {
                     icon: editSVG,
                     name: "edit-mode",
                     tipPosition: "nw",
@@ -260,11 +265,6 @@ export class Options {
                     hotkey: "⌘-⇧-F",
                     icon: formatSVG,
                     name: "format",
-                    tipPosition: "nw",
-                }, {
-                    hotkey: "⌘-'",
-                    icon: fullscreenSVG,
-                    name: "fullscreen",
                     tipPosition: "nw",
                 }, {
                     icon: outlinerSVG,

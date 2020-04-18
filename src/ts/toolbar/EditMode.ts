@@ -16,7 +16,7 @@ import {disableToolbar, enableToolbar, hidePanel, hideToolbar, removeCurrentTool
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
     if (typeof event !== "string") {
-        hidePanel(vditor, ["hint", "headings", "emoji"]);
+        hidePanel(vditor, ["hint", "headings", "emoji", "submenu"]);
         event.preventDefault();
         markdownText = getMarkdown(vditor);
     } else {
@@ -135,7 +135,7 @@ export class EditMode extends MenuItem {
         super(vditor, menuItem);
 
         this.panelElement = document.createElement("div");
-        this.panelElement.className = "vditor-hint vditor-panel--arrow";
+        this.panelElement.className = "vditor-hint vditor-panel--side";
         this.panelElement.innerHTML = `<button>${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
 <button>${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
 <button>${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
@@ -146,19 +146,11 @@ export class EditMode extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor) {
-        this.element.children[0].addEventListener(getEventName(), (event) => {
-            event.preventDefault();
-            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
-                return;
-            }
-            (this.element.firstElementChild as HTMLElement).blur();
-
-            if (this.panelElement.style.display === "block") {
-                this.panelElement.style.display = "none";
-            } else {
-                this.panelElement.style.display = "block";
-            }
-            hidePanel(vditor, ["hint", "headings", "emoji"]);
+        this.element.addEventListener("mouseover", (event) => {
+            this.panelElement.style.display = "block";
+        });
+        this.element.addEventListener("mouseout", (event) => {
+            this.panelElement.style.display = "none";
         });
 
         this.panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {

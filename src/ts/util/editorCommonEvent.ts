@@ -19,7 +19,7 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if (vditor.options.focus) {
             vditor.options.focus(getMarkdown(vditor));
         }
-        hidePanel(vditor, ["headings", "emoji"]);
+        hidePanel(vditor, ["headings", "emoji", "submenu"]);
     });
 };
 

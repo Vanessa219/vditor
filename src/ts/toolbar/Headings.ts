@@ -47,7 +47,7 @@ export class Headings extends MenuItem {
                     panelElement.style.display = "block";
                 }
             }
-            hidePanel(vditor, ["hint", "emoji", "popover"]);
+            hidePanel(vditor, ["hint", "emoji", "popover", "submenu"]);
         });
 
         for (let i = 0; i < 6; i++) {

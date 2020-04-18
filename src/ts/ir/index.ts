@@ -40,7 +40,7 @@ class IR {
 
     private bindEvent(vditor: IVditor) {
         this.element.addEventListener("scroll", () => {
-            hidePanel(vditor, ["hint", "headings", "emoji"]);
+            hidePanel(vditor, ["hint", "headings", "emoji", "submenu"]);
         });
 
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {

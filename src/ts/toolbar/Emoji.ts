@@ -50,7 +50,7 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
             } else {
                 panelElement.style.display = "block";
             }
-            hidePanel(vditor, ["hint", "headings", "popover"]);
+            hidePanel(vditor, ["hint", "headings", "popover", "submenu"]);
         });
 
         panelElement.querySelectorAll(".vditor-emojis button").forEach((element: HTMLElement) => {
