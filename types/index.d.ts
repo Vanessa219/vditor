@@ -201,7 +201,7 @@ interface IPreviewMode {
 interface IHljs {
     /** 是否启用行号。默认值: false */
     lineNumber?: boolean;
-    /** 可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html)。 默认值: 'github' */
+    /** 代码风格，可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html)。 默认值: 'github' */
     style?: string;
     /** 是否启用代码高亮。默认值: true */
     enable?: boolean;

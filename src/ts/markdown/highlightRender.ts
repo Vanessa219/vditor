@@ -1,5 +1,5 @@
 import {VDITOR_VERSION} from "../constants";
-import { addScript} from "../util/addScript";
+import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 
 declare const hljs: {
@@ -13,16 +13,16 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
         "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments", "rainbow_dash", "rrt",
         "solarized-dark", "solarized-dark256", "solarized-light", "swapoff", "tango", "trac", "vim", "vs", "xcode"];
 
-    if (!hljsThemes.includes(hljsOption.style)) {
-        hljsOption.style = "github";
+    let style = hljsOption.style;
+    if (!hljsThemes.includes(style)) {
+        style = "github";
     }
-
     const vditorHljsStyle = document.getElementById("vditorHljsStyle") as HTMLLinkElement;
-    const href = `${cdn}/dist/js/highlight.js/styles/${hljsOption.style}.css`;
+    const href = `${cdn}/dist/js/highlight.js/styles/${style}.css`;
     if (vditorHljsStyle && vditorHljsStyle.href !== href) {
         vditorHljsStyle.remove();
     }
-    addStyle(`${cdn}/dist/js/highlight.js/styles/${hljsOption.style}.css`, "vditorHljsStyle");
+    addStyle(`${cdn}/dist/js/highlight.js/styles/${style}.css`, "vditorHljsStyle");
 
     if (!hljsOption.enable) {
         return;

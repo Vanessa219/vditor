@@ -9,9 +9,6 @@ window.vditor = new Vditor('vditor', {
     markdown: {
       toc: true,
     },
-    hljs: {
-      style: 'native',
-    },
   },
   toolbarConfig: {
     pin: true,

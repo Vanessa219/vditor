@@ -127,9 +127,9 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置主题 */
-    public setTheme(theme: "dark" | "classic") {
+    public setTheme(theme: "dark" | "classic", codeTheme?: string) {
         this.vditor.options.theme = theme;
-        setTheme(this.vditor);
+        setTheme(this.vditor, codeTheme);
     }
 
     /** 获取编辑器内容 */

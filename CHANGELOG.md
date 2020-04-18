@@ -59,6 +59,8 @@
 
 ### v3.1.13 / 2020-04-1x
 
+* [323](https://github.com/Vanessa219/vditor/issues/323) setTheme 需支持代码块风格的切换 `改进功能`
+
 ### v3.1.12 / 2020-04-17
 
 * [320](https://github.com/Vanessa219/vditor/issues/320) 代码区点击复制代码时自动去掉行号 `修复缺陷`
@@ -104,6 +106,7 @@
   * options.preview.maxWidth 默认值改为 800
   * IPreviewOptions 添加 `after`，`lazyLoadImage`
   * 添加 lazyLoadImageRender 静态方法
+  * `setTheme` 方法添加 `codeTheme` 参数
 
 ### v3.0.12 / 2020-04-06
 
