@@ -1,8 +1,5 @@
-import {Bold} from "./Bold";
 import {Both} from "./Both";
 import {Br} from "./Br";
-import {Check} from "./Check";
-import {Code} from "./Code";
 import {Counter} from "./Counter";
 import {Custom} from "./Custom";
 import {Devtools} from "./Devtools";
@@ -15,161 +12,59 @@ import {Headings} from "./Headings";
 import {Help} from "./Help";
 import {Indent} from "./Indent";
 import {Info} from "./Info";
-import {InlineCode} from "./InlineCode";
 import {InsertAfter} from "./InsertAfter";
 import {InsertBefore} from "./InsertBefore";
-import {Italic} from "./Italic";
-import {Line} from "./Line";
-import {Link} from "./Link";
-import {List} from "./List";
-import {OrderedList} from "./OrderedList";
 import {Outdent} from "./Outdent";
 import {Outline} from "./Outline";
 import {Preview} from "./Preview";
-import {Quote} from "./Quote";
 import {Record} from "./Record";
 import {Redo} from "./Redo";
-import {Strike} from "./Strike";
-import {Table} from "./Table";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
+import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/compatibility";
+import {Constants} from "../constants";
+import {hidePanel} from "./setToolbar";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
     public element: HTMLElement;
-    public editModePanelElement: HTMLElement;
-    public headingPanelElement: HTMLElement;
-    public emojiPanelElement: HTMLElement;
 
     constructor(vditor: IVditor) {
         const options = vditor.options;
         this.elements = {};
 
-        options.toolbar.forEach((menuItem: IMenuItem, i: number) => {
-            let menuItemObj;
-            switch (menuItem.name) {
-                case "emoji":
-                    menuItemObj = new Emoji(vditor, menuItem);
-                    this.emojiPanelElement = menuItemObj.panelElement;
-                    break;
-                case "bold":
-                    menuItemObj = new Bold(vditor, menuItem);
-                    break;
-                case "headings":
-                    menuItemObj = new Headings(vditor, menuItem);
-                    this.headingPanelElement = menuItemObj.panelElement;
-                    break;
-                case "|":
-                    menuItemObj = new Divider();
-                    break;
-                case "br":
-                    menuItemObj = new Br();
-                    break;
-                case "italic":
-                    menuItemObj = new Italic(vditor, menuItem);
-                    break;
-                case "strike":
-                    menuItemObj = new Strike(vditor, menuItem);
-                    break;
-                case "line":
-                    menuItemObj = new Line(vditor, menuItem);
-                    break;
-                case "quote":
-                    menuItemObj = new Quote(vditor, menuItem);
-                    break;
-                case "list":
-                    menuItemObj = new List(vditor, menuItem);
-                    break;
-                case "ordered-list":
-                    menuItemObj = new OrderedList(vditor, menuItem);
-                    break;
-                case "check":
-                    menuItemObj = new Check(vditor, menuItem);
-                    break;
-                case "undo":
-                    menuItemObj = new Undo(vditor, menuItem);
-                    break;
-                case "redo":
-                    menuItemObj = new Redo(vditor, menuItem);
-                    break;
-                case "code":
-                    menuItemObj = new Code(vditor, menuItem);
-                    break;
-                case "inline-code":
-                    menuItemObj = new InlineCode(vditor, menuItem);
-                    break;
-                case "link":
-                    menuItemObj = new Link(vditor, menuItem);
-                    break;
-                case "help":
-                    menuItemObj = new Help(vditor, menuItem);
-                    break;
-                case "table":
-                    menuItemObj = new Table(vditor, menuItem);
-                    break;
-                case "both":
-                    menuItemObj = new Both(vditor, menuItem);
-                    break;
-                case "preview":
-                    menuItemObj = new Preview(vditor, menuItem);
-                    break;
-                case "fullscreen":
-                    menuItemObj = new Fullscreen(vditor, menuItem);
-                    break;
-                case "upload":
-                    menuItemObj = new Upload(vditor, menuItem);
-                    break;
-                case "record":
-                    menuItemObj = new Record(vditor, menuItem);
-                    break;
-                case "info":
-                    menuItemObj = new Info(vditor, menuItem);
-                    break;
-                case "format":
-                    menuItemObj = new Format(vditor, menuItem);
-                    break;
-                case "edit-mode":
-                    menuItemObj = new EditMode(vditor, menuItem);
-                    this.editModePanelElement = menuItemObj.panelElement;
-                    break;
-                case "devtools":
-                    menuItemObj = new Devtools(vditor, menuItem);
-                    break;
-                case "outdent":
-                    menuItemObj = new Outdent(vditor, menuItem);
-                    break;
-                case "indent":
-                    menuItemObj = new Indent(vditor, menuItem);
-                    break;
-                case "outline":
-                    menuItemObj = new Outline(vditor, menuItem);
-                    break;
-                case "insert-after":
-                    menuItemObj = new InsertAfter(vditor, menuItem);
-                    break;
-                case "insert-before":
-                    menuItemObj = new InsertBefore(vditor, menuItem);
-                    break;
-                default:
-                    menuItemObj = new Custom(vditor, menuItem);
-                    break;
-            }
-
-            if (!menuItemObj) {
-                return;
-            }
-            let key = menuItem.name;
-            if (key === "br" || key === "|") {
-                key = key + i;
-            }
-
-            this.elements[key] = menuItemObj.element;
-        });
-
         this.element = document.createElement("div");
         this.element.className = "vditor-toolbar";
-        Object.keys(this.elements).forEach((key) => {
-            this.element.appendChild(this.elements[key]);
+
+        options.toolbar.forEach((menuItem: IMenuItem, i: number) => {
+            const itemElement = this.genItem(vditor, menuItem, i);
+            this.element.appendChild(itemElement);
+            if (menuItem.toolbar) {
+                const panelElement = document.createElement("div");
+                panelElement.className = "vditor-hint vditor-panel--arrow vditor-panel--left";
+                panelElement.addEventListener(getEventName(), (event) => {
+                    panelElement.style.display = "none";
+                });
+                menuItem.toolbar.forEach((subMenuItem: IMenuItem, subI: number) => {
+                    subMenuItem.level = 2;
+                    panelElement.appendChild(this.genItem(vditor, subMenuItem, subI));
+                });
+                itemElement.appendChild(panelElement)
+                itemElement.children[0].addEventListener(getEventName(), (event) => {
+                    event.preventDefault();
+                    if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+                        return;
+                    }
+                    (this.element.firstElementChild as HTMLElement).blur();
+                    if (panelElement.style.display === "block") {
+                        panelElement.style.display = "none";
+                    } else {
+                        panelElement.style.display = "block";
+                    }
+                    hidePanel(vditor, ["hint", "headings", "popover", "emoji"]);
+                });
+            }
         });
 
         if (vditor.options.toolbarConfig.hide) {
@@ -183,5 +78,103 @@ export class Toolbar {
             vditor.counter = new Counter(vditor);
             this.element.appendChild(vditor.counter.element);
         }
+    }
+
+    private genItem(vditor: IVditor, menuItem: IMenuItem, index: number) {
+        let menuItemObj;
+        switch (menuItem.name) {
+            case "emoji":
+                menuItemObj = new Emoji(vditor, menuItem);
+                break;
+            case "headings":
+                menuItemObj = new Headings(vditor, menuItem);
+                break;
+            case "|":
+                menuItemObj = new Divider();
+                break;
+            case "br":
+                menuItemObj = new Br();
+                break;
+            case "bold":
+            case "italic":
+            case "more":
+            case "strike":
+            case "line":
+            case "quote":
+            case "list":
+            case "ordered-list":
+            case "check":
+            case "code":
+            case "inline-code":
+            case "link":
+            case "table":
+                menuItemObj = new MenuItem(vditor, menuItem);
+                break;
+            case "undo":
+                menuItemObj = new Undo(vditor, menuItem);
+                break;
+            case "redo":
+                menuItemObj = new Redo(vditor, menuItem);
+                break;
+            case "help":
+                menuItemObj = new Help(vditor, menuItem);
+                break;
+            case "both":
+                menuItemObj = new Both(vditor, menuItem);
+                break;
+            case "preview":
+                menuItemObj = new Preview(vditor, menuItem);
+                break;
+            case "fullscreen":
+                menuItemObj = new Fullscreen(vditor, menuItem);
+                break;
+            case "upload":
+                menuItemObj = new Upload(vditor, menuItem);
+                break;
+            case "record":
+                menuItemObj = new Record(vditor, menuItem);
+                break;
+            case "info":
+                menuItemObj = new Info(vditor, menuItem);
+                break;
+            case "format":
+                menuItemObj = new Format(vditor, menuItem);
+                break;
+            case "edit-mode":
+                menuItemObj = new EditMode(vditor, menuItem);
+                break;
+            case "devtools":
+                menuItemObj = new Devtools(vditor, menuItem);
+                break;
+            case "outdent":
+                menuItemObj = new Outdent(vditor, menuItem);
+                break;
+            case "indent":
+                menuItemObj = new Indent(vditor, menuItem);
+                break;
+            case "outline":
+                menuItemObj = new Outline(vditor, menuItem);
+                break;
+            case "insert-after":
+                menuItemObj = new InsertAfter(vditor, menuItem);
+                break;
+            case "insert-before":
+                menuItemObj = new InsertBefore(vditor, menuItem);
+                break;
+            default:
+                menuItemObj = new Custom(vditor, menuItem);
+                break;
+        }
+
+        if (!menuItemObj) {
+            return;
+        }
+        let key = menuItem.name;
+        if (key === "br" || key === "|") {
+            key = key + index;
+        }
+
+        this.elements[key] = menuItemObj.element;
+        return menuItemObj.element;
     }
 }

@@ -59,6 +59,7 @@
 
 ### v3.1.13 / 2020-04-1x
 
+* [326](https://github.com/Vanessa219/vditor/issues/326) 为工具栏添加2级和3级菜单 `改进功能`
 * [323](https://github.com/Vanessa219/vditor/issues/323) setTheme 需支持代码块风格的切换 `改进功能`
 
 ### v3.1.12 / 2020-04-17
