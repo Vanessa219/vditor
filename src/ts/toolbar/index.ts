@@ -1,3 +1,5 @@
+import {Constants} from "../constants";
+import {getEventName} from "../util/compatibility";
 import {Both} from "./Both";
 import {Br} from "./Br";
 import {Counter} from "./Counter";
@@ -14,17 +16,15 @@ import {Indent} from "./Indent";
 import {Info} from "./Info";
 import {InsertAfter} from "./InsertAfter";
 import {InsertBefore} from "./InsertBefore";
+import {MenuItem} from "./MenuItem";
 import {Outdent} from "./Outdent";
 import {Outline} from "./Outline";
 import {Preview} from "./Preview";
 import {Record} from "./Record";
 import {Redo} from "./Redo";
+import {hidePanel} from "./setToolbar";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {MenuItem} from "./MenuItem";
-import {getEventName} from "../util/compatibility";
-import {Constants} from "../constants";
-import {hidePanel} from "./setToolbar";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -50,7 +50,7 @@ export class Toolbar {
                     subMenuItem.level = 2;
                     panelElement.appendChild(this.genItem(vditor, subMenuItem, subI));
                 });
-                itemElement.appendChild(panelElement)
+                itemElement.appendChild(panelElement);
                 itemElement.children[0].addEventListener(getEventName(), (event) => {
                     event.preventDefault();
                     if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {

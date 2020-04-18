@@ -6,7 +6,7 @@ export class Both extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
         if (vditor.options.preview.mode === "both") {
-            this.element.children[0].classList.add('vditor-menu--current');
+            this.element.children[0].classList.add("vditor-menu--current");
         }
         this.element.children[0].addEventListener(getEventName(), (event) => {
             event.preventDefault();
