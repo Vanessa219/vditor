@@ -1,4 +1,3 @@
-import alignCenterSVG from "../../assets/icons/align-center.svg";
 import {Constants} from "../constants";
 import {setPadding} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
@@ -8,7 +7,6 @@ import {MenuItem} from "./MenuItem";
 export class Outline extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        this.element.children[0].innerHTML = menuItem.icon || alignCenterSVG;
         this.element.children[0].addEventListener(getEventName(), (event) => {
             event.preventDefault();
             const btnElement = this.element.firstElementChild;

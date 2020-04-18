@@ -1,4 +1,3 @@
-import emojiSVG from "../../assets/icons/emoji.svg";
 import {Constants} from "../constants";
 import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
@@ -8,14 +7,11 @@ import {hidePanel} from "./setToolbar";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;
-    public panelElement: HTMLElement;
 
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        this.element.children[0].innerHTML = menuItem.icon || emojiSVG;
-
-        this.panelElement = document.createElement("div");
-        this.panelElement.className = "vditor-panel vditor-arrow";
+        const panelElement = document.createElement("div");
+        panelElement.className = "vditor-panel vditor-panel--arrow";
 
         let commonEmojiHTML = "";
         Object.keys(vditor.options.hint.emoji).forEach((key) => {
@@ -33,31 +29,31 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
     <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail || ""}</span>
 </div>`;
 
-        this.panelElement.innerHTML = `<div class="vditor-emojis" style="max-height: ${
+        panelElement.innerHTML = `<div class="vditor-emojis" style="max-height: ${
             vditor.options.height === "auto" ? "auto" : vditor.options.height as number - 80
         }px">${commonEmojiHTML}</div>${tailHTML}`;
 
-        this.element.appendChild(this.panelElement);
+        this.element.appendChild(panelElement);
 
-        this._bindEvent(vditor);
+        this._bindEvent(vditor, panelElement);
     }
 
-    public _bindEvent(vditor: IVditor) {
+    public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
             (this.element.firstElementChild as HTMLElement).blur();
-            if (this.panelElement.style.display === "block") {
-                this.panelElement.style.display = "none";
+            if (panelElement.style.display === "block") {
+                panelElement.style.display = "none";
             } else {
-                this.panelElement.style.display = "block";
+                panelElement.style.display = "block";
             }
-            hidePanel(vditor, ["hint", "headings", "edit-mode"]);
+            hidePanel(vditor, ["hint", "headings", "popover"]);
         });
 
-        this.panelElement.querySelectorAll(".vditor-emojis button").forEach((element) => {
+        panelElement.querySelectorAll(".vditor-emojis button").forEach((element: HTMLElement) => {
             element.addEventListener(getEventName(), (event: Event) => {
                 event.preventDefault();
                 const value = element.getAttribute("data-value");
@@ -85,11 +81,11 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                     setSelectionFocus(range);
                 }
 
-                this.panelElement.style.display = "none";
+                panelElement.style.display = "none";
             });
             element.addEventListener("mouseover", (event: Event) => {
                 if ((event.target as HTMLElement).tagName === "BUTTON") {
-                    this.panelElement.querySelector(".vditor-emojis__tip").innerHTML =
+                    panelElement.querySelector(".vditor-emojis__tip").innerHTML =
                         (event.target as HTMLElement).getAttribute("data-key");
                 }
             });

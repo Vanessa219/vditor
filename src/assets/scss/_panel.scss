@@ -41,6 +41,27 @@
       max-width: none;
       white-space: nowrap;
     }
+
+    &--arrow:before {
+      position: absolute;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      content: " ";
+      border: 7px solid transparent;
+      top: -14px;
+      left: 5px;
+      border-bottom-color: var(--panel-background-color);
+    }
+
+    &--left {
+      right: 0;
+
+      &.vditor-panel--arrow:before {
+        right: 5px;
+        left: auto;
+      }
+    }
   }
 
   &-input {
@@ -84,5 +105,11 @@
       fill: currentColor;
       pointer-events: none;
     }
+  }
+}
+
+@media screen and (max-width: $max-width) {
+  .vditor-panel--arrow:before {
+    left: 12px;
   }
 }

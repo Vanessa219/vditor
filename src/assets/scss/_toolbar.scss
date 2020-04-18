@@ -80,12 +80,12 @@
   }
 
   &-menu {
-    &--current svg {
-      color: var(--toolbar-icon-hover-color);
+    &--current {
+      color: var(--toolbar-icon-hover-color) !important;
     }
 
-    &--disabled svg {
-      color: var(--second-color);
+    &--disabled {
+      color: var(--second-color) !important;
       cursor: not-allowed;
     }
   }

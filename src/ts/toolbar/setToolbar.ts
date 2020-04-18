@@ -70,17 +70,18 @@ export const showToolbar = (toolbar: { [key: string]: HTMLElement }, names: stri
     });
 };
 
+// ["hint", "headings", "popover", "emoji"]
 export const hidePanel = (vditor: IVditor, panels: string[]) => {
-    if (vditor.toolbar.emojiPanelElement && panels.includes("emoji")) {
-        vditor.toolbar.emojiPanelElement.style.display = "none";
+    if (vditor.toolbar.elements.emoji && panels.includes("emoji")) {
+        (vditor.toolbar.elements.emoji.lastElementChild as HTMLElement).style.display = "none";
     }
-    if (vditor.toolbar.headingPanelElement && panels.includes("headings")) {
-        vditor.toolbar.headingPanelElement.style.display = "none";
-    }
-    if (vditor.toolbar.editModePanelElement && panels.includes("edit-mode")) {
-        vditor.toolbar.editModePanelElement.style.display = "none";
+    if (vditor.toolbar.elements.headings && panels.includes("headings")) {
+        (vditor.toolbar.elements.headings.lastElementChild as HTMLElement).style.display = "none";
     }
     if (panels.includes("hint")) {
         vditor.hint.element.style.display = "none";
+    }
+    if (vditor.wysiwyg.popover && panels.includes("popover")) {
+        vditor.wysiwyg.popover.style.display = "none";
     }
 };

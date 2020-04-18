@@ -64,7 +64,7 @@ class WYSIWYG {
         }
 
         window.addEventListener("scroll", () => {
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+            hidePanel(vditor, ["hint", "headings", "emoji"]);
             if (this.popover.style.display !== "block") {
                 return;
             }
@@ -82,7 +82,7 @@ class WYSIWYG {
         });
 
         this.element.addEventListener("scroll", () => {
-            hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+            hidePanel(vditor, ["hint", "headings", "emoji"]);
             if (this.popover.style.display !== "block") {
                 return;
             }

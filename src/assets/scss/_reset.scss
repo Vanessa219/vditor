@@ -286,7 +286,7 @@
   &-copy {
     position: relative;
     display: none;
-    z-index: 1;
+    // 会遮盖 toolbar 中的弹层 z-index: 1;
 
     textarea {
       position: absolute;

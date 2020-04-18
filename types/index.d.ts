@@ -12,7 +12,7 @@ interface ILuteRender {
                 Type: number,
             },
         }
-    },               entering: boolean) => [string, number];
+    }, entering: boolean) => [string, number];
 }
 
 interface ILuteOptions extends IMarkdownConfig {
@@ -184,8 +184,10 @@ interface IMenuItem {
     prefix?: string;
     /** 提示位置：ne, nw */
     tipPosition?: string;
-    /** 点击元素后展开的弹层 */
-    panelElement?: HTMLElement;
+    /** 子菜单 */
+    toolbar?: Array<string | IMenuItem>;
+    /** 菜单层级，最大为 3 */
+    level?: number;
 
     /** 自定义按钮点击时触发的事件 */
     click?(status?: boolean): void;
@@ -401,9 +403,6 @@ interface IVditor {
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
         element?: HTMLElement,
-        editModePanelElement?: HTMLElement;
-        headingPanelElement?: HTMLElement;
-        emojiPanelElement?: HTMLElement;
     };
     preview?: {
         element: HTMLElement

@@ -1,4 +1,3 @@
-import editSVG from "../../assets/icons/edit.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
@@ -17,7 +16,7 @@ import {disableToolbar, enableToolbar, hidePanel, hideToolbar, removeCurrentTool
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
     if (typeof event !== "string") {
-        hidePanel(vditor, ["hint", "headings", "emoji", "edit-mode"]);
+        hidePanel(vditor, ["hint", "headings", "emoji"]);
         event.preventDefault();
         markdownText = getMarkdown(vditor);
     } else {
@@ -134,10 +133,9 @@ export class EditMode extends MenuItem {
 
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        this.element.children[0].innerHTML = menuItem.icon || editSVG;
 
         this.panelElement = document.createElement("div");
-        this.panelElement.className = "vditor-hint vditor-arrow";
+        this.panelElement.className = "vditor-hint vditor-panel--arrow";
         this.panelElement.innerHTML = `<button>${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
 <button>${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
 <button>${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;

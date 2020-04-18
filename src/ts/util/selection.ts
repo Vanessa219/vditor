@@ -10,6 +10,7 @@ export const getEditorRange = (element: HTMLElement) => {
             return range;
         }
     }
+    element.focus();
     range = element.ownerDocument.createRange();
     range.setStart(element, 0);
     range.collapse(true);

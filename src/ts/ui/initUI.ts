@@ -82,6 +82,7 @@ export const setPadding = (vditor: IVditor) => {
         vditor.ir.element.style.padding = `10px ${Math.max(35, padding)}px`;
     }
 
+    let outlineWidth = 0
     if (vditor.toolbar.elements.outline) {
         let height: number;
         if (vditor.options.height === "auto") {
@@ -92,11 +93,14 @@ export const setPadding = (vditor: IVditor) => {
         if (vditor.element.classList.contains("vditor--fullscreen")) {
             height = window.innerHeight;
         }
-        (vditor.element.querySelector(".vditor-outline__panel")as HTMLElement).style.height =
+        const outlienElement = vditor.element.querySelector(".vditor-outline__panel") as HTMLElement
+        outlienElement.style.height =
             (height - vditor.toolbar.element.offsetHeight) + "px";
+        outlineWidth = outlienElement.offsetWidth;
     }
 
-    vditor.toolbar.element.style.paddingLeft = vditor[vditor.currentMode].element.style.paddingLeft;
+    vditor.toolbar.element.style.paddingLeft = parseInt(vditor[vditor.currentMode].element.style.paddingLeft, 10)
+        + outlineWidth + 'px';
 };
 
 export const setTypewriterPosition = (vditor: IVditor) => {

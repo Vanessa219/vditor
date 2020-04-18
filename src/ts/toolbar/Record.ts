@@ -1,4 +1,3 @@
-import recordSVG from "../../assets/icons/record.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
@@ -9,8 +8,6 @@ import {RecordMedia} from "./RecordMedia";
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        this.element.children[0].innerHTML = menuItem.icon || recordSVG;
-
         this._bindEvent(vditor);
     }
 

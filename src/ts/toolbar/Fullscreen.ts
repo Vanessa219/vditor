@@ -1,5 +1,4 @@
 import contractSVG from "../../assets/icons/contract.svg";
-import fullscreenSVG from "../../assets/icons/fullscreen.svg";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
@@ -7,7 +6,6 @@ import {MenuItem} from "./MenuItem";
 export class Fullscreen extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
-        this.element.children[0].innerHTML = menuItem.icon || fullscreenSVG;
         this._bindEvent(vditor, menuItem);
     }
 
@@ -15,7 +13,9 @@ export class Fullscreen extends MenuItem {
         this.element.children[0].addEventListener(getEventName(), function(event) {
             event.preventDefault();
             if (vditor.element.className.includes("vditor--fullscreen")) {
-                this.innerHTML = menuItem.icon || fullscreenSVG;
+                if (!menuItem.level) {
+                    this.innerHTML = menuItem.icon;
+                }
                 vditor.element.classList.remove("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;
@@ -27,7 +27,9 @@ export class Fullscreen extends MenuItem {
                     vditor.counter.element.className = vditor.counter.element.className.replace("__s", "__n");
                 }
             } else {
-                this.innerHTML = menuItem.icon || contractSVG;
+                if (!menuItem.level) {
+                    this.innerHTML = contractSVG;
+                }
                 vditor.element.classList.add("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;
