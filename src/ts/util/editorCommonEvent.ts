@@ -111,18 +111,6 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // toolbar action
-        vditor.options.toolbar.find((menuItem: IMenuItem) => {
-            if (!menuItem.hotkey) {
-                return false;
-            }
-            if (matchHotKey(menuItem.hotkey, event)) {
-                vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
-                event.preventDefault();
-                return true;
-            }
-        });
-
         // h1 - h6 hotkey
         if (isCtrl(event) && event.altKey && !event.shiftKey && /^Digit[1-6]$/.test(event.code)) {
             if (vditor.currentMode === "wysiwyg") {
@@ -155,6 +143,32 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
             return true;
         }
+
+        // toolbar action
+        vditor.options.toolbar.find((menuItem: IMenuItem) => {
+            if (!menuItem.hotkey || menuItem.toolbar) {
+                if (menuItem.toolbar) {
+                    const sub = menuItem.toolbar.find((subMenuItem: IMenuItem) => {
+                        if (!subMenuItem.hotkey) {
+                            return false;
+                        }
+                        if (matchHotKey(subMenuItem.hotkey, event)) {
+                            vditor.toolbar.elements[subMenuItem.name].children[0]
+                                .dispatchEvent(new CustomEvent("click"));
+                            event.preventDefault();
+                            return true;
+                        }
+                    })
+                    return sub ? true : false;
+                }
+                return false;
+            }
+            if (matchHotKey(menuItem.hotkey, event)) {
+                vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
+                event.preventDefault();
+                return true;
+            }
+        });
     });
 };
 
