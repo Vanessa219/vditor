@@ -1,4 +1,4 @@
-import {VDITOR_VERSION} from "../constants";
+import {Constants, VDITOR_VERSION} from "../constants";
 import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 
@@ -8,13 +8,8 @@ declare const hljs: {
 
 export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Document = document,
                                 cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
-    const hljsThemes = ["abap", "algol", "algol_nu", "arduino", "autumn", "borland", "bw", "colorful", "dracula",
-        "emacs", "friendly", "fruity", "github", "igor", "lovelace", "manni", "monokai", "monokailight", "murphy",
-        "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments", "rainbow_dash", "rrt",
-        "solarized-dark", "solarized-dark256", "solarized-light", "swapoff", "tango", "trac", "vim", "vs", "xcode"];
-
     let style = hljsOption.style;
-    if (!hljsThemes.includes(style)) {
+    if (!Constants.CODE_THEME.includes(style)) {
         style = "github";
     }
     const vditorHljsStyle = document.getElementById("vditorHljsStyle") as HTMLLinkElement;

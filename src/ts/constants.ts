@@ -9,6 +9,10 @@ export abstract class Constants {
     public static readonly CLASS_MENU_DISABLED: string = "vditor-menu--disabled";
     public static readonly TOOLBARS: string[] = ["emoji", "headings", "bold", "italic", "strike", "link", "list",
         "ordered-list", "outdent", "indent", "check", "line", "quote", "code", "inline-code", "upload", "record", "table"];
+    public static readonly CODE_THEME: string[] =  ["abap", "algol", "algol_nu", "arduino", "autumn", "borland", "bw", "colorful", "dracula",
+        "emacs", "friendly", "fruity", "github", "igor", "lovelace", "manni", "monokai", "monokailight", "murphy",
+        "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments", "rainbow_dash", "rrt",
+        "solarized-dark", "solarized-dark256", "solarized-light", "swapoff", "tango", "trac", "vim", "vs", "xcode"];
     public static readonly CODE_LANGUAGES: string[] = [
         "abc",
         "mermaid",

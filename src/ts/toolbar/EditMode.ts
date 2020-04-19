@@ -125,45 +125,49 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         setPadding(vditor);
     }
     setTypewriterPosition(vditor);
+
+    vditor.toolbar.elements["edit-mode"].querySelectorAll("button").forEach((item) => {
+        item.classList.remove("vditor-hint--current");
+    });
+    vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-hint--current");
 };
 
 export class EditMode extends MenuItem {
     public element: HTMLElement;
-    public panelElement: HTMLElement;
 
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
 
-        this.panelElement = document.createElement("div");
-        this.panelElement.className = "vditor-hint vditor-panel--side";
-        this.panelElement.innerHTML = `<button>${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
-<button>${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
-<button>${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
+        const panelElement = document.createElement("div");
+        panelElement.className = "vditor-hint vditor-panel--side";
+        panelElement.innerHTML = `<button data-mode="wysiwyg">${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
+<button data-mode="ir">${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
+<button data-mode="sv">${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
 
-        this.element.appendChild(this.panelElement);
+        this.element.appendChild(panelElement);
 
-        this._bindEvent(vditor);
+        this._bindEvent(vditor, panelElement);
     }
 
-    public _bindEvent(vditor: IVditor) {
+    public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
         this.element.addEventListener("mouseover", (event) => {
-            this.panelElement.style.display = "block";
+            panelElement.style.display = "block";
         });
         this.element.addEventListener("mouseout", (event) => {
-            this.panelElement.style.display = "none";
+            panelElement.style.display = "none";
         });
 
-        this.panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
+        panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
             // wysiwyg
             setEditMode(vditor, "wysiwyg", event);
         });
 
-        this.panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
+        panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // ir
             setEditMode(vditor, "ir", event);
         });
 
-        this.panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
+        panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
             setEditMode(vditor, "sv", event);
         });

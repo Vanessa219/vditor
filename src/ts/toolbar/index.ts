@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {getEventName} from "../util/compatibility";
 import {Both} from "./Both";
 import {Br} from "./Br";
+import {CodeTheme} from "./CodeTheme";
 import {Counter} from "./Counter";
 import {Custom} from "./Custom";
 import {Devtools} from "./Devtools";
@@ -160,6 +161,9 @@ export class Toolbar {
                 break;
             case "insert-before":
                 menuItemObj = new InsertBefore(vditor, menuItem);
+                break;
+            case "code-theme":
+                menuItemObj = new CodeTheme(vditor, menuItem);
                 break;
             default:
                 menuItemObj = new Custom(vditor, menuItem);

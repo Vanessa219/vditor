@@ -271,6 +271,9 @@ export class Options {
                     name: "outline",
                     tipPosition: "nw",
                 }, {
+                    name: "code-theme",
+                    tipPosition: "nw",
+                }, {
                     icon: bugSVG,
                     name: "devtools",
                     tipPosition: "nw",
