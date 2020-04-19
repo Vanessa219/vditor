@@ -350,23 +350,7 @@ export class Options {
     }
 
     public merge(): IOptions {
-        const toolbar: IMenuItem[] = [];
         if (this.options) {
-            if (this.options.toolbar) {
-                this.options.toolbar.forEach((menuItem: IMenuItem) => {
-                    let currentMenuItem = menuItem;
-                    this.toolbarItem.forEach((defaultMenuItem: IMenuItem) => {
-                        if (typeof menuItem === "string" && defaultMenuItem.name === menuItem) {
-                            currentMenuItem = defaultMenuItem;
-                        }
-                        if (typeof menuItem === "object" && defaultMenuItem.name === menuItem.name) {
-                            currentMenuItem = Object.assign({}, defaultMenuItem, menuItem);
-                        }
-                    });
-                    toolbar.push(currentMenuItem);
-                });
-            }
-
             if (this.options.upload) {
                 this.options.upload = Object.assign({}, this.defaultOptions.upload, this.options.upload);
             }
@@ -415,18 +399,40 @@ export class Options {
                 this.options.toolbarConfig =
                     Object.assign({}, this.defaultOptions.toolbarConfig, this.options.toolbarConfig);
             }
+
+            if (this.options.toolbar) {
+                this.options.toolbar = this.mergeToolbar(this.options.toolbar);
+            } else {
+                this.options.toolbar = this.mergeToolbar(this.defaultOptions.toolbar);
+            }
         }
 
         const mergedOptions = Object.assign({}, this.defaultOptions, this.options);
-
-        if (toolbar.length > 0) {
-            mergedOptions.toolbar = toolbar;
-        }
 
         if (mergedOptions.cache.enable && !mergedOptions.cache.id) {
             throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");
         }
 
         return mergedOptions;
+    }
+
+    private mergeToolbar(toolbar: Array<string | IMenuItem>) {
+        const toolbarResult: IMenuItem[] = []
+        toolbar.forEach((menuItem: IMenuItem) => {
+            let currentMenuItem = menuItem;
+            this.toolbarItem.forEach((defaultMenuItem: IMenuItem) => {
+                if (typeof menuItem === "string" && defaultMenuItem.name === menuItem) {
+                    currentMenuItem = defaultMenuItem;
+                }
+                if (typeof menuItem === "object" && defaultMenuItem.name === menuItem.name) {
+                    currentMenuItem = Object.assign({}, defaultMenuItem, menuItem);
+                }
+            });
+            if (menuItem.toolbar) {
+                currentMenuItem.toolbar = this.mergeToolbar(menuItem.toolbar);
+            }
+            toolbarResult.push(currentMenuItem);
+        });
+        return toolbarResult;
     }
 }
