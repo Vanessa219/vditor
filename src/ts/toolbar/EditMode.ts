@@ -56,12 +56,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             enableInput: false,
         });
 
-        if (typeof event !== "string") {
-            // 初始化不 focus
-            vditor.ir.element.focus();
-            IRHighlightToolbar(vditor);
-        }
-
         if (vditor.toolbar.elements.outline && vditor.toolbar.elements.outline.firstElementChild.classList.contains("vditor-menu--current")) {
             vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:block");
             renderOutline(vditor);
@@ -72,6 +66,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
             processCodeRender(item, vditor);
         });
+
+        if (typeof event !== "string") {
+            // 初始化不 focus
+            vditor.ir.element.focus();
+            IRHighlightToolbar(vditor);
+        }
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["format", "both", "preview"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
@@ -139,7 +139,7 @@ export class EditMode extends MenuItem {
         super(vditor, menuItem);
 
         const panelElement = document.createElement("div");
-        panelElement.className = "vditor-hint vditor-panel--side";
+        panelElement.className = `vditor-hint vditor-panel--${menuItem.level === 2 ? "side" : "arrow"}`;
         panelElement.innerHTML = `<button data-mode="wysiwyg">${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
 <button data-mode="ir">${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
 <button data-mode="sv">${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
@@ -151,6 +151,9 @@ export class EditMode extends MenuItem {
 
     public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
         this.element.addEventListener("mouseover", (event) => {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+                return;
+            }
             panelElement.style.display = "block";
             this.element.firstElementChild.classList.add("vditor-hint--current");
         });
@@ -162,16 +165,19 @@ export class EditMode extends MenuItem {
         panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
             // wysiwyg
             setEditMode(vditor, "wysiwyg", event);
+            panelElement.style.display = "none";
         });
 
         panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // ir
             setEditMode(vditor, "ir", event);
+            panelElement.style.display = "none";
         });
 
         panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
             setEditMode(vditor, "sv", event);
+            panelElement.style.display = "none";
         });
     }
 }

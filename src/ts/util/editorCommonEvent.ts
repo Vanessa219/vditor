@@ -158,7 +158,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                             event.preventDefault();
                             return true;
                         }
-                    })
+                    });
                     return sub ? true : false;
                 }
                 return false;

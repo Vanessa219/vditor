@@ -28,18 +28,20 @@ export class Headings extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
+        const actionBtn = this.element.children[0];
         this.element.children[0].addEventListener(getEventName(), (event) => {
             event.preventDefault();
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
             (this.element.firstElementChild as HTMLElement).blur();
-            const actionBtn = this.element.children[0];
             if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
                 removeHeading(vditor);
                 afterRenderEvent(vditor);
+                actionBtn.classList.remove("vditor-menu--current");
             } else if (vditor.currentMode === "ir" && actionBtn.classList.contains("vditor-menu--current")) {
                 processHeading(vditor, "");
+                actionBtn.classList.remove("vditor-menu--current");
             } else {
                 if (panelElement.style.display === "block") {
                     panelElement.style.display = "none";
@@ -56,8 +58,10 @@ export class Headings extends MenuItem {
                 if (vditor.currentMode === "wysiwyg") {
                     setHeading(vditor, (event.target as HTMLElement).getAttribute("data-tag"));
                     afterRenderEvent(vditor);
+                    actionBtn.classList.add("vditor-menu--current");
                 } else if (vditor.currentMode === "ir") {
                     processHeading(vditor, (event.target as HTMLElement).getAttribute("data-value"));
+                    actionBtn.classList.add("vditor-menu--current");
                 } else {
                     insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
                         false, true);

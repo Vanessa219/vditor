@@ -25,6 +25,9 @@ export class CodeTheme extends MenuItem {
         this.element.appendChild(panelElement);
 
         this.element.addEventListener("mouseover", (event) => {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+                return;
+            }
             panelElement.style.display = "block";
             this.element.firstElementChild.classList.add("vditor-hint--current");
         });
