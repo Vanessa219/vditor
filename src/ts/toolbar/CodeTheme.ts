@@ -1,5 +1,7 @@
 import {Constants} from "../constants";
+import {setCodeTheme} from "../ui/setCodeTheme";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/compatibility";
 
 export class CodeTheme extends MenuItem {
     public element: HTMLElement;
@@ -15,6 +17,11 @@ export class CodeTheme extends MenuItem {
             innerHTML += `<button>${theme}</button>`;
         });
         panelElement.innerHTML = innerHTML;
+        panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
+            if (event.target.tagName === "BUTTON") {
+                setCodeTheme(vditor, event.target.textContent);
+            }
+        });
         this.element.appendChild(panelElement);
 
         this.element.addEventListener("mouseover", (event) => {
