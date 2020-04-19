@@ -57,9 +57,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.14 / 2020-04-2x
+### v3.1.15 / 2020-04-2x
 
-### v3.1.13 / 2020-04-20
+### v3.1.14 / 2020-04-20
 
 * [329](https://github.com/Vanessa219/vditor/issues/329) preview方法可选参数options.transform提示undefined错误的问题 `修复缺陷`
 * [328](https://github.com/Vanessa219/vditor/issues/328) sv 模式高度错误 `修复缺陷`
