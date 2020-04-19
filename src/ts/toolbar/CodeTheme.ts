@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {setCodeTheme} from "../ui/setCodeTheme";
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/compatibility";
+import {MenuItem} from "./MenuItem";
 
 export class CodeTheme extends MenuItem {
     public element: HTMLElement;
