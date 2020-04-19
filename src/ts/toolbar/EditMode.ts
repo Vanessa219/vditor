@@ -152,9 +152,11 @@ export class EditMode extends MenuItem {
     public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
         this.element.addEventListener("mouseover", (event) => {
             panelElement.style.display = "block";
+            this.element.firstElementChild.classList.add("vditor-hint--current");
         });
         this.element.addEventListener("mouseout", (event) => {
             panelElement.style.display = "none";
+            this.element.firstElementChild.classList.remove("vditor-hint--current");
         });
 
         panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
