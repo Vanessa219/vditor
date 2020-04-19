@@ -38,7 +38,7 @@
   &-textarea {
     font-family: $font-family-base;
     margin: 0 1px 0 0;
-    height: 100%;
+    // https://github.com/Vanessa219/vditor/issues/328 height: 100%;
     overflow: auto;
     width: 100%;
     flex: 1;
