@@ -18,6 +18,7 @@ import italicSVG from "../../assets/icons/italic.svg";
 import lineSVG from "../../assets/icons/line.svg";
 import linkSVG from "../../assets/icons/link.svg";
 import listSVG from "../../assets/icons/list.svg";
+import moreSVG from "../../assets/icons/more.svg";
 import orderedListVG from "../../assets/icons/ordered-list.svg";
 import formatSVG from "../../assets/icons/outdent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
@@ -236,7 +237,7 @@ export class Options {
         }, {
             name: "|",
         }, {
-            icon: "...",
+            icon: moreSVG,
             name: "more",
             tipPosition: "e",
             toolbar: [

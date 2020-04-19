@@ -186,7 +186,7 @@ interface IMenuItem {
     tipPosition?: string;
     /** 子菜单 */
     toolbar?: Array<string | IMenuItem>;
-    /** 菜单层级，最大为 3 */
+    /** 菜单层级，最大为 3，内部使用 */
     level?: number;
 
     /** 自定义按钮点击时触发的事件 */

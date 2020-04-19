@@ -57,15 +57,14 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.13 / 2020-04-1x
+### v3.1.14 / 2020-04-2x
+
+### v3.1.13 / 2020-04-20
 
 * [329](https://github.com/Vanessa219/vditor/issues/329) preview方法可选参数options.transform提示undefined错误的问题 `修复缺陷`
 * [328](https://github.com/Vanessa219/vditor/issues/328) sv 模式高度错误 `修复缺陷`
 * [326](https://github.com/Vanessa219/vditor/issues/326) 为工具栏添加2级和3级菜单 `改进功能`
 * [323](https://github.com/Vanessa219/vditor/issues/323) setTheme 需支持代码块风格的切换 `改进功能`
-
-### v3.1.12 / 2020-04-17
-
 * [320](https://github.com/Vanessa219/vditor/issues/320) 代码区点击复制代码时自动去掉行号 `修复缺陷`
 * [314](https://github.com/Vanessa219/vditor/issues/314) 添加图片懒加载设置 `引入特性`
 * [319](https://github.com/Vanessa219/vditor/issues/319) add ctrl+shift+e button to toolbar for smartphone `改进功能`
@@ -110,6 +109,7 @@
   * `setTheme` 方法添加 `codeTheme` 参数
   * insert line 默认快捷键由 `⌘-⇧-D` 修改为 `⌘-⇧-H`，添加下移 `⌘-⇧-D`、上移 `⌘-⇧-U` 快捷键，移除上传、编辑器模式切换快捷键
   * 为 `options.toolbar` 添加 outdent，indent, outline, insert-after, insert-before, 子菜单，code-theme
+  * 为 `options.toolbar` 添加 toolbar 参数，最多可进行 3 级菜单
 
 ### v3.0.12 / 2020-04-06
 
