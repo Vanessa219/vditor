@@ -84,12 +84,12 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
     const mergedOptions = mergeOptions(options);
     let html = await md2html(markdown, mergedOptions);
-    if (options.transform) {
-        html = options.transform(html);
+    if (mergedOptions.transform) {
+        html = mergedOptions.transform(html);
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
-    if (options.theme === "dark") {
+    if (mergedOptions.theme === "dark") {
         previewElement.classList.add("vditor-reset--dark");
     } else {
         previewElement.classList.remove("vditor-reset--dark");

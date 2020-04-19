@@ -15,7 +15,7 @@ export class MenuItem {
             this.element.classList.add(...menuItem.className.split(" "));
         }
 
-        const hotkey = menuItem.hotkey ? ` <${updateHotkeyTip(menuItem.hotkey)}>` : "";
+        const hotkey = menuItem.hotkey ? ` &lt;${updateHotkeyTip(menuItem.hotkey)}&gt;` : "";
         const tip = menuItem.tip ?
             menuItem.tip + hotkey : i18n[vditor.options.lang][menuItem.name] + hotkey;
         const tagName = menuItem.name === "upload" ? "div" : "button";

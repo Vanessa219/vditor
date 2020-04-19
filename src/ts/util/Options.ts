@@ -238,7 +238,7 @@ export class Options {
         }, {
             icon: "...",
             name: "more",
-            tipPosition: "nw",
+            tipPosition: "e",
             toolbar: [
                 {
                     hotkey: "⌘-'",
