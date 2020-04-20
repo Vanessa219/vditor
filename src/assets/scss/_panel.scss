@@ -64,7 +64,7 @@
     }
 
     &--side {
-      right: 100%;
+      left: 100%;
       margin-top: -31px !important;
     }
   }
@@ -116,5 +116,9 @@
 @media screen and (max-width: $max-width) {
   .vditor-panel--arrow:before {
     left: 12px;
+  }
+  .vditor-panel--left.vditor-panel--arrow:before {
+    left: auto;
+    right: 12px;
   }
 }

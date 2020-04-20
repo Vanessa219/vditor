@@ -30,6 +30,12 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
 
     addScript(`${cdn}/dist/js/highlight.js/highlight.pack.js`, "vditorHljsScript").then(() => {
         element.querySelectorAll("pre > code").forEach((block) => {
+            // ir & wysiwyg 区域不渲染
+            if (block.parentElement.classList.contains("vditor-ir__marker--pre") ||
+                block.parentElement.classList.contains("vditor-wysiwyg__pre")) {
+                return;
+            }
+
             if (block.classList.contains("language-mermaid") || block.classList.contains("language-echarts")
                 || block.classList.contains("language-abc") || block.classList.contains("language-graphviz")) {
                 return;

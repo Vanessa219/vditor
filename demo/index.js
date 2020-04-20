@@ -1,7 +1,53 @@
 import Vditor from '../src/index'
 import '../src/assets/scss/index.scss'
 
+let toolbar
+if (window.innerWidth < 768) {
+  toolbar =  [
+    "emoji",
+    "headings",
+    "bold",
+    "italic",
+    "strike",
+    "link",
+    "|",
+    "list",
+    "ordered-list",
+    "check",
+    "outdent",
+    "indent",
+    "|",
+    "quote",
+    "line",
+    "code",
+    "inline-code",
+    "insert-before",
+    "insert-after",
+    "|",
+    "upload",
+    "record",
+    "table",
+    "|",
+    "undo",
+    "redo",
+    "|",
+    "edit-mode",
+    "code-theme",
+    {
+      name: "more",
+      toolbar: [
+        "fullscreen",
+        "both",
+        "preview",
+        "format",
+        "info",
+        "help",
+      ],
+    }]
+}
+
 window.vditor = new Vditor('vditor', {
+  toolbar,
   debugger: true,
   typewriterMode: true,
   placeholder: 'placeholder',

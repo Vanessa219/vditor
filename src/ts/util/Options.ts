@@ -5,6 +5,7 @@ import boldSVG from "../../assets/icons/bold.svg";
 import bothSVG from "../../assets/icons/both.svg";
 import bugSVG from "../../assets/icons/bug.svg";
 import checkSVG from "../../assets/icons/check.svg";
+import codeThemeSVG from "../../assets/icons/code-theme.svg";
 import codeSVG from "../../assets/icons/code.svg";
 import editSVG from "../../assets/icons/edit.svg";
 import emojiSVG from "../../assets/icons/emoji.svg";
@@ -99,7 +100,8 @@ export class Options {
             position: "bottom",
         },
         theme: "classic",
-        toolbar: ["emoji",
+        toolbar: [
+            "emoji",
             "headings",
             "bold",
             "italic",
@@ -327,6 +329,7 @@ export class Options {
         name: "outline",
         tipPosition: "nw",
     }, {
+        icon: codeThemeSVG,
         name: "code-theme",
         tipPosition: "nw",
     }, {
