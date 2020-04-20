@@ -822,18 +822,12 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
                 isEmpty = true;
             }
             if (isEmpty) {
-                if (vditor.currentMode === "wysiwyg") {
-                    (vditor.wysiwyg.popover.querySelector('[data-type="insert-after"]') as HTMLElement).click();
-                    event.preventDefault();
-                    return true;
-                } else {
-                    // 需添加零宽字符，否则的话无法记录 undo
-                    blockquoteElement.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
-                    setRangeByWbr(vditor[vditor.currentMode].element, range);
-                    processAfterRender(vditor);
-                    event.preventDefault();
-                    return true;
-                }
+                // 需添加零宽字符，否则的话无法记录 undo
+                blockquoteElement.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
+                setRangeByWbr(vditor[vditor.currentMode].element, range);
+                execAfterRender(vditor);
+                event.preventDefault();
+                return true;
             }
         }
         const blockElement = hasClosestBlock(startContainer);

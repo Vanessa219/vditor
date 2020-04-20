@@ -59,6 +59,7 @@
 
 ### v3.1.15 / 2020-04-2x
 
+* [335](https://github.com/Vanessa219/vditor/issues/335) 块引用嵌套列表跳出问题 `修复缺陷`
 * [332](https://github.com/Vanessa219/vditor/issues/332) Not working 3rd menu at smartphone `修复缺陷`
 
 ### v3.1.14 / 2020-04-20
