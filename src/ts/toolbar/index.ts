@@ -1,4 +1,3 @@
-import {Constants} from "../constants";
 import {getEventName} from "../util/compatibility";
 import {Both} from "./Both";
 import {Br} from "./Br";
@@ -23,7 +22,7 @@ import {Outline} from "./Outline";
 import {Preview} from "./Preview";
 import {Record} from "./Record";
 import {Redo} from "./Redo";
-import {hidePanel} from "./setToolbar";
+import {toggleSubMenu} from "./setToolbar";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
 
@@ -43,28 +42,16 @@ export class Toolbar {
             this.element.appendChild(itemElement);
             if (menuItem.toolbar) {
                 const panelElement = document.createElement("div");
-                panelElement.className = "vditor-hint vditor-panel--arrow vditor-panel--left";
+                panelElement.className = "vditor-hint vditor-panel--arrow";
                 panelElement.addEventListener(getEventName(), (event) => {
                     panelElement.style.display = "none";
                 });
                 menuItem.toolbar.forEach((subMenuItem: IMenuItem, subI: number) => {
                     subMenuItem.level = 2;
-                    panelElement.appendChild(this.genItem(vditor, subMenuItem, subI));
+                    panelElement.appendChild(this.genItem(vditor, subMenuItem, i + subI));
                 });
                 itemElement.appendChild(panelElement);
-                itemElement.children[0].addEventListener(getEventName(), (event) => {
-                    event.preventDefault();
-                    if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
-                        return;
-                    }
-                    (this.element.firstElementChild as HTMLElement).blur();
-                    if (panelElement.style.display === "block") {
-                        panelElement.style.display = "none";
-                    } else {
-                        panelElement.style.display = "block";
-                    }
-                    hidePanel(vditor, ["hint", "headings", "popover", "emoji"]);
-                });
+                toggleSubMenu(vditor, panelElement, itemElement.children[0], 2);
             }
         });
 

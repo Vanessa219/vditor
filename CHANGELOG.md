@@ -59,6 +59,8 @@
 
 ### v3.1.15 / 2020-04-2x
 
+* [332](https://github.com/Vanessa219/vditor/issues/332) Not working 3rd menu at smartphone `修复缺陷`
+
 ### v3.1.14 / 2020-04-20
 
 * [329](https://github.com/Vanessa219/vditor/issues/329) preview方法可选参数options.transform提示undefined错误的问题 `修复缺陷`

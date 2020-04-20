@@ -1,4 +1,3 @@
-import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
@@ -39,10 +38,6 @@ class IR {
     }
 
     private bindEvent(vditor: IVditor) {
-        this.element.addEventListener("scroll", () => {
-            hidePanel(vditor, ["hint", "headings", "emoji"]);
-        });
-
         this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
             const range = getSelection().getRangeAt(0);
             if (range.toString() === "") {

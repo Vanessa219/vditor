@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {setCodeTheme} from "../ui/setCodeTheme";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
+import {hidePanel, toggleSubMenu} from "./setToolbar";
 
 export class CodeTheme extends MenuItem {
     public element: HTMLElement;
@@ -9,31 +10,25 @@ export class CodeTheme extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
         super(vditor, menuItem);
 
+        const actionBtn = this.element.children[0] as HTMLElement;
+
         const panelElement = document.createElement("div");
-        panelElement.className = "vditor-hint vditor-panel--side";
-        panelElement.setAttribute("style", `overflow:auto;max-height:${window.innerHeight / 2}px`);
+        panelElement.className = `vditor-hint vditor-panel--${menuItem.level === 2 ? "side" : "arrow"}`;
         let innerHTML = "";
         Constants.CODE_THEME.forEach((theme) => {
             innerHTML += `<button>${theme}</button>`;
         });
-        panelElement.innerHTML = innerHTML;
+        panelElement.innerHTML = `<div style="overflow: auto;max-height:${window.innerHeight / 2}px">${innerHTML}</div>`;
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "BUTTON") {
+                hidePanel(vditor, ["subToolbar"]);
                 setCodeTheme(vditor, event.target.textContent);
+                event.preventDefault();
+                event.stopPropagation();
             }
         });
         this.element.appendChild(panelElement);
 
-        this.element.addEventListener("mouseover", (event) => {
-            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
-                return;
-            }
-            panelElement.style.display = "block";
-            this.element.firstElementChild.classList.add("vditor-hint--current");
-        });
-        this.element.addEventListener("mouseout", (event) => {
-            panelElement.style.display = "none";
-            this.element.firstElementChild.classList.remove("vditor-hint--current");
-        });
+        toggleSubMenu(vditor, panelElement, actionBtn, menuItem.level);
     }
 }

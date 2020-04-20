@@ -1,9 +1,8 @@
-import {Constants} from "../constants";
 import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
 import {getEditorRange, insertHTML, setSelectionFocus} from "../util/selection";
 import {MenuItem} from "./MenuItem";
-import {hidePanel} from "./setToolbar";
+import {toggleSubMenu} from "./setToolbar";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;
@@ -35,24 +34,11 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
 
         this.element.appendChild(panelElement);
 
+        toggleSubMenu(vditor, panelElement, this.element.children[0], menuItem.level);
         this._bindEvent(vditor, panelElement);
     }
 
     public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
-        this.element.children[0].addEventListener(getEventName(), (event) => {
-            event.preventDefault();
-            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
-                return;
-            }
-            (this.element.firstElementChild as HTMLElement).blur();
-            if (panelElement.style.display === "block") {
-                panelElement.style.display = "none";
-            } else {
-                panelElement.style.display = "block";
-            }
-            hidePanel(vditor, ["hint", "headings", "popover", "submenu"]);
-        });
-
         panelElement.querySelectorAll(".vditor-emojis button").forEach((element: HTMLElement) => {
             element.addEventListener(getEventName(), (event: Event) => {
                 event.preventDefault();

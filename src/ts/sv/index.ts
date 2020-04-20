@@ -1,4 +1,3 @@
-import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload/index";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
@@ -62,7 +61,6 @@ class Editor {
         });
 
         this.element.addEventListener("scroll", () => {
-            hidePanel(vditor, ["hint", "headings", "emoji"]);
             if (!vditor.preview || (vditor.preview && vditor.preview.element.style.display === "none")) {
                 return;
             }

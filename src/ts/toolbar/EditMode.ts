@@ -11,12 +11,19 @@ import {processCodeRender} from "../util/processCode";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
-import {disableToolbar, enableToolbar, hidePanel, hideToolbar, removeCurrentToolbar, showToolbar} from "./setToolbar";
+import {
+    disableToolbar,
+    enableToolbar,
+    hidePanel,
+    hideToolbar,
+    removeCurrentToolbar,
+    showToolbar, toggleSubMenu,
+} from "./setToolbar";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
     if (typeof event !== "string") {
-        hidePanel(vditor, ["hint", "headings", "emoji", "submenu"]);
+        hidePanel(vditor, ["subToolbar", "hint"]);
         event.preventDefault();
         markdownText = getMarkdown(vditor);
     } else {
@@ -127,9 +134,9 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     setTypewriterPosition(vditor);
 
     vditor.toolbar.elements["edit-mode"].querySelectorAll("button").forEach((item) => {
-        item.classList.remove("vditor-hint--current");
+        item.classList.remove("vditor-menu--current");
     });
-    vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-hint--current");
+    vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-menu--current");
 };
 
 export class EditMode extends MenuItem {
@@ -146,38 +153,32 @@ export class EditMode extends MenuItem {
 
         this.element.appendChild(panelElement);
 
-        this._bindEvent(vditor, panelElement);
+        this._bindEvent(vditor, panelElement, menuItem);
     }
 
-    public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
-        this.element.addEventListener("mouseover", (event) => {
-            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
-                return;
-            }
-            panelElement.style.display = "block";
-            this.element.firstElementChild.classList.add("vditor-hint--current");
-        });
-        this.element.addEventListener("mouseout", (event) => {
-            panelElement.style.display = "none";
-            this.element.firstElementChild.classList.remove("vditor-hint--current");
-        });
+    public _bindEvent(vditor: IVditor, panelElement: HTMLElement, menuItem: IMenuItem) {
+        const actionBtn = this.element.children[0] as HTMLElement;
+        toggleSubMenu(vditor, panelElement, actionBtn, menuItem.level);
 
         panelElement.children.item(0).addEventListener(getEventName(), (event: Event) => {
             // wysiwyg
             setEditMode(vditor, "wysiwyg", event);
-            panelElement.style.display = "none";
+            event.preventDefault();
+            event.stopPropagation();
         });
 
         panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // ir
             setEditMode(vditor, "ir", event);
-            panelElement.style.display = "none";
+            event.preventDefault();
+            event.stopPropagation();
         });
 
         panelElement.children.item(2).addEventListener(getEventName(), (event: Event) => {
             // markdown
             setEditMode(vditor, "sv", event);
-            panelElement.style.display = "none";
+            event.preventDefault();
+            event.stopPropagation();
         });
     }
 }

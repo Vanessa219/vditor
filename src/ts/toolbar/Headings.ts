@@ -28,13 +28,13 @@ export class Headings extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
-        const actionBtn = this.element.children[0];
-        this.element.children[0].addEventListener(getEventName(), (event) => {
+        const actionBtn = this.element.children[0] as HTMLElement;
+        actionBtn.addEventListener(getEventName(), (event) => {
             event.preventDefault();
-            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+            if (actionBtn.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-            (this.element.firstElementChild as HTMLElement).blur();
+            actionBtn.blur();
             if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
                 removeHeading(vditor);
                 afterRenderEvent(vditor);
@@ -46,10 +46,10 @@ export class Headings extends MenuItem {
                 if (panelElement.style.display === "block") {
                     panelElement.style.display = "none";
                 } else {
+                    hidePanel(vditor, ["subToolbar"]);
                     panelElement.style.display = "block";
                 }
             }
-            hidePanel(vditor, ["hint", "emoji", "popover", "submenu"]);
         });
 
         for (let i = 0; i < 6; i++) {
