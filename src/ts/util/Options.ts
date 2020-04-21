@@ -420,7 +420,7 @@ export class Options {
     }
 
     private mergeToolbar(toolbar: Array<string | IMenuItem>) {
-        const toolbarResult: IMenuItem[] = []
+        const toolbarResult: IMenuItem[] = [];
         toolbar.forEach((menuItem: IMenuItem) => {
             let currentMenuItem = menuItem;
             this.toolbarItem.forEach((defaultMenuItem: IMenuItem) => {

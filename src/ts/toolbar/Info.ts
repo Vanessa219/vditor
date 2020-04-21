@@ -1,6 +1,6 @@
+import { VDITOR_VERSION} from "../constants";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
-import { VDITOR_VERSION} from "../constants";
 
 export class Info extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

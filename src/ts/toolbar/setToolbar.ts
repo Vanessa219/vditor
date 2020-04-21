@@ -74,14 +74,14 @@ export const showToolbar = (toolbar: { [key: string]: HTMLElement }, names: stri
 // "subToolbar", "hint", "popover"
 export const hidePanel = (vditor: IVditor, panels: string[], exceptElement?: HTMLElement) => {
     if (panels.includes("subToolbar")) {
-        vditor.toolbar.element.querySelectorAll('.vditor-hint').forEach((item: HTMLElement) => {
+        vditor.toolbar.element.querySelectorAll(".vditor-hint").forEach((item: HTMLElement) => {
             if (exceptElement && item.isEqualNode(exceptElement)) {
                 return;
             }
-            item.style.display = 'none';
+            item.style.display = "none";
         });
         if (vditor.toolbar.elements.emoji) {
-            (vditor.toolbar.elements.emoji.lastElementChild as HTMLElement).style.display = 'none'
+            (vditor.toolbar.elements.emoji.lastElementChild as HTMLElement).style.display = "none";
         }
     }
     if (panels.includes("hint")) {
@@ -100,16 +100,16 @@ export const toggleSubMenu = (vditor: IVditor, panelElement: HTMLElement, action
             return;
         }
         vditor.toolbar.element.querySelectorAll(".vditor-hint--current").forEach((item) => {
-            item.classList.remove('vditor-hint--current')
-        })
+            item.classList.remove("vditor-hint--current");
+        });
         if (panelElement.style.display === "block") {
             panelElement.style.display = "none";
         } else {
             hidePanel(vditor, ["subToolbar", "hint", "popover"], actionBtn.parentElement.parentElement);
-            if (!actionBtn.classList.contains('vditor-tooltipped')) {
+            if (!actionBtn.classList.contains("vditor-tooltipped")) {
                 actionBtn.classList.add("vditor-hint--current");
             }
             panelElement.style.display = "block";
         }
     });
-}
+};
