@@ -25,6 +25,7 @@ interface ILuteOptions extends IMarkdownConfig {
 
 interface ILute {
     WalkStop: number;
+    Version: string;
 
     New(): ILute;
 

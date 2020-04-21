@@ -1,12 +1,3 @@
-// 用于 Safari 弹窗处理
-export const openURL = (url: string) => {
-    if (isSafari()) {
-        window.location.href = url;
-    } else {
-        window.open(url);
-    }
-};
-
 export const isSafari = () => {
     return navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") === -1;
 };

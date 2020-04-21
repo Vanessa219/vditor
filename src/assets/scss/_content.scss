@@ -181,10 +181,10 @@
     position: absolute;
     font-size: 12px;
     top: 10px;
-    color: var(--toolbar-icon-color);
     animation-duration: .15s;
     animation-fill-mode: both;
     left: 50%;
+    z-index: 5;
 
     &--show {
       display: block;
@@ -197,14 +197,20 @@
       line-height: 16px;
       padding: 3px 10px;
       border-radius: 3px;
-      background: var(--toolbar-icon-color);
+      background: var(--toolbar-background-color);
       position: relative;
       margin-left: -50%;
-      color: var(--toolbar-background-color);
+      color: var(--toolbar-icon-color);
+      max-width: 100%;
+      box-shadow: $layerShadow;
 
       ul {
         margin: 2px 0;
         padding: 0 0 0 18px;
+      }
+
+      a {
+        color: $blurColor;
       }
     }
 
