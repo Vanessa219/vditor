@@ -1,21 +1,12 @@
-import {setCodeTheme} from "./setCodeTheme";
+import {setCodeTheme} from "../toolbar/CodeTheme";
+import {setContentTheme} from "../toolbar/ContentTheme";
 
 export const setTheme = (vditor: IVditor, codeTheme?: string) => {
     if (vditor.options.theme === "dark") {
-        vditor.element.classList.add("vditor--dark");
-        if (vditor.preview) {
-            vditor.preview.element.firstElementChild.classList.add("vditor-reset--dark");
-        }
-        vditor.wysiwyg.element.classList.add("vditor-reset--dark");
-        vditor.ir.element.classList.add("vditor-reset--dark");
+        setContentTheme(vditor, "dark");
     } else {
         vditor.element.classList.remove("vditor--dark");
-        if (vditor.preview) {
-            vditor.preview.element.firstElementChild.classList.remove("vditor-reset--dark");
-        }
-        vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
-        vditor.ir.element.classList.remove("vditor-reset--dark");
+        setContentTheme(vditor, "light");
     }
-
     setCodeTheme(vditor, codeTheme);
 };

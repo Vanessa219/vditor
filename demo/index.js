@@ -32,6 +32,7 @@ if (window.innerWidth < 768) {
     "redo",
     "|",
     "edit-mode",
+    "content-theme",
     "code-theme",
     {
       name: "more",

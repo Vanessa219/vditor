@@ -25,6 +25,7 @@ import {Redo} from "./Redo";
 import {toggleSubMenu} from "./setToolbar";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
+import {ContentTheme} from "./ContentTheme";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -151,6 +152,9 @@ export class Toolbar {
                 break;
             case "code-theme":
                 menuItemObj = new CodeTheme(vditor, menuItem);
+                break;
+            case "content-theme":
+                menuItemObj = new ContentTheme(vditor, menuItem);
                 break;
             default:
                 menuItemObj = new Custom(vditor, menuItem);

@@ -5,6 +5,7 @@ import boldSVG from "../../assets/icons/bold.svg";
 import bothSVG from "../../assets/icons/both.svg";
 import bugSVG from "../../assets/icons/bug.svg";
 import checkSVG from "../../assets/icons/check.svg";
+import contentThemeSVG from "../../assets/icons/theme.svg";
 import codeThemeSVG from "../../assets/icons/code-theme.svg";
 import codeSVG from "../../assets/icons/code.svg";
 import editSVG from "../../assets/icons/edit.svg";
@@ -137,6 +138,7 @@ export class Options {
                     "preview",
                     "format",
                     "outline",
+                    "content-theme",
                     "code-theme",
                     "devtools",
                     "info",
@@ -327,6 +329,10 @@ export class Options {
     }, {
         icon: outlinerSVG,
         name: "outline",
+        tipPosition: "nw",
+    }, {
+        icon: contentThemeSVG,
+        name: "content-theme",
         tipPosition: "nw",
     }, {
         icon: codeThemeSVG,

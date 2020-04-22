@@ -2,33 +2,24 @@ import {Constants} from "../constants";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
-import {highlightRender} from "../markdown/highlightRender";
 
-export const setCodeTheme = (vditor: IVditor, codeTheme: string) => {
-    if (!codeTheme) {
-        return;
-    }
-    vditor.options.preview.hljs.style = codeTheme;
-    if (vditor.currentMode === "sv") {
-        if (vditor.preview.element.style.display !== "none") {
-            highlightRender({
-                    enable: vditor.options.preview.hljs.enable,
-                    lineNumber: vditor.options.preview.hljs.lineNumber,
-                    style: vditor.options.preview.hljs.style,
-                },
-                vditor.preview.element, vditor.options.cdn);
+export const setContentTheme = (vditor: IVditor, contentTheme: string) => {
+    if (contentTheme === "dark") {
+        if (vditor.preview) {
+            vditor.preview.element.firstElementChild.classList.add("vditor-reset--dark");
         }
+        vditor.wysiwyg.element.classList.add("vditor-reset--dark");
+        vditor.ir.element.classList.add("vditor-reset--dark");
     } else {
-        highlightRender({
-                enable: true,
-                lineNumber: vditor.options.preview.hljs.lineNumber,
-                style: vditor.options.preview.hljs.style,
-            },
-            vditor[vditor.currentMode].element, vditor.options.cdn);
+        if (vditor.preview) {
+            vditor.preview.element.firstElementChild.classList.remove("vditor-reset--dark");
+        }
+        vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
+        vditor.ir.element.classList.remove("vditor-reset--dark");
     }
-};
+}
 
-export class CodeTheme extends MenuItem {
+export class ContentTheme extends MenuItem {
     public element: HTMLElement;
 
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -39,7 +30,7 @@ export class CodeTheme extends MenuItem {
         const panelElement = document.createElement("div");
         panelElement.className = `vditor-hint vditor-panel--${menuItem.level === 2 ? "side" : "arrow"}`;
         let innerHTML = "";
-        Constants.CODE_THEME.forEach((theme) => {
+        Constants.CONTENT_THEME.forEach((theme) => {
             innerHTML += `<button>${theme}</button>`;
         });
         panelElement.innerHTML =
@@ -47,7 +38,7 @@ export class CodeTheme extends MenuItem {
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "BUTTON") {
                 hidePanel(vditor, ["subToolbar"]);
-                setCodeTheme(vditor, event.target.textContent);
+                setContentTheme(vditor, event.target.textContent);
                 event.preventDefault();
                 event.stopPropagation();
             }
