@@ -234,8 +234,10 @@ interface IMarkdownConfig {
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview: boolean;
-    /* 是否解析 setext 标题。默认值: true */
+    /** 是否解析 setext 标题。默认值: true */
     setext: boolean;
+    /** 内容主题。默认值：light */
+    theme?: string;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview */
@@ -263,7 +265,6 @@ interface IPreview {
 }
 
 interface IPreviewOptions {
-    theme?: "classic" | "dark";
     customEmoji?: { [key: string]: string };
     lang?: (keyof II18nLang);
     lazyLoadImage?: string;

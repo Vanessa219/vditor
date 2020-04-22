@@ -11,14 +11,6 @@
       line-height: 16px;
     }
 
-    &--dark {
-      background-color: var(--textarea-background-color);
-
-      a {
-        color: #4285f4;
-      }
-    }
-
     color: var(--textarea-text-color);
     font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;

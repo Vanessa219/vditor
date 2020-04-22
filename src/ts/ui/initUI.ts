@@ -1,12 +1,14 @@
 import {i18n} from "../i18n";
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
+import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
 export const initUI = (vditor: IVditor) => {
     vditor.element.innerHTML = "";
     vditor.element.classList.add("vditor");
     setTheme(vditor);
+    setContentTheme(vditor.options.preview.markdown.theme, vditor.options.cdn);
     if (typeof vditor.options.height === "number") {
         vditor.element.style.height = vditor.options.height + "px";
     }

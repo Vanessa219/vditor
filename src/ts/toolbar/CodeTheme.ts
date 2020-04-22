@@ -1,32 +1,8 @@
 import {Constants} from "../constants";
+import {setCodeTheme} from "../ui/setCodeTheme";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
-import {highlightRender} from "../markdown/highlightRender";
-
-export const setCodeTheme = (vditor: IVditor, codeTheme: string) => {
-    if (!codeTheme) {
-        return;
-    }
-    vditor.options.preview.hljs.style = codeTheme;
-    if (vditor.currentMode === "sv") {
-        if (vditor.preview.element.style.display !== "none") {
-            highlightRender({
-                    enable: vditor.options.preview.hljs.enable,
-                    lineNumber: vditor.options.preview.hljs.lineNumber,
-                    style: vditor.options.preview.hljs.style,
-                },
-                vditor.preview.element, vditor.options.cdn);
-        }
-    } else {
-        highlightRender({
-                enable: true,
-                lineNumber: vditor.options.preview.hljs.lineNumber,
-                style: vditor.options.preview.hljs.style,
-            },
-            vditor[vditor.currentMode].element, vditor.options.cdn);
-    }
-};
 
 export class CodeTheme extends MenuItem {
     public element: HTMLElement;
@@ -47,7 +23,8 @@ export class CodeTheme extends MenuItem {
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "BUTTON") {
                 hidePanel(vditor, ["subToolbar"]);
-                setCodeTheme(vditor, event.target.textContent);
+                vditor.options.preview.hljs.style = event.target.textContent;
+                setCodeTheme(event.target.textContent, vditor.options.cdn);
                 event.preventDefault();
                 event.stopPropagation();
             }

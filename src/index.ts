@@ -18,6 +18,8 @@ import {Toolbar} from "./ts/toolbar/index";
 import {disableToolbar, hidePanel} from "./ts/toolbar/setToolbar";
 import {enableToolbar} from "./ts/toolbar/setToolbar";
 import {initUI} from "./ts/ui/initUI";
+import {setCodeTheme} from "./ts/ui/setCodeTheme";
+import {setContentTheme} from "./ts/ui/setContentTheme";
 import {setPreviewMode} from "./ts/ui/setPreviewMode";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
@@ -127,9 +129,17 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置主题 */
-    public setTheme(theme: "dark" | "classic", codeTheme?: string) {
+    public setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string) {
         this.vditor.options.theme = theme;
-        setTheme(this.vditor, codeTheme);
+        setTheme(this.vditor);
+        if (contentTheme) {
+            this.vditor.options.preview.markdown.theme = contentTheme;
+            setContentTheme(contentTheme, this.vditor.options.cdn);
+        }
+        if (codeTheme) {
+            this.vditor.options.preview.hljs.style = codeTheme;
+            setCodeTheme(codeTheme, this.vditor.options.cdn);
+        }
     }
 
     /** 获取编辑器内容 */

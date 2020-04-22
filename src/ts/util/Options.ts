@@ -5,7 +5,6 @@ import boldSVG from "../../assets/icons/bold.svg";
 import bothSVG from "../../assets/icons/both.svg";
 import bugSVG from "../../assets/icons/bug.svg";
 import checkSVG from "../../assets/icons/check.svg";
-import contentThemeSVG from "../../assets/icons/theme.svg";
 import codeThemeSVG from "../../assets/icons/code-theme.svg";
 import codeSVG from "../../assets/icons/code.svg";
 import editSVG from "../../assets/icons/edit.svg";
@@ -30,6 +29,7 @@ import recordSVG from "../../assets/icons/record.svg";
 import redoSVG from "../../assets/icons/redo.svg";
 import strikekSVG from "../../assets/icons/strike.svg";
 import tableSVG from "../../assets/icons/table.svg";
+import contentThemeSVG from "../../assets/icons/theme.svg";
 import undoSVG from "../../assets/icons/undo.svg";
 import uploadSVG from "../../assets/icons/upload.svg";
 import {VDITOR_VERSION} from "../constants";
@@ -86,6 +86,7 @@ export class Options {
                 fixTermTypo: false,
                 footnotes: true,
                 setext: true,
+                theme: "light",
                 toc: false,
             },
             math: {
@@ -387,6 +388,9 @@ export class Options {
                         Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
                 }
                 if (this.options.preview.markdown) {
+                    if (!this.options.preview.markdown.theme && this.options.theme && this.options.theme === "dark") {
+                        this.options.preview.markdown.theme = "dark";
+                    }
                     this.options.preview.markdown =
                         Object.assign({}, this.defaultOptions.preview.markdown, this.options.preview.markdown);
                 }

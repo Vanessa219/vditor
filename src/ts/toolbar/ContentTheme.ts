@@ -1,23 +1,8 @@
 import {Constants} from "../constants";
+import {setContentTheme} from "../ui/setContentTheme";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
-
-export const setContentTheme = (vditor: IVditor, contentTheme: string) => {
-    if (contentTheme === "dark") {
-        if (vditor.preview) {
-            vditor.preview.element.firstElementChild.classList.add("vditor-reset--dark");
-        }
-        vditor.wysiwyg.element.classList.add("vditor-reset--dark");
-        vditor.ir.element.classList.add("vditor-reset--dark");
-    } else {
-        if (vditor.preview) {
-            vditor.preview.element.firstElementChild.classList.remove("vditor-reset--dark");
-        }
-        vditor.wysiwyg.element.classList.remove("vditor-reset--dark");
-        vditor.ir.element.classList.remove("vditor-reset--dark");
-    }
-}
 
 export class ContentTheme extends MenuItem {
     public element: HTMLElement;
@@ -38,7 +23,8 @@ export class ContentTheme extends MenuItem {
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "BUTTON") {
                 hidePanel(vditor, ["subToolbar"]);
-                setContentTheme(vditor, event.target.textContent);
+                vditor.options.preview.markdown.theme = event.target.textContent;
+                setContentTheme(event.target.textContent, vditor.options.cdn);
                 event.preventDefault();
                 event.stopPropagation();
             }

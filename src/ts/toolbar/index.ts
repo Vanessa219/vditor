@@ -2,6 +2,7 @@ import {getEventName} from "../util/compatibility";
 import {Both} from "./Both";
 import {Br} from "./Br";
 import {CodeTheme} from "./CodeTheme";
+import {ContentTheme} from "./ContentTheme";
 import {Counter} from "./Counter";
 import {Custom} from "./Custom";
 import {Devtools} from "./Devtools";
@@ -25,7 +26,6 @@ import {Redo} from "./Redo";
 import {toggleSubMenu} from "./setToolbar";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
-import {ContentTheme} from "./ContentTheme";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };

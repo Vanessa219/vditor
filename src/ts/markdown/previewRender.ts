@@ -1,4 +1,5 @@
 import {VDITOR_VERSION} from "../constants";
+import {setContentTheme} from "../ui/setContentTheme";
 import {addScript} from "../util/addScript";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
@@ -33,6 +34,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
             fixTermTypo: false,
             footnotes: true,
             setext: true,
+            theme: "light",
             toc: false,
         },
         math: {
@@ -43,7 +45,6 @@ const mergeOptions = (options?: IPreviewOptions) => {
         speech: {
             enable: false,
         },
-        theme: "classic",
     };
     if (options?.hljs) {
         options.hljs = Object.assign({}, defaultOption.hljs, options.hljs);
@@ -89,11 +90,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
-    if (mergedOptions.theme === "dark") {
-        previewElement.classList.add("vditor-reset--dark");
-    } else {
-        previewElement.classList.remove("vditor-reset--dark");
-    }
+    setContentTheme(mergedOptions.markdown.theme, mergedOptions.cdn);
     if (mergedOptions.anchor) {
         previewElement.classList.add("vditor-reset--anchor");
     }
