@@ -248,6 +248,8 @@ Can be filled with element `id` or element itself` HTMLElement`
 | toc | Insert Table of Contents | false |
 | footnotes | Footnotes | true |
 | codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
+| theme | Content Theme | 'light' |
+| setext | Whether to parse the setext header | true |
 
 #### options.preview.math
 
@@ -368,7 +370,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | html2md(value: string) | HTML to md |
 | tip(text: string, time: number) | notification. time is 0 will always display |
 | setPreviewMode(mode: "both" \| "editor" \| "preview") | Set preview mode |
-| setTheme(theme: "dark" \| "classic", codeTheme?: string) | Set theme |
+| setTheme(theme: "dark" \| "classic", contentTheme?: string, codeTheme?: string) | Set theme |
 | getCurrentMode(): string | Get the editor's current editing mode |
 
 #### static methods
@@ -391,7 +393,6 @@ previewElement: HTMLDivElement,   // Use this element for rendering
 markdown: string,  // The original markdown to be rendered
 options?: IPreviewOptions {  
  anchor?: boolean;  // Add an anchor to the title
- theme?: string;  // Theme: 'classic' | 'dark', default is 'classic'
  customEmoji?: { [key: string]: string };    // Custom emoji, default is {}
  lang?: (keyof II18nLang);    // Language, default is 'zh_CN'  
  emojiPath?: string;    // Emoji picture path 
@@ -403,7 +404,8 @@ options?: IPreviewOptions {
  transform?(html: string): string; // Callback method before rendering
  after?(): void; // Callback method after rendering
  cdn?: string; // Self-built CDN address
- lazyLoadImage?: string; // 可使用类似 "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" 图片对原始图片进行懒加载
+ lazyLoadImage?: string; // use "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" to lazy load image
+ markdown?: options.preview.markdown;
 }
 ```
 

@@ -114,9 +114,8 @@
   * insert line 默认快捷键由 `⌘-⇧-D` 修改为 `⌘-⇧-H`，添加下移 `⌘-⇧-D`、上移 `⌘-⇧-U` 快捷键，移除上传、编辑器模式切换快捷键
   * 为 `options.toolbar` 添加 toolbar 参数，最多可进行 3 级菜单
   * 为 `options.toolbar` 添加 outdent，indent, outline, insert-after, insert-before, 子菜单，code-theme, content-theme
-  
   * `setTheme` 方法添加 `conentTheme`, `codeTheme` 参数
-  * `options.preview.markdonw` 添加 `theme` 配置
+  * `options.preview.markdonw` 添加 `theme`, `setext` 配置
   * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`，移除 `theme`
 
 ### v3.0.12 / 2020-04-06
