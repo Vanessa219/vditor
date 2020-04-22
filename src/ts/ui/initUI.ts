@@ -100,7 +100,7 @@ export const setPadding = (vditor: IVditor) => {
     }
 
     vditor.toolbar.element.style.paddingLeft =
-        parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + outlineWidth + "px";
+        Math.max(5, parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + outlineWidth) + "px";
 };
 
 export const setTypewriterPosition = (vditor: IVditor) => {
