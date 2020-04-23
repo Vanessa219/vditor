@@ -84,14 +84,13 @@
     border-left: 1px solid var(--border-color);
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
-    background-color: var(--textarea-background-color);
-    padding: 10px;
 
     & > div::-webkit-scrollbar {
       display: none;
     }
 
     & > .vditor-reset {
+      padding: 10px;
       margin: 0 auto;
     }
   }

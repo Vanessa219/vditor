@@ -59,6 +59,7 @@
 
 ### v3.1.16 / 2020-04-2x
 
+* [337](https://github.com/Vanessa219/vditor/issues/337) insertValue 光标错误 `修复缺陷`
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 
 ### v3.1.15 / 2020-04-21

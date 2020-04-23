@@ -10,10 +10,10 @@ import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
-export const input = (vditor: IVditor, range: Range) => {
+export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     let blockElement = hasClosestBlock(range.startContainer);
-    // 前后可以输入空格，但是 insert html 中有换行需忽略（使用 wbr 标识）
-    if (blockElement && !blockElement.querySelector("wbr")) {
+    // 前后可以输入空格
+    if (blockElement && !ignoreSpace) {
         if (isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
             return;
         }

@@ -311,16 +311,18 @@ class Vditor extends VditorMethod {
         } else if (this.vditor.currentMode === "wysiwyg") {
             const range = getEditorRange(this.vditor.wysiwyg.element);
             range.collapse(true);
+            this.vditor.wysiwyg.preventInput = true;
             document.execCommand("insertHTML", false, value);
             if (render) {
-                input(this.vditor, range);
+                input(this.vditor, getSelection().getRangeAt(0));
             }
         } else if (this.vditor.currentMode === "ir") {
             const range = getEditorRange(this.vditor.ir.element);
             range.collapse(true);
+            this.vditor.ir.preventInput = true;
             document.execCommand("insertHTML", false, value);
             if (render) {
-                irInput(this.vditor, range);
+                irInput(this.vditor, getSelection().getRangeAt(0), true);
             }
         }
     }
