@@ -11,7 +11,7 @@
       line-height: 16px;
     }
 
-    color: var(--textarea-text-color);
+    color: #24292e;
     font-variant-ligatures: no-common-ligatures;
     font-family: $font-family-base;
     word-wrap: break-word;
@@ -85,13 +85,13 @@
     h1 {
       padding-bottom: 0.3em;
       font-size: 1.7em;
-      border-bottom: 1px solid var(--heading-border-color);
+      border-bottom: 1px solid #eaecef;
     }
 
     h2 {
       padding-bottom: 0.3em;
       font-size: 1.5em;
-      border-bottom: 1px solid var(--heading-border-color);
+      border-bottom: 1px solid #eaecef;
     }
 
     h3 {
@@ -114,7 +114,7 @@
       height: 2px;
       padding: 0;
       margin: 24px 0;
-      background-color: var(--heading-border-color);
+      background-color: #eaecef;
       border: 0;
     }
 
@@ -125,8 +125,8 @@
 
     blockquote {
       padding: 0 1em;
-      color: var(--blockquote-color);
-      border-left: 0.25em solid var(--heading-border-color);
+      color: #6a737d;
+      border-left: 0.25em solid #eaecef;
       margin: 0 0 16px 0;
 
       & > :first-child {
@@ -143,7 +143,7 @@
     }
 
     iframe {
-      border: 1px solid var(--border-color);
+      border: 1px solid #d1d5da;
       max-width: 100%;
       box-sizing: border-box;
 
@@ -224,12 +224,12 @@
       padding: 3px 5px;
       font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
       line-height: 10px;
-      color: var(--textarea-text-color);
+      color: #24292e;
       vertical-align: middle;
       background-color: var(--textarea-background-color);
-      border: solid 1px var(--border-color);
+      border: solid 1px #d1d5da;
       border-radius: 3px;
-      box-shadow: inset 0 -1px 0 var(--border-color);
+      box-shadow: inset 0 -1px 0 #d1d5da;
     }
 
     summary {
@@ -294,7 +294,7 @@
     }
 
     svg {
-      color: var(--toolbar-icon-color);
+      color: #586069;
       height: 14px;
       width: 14px !important;
       display: block;
@@ -334,16 +334,16 @@
   &-speech {
     position: absolute;
     display: none;
-    background-color: var(--toolbar-background-color);
-    border: 1px solid var(--border-color);
+    background-color: #f6f8fa;
+    border: 1px solid #d1d5da;
     border-radius: 3px;
     padding: 3px;
     cursor: pointer;
-    color: var(--toolbar-icon-color);
+    color: #586069;
 
     &:hover,
     &--current {
-      color: var(--toolbar-icon-hover-color);
+      color: #4285f4;
     }
 
     svg {
@@ -385,7 +385,7 @@
 
     a {
       border-radius: 3px;
-      background-color: var(--toolbar-background-color);
+      background-color: #f6f8fa;
       overflow: hidden;
       max-height: 250px;
       display: flex;
@@ -399,7 +399,7 @@
       }
 
       &:visited .vditor-linkcard__abstract {
-        color: var(--second-color);
+        color: rgba(88, 96, 105, 0.36);
       }
     }
 
@@ -413,7 +413,7 @@
     &__title {
       font-size: 14px;
       font-weight: 400;
-      color: var(--textarea-text-color);
+      color: #24292e;
       display: flex;
       align-items: center;
 
@@ -436,13 +436,13 @@
       -webkit-box-orient: vertical;
       display: -webkit-box;
       font-size: 13px;
-      color: var(--toolbar-icon-color);
+      color: #586069;
       margin: 5px 0;
     }
 
     &__site {
       font-size: 12px;
-      color: var(--toolbar-icon-hover-color);
+      color: #4285f4;
     }
 
     &__image {
@@ -452,7 +452,7 @@
       max-width: 250px;
       min-width: 126px;
       cursor: pointer;
-      background-color: var(--second-color);
+      background-color: rgba(88, 96, 105, 0.36);
     }
   }
 
