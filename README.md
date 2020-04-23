@@ -225,7 +225,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | - | - | - |
 | delay | Preview debounce millisecond interval | 1000 |
 | maxWidth | Preview area maximum width | 800 |
-| mode | Display mode: both, editor, preview | 'both' |
+| mode | Display mode: both, editor | 'both' |
 | url | md parsing request | - |
 | parse | Preview callback (element: HTMLElement): void | - |
 | transform | Callback before rendering (html: string): string | - |
