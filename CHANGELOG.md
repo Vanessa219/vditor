@@ -56,15 +56,15 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
+
+### v3.1.17 / 2020-04-2x
+
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 
-### v3.1.16 / 2020-04-2x
+### v3.1.16 / 2020-04-24
 
 * [316](https://github.com/Vanessa219/vditor/issues/316) 支持多端预览 `引入特性`
 * [337](https://github.com/Vanessa219/vditor/issues/337) insertValue 光标错误 `修复缺陷`
-
-### v3.1.15 / 2020-04-21
-
 * [333](https://github.com/Vanessa219/vditor/issues/333) 重新设计帮助菜单 `改进功能`
 * [334](https://github.com/Vanessa219/vditor/issues/334) 重新设计关于菜单 `改进功能`
 * [335](https://github.com/Vanessa219/vditor/issues/335) 块引用嵌套列表跳出问题 `修复缺陷`
