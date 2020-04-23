@@ -85,8 +85,32 @@
     box-sizing: border-box;
     border-radius: 0 0 3px 0;
 
-    & > div::-webkit-scrollbar {
+    &::-webkit-scrollbar {
       display: none;
+    }
+
+    &__action {
+      text-align: center;
+      margin: 10px;
+
+      button {
+        background-color: var(--toolbar-background-color);
+        color: var(--toolbar-icon-color);
+        line-height: 20px;
+        border-radius: 5px;
+        border: 0;
+        margin: 0 10px;
+        cursor: pointer;
+
+        &.vditor-preview__action--current,
+        &:hover {
+          color: var(--toolbar-icon-hover-color);
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
     }
 
     & > .vditor-reset {

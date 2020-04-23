@@ -7,6 +7,7 @@ import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {getEventName} from "../util/compatibility";
 import {getMarkdown} from "../util/getMarkdown";
 
 export class Preview {
@@ -16,11 +17,45 @@ export class Preview {
     constructor(vditor: IVditor) {
         this.element = document.createElement("div");
         this.element.className = `vditor-preview`;
+
         const previewElement = document.createElement("div");
-        previewElement.className = vditor.options.classes.preview ? vditor.options.classes.preview : "vditor-reset";
+        previewElement.className = "vditor-reset";
+        if (vditor.options.classes.preview) {
+            previewElement.classList.add(vditor.options.classes.preview);
+        }
         previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
+
+        const actionElement = document.createElement("div");
+        actionElement.className = "vditor-preview__action";
+        actionElement.innerHTML = `<button class="vditor-preview__action--current" data-type="desktop">Desktop</button>
+<button data-type="tablet">Tablet</button>
+<button data-type="mobile">Mobile/Wechat</button>`;
+        this.element.appendChild(actionElement);
         this.element.appendChild(previewElement);
-        this.render(vditor);
+
+        actionElement.addEventListener(getEventName(), (event) => {
+            const btn = event.target as HTMLElement;
+            if (btn.tagName !== "BUTTON") {
+                return;
+            }
+            const type = btn.getAttribute("data-type");
+            if (type === actionElement.querySelector(".vditor-preview__action--current").getAttribute("data-type")) {
+                return;
+            }
+
+            if (type === "desktop") {
+                previewElement.style.width = "auto";
+            } else if (type === "tablet") {
+                previewElement.style.width = "780px";
+            } else {
+                previewElement.style.width = "360px";
+            }
+            this.render(vditor);
+            actionElement.querySelectorAll("button").forEach((item) => {
+                item.classList.remove("vditor-preview__action--current");
+            });
+            btn.classList.add("vditor-preview__action--current");
+        });
     }
 
     public render(vditor: IVditor, value?: string) {
@@ -34,19 +69,19 @@ export class Preview {
         }
 
         if (value) {
-            this.element.children[0].innerHTML = value;
+            this.element.lastElementChild.innerHTML = value;
             return;
         }
 
         if (getMarkdown(vditor)
             .replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "") === "") {
-            this.element.children[0].innerHTML = "";
+            this.element.lastElementChild.innerHTML = "";
             return;
         }
 
         const renderStartTime = new Date().getTime();
         const markdownText = getMarkdown(vditor);
-        this.mdTimeoutId = window.setTimeout( () => {
+        this.mdTimeoutId = window.setTimeout(() => {
             if (vditor.options.preview.url) {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", vditor.options.preview.url);
@@ -62,14 +97,14 @@ export class Preview {
                             if (vditor.options.preview.transform) {
                                 responseJSON.data = vditor.options.preview.transform(responseJSON.data);
                             }
-                            this.element.children[0].innerHTML = responseJSON.data;
+                            this.element.lastElementChild.innerHTML = responseJSON.data;
                             this.afterRender(vditor, renderStartTime);
                         } else {
                             let html = vditor.lute.Md2HTML(markdownText);
                             if (vditor.options.preview.transform) {
                                 html = vditor.options.preview.transform(html);
                             }
-                            this.element.children[0].innerHTML = html;
+                            this.element.lastElementChild.innerHTML = html;
                             this.afterRender(vditor, renderStartTime);
                         }
                     }
@@ -81,7 +116,7 @@ export class Preview {
                 if (vditor.options.preview.transform) {
                     html = vditor.options.preview.transform(html);
                 }
-                this.element.children[0].innerHTML = html;
+                this.element.lastElementChild.innerHTML = html;
                 this.afterRender(vditor, renderStartTime);
             }
         }, vditor.options.preview.delay);
@@ -101,17 +136,17 @@ export class Preview {
             vditor.tip.hide();
             vditor.preview.element.removeAttribute("data-type");
         }
-        codeRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.lang);
-        highlightRender(vditor.options.preview.hljs, vditor.preview.element.children[0] as HTMLElement,
+        codeRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.lang);
+        highlightRender(vditor.options.preview.hljs, vditor.preview.element.lastElementChild as HTMLElement,
             vditor.options.cdn);
-        mathRender(vditor.preview.element.children[0] as HTMLElement, {
+        mathRender(vditor.preview.element.lastElementChild as HTMLElement, {
             cdn: vditor.options.cdn,
             math: vditor.options.preview.math,
         });
-        mermaidRender(vditor.preview.element.children[0] as HTMLElement, ".language-mermaid", vditor.options.cdn);
-        graphvizRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
-        chartRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
-        abcRender(vditor.preview.element.children[0] as HTMLElement, vditor.options.cdn);
-        mediaRender(vditor.preview.element.children[0] as HTMLElement);
+        mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, ".language-mermaid", vditor.options.cdn);
+        graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
+        chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
+        abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
+        mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
     }
 }

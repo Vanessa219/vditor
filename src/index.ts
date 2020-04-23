@@ -98,7 +98,7 @@ class Vditor extends VditorMethod {
             this.vditor.upload = new Upload();
         }
 
-        let lutePath = `http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`
+        let lutePath = `http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`;
         // let lutePath = "src/js/lute/lute.min.js";
         if (!options.debugger) {
             lutePath = `${mergedOptions.cdn}/dist/js/lute/lute.min.js`;
