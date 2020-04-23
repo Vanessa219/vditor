@@ -86,7 +86,7 @@
 
     &--disabled {
       color: var(--second-color) !important;
-      cursor: not-allowed;
+      cursor: not-allowed !important;
     }
   }
 

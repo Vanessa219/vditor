@@ -28,17 +28,13 @@
     cursor: pointer;
     white-space: nowrap;
 
-    &:last-child {
-      border-bottom: 0;
-    }
-
     &:focus {
       outline: none;
     }
   }
 
   &--current,
-  button:hover {
+  button:not(.vditor-menu--disabled):hover {
     background-color: var(--toolbar-background-color) !important;
     color: var(--toolbar-icon-hover-color) !important;
   }

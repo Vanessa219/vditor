@@ -369,7 +369,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | enableCache() | Enable caching |
 | html2md(value: string) | HTML to md |
 | tip(text: string, time: number) | notification. time is 0 will always display |
-| setPreviewMode(mode: "both" \| "editor" \| "preview") | Set preview mode |
+| setPreviewMode(mode: "both" \| "editor") | Set preview mode |
 | setTheme(theme: "dark" \| "classic", contentTheme?: string, codeTheme?: string) | Set theme |
 | getCurrentMode(): string | Get the editor's current editing mode |
 

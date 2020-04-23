@@ -67,7 +67,6 @@ class Vditor extends VditorMethod {
 
         this.vditor = {
             currentMode: mergedOptions.mode,
-            currentPreviewMode: mergedOptions.preview.mode,
             element: id,
             hint: new Hint(),
             lute: undefined,
@@ -99,9 +98,12 @@ class Vditor extends VditorMethod {
             this.vditor.upload = new Upload();
         }
 
-        // addScript("src/js/lute/lute.min.js", "vditorLuteScript").then(() => {
-        // addScript(`http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`, "vditorLuteScript").then(() => {
-        addScript(`${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript").then(() => {
+        let lutePath = `http://192.168.2.248:9090/lute.min.js?${new Date().getTime()}`
+        // let lutePath = "src/js/lute/lute.min.js";
+        if (!options.debugger) {
+            lutePath = `${mergedOptions.cdn}/dist/js/lute/lute.min.js`;
+        }
+        addScript(lutePath, "vditorLuteScript").then(() => {
             this.vditor.lute = setLute({
                 autoSpace: this.vditor.options.preview.markdown.autoSpace,
                 chinesePunct: this.vditor.options.preview.markdown.chinesePunct,
@@ -279,7 +281,7 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置预览模式 */
-    public setPreviewMode(mode: keyof IPreviewMode) {
+    public setPreviewMode(mode: "both" | "editor") {
         setPreviewMode(mode, this.vditor);
     }
 

@@ -136,8 +136,8 @@ export class Options {
                     "fullscreen",
                     "edit-mode",
                     "both",
-                    "preview",
                     "format",
+                    "preview",
                     "outline",
                     "content-theme",
                     "code-theme",
@@ -318,7 +318,6 @@ export class Options {
         name: "both",
         tipPosition: "nw",
     }, {
-        hotkey: "⌘-⇧-P",
         icon: previewSVG,
         name: "preview",
         tipPosition: "nw",

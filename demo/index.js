@@ -39,8 +39,8 @@ if (window.innerWidth < 768) {
       toolbar: [
         "fullscreen",
         "both",
-        "preview",
         "format",
+        "preview",
         "info",
         "help",
       ],

@@ -34,8 +34,8 @@ export const highlightToolbar = (vditor: IVditor) => {
             return;
         }
 
-        removeCurrentToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
-        enableToolbar(vditor.toolbar.elements, Constants.TOOLBARS);
+        removeCurrentToolbar(vditor.toolbar.elements, Constants.EDIT_TOOLBARS);
+        enableToolbar(vditor.toolbar.elements, Constants.EDIT_TOOLBARS);
 
         const range = getSelection().getRangeAt(0);
         let typeElement = range.startContainer as HTMLElement;

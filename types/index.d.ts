@@ -194,12 +194,6 @@ interface IMenuItem {
     click?(status?: boolean): void;
 }
 
-interface IPreviewMode {
-    both: string;
-    preview: string;
-    editor: string;
-}
-
 /** @link https://hacpai.com/article/1549638745630#options-preview-hljs */
 interface IHljs {
     /** 是否启用行号。默认值: false */
@@ -247,7 +241,7 @@ interface IPreview {
     /** 预览区域最大宽度。默认值: 768 */
     maxWidth?: number;
     /** 显示模式。默认值: 'both' */
-    mode?: keyof IPreviewMode;
+    mode?: "both" | "editor";
     /** md 解析请求 */
     url?: string;
     /** @link https://hacpai.com/article/1549638745630#options-preview-hljs */
@@ -397,7 +391,6 @@ interface IVditor {
     originalInnerHTML: string;
     lute: ILute;
     currentMode: "sv" | "wysiwyg" | "ir";
-    currentPreviewMode: keyof IPreviewMode;
     devtools?: {
         element: HTMLDivElement,
         renderEchart(vditor: IVditor): void,

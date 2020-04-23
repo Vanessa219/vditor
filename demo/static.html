@@ -34,8 +34,8 @@
     <meta name="twitter:url" content="https://hacpai.com/tag/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/dist/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/dist/images/logo.png"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.12/dist/index.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.12/dist/index.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.16/dist/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.16/dist/index.min.js"></script>
 </head>
 <body>
 <h2><a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">Doc</a></h2>
@@ -46,8 +46,8 @@
 </h2>
 <h2>
     Vditor for you
-    <button onclick="vditor.setTheme('dark')">Dark</button>
-    <button onclick="vditor.setTheme('light')">Light</button>
+    <button onclick="window.vditor.setTheme('dark', 'dark',  'native')">Dark</button>
+    <button onclick="window.vditor.setTheme('light', 'light', 'github')">Light</button>
 </h2>
 <div id="vditor">
 <h1>Vditor</h1>
@@ -57,16 +57,61 @@
 </ul>
 </div>
 <script>
+
+  let toolbar
+  if (window.innerWidth < 768) {
+    toolbar =  [
+      "emoji",
+      "headings",
+      "bold",
+      "italic",
+      "strike",
+      "link",
+      "|",
+      "list",
+      "ordered-list",
+      "check",
+      "outdent",
+      "indent",
+      "|",
+      "quote",
+      "line",
+      "code",
+      "inline-code",
+      "insert-before",
+      "insert-after",
+      "|",
+      "upload",
+      "record",
+      "table",
+      "|",
+      "undo",
+      "redo",
+      "|",
+      "edit-mode",
+      "content-theme",
+      "code-theme",
+      {
+        name: "more",
+        toolbar: [
+          "fullscreen",
+          "both",
+          "format",
+          "preview",
+          "info",
+          "help",
+        ],
+      }]
+  }
+
   window.vditor = new Vditor('vditor', {
+    toolbar,
     debugger: true,
     typewriterMode: true,
     placeholder: 'placeholder',
     preview: {
       markdown: {
         toc: true,
-      },
-      hljs: {
-        style: 'native',
       },
     },
     toolbarConfig: {

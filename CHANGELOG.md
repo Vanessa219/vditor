@@ -56,11 +56,12 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
+* [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 
 ### v3.1.16 / 2020-04-2x
 
+* [316](https://github.com/Vanessa219/vditor/issues/316) 支持多端预览 `引入特性`
 * [337](https://github.com/Vanessa219/vditor/issues/337) insertValue 光标错误 `修复缺陷`
-* [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 
 ### v3.1.15 / 2020-04-21
 
@@ -118,6 +119,11 @@
   * `setTheme` 方法添加 `conentTheme`, `codeTheme` 参数
   * `options.preview.markdonw` 添加 `theme`, `setext` 配置
   * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`，移除 `theme`
+  
+  * `options.preview.mode` 移除 `preview`
+  * `setPreviewMode` 移除 `preview`
+  * 移除预览快捷键
+  * 更新 html demo
 
 ### v3.0.12 / 2020-04-06
 
