@@ -34,20 +34,16 @@
     <meta name="twitter:url" content="https://hacpai.com/tag/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/dist/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/dist/images/logo.png"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.16/dist/index.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.16/dist/index.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/index.min.js"></script>
 </head>
 <body>
-<h2><a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">Doc</a></h2>
 <h2>
-    Vditor for preview
-    <a href="static-preview.html?lang=zh_CN">中文</a>
-    <a href="static-preview.html?lang=ko_KR">한글</a>
-</h2>
-<h2>
-    Vditor for you
-    <button onclick="window.vditor.setTheme('dark', 'dark',  'native')">Dark</button>
-    <button onclick="window.vditor.setTheme('light', 'light', 'github')">Light</button>
+    <a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">API</a> |
+    <a href="static-preview.html?lang=zh_CN">中文预览</a>
+    <a href="static-preview.html?lang=ko_KR">한글预览</a> |
+    <button onclick="window.vditor.setTheme('dark', 'dark',  'native')">Dark Theme</button>
+    <button onclick="window.vditor.setTheme('light', 'light', 'github')">Light Theme</button>
 </h2>
 <div id="vditor">
 <h1>Vditor</h1>
@@ -60,46 +56,46 @@
 
   let toolbar
   if (window.innerWidth < 768) {
-    toolbar =  [
-      "emoji",
-      "headings",
-      "bold",
-      "italic",
-      "strike",
-      "link",
-      "|",
-      "list",
-      "ordered-list",
-      "check",
-      "outdent",
-      "indent",
-      "|",
-      "quote",
-      "line",
-      "code",
-      "inline-code",
-      "insert-before",
-      "insert-after",
-      "|",
-      "upload",
-      "record",
-      "table",
-      "|",
-      "undo",
-      "redo",
-      "|",
-      "edit-mode",
-      "content-theme",
-      "code-theme",
+    toolbar = [
+      'emoji',
+      'headings',
+      'bold',
+      'italic',
+      'strike',
+      'link',
+      '|',
+      'list',
+      'ordered-list',
+      'check',
+      'outdent',
+      'indent',
+      '|',
+      'quote',
+      'line',
+      'code',
+      'inline-code',
+      'insert-before',
+      'insert-after',
+      '|',
+      'upload',
+      'record',
+      'table',
+      '|',
+      'undo',
+      'redo',
+      '|',
+      'edit-mode',
+      'content-theme',
+      'code-theme',
       {
-        name: "more",
+        name: 'more',
         toolbar: [
-          "fullscreen",
-          "both",
-          "format",
-          "preview",
-          "info",
-          "help",
+          'fullscreen',
+          'both',
+          'format',
+          'preview',
+          'info',
+          'help',
         ],
       }]
   }

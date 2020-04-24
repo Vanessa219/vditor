@@ -37,6 +37,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/index.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/method.min.js"></script>
     <style>
+        a {
+            color: #4285f4;
+        }
+
         .preview {
             max-width: 90%;
             width: 600px;
@@ -52,29 +56,25 @@
             bottom: 20px;
             overflow: auto;
             font-size: 13px;
-            color: var(--textarea-text-color);
             border: 1px solid var(--border-color);
             border-radius: 3px;
         }
     </style>
 </head>
 <body>
-<h2><a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">Doc</a></h2>
 <h2>
-    Vditor for preview
-    <a href="static-preview.html?lang=zh_CN">中文</a>
-    <a href="static-preview.html?lang=ko_KR">한글</a>
-    <button onclick="setTheme('dark')">Dark
-    </button>
-    <button onclick="setTheme('light')">Light
-    </button>
+    <a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">API</a> |
+    <a href="static-preview.html?lang=zh_CN">中文预览</a>
+    <a href="static-preview.html?lang=ko_KR">한글预览</a> |
+    <a href="static.html" id="VditorForYou">编辑器</a> |
+    <button onclick="setTheme('dark')">Dark Theme</button>
+    <button onclick="setTheme('light')">Light Theme</button>
 </h2>
-<h2><a href="static.html" id="VditorForYou">Vditor for you</a></h2>
 <div id="previewWrap">
     <div id="preview" class="preview"></div>
 </div>
 <div class="vditor" style="border: 0">
-    <div id="outline"></div>
+    <div id="outline" class="vditor-reset"></div>
 </div>
 <textarea id="zh_CNText" style="display:none;">## 教程
 
@@ -722,12 +722,17 @@ https://www.youtube.com/watch?v=S4xoOW4DVKE
     })
 
   const setTheme = (theme) => {
+    const outlineElement = document.getElementById('outline')
     if (theme === 'dark') {
       Vditor.setCodeTheme("native");
       Vditor.setContentTheme("dark");
+      outlineElement.parentElement.classList.add('vditor--dark')
+      document.querySelector('html').style.backgroundColor = '#2f363d'
     } else {
       Vditor.setCodeTheme("github");
       Vditor.setContentTheme("light");
+      outlineElement.parentElement.classList.remove('vditor--dark')
+      document.querySelector('html').style.backgroundColor = '#fff'
     }
   }
 </script>
