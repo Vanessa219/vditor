@@ -24,12 +24,6 @@
  * SOFTWARE.
  *
  */
-
-.vditor-reset {
-    color: #d1d5da;
-    background-color: #2f363d !important;
-}
-
 .vditor-reset a, .vditor-ir__link {
     color: #4285f4;
 }

@@ -19,18 +19,28 @@ export class Preview extends MenuItem {
 
             const toolbars = Constants.EDIT_TOOLBARS.concat(["both", "format", "edit-mode", "outline", "devtools"]);
             if (btnElement.classList.contains("vditor-menu--current")) {
-                vditor.preview.element.classList.remove("vditor-preview--only");
                 btnElement.classList.remove("vditor-menu--current");
-                if (vditor.currentMode !== "sv" ||
-                    (vditor.currentMode === "sv" && vditor.options.preview.mode !== "both")) {
+                if (vditor.currentMode === "sv") {
+                    vditor.sv.element.style.display = "block";
+                    if (vditor.options.preview.mode === "both") {
+                        vditor.preview.element.style.display = "block";
+                    } else {
+                        vditor.preview.element.style.display = "none";
+                    }
+                } else {
+                    vditor[vditor.currentMode].element.parentElement.style.display = "block";
                     vditor.preview.element.style.display = "none";
                 }
                 enableToolbar(vditor.toolbar.elements, toolbars);
             } else {
                 disableToolbar(vditor.toolbar.elements, toolbars);
                 vditor.preview.element.style.display = "block";
+                if (vditor.currentMode === "sv") {
+                    vditor.sv.element.style.display = "none";
+                } else {
+                    vditor[vditor.currentMode].element.parentElement.style.display = "none";
+                }
                 vditor.preview.render(vditor);
-                vditor.preview.element.classList.add("vditor-preview--only");
                 btnElement.classList.add("vditor-menu--current");
                 hidePanel(vditor, ["subToolbar", "hint", "popover"]);
             }
