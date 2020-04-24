@@ -426,6 +426,8 @@ options?: IPreviewOptions {
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
 | graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
+| setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
+| setContentTheme (contentTheme: string, cdn = options.cdn)  | update content theme |
 
 ## 🏗 Developer Guide
 
