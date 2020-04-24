@@ -10,6 +10,8 @@ import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
+import {setContentTheme} from "./ts/ui/setContentTheme";
+import { setCodeTheme } from "./ts/ui/setCodeTheme";
 class Vditor {
 
     /** 为 element 中的代码块添加复制按钮 */
@@ -38,6 +40,10 @@ class Vditor {
     public static md2html = md2html;
     /** 页面 Markdown 文章渲染 */
     public static preview = previewRender;
+    /** 设置代码主题 */
+    public static setCodeTheme = setCodeTheme;
+    /** 设置内容主题 */
+    public static setContentTheme = setContentTheme;
 }
 
 export default Vditor;

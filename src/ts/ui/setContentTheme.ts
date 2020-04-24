@@ -1,7 +1,8 @@
-import {Constants} from "../constants";
+import {Constants, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
 
-export const setContentTheme = (contentTheme: string, cdn: string) => {
+export const setContentTheme = (contentTheme: string,
+                                cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
     if (!Constants.CONTENT_THEME.includes(contentTheme)) {
         return;
     }

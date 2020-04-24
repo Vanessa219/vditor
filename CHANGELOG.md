@@ -59,6 +59,7 @@
 
 ### v3.1.17 / 2020-04-2x
 
+* [339](https://github.com/Vanessa219/vditor/issues/339) 添加静态方法 setCodeTheme, setContentTheme `改进功能`
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 
 ### v3.1.16 / 2020-04-24
@@ -110,7 +111,7 @@
   * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
   * 添加 `options.upload.setHeaders: { [key: string]: string }`
   * 为 `options.toolbar` 添加 outdent，indent, outline
-  * 添加静态方法 `outlineRender`
+  * 添加静态方法 `outlineRender`, `setCodeTheme`, `setContentTheme`
   * 添加 lazyLoadImageRender 静态方法
   * insert line 默认快捷键由 `⌘-⇧-D` 修改为 `⌘-⇧-H`，添加下移 `⌘-⇧-D`、上移 `⌘-⇧-U` 快捷键，移除上传、预览、编辑器模式切换快捷键
   * 为 `options.toolbar` 添加 toolbar 参数，最多可进行 3 级菜单

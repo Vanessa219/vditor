@@ -34,8 +34,8 @@
     <meta name="twitter:url" content="https://hacpai.com/tag/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.12/dist/index.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.12/dist/method.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/method.min.js"></script>
     <style>
         .preview {
             max-width: 90%;
@@ -705,13 +705,11 @@ https://www.youtube.com/watch?v=S4xoOW4DVKE
   if (!textElement) {
     textElement = document.getElementById('zh_CNText')
   }
+
   Vditor.preview(document.getElementById('preview'),
     textElement.textContent, {
       markdown: {
         toc: true,
-      },
-      hljs: {
-        style: 'native',
       },
       speech: {
         enable: true,
@@ -724,17 +722,12 @@ https://www.youtube.com/watch?v=S4xoOW4DVKE
     })
 
   const setTheme = (theme) => {
-    const previewWrapElement = document.getElementById('previewWrap')
-    const previewElement = document.getElementById('preview')
-    const outlineElement = document.getElementById('outline').parentElement
     if (theme === 'dark') {
-      document.body.classList.add('vditor-reset--dark')
-      previewElement.classList.add('vditor-reset--dark')
-      outlineElement.classList.add('vditor-reset--dark')
+      Vditor.setCodeTheme("native");
+      Vditor.setContentTheme("dark");
     } else {
-      document.body.classList.remove('vditor-reset--dark')
-      previewElement.classList.remove('vditor-reset--dark')
-      outlineElement.classList.remove('vditor-reset--dark')
+      Vditor.setCodeTheme("github");
+      Vditor.setContentTheme("light");
     }
   }
 </script>
