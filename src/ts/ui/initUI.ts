@@ -97,7 +97,7 @@ export const setPadding = (vditor: IVditor) => {
         }
         const outlienElement = vditor.element.querySelector(".vditor-outline__panel") as HTMLElement;
         outlienElement.style.height =
-            (height - vditor.toolbar.element.offsetHeight) + "px";
+            (height - vditor.toolbar.element.offsetHeight - 2) + "px";
         outlineWidth = outlienElement.offsetWidth;
     }
 

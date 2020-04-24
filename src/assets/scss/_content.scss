@@ -31,6 +31,7 @@
     display: flex;
     min-height: 60px;
     flex: 1;
+    min-width: 1px;
     position: relative;
   }
 
@@ -41,6 +42,7 @@
     overflow: auto;
     width: 100%;
     flex: 1;
+    min-width: 1px;
     border: 0;
     resize: none;
     padding: 10px 9px 10px 10px;
@@ -79,6 +81,7 @@
 
   &-preview {
     flex: 1;
+    min-width: 1px;
     overflow: auto;
     margin-left: -1px;
     border-left: 1px solid var(--border-color);
@@ -133,6 +136,7 @@
     background-color: var(--textarea-background-color);
     overflow: auto;
     flex: 1;
+    min-width: 1px;
     box-shadow: inset 1px 0 var(--border-color);
     box-sizing: border-box;
     border-radius: 0 0 3px 0;

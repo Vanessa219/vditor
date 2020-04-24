@@ -23,10 +23,7 @@ export class Outline extends MenuItem {
                 renderOutline(vditor);
                 btnElement.classList.add("vditor-menu--current");
             }
-            // 防止展开 devtool 或 outline 时，编辑器被 abcRender 撑大
-            vditor[vditor.currentMode].element.parentElement.style.overflow = "auto";
             setPadding(vditor);
-            vditor[vditor.currentMode].element.parentElement.style.overflow = "visible";
         });
     }
 }

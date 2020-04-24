@@ -3,6 +3,7 @@
   flex: 1;
   position: relative;
   width: 100%;
+  min-width: 1px;
 
   pre.vditor-reset {
     background-color: var(--panel-background-color);
