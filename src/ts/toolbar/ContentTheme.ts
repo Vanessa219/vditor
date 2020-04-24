@@ -13,7 +13,7 @@ export class ContentTheme extends MenuItem {
         const actionBtn = this.element.children[0] as HTMLElement;
 
         const panelElement = document.createElement("div");
-        panelElement.className = `vditor-hint vditor-panel--${menuItem.level === 2 ? "side" : "arrow"}`;
+        panelElement.className = `vditor-hint${menuItem.level === 2 ? "" : " vditor-panel--arrow"}`;
         let innerHTML = "";
         Constants.CONTENT_THEME.forEach((theme) => {
             innerHTML += `<button>${theme}</button>`;

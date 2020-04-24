@@ -162,9 +162,7 @@
 }
 
 @media screen and (max-width: $max-width) {
-  .vditor-toolbar__item .vditor-tooltipped {
-    padding: 10px 8px;
-    width: 31px;
-    margin: 0 4px;
+  .vditor-toolbar__item {
+    margin: 0 7px;
   }
 }

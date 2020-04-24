@@ -13,6 +13,17 @@
   min-width: 80px;
   display: none;
 
+  .vditor-hint {
+    margin-top: -31px;
+    left: 100%;
+    right: auto;
+
+    &.vditor-panel--left {
+      right: 100%;
+      left: auto;
+    }
+  }
+
   button {
     color: var(--toolbar-icon-color);
     display: block;
