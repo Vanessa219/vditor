@@ -377,7 +377,6 @@ export class Options {
             }
 
             if (this.options.preview) {
-                this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview);
                 if (this.options.preview.hljs) {
                     this.options.preview.hljs =
                         Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
@@ -387,12 +386,10 @@ export class Options {
                         Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
                 }
                 if (this.options.preview.markdown) {
-                    if (!this.options.preview.markdown.theme && this.options.theme && this.options.theme === "dark") {
-                        this.options.preview.markdown.theme = "dark";
-                    }
                     this.options.preview.markdown =
                         Object.assign({}, this.defaultOptions.preview.markdown, this.options.preview.markdown);
                 }
+                this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview);
             }
 
             if (this.options.hint) {
