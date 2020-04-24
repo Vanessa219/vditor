@@ -8,7 +8,7 @@ export class Info extends MenuItem {
         this.element.children[0].addEventListener(getEventName(), (event) => {
             event.preventDefault();
             vditor.tip.show(`<div style="max-width: 520px; font-size: 14px;line-height: 22px;margin-bottom: 14px;">
-<p style="text-align: center">
+<p style="text-align: center;margin: 14px 0">
     <em>下一代的 Markdown 编辑器，为未来而构建</em>
 </p>
 <div style="display: flex;margin-bottom: 14px;flex-wrap: wrap;align-items: center">
