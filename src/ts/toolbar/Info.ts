@@ -11,15 +11,16 @@ export class Info extends MenuItem {
 <p style="text-align: center">
     <em>下一代的 Markdown 编辑器，为未来而构建</em>
 </p>
-<div style="display: flex;margin-bottom: 14px">
-    <img src="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png" style="margin-right: 10px;height: 68px"/>
-    <div>
+<div style="display: flex;margin-bottom: 14px;flex-wrap: wrap;align-items: center">
+    <img src="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png" style="margin: 0 auto;height: 68px"/>
+    <div>&nbsp;&nbsp;</div>
+    <div style="flex: 1;min-width: 250px">
         Vditor 是一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。
         它使用 TypeScript 实现，支持原生 JavaScript、Vue、React 和Angular。
     </div>
 </div>
-<div style="display: flex;align-items: center">
-    <ul style="list-style: none;flex: 1">
+<div style="display: flex;flex-wrap: wrap;">
+    <ul style="list-style: none;flex: 1;min-width:148px">
         <li>
         项目地址：<a href="https://github.com/Vanessa219/vditor" target="_blank">GitHub</a>
         <a href="https://gitee.com/dl88250/vditor" target="_blank">码云</a>
