@@ -57,11 +57,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.18 / 2020-04-2x
+### v3.1.19 / 2020-04-2x
 
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 
-### v3.1.17 / 2020-04-24
+### v3.1.18 / 2020-04-24
 
 * [339](https://github.com/Vanessa219/vditor/issues/339) 添加静态方法 setCodeTheme, setContentTheme `改进功能`
 * [316](https://github.com/Vanessa219/vditor/issues/316) 支持多端预览 `引入特性`
