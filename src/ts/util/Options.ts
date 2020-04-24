@@ -130,11 +130,11 @@ export class Options {
             "undo",
             "redo",
             "|",
+            "fullscreen",
+            "edit-mode",
             {
                 name: "more",
                 toolbar: [
-                    "fullscreen",
-                    "edit-mode",
                     "both",
                     "format",
                     "preview",

@@ -50,6 +50,9 @@ export class Preview {
             } else {
                 previewElement.style.width = "360px";
             }
+            if (previewElement.scrollWidth > previewElement.parentElement.clientWidth) {
+                previewElement.style.width = "auto";
+            }
             this.render(vditor);
             actionElement.querySelectorAll("button").forEach((item) => {
                 item.classList.remove("vditor-preview__action--current");

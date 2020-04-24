@@ -94,20 +94,23 @@
 
     &__action {
       text-align: center;
-      margin: 10px;
+      padding: 10px;
+      background-color: var(--toolbar-background-color);
 
       button {
         background-color: var(--toolbar-background-color);
         color: var(--toolbar-icon-color);
         line-height: 20px;
-        border-radius: 5px;
         border: 0;
         margin: 0 10px;
         cursor: pointer;
+        padding: 0 7px;
+        font-size: 12px;
 
         &.vditor-preview__action--current,
         &:hover {
           color: var(--toolbar-icon-hover-color);
+          background-color: var(--toolbar-background-color);
         }
 
         &:focus {
