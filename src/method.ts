@@ -10,8 +10,8 @@ import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
-import {setContentTheme} from "./ts/ui/setContentTheme";
 import { setCodeTheme } from "./ts/ui/setCodeTheme";
+import {setContentTheme} from "./ts/ui/setContentTheme";
 class Vditor {
 
     /** 为 element 中的代码块添加复制按钮 */

@@ -111,9 +111,9 @@ export const toggleSubMenu = (vditor: IVditor, panelElement: HTMLElement, action
             }
             panelElement.style.display = "block";
             if (vditor.toolbar.element.getBoundingClientRect().right - actionBtn.getBoundingClientRect().right < 250) {
-                panelElement.classList.add('vditor-panel--left')
+                panelElement.classList.add("vditor-panel--left");
             } else {
-                panelElement.classList.remove('vditor-panel--left')
+                panelElement.classList.remove("vditor-panel--left");
             }
         }
     });

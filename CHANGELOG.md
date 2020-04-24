@@ -57,13 +57,13 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.1.17 / 2020-04-2x
+### v3.1.18 / 2020-04-2x
 
-* [339](https://github.com/Vanessa219/vditor/issues/339) 添加静态方法 setCodeTheme, setContentTheme `改进功能`
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 
-### v3.1.16 / 2020-04-24
+### v3.1.17 / 2020-04-24
 
+* [339](https://github.com/Vanessa219/vditor/issues/339) 添加静态方法 setCodeTheme, setContentTheme `改进功能`
 * [316](https://github.com/Vanessa219/vditor/issues/316) 支持多端预览 `引入特性`
 * [337](https://github.com/Vanessa219/vditor/issues/337) insertValue 光标错误 `修复缺陷`
 * [333](https://github.com/Vanessa219/vditor/issues/333) 重新设计帮助菜单 `改进功能`
