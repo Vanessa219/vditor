@@ -36,14 +36,19 @@
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/dist/images/logo.png"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/index.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vditor@3.1.17/dist/index.min.js"></script>
+    <style>
+        a {
+            color: #4285f4;
+        }
+    </style>
 </head>
 <body>
 <h2>
     <a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">API</a> |
     <a href="static-preview.html?lang=zh_CN">中文预览</a>
     <a href="static-preview.html?lang=ko_KR">한글预览</a> |
-    <button onclick="window.vditor.setTheme('dark', 'dark',  'native')">Dark Mode</button>
-    <button onclick="window.vditor.setTheme('light', 'light', 'github')">Light Mode</button>
+    <button onclick="window.vditor.setTheme('dark', 'dark',  'native');document.querySelector('body').style.backgroundColor='#2f363d'">Dark Mode</button>
+    <button onclick="window.vditor.setTheme('light', 'light', 'github');document.querySelector('body').style.backgroundColor=''">Light Mode</button>
 </h2>
 <div id="vditor">
 <h1>Vditor</h1>

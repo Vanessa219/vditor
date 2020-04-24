@@ -50,7 +50,6 @@ if (window.innerWidth < 768) {
 window.vditor = new Vditor('vditor', {
   toolbar,
   debugger: true,
-  cdn: "http://localhost:9000",
   typewriterMode: true,
   placeholder: 'placeholder',
   preview: {
