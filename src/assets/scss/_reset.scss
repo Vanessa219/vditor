@@ -161,7 +161,7 @@
       border-spacing: 0;
 
       tr {
-        background-color: var(--textarea-background-color);
+        background-color: #fafbfc;
         border-top: 1px solid #c6cbd1;
       }
 
@@ -177,7 +177,7 @@
       }
 
       tbody tr:nth-child(2n) {
-        background-color: var(--panel-background-color);
+        background-color: #fff;
       }
     }
 
@@ -190,13 +190,13 @@
       word-break: break-word;
       background-size: 20px 20px;
       white-space: pre-wrap;
-      background-color: var(--code-background-color);
+      background-color: rgba(27, 31, 35, .05);
 
       &.language-mermaid,
       &.language-math,
       &.language-graphviz,
       &.language-echarts {
-        background-color: var(--preview-background-color);
+        background-color: rgba(27, 31, 35, .02);
       }
     }
 
@@ -226,7 +226,7 @@
       line-height: 10px;
       color: #24292e;
       vertical-align: middle;
-      background-color: var(--textarea-background-color);
+      background-color: #fafbfc;
       border: solid 1px #d1d5da;
       border-radius: 3px;
       box-shadow: inset 0 -1px 0 #d1d5da;
