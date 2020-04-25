@@ -140,6 +140,7 @@ class IR {
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.ir.element.innerHTML !== "" && vditor.ir.element.childNodes.length === 1 &&
                 vditor.ir.element.firstElementChild && vditor.ir.element.firstElementChild.tagName === "P"
+                && vditor.wysiwyg.element.firstElementChild.childElementCount === 0
                 && (vditor.ir.element.textContent === "" || vditor.ir.element.textContent === "\n")) {
                 // 为空时显示 placeholder
                 vditor.ir.element.innerHTML = "";
