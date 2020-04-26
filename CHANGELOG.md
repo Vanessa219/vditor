@@ -57,14 +57,13 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
-
-### v3.1.19 / 2020-04-2x
-
 * [325](https://github.com/Vanessa219/vditor/issues/325) 导出功能 `引入特性`
+
+### v3.1.20 / 2020-04-2x
+
+### v3.1.19 / 2020-04-26
+
 * [341](https://github.com/Vanessa219/vditor/issues/341) Can not delete the image at IR mode `修复缺陷`
-
-### v3.1.18 / 2020-04-24
-
 * [339](https://github.com/Vanessa219/vditor/issues/339) 添加静态方法 setCodeTheme, setContentTheme `改进功能`
 * [316](https://github.com/Vanessa219/vditor/issues/316) 支持多端预览 `引入特性`
 * [337](https://github.com/Vanessa219/vditor/issues/337) insertValue 光标错误 `修复缺陷`

@@ -70,3 +70,10 @@ export const exportHTML = (vditor: IVditor) => {
 </script>`;
     download(vditor, html, content.substr(0, 10) + ".html");
 };
+
+export const exportWeChat = (vditor: IVditor) => {
+    vditor.tip.show("已复制，请到微信公众平台粘贴");
+    // https://github.com/mdnice/markdown-nice/blob/d34ce36799fbe485b27fe8dfbab2b7c60c46e064/src/utils/converter.js
+    // /src/component/Sidebar/Wechat.js
+    // https://mdnice.com/
+};

@@ -1,4 +1,4 @@
-import {exportHTML, exportMarkdown, exportPDF} from "../export";
+import {exportHTML, exportMarkdown, exportPDF, exportWeChat} from "../export";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
@@ -14,6 +14,7 @@ export class Export extends MenuItem {
         panelElement.innerHTML = `<button data-type="markdown">Markdown</button>
 <button data-type="pdf">PDF</button>
 <button data-type="html">HTML</button>`;
+        // <button data-type="wechat">复制到公众号</button>
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             const btnElement = event.target;
             if (btnElement.tagName === "BUTTON") {
@@ -26,6 +27,8 @@ export class Export extends MenuItem {
                         break;
                     case "html":
                         exportHTML(vditor);
+                    case "wechat":
+                        exportWeChat(vditor);
                         break;
                     default:
                         break;
