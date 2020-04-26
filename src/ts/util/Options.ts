@@ -9,6 +9,7 @@ import codeThemeSVG from "../../assets/icons/code-theme.svg";
 import codeSVG from "../../assets/icons/code.svg";
 import editSVG from "../../assets/icons/edit.svg";
 import emojiSVG from "../../assets/icons/emoji.svg";
+import exportSVG from "../../assets/icons/export.svg";
 import fullscreenSVG from "../../assets/icons/fullscreen.svg";
 import headingsSVG from "../../assets/icons/headings.svg";
 import helpSVG from "../../assets/icons/help.svg";
@@ -142,6 +143,7 @@ export class Options {
                     "content-theme",
                     "code-theme",
                     "devtools",
+                    "export",
                     "info",
                     "help",
                 ],
@@ -163,6 +165,10 @@ export class Options {
     };
 
     private toolbarItem = [{
+        icon: exportSVG,
+        name: "export",
+        tipPosition: "ne",
+    }, {
         hotkey: "⌘-E",
         icon: emojiSVG,
         name: "emoji",

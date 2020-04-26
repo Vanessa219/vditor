@@ -34,6 +34,7 @@ if (window.innerWidth < 768) {
     "edit-mode",
     "content-theme",
     "code-theme",
+    "export",
     {
       name: "more",
       toolbar: [

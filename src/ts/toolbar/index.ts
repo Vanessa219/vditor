@@ -9,6 +9,7 @@ import {Devtools} from "./Devtools";
 import {Divider} from "./Divider";
 import {EditMode} from "./EditMode";
 import {Emoji} from "./Emoji";
+import {Export} from "./Export";
 import {Format} from "./Format";
 import {Fullscreen} from "./Fullscreen";
 import {Headings} from "./Headings";
@@ -72,18 +73,6 @@ export class Toolbar {
     private genItem(vditor: IVditor, menuItem: IMenuItem, index: number) {
         let menuItemObj;
         switch (menuItem.name) {
-            case "emoji":
-                menuItemObj = new Emoji(vditor, menuItem);
-                break;
-            case "headings":
-                menuItemObj = new Headings(vditor, menuItem);
-                break;
-            case "|":
-                menuItemObj = new Divider();
-                break;
-            case "br":
-                menuItemObj = new Br();
-                break;
             case "bold":
             case "italic":
             case "more":
@@ -98,6 +87,18 @@ export class Toolbar {
             case "link":
             case "table":
                 menuItemObj = new MenuItem(vditor, menuItem);
+                break;
+            case "emoji":
+                menuItemObj = new Emoji(vditor, menuItem);
+                break;
+            case "headings":
+                menuItemObj = new Headings(vditor, menuItem);
+                break;
+            case "|":
+                menuItemObj = new Divider();
+                break;
+            case "br":
+                menuItemObj = new Br();
                 break;
             case "undo":
                 menuItemObj = new Undo(vditor, menuItem);
@@ -155,6 +156,9 @@ export class Toolbar {
                 break;
             case "content-theme":
                 menuItemObj = new ContentTheme(vditor, menuItem);
+                break;
+            case "export":
+                menuItemObj = new Export(vditor, menuItem);
                 break;
             default:
                 menuItemObj = new Custom(vditor, menuItem);
