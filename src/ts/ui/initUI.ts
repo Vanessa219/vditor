@@ -68,6 +68,12 @@ export const initUI = (vditor: IVditor) => {
 
     vditor.element.appendChild(contentElement);
 
+    if (vditor.toolbar.elements.export) {
+        // for export pdf
+        vditor.element.insertAdjacentHTML("beforeend",
+            '<iframe style="width: 100%;height: 0;border: 0"></iframe>');
+    }
+
     setEditMode(vditor, vditor.options.mode, afterRender(vditor, contentElement));
 };
 
