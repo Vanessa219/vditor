@@ -1,6 +1,5 @@
-import {exportMarkdown, exportPDF} from "../export";
+import {exportHTML, exportMarkdown, exportPDF} from "../export";
 import {getEventName} from "../util/compatibility";
-import {getMarkdown} from "../util/getMarkdown";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
 
@@ -13,16 +12,20 @@ export class Export extends MenuItem {
         const panelElement = document.createElement("div");
         panelElement.className = `vditor-hint${menuItem.level === 2 ? "" : " vditor-panel--arrow"}`;
         panelElement.innerHTML = `<button data-type="markdown">Markdown</button>
-<button data-type="pdf">PDF</button>`;
+<button data-type="pdf">PDF</button>
+<button data-type="html">HTML</button>`;
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             const btnElement = event.target;
             if (btnElement.tagName === "BUTTON") {
                 switch (btnElement.getAttribute("data-type")) {
                     case "markdown":
-                        exportMarkdown(vditor, getMarkdown(vditor));
+                        exportMarkdown(vditor);
                         break;
                     case "pdf":
-                        exportPDF(vditor, getMarkdown(vditor));
+                        exportPDF(vditor);
+                        break;
+                    case "html":
+                        exportHTML(vditor);
                         break;
                     default:
                         break;

@@ -16,16 +16,17 @@ export const download = (vditor: IVditor, content: string, filename: string) => 
     }
 };
 
-export const exportMarkdown = (vditor: IVditor, content: string) => {
+export const exportMarkdown = (vditor: IVditor) => {
+    const content = getMarkdown(vditor);
     download(vditor, content, content.substr(0, 10) + ".md");
 };
 
-export const exportPDF = (vditor: IVditor, content: string) => {
+export const exportPDF = (vditor: IVditor) => {
     vditor.tip.show(i18n[vditor.options.lang].generate, 3800);
     const iframe = document.querySelector("iframe");
     iframe.contentDocument.open();
-    iframe.contentDocument.write(`<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.1.18/dist/index.css"/>
-<script src="https://cdn.jsdelivr.net/npm/vditor@3.1.18/dist/method.min.js"></script>
+    iframe.contentDocument.write(`<link rel="stylesheet" href="${vditor.options.cdn}/dist/index.css"/>
+<script src="${vditor.options.cdn}/dist/method.min.js"></script>
 <div id="preview"></div>
 <script>
 window.addEventListener("message", (e) => {
@@ -49,4 +50,23 @@ window.addEventListener("message", (e) => {
     setTimeout(() => {
         iframe.contentWindow.postMessage(getMarkdown(vditor), "*");
     }, 200);
+};
+
+export const exportHTML = (vditor: IVditor) => {
+    const content = getMarkdown(vditor);
+    const html = `<link rel="stylesheet" href="${vditor.options.cdn}/dist/index.css"/>
+<script src="${vditor.options.cdn}/dist/method.min.js"></script>
+<div id="preview"></div>
+<textarea style="display: none" id="textarea">${content}</textarea>
+<script>
+  Vditor.preview(document.getElementById('preview'), document.getElementById('textarea').textContent, {
+    markdown: {
+      theme: "${vditor.options.preview.markdown.theme}"
+    },
+    hljs: {
+      style: "${vditor.options.preview.hljs.style}"
+    }
+  });
+</script>`;
+    download(vditor, html, content.substr(0, 10) + ".html");
 };
