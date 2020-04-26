@@ -23,7 +23,7 @@ export class Info extends MenuItem {
     <ul style="list-style: none;flex: 1;min-width:148px">
         <li>
         项目地址：<a href="https://github.com/Vanessa219/vditor" target="_blank">GitHub</a>
-        <a href="https://gitee.com/dl88250/vditor" target="_blank">码云</a>
+        <a href="https://gitee.com/vanessali/vditor" target="_blank">码云</a>
         </li>
         <li>
         开源协议：MIT
