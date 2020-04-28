@@ -163,6 +163,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | debugger | Whether to display the log | false |
 | value | Editor initialization value | '' |
 | theme | Theme: classic, dark | 'classic' |
+| outline | show outline | false |
 
 #### options.toolbar
 
