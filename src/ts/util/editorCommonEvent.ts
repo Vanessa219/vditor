@@ -9,7 +9,7 @@ import {getCursorPosition} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
-import {isCtrl} from "./compatibility";
+import {getEventName, isCtrl} from "./compatibility";
 import {getMarkdown} from "./getMarkdown";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
@@ -154,7 +154,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         }
                         if (matchHotKey(subMenuItem.hotkey, event)) {
                             vditor.toolbar.elements[subMenuItem.name].children[0]
-                                .dispatchEvent(new CustomEvent("click"));
+                                .dispatchEvent(new CustomEvent(getEventName()));
                             event.preventDefault();
                             return true;
                         }
@@ -164,7 +164,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 return false;
             }
             if (matchHotKey(menuItem.hotkey, event)) {
-                vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent("click"));
+                vditor.toolbar.elements[menuItem.name].children[0].dispatchEvent(new CustomEvent(getEventName()));
                 event.preventDefault();
                 return true;
             }

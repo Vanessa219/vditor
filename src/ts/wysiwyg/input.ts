@@ -37,10 +37,6 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             previousAEmptyElement.remove();
         }
 
-        if (hasClosestByHeadings(blockElement)) {
-            renderToc(vditor);
-        }
-
         // 保存光标
         vditor.wysiwyg.element.querySelectorAll("wbr").forEach((wbr) => {
             wbr.remove();
@@ -137,6 +133,10 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             if (allFootnoteElement) {
                 vditor.wysiwyg.element.insertAdjacentElement("beforeend", allFootnoteElement);
             }
+        }
+
+        if (hasClosestByHeadings(blockElement) || html.startsWith("<h")) {
+            renderToc(vditor);
         }
 
         // 设置光标
