@@ -50,6 +50,7 @@ if (window.innerWidth < 768) {
 
 window.vditor = new Vditor('vditor', {
   toolbar,
+  outline: true,
   debugger: true,
   typewriterMode: true,
   placeholder: 'placeholder',

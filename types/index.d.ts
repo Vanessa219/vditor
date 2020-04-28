@@ -310,10 +310,9 @@ interface IOptions {
     value?: string;
     /** 是否显示日志。默认值: false */
     debugger?: boolean;
-    /** 编辑器异步渲染完成后的回调方法 */
-    after?: () => void;
     /** 是否启用打字机模式。默认值: false */
     typewriterMode?: boolean;
+    /** @link https://hacpai.com/article/1549638745630#options-keymap */
     keymap?: { [key: string]: string };
     /** 编辑器总高度。默认值: 'auto' */
     height?: number | string;
@@ -327,6 +326,7 @@ interface IOptions {
     lang?: (keyof II18nLang);
     /** @link https://hacpai.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
+    /** @link https://hacpai.com/article/1549638745630#options-resize */
     resize?: IResize;
     /** @link https://hacpai.com/article/1549638745630#options-counter */
     counter?: {
@@ -354,11 +354,16 @@ interface IOptions {
     theme?: "classic" | "dark";
     /** @link https://hacpai.com/article/1549638745630#options-upload */
     upload?: IUpload;
+    /** @link https://hacpai.com/article/1549638745630#options-classes */
     classes?: IClasses;
     /** 配置自建 CDN 地址。默认值: 'https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}' */
     cdn?: string;
     /** tab 键操作字符串，支持 \t 及任意字符串 */
     tab?: string;
+    /** 是否展现大纲。默认值：'false' */
+    outline?: boolean;
+    /** 编辑器异步渲染完成后的回调方法 */
+    after?(): void;
 
     /** 输入后触发 */
     input?(value: string, previewElement?: HTMLElement): void;

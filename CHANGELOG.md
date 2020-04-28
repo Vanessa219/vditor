@@ -61,6 +61,8 @@
 
 ### v3.1.20 / 2020-04-2x
 
+* [343](https://github.com/Vanessa219/vditor/issues/343) 添加初始化大纲展现参数 `改进功能`
+
 ### v3.1.19 / 2020-04-26
 
 * [341](https://github.com/Vanessa219/vditor/issues/341) Can not delete the image at IR mode `修复缺陷`
@@ -106,7 +108,7 @@
 * [283](https://github.com/Vanessa219/vditor/issues/283) 添加 SetSetext 配置 `引入特性`
 * [278](https://github.com/Vanessa219/vditor/issues/278) IR 细节修改 `修复缺陷`
 * 文档更新
-  * 添加 `options.minHeight`
+  * 添加 `options.minHeight`, `options.outline`
   * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "markdown" | "text"; }`
   * counter 位置移动到 toolbar 上
   * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`

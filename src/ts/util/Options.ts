@@ -72,6 +72,7 @@ export class Options {
         },
         lang: "zh_CN",
         mode: "wysiwyg",
+        outline: false,
         placeholder: "",
         preview: {
             delay: 1000,
