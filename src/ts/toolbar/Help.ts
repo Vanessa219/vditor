@@ -20,8 +20,9 @@ export class Help extends MenuItem {
     <div>Vditor 支持</div>
     <ul style="list-style: none">
         <li><a href="https://github.com/Vanessa219/vditor/issues" target="_blank">Issues</a></li>
-        <li><a href="https://hacpai.com/tag/vditor" target="_blank">Vditor 官方讨论区</a></li>
-        <li><a href="https://hacpai.com/article/1549638745630" target="_blank">Vditor 开发手册</a></li>
+        <li><a href="https://hacpai.com/tag/vditor" target="_blank">官方讨论区</a></li>
+        <li><a href="https://hacpai.com/article/1549638745630" target="_blank">开发手册</a></li>
+        <li><a href="https://hacpai.com/guide/markdown" target="_blank">演示地址</a></li>
     </ul>
 </div></div>`, 0);
         });
