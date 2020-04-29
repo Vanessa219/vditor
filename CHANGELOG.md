@@ -56,10 +56,11 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
-* [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
+* [345](https://github.com/Vanessa219/vditor/issues/345) 支持预览区域粘贴到公众号 `引入特性`
 
 ### v3.1.20 / 2020-04-2x
 
+* [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 * [325](https://github.com/Vanessa219/vditor/issues/325) 导出功能 `引入特性`
 * [344](https://github.com/Vanessa219/vditor/issues/344) outline 渲染 bug `修复缺陷`
 * [343](https://github.com/Vanessa219/vditor/issues/343) 添加初始化大纲展现参数 `改进功能`
