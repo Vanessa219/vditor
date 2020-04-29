@@ -58,16 +58,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.1.20 / 2020-04-2x
+### v3.1.21 / 2020-04-2x
+
+### v3.1.20 / 2020-04-29
 
 * [345](https://github.com/Vanessa219/vditor/issues/345) 支持预览区域粘贴到公众号 `引入特性`
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 * [325](https://github.com/Vanessa219/vditor/issues/325) 导出功能 `引入特性`
 * [344](https://github.com/Vanessa219/vditor/issues/344) outline 渲染 bug `修复缺陷`
 * [343](https://github.com/Vanessa219/vditor/issues/343) 添加初始化大纲展现参数 `改进功能`
-
-### v3.1.19 / 2020-04-26
-
 * [341](https://github.com/Vanessa219/vditor/issues/341) Can not delete the image at IR mode `修复缺陷`
 * [339](https://github.com/Vanessa219/vditor/issues/339) 添加静态方法 setCodeTheme, setContentTheme `改进功能`
 * [316](https://github.com/Vanessa219/vditor/issues/316) 支持多端预览 `引入特性`
