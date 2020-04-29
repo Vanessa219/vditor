@@ -1,3 +1,4 @@
+import mpWechatSVG from "../../assets/icons/mp-wechat.svg";
 import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
@@ -9,6 +10,8 @@ import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {getEventName} from "../util/compatibility";
+import {hasClosestByTag} from "../util/hasClosestByHEadings";
+import {setSelectionFocus} from "../util/selection";
 
 export class Preview {
     public element: HTMLElement;
@@ -29,17 +32,34 @@ export class Preview {
         actionElement.className = "vditor-preview__action";
         actionElement.innerHTML = `<button class="vditor-preview__action--current" data-type="desktop">Desktop</button>
 <button data-type="tablet">Tablet</button>
-<button data-type="mobile">Mobile/Wechat</button>`;
+<button data-type="mobile">Mobile/Wechat</button>
+<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号">${mpWechatSVG}</button>`;
         this.element.appendChild(actionElement);
         this.element.appendChild(previewElement);
 
         actionElement.addEventListener(getEventName(), (event) => {
-            const btn = event.target as HTMLElement;
-            if (btn.tagName !== "BUTTON") {
+            const btn = hasClosestByTag(event.target as HTMLElement, "BUTTON");
+            if (!btn) {
                 return;
             }
+
             const type = btn.getAttribute("data-type");
             if (type === actionElement.querySelector(".vditor-preview__action--current").getAttribute("data-type")) {
+                return;
+            }
+
+            if (type === "mp-wechat") {
+                // fix math render
+                document.querySelectorAll(".katex-html .base").forEach((item: HTMLElement) => {
+                    item.style.display = "initial";
+                });
+
+                const range = this.element.lastElementChild.ownerDocument.createRange();
+                range.selectNode(this.element.lastElementChild);
+                setSelectionFocus(range);
+                document.execCommand("copy");
+                vditor.tip.show("已复制，请到微信公众平台粘贴");
+                range.collapse(true);
                 return;
             }
 

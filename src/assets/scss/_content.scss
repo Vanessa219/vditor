@@ -116,6 +116,13 @@
         &:focus {
           outline: none;
         }
+
+        svg {
+          fill: currentColor;
+          height: 15px;
+          width: 15px;
+          vertical-align: middle;
+        }
       }
     }
 
