@@ -1,5 +1,6 @@
 import {i18n} from "../i18n";
-import {getMarkdown} from "../util/getMarkdown";
+import {getHTML} from "../markdown/getHTML";
+import {getMarkdown} from "../markdown/getMarkdown";
 
 export const download = (vditor: IVditor, content: string, filename: string) => {
     const aElement = document.createElement("a");
@@ -53,21 +54,25 @@ window.addEventListener("message", (e) => {
 };
 
 export const exportHTML = (vditor: IVditor) => {
-    const content = getMarkdown(vditor);
-    const html = `<link rel="stylesheet" href="${vditor.options.cdn}/dist/index.css"/>
-<script src="${vditor.options.cdn}/dist/method.min.js"></script>
-<div id="preview"></div>
-<textarea style="display: none" id="textarea">${content}</textarea>
+    const content = getHTML(vditor);
+    const html = `<html><head><link rel="stylesheet" type="text/css" href="${vditor.options.cdn}/dist/index.css"/>
+<script src="${vditor.options.cdn}/dist/method.min.js"></script></head>
+<body><div class="vditor-reset" id="preview">${content}</div>
 <script>
-  Vditor.preview(document.getElementById('preview'), document.getElementById('textarea').textContent, {
-    markdown: {
-      theme: "${vditor.options.preview.markdown.theme}"
-    },
-    hljs: {
-      style: "${vditor.options.preview.hljs.style}"
-    }
-  });
-</script>`;
+    const previewElement = document.getElementById('preview')
+    Vditor.setContentTheme('${vditor.options.preview.markdown.theme}', '${vditor.options.cdn}');
+    Vditor.codeRender(previewElement, '${vditor.options.lang}');
+    Vditor.highlightRender(${JSON.stringify(vditor.options.preview.hljs)}, previewElement, '${vditor.options.cdn}');
+    Vditor.mathRender(previewElement, {
+        cdn: '${vditor.options.cdn}',
+        math: ${JSON.stringify(vditor.options.preview.math)},
+    });
+    Vditor.mermaidRender(previewElement, ".language-mermaid", '${vditor.options.cdn}');
+    Vditor.graphvizRender(previewElement, '${vditor.options.cdn}');
+    Vditor.chartRender(previewElement, '${vditor.options.cdn}');
+    Vditor.abcRender(previewElement, '${vditor.options.cdn}');
+    Vditor.mediaRender(previewElement);
+</script></body></html>`;
     download(vditor, html, content.substr(0, 10) + ".html");
 };
 
