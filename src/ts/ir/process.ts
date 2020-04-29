@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
+import {getMarkdown} from "../markdown/getMarkdown";
 import {isSafari} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
-import {getMarkdown} from "../util/getMarkdown";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
 import {highlightToolbar} from "./highlightToolbar";

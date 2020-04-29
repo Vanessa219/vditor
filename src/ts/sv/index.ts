@@ -1,7 +1,7 @@
+import {getMarkdown} from "../markdown/getMarkdown";
 import {uploadFiles} from "../upload/index";
 import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
-import {getMarkdown} from "../util/getMarkdown";
 import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";

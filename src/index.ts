@@ -5,6 +5,8 @@ import {Hint} from "./ts/hint/index";
 import {IR} from "./ts/ir";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
+import {getHTML} from "./ts/markdown/getHTML";
+import {getMarkdown} from "./ts/markdown/getMarkdown";
 import {setLute} from "./ts/markdown/setLute";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
@@ -27,7 +29,6 @@ import {IRUndo} from "./ts/undo/IRUndo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {addScript} from "./ts/util/addScript";
-import {getMarkdown} from "./ts/util/getMarkdown";
 import {Options} from "./ts/util/Options";
 import {getCursorPosition, getEditorRange, setSelectionByPosition} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
@@ -264,13 +265,7 @@ class Vditor extends VditorMethod {
 
     /** 获取预览区内容 */
     public getHTML() {
-        if (this.vditor.currentMode === "sv") {
-            return this.vditor.lute.Md2HTML(getMarkdown(this.vditor));
-        } else if (this.vditor.currentMode === "wysiwyg") {
-            return this.vditor.lute.VditorDOM2HTML(this.vditor.wysiwyg.element.innerHTML);
-        } else if (this.vditor.currentMode === "ir") {
-            return this.vditor.lute.VditorIRDOM2HTML(this.vditor.ir.element.innerHTML);
-        }
+        return getHTML(this.vditor);
     }
 
     /** 消息提示。time 为 0 将一直显示 */

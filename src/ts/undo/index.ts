@@ -1,9 +1,9 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
+import {getMarkdown} from "../markdown/getMarkdown";
 import {formatRender} from "../sv/formatRender";
 import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
 import {scrollCenter} from "../util/editorCommonEvent";
-import {getMarkdown} from "../util/getMarkdown";
 import {getSelectPosition} from "../util/selection";
 
 class Undo {

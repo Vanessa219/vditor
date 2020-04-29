@@ -1,5 +1,5 @@
+import {getMarkdown} from "../markdown/getMarkdown";
 import {addScript} from "../util/addScript";
-import {getMarkdown} from "../util/getMarkdown";
 
 declare const echarts: {
     init(element: HTMLElement): IEChart;

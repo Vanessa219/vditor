@@ -1,4 +1,4 @@
-import {getMarkdown} from "../util/getMarkdown";
+import {getMarkdown} from "../markdown/getMarkdown";
 export const inputEvent = (vditor: IVditor, options = {
     enableAddUndoStack: true,
     enableHint: false,

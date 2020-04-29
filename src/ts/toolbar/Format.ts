@@ -1,6 +1,6 @@
+import {getMarkdown} from "../markdown/getMarkdown";
 import {formatRender} from "../sv/formatRender";
 import {getEventName} from "../util/compatibility";
-import {getMarkdown} from "../util/getMarkdown";
 import {getSelectPosition} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 

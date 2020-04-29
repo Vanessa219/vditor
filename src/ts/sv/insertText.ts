@@ -1,4 +1,4 @@
-import {getMarkdown} from "../util/getMarkdown";
+import {getMarkdown} from "../markdown/getMarkdown";
 import {getEditorRange, getSelectPosition} from "../util/selection";
 import {formatRender} from "./formatRender";
 

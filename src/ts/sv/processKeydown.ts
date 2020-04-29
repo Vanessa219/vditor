@@ -1,5 +1,5 @@
+import {getMarkdown} from "../markdown/getMarkdown";
 import {isCtrl} from "../util/compatibility";
-import {getMarkdown} from "../util/getMarkdown";
 import {matchHotKey} from "../util/hotKey";
 import {getSelectPosition} from "../util/selection";
 import {formatRender} from "./formatRender";
