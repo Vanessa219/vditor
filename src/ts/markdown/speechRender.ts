@@ -8,7 +8,7 @@ declare global {
     }
 }
 export const speechRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") => {
-    if (!speechSynthesis || !SpeechSynthesisUtterance) {
+    if (typeof speechSynthesis === "undefined" || typeof SpeechSynthesisUtterance === "undefined") {
         return;
     }
 
