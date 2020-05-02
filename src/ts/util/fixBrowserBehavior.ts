@@ -1005,6 +1005,50 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     event.preventDefault();
     let textHTML = event.clipboardData.getData("text/html");
     const textPlain = event.clipboardData.getData("text/plain");
+    const renderers: {
+        HTML2VditorDOM?: ILuteRender,
+        HTML2VditorIRDOM?: ILuteRender,
+        Md2VditorDOM?: ILuteRender,
+        Md2VditorIRDOM?: ILuteRender,
+    } = {};
+    const renderLinkDest: ILuteRenderCallback = (node) => {
+        const src = node.TokensStr();
+        if (node.__internal_object__.Parent.Type === 34 && src
+            && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", vditor.options.upload.linkToImgUrl);
+            setHeaders(vditor, xhr);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const responseJSON = JSON.parse(xhr.responseText);
+                        if (responseJSON.code !== 0) {
+                            vditor.tip.show(responseJSON.msg);
+                            return;
+                        }
+                        const original = responseJSON.data.originalURL;
+                        const imgElement: HTMLImageElement =
+                            vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
+                        imgElement.src = responseJSON.data.url;
+                        if (vditor.currentMode === "ir") {
+                            imgElement.previousElementSibling.previousElementSibling.innerHTML =
+                                responseJSON.data.url;
+                        }
+                        execAfterRender(vditor);
+                    } else {
+                        vditor.tip.show(xhr.responseText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify({url: src}));
+        }
+        if (vditor.currentMode === "ir") {
+            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`,
+                Lute.WalkStop];
+        } else {
+            return ["", Lute.WalkStop];
+        }
+    };
 
     // 浏览器地址栏拷贝处理
     if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
@@ -1050,59 +1094,13 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 e.remove();
             });
 
-            let rendererName: "HTML2VditorDOM" | "HTML2VditorIRDOM" | "HTML2Md" = "HTML2VditorIRDOM";
-            if (vditor.currentMode === "wysiwyg") {
-                rendererName = "HTML2VditorDOM";
-            }
-            const renderers: {
-                HTML2VditorDOM?: ILuteRender,
-                HTML2VditorIRDOM?: ILuteRender,
-                HTML2Md?: ILuteRender,
-            } = {};
-            renderers[rendererName] = {
-                renderLinkDest: (node) => {
-                    const src = node.TokensStr();
-                    if (node.__internal_object__.Parent.Type === 34 && src
-                        && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
-                        const xhr = new XMLHttpRequest();
-                        xhr.open("POST", vditor.options.upload.linkToImgUrl);
-                        setHeaders(vditor, xhr);
-                        xhr.onreadystatechange = () => {
-                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                if (xhr.status === 200) {
-                                    const responseJSON = JSON.parse(xhr.responseText);
-                                    if (responseJSON.code !== 0) {
-                                        vditor.tip.show(responseJSON.msg);
-                                        return;
-                                    }
-                                    const original = responseJSON.data.originalURL;
-                                    const imgElement: HTMLImageElement =
-                                        vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
-                                    imgElement.src = responseJSON.data.url;
-                                    if (vditor.currentMode === "ir") {
-                                        imgElement.previousElementSibling.previousElementSibling.innerHTML =
-                                            responseJSON.data.url;
-                                    }
-                                    execAfterRender(vditor);
-                                } else {
-                                    vditor.tip.show(xhr.responseText);
-                                }
-                            }
-                        };
-                        xhr.send(JSON.stringify({url: src}));
-                    }
-                    if (vditor.currentMode === "ir") {
-                        return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`,
-                            Lute.WalkStop];
-                    } else {
-                        return ["", Lute.WalkStop];
-                    }
-                },
-            };
-            vditor.lute.SetJSRenderers({renderers});
             if (vditor.currentMode === "ir") {
+                renderers.HTML2VditorIRDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
             } else {
+                renderers.HTML2VditorDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             }
             renderOutline(vditor);
@@ -1110,8 +1108,12 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             uploadFiles(vditor, event.clipboardData.files);
         } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
             if (vditor.currentMode === "ir") {
+                renderers.Md2VditorIRDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.Md2VditorIRDOM(textPlain), vditor);
             } else {
+                renderers.Md2VditorDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.Md2VditorDOM(textPlain), vditor);
             }
             renderOutline(vditor);

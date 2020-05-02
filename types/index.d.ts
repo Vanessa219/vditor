@@ -41,6 +41,8 @@ interface ILute {
             HTML2VditorIRDOM?: ILuteRender,
             HTML2Md?: ILuteRender,
             Md2HTML?: ILuteRender,
+            Md2VditorDOM?: ILuteRender,
+            Md2VditorIRDOM?: ILuteRender,
         },
     }): void;
 
