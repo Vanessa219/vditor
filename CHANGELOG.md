@@ -129,9 +129,6 @@
   * `options.preview` 中 `maxWidth` 默认值改为 800, `mode` 移除 `preview` 选项，`markdonw` 添加 `theme`、`setext` 配置
   * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`, `renderers`, `markdown.paragraphBeginningSpace`，移除 `theme`
   
-  * `renderers` 使用文档详细说明
-  * `paragraphBeginningSpace`
-  
 ### v3.0.12 / 2020-04-06
 
 * [276](https://github.com/Vanessa219/vditor/issues/276) 当设置编辑器宽度后，模式切换导致样式错误 `修复缺陷`
