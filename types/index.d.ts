@@ -4,15 +4,19 @@ declare module "*.png";
 
 declare const Lute: ILute;
 
+type ILuteRenderCallback = (node: {
+    TokensStr: () => string;
+    __internal_object__: {
+        Parent: {
+            Type: number,
+        },
+        HeadingLevel: string,
+    }
+},                          entering: boolean) => [string, number];
+
 interface ILuteRender {
-    renderLinkDest: (node: {
-        TokensStr: () => string;
-        __internal_object__: {
-            Parent: {
-                Type: number,
-            },
-        }
-    },               entering: boolean) => [string, number];
+    renderHeading?: ILuteRenderCallback;
+    renderLinkDest?: ILuteRenderCallback;
 }
 
 interface ILuteOptions extends IMarkdownConfig {
@@ -25,6 +29,8 @@ interface ILuteOptions extends IMarkdownConfig {
 
 interface ILute {
     WalkStop: number;
+    WalkSkipChildren: number;
+    WalkContinue: number;
     Version: string;
 
     New(): ILute;
@@ -34,6 +40,7 @@ interface ILute {
             HTML2VditorDOM?: ILuteRender,
             HTML2VditorIRDOM?: ILuteRender,
             HTML2Md?: ILuteRender,
+            Md2HTML?: ILuteRender,
         },
     }): void;
 
@@ -271,6 +278,7 @@ interface IPreviewOptions {
     math?: IMath;
     cdn?: string;
     markdown?: IMarkdownConfig;
+    renderers?: ILuteRender;
 
     transform?(html: string): string;
 
@@ -362,6 +370,7 @@ interface IOptions {
     tab?: string;
     /** 是否展现大纲。默认值：'false' */
     outline?: boolean;
+
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
 

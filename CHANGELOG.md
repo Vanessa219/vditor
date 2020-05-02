@@ -60,6 +60,8 @@
 
 ### v3.1.21 / 2020-04-2x
 
+* [350](https://github.com/Vanessa219/vditor/issues/350) 自定义渲染的方法 `引入特性`
+
 ### v3.1.20 / 2020-04-29
 
 * [345](https://github.com/Vanessa219/vditor/issues/345) 支持预览区域粘贴到公众号 `引入特性`
@@ -123,8 +125,8 @@
   * `setTheme` 方法添加 `conentTheme`, `codeTheme` 参数
   * `setPreviewMode` 方法移除 `preview`
   * `options.preview` 中 `maxWidth` 默认值改为 800, `mode` 移除 `preview` 选项，`markdonw` 添加 `theme`、`setext` 配置
-  * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`，移除 `theme`
-
+  * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`, `renderers`，移除 `theme`
+  
 ### v3.0.12 / 2020-04-06
 
 * [276](https://github.com/Vanessa219/vditor/issues/276) 当设置编辑器宽度后，模式切换导致样式错误 `修复缺陷`
