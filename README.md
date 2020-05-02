@@ -251,6 +251,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
 | theme | Content Theme | 'light' |
 | setext | Whether to parse the setext header | true |
+| paragraphBeginningSpace | Two spaces before the paragraph | false |
 
 #### options.preview.math
 
@@ -407,6 +408,7 @@ options?: IPreviewOptions {
  cdn?: string; // Self-built CDN address
  lazyLoadImage?: string; // use "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" to lazy load image
  markdown?: options.preview.markdown;
+ renderers?: ILuteRender; // Custom rendering method https://hacpai.com/article/1588412297062
 }
 ```
 
