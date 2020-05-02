@@ -11,6 +11,7 @@ export const setLute = (options: ILuteOptions) => {
     lute.SetFixTermTypo(options.fixTermTypo);
     lute.SetVditorCodeBlockPreview(options.codeBlockPreview);
     lute.SetSetext(options.setext);
+    lute.SetChineseParagraphBeginningSpace(options.paragraphBeginningSpace);
     if (options.lazyLoadImage) {
         lute.SetImageLazyLoading(options.lazyLoadImage);
     }

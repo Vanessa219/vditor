@@ -46,6 +46,8 @@ interface ILute {
         },
     }): void;
 
+    SetChineseParagraphBeginningSpace(enable: boolean): void;
+
     SetHeadingAnchor(enable: boolean): void;
 
     SetImageLazyLoading(imagePath: string): void;
@@ -227,6 +229,8 @@ interface IMath {
 interface IMarkdownConfig {
     /** 自动空格。默认值: false */
     autoSpace?: boolean;
+    /** 段落开头是否空两格。默认值: false */
+    paragraphBeginningSpace?: boolean;
     /** 自动矫正术语。默认值: false */
     fixTermTypo?: boolean;
     /** 自动矫正标点。默认值: false */

@@ -58,14 +58,14 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.1.21 / 2020-05-0x
+### v3.2.0 / 2020-05-0x
 
+### v3.1.21 / 2020-05-02
+
+* [349](https://github.com/Vanessa219/vditor/issues/349) 传统中文排版“段落开头空两格” `引入特性`
 * [351](https://github.com/Vanessa219/vditor/issues/351) MathJax plugin `修复缺陷`
 * [353](https://github.com/Vanessa219/vditor/issues/353) list demo at static-preview.html `文档相关`
 * [350](https://github.com/Vanessa219/vditor/issues/350) 自定义渲染的方法 `引入特性`
-
-### v3.1.20 / 2020-04-29
-
 * [345](https://github.com/Vanessa219/vditor/issues/345) 支持预览区域粘贴到公众号 `引入特性`
 * [324](https://github.com/Vanessa219/vditor/issues/324) 支持多款主题预览 `引入特性`
 * [325](https://github.com/Vanessa219/vditor/issues/325) 导出功能 `引入特性`
@@ -127,9 +127,10 @@
   * `setTheme` 方法添加 `conentTheme`, `codeTheme` 参数
   * `setPreviewMode` 方法移除 `preview`
   * `options.preview` 中 `maxWidth` 默认值改为 800, `mode` 移除 `preview` 选项，`markdonw` 添加 `theme`、`setext` 配置
-  * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`, `renderers`，移除 `theme`
+  * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`, `renderers`, `markdown.paragraphBeginningSpace`，移除 `theme`
   
   * `renderers` 使用文档详细说明
+  * `paragraphBeginningSpace`
   
 ### v3.0.12 / 2020-04-06
 
