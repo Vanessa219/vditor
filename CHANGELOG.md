@@ -60,6 +60,7 @@
 
 ### v3.1.21 / 2020-04-2x
 
+* [353](https://github.com/Vanessa219/vditor/issues/353) list demo at static-preview.html `文档相关`
 * [350](https://github.com/Vanessa219/vditor/issues/350) 自定义渲染的方法 `引入特性`
 
 ### v3.1.20 / 2020-04-29
@@ -126,6 +127,8 @@
   * `setPreviewMode` 方法移除 `preview`
   * `options.preview` 中 `maxWidth` 默认值改为 800, `mode` 移除 `preview` 选项，`markdonw` 添加 `theme`、`setext` 配置
   * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`, `renderers`，移除 `theme`
+  
+  * `renderers` 使用文档详细说明
   
 ### v3.0.12 / 2020-04-06
 
