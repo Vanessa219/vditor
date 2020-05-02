@@ -70,6 +70,9 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
     } else if (options.math.engine === "MathJax") {
         if (!window.MathJax) {
             window.MathJax = {
+                loader: {
+                    paths: {mathjax: `${options.cdn}/dist/js/mathjax`},
+                },
                 tex: {
                     macros: options.math.macros,
                 },

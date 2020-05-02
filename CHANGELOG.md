@@ -58,8 +58,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.1.21 / 2020-04-2x
+### v3.1.21 / 2020-05-0x
 
+* [351](https://github.com/Vanessa219/vditor/issues/351) MathJax plugin `修复缺陷`
 * [353](https://github.com/Vanessa219/vditor/issues/353) list demo at static-preview.html `文档相关`
 * [350](https://github.com/Vanessa219/vditor/issues/350) 自定义渲染的方法 `引入特性`
 
