@@ -1,6 +1,12 @@
 ## Vditor change log
 
 ### 升级
+* v3.1
+  * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "markdown" | "text"; }`
+  * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
+  * `setPreviewMode` 方法中移除 `preview` 选项
+  * `options.preview.mode` 移除 `preview` 选项
+  * 将 `IPreviewOptions` 中的 `theme` 配置移动到 `IPreviewOptions.markdown` 中
 * v3.0
   * `options.mode` 可选值为：'wysiwyg', 'sv', 'ir'
   * toolbar 中的 `wysiwyg` 修改为 `edit-mode`
@@ -90,7 +96,7 @@
 * [318](https://github.com/Vanessa219/vditor/issues/318) 工具栏和编辑器区域对齐 `改进功能`
 * [313](https://github.com/Vanessa219/vditor/issues/313) html 页面 点击禁用button 引起回调 `修复缺陷`
 * [311](https://github.com/Vanessa219/vditor/issues/311) preview demo `改进功能`
-* [94](https://github.com/Vanessa219/vditor/issues/94) 获取大纲内容及同步滚动效果 `引入特性`
+* [94](https://github.com/Vanessa219/vditor/issues/94) 获取大纲内容及点击定位功能 `引入特性`
 * [309](https://github.com/Vanessa219/vditor/issues/309) 添加 options.upload.setHeaders `引入特性`
 * [306](https://github.com/Vanessa219/vditor/issues/306) IR mode ATX heading change `改进功能`
 * [303](https://github.com/Vanessa219/vditor/issues/303) Inline HTML parsing issue `修复缺陷`
