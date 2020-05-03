@@ -1043,8 +1043,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             xhr.send(JSON.stringify({url: src}));
         }
         if (vditor.currentMode === "ir") {
-            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`,
-                Lute.WalkStop];
+            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`, Lute.WalkStop];
         } else {
             return ["", Lute.WalkStop];
         }
