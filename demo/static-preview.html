@@ -718,19 +718,30 @@ https://www.youtube.com/watch?v=S4xoOW4DVKE
       after () {
         Vditor.outlineRender(document.getElementById('preview'), document.getElementById('outline'))
       },
-      lazyLoadImage: "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg"
+      lazyLoadImage: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
+      renderers: {
+        renderHeading: (node, entering) => {
+          if (entering) {
+            return [
+              `<h${node.__internal_object__.HeadingLevel} class="vditor__heading"><span class="prefix"></span><span>`,
+              Lute.WalkContinue]
+          } else {
+            return [`</span></h${node.__internal_object__.HeadingLevel}>`, Lute.WalkContinue]
+          }
+        },
+      },
     })
 
   const setTheme = (theme) => {
     const outlineElement = document.getElementById('outline')
     if (theme === 'dark') {
-      Vditor.setCodeTheme("native");
-      Vditor.setContentTheme("dark");
+      Vditor.setCodeTheme('native')
+      Vditor.setContentTheme('dark')
       outlineElement.parentElement.classList.add('vditor--dark')
       document.querySelector('html').style.backgroundColor = '#2f363d'
     } else {
-      Vditor.setCodeTheme("github");
-      Vditor.setContentTheme("light");
+      Vditor.setCodeTheme('github')
+      Vditor.setContentTheme('light')
       outlineElement.parentElement.classList.remove('vditor--dark')
       document.querySelector('html').style.backgroundColor = '#fff'
     }
