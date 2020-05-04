@@ -66,8 +66,9 @@
 
 ### v3.2.0 / 2020-05-0x
 
-### v3.1.21 / 2020-05-02
+### v3.1.22 / 2020-05-04
 
+* [357](https://github.com/Vanessa219/vditor/issues/357) 预览区透明 `修复缺陷`
 * [349](https://github.com/Vanessa219/vditor/issues/349) 传统中文排版“段落开头空两格” `引入特性`
 * [351](https://github.com/Vanessa219/vditor/issues/351) MathJax plugin `修复缺陷`
 * [353](https://github.com/Vanessa219/vditor/issues/353) list demo at static-preview.html `文档相关`

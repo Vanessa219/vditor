@@ -27,6 +27,13 @@ export class Preview {
             previewElement.classList.add(vditor.options.classes.preview);
         }
         previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
+        previewElement.addEventListener("copy", () => {
+            // 防止背景色被粘贴到公众号中
+            this.element.style.backgroundColor = "#fff";
+            setTimeout(() => {
+                this.element.style.backgroundColor = "var(--textarea-background-color)";
+            });
+        });
 
         const actionElement = document.createElement("div");
         actionElement.className = "vditor-preview__action";
@@ -54,12 +61,16 @@ export class Preview {
                     item.style.display = "initial";
                 });
 
+                // 防止背景色被粘贴到公众号中
+                this.element.style.backgroundColor = "#fff";
                 const range = this.element.lastElementChild.ownerDocument.createRange();
                 range.selectNode(this.element.lastElementChild);
                 setSelectionFocus(range);
                 document.execCommand("copy");
-                vditor.tip.show("已复制，请到微信公众平台粘贴");
+                vditor.tip.show("已复制，可到微信公众号平台进行粘贴");
                 range.collapse(true);
+
+                this.element.style.backgroundColor = "var(--textarea-background-color)";
                 return;
             }
 
