@@ -391,7 +391,7 @@
       display: flex;
       text-decoration: none;
       flex-wrap: wrap-reverse;
-      box-shadow: $layerShadow;
+      box-shadow: var(--panel-shadow);
 
       &:hover {
         box-shadow: 0 0 3px rgba(0, 0, 0, .13), 0 3px 6px rgba(0, 0, 0, .26);

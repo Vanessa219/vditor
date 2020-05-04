@@ -1,7 +1,7 @@
 .vditor-hint {
   background-color: var(--panel-background-color);
   position: absolute;
-  box-shadow: $layerShadow;
+  box-shadow: var(--panel-shadow);
   border-radius: 3px;
   padding: 5px 0;
   z-index: 4;

@@ -20,7 +20,7 @@
   &-panel {
     background-color: var(--panel-background-color);
     position: absolute;
-    box-shadow: $layerShadow;
+    box-shadow: var(--panel-shadow);
     border-radius: 3px;
     padding: 5px;
     z-index: 3;

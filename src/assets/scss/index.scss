@@ -1,8 +1,6 @@
 $errorColor: #d23f31 !default;
 $blurColor: #4285f4 !default;
 
-$layerShadow: 0 1px 2px rgba(0, 0, 0, .2) !default;
-
 $font-family-base: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !default;
 $font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !default;
 
@@ -15,6 +13,7 @@ $max-width: 520px !default;
   --second-color: rgba(88, 96, 105, 0.36);
 
   --panel-background-color: #fff;
+  --panel-shadow: 0 1px 2px rgba(0, 0, 0, .2);
 
   --toolbar-background-color: #f6f8fa;
   --toolbar-icon-color: #586069;
@@ -45,6 +44,7 @@ $max-width: 520px !default;
     --second-color: rgba(185, 185, 185, .36);
 
     --panel-background-color: #24292e;
+    --panel-shadow: 0 1px 2px rgba(255, 255, 255, .2);
 
     --toolbar-background-color: #1d2125;
     --toolbar-icon-color: #b9b9b9;

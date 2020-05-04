@@ -238,7 +238,7 @@
       margin-left: -50%;
       color: var(--toolbar-icon-color);
       max-width: 100%;
-      box-shadow: $layerShadow;
+      box-shadow: var(--panel-shadow);
 
       ul {
         margin: 2px 0;
