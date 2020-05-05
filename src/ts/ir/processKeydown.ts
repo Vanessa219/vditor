@@ -17,6 +17,7 @@ import {
 } from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 import {getEditorRange, getSelectPosition} from "../util/selection";
+import {hidePanel} from "../toolbar/setToolbar";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -107,17 +108,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         if (event.key === "Backspace") {
-            if (range.startOffset === 1) {
+            const start = getSelectPosition(preBeforeElement).start;
+            if (start === 1) { // 删除零宽空格
                 range.setStart(startContainer, 0);
             }
-            if (range.startOffset === 2) {
-                // 删除时清空语言
+            if (start === 2) { // 删除时清空自动补全语言
                 vditor.hint.recentLanguage = "";
             }
         }
-
-        // 上无元素，按上或左将添加新块
         if (insertBeforeBlock(vditor, event, range, preBeforeElement, preBeforeElement.parentElement)) {
+            // 上无元素，按上或左将添加新块
+            hidePanel(vditor, ["hint"]);
             return true;
         }
     }
