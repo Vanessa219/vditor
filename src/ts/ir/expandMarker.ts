@@ -1,10 +1,12 @@
 import {hasClosestByClassName, hasTopClosestByClassName} from "../util/hasClosest";
 
 const nextIsNode = (range: Range) => {
-    if (range.startContainer.nodeType === 3 && range.startContainer.nodeValue.length !== range.startOffset) {
+    const startContainer = range.startContainer;
+    if (startContainer.nodeType === 3 && startContainer.nodeValue.length !== range.startOffset) {
         return false;
     }
-    let nextNode: HTMLElement = range.startContainer.nextSibling as HTMLElement;
+
+    let nextNode: HTMLElement = startContainer.nextSibling as HTMLElement;
 
     while (nextNode && nextNode.textContent === "") {
         nextNode = nextNode.nextSibling as HTMLElement;
@@ -12,16 +14,17 @@ const nextIsNode = (range: Range) => {
 
     if (!nextNode) {
         // *em*|**string**
-        const markerElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker");
+        const markerElement = hasClosestByClassName(startContainer, "vditor-ir__marker");
         if (markerElement && !markerElement.nextSibling) {
-            const parentNextNode = range.startContainer.parentElement.parentElement.nextSibling as HTMLElement;
+            const parentNextNode = startContainer.parentElement.parentElement.nextSibling as HTMLElement;
             if (parentNextNode && parentNextNode.nodeType !== 3 &&
                 parentNextNode.classList.contains("vditor-ir__node")) {
                 return parentNextNode;
             }
         }
         return false;
-    } else if (nextNode && nextNode.nodeType !== 3 && nextNode.classList.contains("vditor-ir__node")) {
+    } else if (nextNode && nextNode.nodeType !== 3 && nextNode.classList.contains("vditor-ir__node") &&
+        !nextNode.getAttribute("data-block")) {
         // test|*em*
         return nextNode;
     }
