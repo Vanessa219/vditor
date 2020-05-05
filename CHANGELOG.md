@@ -64,7 +64,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.1.23 / 2020-05-0x
+### v3.1.24 / 2020-05-0x
+
+### v3.1.23 / 2020-05-05
 
 * [365](https://github.com/Vanessa219/vditor/issues/365) Emoji 6️⃣ `修复缺陷`
 * [361](https://github.com/Vanessa219/vditor/issues/361) typing korean char. after end of code block at IR `修复缺陷`
@@ -74,9 +76,6 @@
 * [364](https://github.com/Vanessa219/vditor/issues/364) 复制粘贴过滤掉 svg 标签 `修复缺陷`
 * [362](https://github.com/Vanessa219/vditor/issues/362) Export HeadingID function to JavaScript `改进功能`
 * [359](https://github.com/Vanessa219/vditor/issues/359) heading anchor when copy & paste `修复缺陷`
-
-### v3.1.22 / 2020-05-04
-
 * [357](https://github.com/Vanessa219/vditor/issues/357) 预览区透明 `修复缺陷`
 * [349](https://github.com/Vanessa219/vditor/issues/349) 传统中文排版“段落开头空两格” `引入特性`
 * [351](https://github.com/Vanessa219/vditor/issues/351) MathJax plugin `修复缺陷`

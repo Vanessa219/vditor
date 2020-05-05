@@ -66,7 +66,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         }
     }
 
-    Array.from(vditor.ir.element.querySelectorAll(".vditor-ir__node--expand")).forEach((item) => {
+    vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
 
