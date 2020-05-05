@@ -31,7 +31,6 @@
       width: 0;
       overflow: hidden;
       display: inline-block;
-      visibility: hidden;
       height: 0;
       transition: $transition;
     }
@@ -40,11 +39,16 @@
       background-color: var(--preview-background-color);
     }
 
+    &--hidden {
+      .vditor-ir__marker {
+        visibility: hidden;
+      }
+    }
+
     &--expand {
       .vditor-ir__marker {
         color: var(--second-color);
         display: inline;
-        visibility: visible;
         height: auto;
         width: auto;
 

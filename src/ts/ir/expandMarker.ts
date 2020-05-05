@@ -33,18 +33,20 @@ const nextIsNode = (range: Range) => {
 };
 
 export const expandMarker = (range: Range, vditor: IVditor) => {
-    Array.from(vditor.ir.element.querySelectorAll(".vditor-ir__node--expand")).forEach((item) => {
+    vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
 
     const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
     if (nodeElement) {
         nodeElement.classList.add("vditor-ir__node--expand");
+        nodeElement.classList.remove("vditor-ir__node--hidden");
     }
 
     const nextNode = nextIsNode(range);
     if (nextNode) {
         nextNode.classList.add("vditor-ir__node--expand");
+        nextNode.classList.remove("vditor-ir__node--hidden");
         return;
     }
 };

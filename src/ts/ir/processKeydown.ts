@@ -12,6 +12,7 @@ import {
     insertAfterBlock, insertBeforeBlock, isFirstCell, isLastCell,
 } from "../util/fixBrowserBehavior";
 import {
+    hasClosestBlock,
     hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
@@ -24,7 +25,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.isComposing) {
         return false;
     }
-    fixCJKPosition();
 
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {
@@ -33,6 +33,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const range = getEditorRange(vditor.ir.element);
     const startContainer = range.startContainer;
+
+    fixCJKPosition(range);
 
     fixHR(range);
 
@@ -165,6 +167,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 range.collapse(true);
             }
         }
+    }
+
+    const blockElement = hasClosestBlock(startContainer);
+    if ((event.key === "ArrowUp" || event.key === "ArrowDown") && blockElement) {
+        // https://github.com/Vanessa219/vditor/issues/358
+        blockElement.querySelectorAll(".vditor-ir__node").forEach((item: HTMLElement) => {
+            if (!item.contains(startContainer)) {
+                item.classList.add("vditor-ir__node--hidden");
+            }
+        });
     }
 
     return false;

@@ -31,7 +31,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.isComposing) {
         return false;
     }
-    fixCJKPosition();
 
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {
@@ -40,6 +39,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const range = getEditorRange(vditor.wysiwyg.element);
     const startContainer = range.startContainer;
+
+    fixCJKPosition(range);
 
     fixHR(range);
 
