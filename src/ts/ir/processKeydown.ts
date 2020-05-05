@@ -1,6 +1,7 @@
+import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl} from "../util/compatibility";
 import {
-    fixBlockquote,
+    fixBlockquote, fixCJKPosition,
     fixCodeBlock,
     fixDelete, fixHR,
     fixList,
@@ -17,13 +18,13 @@ import {
 } from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
 import {getEditorRange, getSelectPosition} from "../util/selection";
-import {hidePanel} from "../toolbar/setToolbar";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
     if (event.isComposing) {
         return false;
     }
+    fixCJKPosition();
 
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {

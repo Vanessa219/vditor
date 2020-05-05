@@ -66,6 +66,7 @@
 
 ### v3.1.23 / 2020-05-0x
 
+* [361](https://github.com/Vanessa219/vditor/issues/361) typing korean char. after end of code block at IR `修复缺陷`
 * [358](https://github.com/Vanessa219/vditor/issues/358) cursor up and down at IR mode `修复缺陷`
 * [363](https://github.com/Vanessa219/vditor/issues/363) Copy Paste (HTML2Markdown) issue `修复缺陷`
 * [360](https://github.com/Vanessa219/vditor/issues/360) typing fast(code block) at IR `修复缺陷`

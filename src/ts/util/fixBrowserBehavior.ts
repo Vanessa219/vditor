@@ -20,6 +20,17 @@ import {hasClosestByHeadings} from "./hasClosestByHEadings";
 import {matchHotKey} from "./hotKey";
 import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
 
+// https://github.com/Vanessa219/vditor/issues/361
+export const fixCJKPosition = () => {
+    const range = getSelection().getRangeAt(0);
+    const pElement = hasClosestByMatchTag(range.startContainer, "P");
+    if (pElement && getSelectPosition(pElement, range).start === 0) {
+        const zwspNode = document.createTextNode(Constants.ZWSP);
+        range.insertNode(zwspNode);
+        range.setStartAfter(zwspNode);
+    }
+};
+
 export const isFirstCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
     if (tableElement && tableElement.rows[0].cells[0].isEqualNode(cellElement)) {
