@@ -64,7 +64,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.0 / 2020-05-0x
+### v3.1.23 / 2020-05-0x
+
+* [362](https://github.com/Vanessa219/vditor/issues/362) Export HeadingID function to JavaScript `改进功能`
+* [359](https://github.com/Vanessa219/vditor/issues/359) heading anchor when copy & paste `修复缺陷`
 
 ### v3.1.22 / 2020-05-04
 
