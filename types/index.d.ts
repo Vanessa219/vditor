@@ -105,9 +105,9 @@ interface ILute {
     WalkContinue: number;
     Version: string;
 
-    New(node: ILuteNode): ILute;
+    New(): ILute;
 
-    GetHeadingID(): string;
+    GetHeadingID(node: ILuteNode): string;
 
     SetJSRenderers(options?: {
         renderers: {

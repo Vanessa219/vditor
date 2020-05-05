@@ -63,9 +63,12 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [363](https://github.com/Vanessa219/vditor/issues/363) Copy Paste (HTML2Markdown) issue `修复缺陷`
 
 ### v3.1.23 / 2020-05-0x
 
+* [360](https://github.com/Vanessa219/vditor/issues/360) typing fast(code block) at IR `修复缺陷`
+* [364](https://github.com/Vanessa219/vditor/issues/364) 复制粘贴过滤掉 svg 标签 `修复缺陷`
 * [362](https://github.com/Vanessa219/vditor/issues/362) Export HeadingID function to JavaScript `改进功能`
 * [359](https://github.com/Vanessa219/vditor/issues/359) heading anchor when copy & paste `修复缺陷`
 
