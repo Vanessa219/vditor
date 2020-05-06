@@ -17,7 +17,6 @@ import {
     hasClosestByAttribute,
     hasClosestByClassName,
     hasClosestByMatchTag,
-    hasTopClosestByTag,
 } from "../util/hasClosest";
 import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHEadings";
 import {processCodeRender} from "../util/processCode";
@@ -134,24 +133,15 @@ export const highlightToolbar = (vditor: IVditor) => {
             setPopoverPosition(vditor, blockquoteElement);
         }
 
-        // list popover
-        const topOlElement = hasTopClosestByTag(typeElement, "OL");
-        const topUlElement = hasTopClosestByTag(typeElement, "UL");
-        let topListElement = topUlElement as HTMLElement;
-        if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
-            topListElement = topOlElement;
-        }
-        if (topListElement && blockquoteElement && topListElement.contains(blockquoteElement)) {
-            topListElement = undefined;
-        }
-        if (topListElement) {
+        // list item popover
+        if (liElement) {
             vditor.wysiwyg.popover.innerHTML = "";
 
-            genUp(range, topListElement, vditor);
-            genDown(range, topListElement, vditor);
-            genClose(vditor.wysiwyg.popover, topListElement, vditor);
+            genUp(range, liElement, vditor);
+            genDown(range, liElement, vditor);
+            genClose(vditor.wysiwyg.popover, liElement, vditor);
 
-            setPopoverPosition(vditor, topListElement);
+            setPopoverPosition(vditor, liElement);
         }
 
         // table popover
@@ -540,7 +530,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             genAPopover(vditor, aElement);
         }
 
-        if (!blockquoteElement && !topListElement && !tableElement && !blockRenderElement && !aElement
+        if (!blockquoteElement && !liElement && !tableElement && !blockRenderElement && !aElement
             && !linkRefElement && !footnotesRefElement && !headingElement && !tocElement) {
             const blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
             if (blockElement && blockElement.parentElement.isEqualNode(vditor.wysiwyg.element)) {
@@ -584,7 +574,7 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
 
 const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
     const previousElement = element.previousElementSibling;
-    if (!previousElement || !element.parentElement.isEqualNode(vditor.wysiwyg.element)) {
+    if (!previousElement || (!element.parentElement.isEqualNode(vditor.wysiwyg.element) && element.tagName !== "LI")) {
         return;
     }
     const upElement = document.createElement("span");
@@ -606,7 +596,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
 
 const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
     const nextElement = element.nextElementSibling;
-    if (!nextElement || !element.parentElement.isEqualNode(vditor.wysiwyg.element)) {
+    if (!nextElement || (!element.parentElement.isEqualNode(vditor.wysiwyg.element) && element.tagName !== "LI")) {
         return;
     }
     const downElement = document.createElement("span");

@@ -64,8 +64,11 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.0 / 2020-05-0x
+### v3.2.1 / 2020-05-0x
 
+### v3.2.0 / 2020-05-06
+
+* [371](https://github.com/Vanessa219/vditor/issues/371) 列表项上下移动 `改进功能`
 * [367](https://github.com/Vanessa219/vditor/issues/367) cursor up and down inside Table `改进功能`
 * [368](https://github.com/Vanessa219/vditor/issues/368) Copy Paste multiline inside table `修复缺陷`
 * [369](https://github.com/Vanessa219/vditor/issues/369) when paste, code can not highlight `修复缺陷`
