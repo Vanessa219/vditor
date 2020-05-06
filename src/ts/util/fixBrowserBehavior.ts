@@ -1099,10 +1099,6 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
                 e.remove();
             });
-            tempElement.querySelectorAll(".vditor-anchor").forEach((e) => {
-                e.remove();
-            });
-
             if (vditor.currentMode === "ir") {
                 renderers.HTML2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
@@ -1128,7 +1124,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             renderOutline(vditor);
         }
     }
-    vditor.ir.element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+    vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
         .forEach((item: HTMLElement) => {
             processCodeRender(item, vditor);
         });

@@ -66,6 +66,7 @@
 
 ### v3.2.0 / 2020-05-0x
 
+* [369](https://github.com/Vanessa219/vditor/issues/369) when paste, code can not highlight `修复缺陷`
 * [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
 
 ### v3.1.23 / 2020-05-05
