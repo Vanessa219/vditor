@@ -21,7 +21,10 @@ import {matchHotKey} from "./hotKey";
 import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
 
 // https://github.com/Vanessa219/vditor/issues/361
-export const fixCJKPosition = (range: Range) => {
+export const fixCJKPosition = (range: Range, key: string) => {
+    if (key === "Backspace") {
+        return;
+    }
     const pElement = hasClosestByMatchTag(range.startContainer, "P");
     if (pElement && getSelectPosition(pElement, range).start === 0) {
         const zwspNode = document.createTextNode(Constants.ZWSP);

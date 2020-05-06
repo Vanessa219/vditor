@@ -34,7 +34,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getEditorRange(vditor.ir.element);
     const startContainer = range.startContainer;
 
-    fixCJKPosition(range);
+    fixCJKPosition(range, event.key);
 
     fixHR(range);
 
