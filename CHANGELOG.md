@@ -64,7 +64,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.1.24 / 2020-05-0x
+### v3.2.0 / 2020-05-0x
+
+* [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
 
 ### v3.1.23 / 2020-05-05
 
