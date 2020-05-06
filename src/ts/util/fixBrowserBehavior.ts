@@ -35,7 +35,7 @@ export const fixCJKPosition = (range: Range, key: string) => {
 
 export const isFirstCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
-    if (tableElement && tableElement.rows[0].cells[0].isEqualNode(cellElement)) {
+    if (tableElement && tableElement.rows[0].cells[0].isSameNode(cellElement)) {
         return tableElement;
     }
     return false;
@@ -43,7 +43,7 @@ export const isFirstCell = (cellElement: HTMLElement) => {
 
 export const isLastCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
-    if (tableElement && tableElement.lastElementChild.lastElementChild.lastElementChild.isEqualNode(cellElement)) {
+    if (tableElement && tableElement.lastElementChild.lastElementChild.lastElementChild.isSameNode(cellElement)) {
         return tableElement;
     }
     return false;
@@ -247,7 +247,7 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
                     item.remove();
                 }
             }
-            if (item.isEqualNode(liElement)) {
+            if (item.isSameNode(liElement)) {
                 isMatch = true;
             }
         });
@@ -291,7 +291,7 @@ export const setTableAlign = (tableElement: HTMLTableElement, type: string) => {
 
     for (let i = 0; i < rowCnt; i++) {
         for (let j = 0; j < columnCnt; j++) {
-            if (tableElement.rows[i].cells[j].isEqualNode(cell)) {
+            if (tableElement.rows[i].cells[j].isSameNode(cell)) {
                 currentColumn = j;
                 break;
             }
@@ -550,7 +550,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
         // 换行或软换行：在 cell 中添加 br
         if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
             if (!cellElement.lastElementChild ||
-                (cellElement.lastElementChild && (!cellElement.lastElementChild.isEqualNode(cellElement.lastChild) ||
+                (cellElement.lastElementChild && (!cellElement.lastElementChild.isSameNode(cellElement.lastChild) ||
                     cellElement.lastElementChild.tagName !== "BR"))) {
                 cellElement.insertAdjacentHTML("beforeend", "<br>");
             }
@@ -588,6 +588,52 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                 range.selectNodeContents(nextElement);
             }
             event.preventDefault();
+            return true;
+        }
+
+        if (event.key === "ArrowUp") {
+            event.preventDefault();
+            if (cellElement.tagName === "TH") {
+                return true;
+            }
+
+            let m = 0;
+            const trElement = cellElement.parentElement as HTMLTableRowElement;
+            for (; m < trElement.cells.length; m++) {
+                if (trElement.cells[m].isSameNode(cellElement)) {
+                    break;
+                }
+            }
+
+            let previousElement = trElement.previousElementSibling as HTMLTableRowElement
+            if (!previousElement) {
+                previousElement = trElement.parentElement.previousElementSibling.firstChild as HTMLTableRowElement
+            }
+            range.selectNodeContents(previousElement.cells[m]);
+            range.collapse(false);
+            return true;
+        }
+
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+            const trElement = cellElement.parentElement as HTMLTableRowElement;
+            if (!trElement.nextElementSibling && cellElement.tagName === "TD") {
+                return true;
+            }
+
+            let m = 0;
+            for (; m < trElement.cells.length; m++) {
+                if (trElement.cells[m].isSameNode(cellElement)) {
+                    break;
+                }
+            }
+
+            let nextElement = trElement.nextElementSibling as HTMLTableRowElement
+            if (!nextElement) {
+                nextElement = trElement.parentElement.nextElementSibling.firstChild as HTMLTableRowElement
+            }
+            range.selectNodeContents(nextElement.cells[m]);
+            range.collapse(true);
             return true;
         }
 
@@ -918,7 +964,7 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
                         let beforeHTML = "";
                         let isAfter = false;
                         Array.from(taskItemElement.parentElement.children).forEach((taskItem) => {
-                            if (taskItemElement.isEqualNode(taskItem)) {
+                            if (taskItemElement.isSameNode(taskItem)) {
                                 isAfter = true;
                             } else {
                                 if (isAfter) {

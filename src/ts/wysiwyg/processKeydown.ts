@@ -45,7 +45,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     fixHR(range);
 
     // 仅处理以下快捷键操作
-    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace"
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
         && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }

@@ -181,7 +181,7 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
             range.setStart(wbrElement.parentElement, 0);
         }
     } else {
-        if (wbrElement.previousElementSibling.isEqualNode(wbrElement.previousSibling)) {
+        if (wbrElement.previousElementSibling.isSameNode(wbrElement.previousSibling)) {
             if (wbrElement.previousElementSibling.lastChild) {
                 // <em>text</em><wbr>
                 range.setStartBefore(wbrElement);

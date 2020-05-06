@@ -66,6 +66,8 @@
 
 ### v3.2.0 / 2020-05-0x
 
+* [367](https://github.com/Vanessa219/vditor/issues/367) cursor up and down inside Table `改进功能`
+* [368](https://github.com/Vanessa219/vditor/issues/368) Copy Paste multiline inside table `修复缺陷`
 * [369](https://github.com/Vanessa219/vditor/issues/369) when paste, code can not highlight `修复缺陷`
 * [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
 

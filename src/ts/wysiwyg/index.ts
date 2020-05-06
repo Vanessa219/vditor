@@ -117,7 +117,7 @@ class WYSIWYG {
 
             const aElement = hasClosestByMatchTag(range.startContainer, "A");
             const aEndElement = hasClosestByMatchTag(range.endContainer, "A");
-            if (aElement && aEndElement && aEndElement.isEqualNode(aElement)) {
+            if (aElement && aEndElement && aEndElement.isSameNode(aElement)) {
                 let aTitle = aElement.getAttribute("title") || "";
                 if (aTitle) {
                     aTitle = ` "${aTitle}"`;
