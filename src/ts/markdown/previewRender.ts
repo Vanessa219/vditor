@@ -34,6 +34,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
             fixTermTypo: false,
             footnotes: true,
             paragraphBeginningSpace: false,
+            sanitize: false,
             setext: true,
             theme: "light",
             toc: false,
@@ -77,6 +78,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             inlineMathDigit: mergedOptions.math.inlineDigit,
             lazyLoadImage: mergedOptions.lazyLoadImage,
             paragraphBeginningSpace: mergedOptions.markdown.paragraphBeginningSpace,
+            sanitize: mergedOptions.markdown.sanitize,
             setext: mergedOptions.markdown.setext,
             toc: mergedOptions.markdown.toc,
         });

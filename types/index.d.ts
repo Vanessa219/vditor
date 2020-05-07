@@ -122,6 +122,8 @@ interface ILute {
 
     SetChineseParagraphBeginningSpace(enable: boolean): void;
 
+    SetSanitize(enable: boolean): void;
+
     SetHeadingAnchor(enable: boolean): void;
 
     SetImageLazyLoading(imagePath: string): void;
@@ -319,6 +321,8 @@ interface IMarkdownConfig {
     codeBlockPreview: boolean;
     /** 是否解析 setext 标题。默认值: true */
     setext: boolean;
+    /** 是否启用过滤 XSS。默认值: false */
+    sanitize: boolean;
     /** 内容主题。默认值：light */
     theme?: string;
 }
