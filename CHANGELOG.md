@@ -66,6 +66,8 @@
 
 ### v3.2.1 / 2020-05-0x
 
+* [376](https://github.com/Vanessa219/vditor/issues/376) 为 markdown 添加 sanitize 设置 `引入特性`
+* [375](https://github.com/Vanessa219/vditor/pull/375) upload 配置项添加额外请求参数 `引入特性`
 * [372](https://github.com/Vanessa219/vditor/issues/372) 配置lineNumber为true后，代码复制按钮不出现 `修复缺陷`
 * [373](https://github.com/Vanessa219/vditor/issues/373) toolbar 缺失 edit-mode 报错 `修复缺陷`
 
@@ -76,6 +78,9 @@
 * [368](https://github.com/Vanessa219/vditor/issues/368) Copy Paste multiline inside table `修复缺陷`
 * [369](https://github.com/Vanessa219/vditor/issues/369) when paste, code can not highlight `修复缺陷`
 * [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
+* 文档修改
+  * 为 `options.upload` 添加 `extraData`
+  * 为 `IMarkdownConfig` 添加 `sanitize` 配置
 
 ### v3.1.23 / 2020-05-05
 

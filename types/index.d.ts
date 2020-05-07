@@ -227,7 +227,7 @@ interface IUpload {
     /** 请求头设置 */
     headers?: { [key: string]: string };
     /** 额外请求参数 */
-    extraData?: object;
+    extraData?: { [key: string]: string | Blob };
 
     /** 每次上传前都会重新设置请求头 */
     setHeaders?(): { [key: string]: string };
