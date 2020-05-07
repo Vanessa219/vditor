@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="theme-color" content="#f1f7fe">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Vditor - A markdown editor written in TypeScript.</title>
+    <meta name="description"
+          content="B3log 开源社区 markdown 编辑器，使用 TypeScript 编写。支持在线预览、表情插入、at 用户提示、HTML 转换等必要功能。"/>
+    <meta property="og:description"
+          content="B3log 开源社区 markdown 编辑器，使用 TypeScript 编写。支持在线预览、表情插入、at 用户提示、HTML 转换等必要功能。"/>
+    <meta name="twitter:description" property="og:description" itemprop="description"
+          content="B3log 开源社区 markdown 编辑器，使用 TypeScript 编写。支持在线预览、表情插入、at 用户提示、HTML 转换等必要功能。"/>
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net/"/>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
+    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png">
+    <meta name="copyright" content="B3log"/>
+    <meta http-equiv="Window-target" content="_top"/>
+    <meta property="og:locale" content="zh-cmn-Hans"/>
+    <meta property="og:title" content="Vditor - A markdown editor written in TypeScript."/>
+    <meta property="og:site_name" content="Blog-vditor"/>
+    <meta property="og:url" content="https://hacpai.com/tag/vditor"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:domain" content="b3log.org"/>
+    <meta name="twitter:title" property="og:title" itemprop="b3lig vditor"
+          content="Vditor - A markdown editor written in TypeScript."/>
+    <meta name="twitter:site" content="@B3logOS"/>
+    <meta name="twitter:url" content="https://hacpai.com/tag/vditor"/>
+    <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
+    <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
+    <link rel="stylesheet" href="../dist/index.css"/>
+    <script src="../dist/method.min.js"></script>
+    <style>
+        a {
+            color: #4285f4;
+        }
+
+        .preview {
+            max-width: 90%;
+            width: 600px;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+
+        #outline {
+            position: fixed;
+            width: 290px;
+            top: 20px;
+            right: 20px;
+            bottom: 20px;
+            overflow: auto;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            background-color: var(--textarea-background-color);
+        }
+    </style>
+</head>
+<body>
+<h2>
+    <a href="https://github.com/vanessa219/vditor" target="_blank">GitHub</a> |
+    <a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">API</a> |
+    <a href="static-preview-1.html?lang=zh_CN">中文预览</a>
+    <a href="static-preview-1.html?lang=ko_KR">한글预览</a> |
+    <a href="static.html" id="VditorForYou">编辑器</a> |
+    <button onclick="setTheme('dark')">Dark Mode</button>
+    <button onclick="setTheme('light')">Light Mode</button>
+</h2>
+<div id="previewWrap">
+    <div id="preview" class="preview"></div>
+</div>
+<div class="vditor" style="border: 0">
+    <div id="outline" class="vditor-reset"></div>
+</div>
+
+<script>
+  // if (location.port === '9000') {
+  //   document.getElementById('VditorForYou').href = '/'
+  // }
+
+  // let textElement = document.getElementById(`${location.search.split('=')[1]}Text`)
+  // if (!textElement) {
+  //   textElement = document.getElementById('zh_CNText')
+  // }
+
+
+  fetch(`${location.search.split('=')[1]}.txt`)
+    .then(response => response.text())
+    .then(mdContent => {
+      console.log(mdContent);
+
+      Vditor.preview(document.getElementById('preview'),
+        mdContent, {
+          markdown: {
+            toc: true,
+          },
+          speech: {
+            enable: true,
+          },
+          anchor: true,
+          after () {
+            Vditor.outlineRender(document.getElementById('preview'), document.getElementById('outline'))
+          },
+          lazyLoadImage: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
+          renderers: {
+            renderHeading: (node, entering) => {
+              if (entering) {
+                const id = Lute.GetHeadingID(node)
+                return [
+                  `<h${node.__internal_object__.HeadingLevel} id="${id}" class="vditor__heading">
+    <a id="vditorAnchor-${id}" class="vditor-anchor" href="#${id}"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>
+    <span class="prefix"></span><span>`,
+                  Lute.WalkContinue]
+              } else {
+                return [`</span></h${node.__internal_object__.HeadingLevel}>`, Lute.WalkContinue]
+              }
+            },
+          },
+        })
+      })
+
+  const setTheme = (theme) => {
+    const outlineElement = document.getElementById('outline')
+    if (theme === 'dark') {
+      Vditor.setCodeTheme('native')
+      Vditor.setContentTheme('dark')
+      outlineElement.parentElement.classList.add('vditor--dark')
+      document.querySelector('html').style.backgroundColor = '#2f363d'
+    } else {
+      Vditor.setCodeTheme('github')
+      Vditor.setContentTheme('light')
+      outlineElement.parentElement.classList.remove('vditor--dark')
+      document.querySelector('html').style.backgroundColor = '#fff'
+    }
+  }
+</script>
+</body>
+</html>
