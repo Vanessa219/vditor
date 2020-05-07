@@ -252,6 +252,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | theme | Content Theme | 'light' |
 | setext | Whether to parse the setext header | true |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
+| sanitize | Use XSS | false |
 
 #### options.preview.math
 
@@ -325,6 +326,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | format | Transform the data returned by the server to meet the built-in data structure (files: File[], responseText: string): string | - |
 | file | Process the uploaded file before returning (files: File[]): File[] | - |
 | setHeaders | Use the return value to set the header before uploading (): { [key: string]: string } | - |
+| extraData | Append data to FormData { [key: string]: string | Blob } | - |
 
 #### options.resize
 
