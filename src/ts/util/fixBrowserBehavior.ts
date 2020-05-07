@@ -18,7 +18,8 @@ import {
 import {getLastNode} from "./hasClosest";
 import {hasClosestByHeadings} from "./hasClosestByHEadings";
 import {matchHotKey} from "./hotKey";
-import {getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
+import {getEditorRange, getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
+import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 
 // https://github.com/Vanessa219/vditor/issues/361
 export const fixCJKPosition = (range: Range, key: string) => {
@@ -32,6 +33,21 @@ export const fixCJKPosition = (range: Range, key: string) => {
         range.setStartAfter(zwspNode);
     }
 };
+
+export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
+    const range = getEditorRange(vditor[vditor.currentMode].element);
+    const blockElement = hasClosestBlock(range.startContainer);
+    if (blockElement) {
+        blockElement.insertAdjacentHTML(position, `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
+        setRangeByWbr(vditor[vditor.currentMode].element, range);
+        if (vditor.currentMode === "ir") {
+            highlightToolbarIR(vditor);
+        } else {
+            highlightToolbar(vditor);
+        }
+        execAfterRender(vditor);
+    }
+}
 
 export const isFirstCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
@@ -591,9 +607,16 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             return true;
         }
 
+        const tableElement = cellElement.parentElement.parentElement.parentElement as HTMLTableElement;
         if (event.key === "ArrowUp") {
             event.preventDefault();
             if (cellElement.tagName === "TH") {
+                if (tableElement.previousElementSibling) {
+                    range.selectNodeContents(tableElement.previousElementSibling)
+                    range.collapse(false);
+                } else {
+                    insertEmptyBlock(vditor, "beforebegin");
+                }
                 return true;
             }
 
@@ -618,6 +641,12 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             event.preventDefault();
             const trElement = cellElement.parentElement as HTMLTableRowElement;
             if (!trElement.nextElementSibling && cellElement.tagName === "TD") {
+                if (tableElement.nextElementSibling) {
+                    range.selectNodeContents(tableElement.nextElementSibling)
+                    range.collapse(true);
+                } else {
+                    insertEmptyBlock(vditor, "afterend");
+                }
                 return true;
             }
 
@@ -691,7 +720,6 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
         }
 
         // Backspace：光标移动到前一个 cell
-        const tableElement = cellElement.parentElement.parentElement.parentElement as HTMLTableElement;
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
             && range.startOffset === 0 && range.toString() === "") {
             const previousCellElement = goPreviousCell(cellElement, range, false);

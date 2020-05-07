@@ -1,10 +1,6 @@
 import {Constants} from "../constants";
-import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 import {getEventName} from "../util/compatibility";
-import {execAfterRender} from "../util/fixBrowserBehavior";
-import {hasClosestBlock} from "../util/hasClosest";
-import {getEditorRange, setRangeByWbr} from "../util/selection";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {insertEmptyBlock} from "../util/fixBrowserBehavior";
 import {MenuItem} from "./MenuItem";
 
 export class InsertAfter extends MenuItem {
@@ -16,18 +12,7 @@ export class InsertAfter extends MenuItem {
                 vditor.currentMode === "sv") {
                 return;
             }
-            const range = getEditorRange(vditor[vditor.currentMode].element);
-            const blockElement = hasClosestBlock(range.startContainer);
-            if (blockElement) {
-                blockElement.insertAdjacentHTML("afterend", `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
-                setRangeByWbr(vditor[vditor.currentMode].element, range);
-                if (vditor.currentMode === "ir") {
-                    highlightToolbarIR(vditor);
-                } else {
-                    highlightToolbar(vditor);
-                }
-                execAfterRender(vditor);
-            }
+            insertEmptyBlock(vditor, "afterend");
         });
     }
 }
