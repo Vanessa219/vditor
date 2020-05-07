@@ -226,6 +226,8 @@ interface IUpload {
     withCredentials?: boolean;
     /** 请求头设置 */
     headers?: { [key: string]: string };
+    /** 额外请求参数 */
+    extraData?: object;
 
     /** 每次上传前都会重新设置请求头 */
     setHeaders?(): { [key: string]: string };
