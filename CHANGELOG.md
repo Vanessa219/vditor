@@ -66,6 +66,7 @@
 
 ### v3.2.1 / 2020-05-0x
 
+* [372](https://github.com/Vanessa219/vditor/issues/372) 配置lineNumber为true后，代码复制按钮不出现 `修复缺陷`
 * [373](https://github.com/Vanessa219/vditor/issues/373) toolbar 缺失 edit-mode 报错 `修复缺陷`
 
 ### v3.2.0 / 2020-05-06

@@ -17,6 +17,10 @@
   box-sizing: border-box;
   font-family: $font-family-base;
 
+  .vditor-copy {
+    z-index: auto;
+  }
+
   &--fullscreen {
     position: fixed;
     top: 0;
