@@ -66,6 +66,8 @@
 
 ### v3.2.1 / 2020-05-0x
 
+* [373](https://github.com/Vanessa219/vditor/issues/373) toolbar 缺失 edit-mode 报错 `修复缺陷`
+
 ### v3.2.0 / 2020-05-06
 
 * [371](https://github.com/Vanessa219/vditor/issues/371) 列表项上下移动 `改进功能`

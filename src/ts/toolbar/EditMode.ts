@@ -131,10 +131,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     }
     setTypewriterPosition(vditor);
 
-    vditor.toolbar.elements["edit-mode"].querySelectorAll("button").forEach((item) => {
-        item.classList.remove("vditor-menu--current");
-    });
-    vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-menu--current");
+    if (vditor.toolbar.elements["edit-mode"]) {
+        vditor.toolbar.elements["edit-mode"].querySelectorAll("button").forEach((item) => {
+            item.classList.remove("vditor-menu--current");
+        });
+        vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-menu--current");
+    }
 };
 
 export class EditMode extends MenuItem {
