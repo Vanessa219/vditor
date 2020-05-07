@@ -189,6 +189,8 @@ interface ILute {
     VditorIRDOM2HTML(html: string): string;
 
     HTML2VditorIRDOM(html: string): string;
+
+    SetRenderListMarker(b: boolean): void;
 }
 
 declare const webkitAudioContext: {
@@ -344,6 +346,8 @@ interface IPreview {
     /** @link https://hacpai.com/article/1549638745630#options-preview-markdown */
     markdown?: IMarkdownConfig;
 
+    marker?: boolean;
+
     /** 预览回调 */
     parse?(element: HTMLElement): void;
 
@@ -361,6 +365,7 @@ interface IPreviewOptions {
         enable?: boolean,
     };
     anchor?: boolean;
+    marker?: boolean;
     math?: IMath;
     cdn?: string;
     markdown?: IMarkdownConfig;

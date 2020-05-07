@@ -54,10 +54,12 @@ window.vditor = new Vditor('vditor', {
   debugger: true,
   typewriterMode: true,
   placeholder: 'placeholder',
+  cdn: '..',
   preview: {
     markdown: {
       toc: true,
     },
+    marker: true,
   },
   toolbarConfig: {
     pin: true,

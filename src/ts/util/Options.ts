@@ -99,6 +99,7 @@ export class Options {
             },
             maxWidth: 800,
             mode: "both",
+            marker: false,
         },
         resize: {
             enable: false,

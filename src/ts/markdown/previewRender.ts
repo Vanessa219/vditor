@@ -27,6 +27,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
             style: "github",
         },
         lang: "zh_CN",
+        marker: false,
         markdown: {
             autoSpace: false,
             chinesePunct: false,
@@ -88,6 +89,9 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
                     Md2HTML: options.renderers,
                 },
             });
+        }
+        if (mergedOptions.marker) {
+            lute.SetRenderListMarker(true);
         }
         return lute.Md2HTML(mdText);
     });

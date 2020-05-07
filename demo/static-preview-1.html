@@ -60,6 +60,46 @@
             border-radius: 3px;
             background-color: var(--textarea-background-color);
         }
+
+        .vditor-reset ul[data-marker="*"] {
+            list-style-type: disc
+        }
+        .vditor-reset ul[data-marker="*"] ul {
+            list-style-type: circle
+        }
+        .vditor-reset ul[data-marker="*"] ul ul {
+            list-style-type: square
+        }
+
+        .vditor-reset ul[data-marker="+"] {
+            list-style-type: "\2764";
+        }
+        .vditor-reset ul[data-marker="+"] ul {
+            list-style-type: "\1f49a"
+        }
+        .vditor-reset ul[data-marker="+"] ul ul {
+            list-style-type: "\1f49b"
+        }
+
+        .vditor-reset ul[data-marker="-"] {
+            list-style-type: korean-hangul-formal
+        }
+        .vditor-reset ul[data-marker="-"] ul {
+            list-style-type: decimal-leading-zero
+        }
+        .vditor-reset ul[data-marker="-"] ul ul {
+            list-style-type: lower-alpha
+        }
+
+        .vditor-reset ol[data-marker="1)"] {
+            list-style-type: simp-chinese-formal
+        }
+        .vditor-reset ol[data-marker="1)"] ol {
+            list-style-type: simp-chinese-informal
+        }
+        .vditor-reset ol[data-marker="1)"] ol ol {
+            list-style-type: trad-chinese-formal
+        }
     </style>
 </head>
 <body>
@@ -103,7 +143,9 @@
           speech: {
             enable: true,
           },
+          cdn: '..',
           anchor: true,
+          marker: true,
           after () {
             Vditor.outlineRender(document.getElementById('preview'), document.getElementById('outline'))
           },
@@ -115,10 +157,10 @@
                 return [
                   `<h${node.__internal_object__.HeadingLevel} id="${id}" class="vditor__heading">
     <a id="vditorAnchor-${id}" class="vditor-anchor" href="#${id}"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>
-    <span class="prefix"></span><span>`,
+    <span class="prefix"></span><span class="content">`,
                   Lute.WalkContinue]
               } else {
-                return [`</span></h${node.__internal_object__.HeadingLevel}>`, Lute.WalkContinue]
+                return [`</span><span class="prefix"></span></h${node.__internal_object__.HeadingLevel}>`, Lute.WalkContinue]
               }
             },
           },

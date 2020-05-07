@@ -146,6 +146,9 @@ export class Preview {
 
                 xhr.send(JSON.stringify({markdownText}));
             } else {
+                if (vditor.options.preview.marker) {
+                    vditor.lute.SetRenderListMarker(true);
+                }
                 let html = vditor.lute.Md2HTML(markdownText);
                 if (vditor.options.preview.transform) {
                     html = vditor.options.preview.transform(html);
