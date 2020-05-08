@@ -252,7 +252,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | theme | Content Theme | 'light' |
 | setext | Whether to parse the setext header | true |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
-| sanitize | Use XSS | false |
+| sanitize | Use XSS | true |
 
 #### options.preview.math
 

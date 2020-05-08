@@ -66,6 +66,7 @@
 
 ### v3.2.3 / 2020-05-0x
 
+* [379](https://github.com/Vanessa219/vditor/issues/379) Not sticky at IOS `修复缺陷`
 * [381](https://github.com/Vanessa219/vditor/issues/381) 光标在内联数学公式中无法向下移动 `修复缺陷`
 * [380](https://github.com/Vanessa219/vditor/issues/380) 修复 XSS 漏洞 `修复缺陷`
 
@@ -83,7 +84,7 @@
 * [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
 * 文档修改
   * 为 `options.upload` 添加 `extraData`
-  * 为 `IMarkdownConfig` 添加 `sanitize` 配置，默认值为 true
+  * 为 `IMarkdownConfig` 添加 `sanitize` 配置
 
 ### v3.1.23 / 2020-05-05
 

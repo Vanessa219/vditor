@@ -5,6 +5,12 @@ import {toggleOutline} from "../toolbar/Outline";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
+declare global {
+    interface Window {
+        visualViewport: HTMLElement;
+    }
+}
+
 export const initUI = (vditor: IVditor) => {
     vditor.element.innerHTML = "";
     vditor.element.classList.add("vditor");
@@ -78,6 +84,28 @@ export const initUI = (vditor: IVditor) => {
     setEditMode(vditor, vditor.options.mode, afterRender(vditor, contentElement));
     if (vditor.options.outline && vditor.toolbar.elements.outline) {
         toggleOutline(vditor, vditor.toolbar.elements.outline.firstElementChild);
+    }
+
+    if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== 'undefined') {
+        // https://github.com/Vanessa219/vditor/issues/379
+        let pendingUpdate = false;
+        const viewportHandler = (event: Event) => {
+            if (pendingUpdate) {
+                return;
+            }
+            pendingUpdate = true;
+
+            requestAnimationFrame(() => {
+                pendingUpdate = false;
+                const layoutViewport = vditor.toolbar.element;
+                layoutViewport.style.transform = "none";
+                if (layoutViewport.getBoundingClientRect().top < 0) {
+                    layoutViewport.style.transform = `translate(0, ${-layoutViewport.getBoundingClientRect().top}px)`;
+                }
+            });
+        };
+        window.visualViewport.addEventListener("scroll", viewportHandler);
+        window.visualViewport.addEventListener("resize", viewportHandler);
     }
 };
 
