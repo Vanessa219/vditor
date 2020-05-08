@@ -433,6 +433,7 @@ options?: IPreviewOptions {
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 | setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
 | setContentTheme (contentTheme: string, cdn = options.cdn)  | update content theme |
+| mindmapRender (element: (HTMLElement \| Document) = document, cdn = options.cdn)  | Render mind map |
 
 ## 🏗 Developer Guide
 

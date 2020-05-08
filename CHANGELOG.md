@@ -86,6 +86,7 @@
 * 文档修改
   * 为 `options.upload` 添加 `extraData`
   * 为 `IMarkdownConfig` 添加 `sanitize` 配置
+  * 添加静态方法 `mindmapRender`
 
 ### v3.1.23 / 2020-05-05
 
