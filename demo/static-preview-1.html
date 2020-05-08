@@ -34,7 +34,9 @@
     <meta name="twitter:url" content="https://hacpai.com/tag/vditor"/>
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
-    <link rel="stylesheet" href="../dist/index.css"/>
+    <link rel="stylesheet" href="./css/vditor/default.css"/>
+    <link rel="stylesheet" href="./css/mdnice/basic.css"/>
+    <link rel="stylesheet" href="./css/mdnice/themes/zhning12.css"/>
     <script src="../dist/method.min.js"></script>
     <style>
         a {
@@ -133,7 +135,6 @@
   fetch(`${location.search.split('=')[1]}.txt`)
     .then(response => response.text())
     .then(mdContent => {
-      console.log(mdContent);
 
       Vditor.preview(document.getElementById('preview'),
         mdContent, {

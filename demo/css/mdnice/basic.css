@@ -1,0 +1,429 @@
+/*默认样式，最佳实践*/
+
+/*全局属性*/
+.vditor-reset {
+    font-size: 16px;
+    color: black;
+    padding: 0 10px;
+    line-height: 1.6;
+    word-spacing: 0px;
+    letter-spacing: 0px;
+    word-break: break-word;
+    word-wrap: break-word;
+    text-align: left;
+    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-top: -10px; /*解决开头空隙过大问题*/
+  }
+  
+  /*段落*/
+  .vditor-reset p {
+    font-size: 16px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin: 0;
+    line-height: 26px;
+    color: black;
+  }
+  
+  /*标题*/
+  .vditor-reset h1,
+  .vditor-reset h2,
+  .vditor-reset h3,
+  .vditor-reset h4,
+  .vditor-reset h5,
+  .vditor-reset h6 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding: 0px;
+    font-weight: bold;
+    color: black;
+  }
+  .vditor-reset h1 {
+    font-size: 24px;
+  }
+  .vditor-reset h2 {
+    font-size: 22px;
+  }
+  .vditor-reset h3 {
+    font-size: 20px;
+  }
+  .vditor-reset h4 {
+    font-size: 18px;
+  }
+  .vditor-reset h5 {
+    font-size: 16px;
+  }
+  .vditor-reset h6 {
+    font-size: 16px;
+  }
+  
+  .vditor-reset h1 .prefix,
+  .vditor-reset h2 .prefix,
+  .vditor-reset h3 .prefix,
+  .vditor-reset h4 .prefix,
+  .vditor-reset h5 .prefix,
+  .vditor-reset h6 .prefix {
+    display: none;
+  }
+  
+  .vditor-reset h1 .suffix
+  .vditor-reset h2 .suffix,
+  .vditor-reset h3 .suffix,
+  .vditor-reset h4 .suffix,
+  .vditor-reset h5 .suffix,
+  .vditor-reset h6 .suffix {
+    display: none;
+  }
+  
+  /*列表*/
+  .vditor-reset ul,
+  .vditor-reset ol {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-left: 25px;
+    color: black;
+  }
+  .vditor-reset ul {
+    list-style-type: disc;
+  }
+  .vditor-reset ul ul {
+    list-style-type: square;
+  }
+  
+  .vditor-reset ol {
+    list-style-type: decimal;
+  }
+  
+  .vditor-reset li section {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    line-height: 26px;
+    text-align: left;
+    color: rgb(1,1,1); /* 只要是纯黑色微信编辑器就会把color这个属性吞掉。。。*/
+    font-weight: 500;
+  }
+  
+  /*引用*/
+  .vditor-reset blockquote {
+    display: block;
+    font-size: 0.9em;
+    overflow: auto;
+    overflow-scrolling: touch;
+    border-left: 3px solid rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.05);
+    color: #6a737d;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  
+  .vditor-reset blockquote p {
+    margin: 0px;
+    color: black;
+    line-height: 26px;
+  }
+  
+  .vditor-reset .table-of-contents a {
+    border: none;
+    color: black;
+    font-weight: normal;
+  }
+  
+  /*链接*/
+  .vditor-reset a {
+    text-decoration: none;
+    color: #1e6bb8;
+    word-wrap: break-word;
+    font-weight: bold;
+    /* border-bottom: 1px solid #1e6bb8; */
+  }
+  
+  /*加粗*/
+  .vditor-reset strong {
+    font-weight: bold;
+    color: black;
+  }
+  
+  /*斜体*/
+  .vditor-reset em {
+    font-style: italic;
+    color: black;
+  }
+  
+  /*加粗斜体*/
+  .vditor-reset em strong {
+    font-weight: bold;
+    color: black;
+  }
+  
+  /*删除线*/
+  .vditor-reset del {
+    font-style: italic;
+    color: black;
+  }
+  
+  /*分隔线*/
+  .vditor-reset hr {
+    height: 1px;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-top: 1px solid black;
+  }
+  
+  /*代码块*/
+  .vditor-reset pre {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .vditor-reset pre code {
+    display: -webkit-box;
+    font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+    border-radius: 0px;
+    font-size: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .vditor-reset pre code span {
+    line-height: 26px;
+  }
+  
+  /*行内代码*/
+  .vditor-reset p code,
+  .vditor-reset li code {
+    font-size: 14px;
+    word-wrap: break-word;
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin: 0 2px;
+    color: #1e6bb8;
+    background-color: rgba(27,31,35,.05);
+    font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
+    word-break: break-all;
+  }
+  
+  /*图片*/
+  .vditor-reset img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  
+  /*图片*/
+  .vditor-reset figure {
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /*图片描述文字*/
+  .vditor-reset figcaption {
+    margin-top: 5px;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+  }
+  
+  /*表格*/
+  .vditor-reset table {
+    display: table;
+    text-align: left;
+  }
+  .vditor-reset tbody {
+    border: 0;
+  }
+  
+  .vditor-reset table tr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    background-color: white;
+  }
+  
+  .vditor-reset table tr:nth-child(2n) {
+    background-color: #F8F8F8;
+  }
+  
+  .vditor-reset table tr th,
+  .vditor-reset table tr td {
+    font-size: 16px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-align: left;
+  }
+  
+  .vditor-reset table tr th {
+    font-weight: bold;
+    background-color: #f0f0f0;
+  }
+  
+  /* 微信代码块 */
+  .vditor-reset .code-snippet__fix {
+    word-wrap: break-word !important;
+    font-size: 14px;
+    margin: 10px 0;
+    display: block;
+    color: #333;
+    position: relative;
+    background-color: rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    border-radius: 2px;
+    display: flex;
+    line-height: 20px;
+  }
+  .vditor-reset .code-snippet__fix pre {
+    margin-bottom: 10px;
+    margin-top: 0px;
+  }
+  .vditor-reset .code-snippet__fix .code-snippet__line-index {
+    counter-reset: line;
+    flex-shrink: 0;
+    height: 100%;
+    padding: 1em;
+    list-style-type: none;
+    padding: 16px;
+    margin: 0;
+  }
+  .vditor-reset .code-snippet__fix .code-snippet__line-index li {
+    list-style-type: none;
+    text-align: right;
+    line-height: 26px;
+    color: black;
+    margin: 0;
+  }
+  .vditor-reset .code-snippet__fix .code-snippet__line-index li::before {
+    min-width: 1.5em;
+    text-align: right;
+    left: -2.5em;
+    counter-increment: line;
+    content: counter(line);
+    display: inline;
+    color: rgba(0,0,0,0.3);
+  }
+  .vditor-reset .code-snippet__fix pre {
+    overflow-x: auto;
+    padding: 16px;
+    padding-left: 0;
+    white-space: normal;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+  }
+  .vditor-reset .code-snippet__fix code {
+    text-align: left;
+    font-size: 14px;
+    display: block;
+    white-space: pre;
+    display: flex;
+    position: relative;
+    font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+    padding: 0px;
+  }
+  
+  .vditor-reset .footnote-word {
+    color: #1e6bb8;
+    font-weight: bold;
+  }
+  
+  .vditor-reset .footnote-ref {
+    color: #1e6bb8;
+    font-weight: bold;
+  }
+  
+  .vditor-reset .footnote-item {
+    display: flex;
+  }
+  
+  .vditor-reset .footnote-num {
+    display: inline;
+    width: 10%; /*神奇，50px就不可以*/
+    background: none;
+    font-size: 80%;
+    opacity: 0.6;
+    line-height: 26px;
+    font-family: ptima-Regular, Optima, PingFangSC-light, PingFangTC-light, 'PingFang SC', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+  
+  .vditor-reset .footnote-item p {
+    display: inline;
+    font-size: 14px;
+    width: 90%;
+    padding: 0px;
+    margin: 0;
+    line-height: 26px;
+    color: black;
+    word-break:break-all;
+    width: calc(100%-50)
+  }
+  
+  .vditor-reset sub, sup {
+    line-height: 0;
+  }
+  
+  .vditor-reset .footnotes-sep:before {
+    content: "参考资料";
+    display: block;
+  }
+  
+  /* 解决公式问题 */
+  .vditor-reset .block-equation {
+    display:block;
+    text-align: center;
+    overflow: auto;
+    display: block;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .vditor-reset .block-equation svg {
+    max-width: 300% !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .vditor-reset .inline-equation {
+  }
+  
+  .vditor-reset .inline-equation svg {
+  }
+  
+  .vditor-reset .imageflow-layer1 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    white-space: normal;
+    border: 0px none;
+    padding: 0px;
+    overflow: hidden;
+  }
+  
+  .vditor-reset .imageflow-layer2 {
+    white-space: nowrap;
+    width: 100%;
+    overflow-x: scroll;
+  }
+  
+  .vditor-reset .imageflow-layer3 {
+    display: inline-block;
+    word-wrap: break-word;
+    white-space: normal;
+    vertical-align: middle;
+    width: 100%;
+  }
+  
+  .vditor-reset .imageflow-img {
+    display: inline-block;
+  }
+  
+  .vditor-reset .imageflow-caption {
+    text-align: center;
+    margin-top: 0px;
+    padding-top: 0px;
+    color: #888;
+  }
+  
+  .vditor-reset .nice-suffix-juejin-container {
+    margin-top: 20px !important;
+  }
+  
+  .vditor-reset figure a {
+    border: none;
+  }
