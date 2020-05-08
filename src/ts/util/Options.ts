@@ -87,7 +87,7 @@ export class Options {
                 codeBlockPreview: true,
                 fixTermTypo: false,
                 footnotes: true,
-                sanitize: false,
+                sanitize: true,
                 setext: false,
                 theme: "light",
                 toc: false,

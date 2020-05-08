@@ -83,7 +83,7 @@
 * [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
 * 文档修改
   * 为 `options.upload` 添加 `extraData`
-  * 为 `IMarkdownConfig` 添加 `sanitize` 配置
+  * 为 `IMarkdownConfig` 添加 `sanitize` 配置，默认值为 true
 
 ### v3.1.23 / 2020-05-05
 

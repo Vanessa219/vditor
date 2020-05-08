@@ -35,7 +35,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
             fixTermTypo: false,
             footnotes: true,
             paragraphBeginningSpace: false,
-            sanitize: false,
+            sanitize: true,
             setext: true,
             theme: "light",
             toc: false,
