@@ -23,7 +23,7 @@ import {getEditorRange, getSelectPosition, insertHTML, setRangeByWbr, setSelecti
 
 // https://github.com/Vanessa219/vditor/issues/361
 export const fixCJKPosition = (range: Range, key: string) => {
-    if (key === "Backspace") {
+    if (key === "Backspace" || key.indexOf("Arrow") > -1) {
         return;
     }
     const pElement = hasClosestByMatchTag(range.startContainer, "P");
