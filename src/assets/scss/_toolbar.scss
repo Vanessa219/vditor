@@ -40,7 +40,8 @@
           outline: none;
         }
 
-        &:hover {
+        &:focus {
+          cursor: pointer;
           color: var(--toolbar-icon-hover-color);
         }
       }
@@ -164,5 +165,11 @@
 @media screen and (max-width: $max-width) {
   .vditor-toolbar__item {
     margin: 0 7px;
+  }
+}
+
+@media(hover: hover) and (pointer: fine) {
+  .vditor-toolbar__item .vditor-tooltipped:hover {
+    color: var(--toolbar-icon-hover-color);
   }
 }
