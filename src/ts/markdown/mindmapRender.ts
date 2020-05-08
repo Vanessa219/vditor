@@ -19,28 +19,34 @@ export const mindmapRender = (element: (HTMLElement | Document) = document,
                         series: [
                             {
                                 data: [JSON.parse(Lute.RenderMindmap(e.innerText))],
-                                edgeForkPosition: "100%",
-                                edgeShape: "polyline",
-                                expandAndCollapse: true,
+                                initialTreeDepth: -1,
+                                itemStyle: {
+                                    borderWidth: 0,
+                                    color: "#4285f4",
+                                },
                                 label: {
                                     backgroundColor: "#f6f8fa",
                                     borderColor: "#d1d5da",
                                     borderRadius: 5,
                                     borderWidth: 0.5,
-                                    color: "#4285f4",
-                                    padding:  [3, 4, 5, 6],
-                                    position: [6, -20],
-                                },
-                                leaves: {
-                                    label: {
-                                        color: "#586069",
-                                    },
+                                    color: "#586069",
+                                    lineHeight: 20,
+                                    offset: [-5, 0],
+                                    padding: [0, 5],
+                                    position: "insideRight",
                                 },
                                 lineStyle: {
                                     color: "#d1d5da",
                                     width: 1,
                                 },
-                                symbolSize: 5,
+                                roam: true,
+                                symbol: (value: number, params: { data?: { children?: object } }) => {
+                                    if (params?.data?.children) {
+                                        return "circle";
+                                    } else {
+                                        return "path://";
+                                    }
+                                },
                                 type: "tree",
                             },
                         ],

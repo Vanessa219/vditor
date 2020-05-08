@@ -220,7 +220,8 @@ class WYSIWYG {
                 return;
             }
 
-            if (startSpace || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
+            if ((startSpace && !blockElement.querySelector(".language-mindmap"))
+                || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
                 return;
             }
 

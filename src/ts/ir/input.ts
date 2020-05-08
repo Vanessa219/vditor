@@ -47,7 +47,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
             }
         }
 
-        if (startSpace || endSpace) {
+        if ((startSpace && !blockElement.querySelector(".language-mindmap")) || endSpace) {
             if (endSpace) {
                 const markerElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker");
                 if (markerElement) {
