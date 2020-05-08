@@ -4,7 +4,7 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName,
 } from "../util/hasClosest";
-import {hasClosestByTag} from "../util/hasClosestByHEadings";
+import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";

@@ -1,4 +1,4 @@
-import {hasClosestByTag} from "./hasClosestByHEadings";
+import {hasClosestByTag} from "./hasClosestByHeadings";
 
 export const hasTopClosestByClassName = (element: Node, className: string) => {
     let closest = hasClosestByClassName(element, className);

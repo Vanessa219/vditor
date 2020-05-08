@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {disableToolbar, enableToolbar, removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
-import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {getEditorRange, selectIsEditor} from "../util/selection";
 
 export const highlightToolbar = (vditor: IVditor) => {

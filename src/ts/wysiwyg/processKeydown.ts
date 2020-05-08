@@ -17,7 +17,7 @@ import {
     hasClosestByMatchTag,
     hasTopClosestByTag,
 } from "../util/hasClosest";
-import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {matchHotKey} from "../util/hotKey";
 import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";

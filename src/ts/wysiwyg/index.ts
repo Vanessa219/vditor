@@ -7,7 +7,7 @@ import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
 } from "../util/hasClosest";
-import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {
     getEditorRange,
     getSelectPosition,

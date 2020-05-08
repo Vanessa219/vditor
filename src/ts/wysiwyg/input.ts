@@ -3,7 +3,7 @@ import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
 } from "../util/hasClosest";
-import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr} from "../util/selection";

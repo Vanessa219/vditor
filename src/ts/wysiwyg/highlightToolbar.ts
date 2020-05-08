@@ -18,7 +18,7 @@ import {
     hasClosestByClassName,
     hasClosestByMatchTag,
 } from "../util/hasClosest";
-import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHeadings";
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -48,7 +48,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         const footnotesElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-block");
         if (footnotesElement) {
             vditor.wysiwyg.popover.innerHTML = "";
-            genClose(vditor.wysiwyg.popover, footnotesElement, vditor);
+            genClose(footnotesElement, vditor);
             setPopoverPosition(vditor, footnotesElement);
             return;
         }
@@ -119,7 +119,7 @@ export const highlightToolbar = (vditor: IVditor) => {
         }
         if (tocElement) {
             vditor.wysiwyg.popover.innerHTML = "";
-            genClose(vditor.wysiwyg.popover, tocElement, vditor);
+            genClose(tocElement, vditor);
             setPopoverPosition(vditor, tocElement);
         }
 
@@ -129,7 +129,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.innerHTML = "";
             genUp(range, blockquoteElement, vditor);
             genDown(range, blockquoteElement, vditor);
-            genClose(vditor.wysiwyg.popover, blockquoteElement, vditor);
+            genClose(blockquoteElement, vditor);
             setPopoverPosition(vditor, blockquoteElement);
         }
 
@@ -139,7 +139,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             genUp(range, liElement, vditor);
             genDown(range, liElement, vditor);
-            genClose(vditor.wysiwyg.popover, liElement, vditor);
+            genClose(liElement, vditor);
 
             setPopoverPosition(vditor, liElement);
         }
@@ -216,7 +216,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     right.classList.remove("vditor-icon--current");
                     left.classList.add("vditor-icon--current");
                 }
-
+                setSelectionFocus(range);
                 afterRenderEvent(vditor);
             };
 
@@ -318,7 +318,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             genUp(range, tableElement, vditor);
             genDown(range, tableElement, vditor);
-            genClose(vditor.wysiwyg.popover, tableElement, vditor);
+            genClose(tableElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", left);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", center);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", right);
@@ -374,7 +374,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
             };
 
-            genClose(vditor.wysiwyg.popover, linkRefElement, vditor);
+            genClose(linkRefElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
             setPopoverPosition(vditor, linkRefElement);
@@ -412,7 +412,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 }
             };
 
-            genClose(vditor.wysiwyg.popover, footnotesRefElement, vditor);
+            genClose(footnotesRefElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             setPopoverPosition(vditor, footnotesRefElement);
         }
@@ -423,7 +423,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.innerHTML = "";
             genUp(range, blockRenderElement, vditor);
             genDown(range, blockRenderElement, vditor);
-            genClose(vditor.wysiwyg.popover, blockRenderElement, vditor);
+            genClose(blockRenderElement, vditor);
 
             if (blockRenderElement.getAttribute("data-type") === "code-block") {
                 const languageWrap = document.createElement("span");
@@ -520,7 +520,7 @@ export const highlightToolbar = (vditor: IVditor) => {
 
             genUp(range, headingElement, vditor);
             genDown(range, headingElement, vditor);
-            genClose(vditor.wysiwyg.popover, headingElement, vditor);
+            genClose(headingElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             setPopoverPosition(vditor, headingElement);
         }
@@ -537,7 +537,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                 vditor.wysiwyg.popover.innerHTML = "";
                 genUp(range, blockElement, vditor);
                 genDown(range, blockElement, vditor);
-                genClose(vditor.wysiwyg.popover, blockElement, vditor);
+                genClose(blockElement, vditor);
 
                 setPopoverPosition(vditor, blockElement);
             } else {
@@ -577,7 +577,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
     if (!previousElement || (!element.parentElement.isEqualNode(vditor.wysiwyg.element) && element.tagName !== "LI")) {
         return;
     }
-    const upElement = document.createElement("span");
+    const upElement = document.createElement("button");
     upElement.setAttribute("data-type", "up");
     upElement.setAttribute("aria-label", i18n[vditor.options.lang].up +
         "<" + updateHotkeyTip("⌘-⇧-U") + ">");
@@ -599,7 +599,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
     if (!nextElement || (!element.parentElement.isEqualNode(vditor.wysiwyg.element) && element.tagName !== "LI")) {
         return;
     }
-    const downElement = document.createElement("span");
+    const downElement = document.createElement("button");
     downElement.setAttribute("data-type", "down");
     downElement.setAttribute("aria-label", i18n[vditor.options.lang].down +
         "<" + updateHotkeyTip("⌘-⇧-D") + ">");
@@ -616,23 +616,25 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", downElement);
 };
 
-const genClose = (popover: HTMLElement, element: HTMLElement, vditor: IVditor) => {
+const genClose = (element: HTMLElement, vditor: IVditor) => {
     if (vditor.wysiwyg.element.children.length === 1 && vditor.wysiwyg.element.firstElementChild.tagName === "P") {
         return;
     }
-    const close = document.createElement("span");
+    const close = document.createElement("button");
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
         "<" + updateHotkeyTip("⌘-⇧-X") + ">");
     close.innerHTML = trashcanSVG;
     close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     close.onclick = () => {
+        const range = getEditorRange(vditor.wysiwyg.element);
+        range.setStartAfter(element);
+        setSelectionFocus(range);
         element.remove();
-        popover.style.display = "none";
-        highlightToolbar(vditor);
         afterRenderEvent(vditor);
+        highlightToolbar(vditor);
     };
-    popover.insertAdjacentElement("beforeend", close);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 };
 
 const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEvent,
@@ -718,7 +720,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         linkHotkey(vditor.wysiwyg.element, aElement, event, input);
     };
 
-    genClose(vditor.wysiwyg.popover, aElement, vditor);
+    genClose(aElement, vditor);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);

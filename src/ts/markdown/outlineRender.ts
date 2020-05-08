@@ -1,4 +1,4 @@
-import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 
 export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) => {
     let tocHTML = "";

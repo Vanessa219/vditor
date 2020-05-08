@@ -11,7 +11,7 @@ import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {getEventName} from "../util/compatibility";
-import {hasClosestByTag} from "../util/hasClosestByHEadings";
+import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {setSelectionFocus} from "../util/selection";
 
 export class Preview {

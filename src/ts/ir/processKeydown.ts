@@ -17,7 +17,7 @@ import {
     hasClosestByClassName,
     hasClosestByMatchTag,
 } from "../util/hasClosest";
-import {hasClosestByHeadings} from "../util/hasClosestByHEadings";
+import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {getEditorRange, getSelectPosition} from "../util/selection";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
