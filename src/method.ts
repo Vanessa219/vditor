@@ -7,6 +7,7 @@ import {lazyLoadImageRender} from "./ts/markdown/lazyLoadImageRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
+import {mindmapRender} from "./ts/markdown/mindmapRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
@@ -28,6 +29,8 @@ class Vditor {
     public static chartRender = chartRender;
     /** 五线谱渲染 */
     public static abcRender = abcRender;
+    /** 脑图渲染 */
+    public static mindmapRender = mindmapRender;
     /** 大纲渲染 */
     public static outlineRender = outlineRender;
     /** 为[特定链接](https://github.com/Vanessa219/vditor/issues/7)分别渲染为视频、音频、嵌入的 iframe */

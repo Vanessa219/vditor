@@ -11,6 +11,7 @@ import {lazyLoadImageRender} from "./lazyLoadImageRender";
 import {mathRender} from "./mathRender";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
+import {mindmapRender} from "./mindmapRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
 
@@ -114,6 +115,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     mermaidRender(previewElement, ".language-mermaid", mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn);
+    mindmapRender(previewElement, mergedOptions.cdn);
     abcRender(previewElement, mergedOptions.cdn);
     mediaRender(previewElement);
     if (mergedOptions.speech.enable) {

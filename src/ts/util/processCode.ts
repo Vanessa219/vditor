@@ -5,6 +5,7 @@ import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {mindmapRender} from "../markdown/mindmapRender";
 
 export const processPasteCode = (html: string, text: string, type = "sv") => {
     const tempElement = document.createElement("div");
@@ -63,6 +64,8 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         mermaidRender(previewPanel, `.vditor-${vditor.currentMode}__preview .language-mermaid`, vditor.options.cdn);
     } else if (language === "echarts") {
         chartRender(previewPanel, vditor.options.cdn);
+    }  else if (language === "mindmap") {
+        mindmapRender(previewPanel, vditor.options.cdn);
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);
     } else if (language === "math") {

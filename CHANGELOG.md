@@ -64,10 +64,12 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.0 / 2020-05-0x
+### v3.2.3 / 2020-05-0x
 
-### v3.2.1 / 2020-05-07
 
+### v3.2.2 / 2020-05-08
+
+* [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `引入特性`
 * [376](https://github.com/Vanessa219/vditor/issues/376) 为 markdown 添加 sanitize 设置 `引入特性`
 * [375](https://github.com/Vanessa219/vditor/pull/375) upload 配置项添加额外请求参数 `引入特性`
 * [372](https://github.com/Vanessa219/vditor/issues/372) 配置lineNumber为true后，代码复制按钮不出现 `修复缺陷`

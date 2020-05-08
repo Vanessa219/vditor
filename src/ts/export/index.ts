@@ -70,6 +70,7 @@ export const exportHTML = (vditor: IVditor) => {
     Vditor.mermaidRender(previewElement, ".language-mermaid", '${vditor.options.cdn}');
     Vditor.graphvizRender(previewElement, '${vditor.options.cdn}');
     Vditor.chartRender(previewElement, '${vditor.options.cdn}');
+    Vditor.mindmapRender(previewElement, '${vditor.options.cdn}');
     Vditor.abcRender(previewElement, '${vditor.options.cdn}');
     Vditor.mediaRender(previewElement);
 </script></body></html>`;

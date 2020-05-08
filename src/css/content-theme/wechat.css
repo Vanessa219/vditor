@@ -82,7 +82,11 @@
     border-radius: 2px;
 }
 
-.vditor-reset code:not(.hljs):not(.highlight-chroma).language-echarts, .vditor-reset code:not(.hljs):not(.highlight-chroma).language-graphviz, .vditor-reset code:not(.hljs):not(.highlight-chroma).language-math, .vditor-reset code:not(.hljs):not(.highlight-chroma).language-mermaid {
+.vditor-reset code:not(.hljs):not(.highlight-chroma).language-echarts,
+.vditor-reset code:not(.hljs):not(.highlight-chroma).language-mindmap,
+.vditor-reset code:not(.hljs):not(.highlight-chroma).language-graphviz,
+.vditor-reset code:not(.hljs):not(.highlight-chroma).language-math,
+.vditor-reset code:not(.hljs):not(.highlight-chroma).language-mermaid {
     background-color: rgba(0, 0, 0, 0.03);
     font-size: 14px;
     border: 1px solid #f0f0f0;

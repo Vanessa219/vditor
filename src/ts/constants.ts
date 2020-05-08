@@ -15,9 +15,10 @@ export abstract class Constants {
         "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments", "rainbow_dash", "rrt",
         "solarized-dark", "solarized-dark256", "solarized-light", "swapoff", "tango", "trac", "vim", "vs", "xcode"];
     public static readonly CODE_LANGUAGES: string[] = [
-        "abc",
         "mermaid",
         "echarts",
+        "mindmap",
+        "abc",
         "graphviz",
         "apache",
         "bash",
@@ -32,6 +33,7 @@ export abstract class Constants {
         "json",
         "java",
         "javascript",
+        "js",
         "makefile",
         "markdown",
         "nginx",
@@ -55,6 +57,7 @@ export abstract class Constants {
         "rust",
         "scss",
         "typescript",
+        "ts",
         "yaml",
     ];
 }

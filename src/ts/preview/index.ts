@@ -9,6 +9,7 @@ import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {mindmapRender} from "../markdown/mindmapRender";
 import {getEventName} from "../util/compatibility";
 import {hasClosestByTag} from "../util/hasClosestByHEadings";
 import {setSelectionFocus} from "../util/selection";
@@ -180,6 +181,7 @@ export class Preview {
         mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, ".language-mermaid", vditor.options.cdn);
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
+        mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
     }

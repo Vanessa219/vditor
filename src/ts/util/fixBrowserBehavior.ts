@@ -1,4 +1,5 @@
 import {Constants} from "../constants";
+import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
 import {outlineRender} from "../markdown/outlineRender";
 import {uploadFiles} from "../upload";
@@ -19,7 +20,6 @@ import {getLastNode} from "./hasClosest";
 import {hasClosestByHeadings} from "./hasClosestByHEadings";
 import {matchHotKey} from "./hotKey";
 import {getEditorRange, getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
-import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 
 // https://github.com/Vanessa219/vditor/issues/361
 export const fixCJKPosition = (range: Range, key: string) => {
@@ -47,7 +47,7 @@ export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
         }
         execAfterRender(vditor);
     }
-}
+};
 
 export const isFirstCell = (cellElement: HTMLElement) => {
     const tableElement = hasClosestByMatchTag(cellElement, "TABLE") as HTMLTableElement;
@@ -612,7 +612,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             event.preventDefault();
             if (cellElement.tagName === "TH") {
                 if (tableElement.previousElementSibling) {
-                    range.selectNodeContents(tableElement.previousElementSibling)
+                    range.selectNodeContents(tableElement.previousElementSibling);
                     range.collapse(false);
                 } else {
                     insertEmptyBlock(vditor, "beforebegin");
@@ -628,9 +628,9 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                 }
             }
 
-            let previousElement = trElement.previousElementSibling as HTMLTableRowElement
+            let previousElement = trElement.previousElementSibling as HTMLTableRowElement;
             if (!previousElement) {
-                previousElement = trElement.parentElement.previousElementSibling.firstChild as HTMLTableRowElement
+                previousElement = trElement.parentElement.previousElementSibling.firstChild as HTMLTableRowElement;
             }
             range.selectNodeContents(previousElement.cells[m]);
             range.collapse(false);
@@ -642,7 +642,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             const trElement = cellElement.parentElement as HTMLTableRowElement;
             if (!trElement.nextElementSibling && cellElement.tagName === "TD") {
                 if (tableElement.nextElementSibling) {
-                    range.selectNodeContents(tableElement.nextElementSibling)
+                    range.selectNodeContents(tableElement.nextElementSibling);
                     range.collapse(true);
                 } else {
                     insertEmptyBlock(vditor, "afterend");
@@ -657,9 +657,9 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                 }
             }
 
-            let nextElement = trElement.nextElementSibling as HTMLTableRowElement
+            let nextElement = trElement.nextElementSibling as HTMLTableRowElement;
             if (!nextElement) {
-                nextElement = trElement.parentElement.nextElementSibling.firstChild as HTMLTableRowElement
+                nextElement = trElement.parentElement.nextElementSibling.firstChild as HTMLTableRowElement;
             }
             range.selectNodeContents(nextElement.cells[m]);
             range.collapse(true);
