@@ -3,7 +3,7 @@ import {isCtrl} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote, fixCJKPosition,
-    fixCodeBlock, fixDelete, fixHR,
+    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -256,7 +256,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 const rangeStart = getSelectPosition(blockElement, range).start;
                 if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                     // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
-                    showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor,  false);
+                    showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor, false);
                     if (blockElement.innerHTML.trim() === "") {
                         // 当前块为空且不是最后一个时，需要删除
                         blockElement.remove();
@@ -294,6 +294,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 (item.firstElementChild as HTMLElement).style.display = "inline";
                 (item.lastElementChild as HTMLElement).style.display = "none";
             });
+        }
+    }
+
+    fixCursorDownInlineMath(range, event.key);
+
+    if (event.key === "ArrowDown") {
+        // 光标位于内联数学公式前，按下键无作用
+        const nextElement = startContainer.nextSibling as HTMLElement;
+        if (nextElement && nextElement.nodeType !== 3 && nextElement.getAttribute("data-type") === "math-inline") {
+            range.setStartAfter(nextElement);
         }
     }
     return false;

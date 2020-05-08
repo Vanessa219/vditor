@@ -66,6 +66,8 @@
 
 ### v3.2.3 / 2020-05-0x
 
+* [381](https://github.com/Vanessa219/vditor/issues/381) 光标在内联数学公式中无法向下移动 `修复缺陷`
+* [380](https://github.com/Vanessa219/vditor/issues/380) 修复 XSS 漏洞 `修复缺陷`
 
 ### v3.2.2 / 2020-05-08
 

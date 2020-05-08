@@ -34,6 +34,21 @@ export const fixCJKPosition = (range: Range, key: string) => {
     }
 };
 
+// https://github.com/Vanessa219/vditor/issues/381
+export const fixCursorDownInlineMath = (range: Range, key: string) => {
+    if (key === "ArrowDown" || key === "ArrowUp") {
+        const inlineMathElement = hasClosestByAttribute(range.startContainer, "data-type", "math-inline");
+        if (inlineMathElement) {
+            if (key === "ArrowDown") {
+                range.setStartAfter(inlineMathElement.parentElement);
+            }
+            if (key === "ArrowUp") {
+                range.setStartBefore(inlineMathElement.parentElement);
+            }
+        }
+    }
+};
+
 export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
     const range = getEditorRange(vditor[vditor.currentMode].element);
     const blockElement = hasClosestBlock(range.startContainer);

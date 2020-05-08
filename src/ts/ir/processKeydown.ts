@@ -2,7 +2,7 @@ import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl} from "../util/compatibility";
 import {
     fixBlockquote, fixCJKPosition,
-    fixCodeBlock,
+    fixCodeBlock, fixCursorDownInlineMath,
     fixDelete, fixHR,
     fixList,
     fixMarkdown,
@@ -178,6 +178,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
         });
     }
+    fixCursorDownInlineMath(range, event.key);
 
     return false;
 };
