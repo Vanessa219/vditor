@@ -1,0 +1,413 @@
+/*自定义样式，实时生效*/
+
+/* 全局属性
+* 页边距 padding:30px;
+* 全文字体 font-family:optima-Regular;
+* 英文换行 word-break:break-all;
+color:#2b2b2b;
+*/
+.vditor-reset {
+    line-height: 1.25;
+    color: #2b2b2b;
+    font-family: Optima-Regular, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light;
+    letter-spacing: 2px;
+    background-image: linear-gradient(90deg, rgba(50, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(50, 0, 0, 0.04) 3%, rgba(0, 0, 0, 0) 3%);
+    background-size: 20px 20px;
+    background-position: center center;
+  }
+  
+  /* 段落，下方未标注标签参数均同此处
+  * 上边距 margin-top:5px;
+  * 下边距 margin-bottom:5px;
+  * 行高 line-height:26px;
+  * 词间距 word-spacing:3px;
+  * 字间距 letter-spacing:3px;
+  * 对齐 text-align:left;
+  * 颜色 color:#3e3e3e;
+  * 字体大小 font-size:16px;
+  * 首行缩进 text-indent:2em;
+  */
+  .vditor-reset p {
+    color: #2b2b2b;
+    margin: 10px 0px;
+    letter-spacing: 2px;
+    font-size: 14px;
+    word-spacing: 2px;
+  }
+  
+  /* 一级标题 */
+  .vditor-reset h1 {
+    font-size: 25px;
+  }
+  
+  /* 一级标题内容 */
+  .vditor-reset h1 span {
+    display: inline-block;
+    font-weight: bold;
+    color: #40B8FA;
+  }
+  
+  /* 一级标题修饰 请参考有实例的主题 */
+  .vditor-reset h1:after {}
+  
+  /* 二级标题 */
+  .vditor-reset h2 {
+    display:block;
+    border-bottom: 4px solid #40B8FA;
+  }
+  
+  /* 二级标题内容 */
+  .vditor-reset h2 .content {
+    display: flex;
+    color: #40B8FA;
+    font-size: 20px;
+    margin-left: 25px;
+  }
+  
+  /* 二级标题前缀 */
+  .vditor-reset h2 .prefix {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+    background-image:url(https://imgkr.cn-bj.ufileos.com/15fdfb3c-b350-4da9-928e-5f8c506ec325.png);
+    margin-bottom: -22px;
+  }
+  
+  /* 二级标题后缀 */
+  .vditor-reset h2 .suffix {
+    display: flex;
+    box-sizing: border-box;
+    width: 200px;
+    height: 10px;
+    border-top-left-radius: 20px;
+    background: RGBA(64, 184, 250, .5);
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    letter-spacing: 0.544px;
+    justify-content: flex-end;
+    box-sizing: border-box !important;
+    overflow-wrap: break-word !important;
+    float: right;
+    margin-top: -10px;
+  }
+  
+  /* 三级标题 */
+  .vditor-reset h3 {
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    position:relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  /* 三级标题内容 */
+  .vditor-reset h3 .content {
+    border-bottom: 2px solid RGBA(79, 177, 249, .65);
+    color: #2b2b2b;
+    padding-bottom:2px
+  }
+  
+  .vditor-reset h3 .content:before{
+    content:'';
+    width:30px;
+    height:30px;
+    display:block;
+    background-image:url(https://imgkr.cn-bj.ufileos.com/cdf294d0-6361-4af9-85e2-0913f0eb609b.png);
+    background-position:center;
+    background-size:30px;
+    margin:auto;
+    opacity:1;
+    background-repeat:no-repeat;
+    margin-bottom:-8px;
+  }
+  
+  /* 三级标题修饰 请参考有实例的主题 */
+  .vditor-reset h3:after {}
+  
+  .vditor-reset h4 .content {
+    height:16px;
+    line-height:16px;
+    font-size: 16px;
+  }
+  
+  .vditor-reset h4 .content:before{
+    content:'';
+    background-image:url(https://imgkr.cn-bj.ufileos.com/899e43b7-5a08-4ac6-aa00-1c45f169a65b.png);
+    display:inline-block;
+    width:16px;
+    height:16px;
+    background-size:100% ;
+    background-position:left bottom;
+    background-repeat:no-repeat;
+    width: 16px;
+    height: 15px;
+    line-height:15px;
+    margin-right:6px;
+    margin-bottom:-2px;
+  }
+  
+  /* 无序列表整体样式
+  * list-style-type: square|circle|disc;
+  */
+  .vditor-reset ul {
+    font-size: 15px; /*神奇逻辑，必须比li section的字体大才会在二级中生效*/
+    color: #595959;
+    list-style-type: circle;
+  }
+  
+  
+  /* 有序列表整体样式
+  * list-style-type: upper-roman|lower-greek|lower-alpha;
+  */
+  .vditor-reset ol {
+    font-size: 15px;
+    color: #595959;
+  }
+  
+  /* 列表内容，不要设置li
+  */
+  .vditor-reset li section {
+    font-size: 14px;
+    font-weight: normal;
+    color: #595959;
+  }
+  
+  /* 引用
+  * 左边缘颜色 border-left-color:black;
+  * 背景色 background:gray;
+  */
+  .vditor-reset blockquote::before {
+    content: "❝";
+    color: RGBA(64, 184, 250, .5);
+    font-size: 34px;
+    line-height: 1;
+    font-weight: 700;
+  }
+  
+  .vditor-reset blockquote {
+    text-size-adjust: 100%;
+    line-height: 1.55em;
+    font-weight: 400;
+    border-radius: 6px;
+    color: #595959;
+    font-style: normal;
+    text-align: left;
+    box-sizing: inherit;
+    border-left: none;
+    border: 1px solid RGBA(64, 184, 250, .4);
+    background: RGBA(64, 184, 250, .1);
+  
+  }
+  
+  .vditor-reset blockquote p {
+    color: #595959;
+  }
+  
+  .vditor-reset blockquote::after {
+    content: "❞";
+    float: right;
+    color: RGBA(64, 184, 250, .5);
+  }
+  
+  /* 链接
+  * border-bottom: 1px solid #009688;
+  */
+  .vditor-reset a {
+    color: #40B8FA;
+    font-weight: normal;
+    /* border-bottom: 1px solid #3BAAFA; */
+  }
+  
+  .vditor-reset strong::before {
+    content: '「';
+  }
+  
+  /* 加粗 */
+  .vditor-reset strong {
+    color: #3594F7;
+    font-weight: bold;
+  }
+  
+  .vditor-reset strong::after {
+    content: '」';
+  }
+  
+  /* 斜体 */
+  .vditor-reset em {
+    font-style: normal;
+    color: #3594F7;
+    font-weight:bold;
+  }
+  
+  /* 加粗斜体 */
+  .vditor-reset em strong {
+    color: #3594F7;
+  }
+  
+  /* 删除线 */
+  .vditor-reset del {
+    color: #3594F7;
+  }
+  
+  /* 分隔线
+  * 粗细、样式和颜色
+  * border-top:1px solid #3e3e3e;
+  */
+  .vditor-reset hr {
+    height: 1px;
+    padding: 0;
+    border: none;
+    border-top: 2px solid #3BAAFA;
+  }
+  
+  /* 图片
+  * 宽度 width:80%;
+  * 居中 margin:0 auto;
+  * 居左 margin:0 0;
+  */
+  .vditor-reset img {
+    border-radius: 6px;
+    display: block;
+    margin: 20px auto;
+    object-fit: contain;
+    box-shadow:2px 4px 7px #999;
+  }
+  
+  /* 图片描述文字 */
+  .vditor-reset figcaption {
+    display: block;
+    font-size: 13px;
+    color: #2b2b2b;
+  }
+  
+  .vditor-reset figcaption:before{
+    content:'';
+      background-image:url(https://img.alicdn.com/tfs/TB1Yycwyrj1gK0jSZFuXXcrHpXa-32-32.png);
+    display:inline-block;
+    width:18px;
+    height:18px;
+    background-size:18px;
+      background-repeat:no-repeat;
+    background-position:center;
+    margin-right:5px;
+    margin-bottom:-5px;
+  }
+  
+  /* 行内代码 */
+  .vditor-reset p code,
+  .vditor-reset li code {
+    color: #3594F7;
+    background: RGBA(59, 170, 250, .1);
+    display:inline-block;
+    padding:0 2px;
+    border-radius:2px;
+    height:21px;
+    line-height:22px;
+  }
+  
+  /* 非微信代码块
+  * 代码块不换行 display:-webkit-box !important;
+  * 代码块换行 display:block;
+  */
+  .vditor-reset .code-snippet__fix {
+    background: #f7f7f7;
+    border-radius: 2px;
+  }
+  
+  .vditor-reset pre code {
+    letter-spacing: 0px;
+  }
+  
+  /*
+  * 表格内的单元格
+  * 字体大小 font-size: 16px;
+  * 边框 border: 1px solid #ccc;
+  * 内边距 padding: 5px 10px;
+  */
+  .vditor-reset table tr th,
+  .vditor-reset table tr td {
+    font-size: 14px;
+    color: #595959;
+  }
+  
+  .vditor-reset .footnotes {
+    background: #F6EEFF;
+    padding: 20px 20px 20px 20px;
+    font-size: 14px;
+    border: 0.8px solid #DEC6FB;
+    border-radius: 6px;
+    border: 1px solid #DEC6FB;
+  }
+  
+  /* 脚注文字 */
+  .vditor-reset .footnote-word {
+    font-weight: normal;
+    color: #595959;
+  }
+  
+  /* 脚注上标 */
+  .vditor-reset .footnote-ref {
+    font-weight: normal;
+    color: #595959;
+  }
+  
+  /*脚注链接样式*/
+  .vditor-reset .footnote-item em {
+    font-size: 14px;
+    color: #595959;
+    display: block;
+  }
+  
+  .vditor-reset .footnotes{
+    background: RGBA(53, 148, 247, .4);
+    padding: 20px 20px 20px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid RGBA(53, 148, 247, 1);
+  }
+  
+  /* "参考资料"四个字
+  * 内容 content: "参考资料";
+  */
+  .vditor-reset .footnotes-sep:before {
+    content: 'Reference';
+    color: #595959;
+    letter-spacing: 1px;
+    border-bottom: 2px solid RGBA(64, 184, 250, 1);
+    display: inline;
+    background: linear-gradient(white 60%, RGBA(64, 184, 250, .4) 40%);
+    font-size: 20px;
+  }
+  
+  /* 参考资料编号 */
+  .vditor-reset .footnote-num {}
+  
+  /* 参考资料文字 */
+  .vditor-reset .footnote-item p {
+    color: #595959;
+    font-weight: bold;
+  }
+  
+  /* 参考资料解释 */
+  .vditor-reset .footnote-item p em {
+    font-weight: normal;
+  }
+  
+  /* 行间公式
+  * 最大宽度 max-width: 300% !important;
+  */
+  .vditor-reset .block-equation svg {}
+  
+  /* 行内公式
+  */
+  .vditor-reset .inline-equation svg {}
+  
+  /* 滑动图片
+   */
+  .vditor-reset .imageflow-img {
+    display: inline-block;
+    width:100%;
+    margin-bottom: 0;
+  }

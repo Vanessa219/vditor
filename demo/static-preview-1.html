@@ -35,9 +35,31 @@
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <link rel="stylesheet" href="./css/vditor/default.css"/>
+
     <link rel="stylesheet" href="./css/mdnice/basic.css"/>
-    <link rel="stylesheet" href="./css/mdnice/themes/zhning12.css"/>
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/basic.css"/> -->
+    <link rel="stylesheet" href="./css/mdnice/themes/orange-heart-zhning12.css"/>
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/black-mayandev.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/purple-djmaxwow.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/tender-green-painting.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/greenery-allnight.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/red-crimson-heyrain.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/wechat-format-painting.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/blue-germs.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/tech-blue-allnight.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/orchid-green-krahets.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/mountain-blow-elyhg.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/mountain-blow-heyrain.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/geek-black-hyper-xx.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/simple.aco.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/rose-purple-heyrain.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/green-koala.css"/> -->
+    <!-- <link rel="stylesheet" href="./css/mdnice/themes/fullstack-blue-nealyang.css"/> -->
+
     <script src="../dist/method.min.js"></script>
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.2.1/dist/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vditor@3.2.1/dist/method.min.js"></script> -->
     <style>
         a {
             color: #4285f4;
@@ -132,7 +154,7 @@
   // }
 
 
-  fetch(`${location.search.split('=')[1]}.txt`)
+  fetch(`mdtext/${location.search.split('=')[1]}.txt`)
     .then(response => response.text())
     .then(mdContent => {
 
@@ -144,7 +166,7 @@
           speech: {
             enable: true,
           },
-          cdn: '..',
+          // cdn: '..',
           anchor: true,
           marker: true,
           after () {

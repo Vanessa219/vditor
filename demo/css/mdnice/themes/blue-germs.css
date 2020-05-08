@@ -1,0 +1,198 @@
+/* 全局属性 */
+
+.vditor-reset {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    word-break: break-all;
+  }
+  
+  /* 标题 */
+  .vditor-reset h1 {
+    font-size: 1.7em;
+    font-weight: normal;
+    border-bottom: 2px solid hsl(216, 100%, 68%);
+  }
+  
+  .vditor-reset h1 .content {
+    background: hsl(216, 100%, 68%);
+    color: white;
+    padding: 3px 10px;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    margin-right: 3px;
+  }
+  
+  .vditor-reset h2 {
+    font-weight: normal;
+    color: #333;
+    font-size: 1.4em;
+    border-bottom: 1px solid hsl(216, 100%, 68%);
+  }
+  
+  .vditor-reset h2 .content {
+    border-bottom: 1px solid hsl(216, 100%, 68%);
+  }
+  
+  .vditor-reset h3 {
+    font-weight: normal;
+    color: #333;
+    font-size: 1.2em;
+  }
+  
+  /* 特殊规定：
+   * h4 → 摘要
+   * h5 → 强调
+   * h6 → 序号
+   * em → 高亮
+   */
+  
+  .vditor-reset h4 {
+    font-weight: normal;
+    font-size: 1em;
+    width: 80%;
+    border: 1px solid hsl(216, 100%, 68%);
+    border-top: 4px solid hsl(216, 100%, 68%);
+    padding: 10px;
+    margin: 30px auto;
+    color: #333;
+  }
+  
+  .vditor-reset h5 {
+    font-weight: normal;
+    font-size: 1.3em;
+    text-align: center;
+    background: hsl(216, 100%, 68%);
+    border: 3px double #fff;
+    width: 80%;
+    padding: 10px;
+    margin: 30px auto;
+    color: #fff;
+  }
+  
+  .vditor-reset h6 {
+    font-size: 1.5em;
+    font-weight: normal;
+    color: hsl(216, 100%, 68%);
+    border-bottom: 1px solid hsl(216, 100%, 68%);
+  }
+  
+  .vditor-reset em {
+    font-style: normal;
+    font-weight: normal;
+    color: white;
+    background: hsl(244, 100%, 75%);
+    padding: 2px 4px;
+      margin: 0px 2px;
+  }
+  
+  /* 其他块元素 */
+  
+  .vditor-reset ol,
+  .vditor-reset ul {
+    padding-left: 2em;
+  }
+  
+  .vditor-reset hr {
+    width: 90%;
+    margin: 1.5em auto;
+    border-top: 2px dashed hsl(216, 100%, 68%);
+  }
+  
+  .vditor-reset table {
+    margin: 1.5em auto;
+    width: auto;
+  }
+  
+  .vditor-reset img {
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: #CCC 0 10px 15px;
+  }
+  
+  .vditor-reset blockquote {
+    background: #f9f9f9;
+    border-left-color: hsl(216, 100%, 68%);
+  }
+  
+  .vditor-reset blockquote p {
+    color: #999;
+    padding: 3px 0;
+  }
+  
+  .vditor-reset a {
+    color: hsl(187, 100%, 45%);
+    font-weight: normal;
+    border-bottom-color: hsl(187, 100%, 45%);
+  }
+  
+  .vditor-reset strong {
+    color: hsl(216, 80%, 44%);
+  }
+  
+  .vditor-reset s,
+  .vditor-reset del {
+    color: #999;
+  }
+  
+  .vditor-reset p,
+  .vditor-reset li,
+  .vditor-reset li span,
+  .vditor-reset h4,
+  .vditor-reset table tr td {
+    color: #666;
+  }
+  
+  .vditor-reset table tr th {
+    color: #333;
+    font-weight: normal;
+  }
+  
+  .vditor-reset p code,
+  .vditor-reset li code {
+    color: hsl(216, 100%, 68%);
+  }
+  
+  .vditor-reset sup {
+    line-height: 0;
+  }
+  
+  .vditor-reset .footnote-word,
+  .footnote-ref {
+    font-weight: normal;
+    color: hsl(187, 100%, 45%);
+  }
+  
+  .vditor-reset .footnotes-sep {
+    font-family: inherit;
+  }
+  
+  .vditor-reset .footnote-num {
+    font-family: inherit;
+  }
+  
+  .vditor-reset .footnote-item p {
+    color: #666;
+  }
+  
+  .vditor-reset .footnote-item p em {
+    color: #999;
+    background: transparent;
+  }
+  
+  /* 行间公式
+   * 最大宽度 max-width: 300% !important;
+   */
+  .vditor-reset .block-equation svg {
+  }
+  
+  /* 行内公式
+   */
+  .vditor-reset .inline-equation svg {  
+  }
+  
+  /* 滑动图片
+   */
+  .vditor-reset .imageflow-img {
+    display: inline-block;
+    width:100%;
+    margin-bottom: 0;
+  }

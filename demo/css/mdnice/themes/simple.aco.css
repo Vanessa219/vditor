@@ -1,0 +1,183 @@
+/* 根据该字体大小，统一调整文章整体大小 */
+/* 间距，其他字体，代码块以及注脚 */
+/* 不会控制微信代码块 */
+.vditor-reset {
+    font-size: 16px;
+  }
+  
+  /* 颜色管理 */
+  .vditor-reset a {
+    color: #3e64ff;
+  }
+  .vditor-reset p code {
+    color: #e46918;
+    background-color: #efefef;
+  }
+  .vditor-reset .footnote-word,
+  .vditor-reset .footnote-ref {
+    color: #004a7c;
+  }
+  .vditor-reset .footnote-item em {
+    color: #004a7c;
+  }
+  
+  /* 统一间距 */
+  .vditor-reset p,
+  .vditor-reset section,
+  .vditor-reset h1,
+  .vditor-reset h2,
+  .vditor-reset h3,
+  .vditor-reset h4,
+  .vditor-reset h5,
+  .vditor-reset h6,
+  .vditor-reset pre,
+  .vditor-reset figure,
+  .vditor-reset ul,
+  .vditor-reset hr {
+    margin: 1em 0;
+    color: #333;
+  }
+  
+  .vditor-reset {
+    margin-top: -1em;
+    color: #333;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Arial,sans-serif;
+  }
+  .vditor-reset * {
+    line-height: 1.6 !important;
+  }
+  
+  .vditor-reset hr {
+    border-top: 1px solid #dfe2e5
+  }
+  
+  /* 标题调整 */
+  .vditor-reset h1 {
+    font-size: 1.4em;
+  }
+  .vditor-reset h2 {
+    font-size: 1.3em;
+  }
+  .vditor-reset h1,
+  .vditor-reset h2 {
+    padding-bottom: .3em;
+    border-bottom: 1px solid #dfe2e5;
+  }
+  .vditor-reset h3 {
+    font-size: 1.2em;
+  }
+  .vditor-reset h4 {
+    font-size: 1.1em;
+  }
+  .vditor-reset h5 {
+    font-size: 1em;
+  }
+  .vditor-reset h6 {
+    font-size: 1em;
+  }
+  
+  /* 段落调整 */
+  .vditor-reset p {
+    padding: 0;
+    font-size: inherit;
+    color: #333;
+  }
+  .vditor-reset blockquote {
+    background: none;
+    border-left: 4px solid #ddd;
+    padding: 0 1em;
+  }
+  .vditor-reset blockquote p {
+    margin: 0;
+    color: #666;
+  }
+  .vditor-reset strong {
+    color: #333;
+  }
+  
+  .vditor-reset a {
+    font-weight: normal;
+    border-color: inherit;
+  }
+  
+  /* 列表调整 */
+  .vditor-reset li section {
+    margin-top: .3em;
+    margin-bottom: .3em;
+    font-weight: normal;
+  }
+  .vditor-reset li ul {
+    margin: 0;
+  }
+  
+  /* 代码块调整 */
+  .vditor-reset pre {
+    border-radius: 4px;
+  }
+  .vditor-reset section pre {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .vditor-reset p code {
+    font-size: .875em;
+  }
+  .vditor-reset pre code {
+    font-size: .875em;
+  }
+  
+  .vditor-reset figure img {
+    max-width: 100%;
+    width: auto;
+    margin: 0 auto;
+  }
+  
+  /* table 调整 */
+  .vditor-reset table tr th,
+  .vditor-reset table tr td {
+    font-size: 1em;
+  }
+  
+  /* 注脚调整 */
+  .vditor-reset .footnotes-sep {
+    font-size: 1.3em;
+  }
+  .vditor-reset .footnote-item {
+    margin: .4em 0;
+  }
+  .vditor-reset .footnote-item * {
+    line-height: 1.4 !important;
+  }
+  .vditor-reset .footnote-item p {
+    margin: 0;
+    font-size: .9em;
+  }
+  .vditor-reset .footnote-item em {
+    font-style: normal;
+    padding-left: .5em;
+  }
+  .vditor-reset .footnote-item span {
+    flex: 0 0 1.5em;
+    margin-right: 10px;
+    font-size: .9em;
+  }
+  
+  /* 微信默认样式修复 */
+  /* 微信代码块固定为 14px */
+  .vditor-reset pre.code-snippet__js {
+    padding: 16px 0;
+  }
+  
+  .vditor-reset pre.code-snippet__js code {
+    font-size: 14px;
+  }
+  
+  /* 滑动图片
+   */
+  .vditor-reset .imageflow-img {
+    display: inline-block;
+    width:100%;
+    margin-bottom: 0;
+  }
