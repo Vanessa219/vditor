@@ -41,21 +41,20 @@ So, Vditor was born.
 
 ## ✨  Features
 
-* Support three editing modes: WYSIWYG, Instant Rendering and Split View
-* Support task list, at, chart, flow chart, Gantt chart, sequence chart, stave, [multimedia](https://github.com/Vanessa219/vditor/issues/5), voice reading, title anchor rendering
-* Support [**Shortcut Key**](https://hacpai.com/article/1582778815353) operation
-* Support Markdown **Formatting**, Markdown **Syntax Tree** Real-time Rendering
-* **Emoji** Automatically complete, set common emoticons, support emoticon customization
-* Customize **Toolbar** button, prompt, insert character, shortcut key, support toolbar to add button
-* Can use drag and drop, clipboard to paste upload, display real-time upload progress, support CORS cross-domain upload
+* Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
+* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://github.com/Vanessa219/vditor/issues/5), voice reading, heading anchors, code highlighting and copying, graphviz rendering
+* Built-in security filtering, export, image lazy loading, task list, at, multi-platform preview, multi-theme switching, copy to WeChat function
+* Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://hacpai.com/article/1549638745630#options-preview-markdown)
+* The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://hacpai.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
+* Emoji auto-complete, set common emoticons, support emoticon customization
+* You can use drag and drop, paste and paste to upload, display real-time upload progress, support CORS cross-domain upload
 * Save content in real time to prevent accidental loss
-* Recording support, users can directly **publish voice**
-* Paste HTML **Automatic conversion** to Markdown, if the paste contains images of external links, it can be uploaded to the server through the specified interface
-* Provide real-time preview, scroll synchronization positioning
+* Recording support, users can directly publish voice
+* The markup HTML is automatically converted to Markdown, if the paste contains images of external links, it can be uploaded to the server through the specified interface
 * Support main window size drag and drop, character counting
-* Multi-theme support, built-in black and white themes
+* Multi-theme support, built-in black, white and green three sets of themes
 * Multi-language support, built-in Chinese, English, Korean text localization
-* Support mainstream browsers and mobile-end
+* Support mainstream browsers, mobile friendly
 
 ![demo](https://img.hacpai.com/file/2020/04/截图专用-b8789fd6.png?imageView2/2/interlace/1)
 
