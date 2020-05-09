@@ -147,11 +147,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // enter++: 标题变大
         if (matchHotKey("⌘-=", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) - 1;
-            if (index < 1) {
-                return;
+            if (index > 0) {
+                setHeading(vditor, `h${index}`);
+                afterRenderEvent(vditor);
             }
-            setHeading(vditor, `h${index}`);
-            afterRenderEvent(vditor);
             event.preventDefault();
             return true;
         }
@@ -159,11 +158,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // enter++: 标题变小
         if (matchHotKey("⌘--", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) + 1;
-            if (index > 6) {
-                return;
+            if (index < 7) {
+                setHeading(vditor, `h${index}`);
+                afterRenderEvent(vditor);
             }
-            setHeading(vditor, `h${index}`);
-            afterRenderEvent(vditor);
             event.preventDefault();
             return true;
         }
