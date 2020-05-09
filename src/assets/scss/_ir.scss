@@ -243,3 +243,19 @@
     }
   }
 }
+
+@media screen and (max-width: $max-width) {
+  .vditor-ir {
+    h1:before,
+    h2:before,
+    h3:before,
+    h4:before,
+    h5:before,
+    h6:before,
+    div[data-type="link-ref-defs-block"]:before,
+    div[data-type="footnotes-block"]:before,
+    .vditor-toc:before {
+      content: none;
+    }
+  }
+}

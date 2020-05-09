@@ -66,6 +66,7 @@
 
 ### v3.2.3 / 2020-05-0x
 
+* [383](https://github.com/Vanessa219/vditor/issues/383) 移动端移除侧边提示 `改进功能`
 * [384](https://github.com/Vanessa219/vditor/issues/384) ctrl_+, ctrl_- at heading(wysiwyg) `修复缺陷`
 * [321](https://github.com/Vanessa219/vditor/issues/321) 移动端如何调用toolbar的方法 `咨询提问`
 * [382](https://github.com/Vanessa219/vditor/issues/382) sometimes the keyboard is hidden at smartphone `修复缺陷`
