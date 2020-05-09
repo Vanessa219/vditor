@@ -64,7 +64,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.3 / 2020-05-0x
+### v3.2.4 / 2020-05-xx
+
+### v3.2.3 / 2020-05-09
 
 * [383](https://github.com/Vanessa219/vditor/issues/383) 移动端移除侧边提示 `改进功能`
 * [384](https://github.com/Vanessa219/vditor/issues/384) ctrl_+, ctrl_- at heading(wysiwyg) `修复缺陷`
@@ -74,9 +76,6 @@
 * [379](https://github.com/Vanessa219/vditor/issues/379) Not sticky at IOS `修复缺陷`
 * [381](https://github.com/Vanessa219/vditor/issues/381) 光标在内联数学公式中无法向下移动 `修复缺陷`
 * [380](https://github.com/Vanessa219/vditor/issues/380) 修复 XSS 漏洞 `修复缺陷`
-
-### v3.2.2 / 2020-05-08
-
 * [4](https://github.com/Vanessa219/vditor/issues/4) 添加支持思维导图的功能 `引入特性`
 * [376](https://github.com/Vanessa219/vditor/issues/376) 为 markdown 添加 sanitize 设置 `引入特性`
 * [375](https://github.com/Vanessa219/vditor/pull/375) upload 配置项添加额外请求参数 `引入特性`
