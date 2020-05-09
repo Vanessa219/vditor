@@ -3,7 +3,7 @@ export class Counter {
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("span");
-        this.element.className = "vditor-counter vditor-tooltipped vditor-tooltipped__n";
+        this.element.className = "vditor-counter vditor-tooltipped vditor-tooltipped__nw";
 
         this.render(vditor, "");
 
