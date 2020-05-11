@@ -63,10 +63,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
-* [390](https://github.com/Vanessa219/vditor/issues/390) no data-marker(editing mode) `修复缺陷`
 
 ### v3.2.4 / 2020-05-xx
 
+* [390](https://github.com/Vanessa219/vditor/issues/390) no data-marker(editing mode) `修复缺陷`
 * [392](https://github.com/Vanessa219/vditor/issues/392) anchor option `改进功能`
 * [389](https://github.com/Vanessa219/vditor/issues/389) marker option at preview `改进功能`
 * [388](https://github.com/Vanessa219/vditor/pull/388) changed some korean i18n and demo text `文档相关`
