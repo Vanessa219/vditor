@@ -113,6 +113,7 @@ class Vditor extends VditorMethod {
                 footnotes: this.vditor.options.preview.markdown.footnotes,
                 headingAnchor: false,
                 inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
+                listMarker: this.vditor.options.preview.markdown.listMarker,
                 paragraphBeginningSpace: this.vditor.options.preview.markdown.paragraphBeginningSpace,
                 sanitize: this.vditor.options.preview.markdown.sanitize,
                 setext: this.vditor.options.preview.markdown.setext,

@@ -122,6 +122,8 @@ interface ILute {
 
     SetChineseParagraphBeginningSpace(enable: boolean): void;
 
+    SetRenderListMarker(enable: boolean): void;
+
     SetSanitize(enable: boolean): void;
 
     SetHeadingAnchor(enable: boolean): void;
@@ -327,6 +329,8 @@ interface IMarkdownConfig {
     sanitize: boolean;
     /** 内容主题。默认值：light */
     theme?: string;
+    /** 为列表添加标记，以便[自定义列表样式](https://github.com/Vanessa219/vditor/issues/390) 默认值：false */
+    listMarker?: boolean;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview */

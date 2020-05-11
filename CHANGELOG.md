@@ -63,9 +63,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [390](https://github.com/Vanessa219/vditor/issues/390) no data-marker(editing mode) `修复缺陷`
 
 ### v3.2.4 / 2020-05-xx
 
+* [389](https://github.com/Vanessa219/vditor/issues/389) marker option at preview `改进功能`
 * [388](https://github.com/Vanessa219/vditor/pull/388) changed some korean i18n and demo text `文档相关`
 
 ### v3.2.3 / 2020-05-09
@@ -90,8 +92,8 @@
 * [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
 * 文档修改
   * 为 `options.upload` 添加 `extraData`
-  * 为 `IMarkdownConfig` 添加 `sanitize` 配置
   * 添加静态方法 `mindmapRender`
+  * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker` 配置
 
 ### v3.1.23 / 2020-05-05
 
