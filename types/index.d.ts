@@ -366,7 +366,7 @@ interface IPreviewOptions {
     speech?: {
         enable?: boolean,
     };
-    anchor?: boolean;
+    anchor?: number; // 0: no render, 1: render left, 2: render right
     math?: IMath;
     cdn?: string;
     markdown?: IMarkdownConfig;

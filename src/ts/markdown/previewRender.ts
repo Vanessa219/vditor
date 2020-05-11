@@ -17,7 +17,7 @@ import {speechRender} from "./speechRender";
 
 const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption = {
-        anchor: false,
+        anchor: 0,
         cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
         customEmoji: {},
         emojiPath: `${(options && options.emojiPath) ||
@@ -76,7 +76,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             emojis: mergedOptions.customEmoji,
             fixTermTypo: mergedOptions.markdown.fixTermTypo,
             footnotes: mergedOptions.markdown.footnotes,
-            headingAnchor: mergedOptions.anchor,
+            headingAnchor: mergedOptions.anchor !== 0,
             inlineMathDigit: mergedOptions.math.inlineDigit,
             lazyLoadImage: mergedOptions.lazyLoadImage,
             listMarker: mergedOptions.markdown.listMarker,
@@ -105,7 +105,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
     setContentTheme(mergedOptions.markdown.theme, mergedOptions.cdn);
-    if (mergedOptions.anchor) {
+    if (mergedOptions.anchor === 1) {
         previewElement.classList.add("vditor-reset--anchor");
     }
     codeRender(previewElement, mergedOptions.lang);
@@ -123,8 +123,8 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.speech.enable) {
         speechRender(previewElement, mergedOptions.lang);
     }
-    if (mergedOptions.anchor) {
-        anchorRender();
+    if (mergedOptions.anchor !== 0) {
+        anchorRender(mergedOptions.anchor);
     }
     if (mergedOptions.after) {
         mergedOptions.after();

@@ -359,9 +359,13 @@
   }
 
   &-anchor {
-    float: left;
-    padding-right: 4px;
-    margin-left: -20px;
+    margin-right: 5px;
+
+    &--left {
+      float: left;
+      padding-right: 4px;
+      margin-left: -20px;
+    }
 
     svg {
       visibility: hidden;
