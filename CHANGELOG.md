@@ -66,6 +66,8 @@
 
 ### v3.2.4 / 2020-05-xx
 
+* [388](https://github.com/Vanessa219/vditor/pull/388) changed some korean i18n and demo text `文档相关`
+
 ### v3.2.3 / 2020-05-09
 
 * [383](https://github.com/Vanessa219/vditor/issues/383) 移动端移除侧边提示 `改进功能`
