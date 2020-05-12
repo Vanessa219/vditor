@@ -108,7 +108,7 @@ class IR {
             }
             const range = getEditorRange(this.element);
 
-            if (event.target.isEqualNode(this.element)) {
+            if (event.target.isEqualNode(this.element) && this.element.lastElementChild) {
                 if (this.element.lastElementChild.tagName === "P") {
                     range.selectNodeContents(this.element.lastElementChild);
                     range.collapse(false);
