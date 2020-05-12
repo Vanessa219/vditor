@@ -66,6 +66,7 @@
 
 ### v3.2.4 / 2020-05-xx
 
+* [397](https://github.com/Vanessa219/vditor/issues/397) link(ctrl+k) at wysiwyg mode `改进功能`
 * [399](https://github.com/Vanessa219/vditor/issues/399) When click empty editor pane `修复缺陷`
 * [398](https://github.com/Vanessa219/vditor/issues/398) unnecessary line before ctrl+M(tables) at wysiwyg mode `修复缺陷`
 * [395](https://github.com/Vanessa219/vditor/pull/395) Demo for reading external markdown text `改进功能`
