@@ -64,7 +64,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.4 / 2020-05-xx
+### v3.2.5 / 2020-05-xx
+
+### v3.2.4 / 2020-05-12
 
 * [397](https://github.com/Vanessa219/vditor/issues/397) link(ctrl+k) at wysiwyg mode `改进功能`
 * [399](https://github.com/Vanessa219/vditor/issues/399) When click empty editor pane `修复缺陷`
@@ -77,9 +79,6 @@
 * [392](https://github.com/Vanessa219/vditor/issues/392) anchor option `改进功能`
 * [389](https://github.com/Vanessa219/vditor/issues/389) marker option at preview `改进功能`
 * [388](https://github.com/Vanessa219/vditor/pull/388) changed some korean i18n and demo text `文档相关`
-
-### v3.2.3 / 2020-05-09
-
 * [383](https://github.com/Vanessa219/vditor/issues/383) 移动端移除侧边提示 `改进功能`
 * [384](https://github.com/Vanessa219/vditor/issues/384) ctrl_+, ctrl_- at heading(wysiwyg) `修复缺陷`
 * [321](https://github.com/Vanessa219/vditor/issues/321) 移动端如何调用toolbar的方法 `咨询提问`
