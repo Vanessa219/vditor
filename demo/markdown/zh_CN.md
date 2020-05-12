@@ -134,7 +134,7 @@ public class HelloWorld {
 
 如果需要展示数据什么的，可以选择使用表格。
 
-| header 1 | header 3 |
+| header 1 | header 2 |
 | -------- | -------- |
 | cell 1   | cell 2   |
 | cell 3   | cell 4   |
