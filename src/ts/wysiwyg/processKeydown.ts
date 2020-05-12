@@ -8,7 +8,7 @@ import {
     fixMarkdown,
     fixTab,
     fixTable,
-    fixTask,
+    fixTask, insertAfterBlock,
 } from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock,
@@ -90,9 +90,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
 
-        if (codeRenderElement.getAttribute("data-block") === "0" &&
-            fixCodeBlock(vditor, event, codeRenderElement.firstElementChild as HTMLElement, range)) {
-            return true;
+        if (codeRenderElement.getAttribute("data-block") === "0") {
+            if (fixCodeBlock(vditor, event, codeRenderElement.firstElementChild as HTMLElement, range)) {
+                return true;
+            }
+            if (insertAfterBlock(vditor, event, range, codeRenderElement.firstElementChild as HTMLElement,
+                codeRenderElement)) {
+                return true;
+            }
         }
     }
 

@@ -113,7 +113,7 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
             (nextElement && (nextElement.tagName === "TABLE" || nextElement.getAttribute("data-type")))) {
             blockElement.insertAdjacentHTML("afterend",
                 `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-            setRangeByWbr(vditor.ir.element, range);
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
         } else {
             range.selectNodeContents(nextElement);
             range.collapse(true);

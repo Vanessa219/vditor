@@ -66,6 +66,7 @@
 
 ### v3.2.4 / 2020-05-xx
 
+* [386](https://github.com/Vanessa219/vditor/issues/386) [wysiwyg] 在代码块尾部按 arrowdown 插入空行 `改进功能`
 * [396](https://github.com/Vanessa219/vditor/issues/396) click empty, append empty block `改进功能`
 * [385](https://github.com/Vanessa219/vditor/issues/385) image title at wysiwyg `修复缺陷`
 * [390](https://github.com/Vanessa219/vditor/issues/390) no data-marker(editing mode) `修复缺陷`
