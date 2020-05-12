@@ -66,6 +66,7 @@
 
 ### v3.2.4 / 2020-05-xx
 
+* [385](https://github.com/Vanessa219/vditor/issues/385) image title at wysiwyg `修复缺陷`
 * [390](https://github.com/Vanessa219/vditor/issues/390) no data-marker(editing mode) `修复缺陷`
 * [392](https://github.com/Vanessa219/vditor/issues/392) anchor option `改进功能`
 * [389](https://github.com/Vanessa219/vditor/issues/389) marker option at preview `改进功能`

@@ -728,28 +728,12 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
 };
 
 export const genImagePopover = (event: Event, vditor: IVditor) => {
-    let imgElement = event.target as HTMLImageElement;
+    const imgElement = event.target as HTMLImageElement;
     vditor.wysiwyg.popover.innerHTML = "";
     const updateImg = () => {
         imgElement.setAttribute("src", inputElement.value);
         imgElement.setAttribute("alt", alt.value);
-        if (aHref.value === "") {
-            if (imgElement.parentElement.nodeName === "A") {
-                imgElement.parentElement.replaceWith(imgElement);
-            }
-        } else {
-            if (imgElement.parentElement.nodeName === "A") {
-                imgElement.parentElement.setAttribute("href", aHref.value);
-            } else {
-                const link = document.createElement("a");
-                link.innerHTML = imgElement.outerHTML;
-                link.setAttribute("href", aHref.value);
-
-                const linkElement = imgElement.parentNode.insertBefore(link, imgElement);
-                imgElement.remove();
-                imgElement = linkElement.querySelector("img");
-            }
-        }
+        imgElement.setAttribute("title", title.value);
     };
 
     const inputWrap = document.createElement("span");
@@ -763,6 +747,7 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     inputElement.oninput = () => {
         updateImg();
     };
+
     const altWrap = document.createElement("span");
     altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
     altWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -776,21 +761,20 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
         updateImg();
     };
 
-    const aHrefWrap = document.createElement("span");
-    aHrefWrap.setAttribute("aria-label", i18n[vditor.options.lang].link);
-    aHrefWrap.className = "vditor-tooltipped vditor-tooltipped__n";
-    const aHref = document.createElement("input");
-    aHrefWrap.appendChild(aHref);
-    aHref.className = "vditor-input";
-    aHref.setAttribute("placeholder", i18n[vditor.options.lang].link);
-    aHref.value =
-        imgElement.parentElement.nodeName === "A" ? imgElement.parentElement.getAttribute("href") : "";
-    aHref.oninput = () => {
+    const titleWrap = document.createElement("span");
+    titleWrap.setAttribute("aria-label", "Title");
+    titleWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const title = document.createElement("input");
+    titleWrap.appendChild(title);
+    title.className = "vditor-input";
+    title.setAttribute("placeholder", "Title");
+    title.value = imgElement.getAttribute("title") || "";
+    title.oninput = () => {
         updateImg();
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
-    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", aHrefWrap);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", titleWrap);
 
     setPopoverPosition(vditor, imgElement);
 };

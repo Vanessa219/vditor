@@ -5,7 +5,7 @@ export const previoueIsEmptyA = (node: Node) => {
     let previousNode = node.previousSibling as HTMLElement;
     while (previousNode) {
         if (previousNode.nodeType !== 3 && previousNode.tagName === "A" && !previousNode.previousSibling
-            && previousNode.textContent.replace(Constants.ZWSP, "") === "" && previousNode.nextSibling) {
+            && previousNode.innerHTML.replace(Constants.ZWSP, "") === "" && previousNode.nextSibling) {
             return previousNode;
         }
         previousNode = previousNode.previousSibling as HTMLElement;
