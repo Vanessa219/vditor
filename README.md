@@ -119,9 +119,9 @@ const vditor = new Vditor(id, {options...})
 
 ### Demo code
 
-* [CommonJS](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
+* [CommonJS Editor](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
+* [CommonJS Render](https://github.com/Vanessa219/vditor/blob/master/demo/render.js)
 * [HTML script](https://github.com/Vanessa219/vditor/blob/master/demo/static.html)
-* [Preview](https://github.com/Vanessa219/vditor/blob/master/demo/static-preview.html)
 * [Vue](https://github.com/88250/pipe/blob/master/console/pages/admin/articles/post/index.vue)
 
 ### Themes
@@ -252,6 +252,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | setext | Whether to parse the setext header | true |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
+| listMarker | add data-marker attribute | false |
 
 #### options.preview.math
 
@@ -395,7 +396,7 @@ VditorPreview.mermaidRender(document)
 previewElement: HTMLDivElement,   // Use this element for rendering
 markdown: string,  // The original markdown to be rendered
 options?: IPreviewOptions {  
- anchor?: boolean;  // Add an anchor to the title
+ anchor?: number;  // 0: no render, 1: render left, 2: render right
  customEmoji?: { [key: string]: string };    // Custom emoji, default is {}
  lang?: (keyof II18nLang);    // Language, default is 'zh_CN'  
  emojiPath?: string;    // Emoji picture path 

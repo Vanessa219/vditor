@@ -21,7 +21,7 @@ module.exports = {
   },
   entry: {
     'index.js': './demo/index.js',
-    'preview.js': './demo/preview.js',
+    'render.js': './demo/render.js',
     'jest-puppeteer.js': './demo/jest-puppeteer.js',
   },
   resolve: {
@@ -114,9 +114,9 @@ module.exports = {
       template: './demo/index.html',
     }),
     new HtmlWebpackPlugin({
-      chunks: ['preview.js'],
-      filename: './preview.html',
-      template: './demo/preview.html',
+      chunks: ['render.js'],
+      filename: './render.html',
+      template: './demo/render.html',
     }),
     new HtmlWebpackPlugin({
       chunks: ['jest-puppeteer.js'],
