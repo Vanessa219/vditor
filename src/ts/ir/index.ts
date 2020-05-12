@@ -4,13 +4,14 @@ import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editor
 import {paste} from "../util/fixBrowserBehavior";
 import {hasClosestByClassName} from "../util/hasClosest";
 import {
-    getEditorRange,
+    getEditorRange, setRangeByWbr,
     setSelectionFocus,
 } from "../util/selection";
 import {expandMarker} from "./expandMarker";
 import {highlightToolbar} from "./highlightToolbar";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
+import {Constants} from "../constants";
 
 class IR {
     public element: HTMLPreElement;
@@ -105,8 +106,20 @@ class IR {
                 processAfterRender(vditor);
                 return;
             }
-
             const range = getEditorRange(this.element);
+
+            if (event.target.isEqualNode(this.element)) {
+                if (this.element.lastElementChild.tagName === "P") {
+                    range.selectNodeContents(this.element.lastElementChild);
+                    range.collapse(false);
+                } else {
+                    this.element.insertAdjacentHTML("beforeend",
+                        `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+                    setRangeByWbr(this.element, range);
+                }
+                return;
+            }
+
             expandMarker(range, vditor);
             highlightToolbar(vditor);
 

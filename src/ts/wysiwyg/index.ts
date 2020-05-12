@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
@@ -243,6 +244,19 @@ class WYSIWYG {
 
             if (event.target.tagName === "IMG") {
                 genImagePopover(event, vditor);
+                return;
+            }
+
+            if (event.target.isEqualNode(this.element)) {
+                const range = getEditorRange(this.element);
+                if (this.element.lastElementChild.tagName === "P") {
+                    range.selectNodeContents(this.element.lastElementChild);
+                    range.collapse(false);
+                } else {
+                    this.element.insertAdjacentHTML("beforeend",
+                        `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+                    setRangeByWbr(this.element, range);
+                }
                 return;
             }
 

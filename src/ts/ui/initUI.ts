@@ -86,7 +86,7 @@ export const initUI = (vditor: IVditor) => {
         toggleOutline(vditor, vditor.toolbar.elements.outline.firstElementChild);
     }
 
-    if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== 'undefined') {
+    if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== "undefined") {
         // https://github.com/Vanessa219/vditor/issues/379
         let pendingUpdate = false;
         const viewportHandler = (event: Event) => {
