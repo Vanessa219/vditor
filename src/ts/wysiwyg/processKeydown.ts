@@ -40,7 +40,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getEditorRange(vditor.wysiwyg.element);
     const startContainer = range.startContainer;
 
-    fixCJKPosition(range, event.key);
+    fixCJKPosition(range, event);
 
     fixHR(range);
 

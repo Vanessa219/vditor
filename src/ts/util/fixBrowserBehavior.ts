@@ -22,8 +22,9 @@ import {matchHotKey} from "./hotKey";
 import {getEditorRange, getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
 
 // https://github.com/Vanessa219/vditor/issues/361
-export const fixCJKPosition = (range: Range, key: string) => {
-    if (key === "Backspace" || key.indexOf("Arrow") > -1) {
+export const fixCJKPosition = (range: Range, event: KeyboardEvent) => {
+    if (event.key === "Enter" || event.key === "Tab" || event.key === "Backspace" || event.key.indexOf("Arrow") > -1
+        || isCtrl(event) || event.key === "Escape" || event.shiftKey || event.altKey) {
         return;
     }
     const pElement = hasClosestByMatchTag(range.startContainer, "P");
