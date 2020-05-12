@@ -66,6 +66,7 @@
 
 ### v3.2.4 / 2020-05-xx
 
+* [395](https://github.com/Vanessa219/vditor/pull/395) Demo for reading external markdown text `改进功能`
 * [386](https://github.com/Vanessa219/vditor/issues/386) [wysiwyg] 在代码块尾部按 arrowdown 插入空行 `改进功能`
 * [396](https://github.com/Vanessa219/vditor/issues/396) click empty, append empty block `改进功能`
 * [385](https://github.com/Vanessa219/vditor/issues/385) image title at wysiwyg `修复缺陷`
@@ -99,6 +100,7 @@
   * 添加静态方法 `mindmapRender`
   * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker` 配置
   * IPreviewOptions.anchor 从 boolean 修改为 number
+  * static-preview.html => preview.html
 
 ### v3.1.23 / 2020-05-05
 

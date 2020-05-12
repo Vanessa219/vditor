@@ -37,8 +37,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.2.3/dist/index.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vditor@3.2.3/dist/method.min.js"></script>
     <style>
-        a {
+        .link {
+            cursor: pointer;
             color: #4285f4;
+        }
+
+        .markdown-list {
+            position: fixed;
+            top: 52px;
+            left: 20px;
+            width: 85px;
         }
 
         .preview {
@@ -64,9 +72,11 @@
         .vditor-reset ul[data-marker="*"] {
             list-style-type: disc
         }
+
         .vditor-reset ul[data-marker="*"] ul {
             list-style-type: circle
         }
+
         .vditor-reset ul[data-marker="*"] ul ul {
             list-style-type: square
         }
@@ -74,9 +84,11 @@
         .vditor-reset ul[data-marker="+"] {
             list-style-type: "\2764";
         }
+
         .vditor-reset ul[data-marker="+"] ul {
             list-style-type: "\1f49a"
         }
+
         .vditor-reset ul[data-marker="+"] ul ul {
             list-style-type: "\1f49b"
         }
@@ -84,9 +96,11 @@
         .vditor-reset ul[data-marker="-"] {
             list-style-type: korean-hangul-formal
         }
+
         .vditor-reset ul[data-marker="-"] ul {
             list-style-type: decimal-leading-zero
         }
+
         .vditor-reset ul[data-marker="-"] ul ul {
             list-style-type: lower-alpha
         }
@@ -94,9 +108,11 @@
         .vditor-reset ol[data-marker="1)"] {
             list-style-type: simp-chinese-formal
         }
+
         .vditor-reset ol[data-marker="1)"] ol {
             list-style-type: simp-chinese-informal
         }
+
         .vditor-reset ol[data-marker="1)"] ol ol {
             list-style-type: trad-chinese-formal
         }
@@ -104,82 +120,23 @@
 </head>
 <body>
 <h2>
-    <a href="https://github.com/vanessa219/vditor" target="_blank">GitHub</a> |
-    <a href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">API</a> |
-    <a href="extmdfile.html?file=zh_CN">中文预览</a>
-    <a href="extmdfile.html?file=ko_KR">한글预览</a> |
-    <a href="extmdfile.html?file=demo1">demo1</a> |
-    <a href="extmdfile.html?file=demo2">demo2</a> |
+    <a class="link" href="https://github.com/vanessa219/vditor" target="_blank">GitHub</a> |
+    <a class="link" href="https://hacpai.com/article/1549638745630?r=Vanessa" target="_blank">API</a> |
+    <a class="link" href="/">Editor</a> |
     <button onclick="setTheme('dark')">Dark Mode</button>
     <button onclick="setTheme('light')">Light Mode</button>
 </h2>
+<ul class="markdown-list">
+    <li><span class="link" data-file="zh_CN">zh_CN</span></li>
+    <li><span class="link" data-file="ko_KR">ko_KR</span></li>
+    <li><span class="link" data-file="cute-list">cute-list</span></li>
+    <li><span class="link" data-file="entity">entity</span></li>
+</ul>
 <div id="previewWrap">
     <div id="preview" class="preview"></div>
 </div>
 <div class="vditor" style="border: 0">
     <div id="outline" class="vditor-reset"></div>
 </div>
-
-<script>
-  // if (location.port === '9000') {
-  //   document.getElementById('VditorForYou').href = '/'
-  // }
-
-  // let textElement = document.getElementById(`${location.search.split('=')[1]}Text`)
-  // if (!textElement) {
-  //   textElement = document.getElementById('zh_CNText')
-  // }
-
-
-  fetch(`mdtext/${location.search.split('=')[1]}.md`)
-    .then(response => response.text())
-    .then(mdContent => {
-
-      Vditor.preview(document.getElementById('preview'),
-        mdContent, {
-          markdown: {
-            toc: true,
-          },
-          speech: {
-            enable: true,
-          },
-          // cdn: '..',
-          anchor: true,
-          after () {
-            Vditor.outlineRender(document.getElementById('preview'), document.getElementById('outline'))
-          },
-          lazyLoadImage: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg',
-          renderers: {
-            renderHeading: (node, entering) => {
-              if (entering) {
-                const id = Lute.GetHeadingID(node)
-                return [
-                  `<h${node.__internal_object__.HeadingLevel} id="${id}" class="vditor__heading">
-    <a id="vditorAnchor-${id}" class="vditor-anchor" href="#${id}"><svg viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>
-    <span class="prefix"></span><span class="content">`,
-                  Lute.WalkContinue]
-              } else {
-                return [`</span><span class="prefix"></span></h${node.__internal_object__.HeadingLevel}>`, Lute.WalkContinue]
-              }
-            },
-          },
-        })
-      })
-
-  const setTheme = (theme) => {
-    const outlineElement = document.getElementById('outline')
-    if (theme === 'dark') {
-      Vditor.setCodeTheme('native')
-      Vditor.setContentTheme('dark')
-      outlineElement.parentElement.classList.add('vditor--dark')
-      document.querySelector('html').style.backgroundColor = '#2f363d'
-    } else {
-      Vditor.setCodeTheme('github')
-      Vditor.setContentTheme('light')
-      outlineElement.parentElement.classList.remove('vditor--dark')
-      document.querySelector('html').style.backgroundColor = '#fff'
-    }
-  }
-</script>
 </body>
 </html>

@@ -10,12 +10,12 @@
 
 这段内容展示了在内容里面一些排版格式，比如：
 
-1) **加粗** - `**加粗**`
-1) *倾斜* - `*倾斜*`
-1) ~~删除线~~ - `~~删除线~~`
-1) `Code 标记` - `` `Code 标记` ``
-1) [超级链接](https://hacpai.com) - `[超级链接](https://hacpai.com)`
-1) [username@gmail.com](mailto:username@gmail.com) - `[username@gmail.com](mailto:username@gmail.com)`
+- **加粗** - `**加粗**`
+- *倾斜* - `*倾斜*`
+- ~~删除线~~ - `~~删除线~~`
+- `Code 标记` - `` `Code 标记` ``
+- [超级链接](https://hacpai.com) - `[超级链接](https://hacpai.com)`
+- [username@gmail.com](mailto:username@gmail.com) - `[username@gmail.com](mailto:username@gmail.com)`
 
 ### 提及用户
 
@@ -183,6 +183,45 @@ $$
 
 公式 $a^2 + b^2 = \color{red}c^2$ 是行内。
 
+### 脑图
+```mindmap
+- 教程
+- 语法指导
+  - 普通内容
+  - 提及用户
+  - 表情符号 Emoji
+    - 一些表情例子
+  - 大标题 - Heading 3
+    - Heading 4
+      - Heading 5
+        - Heading 6
+  - 图片
+  - 代码块
+    - 普通
+    - 语法高亮支持
+      - 演示 Go 代码高亮
+      - 演示 Java 高亮
+  - 有序、无序、任务列表
+    - 无序列表
+    - 有序列表
+    - 任务列表
+  - 表格
+  - 隐藏细节
+  - 段落
+  - 链接引用
+  - 数学公式
+  - 脑图
+  - 流程图
+  - 时序图
+  - 甘特图
+  - 图表
+  - 五线谱
+  - Graphviz
+  - 多媒体
+  - 脚注
+- 快捷键
+```
+
 ### 流程图
 
 ```mermaid
@@ -332,4 +371,4 @@ https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html
 
 ## 快捷键
 
-我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://hacpai.com/article/1474030007391)（或者按 "`?` ":smirk_cat:）
+我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://hacpai.com/article/1582778815353)
