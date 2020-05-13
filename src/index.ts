@@ -29,6 +29,7 @@ import {IRUndo} from "./ts/undo/IRUndo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {addScript} from "./ts/util/addScript";
+import {renderOutline} from "./ts/util/fixBrowserBehavior";
 import {Options} from "./ts/util/Options";
 import {getCursorPosition, getEditorRange, setSelectionByPosition} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
@@ -345,6 +346,10 @@ class Vditor extends VditorMethod {
                 enableHint: false,
                 enableInput: false,
             });
+        }
+
+        if (this.vditor.toolbar.elements.outline && this.vditor.options.outline && this.vditor.currentMode !== "sv") {
+            renderOutline(this.vditor);
         }
 
         if (!markdown) {

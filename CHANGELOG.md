@@ -64,13 +64,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.5 / 2020-05-xx
+### v3.2.6 / 2020-05-xx
 
+### v3.2.5 / 2020-05-13
+
+* [402](https://github.com/Vanessa219/vditor/issues/402) setValue 后 outline 没有渲染 `修复缺陷`
 * [400](https://github.com/Vanessa219/vditor/issues/400) Heading(wysiwyg) windows firefox `修复缺陷`
 * [401](https://github.com/Vanessa219/vditor/issues/401) render demo(mobile) `改进功能`
-
-### v3.2.4 / 2020-05-12
-
 * [397](https://github.com/Vanessa219/vditor/issues/397) link(ctrl+k) at wysiwyg mode `改进功能`
 * [399](https://github.com/Vanessa219/vditor/issues/399) When click empty editor pane `修复缺陷`
 * [398](https://github.com/Vanessa219/vditor/issues/398) unnecessary line before ctrl+M(tables) at wysiwyg mode `修复缺陷`
