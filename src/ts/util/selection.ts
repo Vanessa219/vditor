@@ -174,8 +174,13 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
             // text<wbr>
             range.setStart(wbrElement.previousSibling, wbrElement.previousSibling.textContent.length);
         } else if (wbrElement.nextSibling) {
-            // <wbr>text
-            range.setStart(wbrElement.nextSibling, 0);
+            if (wbrElement.nextSibling.nodeType === 3) {
+                // <wbr>text
+                range.setStart(wbrElement.nextSibling, 0);
+            } else {
+                // <wbr><br> https://github.com/Vanessa219/vditor/issues/400
+                range.setStartBefore(wbrElement.nextSibling);
+            }
         } else {
             // 内容为空
             range.setStart(wbrElement.parentElement, 0);

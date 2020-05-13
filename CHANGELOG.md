@@ -66,6 +66,7 @@
 
 ### v3.2.5 / 2020-05-xx
 
+* [400](https://github.com/Vanessa219/vditor/issues/400) Heading(wysiwyg) windows firefox `修复缺陷`
 * [401](https://github.com/Vanessa219/vditor/issues/401) render demo(mobile) `改进功能`
 
 ### v3.2.4 / 2020-05-12
