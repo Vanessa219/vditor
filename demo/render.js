@@ -23,12 +23,13 @@ const render = (fileName) => {
           },
           anchor: 1,
           after () {
+            if (window.innerWidth <= 520) {
+              return;
+            }
             const outlineElement = document.getElementById('outline')
             Vditor.outlineRender(document.getElementById('preview'),
               outlineElement)
-            if (outlineElement.innerText.trim() === '') {
-              outlineElement.style.display = 'none'
-            } else {
+            if (outlineElement.innerText.trim() !== '') {
               outlineElement.style.display = 'block'
             }
           },

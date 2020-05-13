@@ -66,6 +66,8 @@
 
 ### v3.2.5 / 2020-05-xx
 
+* [401](https://github.com/Vanessa219/vditor/issues/401) render demo(mobile) `改进功能`
+
 ### v3.2.4 / 2020-05-12
 
 * [397](https://github.com/Vanessa219/vditor/issues/397) link(ctrl+k) at wysiwyg mode `改进功能`

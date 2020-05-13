@@ -57,6 +57,7 @@
         }
 
         #outline {
+            display: none;
             position: fixed;
             width: 290px;
             top: 20px;
@@ -115,6 +116,12 @@
 
         .vditor-reset ol[data-marker="1)"] ol ol {
             list-style-type: trad-chinese-formal
+        }
+
+        @media screen and (max-width: 520px) {
+            .markdown-list {
+                position: initial;
+            }
         }
     </style>
 </head>
