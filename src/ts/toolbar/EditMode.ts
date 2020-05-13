@@ -11,6 +11,7 @@ import {processCodeRender} from "../util/processCode";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
+import {toggleOutline} from "./Outline";
 import {
     disableToolbar,
     enableToolbar,
@@ -136,6 +137,9 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             item.classList.remove("vditor-menu--current");
         });
         vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-menu--current");
+    }
+    if (vditor.toolbar.elements.outline) {
+        toggleOutline(vditor, vditor.currentMode !== "sv" && vditor.options.outline);
     }
 };
 

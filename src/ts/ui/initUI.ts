@@ -1,7 +1,6 @@
 import {i18n} from "../i18n";
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
-import {toggleOutline} from "../toolbar/Outline";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
@@ -82,9 +81,6 @@ export const initUI = (vditor: IVditor) => {
     }
 
     setEditMode(vditor, vditor.options.mode, afterRender(vditor, contentElement));
-    if (vditor.options.outline && vditor.toolbar.elements.outline) {
-        toggleOutline(vditor, vditor.toolbar.elements.outline.firstElementChild);
-    }
 
     if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== "undefined") {
         // https://github.com/Vanessa219/vditor/issues/379
