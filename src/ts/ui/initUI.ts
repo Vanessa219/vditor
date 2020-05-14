@@ -136,7 +136,8 @@ export const setPadding = (vditor: IVditor) => {
         outlineWidth = outlienElement.offsetWidth;
     }
 
-    if ((vditor.element.querySelector(".vditor-preview") as HTMLElement)?.style.display !== "block") {
+    if ((vditor.element.querySelector(".vditor-preview") as HTMLElement)?.style.display !== "block"
+        || vditor.currentMode === "sv") {
         vditor.toolbar.element.style.paddingLeft = Math.max(5,
             parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + outlineWidth) + "px";
     }
