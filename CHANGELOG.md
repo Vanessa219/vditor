@@ -66,6 +66,7 @@
 
 ### v3.2.6 / 2020-05-xx
 
+* [410](https://github.com/Vanessa219/vditor/issues/410) not delete inline code(firfox) `修复缺陷`
 * [405](https://github.com/Vanessa219/vditor/issues/405) translated mindmap into Korean `文档相关`
 
 ### v3.2.5 / 2020-05-13

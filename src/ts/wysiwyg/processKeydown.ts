@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {isCtrl} from "../util/compatibility";
+import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote, fixCJKPosition,
@@ -298,6 +298,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 (item.lastElementChild as HTMLElement).style.display = "none";
             });
         }
+    }
+
+    if (isFirefox() && range.startOffset === 1 && startContainer.textContent.indexOf(Constants.ZWSP) > -1 &&
+        startContainer.previousSibling.nodeType !== 3 &&
+        (startContainer.previousSibling as HTMLElement).tagName === "CODE" &&
+        (event.key === "Backspace" || event.key === "ArrowLeft")) {
+        // https://github.com/Vanessa219/vditor/issues/410
+        range.selectNodeContents(startContainer.previousSibling);
+        range.collapse(false);
+        event.preventDefault();
+        return true;
     }
 
     fixCursorDownInlineMath(range, event.key);
