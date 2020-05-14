@@ -28,12 +28,13 @@ export class Preview {
             previewElement.classList.add(vditor.options.classes.preview);
         }
         previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
-        previewElement.addEventListener("copy", () => {
-            // 防止背景色被粘贴到公众号中
-            this.element.style.backgroundColor = "#fff";
-            setTimeout(() => {
-                this.element.style.backgroundColor = "var(--textarea-background-color)";
-            });
+        previewElement.addEventListener("copy", (event) => {
+            const tempElement = document.createElement("div");
+            tempElement.className = "vditor-reset";
+            tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
+
+            this.copyToWechat(vditor, tempElement);
+            event.preventDefault();
         });
 
         const actionElement = document.createElement("div");
@@ -57,21 +58,7 @@ export class Preview {
             }
 
             if (type === "mp-wechat") {
-                // fix math render
-                document.querySelectorAll(".katex-html .base").forEach((item: HTMLElement) => {
-                    item.style.display = "initial";
-                });
-
-                // 防止背景色被粘贴到公众号中
-                this.element.style.backgroundColor = "#fff";
-                const range = this.element.lastElementChild.ownerDocument.createRange();
-                range.selectNode(this.element.lastElementChild);
-                setSelectionFocus(range);
-                document.execCommand("copy");
-                vditor.tip.show("已复制，可到微信公众号平台进行粘贴");
-                range.collapse(true);
-
-                this.element.style.backgroundColor = "var(--textarea-background-color)";
+                this.copyToWechat(vditor, this.element.lastElementChild.cloneNode(true) as HTMLElement);
                 return;
             }
 
@@ -184,5 +171,27 @@ export class Preview {
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
+    }
+
+    private copyToWechat(vditor: IVditor, copyElement: HTMLElement) {
+        // fix math render
+        copyElement.querySelectorAll(".katex-html .base").forEach((item: HTMLElement) => {
+            item.style.display = "initial";
+        });
+        // 防止背景色被粘贴到公众号中
+        copyElement.style.backgroundColor = "#fff";
+        // 代码背景
+        copyElement.querySelectorAll("code").forEach((item) => {
+            item.style.backgroundImage = "none";
+        });
+        this.element.append(copyElement);
+
+        const range = copyElement.ownerDocument.createRange();
+        range.selectNode(copyElement);
+        setSelectionFocus(range);
+        document.execCommand("copy");
+
+        this.element.lastElementChild.remove();
+        vditor.tip.show("已复制，可到微信公众号平台进行粘贴");
     }
 }
