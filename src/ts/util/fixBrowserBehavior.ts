@@ -387,7 +387,7 @@ export const isToC = (text: string) => {
 export const renderOutline = (vditor: IVditor) => {
     const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
     if (outlineElement && outlineElement.style.display === "block") {
-        const previewElement: HTMLElement = vditor.element.querySelector('.vditor-preview')
+        const previewElement: HTMLElement = vditor.element.querySelector(".vditor-preview");
         if (previewElement && previewElement.style.display === "block") {
             outlineRender(previewElement.lastElementChild as HTMLElement,
                 outlineElement.querySelector(".vditor-outline__content"), vditor);

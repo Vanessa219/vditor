@@ -136,8 +136,10 @@ export const setPadding = (vditor: IVditor) => {
         outlineWidth = outlienElement.offsetWidth;
     }
 
-    vditor.toolbar.element.style.paddingLeft =
-        Math.max(5, parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + outlineWidth) + "px";
+    if ((vditor.element.querySelector(".vditor-preview") as HTMLElement)?.style.display !== "block") {
+        vditor.toolbar.element.style.paddingLeft = Math.max(5,
+            parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + outlineWidth) + "px";
+    }
 };
 
 export const setTypewriterPosition = (vditor: IVditor) => {

@@ -1,8 +1,9 @@
 import {Constants} from "../constants";
+import {setPadding} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
+import {renderOutline} from "../util/fixBrowserBehavior";
 import {MenuItem} from "./MenuItem";
 import {disableToolbar, enableToolbar, hidePanel} from "./setToolbar";
-import {renderOutline} from "../util/fixBrowserBehavior";
 
 export class Preview extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -47,8 +48,9 @@ export class Preview extends MenuItem {
                 hidePanel(vditor, ["subToolbar", "hint", "popover"]);
                 setTimeout(() => {
                     renderOutline(vditor);
-                }, vditor.options.preview.delay);
+                }, vditor.options.preview.delay + 10);
             }
+            setPadding(vditor);
         });
     }
 }

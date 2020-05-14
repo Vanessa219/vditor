@@ -66,6 +66,7 @@
 
 ### v3.2.6 / 2020-05-xx
 
+* [406](https://github.com/Vanessa219/vditor/issues/406) 相同标题内容 ID 生成问题 `修复缺陷`
 * [412](https://github.com/Vanessa219/vditor/issues/412) 预览界面大纲无法定位 `修复缺陷`
 * [411](https://github.com/Vanessa219/vditor/issues/411) 复制到微信公众号后代码块背景丢失 `修复缺陷`
 * [410](https://github.com/Vanessa219/vditor/issues/410) not delete inline code(firfox) `修复缺陷`
