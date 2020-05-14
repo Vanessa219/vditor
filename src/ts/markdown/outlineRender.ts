@@ -35,7 +35,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                     if (vditor.element.offsetTop < window.scrollY) {
                         window.scrollTo(window.scrollX, vditor.element.offsetTop);
                     }
-                    contentElement.scrollTop = document.getElementById(id).offsetTop;
+                    vditor[vditor.currentMode].element.scrollTop = document.getElementById(id).offsetTop;
                 }
             } else {
                 window.scrollTo(window.scrollX, document.getElementById(id).offsetTop);

@@ -6,7 +6,6 @@ import {getMarkdown} from "../markdown/getMarkdown";
 import {formatRender} from "../sv/formatRender";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
-import {renderOutline} from "../util/fixBrowserBehavior";
 import {processCodeRender} from "../util/processCode";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
@@ -64,11 +63,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             enableInput: false,
         });
 
-        if (vditor.toolbar.elements.outline && vditor.toolbar.elements.outline.firstElementChild.classList.contains("vditor-menu--current")) {
-            vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:block");
-            renderOutline(vditor);
-        }
-
         setPadding(vditor);
 
         vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
@@ -89,11 +83,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.ir.element.parentElement.style.display = "none";
 
         vditor.currentMode = "wysiwyg";
-
-        if (vditor.toolbar.elements.outline && vditor.toolbar.elements.outline.firstElementChild.classList.contains("vditor-menu--current")) {
-            vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:block");
-            renderOutline(vditor);
-        }
 
         setPadding(vditor);
         renderDomByMd(vditor, markdownText, false);
@@ -121,9 +110,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             enableHint: false,
             enableInput: false,
         });
-        if (vditor.toolbar.elements.outline && type === "sv") {
-            vditor.element.querySelector(".vditor-outline").setAttribute("style", "display:none");
-        }
         if (typeof event !== "string") {
             // 初始化不 focus
             vditor.sv.element.focus();
