@@ -16,7 +16,10 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         }
     });
     targetElement.innerHTML = tocHTML;
-
+    if (targetElement.getAttribute("data-render") === "true") {
+        return;
+    }
+    targetElement.setAttribute("data-render", "true");
     targetElement.addEventListener("click", (event: Event & { target: HTMLElement }) => {
         const itemElement = event.target;
         if (itemElement.classList.contains("vditor-outline__item")) {
