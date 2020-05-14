@@ -64,16 +64,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.6 / 2020-05-xx
+### v3.2.7 / 2020-05-xx
+
+### v3.2.6 / 2020-05-15
 
 * [406](https://github.com/Vanessa219/vditor/issues/406) 相同标题内容 ID 生成问题 `修复缺陷`
 * [412](https://github.com/Vanessa219/vditor/issues/412) 预览界面大纲无法定位 `修复缺陷`
 * [411](https://github.com/Vanessa219/vditor/issues/411) 复制到微信公众号后代码块背景丢失 `修复缺陷`
 * [410](https://github.com/Vanessa219/vditor/issues/410) not delete inline code(firfox) `修复缺陷`
 * [405](https://github.com/Vanessa219/vditor/issues/405) translated mindmap into Korean `文档相关`
-
-### v3.2.5 / 2020-05-13
-
 * [402](https://github.com/Vanessa219/vditor/issues/402) setValue 后 outline 没有渲染 `修复缺陷`
 * [400](https://github.com/Vanessa219/vditor/issues/400) Heading(wysiwyg) windows firefox `修复缺陷`
 * [401](https://github.com/Vanessa219/vditor/issues/401) render demo(mobile) `改进功能`
