@@ -154,8 +154,6 @@ interface ILute {
 
     FormatMd(markdown: string): string;
 
-    RenderMindmap(text: string): string;
-
     // debugger md
     RenderEChartsJSON(text: string): string;
 

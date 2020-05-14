@@ -18,7 +18,7 @@ export const mindmapRender = (element: (HTMLElement | Document) = document,
                     const option = {
                         series: [
                             {
-                                data: [JSON.parse(Lute.RenderMindmap(e.innerText))],
+                                data: [JSON.parse(decodeURIComponent(e.getAttribute("data-code")))],
                                 initialTreeDepth: -1,
                                 itemStyle: {
                                     borderWidth: 0,
