@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {disableToolbar, enableToolbar, hidePanel} from "./setToolbar";
+import {renderOutline} from "../util/fixBrowserBehavior";
 
 export class Preview extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -17,7 +18,7 @@ export class Preview extends MenuItem {
                 return;
             }
 
-            const toolbars = Constants.EDIT_TOOLBARS.concat(["both", "format", "edit-mode", "outline", "devtools"]);
+            const toolbars = Constants.EDIT_TOOLBARS.concat(["both", "format", "edit-mode", "devtools"]);
             if (btnElement.classList.contains("vditor-menu--current")) {
                 btnElement.classList.remove("vditor-menu--current");
                 if (vditor.currentMode === "sv") {
@@ -32,6 +33,7 @@ export class Preview extends MenuItem {
                     vditor.preview.element.style.display = "none";
                 }
                 enableToolbar(vditor.toolbar.elements, toolbars);
+                renderOutline(vditor);
             } else {
                 disableToolbar(vditor.toolbar.elements, toolbars);
                 vditor.preview.element.style.display = "block";
@@ -43,6 +45,9 @@ export class Preview extends MenuItem {
                 vditor.preview.render(vditor);
                 btnElement.classList.add("vditor-menu--current");
                 hidePanel(vditor, ["subToolbar", "hint", "popover"]);
+                setTimeout(() => {
+                    renderOutline(vditor);
+                }, vditor.options.preview.delay);
             }
         });
     }

@@ -387,8 +387,14 @@ export const isToC = (text: string) => {
 export const renderOutline = (vditor: IVditor) => {
     const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
     if (outlineElement && outlineElement.style.display === "block") {
-        outlineRender(vditor[vditor.currentMode].element,
-            outlineElement.querySelector(".vditor-outline__content"), vditor);
+        const previewElement: HTMLElement = vditor.element.querySelector('.vditor-preview')
+        if (previewElement && previewElement.style.display === "block") {
+            outlineRender(previewElement.lastElementChild as HTMLElement,
+                outlineElement.querySelector(".vditor-outline__content"), vditor);
+        } else {
+            outlineRender(vditor[vditor.currentMode].element,
+                outlineElement.querySelector(".vditor-outline__content"), vditor);
+        }
     }
 };
 

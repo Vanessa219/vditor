@@ -16,14 +16,9 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         }
     });
     targetElement.innerHTML = tocHTML;
-    if (targetElement.getAttribute("data-render") === "true") {
-        return;
-    }
-    targetElement.setAttribute("data-render", "true");
-    targetElement.addEventListener("click", (event: Event & { target: HTMLElement }) => {
-        const itemElement = event.target;
-        if (itemElement.classList.contains("vditor-outline__item")) {
-            const id = itemElement.getAttribute("data-id");
+    targetElement.querySelectorAll(".vditor-outline__item").forEach((item) => {
+        item.addEventListener("click", (event: Event & { target: HTMLElement }) => {
+            const id = item.getAttribute("data-id");
             if (vditor) {
                 if (vditor.options.height === "auto") {
                     let windowScrollY = document.getElementById(id).offsetTop + vditor.element.offsetTop;
@@ -35,11 +30,15 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                     if (vditor.element.offsetTop < window.scrollY) {
                         window.scrollTo(window.scrollX, vditor.element.offsetTop);
                     }
-                    vditor[vditor.currentMode].element.scrollTop = document.getElementById(id).offsetTop;
+                    if (vditor.element.querySelector('.vditor-preview').contains(contentElement)) {
+                        contentElement.parentElement.scrollTop = document.getElementById(id).offsetTop;
+                    } else {
+                        contentElement.scrollTop = document.getElementById(id).offsetTop;
+                    }
                 }
             } else {
                 window.scrollTo(window.scrollX, document.getElementById(id).offsetTop);
             }
-        }
+        });
     });
 };
