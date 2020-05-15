@@ -104,7 +104,8 @@ class WYSIWYG {
             event.preventDefault();
 
             const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
-            if (codeElement) {
+            const codeEndElement = hasClosestByMatchTag(range.endContainer, "CODE");
+            if (codeElement && codeEndElement && codeEndElement.isSameNode(codeElement)) {
                 let codeText = "";
                 if (codeElement.parentElement.tagName === "PRE") {
                     codeText = range.toString();
