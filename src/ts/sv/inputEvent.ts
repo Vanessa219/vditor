@@ -1,4 +1,5 @@
 import {getMarkdown} from "../markdown/getMarkdown";
+
 export const inputEvent = (vditor: IVditor, options = {
     enableAddUndoStack: true,
     enableHint: false,
@@ -9,7 +10,7 @@ export const inputEvent = (vditor: IVditor, options = {
         vditor.counter.render(vditor, text);
     }
     if (typeof vditor.options.input === "function" && options.enableInput) {
-        vditor.options.input(text, vditor.preview && vditor.preview.element);
+        vditor.options.input(text, vditor.preview.element);
     }
     if (options.enableHint) {
         vditor.hint.render(vditor);
@@ -17,9 +18,7 @@ export const inputEvent = (vditor: IVditor, options = {
     if (vditor.options.cache.enable) {
         localStorage.setItem(vditor.options.cache.id, text);
     }
-    if (vditor.preview) {
-        vditor.preview.render(vditor);
-    }
+    vditor.preview.render(vditor);
     if (options.enableAddUndoStack) {
         vditor.undo.addToUndoStack(vditor);
     }

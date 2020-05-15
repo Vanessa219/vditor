@@ -46,9 +46,7 @@ export const initUI = (vditor: IVditor) => {
 
     contentElement.appendChild(vditor.ir.element.parentElement);
 
-    if (vditor.preview) {
-        contentElement.appendChild(vditor.preview.element);
-    }
+    contentElement.appendChild(vditor.preview.element);
 
     if (vditor.toolbar.elements.devtools) {
         contentElement.appendChild(vditor.devtools.element);
@@ -113,8 +111,7 @@ export const setPadding = (vditor: IVditor) => {
         vditor.ir.element.style.padding = `10px ${Math.max(minPadding, padding)}px`;
     }
 
-    if ((vditor.element.querySelector(".vditor-preview") as HTMLElement)?.style.display !== "block"
-        || vditor.currentMode === "sv") {
+    if (vditor.preview.element.style.display !== "block" || vditor.currentMode === "sv") {
         vditor.toolbar.element.style.paddingLeft = Math.max(5,
             parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + 250) + "px";
     }

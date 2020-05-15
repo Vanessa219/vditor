@@ -61,7 +61,7 @@ class Editor {
         });
 
         this.element.addEventListener("scroll", () => {
-            if (!vditor.preview || (vditor.preview && vditor.preview.element.style.display === "none")) {
+            if (vditor.preview.element.style.display !== "block") {
                 return;
             }
             const textScrollTop = this.element.scrollTop;

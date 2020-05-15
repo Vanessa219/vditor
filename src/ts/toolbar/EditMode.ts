@@ -35,12 +35,10 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     if (vditor.devtools) {
         vditor.devtools.renderEchart(vditor);
     }
-    if (vditor.preview) {
-        if ((vditor.options.preview.mode === "both") && type === "sv") {
-            vditor.preview.element.style.display = "block";
-        } else {
-            vditor.preview.element.style.display = "none";
-        }
+    if (vditor.options.preview.mode === "both" && type === "sv") {
+        vditor.preview.element.style.display = "block";
+    } else {
+        vditor.preview.element.style.display = "none";
     }
 
     enableToolbar(vditor.toolbar.elements, Constants.EDIT_TOOLBARS);
