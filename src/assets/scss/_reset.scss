@@ -266,8 +266,13 @@
       height: 420px;
     }
 
-    .language-graphviz polygon {
-      fill: transparent;
+    .language-graphviz {
+      polygon {
+        fill: transparent;
+      }
+      parsererror {
+        overflow: auto;
+      }
     }
   }
 

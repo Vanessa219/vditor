@@ -66,6 +66,8 @@
 
 ### v3.2.7 / 2020-05-xx
 
+* [415](https://github.com/Vanessa219/vditor/issues/415) using local JS file `修复缺陷`
+
 ### v3.2.6 / 2020-05-15
 
 * [406](https://github.com/Vanessa219/vditor/issues/406) 相同标题内容 ID 生成问题 `修复缺陷`

@@ -20,7 +20,7 @@ export const graphvizRender = (element: HTMLElement, cdn = `https://cdn.jsdelivr
             }
 
             try {
-                const blob = new Blob([`importScripts('${cdn}/dist/js/graphviz/full.render.js');`],
+                const blob = new Blob([`importScripts('${(document.getElementById("vditorGraphVizScript") as HTMLScriptElement).src.replace("viz.js", "full.render.js")}');`],
                     {type: "application/javascript"});
                 const url = window.URL || window.webkitURL;
                 const blobUrl = url.createObjectURL(blob);
