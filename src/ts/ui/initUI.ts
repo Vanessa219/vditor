@@ -1,4 +1,3 @@
-import {i18n} from "../i18n";
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
 import {setContentTheme} from "./setContentTheme";
@@ -32,13 +31,7 @@ export const initUI = (vditor: IVditor) => {
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";
 
-    if (vditor.toolbar.elements.outline) {
-        const outlineElement = document.createElement("div");
-        outlineElement.className = "vditor-outline";
-        outlineElement.innerHTML = `<div class="vditor-outline__title">${i18n[vditor.options.lang].outline}</div>
-<div class="vditor-outline__content"></div>`;
-        contentElement.appendChild(outlineElement);
-    }
+    contentElement.appendChild(vditor.outline.element);
 
     contentElement.appendChild(vditor.wysiwyg.element.parentElement);
 
@@ -113,7 +106,8 @@ export const setPadding = (vditor: IVditor) => {
 
     if (vditor.preview.element.style.display !== "block" || vditor.currentMode === "sv") {
         vditor.toolbar.element.style.paddingLeft = Math.max(5,
-            parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + 250) + "px";
+            parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) +
+            vditor.outline.element.offsetWidth) + "px";
     }
 };
 

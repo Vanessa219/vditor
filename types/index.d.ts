@@ -499,6 +499,11 @@ interface IVditor {
         element: HTMLDivElement,
         renderEchart(vditor: IVditor): void,
     };
+    outline: {
+        element: HTMLElement,
+        render(vditor: IVditor): void,
+        toggle(vditor: IVditor, show?: boolean): void,
+    };
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
         element?: HTMLElement,

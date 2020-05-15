@@ -84,11 +84,7 @@ export class Hint {
 
         const editorElement = vditor[vditor.currentMode].element;
         const textareaPosition = getCursorPosition(editorElement);
-        let x = textareaPosition.left;
-        const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
-        if (outlineElement) {
-            x = x + outlineElement.offsetWidth;
-        }
+        const x = textareaPosition.left + vditor.outline.element.offsetWidth;
         const y = textareaPosition.top;
         let hintsHTML = "";
 

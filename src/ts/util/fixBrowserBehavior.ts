@@ -1,7 +1,6 @@
 import {Constants} from "../constants";
 import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
-import {outlineRender} from "../markdown/outlineRender";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
@@ -384,23 +383,9 @@ export const isToC = (text: string) => {
     return text.trim().toLowerCase() === "[toc]";
 };
 
-export const renderOutline = (vditor: IVditor) => {
-    const outlineElement = vditor.element.querySelector(".vditor-outline") as HTMLElement;
-    if (outlineElement && outlineElement.style.display === "block") {
-        const previewElement: HTMLElement = vditor.element.querySelector(".vditor-preview");
-        if (previewElement && previewElement.style.display === "block") {
-            outlineRender(previewElement.lastElementChild as HTMLElement,
-                outlineElement.querySelector(".vditor-outline__content"), vditor);
-        } else {
-            outlineRender(vditor[vditor.currentMode].element,
-                outlineElement.querySelector(".vditor-outline__content"), vditor);
-        }
-    }
-};
-
 export const renderToc = (vditor: IVditor) => {
     const editorElement = vditor[vditor.currentMode].element;
-    renderOutline(vditor);
+    vditor.outline.render(vditor);
     const tocElement = editorElement.querySelector('[data-type="toc-block"]');
     if (!tocElement) {
         return;
@@ -1207,7 +1192,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             }
-            renderOutline(vditor);
+            vditor.outline.render(vditor);
         } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
             uploadFiles(vditor, event.clipboardData.files);
         } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
@@ -1220,7 +1205,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.Md2VditorDOM(textPlain), vditor);
             }
-            renderOutline(vditor);
+            vditor.outline.render(vditor);
         }
     }
     vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)

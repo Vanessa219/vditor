@@ -1,7 +1,6 @@
 import {Constants} from "../constants";
 import {setPadding} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
-import {renderOutline} from "../util/fixBrowserBehavior";
 import {MenuItem} from "./MenuItem";
 import {disableToolbar, enableToolbar, hidePanel} from "./setToolbar";
 
@@ -34,7 +33,7 @@ export class Preview extends MenuItem {
                     vditor.preview.element.style.display = "none";
                 }
                 enableToolbar(vditor.toolbar.elements, toolbars);
-                renderOutline(vditor);
+                vditor.outline.render(vditor);
             } else {
                 disableToolbar(vditor.toolbar.elements, toolbars);
                 vditor.preview.element.style.display = "block";
@@ -47,7 +46,7 @@ export class Preview extends MenuItem {
                 btnElement.classList.add("vditor-menu--current");
                 hidePanel(vditor, ["subToolbar", "hint", "popover"]);
                 setTimeout(() => {
-                    renderOutline(vditor);
+                    vditor.outline.render(vditor);
                 }, vditor.options.preview.delay + 10);
             }
             setPadding(vditor);

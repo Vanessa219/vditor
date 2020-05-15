@@ -2,12 +2,14 @@ import VditorMethod from "./method";
 import {VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools";
 import {Hint} from "./ts/hint/index";
+import {i18n} from "./ts/i18n";
 import {IR} from "./ts/ir";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
 import {setLute} from "./ts/markdown/setLute";
+import {Outline} from "./ts/outline";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {formatRender} from "./ts/sv/formatRender";
@@ -29,7 +31,6 @@ import {IRUndo} from "./ts/undo/IRUndo";
 import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {addScript} from "./ts/util/addScript";
-import {renderOutline} from "./ts/util/fixBrowserBehavior";
 import {Options} from "./ts/util/Options";
 import {getCursorPosition, getEditorRange, setSelectionByPosition} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
@@ -74,6 +75,7 @@ class Vditor extends VditorMethod {
             lute: undefined,
             options: mergedOptions,
             originalInnerHTML: id.innerHTML,
+            outline: new Outline(i18n[mergedOptions.lang].outline),
             tip: new Tip(),
         };
 
@@ -83,13 +85,10 @@ class Vditor extends VditorMethod {
         this.vditor.wysiwygUndo = new WysiwygUndo();
         this.vditor.irUndo = new IRUndo();
         this.vditor.ir = new IR(this.vditor);
+        this.vditor.toolbar = new Toolbar(this.vditor);
 
         if (mergedOptions.resize.enable) {
             this.vditor.resize = new Resize(this.vditor);
-        }
-
-        if (mergedOptions.toolbar) {
-            this.vditor.toolbar = new Toolbar(this.vditor);
         }
 
         if (this.vditor.toolbar.elements.devtools) {
@@ -121,9 +120,7 @@ class Vditor extends VditorMethod {
                 toc: this.vditor.options.preview.markdown.toc,
             });
 
-            if (this.vditor.toolbar.elements.preview || this.vditor.toolbar.elements.both) {
-                this.vditor.preview = new Preview(this.vditor);
-            }
+            this.vditor.preview = new Preview(this.vditor);
 
             initUI(this.vditor);
 
@@ -222,9 +219,7 @@ class Vditor extends VditorMethod {
 
     /** 设置预览区域内容 */
     public renderPreview(value?: string) {
-        if (this.vditor.currentMode === "sv") {
-            this.vditor.preview.render(this.vditor, value);
-        }
+        this.vditor.preview.render(this.vditor, value);
     }
 
     /** 获取焦点位置 */
@@ -348,9 +343,7 @@ class Vditor extends VditorMethod {
             });
         }
 
-        if (this.vditor.toolbar.elements.outline && this.vditor.options.outline && this.vditor.currentMode !== "sv") {
-            renderOutline(this.vditor);
-        }
+        this.vditor.outline.render(this.vditor);
 
         if (!markdown) {
             hidePanel(this.vditor, ["emoji", "headings", "submenu", "hint"]);

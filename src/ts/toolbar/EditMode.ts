@@ -10,7 +10,6 @@ import {processCodeRender} from "../util/processCode";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
-import {toggleOutline} from "./Outline";
 import {
     disableToolbar,
     enableToolbar,
@@ -114,6 +113,9 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         }
         setPadding(vditor);
     }
+    if (typeof event === "string") {
+        vditor.outline.render(vditor);
+    }
     setTypewriterPosition(vditor);
 
     if (vditor.toolbar.elements["edit-mode"]) {
@@ -122,9 +124,8 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         });
         vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-menu--current");
     }
-    if (vditor.toolbar.elements.outline) {
-        toggleOutline(vditor, vditor.currentMode !== "sv" && vditor.options.outline);
-    }
+
+    vditor.outline.toggle(vditor, vditor.currentMode !== "sv" && vditor.options.outline);
 };
 
 export class EditMode extends MenuItem {
