@@ -135,7 +135,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             }
         }
 
-        if (hasClosestByHeadings(blockElement) || html.startsWith("<h")) {
+        if (hasClosestByHeadings(blockElement) || html.startsWith("<h") || event.inputType === "deleteContentBackward"
+            || event.inputType === "deleteContentForward") {
             renderToc(vditor);
         }
 

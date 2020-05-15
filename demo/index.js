@@ -54,7 +54,7 @@ window.vditor = new Vditor('vditor', {
   outline: true,
   debugger: true,
   typewriterMode: true,
-  placeholder: 'placeholder',
+  placeholder: 'Hello, Vditor!',
   preview: {
     markdown: {
       toc: true,
