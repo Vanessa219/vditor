@@ -35,14 +35,8 @@ export const initUI = (vditor: IVditor) => {
     if (vditor.toolbar.elements.outline) {
         const outlineElement = document.createElement("div");
         outlineElement.className = "vditor-outline";
-        let top = 0;
-        if (vditor.options.toolbarConfig.pin) {
-            top = vditor.toolbar.element.clientHeight;
-        }
-        outlineElement.innerHTML = `<div class="vditor-outline__panel" style='top:${top}px'>
-<div class="vditor-outline__title" style='top:${top}px'>${i18n[vditor.options.lang].outline}</div>
-<div class="vditor-outline__content"></div>
-</div>`;
+        outlineElement.innerHTML = `<div class="vditor-outline__title">${i18n[vditor.options.lang].outline}</div>
+<div class="vditor-outline__content"></div>`;
         contentElement.appendChild(outlineElement);
     }
 
@@ -119,27 +113,10 @@ export const setPadding = (vditor: IVditor) => {
         vditor.ir.element.style.padding = `10px ${Math.max(minPadding, padding)}px`;
     }
 
-    let outlineWidth = 0;
-    if (vditor.toolbar.elements.outline) {
-        let height: number;
-        if (vditor.options.height === "auto") {
-            height = Math.min(vditor.element.clientHeight, window.innerHeight);
-        } else {
-            height = vditor.options.height as number;
-        }
-        if (vditor.element.classList.contains("vditor--fullscreen")) {
-            height = window.innerHeight;
-        }
-        const outlienElement = vditor.element.querySelector(".vditor-outline__panel") as HTMLElement;
-        outlienElement.style.height =
-            (height - vditor.toolbar.element.offsetHeight - 2) + "px";
-        outlineWidth = outlienElement.offsetWidth;
-    }
-
     if ((vditor.element.querySelector(".vditor-preview") as HTMLElement)?.style.display !== "block"
         || vditor.currentMode === "sv") {
         vditor.toolbar.element.style.paddingLeft = Math.max(5,
-            parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + outlineWidth) + "px";
+            parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) + 250) + "px";
     }
 };
 

@@ -270,11 +270,15 @@
   }
 
   &-outline {
-    min-width: 250px;
     width: 250px;
     border-right: 1px solid var(--border-color);
     background-color: var(--panel-background-color);
     display: none;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &__item {
       padding: 5px 10px;
@@ -282,23 +286,11 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: var(--textarea-text-color);
 
       &:hover {
         color: var(--toolbar-icon-hover-color);
         background-color: var(--toolbar-background-color);
-      }
-    }
-
-    &__panel {
-      position: sticky;
-      overflow: auto;
-      top: 35px;
-      padding-bottom: 10px;
-      color: var(--textarea-text-color);
-      box-sizing: border-box;
-
-      &::-webkit-scrollbar {
-        display: none;
       }
     }
 
