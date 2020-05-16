@@ -23,9 +23,9 @@ The next generation of Markdown editor, built for the future
 
 ## 💡 Introduction
 
-[Vditor](https://github.com/Vanessa219/vditor) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular. Provide [Desktop](https://github.com/88250/liandi)
+[Vditor](https://vditor.b3log.org) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular. Provide [Desktop](https://github.com/88250/liandi)
 
-Welcome to [Vditor Official Discussion Forum](https://hacpai.com/tag/vditor) to learn more.
+Welcome to [Vditor Official Discussion Site](https://vditor.b3log.org) to learn more.
 
 ## 📽️ Background
 
@@ -109,7 +109,7 @@ const vditor = new Vditor(id, {options...})
 
 ### HTML script
 
-* Insert CSS and js in HTML, you can refer to [static.html](https://github.com/Vanessa219/vditor/blob/master/demo/static.html)
+* Insert CSS and js in HTML, you can refer to [demo](https://vditor.b3log.org/demo/index.html)
 
 ```html
 <!-- ⚠️Please specify the version number in the production environment, such as https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
@@ -121,7 +121,7 @@ const vditor = new Vditor(id, {options...})
 
 * [CommonJS Editor](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
 * [CommonJS Render](https://github.com/Vanessa219/vditor/blob/master/demo/render.js)
-* [HTML script](https://github.com/Vanessa219/vditor/blob/master/demo/static.html)
+* [HTML script](https://vditor.b3log.org/demo/index.html)
 * [Vue](https://github.com/88250/pipe/blob/master/console/pages/admin/articles/post/index.vue)
 
 ### Themes
