@@ -56,9 +56,9 @@ So, Vditor was born.
 * Multi-language support, built-in Chinese, English, Korean text localization
 * Support mainstream browsers, mobile friendly
 
-![demo](https://img.hacpai.com/file/2020/04/截图专用-b8789fd6.png?imageView2/2/interlace/1)
+![editor.png](https://b3logfile.com/file/2020/05/editor-adc7f8fd.png)
 
-![render](https://img.hacpai.com/file/2020/04/%E6%88%AA%E5%9B%BE%E4%B8%93%E7%94%A8800-74ca3eb5.png?imageView2/2/interlace/1)
+![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 
 ## 🔮 Editing Modes
 
