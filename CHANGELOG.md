@@ -66,6 +66,7 @@
 
 ### v3.2.7 / 2020-05-xx
 
+* [420](https://github.com/Vanessa219/vditor/issues/420) 缓存时可以提供一个回调吗，我想同步到服务器上 `改进功能`
 * [419](https://github.com/Vanessa219/vditor/issues/419) outline after update at smartphone `改进功能`
 * [418](https://github.com/Vanessa219/vditor/issues/418) 点击侧边空白，光标会挪到尾部 `修复缺陷`
 * [415](https://github.com/Vanessa219/vditor/issues/415) using local JS file `修复缺陷`
@@ -114,7 +115,9 @@
   * 添加静态方法 `mindmapRender`
   * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker` 配置
   * IPreviewOptions.anchor 从 boolean 修改为 number
-  * static-preview.html => preview.html
+  * static-preview.html => preview.html，static.html => vditor.b3log.org/demo/render.html
+  * 添加 options.cache.after(text:string)
+  
 
 ### v3.1.23 / 2020-05-05
 

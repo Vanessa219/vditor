@@ -218,6 +218,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | - | - | - |
 | enable | Whether to use localStorage for caching | true |
 | id | Cache key, the first parameter is an element and when caching is enabled **required** | - |
+| after | cache callback (markdown: string): void | - |
 
 #### options.preview
 

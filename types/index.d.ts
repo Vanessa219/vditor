@@ -436,6 +436,7 @@ interface IOptions {
     cache?: {
         id?: string;
         enable?: boolean;
+        after?(markdown: string): void;
     };
     /** 编辑模式。默认值: 'wysiwyg' */
     mode?: "wysiwyg" | "sv" | "ir";
