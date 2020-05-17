@@ -64,16 +64,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.7 / 2020-05-xx
+### v3.2.8 / 2020-05-xx
+
+### v3.2.7 / 2020-05-17
 
 * [421](https://github.com/Vanessa219/vditor/issues/421) 添加 bilibili 视频网站解析 `改进功能`
 * [420](https://github.com/Vanessa219/vditor/issues/420) 缓存时可以提供一个回调吗，我想同步到服务器上 `改进功能`
 * [419](https://github.com/Vanessa219/vditor/issues/419) outline after update at smartphone `改进功能`
 * [418](https://github.com/Vanessa219/vditor/issues/418) 点击侧边空白，光标会挪到尾部 `修复缺陷`
 * [415](https://github.com/Vanessa219/vditor/issues/415) using local JS file `修复缺陷`
-
-### v3.2.6 / 2020-05-15
-
 * [406](https://github.com/Vanessa219/vditor/issues/406) 相同标题内容 ID 生成问题 `修复缺陷`
 * [412](https://github.com/Vanessa219/vditor/issues/412) 预览界面大纲无法定位 `修复缺陷`
 * [411](https://github.com/Vanessa219/vditor/issues/411) 复制到微信公众号后代码块背景丢失 `修复缺陷`
@@ -117,7 +116,7 @@
   * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker` 配置
   * IPreviewOptions.anchor 从 boolean 修改为 number
   * static-preview.html => preview.html，static.html => vditor.b3log.org/demo/render.html
-  * 添加 options.cache.after(text:string)
+  * 添加 options.cache.after(markdown:string)
   
 
 ### v3.1.23 / 2020-05-05
