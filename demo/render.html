@@ -8,7 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Vditor: ♏ An In-browser Markdown editor, support WYSIWYG,  Instant Rendering (Typora-like) and Split View modes. 一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。</title>
+    <title>Vditor: ♏ An In-browser Markdown editor, support WYSIWYG, Instant Rendering (Typora-like) and Split View
+        modes. 一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。</title>
     <meta name="description"
           content="Vditor 支持三种所见即所得（wysiwyg）、即时渲染（ir）、分屏预览（sv）模式，支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、五线谱、多媒体、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染。"/>
     <meta property="og:description"
@@ -23,7 +24,8 @@
     <meta name="copyright" content="B3log"/>
     <meta http-equiv="Window-target" content="_top"/>
     <meta property="og:locale" content="zh-cmn-Hans"/>
-    <meta property="og:title" content="Vditor: ♏ An In-browser Markdown editor, support WYSIWYG,  Instant Rendering (Typora-like) and Split View modes. 一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。"/>
+    <meta property="og:title"
+          content="Vditor: ♏ An In-browser Markdown editor, support WYSIWYG,  Instant Rendering (Typora-like) and Split View modes. 一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。"/>
     <meta property="og:site_name" content="Blog-vditor"/>
     <meta property="og:url" content="https://vditor.b3log.org"/>
     <meta name="twitter:card" content="summary"/>
@@ -42,32 +44,52 @@
             color: #4285f4;
         }
 
-        .markdown-list {
-            position: fixed;
-            top: 52px;
-            left: 20px;
-            width: 85px;
+        #previewWrap {
+            padding: 0 220px 20px 0;
         }
 
-        .preview {
-            max-width: 90%;
-            width: 600px;
+        #preview {
             margin: 0 auto;
-            padding-bottom: 20px;
+            max-width: 768px;
         }
 
         #outline {
             display: none;
             position: fixed;
-            width: 290px;
+            width: 186px;
             top: 20px;
             right: 20px;
             bottom: 20px;
             overflow: auto;
-            font-size: 13px;
-            border: 1px solid var(--border-color);
-            border-radius: 3px;
-            background-color: var(--textarea-background-color);
+            font-size: 12px;
+            border-left: 1px solid var(--border-color);
+            --border-color: #eee;
+            --color: #616161;
+            --hover-color: #4285f4;
+            --hover-background-color: #f6f8fa;
+        }
+
+        #outline.dark {
+            --border-color: #141414;
+            --color: #a6aab0;
+            --hover-color: #fff;
+            --hover-background-color: #444d56;
+        }
+
+        .vditor-outline__item {
+            border-left: 1px solid transparent;
+            color: var(--color) !important;
+        }
+
+        .vditor-outline__item--current {
+            border-left: 1px solid #4285f4;
+            color: var(--hover-color) !important;
+            background-color: var(--hover-background-color);
+        }
+
+        .vditor-outline__item:hover {
+            color: var(--hover-color) !important;
+            background-color: var(--hover-background-color) !important;
         }
 
         .vditor-reset ul[data-marker="*"] {
@@ -118,9 +140,13 @@
             list-style-type: trad-chinese-formal
         }
 
-        @media screen and (max-width: 520px) {
-            .markdown-list {
-                position: initial;
+        @media screen and (max-width: 768px) {
+            #previewWrap {
+                padding: 0 20px 20px 0;
+            }
+
+            #outline {
+                display: none !important;
             }
         }
     </style>
@@ -132,17 +158,15 @@
     <button onclick="setTheme('dark')">Dark Mode</button>
     <button onclick="setTheme('light')">Light Mode</button>
 </h2>
-<ul class="markdown-list">
-    <li><span class="link" data-file="zh_CN">zh_CN</span></li>
-    <li><span class="link" data-file="ko_KR">ko_KR</span></li>
-    <li><span class="link" data-file="cute-list">cute-list</span></li>
-    <li><span class="link" data-file="entity">entity</span></li>
-</ul>
+<div class="markdown-list">
+    <span class="link" data-file="zh_CN">zh_CN</span> |
+    <span class="link" data-file="ko_KR">ko_KR</span> |
+    <span class="link" data-file="cute-list">cute-list</span> |
+    <span class="link" data-file="entity">entity</span> |
+</div>
 <div id="previewWrap">
     <div id="preview" class="preview"></div>
 </div>
-<div class="vditor" style="border: 0">
-    <div id="outline" class="vditor-reset"></div>
-</div>
+<div id="outline"></div>
 </body>
 </html>

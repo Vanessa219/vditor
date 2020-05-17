@@ -23,7 +23,7 @@ const render = (fileName) => {
           },
           anchor: 1,
           after () {
-            if (window.innerWidth <= 520) {
+            if (window.innerWidth <= 768) {
               return;
             }
             const outlineElement = document.getElementById('outline')
@@ -59,12 +59,12 @@ window.setTheme = (theme) => {
   if (theme === 'dark') {
     Vditor.setCodeTheme('native')
     Vditor.setContentTheme('dark')
-    outlineElement.parentElement.classList.add('vditor--dark')
+    outlineElement.classList.add('dark')
     document.querySelector('html').style.backgroundColor = '#2f363d'
   } else {
     Vditor.setCodeTheme('github')
     Vditor.setContentTheme('light')
-    outlineElement.parentElement.classList.remove('vditor--dark')
+    outlineElement.classList.remove('dark')
     document.querySelector('html').style.backgroundColor = '#fff'
   }
 }

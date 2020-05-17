@@ -42,6 +42,10 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
             } else {
                 window.scrollTo(window.scrollX, document.getElementById(id).offsetTop);
             }
+            targetElement.querySelectorAll(".vditor-outline__item").forEach((subItem) => {
+                subItem.classList.remove("vditor-outline__item--current");
+            });
+            item.classList.add("vditor-outline__item--current");
         });
     });
 };
