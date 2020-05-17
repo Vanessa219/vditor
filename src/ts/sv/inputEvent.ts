@@ -17,7 +17,9 @@ export const inputEvent = (vditor: IVditor, options = {
     }
     if (vditor.options.cache.enable) {
         localStorage.setItem(vditor.options.cache.id, text);
-        vditor.options.cache?.after(text);
+        if (vditor.options.cache.after) {
+            vditor.options.cache.after(text);
+        }
     }
     vditor.preview.render(vditor);
     if (options.enableAddUndoStack) {

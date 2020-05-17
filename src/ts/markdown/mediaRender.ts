@@ -15,6 +15,7 @@ const iframeRender = (element: HTMLElement, url: string) => {
     const coubMatch = url.match(/(?:www\.|\/\/)coub\.com\/view\/(\w+)/);
     const facebookMatch = url.match(/(?:www\.|\/\/)facebook\.com\/([^\/]+)\/videos\/([0-9]+)/);
     const dailymotionMatch = url.match(/.+dailymotion.com\/(video|hub)\/(\w+)\?/);
+    const bilibiliMatch = url.match(/(?:www\.|\/\/)bilibili\.com\/video\/(\w+)/);
 
     if (youtubeMatch && youtubeMatch[1].length === 11) {
         element.insertAdjacentHTML("afterend",
@@ -43,6 +44,11 @@ const iframeRender = (element: HTMLElement, url: string) => {
         element.insertAdjacentHTML("afterend",
             `<iframe class="iframe__video"
  src="https://www.dailymotion.com/embed/video/${dailymotionMatch[2]}"></iframe>`);
+        element.remove();
+    } else if (bilibiliMatch && bilibiliMatch[1]) {
+        element.insertAdjacentHTML("afterend",
+            `<iframe class="iframe__video"
+ src="//player.bilibili.com/player.html?bvid=${bilibiliMatch[1]}"></iframe>`);
         element.remove();
     }
 };

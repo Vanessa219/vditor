@@ -66,6 +66,7 @@
 
 ### v3.2.7 / 2020-05-xx
 
+* [421](https://github.com/Vanessa219/vditor/issues/421) 添加 bilibili 视频网站解析 `改进功能`
 * [420](https://github.com/Vanessa219/vditor/issues/420) 缓存时可以提供一个回调吗，我想同步到服务器上 `改进功能`
 * [419](https://github.com/Vanessa219/vditor/issues/419) outline after update at smartphone `改进功能`
 * [418](https://github.com/Vanessa219/vditor/issues/418) 点击侧边空白，光标会挪到尾部 `修复缺陷`
