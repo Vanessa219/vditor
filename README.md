@@ -119,10 +119,9 @@ const vditor = new Vditor(id, {options...})
 
 ### Demo code
 
+* [Demo](https://vditor.b3log.org/demo/index.html)
 * [CommonJS Editor](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
 * [CommonJS Render](https://github.com/Vanessa219/vditor/blob/master/demo/render.js)
-* [HTML script](https://vditor.b3log.org/demo/index.html)
-* [Vue](https://github.com/88250/pipe/blob/master/console/pages/admin/articles/post/index.vue)
 
 ### Themes
 
