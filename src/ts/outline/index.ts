@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {outlineRender} from "../markdown/outlineRender";
 import {setPadding} from "../ui/initUI";
 
@@ -24,7 +25,7 @@ export class Outline {
 
     public toggle(vditor: IVditor, show = true) {
         const btnElement = vditor.toolbar.elements.outline?.firstElementChild;
-        if (show) {
+        if (show && window.innerWidth >= Constants.MOBILE_WIDTH) {
             this.element.style.display = "block";
             this.render(vditor);
             btnElement?.classList.add("vditor-menu--current");

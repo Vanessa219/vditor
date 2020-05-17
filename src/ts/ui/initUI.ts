@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
 import {setContentTheme} from "./setContentTheme";
@@ -91,7 +92,7 @@ export const initUI = (vditor: IVditor) => {
 };
 
 export const setPadding = (vditor: IVditor) => {
-    const minPadding = window.innerWidth <= 520 ? 10 : 35;
+    const minPadding = window.innerWidth <= Constants.MOBILE_WIDTH ? 10 : 35;
     if (vditor.wysiwyg.element.parentElement.style.display !== "none") {
         const padding = (vditor.wysiwyg.element.parentElement.clientWidth
             - vditor.options.preview.maxWidth) / 2;

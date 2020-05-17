@@ -6,6 +6,7 @@ export {_VDITOR_VERSION as VDITOR_VERSION};
 
 export abstract class Constants {
     public static readonly ZWSP: string = "\u200b";
+    public static readonly MOBILE_WIDTH: number = 520;
     public static readonly CLASS_MENU_DISABLED: string = "vditor-menu--disabled";
     public static readonly EDIT_TOOLBARS: string[] = ["emoji", "headings", "bold", "italic", "strike", "link", "list",
         "ordered-list", "outdent", "indent", "check", "line", "quote", "code", "inline-code", "insert-after", "insert-before", "upload", "record", "table"];

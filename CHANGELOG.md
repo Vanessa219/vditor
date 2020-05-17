@@ -66,6 +66,7 @@
 
 ### v3.2.7 / 2020-05-xx
 
+* [419](https://github.com/Vanessa219/vditor/issues/419) outline after update at smartphone `改进功能`
 * [418](https://github.com/Vanessa219/vditor/issues/418) 点击侧边空白，光标会挪到尾部 `修复缺陷`
 * [415](https://github.com/Vanessa219/vditor/issues/415) using local JS file `修复缺陷`
 
