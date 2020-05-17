@@ -37,7 +37,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
             listMarker: false,
             paragraphBeginningSpace: false,
             sanitize: true,
-            setext: true,
+            setext: false,
             theme: "light",
             toc: false,
         },

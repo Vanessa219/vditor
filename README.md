@@ -250,7 +250,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | footnotes | Footnotes | true |
 | codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
 | theme | Content Theme | 'light' |
-| setext | Whether to parse the setext header | true |
+| setext | Whether to parse the setext header | fa;se |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
 | listMarker | add data-marker attribute | false |

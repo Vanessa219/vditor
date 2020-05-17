@@ -321,9 +321,9 @@ interface IMarkdownConfig {
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview: boolean;
-    /** 是否解析 setext 标题。默认值: true */
+    /** 是否解析 setext 标题。默认值: false */
     setext: boolean;
-    /** 是否启用过滤 XSS。默认值: false */
+    /** 是否启用过滤 XSS。默认值: true */
     sanitize: boolean;
     /** 内容主题。默认值：light */
     theme?: string;
