@@ -1,5 +1,5 @@
 import VditorMethod from "./method";
-import {VDITOR_VERSION} from "./ts/constants";
+import {Constants, VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools";
 import {Hint} from "./ts/hint/index";
 import {i18n} from "./ts/i18n";
@@ -178,23 +178,18 @@ class Vditor extends VditorMethod {
 
     /** 禁用编辑器 */
     public disabled() {
-        disableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
-            "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table",
-            "undo", "redo", "wysiwyg"]);
-        this.vditor.sv.element.setAttribute("contenteditable", "false");
-        this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
-        this.vditor.wysiwyg.element.setAttribute("contenteditable", "false");
+        disableToolbar(this.vditor.toolbar.elements, Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen",
+            "edit-mode"]));
+        this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "false");
     }
 
     /** 解除编辑器禁用 */
     public enable() {
-        enableToolbar(this.vditor.toolbar.elements, ["emoji", "headings", "bold", "italic", "strike", "link",
-            "list", "ordered-list", "check", "quote", "line", "code", "inline-code", "upload", "record", "table", "wysiwyg"]);
+        enableToolbar(this.vditor.toolbar.elements, Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen",
+            "edit-mode"]));
         this.vditor.undo.resetIcon(this.vditor);
-        this.vditor.sv.element.setAttribute("contenteditable", "true");
         this.vditor.wysiwygUndo.resetIcon(this.vditor);
-        this.vditor.wysiwyg.element.setAttribute("contenteditable", "true");
-        this.vditor.ir.element.setAttribute("contenteditable", "true");
+        this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
     }
 
     /** 选中从 start 开始到 end 结束的字符串，不支持 wysiwyg 模式 */
