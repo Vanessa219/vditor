@@ -249,7 +249,9 @@ class WYSIWYG {
             }
 
             const range = getEditorRange(this.element);
-            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
+            const lastRect = this.element.lastElementChild.getBoundingClientRect();
+            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed &&
+                event.y > lastRect.top + lastRect.height) {
                 if (this.element.lastElementChild.tagName === "P") {
                     range.selectNodeContents(this.element.lastElementChild);
                     range.collapse(false);
