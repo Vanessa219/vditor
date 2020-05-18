@@ -85,7 +85,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             setext: mergedOptions.markdown.setext,
             toc: mergedOptions.markdown.toc,
         });
-        if (options.renderers) {
+        if (options?.renderers) {
             lute.SetJSRenderers({
                 renderers: {
                     Md2HTML: options.renderers,
