@@ -426,7 +426,7 @@ options?: IPreviewOptions {
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | Page Markdown article rendering |
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | Highlight the code block in element |
-| mediaRender(element: HTMLElement) | Rendering as [specific link](https://github.com/Vanessa219/vditor/issues/7) as video, audio, embedded iframe |
+| mediaRender(element: HTMLElement) | Rendering as [specific link](https://hacpai.com/article/1589813914768) as video, audio, embedded iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
 | graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
