@@ -23,9 +23,9 @@ The next generation of Markdown editor, built for the future
 
 ## 💡 Introduction
 
-[Vditor](https://vditor.b3log.org) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular. Provide [Desktop](https://github.com/88250/liandi)
+[Vditor](https://vditor.b3log.org) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular, provide [desktop](https://github.com/88250/liandi).
 
-Welcome to [Vditor Official Discussion Site](https://vditor.b3log.org) to learn more.
+Welcome to [Vditor Official Site](https://vditor.b3log.org) to learn more.
 
 ## 📽️ Background
 
