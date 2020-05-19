@@ -23,7 +23,7 @@ import {
     getSelectPosition,
     insertHTML,
     setRangeByWbr,
-    setSelectionByPosition,
+    setSelectionByPosition, setSelectionFocus,
 } from "./selection";
 
 // https://github.com/Vanessa219/vditor/issues/361
@@ -105,6 +105,7 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
         if (!isSelected) {
             range.collapse(false);
         }
+        setSelectionFocus(range);
     }
     return previousElement;
 };
@@ -615,6 +616,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             }
             if (nextElement) {
                 range.selectNodeContents(nextElement);
+                setSelectionFocus(range);
             }
             event.preventDefault();
             return true;
@@ -627,6 +629,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                 if (tableElement.previousElementSibling) {
                     range.selectNodeContents(tableElement.previousElementSibling);
                     range.collapse(false);
+                    setSelectionFocus(range);
                 } else {
                     insertEmptyBlock(vditor, "beforebegin");
                 }
@@ -647,6 +650,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             }
             range.selectNodeContents(previousElement.cells[m]);
             range.collapse(false);
+            setSelectionFocus(range);
             return true;
         }
 
@@ -657,6 +661,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
                 if (tableElement.nextElementSibling) {
                     range.selectNodeContents(tableElement.nextElementSibling);
                     range.collapse(true);
+                    setSelectionFocus(range);
                 } else {
                     insertEmptyBlock(vditor, "afterend");
                 }
@@ -676,6 +681,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             }
             range.selectNodeContents(nextElement.cells[m]);
             range.collapse(true);
+            setSelectionFocus(range);
             return true;
         }
 
