@@ -109,18 +109,20 @@ class IR {
             }
 
             const range = getEditorRange(this.element);
-            const lastRect = this.element.lastElementChild.getBoundingClientRect();
-            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed &&
-                event.y > lastRect.top + lastRect.height) {
-                if (this.element.lastElementChild.tagName === "P") {
-                    range.selectNodeContents(this.element.lastElementChild);
-                    range.collapse(false);
-                } else {
-                    this.element.insertAdjacentHTML("beforeend",
-                        `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-                    setRangeByWbr(this.element, range);
+
+            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
+                const lastRect = this.element.lastElementChild.getBoundingClientRect();
+                if (event.y > lastRect.top + lastRect.height) {
+                    if (this.element.lastElementChild.tagName === "P") {
+                        range.selectNodeContents(this.element.lastElementChild);
+                        range.collapse(false);
+                    } else {
+                        this.element.insertAdjacentHTML("beforeend",
+                            `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+                        setRangeByWbr(this.element, range);
+                    }
+                    return;
                 }
-                return;
             }
 
             expandMarker(range, vditor);
