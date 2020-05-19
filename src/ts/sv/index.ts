@@ -80,6 +80,8 @@ class Editor {
         if (vditor.options.upload.url || vditor.options.upload.handler) {
             this.element.addEventListener("drop", (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
                 if (event.dataTransfer.types[0] !== "Files") {
+                    insertText(vditor, getSelection().toString(), "", false);
+                    event.preventDefault();
                     return;
                 }
                 const files = event.dataTransfer.items;
