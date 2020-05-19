@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {hasClosestByClassName} from "../util/hasClosest";
 import {
@@ -34,6 +34,7 @@ class IR {
         document.execCommand("DefaultParagraphSeparator", false, "p");
 
         focusEvent(vditor, this.element);
+        blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
     }

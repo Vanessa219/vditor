@@ -23,6 +23,14 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     });
 };
 
+export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("blur", () => {
+        if (vditor.options.blur) {
+            vditor.options.blur(getMarkdown(vditor));
+        }
+    });
+};
+
 export const scrollCenter = (vditor: IVditor) => {
     if (!vditor.options.typewriterMode) {
         return;

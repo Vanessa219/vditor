@@ -2,7 +2,7 @@ import {Constants} from "../constants";
 import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {isHeadingMD, isHrMD, paste, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
@@ -45,6 +45,7 @@ class WYSIWYG {
         document.execCommand("DefaultParagraphSeparator", false, "p");
 
         focusEvent(vditor, this.element);
+        blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
     }
