@@ -186,10 +186,10 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     }
     editorElement.addEventListener("selectstart", (event: Event) => {
         editorElement.onmouseup = () => {
-            const element = vditor.currentMode === "wysiwyg" ?
-                vditor.wysiwyg.element : vditor.sv.element;
-            const selectText = getSelectText(element);
-            vditor.options.select(selectText);
+            const selectText = getSelectText(vditor[vditor.currentMode].element);
+            if (selectText) {
+                vditor.options.select(selectText);
+            }
         };
     });
 };
