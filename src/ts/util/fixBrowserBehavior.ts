@@ -124,6 +124,7 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
         } else {
             range.selectNodeContents(nextElement);
             range.collapse(true);
+            setSelectionFocus(range);
         }
         event.preventDefault();
         return true;
@@ -146,6 +147,7 @@ export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: 
         } else {
             range.selectNodeContents(previousElement);
             range.collapse(false);
+            setSelectionFocus(range);
         }
         event.preventDefault();
         return true;
@@ -890,6 +892,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         }
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
+        setSelectionFocus(range);
         execAfterRender(vditor);
         scrollCenter(vditor);
         event.preventDefault();

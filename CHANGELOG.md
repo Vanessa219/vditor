@@ -66,6 +66,7 @@
 
 ### v3.2.8 / 2020-05-xx
 
+* [409](https://github.com/Vanessa219/vditor/issues/409) codeblock(mac safari) `修复缺陷`
 * [407](https://github.com/Vanessa219/vditor/issues/407) cursor moving at tables(safari & firefox) `修复缺陷`
 
 ### v3.2.7 / 2020-05-17
