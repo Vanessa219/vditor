@@ -1,7 +1,7 @@
 import alignCenterSVG from "../../assets/icons/align-center.svg";
 import downSVG from "../../assets/icons/down.svg";
-import indentSVG from "../../assets/icons/indent.svg";
-import outdentSVG from "../../assets/icons/outdent.svg";
+import alingLeftSVG from "../../assets/icons/align-left.svg";
+import alingRightSVG from "../../assets/icons/align-right.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import upSVG from "../../assets/icons/up.svg";
 import {Constants} from "../constants";
@@ -233,7 +233,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft +
                 "<" + updateHotkeyTip("⌘-⇧-L") + ">");
             left.setAttribute("data-type", "left");
-            left.innerHTML = outdentSVG;
+            left.innerHTML = alingLeftSVG;
             left.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "left" ? " vditor-icon--current" : "");
             left.onclick = () => {
@@ -255,7 +255,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight +
                 "<" + updateHotkeyTip("⌘-⇧-R") + ">");
             right.setAttribute("data-type", "right");
-            right.innerHTML = indentSVG;
+            right.innerHTML = alingRightSVG;
             right.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "right" ? " vditor-icon--current" : "");
             right.onclick = () => {
