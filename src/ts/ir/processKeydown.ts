@@ -3,7 +3,7 @@ import {isCtrl} from "../util/compatibility";
 import {
     fixBlockquote, fixCJKPosition,
     fixCodeBlock, fixCursorDownInlineMath,
-    fixDelete, fixHR,
+    fixDelete, fixFirefoxArrowUpTable, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -177,6 +177,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 item.classList.add("vditor-ir__node--hidden");
             }
         });
+
+        if (fixFirefoxArrowUpTable(event, blockElement, range)) {
+            return true;
+        }
     }
     fixCursorDownInlineMath(range, event.key);
 

@@ -3,7 +3,7 @@ import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote, fixCJKPosition,
-    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixHR,
+    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -307,6 +307,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // https://github.com/Vanessa219/vditor/issues/410
         range.selectNodeContents(startContainer.previousSibling);
         range.collapse(false);
+        event.preventDefault();
+        return true;
+    }
+
+    if (fixFirefoxArrowUpTable(event, blockElement, range)) {
         event.preventDefault();
         return true;
     }

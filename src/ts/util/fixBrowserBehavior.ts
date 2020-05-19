@@ -1098,6 +1098,27 @@ export const fixHR = (range: Range) => {
     }
 };
 
+// firefox https://github.com/Vanessa219/vditor/issues/407
+export const fixFirefoxArrowUpTable = (event: KeyboardEvent, blockElement: false | HTMLElement, range: Range) => {
+    if (!isFirefox()) {
+        return false;
+    }
+    if (event.key === "ArrowUp" && blockElement && blockElement.previousElementSibling?.tagName === "TABLE") {
+        const tableElement = blockElement.previousElementSibling as HTMLTableElement
+        range.selectNodeContents(tableElement.rows[tableElement.rows.length - 1].lastElementChild)
+        range.collapse(false);
+        event.preventDefault();
+        return true;
+    }
+    if (event.key === "ArrowDown" && blockElement && blockElement.nextElementSibling?.tagName === "TABLE") {
+        range.selectNodeContents((blockElement.nextElementSibling as HTMLTableElement).rows[0].cells[0]);
+        range.collapse(true);
+        event.preventDefault();
+        return true;
+    }
+    return false;
+};
+
 export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLElement }, callback: {
     pasteCode(code: string): void,
 }) => {
