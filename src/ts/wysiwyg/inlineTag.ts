@@ -94,7 +94,8 @@ export const modifyPre = (vditor: IVditor, range: Range) => {
             const pElement = document.createElement("p");
             pElement.setAttribute("data-block", "0");
             pElement.textContent = node.textContent;
-            const cloneRangeOffset = range.startOffset;
+            // 为空按下 tab 且 tab = '    ' 时，range.startContainer 不为 node
+            const cloneRangeOffset = range.startContainer.nodeType === 3 ? range.startOffset : node.textContent.length;
             node.parentNode.insertBefore(pElement, node);
             node.remove();
             range.setStart(pElement.firstChild, Math.min(pElement.firstChild.textContent.length, cloneRangeOffset));

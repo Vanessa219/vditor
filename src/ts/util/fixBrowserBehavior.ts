@@ -18,7 +18,13 @@ import {
 import {getLastNode} from "./hasClosest";
 import {hasClosestByHeadings} from "./hasClosestByHeadings";
 import {matchHotKey} from "./hotKey";
-import {getEditorRange, getSelectPosition, insertHTML, setRangeByWbr, setSelectionByPosition} from "./selection";
+import {
+    getEditorRange,
+    getSelectPosition,
+    insertHTML,
+    setRangeByWbr,
+    setSelectionByPosition,
+} from "./selection";
 
 // https://github.com/Vanessa219/vditor/issues/361
 export const fixCJKPosition = (range: Range, event: KeyboardEvent) => {

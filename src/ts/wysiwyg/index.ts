@@ -294,9 +294,7 @@ class WYSIWYG {
                 // 为空时显示 placeholder
                 vditor.wysiwyg.element.innerHTML = "";
             }
-
             const range = getEditorRange(this.element);
-
             if (event.key === "Backspace") {
                 // firefox headings https://github.com/Vanessa219/vditor/issues/211
                 if (isFirefox() && range.startContainer.textContent === "\n" && range.startOffset === 1) {
