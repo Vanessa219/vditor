@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Table of Contents plugin for Bootstrap</title>
+
+    <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./bootstrap-toc/bootstrap-toc.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./bootstrap-toc/screen.css"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    ></script>
+    <script src="./bootstrap-toc/bootstrap-toc.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor@3.2.8/dist/index.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/vditor@3.2.8/dist/method.min.js"></script>
+
+  </head>
+    
+  <body data-spy="scroll" data-target="#toc">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3">
+          <nav id="toc" data-toggle="toc" class="sticky-top"></nav>
+        </div>
+        <div class="col-sm-9">
+          <div id="previewWrap">
+            <div id="preview" class="preview"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./render-outline.js"></script>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+nav[data-toggle="toc"] {
+  top: 42px;
+}
+
+@media (max-width: 768px) {
+  nav[data-toggle="toc"] {
+    margin-bottom: 42px;
+    position: static;
+  }
+
+  nav[data-toggle="toc"] .nav .active .nav {
+    display: none;
+  }
+}
+
+
+p code,
+table code {
+  white-space: nowrap;
+}
+
+.right .github-fork-ribbon {
+  background-color: #563d7c;
+}
+
+.container {
+  max-width: 800px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.hint {
+  color: #563d7c;
+  display: inline-block;
+  font-weight: bold;
+  left: 20px; 
+  position: relative;
+  top: 0.5em;
+}
+.hint:before {
+  content: '↑';
+  display: block;
+  font-size: 3em;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+footer {
+  margin-top: 50px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .hint {
+    top: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  h1:first-child {
+    margin-top: 0;
+  }
+}
