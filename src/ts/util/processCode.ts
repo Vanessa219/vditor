@@ -76,8 +76,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         previewPanel.innerHTML = `<code class="language-math"><${tag} class="vditor-math">${previewPanel.innerHTML}</${tag}></code>`;
         mathRender(previewPanel.parentElement, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     } else {
-        highlightRender(Object.assign({}, vditor.options.preview.hljs, {enable: true}),
-            previewPanel, vditor.options.cdn);
+        highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
         codeRender(previewPanel, vditor.options.lang);
     }
 
