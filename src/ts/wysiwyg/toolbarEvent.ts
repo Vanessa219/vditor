@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {listToggle} from "../util/fixBrowserBehavior";
-import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByMatchTag} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
@@ -143,8 +143,8 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             setRangeByWbr(vditor.wysiwyg.element, range);
         }
 
+        let blockElement = hasClosestBlock(range.startContainer);
         if (commandName === "quote") {
-            let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
                 blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
             }
@@ -198,7 +198,6 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 range.deleteContents();
             }
             range.insertNode(node);
-            const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
             if (blockElement) {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             }
@@ -229,10 +228,13 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 setSelectionFocus(range);
             }
         } else if (commandName === "table") {
-            document.execCommand("insertHTML", false,
-                "<table data-block=\"0\"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead>"
-                + "<tbody><tr><td> </td><td> </td><td> "
-                + "</td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>");
+            const tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead>
+<tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;
+            if (blockElement && blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {
+                blockElement.outerHTML = tableHTML;
+            } else {
+                document.execCommand("insertHTML", false, tableHTML);
+            }
             range.selectNode(vditor.wysiwyg.element.querySelector("wbr").previousSibling);
             vditor.wysiwyg.element.querySelector("wbr").remove();
             setSelectionFocus(range);

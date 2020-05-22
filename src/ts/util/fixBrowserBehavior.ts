@@ -1113,8 +1113,8 @@ export const fixFirefoxArrowUpTable = (event: KeyboardEvent, blockElement: false
         return false;
     }
     if (event.key === "ArrowUp" && blockElement && blockElement.previousElementSibling?.tagName === "TABLE") {
-        const tableElement = blockElement.previousElementSibling as HTMLTableElement
-        range.selectNodeContents(tableElement.rows[tableElement.rows.length - 1].lastElementChild)
+        const tableElement = blockElement.previousElementSibling as HTMLTableElement;
+        range.selectNodeContents(tableElement.rows[tableElement.rows.length - 1].lastElementChild);
         range.collapse(false);
         event.preventDefault();
         return true;

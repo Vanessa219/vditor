@@ -66,6 +66,7 @@
 
 ### v3.2.9 / 2020-05-xx
 
+* [422](https://github.com/Vanessa219/vditor/issues/422) inserted one line before table block(windows/Firefox) `修复缺陷`
 * [425](https://github.com/Vanessa219/vditor/issues/425) 支持 flac 音频格式解析 `改进功能`
 
 ### v3.2.8 / 2020-05-20

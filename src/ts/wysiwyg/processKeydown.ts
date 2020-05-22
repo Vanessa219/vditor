@@ -301,7 +301,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     if (isFirefox() && range.startOffset === 1 && startContainer.textContent.indexOf(Constants.ZWSP) > -1 &&
-        startContainer.previousSibling.nodeType !== 3 &&
+        startContainer.previousSibling && startContainer.previousSibling.nodeType !== 3 &&
         (startContainer.previousSibling as HTMLElement).tagName === "CODE" &&
         (event.key === "Backspace" || event.key === "ArrowLeft")) {
         // https://github.com/Vanessa219/vditor/issues/410
