@@ -178,7 +178,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 html = `${prefix}${range.toString()}<wbr>${prefix}`;
             }
             if (commandName === "table" || commandName === "code") {
-                html = "\n" + html + "\n";
+                html = "\n" + html;
             }
             document.execCommand("insertHTML", false, html);
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
