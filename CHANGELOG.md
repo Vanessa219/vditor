@@ -64,13 +64,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.9 / 2020-05-xx
+### v3.2.10 / 2020-05-xx
+
+
+### v3.2.9 / 2020-05-22
 
 * [422](https://github.com/Vanessa219/vditor/issues/422) inserted one line before table block(windows/Firefox) `修复缺陷`
 * [425](https://github.com/Vanessa219/vditor/issues/425) 支持 flac 音频格式解析 `改进功能`
-
-### v3.2.8 / 2020-05-20
-
 * [409](https://github.com/Vanessa219/vditor/issues/409) codeblock(mac safari) `修复缺陷`
 * [407](https://github.com/Vanessa219/vditor/issues/407) cursor moving at tables(safari & firefox) `修复缺陷`
 * [421](https://github.com/Vanessa219/vditor/issues/421) 添加 bilibili 视频网站解析 `改进功能`
