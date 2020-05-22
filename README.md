@@ -42,7 +42,7 @@ So, Vditor was born.
 ## ✨  Features
 
 * Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
-* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://github.com/Vanessa219/vditor/issues/5), voice reading, heading anchors, code highlighting and copying, graphviz rendering
+* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://hacpai.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
 * Built-in security filtering, export, image lazy loading, task list, at, multi-platform preview, multi-theme switching, copy to WeChat function
 * Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://hacpai.com/article/1549638745630#options-preview-markdown)
 * The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://hacpai.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
