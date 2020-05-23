@@ -228,8 +228,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 setSelectionFocus(range);
             }
         } else if (commandName === "table") {
-            const tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead>
-<tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;
+            const tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead><tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;
             if (blockElement && blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {
                 blockElement.outerHTML = tableHTML;
             } else {
