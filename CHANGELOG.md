@@ -66,6 +66,7 @@
 
 ### v3.2.10 / 2020-05-xx
 
+* [427](https://github.com/Vanessa219/vditor/issues/427) headings 大小调整 `改进功能`
 
 ### v3.2.9 / 2020-05-22
 
