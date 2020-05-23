@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {isSafari} from "../util/compatibility";
+import {accessLocalStorage, isSafari} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
@@ -57,7 +57,7 @@ export const processAfterRender = (vditor: IVditor, options = {
             vditor.counter.render(vditor, text);
         }
 
-        if (vditor.options.cache.enable) {
+        if (vditor.options.cache.enable && accessLocalStorage()) {
             localStorage.setItem(vditor.options.cache.id, text);
             if (vditor.options.cache.after) {
                 vditor.options.cache.after(text);

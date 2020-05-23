@@ -66,6 +66,7 @@
 
 ### v3.2.10 / 2020-05-xx
 
+* [429](https://github.com/Vanessa219/vditor/issues/429) localStorage被禁用时，报错 `修复缺陷`
 * [427](https://github.com/Vanessa219/vditor/issues/427) headings 大小调整 `改进功能`
 
 ### v3.2.9 / 2020-05-22

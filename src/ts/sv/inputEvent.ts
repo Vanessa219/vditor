@@ -1,4 +1,5 @@
 import {getMarkdown} from "../markdown/getMarkdown";
+import {accessLocalStorage} from "../util/compatibility";
 
 export const inputEvent = (vditor: IVditor, options = {
     enableAddUndoStack: true,
@@ -15,7 +16,7 @@ export const inputEvent = (vditor: IVditor, options = {
     if (options.enableHint) {
         vditor.hint.render(vditor);
     }
-    if (vditor.options.cache.enable) {
+    if (vditor.options.cache.enable && accessLocalStorage()) {
         localStorage.setItem(vditor.options.cache.id, text);
         if (vditor.options.cache.after) {
             vditor.options.cache.after(text);

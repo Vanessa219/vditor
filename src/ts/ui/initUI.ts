@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
 import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
+import {accessLocalStorage} from "../util/compatibility";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
@@ -141,7 +142,7 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     });
 
     // set default value
-    let initValue = localStorage.getItem(vditor.options.cache.id);
+    let initValue = accessLocalStorage() && localStorage.getItem(vditor.options.cache.id);
     if (!vditor.options.cache.enable || !initValue) {
         if (vditor.options.value) {
             initValue = vditor.options.value;

@@ -6,6 +6,14 @@ export const isFirefox = () => {
     return navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 };
 
+export const accessLocalStorage = () => {
+    try {
+       return typeof localStorage !== "undefined";
+    } catch (e) {
+        return false;
+    }
+};
+
 // 用户 iPhone 点击延迟/需要双击的处理
 export const getEventName = () => {
     if (navigator.userAgent.indexOf("iPhone") > -1) {
