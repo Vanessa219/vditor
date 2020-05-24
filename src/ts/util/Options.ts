@@ -87,6 +87,7 @@ export class Options {
                 codeBlockPreview: true,
                 fixTermTypo: false,
                 footnotes: true,
+                linkBase: "",
                 listMarker: false,
                 sanitize: true,
                 setext: false,
