@@ -253,6 +253,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
 | listMarker | add data-marker attribute | false |
+| linkBase | link prefix | '' |
 
 #### options.preview.math
 

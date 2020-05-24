@@ -122,7 +122,7 @@
 * 文档修改
   * 为 `options.upload` 添加 `extraData`
   * 添加静态方法 `mindmapRender`
-  * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker` 配置
+  * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker`, `linkBase` 配置
   * IPreviewOptions.anchor 从 boolean 修改为 number
   * static-preview.html => preview.html，static.html => vditor.b3log.org/demo/render.html，添加 vditor.b3log.org
   * 添加 options.cache.after(markdown:string)
