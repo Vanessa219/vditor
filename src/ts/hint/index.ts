@@ -24,8 +24,7 @@ export class Hint {
         if (!window.getSelection().focusNode) {
             return;
         }
-        const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
-            vditor.wysiwyg.element : vditor.sv.element);
+        const position = getSelectPosition(vditor[vditor.currentMode].element);
         let currentLineValue: string;
         if (vditor.currentMode !== "sv") {
             const range = getSelection().getRangeAt(0);
