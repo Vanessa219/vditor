@@ -242,7 +242,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             if (element.nodeType === 3) {
                 element = range.startContainer.parentElement;
             }
-            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0"><wbr>\n</p>');
             setRangeByWbr(vditor.wysiwyg.element, range);
         } else {
             // bold, italic, strike

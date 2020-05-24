@@ -151,9 +151,9 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
 
         if (commandName === "line") {
             if (typeElement.classList.contains("vditor-reset")) {
-                typeElement.innerHTML = '<hr data-block="0"><p data-block="0">\n<wbr></p>';
+                typeElement.innerHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
             } else {
-                typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+                typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0"><wbr>\n</p>');
             }
         } else if (commandName === "quote") {
             const blockElement = hasClosestBlock(range.startContainer);

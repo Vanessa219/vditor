@@ -538,7 +538,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             }
 
             pElement.insertAdjacentHTML("afterend",
-                `${pInnerHTML}<hr data-block="0"><p data-block="0">\n<wbr></p>`);
+                `${pInnerHTML}<hr data-block="0"><p data-block="0"><wbr>\n</p>`);
             pElement.remove();
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
@@ -549,7 +549,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
 
         if (isHeadingMD(pElement.innerHTML)) {
             // heading 渲染
-            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0">\n<wbr></p>');
+            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0"><wbr>\n</p>');
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
             scrollCenter(vditor);
@@ -1031,11 +1031,13 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
                             startAttribute = taskItemElement.parentElement.tagName === "UL" ? "" : ` start="1"`;
                             beforeHTML = `<${parentTagName} data-tight="true"${dataMarker} data-block="0">${beforeHTML}</${parentTagName}>`;
                         }
-                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0">\n<wbr></p><${parentTagName}
+                        // <p data-block="0">\n<wbr></p> => <p data-block="0"><wbr>\n</p>
+                        // https://github.com/Vanessa219/vditor/issues/430
+                        taskItemElement.parentElement.outerHTML = `${beforeHTML}<p data-block="0"><wbr>\n</p><${parentTagName}
  data-tight="true"${dataMarker} data-block="0"${startAttribute}>${afterHTML}</${parentTagName}>`;
                     } else {
                         // 任务列表下方无任务列表元素
-                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0">\n<wbr></p>`);
+                        taskItemElement.parentElement.insertAdjacentHTML("afterend", `<p data-block="0"><wbr>\n</p>`);
                         if (taskItemElement.parentElement.querySelectorAll("li").length === 1) {
                             // 任务列表仅有一项时，使用 p 元素替换
                             taskItemElement.parentElement.remove();

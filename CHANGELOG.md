@@ -66,6 +66,7 @@
 
 ### v3.2.10 / 2020-05-xx
 
+* [430](https://github.com/Vanessa219/vditor/issues/430) cursor location when press ctrl+b after checkbox `修复缺陷`
 * [429](https://github.com/Vanessa219/vditor/issues/429) localStorage被禁用时，报错 `修复缺陷`
 * [427](https://github.com/Vanessa219/vditor/issues/427) headings 大小调整 `改进功能`
 
