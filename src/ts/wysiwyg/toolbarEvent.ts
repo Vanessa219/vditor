@@ -238,12 +238,15 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             vditor.wysiwyg.element.querySelector("wbr").remove();
             setSelectionFocus(range);
         } else if (commandName === "line") {
-            let element = range.startContainer as HTMLElement;
-            if (element.nodeType === 3) {
-                element = range.startContainer.parentElement;
+            if (blockElement) {
+                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
+                if (blockElement.innerHTML.trim() === "") {
+                    blockElement.outerHTML = hrHTML;
+                } else {
+                    blockElement.insertAdjacentHTML("afterend", hrHTML);
+                }
+                setRangeByWbr(vditor.wysiwyg.element, range);
             }
-            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0"><wbr>\n</p>');
-            setRangeByWbr(vditor.wysiwyg.element, range);
         } else {
             // bold, italic, strike
             useHighlight = false;

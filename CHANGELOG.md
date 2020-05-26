@@ -66,6 +66,7 @@
 
 ### v3.2.10 / 2020-05-xx
 
+* [438](https://github.com/Vanessa219/vditor/issues/438) one empty line when ctrl+shift+h `改进功能`
 * [439](https://github.com/Vanessa219/vditor/issues/439) not working ctrl+shift+x at links `修复缺陷`
 * [444](https://github.com/Vanessa219/vditor/pull/444) delete tables when cells are empty `改进功能`
 * [447](https://github.com/Vanessa219/vditor/pull/447) run vditor.insertValue('abc') throw error `修复缺陷`

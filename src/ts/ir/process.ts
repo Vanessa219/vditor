@@ -148,15 +148,17 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             vditor.ir.element.innerHTML = '<p data-block="0"><wbr></p>';
             setRangeByWbr(vditor.ir.element, range);
         }
-
+        const blockElement = hasClosestBlock(range.startContainer);
         if (commandName === "line") {
-            if (typeElement.classList.contains("vditor-reset")) {
-                typeElement.innerHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
-            } else {
-                typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0"><wbr>\n</p>');
+            if (blockElement) {
+                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
+                if (blockElement.innerHTML.trim() === "") {
+                    blockElement.outerHTML = hrHTML;
+                } else {
+                    blockElement.insertAdjacentHTML("afterend", hrHTML);
+                }
             }
         } else if (commandName === "quote") {
-            const blockElement = hasClosestBlock(range.startContainer);
             if (blockElement) {
                 range.insertNode(document.createElement("wbr"));
                 blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
