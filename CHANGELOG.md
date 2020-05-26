@@ -66,6 +66,7 @@
 
 ### v3.2.10 / 2020-05-xx
 
+* [444](https://github.com/Vanessa219/vditor/pull/444) delete tables when cells are empty `改进功能`
 * [447](https://github.com/Vanessa219/vditor/pull/447) run vditor.insertValue('abc') throw error `修复缺陷`
 * [435](https://github.com/Vanessa219/vditor/issues/435) task list 合并会添加 p 标签 `修复缺陷`
 * [432](https://github.com/Vanessa219/vditor/issues/432) 代码块中输入 &pars 解析问题 `修复缺陷`

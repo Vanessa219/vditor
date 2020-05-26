@@ -744,9 +744,14 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
             && range.startOffset === 0 && range.toString() === "") {
             const previousCellElement = goPreviousCell(cellElement, range, false);
-            if (!previousCellElement && tableElement && tableElement.textContent.trim() === "") {
-                tableElement.outerHTML = `<p data-block="0"><wbr></p>`;
-                setRangeByWbr(vditor[vditor.currentMode].element, range);
+            if (!previousCellElement && tableElement) {
+                if (tableElement.textContent.trim() === "") {
+                    tableElement.outerHTML = `<p data-block="0"><wbr>\n</p>`;
+                    setRangeByWbr(vditor[vditor.currentMode].element, range);
+                } else {
+                    range.setStartBefore(tableElement);
+                    range.collapse(true);
+                }
                 execAfterRender(vditor);
             }
             event.preventDefault();
