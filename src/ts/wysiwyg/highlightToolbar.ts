@@ -22,6 +22,7 @@ import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHeading
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
+import {removeBlockElement} from "./processKeydown";
 
 export const highlightToolbar = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -287,6 +288,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     event.preventDefault();
                     return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             const input2Wrap = document.createElement("span");
@@ -314,6 +316,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     event.preventDefault();
                     return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             genUp(range, tableElement, vditor);
@@ -356,6 +359,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLinkRef();
             };
             input.onkeydown = (event) => {
+                if (removeBlockElement(vditor, event)) {
+                    return;
+                }
                 linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input1);
             };
 
@@ -371,6 +377,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLinkRef();
             };
             input1.onkeydown = (event) => {
+                if (removeBlockElement(vditor, event)) {
+                    return;
+                }
                 linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
             };
 
@@ -409,7 +418,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                     range.collapse(false);
                     setSelectionFocus(range);
                     event.preventDefault();
+                    return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             genClose(footnotesRefElement, vditor);
@@ -452,6 +463,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 };
                 language.onkeydown = (event: KeyboardEvent) => {
                     if (event.isComposing) {
+                        return;
+                    }
+                    if (removeBlockElement(vditor, event)) {
                         return;
                     }
                     if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
@@ -515,7 +529,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                     range.collapse(false);
                     setSelectionFocus(range);
                     event.preventDefault();
+                    return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             genUp(range, headingElement, vditor);
@@ -617,9 +633,6 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
 };
 
 const genClose = (element: HTMLElement, vditor: IVditor) => {
-    if (vditor.wysiwyg.element.children.length === 1 && vditor.wysiwyg.element.firstElementChild.tagName === "P") {
-        return;
-    }
     const close = document.createElement("button");
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
@@ -686,6 +699,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
         linkHotkey(vditor.wysiwyg.element, aElement, event, input1);
     };
 
@@ -701,6 +717,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input1.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
         linkHotkey(vditor.wysiwyg.element, aElement, event, input2);
     };
 
@@ -717,6 +736,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input2.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
         linkHotkey(vditor.wysiwyg.element, aElement, event, input);
     };
 
@@ -747,6 +769,9 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     inputElement.oninput = () => {
         updateImg();
     };
+    inputElement.onkeydown = (elementEvent) => {
+        removeBlockElement(vditor, elementEvent);
+    };
 
     const altWrap = document.createElement("span");
     altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
@@ -760,6 +785,9 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     alt.oninput = () => {
         updateImg();
     };
+    alt.onkeydown = (elementEvent) => {
+        removeBlockElement(vditor, elementEvent);
+    };
 
     const titleWrap = document.createElement("span");
     titleWrap.setAttribute("aria-label", "Title");
@@ -772,6 +800,10 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     title.oninput = () => {
         updateImg();
     };
+    title.onkeydown = (elementEvent) => {
+        removeBlockElement(vditor, elementEvent);
+    };
+    genClose(imgElement, vditor);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", titleWrap);
