@@ -744,8 +744,8 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace"
             && range.startOffset === 0 && range.toString() === "") {
             const previousCellElement = goPreviousCell(cellElement, range, false);
-            if (!previousCellElement && tableElement) {
-                tableElement.outerHTML = `<p data-block="0"><wbr>${tableElement.textContent.trim()}</p>`;
+            if (!previousCellElement && tableElement && tableElement.textContent.trim() === "") {
+                tableElement.outerHTML = `<p data-block="0"><wbr></p>`;
                 setRangeByWbr(vditor[vditor.currentMode].element, range);
                 execAfterRender(vditor);
             }
