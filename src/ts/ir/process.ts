@@ -3,7 +3,7 @@ import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage, isSafari} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
+import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {highlightToolbar} from "./highlightToolbar";
 
 export const processHint = (vditor: IVditor) => {
@@ -183,6 +183,10 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 html = "\n" + html;
             }
             document.execCommand("insertHTML", false, html);
+            if (commandName === "table") {
+                range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
+                setSelectionFocus(range);
+            }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);
         }
