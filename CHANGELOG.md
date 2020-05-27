@@ -66,6 +66,7 @@
 
 ### v3.2.10 / 2020-05-xx
 
+* [449](https://github.com/Vanessa219/vditor/issues/449) table(IR mode) `修复缺陷`
 * [443](https://github.com/Vanessa219/vditor/issues/443) 快捷键中文版 `文档相关`
 * [438](https://github.com/Vanessa219/vditor/issues/438) one empty line when ctrl+shift+h `改进功能`
 * [439](https://github.com/Vanessa219/vditor/issues/439) not working ctrl+shift+x at links `修复缺陷`
