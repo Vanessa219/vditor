@@ -23,7 +23,7 @@ export class MenuItem {
             menuItem.tip + hotkey : i18n[vditor.options.lang][menuItem.name] + hotkey;
         const tagName = menuItem.name === "upload" ? "div" : "button";
         if (menuItem.level === 2) {
-            this.element.innerHTML = `<${tagName}>${tip}</${tagName}>`;
+            this.element.innerHTML = `<${tagName} data-type="${menuItem.name}">${tip}</${tagName}>`;
         } else {
             this.element.classList.add("vditor-toolbar__item");
             const iconElement = document.createElement(tagName);
