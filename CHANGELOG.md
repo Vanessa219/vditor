@@ -64,7 +64,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.10 / 2020-05-xx
+### v3.2.11 / 2020-05-xx
+
+### v3.2.10 / 2020-05-27
 
 * [449](https://github.com/Vanessa219/vditor/issues/449) table(IR mode) `修复缺陷`
 * [443](https://github.com/Vanessa219/vditor/issues/443) 快捷键中文版 `文档相关`
@@ -79,9 +81,6 @@
 * [430](https://github.com/Vanessa219/vditor/issues/430) cursor location when press ctrl+b after checkbox `修复缺陷`
 * [429](https://github.com/Vanessa219/vditor/issues/429) localStorage被禁用时，报错 `修复缺陷`
 * [427](https://github.com/Vanessa219/vditor/issues/427) headings 大小调整 `改进功能`
-
-### v3.2.9 / 2020-05-22
-
 * [422](https://github.com/Vanessa219/vditor/issues/422) inserted one line before table block(windows/Firefox) `修复缺陷`
 * [425](https://github.com/Vanessa219/vditor/issues/425) 支持 flac 音频格式解析 `改进功能`
 * [409](https://github.com/Vanessa219/vditor/issues/409) codeblock(mac safari) `修复缺陷`
