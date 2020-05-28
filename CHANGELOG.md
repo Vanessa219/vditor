@@ -66,6 +66,8 @@
 
 ### v3.2.11 / 2020-05-xx
 
+* [456](https://github.com/Vanessa219/vditor/pull/456) 根据逗号/制表符生成表格 `引入特性`
+
 ### v3.2.10 / 2020-05-27
 
 * [453](https://github.com/Vanessa219/vditor/issues/453) bold 位于子菜单中无作用 `修复缺陷`
