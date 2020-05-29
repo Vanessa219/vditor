@@ -1141,7 +1141,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     event.stopPropagation();
     event.preventDefault();
     let textHTML = event.clipboardData.getData("text/html");
-    const textPlain = event.clipboardData.getData("text/plain");
+    let textPlain = event.clipboardData.getData("text/plain");
     const renderers: {
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
@@ -1206,11 +1206,15 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     if (codeElement) {
         // 粘贴在代码位置
         const position = getSelectPosition(event.target);
+        if (codeElement.parentElement.tagName !== "PRE") {
+            // https://github.com/Vanessa219/vditor/issues/463
+            textPlain += Constants.ZWSP;
+        }
         codeElement.textContent = codeElement.textContent.substring(0, position.start)
             + textPlain + codeElement.textContent.substring(position.end);
         setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
             codeElement.parentElement);
-        if (codeElement.parentElement.nextElementSibling.classList.contains(`vditor-${vditor.currentMode}__preview`)) {
+        if (codeElement.parentElement?.nextElementSibling.classList.contains(`vditor-${vditor.currentMode}__preview`)) {
             codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
             processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
         }
