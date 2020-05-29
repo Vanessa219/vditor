@@ -66,6 +66,7 @@
 
 ### v3.2.11 / 2020-05-xx
 
+* [462](https://github.com/Vanessa219/vditor/issues/462) ctrl+z ir 模式没有渲染代码块 `修复缺陷`
 * [456](https://github.com/Vanessa219/vditor/pull/456) 根据逗号/制表符生成表格 `引入特性`
 
 ### v3.2.10 / 2020-05-27

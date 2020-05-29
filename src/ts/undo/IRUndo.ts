@@ -4,6 +4,7 @@ import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {processCodeRender} from "../util/processCode";
 
 class IRUndo {
     private undoStack: patch_obj[][];
@@ -140,6 +141,9 @@ class IRUndo {
 
         this.lastText = text;
         vditor.ir.element.innerHTML = text;
+        vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
+            processCodeRender(item, vditor);
+        });
         setRangeByWbr(vditor.ir.element, vditor.ir.element.ownerDocument.createRange());
         scrollCenter(vditor);
         processAfterRender(vditor, {
