@@ -3,8 +3,8 @@ import {processAfterRender} from "../ir/process";
 import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
-import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {processCodeRender} from "../util/processCode";
+import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 
 class IRUndo {
     private undoStack: patch_obj[][];

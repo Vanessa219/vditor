@@ -55,6 +55,11 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     }
     const codeElement = previewPanel.querySelector("code");
     if (!codeElement) {
+        if (previewPanel.parentElement.getAttribute("data-type") === "html-block") {
+            previewPanel.style.backgroundColor = "var(--preview-background-color)";
+            previewPanel.style.padding = "0.2em 0.4em";
+            previewPanel.setAttribute("data-render", "1");
+        }
         return;
     }
     const language = codeElement.className.replace("language-", "");
