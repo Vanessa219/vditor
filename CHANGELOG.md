@@ -66,6 +66,7 @@
 
 ### v3.2.11 / 2020-06-xx
 
+* [467](https://github.com/Vanessa219/vditor/issues/467) 为表格添加行列增删按钮 `引入特性`
 * [472](https://github.com/Vanessa219/vditor/issues/472) Add <details> preview in ir mode `引入特性`
 * [471](https://github.com/Vanessa219/vditor/issues/471) 移动端子工具栏箭头没对齐 `修复缺陷`
 * [473](https://github.com/Vanessa219/vditor/issues/473) different between press "Ctrl+b" and click "B" icon. `修复缺陷`

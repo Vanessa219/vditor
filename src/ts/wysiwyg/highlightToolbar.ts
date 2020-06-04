@@ -1,7 +1,11 @@
 import alignCenterSVG from "../../assets/icons/align-center.svg";
 import alingLeftSVG from "../../assets/icons/align-left.svg";
 import alingRightSVG from "../../assets/icons/align-right.svg";
+import deleteColumnSVG from "../../assets/icons/delete-column.svg";
+import deleteRowSVG from "../../assets/icons/delete-row.svg";
 import downSVG from "../../assets/icons/down.svg";
+import insertColumnSVG from "../../assets/icons/insert-column.svg";
+import insertRowSVG from "../../assets/icons/insert-row.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import upSVG from "../../assets/icons/up.svg";
 import {Constants} from "../constants";
@@ -12,7 +16,7 @@ import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
-import {setTableAlign} from "../util/fixBrowserBehavior";
+import {deleteColumn, deleteRow, insertColumn, insertRow, setTableAlign} from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
     hasClosestByClassName,
@@ -263,6 +267,66 @@ export const highlightToolbar = (vditor: IVditor) => {
                 setAlign("right");
             };
 
+            const insertRowElement = document.createElement("button");
+            insertRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-row"] +
+                "<" + updateHotkeyTip("⌘-=") + ">");
+            insertRowElement.setAttribute("data-type", "insertRow");
+            insertRowElement.innerHTML = insertRowSVG;
+            insertRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            insertRowElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    insertRow(vditor, range, cellElement);
+                }
+            };
+
+            const insertColumnElement = document.createElement("button");
+            insertColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-column"] +
+                "<" + updateHotkeyTip("⌘-⇧-=") + ">");
+            insertColumnElement.setAttribute("data-type", "insertColumn");
+            insertColumnElement.innerHTML = insertColumnSVG;
+            insertColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            insertColumnElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    insertColumn(vditor, tableElement, cellElement);
+                }
+            };
+
+            const deleteRowElement = document.createElement("button");
+            deleteRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-row"] +
+                "<" + updateHotkeyTip("⌘--") + ">");
+            deleteRowElement.setAttribute("data-type", "deleteRow");
+            deleteRowElement.innerHTML = deleteRowSVG;
+            deleteRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            deleteRowElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    deleteRow(vditor, range, cellElement);
+                }
+            };
+
+            const deleteColumnElement = document.createElement("button");
+            deleteColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-column"] +
+                "<" + updateHotkeyTip("⌘-⇧--") + ">");
+            deleteColumnElement.setAttribute("data-type", "deleteColumn");
+            deleteColumnElement.innerHTML = deleteColumnSVG;
+            deleteColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            deleteColumnElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    deleteColumn(vditor, range, tableElement, cellElement);
+                }
+            };
+
             const inputWrap = document.createElement("span");
             inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].row);
             inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -325,6 +389,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", left);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", center);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", right);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertRowElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertColumnElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", deleteRowElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", deleteColumnElement);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
