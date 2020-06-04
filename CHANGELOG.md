@@ -64,8 +64,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.11 / 2020-05-xx
+### v3.2.11 / 2020-06-xx
 
+* [471](https://github.com/Vanessa219/vditor/issues/471) 移动端子工具栏箭头没对齐 `修复缺陷`
 * [473](https://github.com/Vanessa219/vditor/issues/473) different between press "Ctrl+b" and click "B" icon. `修复缺陷`
 * [463](https://github.com/Vanessa219/vditor/issues/463) 在行内代码中进行粘贴时光标位置不对及报错处理 `修复缺陷`
 * [462](https://github.com/Vanessa219/vditor/issues/462) ctrl+z ir 模式没有渲染代码块 `修复缺陷`
