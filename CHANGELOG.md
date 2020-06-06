@@ -64,8 +64,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.11 / 2020-06-xx
+### v3.2.12 / 2020-06-xx
 
+
+### v3.2.11 / 2020-07-06
+
+* [475](https://github.com/Vanessa219/vditor/issues/475) 从网页和其它 md 编辑器中复制的 iframe 和 视频标签 无法粘贴到 Vditor `修复缺陷`
+* [455](https://github.com/Vanessa219/vditor/issues/455) HTML 实体在切换编辑模式时的转义问题 `修复缺陷`
 * [466](https://github.com/Vanessa219/vditor/issues/466) Tab is not working inside Quote(safari) `修复缺陷`
 * [467](https://github.com/Vanessa219/vditor/issues/467) 为表格添加行列增删按钮 `引入特性`
 * [472](https://github.com/Vanessa219/vditor/issues/472) Add <details> preview in ir mode `引入特性`
@@ -74,9 +79,6 @@
 * [463](https://github.com/Vanessa219/vditor/issues/463) 在行内代码中进行粘贴时光标位置不对及报错处理 `修复缺陷`
 * [462](https://github.com/Vanessa219/vditor/issues/462) ctrl+z ir 模式没有渲染代码块 `修复缺陷`
 * [456](https://github.com/Vanessa219/vditor/pull/456) 根据逗号/制表符生成表格 `引入特性`
-
-### v3.2.10 / 2020-05-27
-
 * [453](https://github.com/Vanessa219/vditor/issues/453) bold 位于子菜单中无作用 `修复缺陷`
 * [449](https://github.com/Vanessa219/vditor/issues/449) table(IR mode) `修复缺陷`
 * [443](https://github.com/Vanessa219/vditor/issues/443) 快捷键中文版 `文档相关`
