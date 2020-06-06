@@ -501,6 +501,7 @@ export const fixTab = (vditor: IVditor, range: Range, event: KeyboardEvent) => {
                 range.collapse(false);
             }
         }
+        setSelectionFocus(range);
         execAfterRender(vditor);
         event.preventDefault();
         return true;
