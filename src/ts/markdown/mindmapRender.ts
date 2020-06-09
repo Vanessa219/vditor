@@ -11,6 +11,10 @@ export const mindmapRender = (element: (HTMLElement | Document) = document,
     if (mindmapElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
             mindmapElements.forEach((e: HTMLDivElement) => {
+                const text = e.getAttribute("data-code");
+                if (!text) {
+                    return;
+                }
                 try {
                     if (e.getAttribute("data-processed") === "true") {
                         return;
@@ -18,7 +22,7 @@ export const mindmapRender = (element: (HTMLElement | Document) = document,
                     const option = {
                         series: [
                             {
-                                data: [JSON.parse(decodeURIComponent(e.getAttribute("data-code")))],
+                                data: [JSON.parse(decodeURIComponent(text))],
                                 initialTreeDepth: -1,
                                 itemStyle: {
                                     borderWidth: 0,
