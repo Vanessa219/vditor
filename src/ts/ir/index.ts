@@ -125,9 +125,6 @@ class IR {
                 }
             }
 
-            expandMarker(range, vditor);
-            highlightToolbar(vditor);
-
             // 点击后光标落于预览区
             let previewElement = hasClosestByClassName(event.target, "vditor-ir__preview");
             if (!previewElement) {
@@ -145,6 +142,9 @@ class IR {
                 setSelectionFocus(range);
                 scrollCenter(vditor);
             }
+
+            expandMarker(range, vditor);
+            highlightToolbar(vditor);
         });
 
         this.element.addEventListener("keyup", (event) => {
