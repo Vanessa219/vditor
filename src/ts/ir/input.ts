@@ -177,7 +177,6 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
             vditor.ir.element.insertAdjacentElement("beforeend", allFootnoteElement);
         }
     }
-
     setRangeByWbr(vditor.ir.element, range);
 
     vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {

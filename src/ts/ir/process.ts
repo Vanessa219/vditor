@@ -3,7 +3,7 @@ import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage, isSafari} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
+import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {highlightToolbar} from "./highlightToolbar";
 
 export const processHint = (vditor: IVditor) => {
@@ -148,15 +148,17 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             vditor.ir.element.innerHTML = '<p data-block="0"><wbr></p>';
             setRangeByWbr(vditor.ir.element, range);
         }
-
+        const blockElement = hasClosestBlock(range.startContainer);
         if (commandName === "line") {
-            if (typeElement.classList.contains("vditor-reset")) {
-                typeElement.innerHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
-            } else {
-                typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0"><wbr>\n</p>');
+            if (blockElement) {
+                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
+                if (blockElement.innerHTML.trim() === "") {
+                    blockElement.outerHTML = hrHTML;
+                } else {
+                    blockElement.insertAdjacentHTML("afterend", hrHTML);
+                }
             }
         } else if (commandName === "quote") {
-            const blockElement = hasClosestBlock(range.startContainer);
             if (blockElement) {
                 range.insertNode(document.createElement("wbr"));
                 blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
@@ -175,12 +177,16 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;
             } else {
-                html = `${prefix}${range.toString()}<wbr>${prefix}`;
+                html = `${prefix}${range.toString()}<wbr>${suffix}`;
             }
             if (commandName === "table" || commandName === "code") {
                 html = "\n" + html;
             }
             document.execCommand("insertHTML", false, html);
+            if (commandName === "table") {
+                range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
+                setSelectionFocus(range);
+            }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);
         }

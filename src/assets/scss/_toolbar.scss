@@ -166,6 +166,9 @@
   .vditor-toolbar__item {
     padding: 0 12px;
   }
+  .vditor-panel--left.vditor-panel--arrow:before {
+    right: 17px;
+  }
 }
 
 @media(hover: hover) and (pointer: fine) {

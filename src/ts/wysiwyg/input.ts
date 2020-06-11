@@ -135,8 +135,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             }
         }
 
-        if (hasClosestByHeadings(blockElement) || html.startsWith("<h") || 
-            (event && (event.inputType === "deleteContentBackward" || event.inputType === "deleteContentForward"))) {
+        if (hasClosestByHeadings(blockElement) || html.startsWith("<h") || event?.inputType === "deleteContentBackward"
+            || event?.inputType === "deleteContentForward") {
             renderToc(vditor);
         }
 
@@ -145,8 +145,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
 
         vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']")
             .forEach((item: HTMLElement) => {
-            processCodeRender(item, vditor);
-        });
+                processCodeRender(item, vditor);
+            });
     }
 
     afterRenderEvent(vditor, {
