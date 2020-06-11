@@ -68,6 +68,7 @@
 
 ### v3.3.0 / 2020-06-xx
 
+* [484](https://github.com/Vanessa219/vditor/issues/484) 添加 TED 视频支持 `改进功能`
 * [480](https://github.com/Vanessa219/vditor/issues/480) Mindmap 和 Echarts 内容为空时会报错 `修复缺陷`
 
 ### v3.2.12 / 2020-06-07
