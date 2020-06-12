@@ -16,10 +16,14 @@ class Undo {
     private timeout: number;
 
     constructor() {
-        this.redoStack = [];
-        this.undoStack = [];
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
+        this.init();
+    }
+
+    public init() {
+        this.redoStack = [];
+        this.undoStack = [];
         this.lastText = "";
         this.hasUndo = false;
     }
