@@ -80,10 +80,10 @@ class Vditor extends VditorMethod {
         };
 
         this.vditor.sv = new Editor(this.vditor);
-        this.vditor.undo = new Undo();
+        this.vditor.undo = new Undo(this.vditor);
         this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-        this.vditor.wysiwygUndo = new WysiwygUndo();
-        this.vditor.irUndo = new IRUndo();
+        this.vditor.wysiwygUndo = new WysiwygUndo(this.vditor);
+        this.vditor.irUndo = new IRUndo(this.vditor);
         this.vditor.ir = new IR(this.vditor);
         this.vditor.toolbar = new Toolbar(this.vditor);
 

@@ -547,7 +547,7 @@ interface IVditor {
         range: Range,
     };
     undo?: {
-        init(): void,
+        init(vditor: IVditor): void,
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
@@ -555,7 +555,7 @@ interface IVditor {
         resetIcon(vditor: IVditor): void,
     };
     wysiwygUndo?: {
-        init(): void,
+        init(vditor: IVditor): void,
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
@@ -563,7 +563,7 @@ interface IVditor {
         resetIcon(vditor: IVditor): void,
     };
     irUndo?: {
-        init(): void,
+        init(vditor: IVditor): void,
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
