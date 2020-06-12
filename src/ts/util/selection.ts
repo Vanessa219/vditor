@@ -29,32 +29,40 @@ export const getCursorPosition = (editor: HTMLElement) => {
     let cursorRect;
     if (range.getClientRects().length === 0) {
         if (range.startContainer.nodeType === 3) {
-            return {
-                left: 0,
-                top: 0,
-            };
-        }
-        const children = (range.startContainer as Element).children;
-        if (children[range.startOffset] &&
-            children[range.startOffset].getClientRects().length > 0) {
-            // markdown 模式回车
-            cursorRect = children[range.startOffset].getClientRects()[0];
-        } else if (range.startContainer.childNodes.length > 0) {
-            // in table or code block
-            range.selectNode(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
-            cursorRect = range.getClientRects()[0];
-            range.collapse(false);
-        } else {
-            cursorRect = (range.startContainer as HTMLElement).getClientRects()[0];
-        }
-        if (!cursorRect) {
-            let parentElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
-            while (!parentElement.getClientRects ||
-            (parentElement.getClientRects && parentElement.getClientRects().length === 0)) {
-                parentElement = parentElement.parentElement;
+            // 空行时，会出现没有 br 的情况，需要根据父元素 <p> 获取位置信息
+            let parent = range.startContainer.parentElement;
+            if (parent && parent.getClientRects().length > 0) {
+                cursorRect = parent.getClientRects()[0];
+            } else {
+                return {
+                    left: 0,
+                    top: 0,
+                };
             }
-            cursorRect = parentElement.getClientRects()[0];
+        } else {
+            const children = (range.startContainer as Element).children;
+            if (children[range.startOffset] &&
+                children[range.startOffset].getClientRects().length > 0) {
+                // markdown 模式回车
+                cursorRect = children[range.startOffset].getClientRects()[0];
+            } else if (range.startContainer.childNodes.length > 0) {
+                // in table or code block
+                range.selectNode(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
+                cursorRect = range.getClientRects()[0];
+                range.collapse(false);
+            } else {
+                cursorRect = (range.startContainer as HTMLElement).getClientRects()[0];
+            }
+            if (!cursorRect) {
+                let parentElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+                while (!parentElement.getClientRects ||
+                (parentElement.getClientRects && parentElement.getClientRects().length === 0)) {
+                    parentElement = parentElement.parentElement;
+                }
+                cursorRect = parentElement.getClientRects()[0];
+            }
         }
+        
     } else {
         cursorRect = range.getClientRects()[0];
     }
