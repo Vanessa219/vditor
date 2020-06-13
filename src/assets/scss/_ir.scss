@@ -5,10 +5,6 @@
   position: relative;
   width: 100%;
 
-  &__block[data-type="html-block"] pre {
-    margin: 1em 0 !important;
-  }
-
   &__node {
     &[data-type="code-block"]:before,
     &[data-type="code-block"]:after,
@@ -25,6 +21,10 @@
     &[data-type="link-ref"],
     &[data-type="footnotes-ref"] {
       color: $blurColor;
+    }
+
+    &[data-type="html-block"] {
+      margin-bottom: 1em;
     }
 
     .vditor-ir__marker {
