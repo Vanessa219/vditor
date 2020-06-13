@@ -68,6 +68,7 @@
 
 ### v3.3.0 / 2020-06-xx
 
+* [486](https://github.com/Vanessa219/vditor/pull/486) getCursorPosition 针对空行会得到错误数据 `修复缺陷`
 * [485](https://github.com/Vanessa219/vditor/issues/485) IR 模式下，<details>的编辑问题 `修复缺陷`
 * [484](https://github.com/Vanessa219/vditor/issues/484) 添加 TED 视频支持 `改进功能`
 * [480](https://github.com/Vanessa219/vditor/issues/480) Mindmap 和 Echarts 内容为空时会报错 `修复缺陷`

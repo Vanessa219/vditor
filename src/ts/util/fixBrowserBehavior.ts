@@ -923,7 +923,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
-        if (codeRenderElement.firstElementChild.classList.contains('language-mindmap')) {
+        if (codeRenderElement.firstElementChild.classList.contains("language-mindmap")) {
             // 脑图换行需要渲染
             if (vditor.currentMode === "wysiwyg") {
                 input(vditor, range);
