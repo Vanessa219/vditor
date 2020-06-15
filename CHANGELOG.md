@@ -66,8 +66,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.0 / 2020-06-xx
+### v3.3.1 / 2020-06-xx
 
+### v3.3.0 / 2020-06-15
 * [486](https://github.com/Vanessa219/vditor/pull/486) getCursorPosition 针对空行会得到错误数据 `修复缺陷`
 * [485](https://github.com/Vanessa219/vditor/issues/485) IR 模式下，<details>的编辑问题 `修复缺陷`
 * [484](https://github.com/Vanessa219/vditor/issues/484) 添加 TED 视频支持 `改进功能`
