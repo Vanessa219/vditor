@@ -118,7 +118,7 @@ class Vditor extends VditorMethod {
                 headingAnchor: false,
                 inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
                 linkBase: this.vditor.options.preview.markdown.linkBase,
-                listMarker: this.vditor.options.preview.markdown.listMarker,
+                listStyle: this.vditor.options.preview.markdown.listStyle,
                 paragraphBeginningSpace: this.vditor.options.preview.markdown.paragraphBeginningSpace,
                 sanitize: this.vditor.options.preview.markdown.sanitize,
                 setext: this.vditor.options.preview.markdown.setext,

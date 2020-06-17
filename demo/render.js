@@ -16,7 +16,7 @@ const render = (fileName) => {
         markdown, {
           markdown: {
             toc: true,
-            listMarker: fileName === 'cute-list',
+            listStyle: fileName === 'cute-list',
           },
           speech: {
             enable: true,

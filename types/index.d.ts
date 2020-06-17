@@ -122,7 +122,7 @@ interface ILute {
 
     SetChineseParagraphBeginningSpace(enable: boolean): void;
 
-    SetRenderListMarker(enable: boolean): void;
+    SetRenderListStyle(enable: boolean): void;
 
     SetLinkBase(url: string): void;
 
@@ -332,7 +332,7 @@ interface IMarkdownConfig {
     /** 链接前缀。默认值：'' */
     linkBase?: string;
     /** 为列表添加标记，以便[自定义列表样式](https://github.com/Vanessa219/vditor/issues/390) 默认值：false */
-    listMarker?: boolean;
+    listStyle?: boolean;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview */

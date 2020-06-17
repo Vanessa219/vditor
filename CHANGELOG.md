@@ -68,11 +68,18 @@
 
 ### v3.3.1 / 2020-06-xx
 
+* [494](https://github.com/Vanessa219/vditor/issues/494) 三种模式支持 list-style 样式 `改进功能`
+* [489](https://github.com/Vanessa219/vditor/issues/489) 为 vditor.b3log.org/demo 添加源码 `改进功能`
+* [493](https://github.com/Vanessa219/vditor/issues/493) 修复 XSS 过滤 `修复缺陷`
+
 ### v3.3.0 / 2020-06-15
+
 * [486](https://github.com/Vanessa219/vditor/pull/486) getCursorPosition 针对空行会得到错误数据 `修复缺陷`
 * [485](https://github.com/Vanessa219/vditor/issues/485) IR 模式下，<details>的编辑问题 `修复缺陷`
 * [484](https://github.com/Vanessa219/vditor/issues/484) 添加 TED 视频支持 `改进功能`
 * [480](https://github.com/Vanessa219/vditor/issues/480) Mindmap 和 Echarts 内容为空时会报错 `修复缺陷`
+* 文档修改
+  * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
 
 ### v3.2.12 / 2020-06-07
 

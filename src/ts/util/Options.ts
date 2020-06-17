@@ -88,7 +88,7 @@ export class Options {
                 fixTermTypo: false,
                 footnotes: true,
                 linkBase: "",
-                listMarker: false,
+                listStyle: false,
                 sanitize: true,
                 setext: false,
                 theme: "light",
