@@ -449,7 +449,7 @@ interface IOptions {
     /** @link https://hacpai.com/article/1549638745630#options-hint */
     hint?: IHint;
     /** @link https://hacpai.com/article/1549638745630#options-toolbarConfig */
-    toolbarConfig: {
+    toolbarConfig?: {
         hide?: boolean,
         pin?: boolean,
     };

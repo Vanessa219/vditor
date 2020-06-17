@@ -51,10 +51,14 @@ class Vditor extends VditorMethod {
         this.version = VDITOR_VERSION;
 
         if (typeof id === "string") {
-            if (!options.cache) {
-                options.cache = {
-                    id: `vditor${id}`,
+            if (!options) {
+                options = {
+                    cache: {
+                        id: `vditor${id}`,
+                    },
                 };
+            } else if (!options.cache) {
+                options.cache = {id: `vditor${id}`};
             } else if (!options.cache.id) {
                 options.cache.id = `vditor${id}`;
             }
