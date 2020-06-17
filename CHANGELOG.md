@@ -68,6 +68,7 @@
 
 ### v3.3.1 / 2020-06-xx
 
+* [495](https://github.com/Vanessa219/vditor/issues/495) 行级 HTML 退格问题 `修复缺陷`
 * [494](https://github.com/Vanessa219/vditor/issues/494) 三种模式支持 list-style 样式 `改进功能`
 * [489](https://github.com/Vanessa219/vditor/issues/489) 为 vditor.b3log.org/demo 添加源码 `改进功能`
 * [493](https://github.com/Vanessa219/vditor/issues/493) 修复 XSS 过滤 `修复缺陷`

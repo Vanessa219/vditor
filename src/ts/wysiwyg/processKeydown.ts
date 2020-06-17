@@ -288,7 +288,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
 
             // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除, 不能返回，还需要进行后续处理
-            blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
+            blockElement.querySelectorAll("span.vditor-wysiwyg__block[data-type='math-inline']").forEach((item) => {
                 (item.firstElementChild as HTMLElement).style.display = "inline";
                 (item.lastElementChild as HTMLElement).style.display = "none";
             });
