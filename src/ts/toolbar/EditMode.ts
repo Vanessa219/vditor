@@ -82,7 +82,11 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.currentMode = "wysiwyg";
 
         setPadding(vditor);
-        renderDomByMd(vditor, markdownText, false);
+        renderDomByMd(vditor, markdownText, {
+            enableAddUndoStack: true,
+            enableHint: false,
+            enableInput: false,
+        });
 
         if (typeof event !== "string") {
             // 初始化不 focus

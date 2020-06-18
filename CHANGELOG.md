@@ -68,6 +68,8 @@
 
 ### v3.3.2 / 2020-06-xx
 
+* [488](https://github.com/Vanessa219/vditor/pull/488) setValue 增加 clearStack 参数，添加 clearStack 方法 `引入特新`
+
 ### v3.3.1 / 2020-06-18
 
 * [478](https://github.com/Vanessa219/vditor/issues/478) add tip to footnote `改进功能`
@@ -83,6 +85,7 @@
 * [480](https://github.com/Vanessa219/vditor/issues/480) Mindmap 和 Echarts 内容为空时会报错 `修复缺陷`
 * 文档修改
   * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
+  * 为 `setValue` 方法添加 `clearStack` 参数；新增 `clearStack` 方法
 
 ### v3.2.12 / 2020-06-07
 

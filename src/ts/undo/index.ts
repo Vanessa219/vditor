@@ -15,10 +15,13 @@ class Undo {
     private hasUndo: boolean;
     private timeout: number;
 
-    constructor(vditor: IVditor) {
+    constructor() {
+        this.redoStack = [];
+        this.undoStack = [];
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
-        this.clearStack(vditor);
+        this.lastText = "";
+        this.hasUndo = false;
     }
 
     public clearStack(vditor: IVditor) {
@@ -26,12 +29,13 @@ class Undo {
         this.undoStack = [];
         this.lastText = "";
         this.hasUndo = false;
-        if (vditor.toolbar) {
-            this.resetIcon(vditor);
-        }
+        this.resetIcon(vditor);
     }
 
     public resetIcon(vditor: IVditor) {
+        if (!vditor.toolbar) {
+            return;
+        }
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {

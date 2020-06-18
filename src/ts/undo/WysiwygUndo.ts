@@ -5,7 +5,7 @@ import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
-import {afterRenderEvent, clearAfterRender} from "../wysiwyg/afterRenderEvent";
+import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 
 class WysiwygUndo {
@@ -16,24 +16,27 @@ class WysiwygUndo {
     private lastText: string;
     private hasUndo: boolean;
 
-    constructor(vditor: IVditor) {
+    constructor() {
+        this.redoStack = [];
+        this.undoStack = [];
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
-        this.clearStack(vditor);
+        this.lastText = "";
+        this.hasUndo = false;
     }
-    
+
     public clearStack(vditor: IVditor) {
-        clearAfterRender(vditor);
         this.redoStack = [];
         this.undoStack = [];
         this.lastText = "";
         this.hasUndo = false;
-        if (vditor.toolbar) {
-            this.resetIcon(vditor);
-        }
+        this.resetIcon(vditor);
     }
 
     public resetIcon(vditor: IVditor) {
+        if (!vditor.toolbar) {
+            return;
+        }
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {
