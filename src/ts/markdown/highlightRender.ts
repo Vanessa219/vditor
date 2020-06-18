@@ -19,7 +19,7 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
     }
     addStyle(`${cdn}/dist/js/highlight.js/styles/${style}.css`, "vditorHljsStyle");
 
-    if (!hljsOption.enable) {
+    if (hljsOption.enable === false) {
         return;
     }
 

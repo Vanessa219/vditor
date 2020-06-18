@@ -30,7 +30,7 @@ export const getCursorPosition = (editor: HTMLElement) => {
     if (range.getClientRects().length === 0) {
         if (range.startContainer.nodeType === 3) {
             // 空行时，会出现没有 br 的情况，需要根据父元素 <p> 获取位置信息
-            let parent = range.startContainer.parentElement;
+            const parent = range.startContainer.parentElement;
             if (parent && parent.getClientRects().length > 0) {
                 cursorRect = parent.getClientRects()[0];
             } else {
@@ -62,7 +62,7 @@ export const getCursorPosition = (editor: HTMLElement) => {
                 cursorRect = parentElement.getClientRects()[0];
             }
         }
-        
+
     } else {
         cursorRect = range.getClientRects()[0];
     }

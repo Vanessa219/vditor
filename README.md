@@ -252,7 +252,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | setext | Whether to parse the setext header | fa;se |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
-| listMarker | add data-marker attribute | false |
+| listStyle | add data-style attribute | false |
 | linkBase | link prefix | '' |
 
 #### options.preview.math

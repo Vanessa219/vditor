@@ -226,8 +226,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面
-    if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
+    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面，li 使用浏览器默认
+    if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter" &&
+        startContainer.parentElement.tagName !== "LI") {
         if (["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
             // 行内元素软换行需继续 https://github.com/Vanessa219/vditor/issues/170
             range.insertNode(document.createTextNode("\n" + Constants.ZWSP));
@@ -288,7 +289,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
 
             // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除, 不能返回，还需要进行后续处理
-            blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
+            blockElement.querySelectorAll("span.vditor-wysiwyg__block[data-type='math-inline']").forEach((item) => {
                 (item.firstElementChild as HTMLElement).style.display = "inline";
                 (item.lastElementChild as HTMLElement).style.display = "none";
             });

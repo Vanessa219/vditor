@@ -1,11 +1,13 @@
 import {Constants} from "../constants";
 import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
+import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {highlightToolbar} from "../wysiwyg/highlightToolbar";
+import {input} from "../wysiwyg/input";
 import {isCtrl, isFirefox} from "./compatibility";
 import {scrollCenter} from "./editorCommonEvent";
 import {
@@ -921,8 +923,17 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
-        execAfterRender(vditor);
-        scrollCenter(vditor);
+        if (codeRenderElement.firstElementChild.classList.contains("language-mindmap")) {
+            // 脑图换行需要渲染
+            if (vditor.currentMode === "wysiwyg") {
+                input(vditor, range);
+            } else {
+                IRInput(vditor, range);
+            }
+        } else {
+            execAfterRender(vditor);
+            scrollCenter(vditor);
+        }
         event.preventDefault();
         return true;
     }
