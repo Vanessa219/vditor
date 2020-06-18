@@ -1,6 +1,10 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage, isSafari} from "../util/compatibility";
 
+export const clearAfterRender = (vditor: IVditor) => {
+    clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
+}
+
 export const afterRenderEvent = (vditor: IVditor, options = {
     enableAddUndoStack: true,
     enableHint: false,
@@ -9,7 +13,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     if (options.enableHint) {
         vditor.hint.render(vditor);
     }
-    clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
+    clearAfterRender(vditor);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
         if (vditor.wysiwyg.composingLock && isSafari()) {
             // safari 中文输入遇到 addToUndoStack 会影响下一次的中文输入
@@ -40,3 +44,4 @@ export const afterRenderEvent = (vditor: IVditor, options = {
         }
     }, 800);
 };
+

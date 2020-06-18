@@ -312,7 +312,12 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置编辑器内容 */
-    public setValue(markdown: string) {
+    public setValue(markdown: string, clearUndoStack = false) {
+        if (clearUndoStack) {
+            this.vditor.undo.clearStack(this.vditor);
+            this.vditor.irUndo.clearStack(this.vditor);
+            this.vditor.wysiwygUndo.clearStack(this.vditor);
+        }
         if (this.vditor.currentMode === "sv") {
             formatRender(this.vditor, markdown, {
                 end: markdown.length,

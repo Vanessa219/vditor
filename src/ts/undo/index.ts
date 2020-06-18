@@ -18,10 +18,10 @@ class Undo {
     constructor(vditor: IVditor) {
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
-        this.init(vditor);
+        this.clearStack(vditor);
     }
 
-    public init(vditor: IVditor) {
+    public clearStack(vditor: IVditor) {
         this.redoStack = [];
         this.undoStack = [];
         this.lastText = "";
