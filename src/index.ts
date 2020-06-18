@@ -84,10 +84,10 @@ class Vditor extends VditorMethod {
         };
 
         this.vditor.sv = new Editor(this.vditor);
-        this.vditor.undo = new Undo();
+        this.vditor.undo = new Undo(this.vditor);
         this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-        this.vditor.wysiwygUndo = new WysiwygUndo();
-        this.vditor.irUndo = new IRUndo();
+        this.vditor.wysiwygUndo = new WysiwygUndo(this.vditor);
+        this.vditor.irUndo = new IRUndo(this.vditor);
         this.vditor.ir = new IR(this.vditor);
         this.vditor.toolbar = new Toolbar(this.vditor);
 
@@ -316,7 +316,12 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置编辑器内容 */
-    public setValue(markdown: string) {
+    public setValue(markdown: string, clearUndoStack = false) {
+        if (clearUndoStack) {
+            this.vditor.undo.clearStack(this.vditor);
+            this.vditor.irUndo.clearStack(this.vditor);
+            this.vditor.wysiwygUndo.clearStack(this.vditor);
+        }
         if (this.vditor.currentMode === "sv") {
             formatRender(this.vditor, markdown, {
                 end: markdown.length,

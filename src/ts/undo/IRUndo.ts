@@ -14,13 +14,20 @@ class IRUndo {
     private lastText: string;
     private hasUndo: boolean;
 
-    constructor() {
-        this.redoStack = [];
-        this.undoStack = [];
+    constructor(vditor: IVditor) {
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
+        this.clearStack(vditor);
+    }
+
+    public clearStack(vditor: IVditor) {
+        this.redoStack = [];
+        this.undoStack = [];
         this.lastText = "";
-        this.hasUndo = false;
+        this.hasUndo = false; 
+        if (vditor.toolbar) {
+            this.resetIcon(vditor);
+        }
     }
 
     public resetIcon(vditor: IVditor) {
