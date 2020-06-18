@@ -7,6 +7,7 @@ import {execAfterRender} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
 import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
+import {isCtrl} from "../util/compatibility";
 
 export class Hint {
     public timeId: number;
@@ -228,7 +229,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 currentHintElement.previousElementSibling.className = "vditor-hint--current";
             }
             return true;
-        } else if (event.key === "Enter") {
+        } else if (!isCtrl(event) && event.shiftKey && event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
             this.fillEmoji(currentHintElement, vditor);
