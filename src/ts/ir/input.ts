@@ -100,6 +100,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     }
 
     const isIRElement = blockElement.isEqualNode(vditor.ir.element);
+    const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
     let html = "";
     if (!isIRElement) {
         // 列表需要到最顶层
@@ -115,7 +116,6 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         }
 
         // 修改脚注
-        const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
         if (footnoteElement) {
             blockElement = footnoteElement;
         }
@@ -175,6 +175,20 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         const allFootnoteElement = vditor.ir.element.querySelector("[data-type='footnotes-block']");
         if (allFootnoteElement) {
             vditor.ir.element.insertAdjacentElement("beforeend", allFootnoteElement);
+        }
+
+        // 更新正文中的 tip
+        if (footnoteElement) {
+            const footnoteItemElement = hasClosestByAttribute(vditor.ir.element.querySelector("wbr"),
+                "data-type", "footnotes-def");
+            if (footnoteItemElement) {
+                const footnoteItemText = footnoteItemElement.textContent;
+                const marker = footnoteItemText.substring(1, footnoteItemText.indexOf("]:"));
+                const footnoteRefElement = vditor.ir.element.querySelector(`sup[data-type="footnotes-ref"][data-footnotes-label="${marker}"]`);
+                if (footnoteRefElement) {
+                    footnoteRefElement.setAttribute("aria-label", footnoteItemText.substr(marker.length + 3).trim());
+                }
+            }
         }
     }
     setRangeByWbr(vditor.ir.element, range);

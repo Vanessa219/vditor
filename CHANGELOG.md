@@ -68,6 +68,7 @@
 
 ### v3.3.1 / 2020-06-xx
 
+* [478](https://github.com/Vanessa219/vditor/issues/478) add tip to footnote `改进功能`
 * [492](https://github.com/Vanessa219/vditor/issues/492) 列表内含有代码块，修改列表中的文字时，代码块会闪 `修复缺陷`
 * [496](https://github.com/Vanessa219/vditor/issues/496) 行级 HTML 空格问题 `修复缺陷`
 * [495](https://github.com/Vanessa219/vditor/issues/495) 行级 HTML 退格问题 `修复缺陷`

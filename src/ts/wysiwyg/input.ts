@@ -1,7 +1,7 @@
 import {isToC, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
-    hasClosestBlock, hasClosestByAttribute,
+    hasClosestBlock, hasClosestByAttribute, hasTopClosestByTag,
 } from "../util/hasClosest";
 import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
@@ -55,6 +55,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         }
 
         const isWYSIWYGElement = blockElement.isEqualNode(vditor.wysiwyg.element);
+        const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
 
         if (!isWYSIWYGElement) {
             // 列表需要到最顶层
@@ -70,7 +71,6 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             }
 
             // 修改脚注
-            const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
             if (footnoteElement) {
                 blockElement = footnoteElement;
             }
@@ -132,6 +132,17 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             const allFootnoteElement = vditor.wysiwyg.element.querySelector("[data-type='footnotes-block']");
             if (allFootnoteElement) {
                 vditor.wysiwyg.element.insertAdjacentElement("beforeend", allFootnoteElement);
+            }
+
+            if (footnoteElement) {
+                // 更新正文中的 tip
+                const footnoteItemElement = hasTopClosestByTag(vditor.wysiwyg.element.querySelector("wbr"), "LI");
+                if (footnoteItemElement) {
+                    const footnoteRefElement = vditor.wysiwyg.element.querySelector(`sup[data-type="footnotes-ref"][data-footnotes-label="${footnoteItemElement.getAttribute("data-marker")}"]`);
+                    if (footnoteRefElement) {
+                        footnoteRefElement.setAttribute("aria-label", footnoteItemElement.textContent.trim());
+                    }
+                }
             }
         }
 
