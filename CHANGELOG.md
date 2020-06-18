@@ -66,12 +66,12 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.2 / 2020-06-xx
+### v3.3.3 / 2020-06-xx
 
+### v3.3.2 / 2020-06-18
+
+* [498](https://github.com/Vanessa219/vditor/issues/498) 修复 <summary> <details> 标签编辑问题 `修复缺陷`
 * [488](https://github.com/Vanessa219/vditor/pull/488) setValue 增加 clearStack 参数，添加 clearStack 方法 `引入特新`
-
-### v3.3.1 / 2020-06-18
-
 * [478](https://github.com/Vanessa219/vditor/issues/478) add tip to footnote `改进功能`
 * [492](https://github.com/Vanessa219/vditor/issues/492) 列表内含有代码块，修改列表中的文字时，代码块会闪 `修复缺陷`
 * [496](https://github.com/Vanessa219/vditor/issues/496) 行级 HTML 空格问题 `修复缺陷`
