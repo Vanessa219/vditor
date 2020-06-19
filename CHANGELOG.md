@@ -68,6 +68,7 @@
 
 ### v3.3.3 / 2020-06-xx
 
+* [504](https://github.com/Vanessa219/vditor/issues/504) 解决编辑器中 esc 推出 hint 和 options.esc 冲突 `修复缺陷`
 * [500](https://github.com/Vanessa219/vditor/issues/500) wysiwyg 模式下打字数学公式会闪 `改进功能`
 
 ### v3.3.2 / 2020-06-18

@@ -109,11 +109,10 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
         // esc
         if (event.key === "Escape") {
-            if (vditor.options.esc) {
-                vditor.options.esc(getMarkdown(vditor));
-            }
             if (vditor.hint.element.style.display === "block") {
                 vditor.hint.element.style.display = "none";
+            } else if (vditor.options.esc) {
+                vditor.options.esc(getMarkdown(vditor));
             }
             event.preventDefault();
             return;
