@@ -68,6 +68,8 @@
 
 ### v3.3.3 / 2020-06-xx
 
+* [500](https://github.com/Vanessa219/vditor/issues/500) wysiwyg 模式下打字数学公式会闪 `改进功能`
+
 ### v3.3.2 / 2020-06-18
 
 * [498](https://github.com/Vanessa219/vditor/issues/498) 修复 <summary> <details> 标签编辑问题 `修复缺陷`
