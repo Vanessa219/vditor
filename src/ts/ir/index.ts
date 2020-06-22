@@ -77,12 +77,12 @@ class IR {
                 });
         }
 
-        this.element.addEventListener("compositionend", (event: InputEvent) => {
-            input(vditor, getSelection().getRangeAt(0).cloneRange());
-        });
-
         this.element.addEventListener("compositionstart", (event: InputEvent) => {
             this.composingLock = true;
+        });
+
+        this.element.addEventListener("compositionend", (event: InputEvent) => {
+            input(vditor, getSelection().getRangeAt(0).cloneRange());
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {
@@ -182,6 +182,9 @@ class IR {
                 if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                     processHint(vditor);
                 }
+                expandMarker(range, vditor);
+            } else if (event.keyCode === 229 && event.code === "" && event.key === "Unidentified") {
+                // https://github.com/Vanessa219/vditor/issues/508 IR 删除到节点需展开
                 expandMarker(range, vditor);
             }
 

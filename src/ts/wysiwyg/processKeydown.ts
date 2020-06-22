@@ -3,7 +3,7 @@ import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote, fixCJKPosition,
-    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixHR,
+    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -35,6 +35,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {
         vditor.wysiwygUndo.recordFirstWbr(vditor, event);
+    }
+
+    if (!fixGSKeyBackspace(event, vditor)) {
+        return false;
     }
 
     const range = getEditorRange(vditor.wysiwyg.element);

@@ -28,6 +28,14 @@ import {
     setSelectionByPosition, setSelectionFocus,
 } from "./selection";
 
+// https://github.com/Vanessa219/vditor/issues/508 软键盘无法删除空块
+export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor) => {
+    if (event.keyCode === 229 && event.code === "" && event.key === "Unidentified" && vditor.currentMode !== "sv") {
+        vditor[vditor.currentMode].composingLock = true;
+        return false;
+    }
+};
+
 // https://github.com/Vanessa219/vditor/issues/361
 export const fixCJKPosition = (range: Range, event: KeyboardEvent) => {
     if (event.key === "Enter" || event.key === "Tab" || event.key === "Backspace" || event.key.indexOf("Arrow") > -1

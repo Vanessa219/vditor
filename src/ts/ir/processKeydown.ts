@@ -3,7 +3,7 @@ import {isCtrl} from "../util/compatibility";
 import {
     fixBlockquote, fixCJKPosition,
     fixCodeBlock, fixCursorDownInlineMath,
-    fixDelete, fixFirefoxArrowUpTable, fixHR,
+    fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -29,6 +29,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {
         vditor.irUndo.recordFirstWbr(vditor, event);
+    }
+
+    if (!fixGSKeyBackspace(event, vditor)) {
+        return false;
     }
 
     const range = getEditorRange(vditor.ir.element);
