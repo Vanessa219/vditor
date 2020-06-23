@@ -447,7 +447,7 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
                 // li 结尾需 \n
                 liElement.insertAdjacentText("beforeend", "\n");
             }
-            range.insertNode(document.createTextNode("\n"));
+            range.insertNode(document.createTextNode("\n\n"));
             range.collapse(false);
             execAfterRender(vditor);
             event.preventDefault();
@@ -971,7 +971,8 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
             && pElement.parentElement.tagName === "BLOCKQUOTE") {
             // Enter: 空行回车应逐层跳出
             let isEmpty = false;
-            if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n") {
+            if (pElement.innerHTML.replace(Constants.ZWSP, "") === "\n" ||
+                pElement.innerHTML.replace(Constants.ZWSP, "") === "") {
                 // 空 P
                 isEmpty = true;
                 pElement.remove();
