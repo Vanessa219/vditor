@@ -66,7 +66,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.3 / 2020-06-xx
+### v3.3.4 / 2020-06-xx
+
+### v3.3.3 / 2020-06-23
 
 * [499](https://github.com/Vanessa219/vditor/issues/499) Chrome 浏览器，Up 方向键 光标位置移动异常 `修复缺陷`
 * [514](https://github.com/Vanessa219/vditor/issues/514) 只读没有禁用场景菜单 `修复缺陷`
@@ -74,9 +76,6 @@
 * [508](https://github.com/Vanessa219/vditor/issues/508) 软键盘 bug `修复缺陷`
 * [504](https://github.com/Vanessa219/vditor/issues/504) 解决编辑器中 esc 推出 hint 和 options.esc 冲突 `修复缺陷`
 * [500](https://github.com/Vanessa219/vditor/issues/500) wysiwyg 模式下打字数学公式会闪 `改进功能`
-
-### v3.3.2 / 2020-06-18
-
 * [498](https://github.com/Vanessa219/vditor/issues/498) 修复 <summary> <details> 标签编辑问题 `修复缺陷`
 * [488](https://github.com/Vanessa219/vditor/pull/488) setValue 增加 clearStack 参数，添加 clearStack 方法 `引入特新`
 * [478](https://github.com/Vanessa219/vditor/issues/478) add tip to footnote `改进功能`
