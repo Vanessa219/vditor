@@ -183,6 +183,7 @@ class Vditor extends VditorMethod {
 
     /** 禁用编辑器 */
     public disabled() {
+        hidePanel(this.vditor, ["subToolbar", "hint", "popover"]);
         disableToolbar(this.vditor.toolbar.elements, Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen",
             "edit-mode"]));
         this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "false");
