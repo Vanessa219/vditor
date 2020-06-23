@@ -14,7 +14,8 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     let blockElement = hasClosestBlock(range.startContainer);
     // 前后可以输入空格
     if (blockElement && !ignoreSpace) {
-        if (isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
+        if (isHrMD(blockElement.innerHTML) ||
+            isHeadingMD(blockElement.innerHTML, vditor.options.preview.markdown.setext)) {
             return;
         }
 

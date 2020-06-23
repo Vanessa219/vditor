@@ -68,6 +68,7 @@
 
 ### v3.3.3 / 2020-06-xx
 
+* [499](https://github.com/Vanessa219/vditor/issues/499) Chrome 浏览器，Up 方向键 光标位置移动异常 `修复缺陷`
 * [514](https://github.com/Vanessa219/vditor/issues/514) 只读没有禁用场景菜单 `修复缺陷`
 * [501](https://github.com/Vanessa219/vditor/issues/501) 反斜杠 \ 转义问题 `改进功能`
 * [508](https://github.com/Vanessa219/vditor/issues/508) 软键盘 bug `修复缺陷`

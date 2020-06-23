@@ -34,6 +34,7 @@ export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor) => {
         vditor[vditor.currentMode].composingLock = true;
         return false;
     }
+    return true;
 };
 
 // https://github.com/Vanessa219/vditor/issues/361
@@ -378,7 +379,10 @@ export const isHrMD = (text: string) => {
     return false;
 };
 
-export const isHeadingMD = (text: string) => {
+export const isHeadingMD = (text: string, setext: boolean) => {
+    if (!setext) {
+        return false;
+    }
     // - =
     const textArray = text.trimRight().split("\n");
     text = textArray.pop();
@@ -529,7 +533,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             // table 自动完成
             let tableHeaderMD = pTextList.map(() => "---").join("|");
             tableHeaderMD =
-                pElement.textContent + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + "\n|<wbr>";
+                pElement.textContent + "\n" + tableHeaderMD.substring(3, tableHeaderMD.length - 3) + "\n|<wbr>";
             pElement.outerHTML = vditor.lute.SpinVditorDOM(tableHeaderMD);
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
@@ -558,7 +562,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             return true;
         }
 
-        if (isHeadingMD(pElement.innerHTML)) {
+        if (isHeadingMD(pElement.innerHTML, vditor.options.preview.markdown.setext)) {
             // heading 渲染
             pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0"><wbr>\n</p>');
             setRangeByWbr(vditor[vditor.currentMode].element, range);
