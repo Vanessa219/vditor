@@ -1,6 +1,5 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {uploadFiles} from "../upload/index";
-import {isCtrl} from "../util/compatibility";
 import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
@@ -10,10 +9,11 @@ import {insertText} from "./insertText";
 class Editor {
     public element: HTMLPreElement;
     public range: Range;
+    public processTimeoutId: number;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
-        this.element.className = "vditor-textarea";
+        this.element.className = "vditor-sv vditor-reset";
         this.element.setAttribute("placeholder", vditor.options.placeholder);
         this.element.setAttribute("contenteditable", "true");
         this.element.setAttribute("spellcheck", "false");
@@ -33,25 +33,13 @@ class Editor {
         });
 
         this.element.addEventListener("keypress", (event: KeyboardEvent) => {
-            if (!isCtrl(event) && event.key === "Enter") {
-                insertText(vditor, "\n", "", true);
+            if (event.key === "Enter") {
                 scrollCenter(vditor);
-                event.preventDefault();
             }
         });
 
         this.element.addEventListener("input", () => {
-            inputEvent(vditor, {
-                enableAddUndoStack: true,
-                enableHint: true,
-                enableInput: true,
-            });
-            // 选中多行后输入任意字符，br 后无 \n
-            this.element.querySelectorAll("br").forEach((br) => {
-                if (!br.nextElementSibling) {
-                    br.insertAdjacentHTML("afterend", '<span style="display: none">\n</span>');
-                }
-            });
+            inputEvent(vditor);
         });
 
         this.element.addEventListener("blur", () => {

@@ -69,6 +69,8 @@ export const initUI = (vditor: IVditor) => {
 
     setEditMode(vditor, vditor.options.mode, afterRender(vditor, contentElement));
 
+    document.execCommand("DefaultParagraphSeparator", false, "p");
+
     if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== "undefined") {
         // https://github.com/Vanessa219/vditor/issues/379
         let pendingUpdate = false;

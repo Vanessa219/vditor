@@ -31,8 +31,6 @@ class IR {
 
         this.bindEvent(vditor);
 
-        document.execCommand("DefaultParagraphSeparator", false, "p");
-
         focusEvent(vditor, this.element);
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);

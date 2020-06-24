@@ -19,7 +19,7 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
     const pres = tempElement.querySelectorAll("pre");
     if (tempElement.childElementCount === 1 && pres.length === 1
         && pres[0].className !== "vditor-wysiwyg"
-        && pres[0].className !== "vditor-textarea") {
+        && pres[0].className !== "vditor-sv") {
         // IDE
         isCode = true;
     }

@@ -1,33 +1,31 @@
-import {getMarkdown} from "../markdown/getMarkdown";
-import {accessLocalStorage} from "../util/compatibility";
+import {hasClosestBlock} from "../util/hasClosest";
+import {log} from "../util/log";
+import {setRangeByWbr} from "../util/selection";
+import {processAfterRender} from "./process";
 
-export const inputEvent = (vditor: IVditor, options = {
-    enableAddUndoStack: true,
-    enableHint: false,
-    enableInput: true,
-}) => {
-    const text = getMarkdown(vditor);
-    if (vditor.options.counter.enable) {
-        vditor.counter.render(vditor, text);
+export const inputEvent = (vditor: IVditor) => {
+    const range = getSelection().getRangeAt(0).cloneRange();
+    range.insertNode(document.createElement("wbr"));
+    let blockElement = hasClosestBlock(range.startContainer);
+    if (!blockElement) {
+        blockElement = vditor.sv.element;
     }
-    if (typeof vditor.options.input === "function" && options.enableInput) {
-        vditor.options.input(text, vditor.preview.element);
-    }
-    if (options.enableHint) {
-        vditor.hint.render(vditor);
-    }
-    if (vditor.options.cache.enable && accessLocalStorage()) {
-        localStorage.setItem(vditor.options.cache.id, text);
-        if (vditor.options.cache.after) {
-            vditor.options.cache.after(text);
-        }
-    }
-    vditor.preview.render(vditor);
-    if (options.enableAddUndoStack) {
-        vditor.undo.addToUndoStack(vditor);
-    }
+    const isSVElement = blockElement.isEqualNode(vditor.sv.element);
 
-    if (vditor.devtools) {
-        vditor.devtools.renderEchart(vditor);
+    let html = blockElement.innerHTML;
+    log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
+    html = vditor.lute.SpinVditorSVDOM(html);
+    log("SpinVditorSVDOM", html, "result", vditor.options.debugger);
+    if (isSVElement) {
+        blockElement.innerHTML = html;
+    } else {
+        blockElement.outerHTML = html;
     }
+    setRangeByWbr(vditor.sv.element, range);
+
+    processAfterRender(vditor, {
+        enableAddUndoStack: true,
+        enableHint: false,
+        enableInput: true,
+    });
 };

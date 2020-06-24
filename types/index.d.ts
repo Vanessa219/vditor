@@ -192,7 +192,14 @@ interface ILute {
     // 获取 HTML
     VditorIRDOM2HTML(html: string): string;
 
+    // 粘贴时将 html 转换为 sv
     HTML2VditorIRDOM(html: string): string;
+
+    // sv 输入渲染
+    SpinVditorSVDOM(html: string): string;
+
+    // sv 获取 md
+    VditorSVDOM2Md(html: string): string;
 }
 
 declare const webkitAudioContext: {
@@ -519,6 +526,7 @@ interface IVditor {
     };
     sv?: {
         element: HTMLPreElement,
+        processTimeoutId: number,
     };
     counter?: {
         element: HTMLElement
