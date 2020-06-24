@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
+import {processAfterRender as processSVAfterRender} from "../sv/process";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
@@ -29,10 +30,14 @@ import {
 } from "./selection";
 
 // https://github.com/Vanessa219/vditor/issues/508 软键盘无法删除空块
-export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor) => {
+export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor, startContainer: Node) => {
     if (event.keyCode === 229 && event.code === "" && event.key === "Unidentified" && vditor.currentMode !== "sv") {
-        vditor[vditor.currentMode].composingLock = true;
-        return false;
+        const blockElement = hasClosestBlock(startContainer);
+        // 移动端的标点符号都显示为 299，因此需限定为空删除的条件
+        if (blockElement && blockElement.textContent.trim() === "") {
+            vditor[vditor.currentMode].composingLock = true;
+            return false;
+        }
     }
     return true;
 };
@@ -433,6 +438,8 @@ export const execAfterRender = (vditor: IVditor) => {
         afterRenderEvent(vditor);
     } else if (vditor.currentMode === "ir") {
         processAfterRender(vditor);
+    } else if (vditor.currentMode === "sv") {
+        processSVAfterRender(vditor);
     }
 };
 
