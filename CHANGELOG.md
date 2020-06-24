@@ -68,6 +68,8 @@
 
 ### v3.3.4 / 2020-06-xx
 
+* [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
+
 ### v3.3.3 / 2020-06-23
 
 * [499](https://github.com/Vanessa219/vditor/issues/499) Chrome 浏览器，Up 方向键 光标位置移动异常 `修复缺陷`
