@@ -1,15 +1,55 @@
 import {hasClosestBlock} from "../util/hasClosest";
 import {log} from "../util/log";
-import {setRangeByWbr} from "../util/selection";
+import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
 export const inputEvent = (vditor: IVditor) => {
     const range = getSelection().getRangeAt(0).cloneRange();
-    range.insertNode(document.createElement("wbr"));
+
     let blockElement = hasClosestBlock(range.startContainer);
+
+    // 前可以输入空格
+    if (blockElement) {
+        // 前空格处理
+        const startOffset = getSelectPosition(blockElement, range).start;
+
+        // 开始可以输入空格
+        let startSpace = true;
+        for (let i = startOffset - 1;
+            // 软换行后有空格
+             i > blockElement.textContent.substr(0, startOffset).lastIndexOf("\n");
+             i--) {
+            if (blockElement.textContent.charAt(i) !== " " &&
+                // 多个 tab 前删除不形成代码块 https://github.com/Vanessa219/vditor/issues/162 1
+                blockElement.textContent.charAt(i) !== "\t") {
+                startSpace = false;
+                break;
+            }
+        }
+
+        if (startOffset === 0) {
+            startSpace = false;
+        }
+
+        if (startSpace) {
+            return;
+        }
+    }
+
+    // TODO: 代码块、table 等元素不需要渲染
+
     if (!blockElement) {
         blockElement = vditor.sv.element;
     }
+    // 添加光标位置
+    if (!blockElement.querySelector("wbr")) {
+        range.insertNode(document.createElement("wbr"));
+    }
+    // 清除浏览器自带的样式
+    blockElement.querySelectorAll("[style]").forEach((item) => {
+        item.removeAttribute("style");
+    });
+    // TODO: 链接引用，脚注，列表需要到最顶层？
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
 
     let html = blockElement.outerHTML;
