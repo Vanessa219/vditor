@@ -156,7 +156,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
 
         range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
         range.deleteContents();
-        if (value.indexOf(":") > -1 && vditor.currentMode !== 'sv') {
+        if (value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
             insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
             range.insertNode(document.createTextNode(" "));
         } else {

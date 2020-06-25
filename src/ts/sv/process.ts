@@ -1,5 +1,5 @@
-import {accessLocalStorage} from "../util/compatibility";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {accessLocalStorage} from "../util/compatibility";
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,
