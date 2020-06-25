@@ -5,6 +5,7 @@ import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
+import {isCtrl} from "../util/compatibility";
 
 class Editor {
     public element: HTMLPreElement;
@@ -32,9 +33,21 @@ class Editor {
             event.clipboardData.setData("text/plain", getSelectText(this.element));
         });
 
-        this.element.addEventListener("keypress", (event: KeyboardEvent) => {
+        this.element.addEventListener("keyup", (event) => {
+            if (event.isComposing || isCtrl(event)) {
+                return;
+            }
             if (event.key === "Enter") {
                 scrollCenter(vditor);
+            }
+            if ((event.key === "Backspace" || event.key === "Delete") &&
+                vditor.sv.element.innerHTML !== "" && vditor.sv.element.childNodes.length === 1 &&
+                vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "P"
+                && vditor.sv.element.firstElementChild.childElementCount === 0
+                && (vditor.sv.element.textContent === "" || vditor.sv.element.textContent === "\n")) {
+                // 为空时显示 placeholder
+                vditor.sv.element.innerHTML = "";
+                return;
             }
         });
 
