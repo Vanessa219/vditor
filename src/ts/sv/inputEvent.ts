@@ -12,7 +12,10 @@ export const inputEvent = (vditor: IVditor) => {
     }
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
 
-    let html = blockElement.innerHTML;
+    let html = blockElement.outerHTML;
+    if (isSVElement) {
+        html = blockElement.innerHTML;
+    }
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
     html = vditor.lute.SpinVditorSVDOM(html);
     log("SpinVditorSVDOM", html, "result", vditor.options.debugger);
@@ -25,7 +28,7 @@ export const inputEvent = (vditor: IVditor) => {
 
     processAfterRender(vditor, {
         enableAddUndoStack: true,
-        enableHint: false,
+        enableHint: true,
         enableInput: true,
     });
 };
