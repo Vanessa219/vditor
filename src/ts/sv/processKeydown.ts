@@ -6,6 +6,11 @@ import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {insertText} from "./insertText";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
+    vditor.sv.composingLock = event.isComposing;
+    if (event.isComposing) {
+        return false;
+    }
+
     vditor.undo.recordFirstPosition(vditor);
 
     const editorElement = vditor.sv.element;

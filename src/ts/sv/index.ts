@@ -1,7 +1,6 @@
-import {getMarkdown} from "../markdown/getMarkdown";
 import {uploadFiles} from "../upload/index";
 import {isCtrl} from "../util/compatibility";
-import {focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
@@ -10,6 +9,7 @@ import {insertText} from "./insertText";
 class Editor {
     public element: HTMLPreElement;
     public range: Range;
+    public composingLock: boolean = false;
     public processTimeoutId: number;
 
     constructor(vditor: IVditor) {
@@ -22,6 +22,7 @@ class Editor {
         this.bindEvent(vditor);
 
         focusEvent(vditor, this.element);
+        blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
     }
@@ -32,67 +33,6 @@ class Editor {
             event.preventDefault();
             event.clipboardData.setData("text/plain", getSelectText(this.element));
         });
-
-        this.element.addEventListener("keyup", (event) => {
-            if (event.isComposing || isCtrl(event)) {
-                return;
-            }
-            if (event.key === "Enter") {
-                scrollCenter(vditor);
-            }
-            if ((event.key === "Backspace" || event.key === "Delete") &&
-                vditor.sv.element.innerHTML !== "" && vditor.sv.element.childNodes.length === 1 &&
-                vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "P"
-                && vditor.sv.element.firstElementChild.childElementCount === 0
-                && (vditor.sv.element.textContent === "" || vditor.sv.element.textContent === "\n")) {
-                // 为空时显示 placeholder
-                vditor.sv.element.innerHTML = "";
-                return;
-            }
-        });
-
-        this.element.addEventListener("input", (event: InputEvent) => {
-            inputEvent(vditor, event);
-        });
-
-        this.element.addEventListener("blur", () => {
-            if (vditor.options.blur) {
-                vditor.options.blur(getMarkdown(vditor));
-            }
-        });
-
-        this.element.addEventListener("scroll", () => {
-            if (vditor.preview.element.style.display !== "block") {
-                return;
-            }
-            const textScrollTop = this.element.scrollTop;
-            const textHeight = this.element.clientHeight;
-            const textScrollHeight = this.element.scrollHeight - parseFloat(this.element.style.paddingBottom || "0");
-            const preview = vditor.preview.element;
-            if ((textScrollTop / textHeight > 0.5)) {
-                preview.scrollTop = (textScrollTop + textHeight) *
-                    preview.scrollHeight / textScrollHeight - textHeight;
-            } else {
-                preview.scrollTop = textScrollTop *
-                    preview.scrollHeight / textScrollHeight;
-            }
-        });
-
-        if (vditor.options.upload.url || vditor.options.upload.handler) {
-            this.element.addEventListener("drop", (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
-                if (event.dataTransfer.types[0] !== "Files") {
-                    insertText(vditor, getSelection().toString(), "", false);
-                    event.preventDefault();
-                    return;
-                }
-                const files = event.dataTransfer.items;
-                if (files.length === 0) {
-                    return;
-                }
-                uploadFiles(vditor, files);
-                event.preventDefault();
-            });
-        }
 
         this.element.addEventListener("paste", (event: ClipboardEvent) => {
             const textHTML = event.clipboardData.getData("text/html");
@@ -134,6 +74,72 @@ class Editor {
                 return;
             }
             insertText(vditor, textPlain, "", true);
+        });
+
+        if (vditor.options.upload.url || vditor.options.upload.handler) {
+            this.element.addEventListener("drop", (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
+                if (event.dataTransfer.types[0] !== "Files") {
+                    insertText(vditor, getSelection().toString(), "", false);
+                    event.preventDefault();
+                    return;
+                }
+                const files = event.dataTransfer.items;
+                if (files.length === 0) {
+                    return;
+                }
+                uploadFiles(vditor, files);
+                event.preventDefault();
+            });
+        }
+
+        this.element.addEventListener("scroll", () => {
+            if (vditor.preview.element.style.display !== "block") {
+                return;
+            }
+            const textScrollTop = this.element.scrollTop;
+            const textHeight = this.element.clientHeight;
+            const textScrollHeight = this.element.scrollHeight - parseFloat(this.element.style.paddingBottom || "0");
+            const preview = vditor.preview.element;
+            if ((textScrollTop / textHeight > 0.5)) {
+                preview.scrollTop = (textScrollTop + textHeight) *
+                    preview.scrollHeight / textScrollHeight - textHeight;
+            } else {
+                preview.scrollTop = textScrollTop *
+                    preview.scrollHeight / textScrollHeight;
+            }
+        });
+
+        this.element.addEventListener("compositionstart", (event: InputEvent) => {
+            this.composingLock = true;
+        });
+
+        this.element.addEventListener("compositionend", (event: InputEvent) => {
+            inputEvent(vditor, event);
+        });
+
+        this.element.addEventListener("input", (event: InputEvent) => {
+            if (this.composingLock) {
+                return;
+            }
+            inputEvent(vditor, event);
+        });
+
+        this.element.addEventListener("keyup", (event) => {
+            if (event.isComposing || isCtrl(event)) {
+                return;
+            }
+            if (event.key === "Enter") {
+                scrollCenter(vditor);
+            }
+            if ((event.key === "Backspace" || event.key === "Delete") &&
+                vditor.sv.element.innerHTML !== "" && vditor.sv.element.childNodes.length === 1 &&
+                vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "P"
+                && vditor.sv.element.firstElementChild.childElementCount === 0
+                && (vditor.sv.element.textContent === "" || vditor.sv.element.textContent === "\n")) {
+                // 为空时显示 placeholder
+                vditor.sv.element.innerHTML = "";
+                return;
+            }
         });
     }
 }

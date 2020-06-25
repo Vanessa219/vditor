@@ -524,10 +524,6 @@ interface IVditor {
         element: HTMLElement
         render(vditor: IVditor, value?: string): void,
     };
-    sv?: {
-        element: HTMLPreElement,
-        processTimeoutId: number,
-    };
     counter?: {
         element: HTMLElement
         render(vditor: IVditor, mdText?: string): void,
@@ -592,5 +588,10 @@ interface IVditor {
         preventInput: boolean,
         processTimeoutId: number,
         hlToolbarTimeoutId: number,
+    };
+    sv?: {
+        element: HTMLPreElement,
+        processTimeoutId: number,
+        composingLock: boolean,
     };
 }
