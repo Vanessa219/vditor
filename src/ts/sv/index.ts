@@ -51,8 +51,8 @@ class Editor {
             }
         });
 
-        this.element.addEventListener("input", () => {
-            inputEvent(vditor);
+        this.element.addEventListener("input", (event: InputEvent) => {
+            inputEvent(vditor, event);
         });
 
         this.element.addEventListener("blur", () => {

@@ -3,11 +3,9 @@ import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
-export const inputEvent = (vditor: IVditor) => {
+export const inputEvent = (vditor: IVditor, event: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();
-
     let blockElement = hasClosestBlock(range.startContainer);
-
     // 前可以输入空格
     if (blockElement) {
         // 前空格处理
@@ -35,9 +33,7 @@ export const inputEvent = (vditor: IVditor) => {
             return;
         }
     }
-
     // TODO: 代码块、table 等元素不需要渲染
-
     if (!blockElement) {
         blockElement = vditor.sv.element;
     }
@@ -49,10 +45,14 @@ export const inputEvent = (vditor: IVditor) => {
     blockElement.querySelectorAll("[style]").forEach((item) => {
         item.removeAttribute("style");
     });
+    let html = blockElement.outerHTML;
+    if (event.inputType === "insertParagraph" && blockElement.previousElementSibling.textContent.trim() !== "") {
+        // 在粗体中换行
+        html = blockElement.previousElementSibling.outerHTML + html;
+        blockElement.previousElementSibling.remove();
+    }
     // TODO: 链接引用，脚注，列表需要到最顶层？
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
-
-    let html = blockElement.outerHTML;
     if (isSVElement) {
         html = blockElement.innerHTML;
     }
