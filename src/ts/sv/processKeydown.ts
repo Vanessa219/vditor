@@ -9,6 +9,7 @@ import {formatRender} from "./formatRender";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {insertText} from "./insertText";
 import {processAfterRender} from "./process";
+import {inputEvent} from "./inputEvent";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.sv.composingLock = event.isComposing;
@@ -70,6 +71,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
+    }
+
+    // 引用元素
+    const blockquoteElement = hasClosestByAttribute(startContainer, "data-type", "blockquote");
+    if (blockquoteElement && event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+        range.insertNode(document.createTextNode("\n"));
+        range.collapse(false);
+        inputEvent(vditor);
+        event.preventDefault();
+        return true;
     }
 
     // TODO: all next

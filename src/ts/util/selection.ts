@@ -51,6 +51,7 @@ export const getCursorPosition = (editor: HTMLElement) => {
                 range.selectNode(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
                 cursorRect = range.getClientRects()[0];
                 range.setEnd(cloneRange.endContainer, cloneRange.endOffset);
+                range.setStart(cloneRange.startContainer, cloneRange.startOffset);
             } else {
                 cursorRect = (range.startContainer as HTMLElement).getClientRects()[0];
             }

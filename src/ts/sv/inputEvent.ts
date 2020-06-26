@@ -3,11 +3,11 @@ import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
-export const inputEvent = (vditor: IVditor, event: InputEvent) => {
+export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();
     let blockElement = hasClosestBlock(range.startContainer);
     // 前可以输入空格
-    if (blockElement) {
+    if (blockElement && event) {
         // 前空格处理
         const startOffset = getSelectPosition(blockElement, range).start;
 
@@ -46,7 +46,7 @@ export const inputEvent = (vditor: IVditor, event: InputEvent) => {
         item.removeAttribute("style");
     });
     let html = blockElement.outerHTML;
-    if (event.inputType === "insertParagraph" && blockElement.previousElementSibling
+    if (event?.inputType === "insertParagraph" && blockElement.previousElementSibling
         && blockElement.previousElementSibling.textContent.trim() !== "") {
         // 在粗体中换行
         html = blockElement.previousElementSibling.outerHTML + html;
