@@ -555,7 +555,7 @@ interface IVditor {
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
-        recordFirstPosition(vditor: IVditor): void,
+        recordFirstPosition(vditor: IVditor, event: KeyboardEvent): void,
         resetIcon(vditor: IVditor): void,
     };
     wysiwygUndo?: {

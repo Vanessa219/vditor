@@ -57,7 +57,7 @@ class IRUndo {
             return;
         }
         const state = this.undoStack.pop();
-        if (!state || !state) {
+        if (!state) {
             return;
         }
         this.redoStack.push(state);

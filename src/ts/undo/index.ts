@@ -1,19 +1,18 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
-import {getMarkdown} from "../markdown/getMarkdown";
-import {formatRender} from "../sv/formatRender";
+import {processAfterRender} from "../sv/process";
 import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
+import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
-import {getSelectPosition} from "../util/selection";
+import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 
 class Undo {
-    private undoStack: Array<{ patchList: patch_obj[], end: number }>;
-    private redoStack: Array<{ patchList: patch_obj[], end: number }>;
+    private undoStack: patch_obj[][];
+    private redoStack: patch_obj[][];
     private stackSize = 50;
     private dmp: diff_match_patch;
     private lastText: string;
     private hasUndo: boolean;
-    private timeout: number;
 
     constructor() {
         this.redoStack = [];
@@ -49,12 +48,6 @@ class Undo {
         }
     }
 
-    public recordFirstPosition(vditor: IVditor) {
-        if (this.undoStack.length === 1) {
-            this.undoStack[0].end = getSelectPosition(vditor.sv.element).end;
-        }
-    }
-
     public undo(vditor: IVditor) {
         if (vditor.sv.element.getAttribute("contenteditable") === "false") {
             return;
@@ -63,7 +56,7 @@ class Undo {
             return;
         }
         const state = this.undoStack.pop();
-        if (!state || !state.patchList) {
+        if (!state) {
             return;
         }
         this.redoStack.push(state);
@@ -76,73 +69,95 @@ class Undo {
             return;
         }
         const state = this.redoStack.pop();
-        if (!state || !state.patchList) {
+        if (!state) {
             return;
         }
         this.undoStack.push(state);
         this.renderDiff(state, vditor, true);
     }
 
-    public addToUndoStack(vditor: IVditor) {
-        clearTimeout(this.timeout);
-        this.timeout = window.setTimeout(() => {
-            const text = getMarkdown(vditor);
-            const diff = this.dmp.diff_main(text, this.lastText, true);
-            const patchList = this.dmp.patch_make(text, this.lastText, diff);
-            if (patchList.length === 0) {
-                return;
-            }
-            this.lastText = text;
-            this.undoStack.push({patchList, end: getSelectPosition(vditor.sv.element).end});
-            if (this.undoStack.length > this.stackSize) {
-                this.undoStack.shift();
-            }
-            if (this.hasUndo) {
-                this.redoStack = [];
-                this.hasUndo = false;
-                disableToolbar(vditor.toolbar.elements, ["redo"]);
-            }
-
-            if (this.undoStack.length > 1) {
-                enableToolbar(vditor.toolbar.elements, ["undo"]);
-            }
-        }, 500);
+    public recordFirstPosition(vditor: IVditor, event: KeyboardEvent) {
+        if (getSelection().rangeCount === 0) {
+            return;
+        }
+        if (this.undoStack.length !== 1 || this.undoStack[0].length === 0) {
+            return;
+        }
+        if (isFirefox() && event.key === "Backspace") {
+            // Firefox 第一次删除无效
+            return;
+        }
+        if (isSafari()) {
+            // Safari keydown 在 input 之后，不需要重复记录历史
+            return;
+        }
+        getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorSVDOM(vditor.sv.element.innerHTML);
+        this.lastText = this.undoStack[0][0].diffs[0][1];
+        if (vditor.sv.element.querySelector("wbr")) {
+            vditor.sv.element.querySelector("wbr").remove();
+        }
     }
 
-    private renderDiff(state: { patchList: patch_obj[], end: number }, vditor: IVditor, isRedo: boolean = false) {
+    public addToUndoStack(vditor: IVditor) {
+        let cloneRange: Range;
+        if (getSelection().rangeCount !== 0 && !vditor.sv.element.querySelector("wbr")) {
+            const range = getSelection().getRangeAt(0);
+            cloneRange = range.cloneRange();
+            if (vditor.sv.element.contains(range.startContainer)) {
+                range.insertNode(document.createElement("wbr"));
+            }
+        }
+        const text = vditor.lute.SpinVditorSVDOM(vditor.sv.element.innerHTML);
+        if (vditor.sv.element.querySelector("wbr")) {
+            vditor.sv.element.querySelector("wbr").remove();
+        }
+        if (cloneRange) {
+            setSelectionFocus(cloneRange);
+        }
+        const diff = this.dmp.diff_main(text, this.lastText, true);
+        const patchList = this.dmp.patch_make(text, this.lastText, diff);
+        if (patchList.length === 0 && this.undoStack.length > 0) {
+            return;
+        }
+        this.lastText = text;
+        this.undoStack.push(patchList);
+        if (this.undoStack.length > this.stackSize) {
+            this.undoStack.shift();
+        }
+        if (this.hasUndo) {
+            this.redoStack = [];
+            this.hasUndo = false;
+        }
+
+        if (this.undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        }
+    }
+
+    private renderDiff(state: patch_obj[], vditor: IVditor, isRedo: boolean = false) {
         let text;
-        let positoin;
         if (isRedo) {
-            const redoPatchList = this.dmp.patch_deepCopy(state.patchList).reverse();
+            const redoPatchList = this.dmp.patch_deepCopy(state).reverse();
             redoPatchList.forEach((patch) => {
                 patch.diffs.forEach((diff) => {
                     diff[0] = -diff[0];
                 });
             });
             text = this.dmp.patch_apply(redoPatchList, this.lastText)[0];
-            positoin = {
-                end: state.end,
-                start: state.end,
-            };
         } else {
-            text = this.dmp.patch_apply(state.patchList, this.lastText)[0];
-            if (this.undoStack[this.undoStack.length - 1]) {
-                positoin = {
-                    end: this.undoStack[this.undoStack.length - 1].end,
-                    start: this.undoStack[this.undoStack.length - 1].end,
-                };
-            }
+            text = this.dmp.patch_apply(state, this.lastText)[0];
         }
 
         this.lastText = text;
-
-        formatRender(vditor, text, positoin, {
+        vditor.sv.element.innerHTML = text;
+        setRangeByWbr(vditor.sv.element, vditor.sv.element.ownerDocument.createRange());
+        scrollCenter(vditor);
+        processAfterRender(vditor, {
             enableAddUndoStack: false,
             enableHint: false,
             enableInput: true,
         });
-
-        scrollCenter(vditor);
 
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);

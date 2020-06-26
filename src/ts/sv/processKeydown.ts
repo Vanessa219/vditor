@@ -17,7 +17,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     if (event.key.indexOf("Arrow") === -1) {
-        vditor.undo.recordFirstPosition(vditor);
+        vditor.undo.recordFirstPosition(vditor, event);
     }
 
     // 仅处理以下快捷键操作
