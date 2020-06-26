@@ -84,7 +84,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
     }
-
     // 代码块
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement && preRenderElement.tagName === "PRE") {

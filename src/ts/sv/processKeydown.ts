@@ -1,9 +1,14 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {matchHotKey} from "../util/hotKey";
-import {getSelectPosition} from "../util/selection";
+import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {formatRender} from "./formatRender";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {insertText} from "./insertText";
+import {isCtrl} from "../util/compatibility";
+import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
+import {scrollCenter} from "../util/editorCommonEvent";
+import {execAfterRender} from "../util/fixBrowserBehavior";
+import {processAfterRender} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.sv.composingLock = event.isComposing;
@@ -11,8 +16,62 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return false;
     }
 
-    vditor.undo.recordFirstPosition(vditor);
+    if (event.key.indexOf("Arrow") === -1) {
+        vditor.undo.recordFirstPosition(vditor);
+    }
 
+    // 仅处理以下快捷键操作
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
+        && !isCtrl(event) && event.key !== "Escape") {
+        return false;
+    }
+    const range = getEditorRange(vditor.sv.element);
+    const startContainer = range.startContainer;
+    // 代码块
+    const preElement = hasClosestByClassName(startContainer, "vditor-sv__marker--pre");
+    if (preElement) {
+        // 换行
+        if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
+            if (!preElement.firstElementChild.textContent.endsWith("\n")) {
+                preElement.firstElementChild.insertAdjacentText("beforeend", "\n");
+            }
+            range.insertNode(document.createTextNode("\n"));
+            range.collapse(false);
+            setSelectionFocus(range);
+            execAfterRender(vditor);
+            scrollCenter(vditor);
+            event.preventDefault();
+            return true;
+        }
+        // Backspace: 光标位于第零个字符，仅删除代码块标签
+        if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
+            const codePosition = getSelectPosition(preElement, range);
+            if ((codePosition.start === 0 ||
+                (codePosition.start === 1 && preElement.innerText === "\n")) // 空代码块，光标在 \n 后
+                && range.toString() === "") {
+                preElement.parentElement.outerHTML =
+                    `<p data-block="0"><wbr>${preElement.firstElementChild.innerHTML}</p>`;
+                setRangeByWbr(vditor[vditor.currentMode].element, range);
+                processAfterRender(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
+    }
+
+    // 代码块语言或飘号后
+    const codeInfoElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info") ||
+        hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker");
+    if (codeInfoElement) {
+        if (event.key === "Enter" || event.key === "Tab") {
+            range.selectNodeContents(codeInfoElement.parentElement.querySelector('code'));
+            range.collapse(true);
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // TODO: all next
     const editorElement = vditor.sv.element;
     const position = getSelectPosition(editorElement);
     const text = getMarkdown(vditor);

@@ -47,9 +47,10 @@ export const getCursorPosition = (editor: HTMLElement) => {
                 cursorRect = children[range.startOffset].getClientRects()[0];
             } else if (range.startContainer.childNodes.length > 0) {
                 // in table or code block
+                const cloneRange = range.cloneRange();
                 range.selectNode(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
                 cursorRect = range.getClientRects()[0];
-                range.collapse(false);
+                range.setEnd(cloneRange.endContainer, cloneRange.endOffset);
             } else {
                 cursorRect = (range.startContainer as HTMLElement).getClientRects()[0];
             }

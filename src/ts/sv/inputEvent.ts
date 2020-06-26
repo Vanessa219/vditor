@@ -46,7 +46,8 @@ export const inputEvent = (vditor: IVditor, event: InputEvent) => {
         item.removeAttribute("style");
     });
     let html = blockElement.outerHTML;
-    if (event.inputType === "insertParagraph" && blockElement.previousElementSibling.textContent.trim() !== "") {
+    if (event.inputType === "insertParagraph" && blockElement.previousElementSibling
+        && blockElement.previousElementSibling.textContent.trim() !== "") {
         // 在粗体中换行
         html = blockElement.previousElementSibling.outerHTML + html;
         blockElement.previousElementSibling.remove();
