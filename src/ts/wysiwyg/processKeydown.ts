@@ -3,7 +3,7 @@ import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote, fixCJKPosition,
-    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixHR,
+    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -35,6 +35,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {
         vditor.wysiwygUndo.recordFirstWbr(vditor, event);
+    }
+
+    if (!fixGSKeyBackspace(event, vditor)) {
+        return false;
     }
 
     const range = getEditorRange(vditor.wysiwyg.element);
@@ -226,9 +230,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面，li 使用浏览器默认
+    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面，li & p 使用浏览器默认
     if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter" &&
-        startContainer.parentElement.tagName !== "LI") {
+        startContainer.parentElement.tagName !== "LI" && startContainer.parentElement.tagName !== "P") {
         if (["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
             // 行内元素软换行需继续 https://github.com/Vanessa219/vditor/issues/170
             range.insertNode(document.createTextNode("\n" + Constants.ZWSP));

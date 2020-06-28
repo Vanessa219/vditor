@@ -229,7 +229,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 currentHintElement.previousElementSibling.className = "vditor-hint--current";
             }
             return true;
-        } else if (!isCtrl(event) && event.shiftKey && event.key === "Enter") {
+        } else if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
             this.fillEmoji(currentHintElement, vditor);

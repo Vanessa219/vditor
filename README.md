@@ -363,7 +363,8 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | enable() | Unedit editor |
 | setSelection(start: number, end: number) | Select the string from start to end and does not support wysiwyg mode |
 | getSelection(): string | Returns the selected string |
-| setValue(markdown: string) | Set editor content |
+| setValue(markdown: string, clearStack = false) | Set editor content |
+| clearStack() | remove undo and redo stack |
 | renderPreview(value?: string) | Set preview area content |
 | getCursorPosition():{top: number, left: number} | Get focus position |
 | deleteValue() | Delete selected content |

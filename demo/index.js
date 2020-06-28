@@ -1,6 +1,8 @@
 import Vditor from '../src/index'
 import '../src/assets/scss/index.scss'
 
+// new VConsole()
+
 let toolbar
 if (window.innerWidth < 768) {
   toolbar = [

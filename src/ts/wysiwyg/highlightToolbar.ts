@@ -536,6 +536,11 @@ export const highlightToolbar = (vditor: IVditor) => {
                     if (removeBlockElement(vditor, event)) {
                         return;
                     }
+                    if (event.key === "Escape" && vditor.hint.element.style.display === "block") {
+                        vditor.hint.element.style.display = "none";
+                        event.preventDefault();
+                        return;
+                    }
                     if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
                         range.setStart(codeElement.firstChild, 0);
                         range.collapse(true);
@@ -544,7 +549,8 @@ export const highlightToolbar = (vditor: IVditor) => {
                     vditor.hint.select(event, vditor);
                 };
                 language.onkeyup = (event: KeyboardEvent) => {
-                    if (event.isComposing || event.key === "Enter" || event.key === "ArrowUp" || event.key === "ArrowDown") {
+                    if (event.isComposing || event.key === "Enter" || event.key === "ArrowUp" || event.key === "Escape"
+                        || event.key === "ArrowDown") {
                         return;
                     }
                     const matchLangData: IHintData[] = [];

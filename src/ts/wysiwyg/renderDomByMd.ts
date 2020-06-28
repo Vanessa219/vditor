@@ -1,7 +1,11 @@
 import {processCodeRender} from "../util/processCode";
 import {afterRenderEvent} from "./afterRenderEvent";
 
-export const renderDomByMd = (vditor: IVditor, md: string, enableInput = true) => {
+export const renderDomByMd = (vditor: IVditor, md: string, options = {
+    enableAddUndoStack: true,
+    enableHint: false,
+    enableInput: true,
+}) => {
     const editorElement = vditor.wysiwyg.element;
     editorElement.innerHTML = vditor.lute.Md2VditorDOM(md);
 
@@ -10,9 +14,5 @@ export const renderDomByMd = (vditor: IVditor, md: string, enableInput = true) =
         item.previousElementSibling.setAttribute("style", "display:none");
     });
 
-    afterRenderEvent(vditor, {
-        enableAddUndoStack: true,
-        enableHint: false,
-        enableInput,
-    });
+    afterRenderEvent(vditor, options);
 };

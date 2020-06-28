@@ -25,7 +25,18 @@ class WysiwygUndo {
         this.hasUndo = false;
     }
 
+    public clearStack(vditor: IVditor) {
+        this.redoStack = [];
+        this.undoStack = [];
+        this.lastText = "";
+        this.hasUndo = false;
+        this.resetIcon(vditor);
+    }
+
     public resetIcon(vditor: IVditor) {
+        if (!vditor.toolbar) {
+            return;
+        }
         if (this.undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {

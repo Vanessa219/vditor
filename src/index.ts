@@ -87,8 +87,8 @@ class Vditor extends VditorMethod {
         this.vditor.undo = new Undo();
         this.vditor.wysiwyg = new WYSIWYG(this.vditor);
         this.vditor.wysiwygUndo = new WysiwygUndo();
-        this.vditor.irUndo = new IRUndo();
         this.vditor.ir = new IR(this.vditor);
+        this.vditor.irUndo = new IRUndo();
         this.vditor.toolbar = new Toolbar(this.vditor);
 
         if (mergedOptions.resize.enable) {
@@ -183,6 +183,7 @@ class Vditor extends VditorMethod {
 
     /** 禁用编辑器 */
     public disabled() {
+        hidePanel(this.vditor, ["subToolbar", "hint", "popover"]);
         disableToolbar(this.vditor.toolbar.elements, Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen",
             "edit-mode"]));
         this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "false");
@@ -316,22 +317,29 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置编辑器内容 */
-    public setValue(markdown: string) {
+    public setValue(markdown: string, clearStack = false) {
+        if (clearStack) {
+            this.clearStack();
+        }
         if (this.vditor.currentMode === "sv") {
             formatRender(this.vditor, markdown, {
                 end: markdown.length,
                 start: markdown.length,
             }, {
-                enableAddUndoStack: true,
+                enableAddUndoStack: !clearStack,
                 enableHint: false,
                 enableInput: false,
             });
         } else if (this.vditor.currentMode === "wysiwyg") {
-            renderDomByMd(this.vditor, markdown, false);
+            renderDomByMd(this.vditor, markdown, {
+                enableAddUndoStack: !clearStack,
+                enableHint: false,
+                enableInput: false,
+            });
         } else {
             this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
             processAfterRender(this.vditor, {
-                enableAddUndoStack: true,
+                enableAddUndoStack: !clearStack,
                 enableHint: false,
                 enableInput: false,
             });
@@ -346,6 +354,13 @@ class Vditor extends VditorMethod {
             }
             this.clearCache();
         }
+    }
+
+    /** 清空 undo & redo 栈 */
+    public clearStack() {
+        this.vditor.undo.clearStack(this.vditor);
+        this.vditor.irUndo.clearStack(this.vditor);
+        this.vditor.wysiwygUndo.clearStack(this.vditor);
     }
 }
 
