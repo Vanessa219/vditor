@@ -5,12 +5,14 @@ import {getSelectText} from "./getSelectText";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
+import {highlightToolbar} from "./highlightToolbar";
 
 class Editor {
     public element: HTMLPreElement;
     public range: Range;
     public composingLock: boolean = false;
     public processTimeoutId: number;
+    public hlToolbarTimeoutId: number;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
@@ -124,6 +126,10 @@ class Editor {
             inputEvent(vditor, event);
         });
 
+        this.element.addEventListener("click", (event: InputEvent) => {
+            highlightToolbar(vditor);
+        });
+
         this.element.addEventListener("keyup", (event) => {
             if (event.isComposing || isCtrl(event)) {
                 return;
@@ -131,6 +137,7 @@ class Editor {
             if (event.key === "Enter") {
                 scrollCenter(vditor);
             }
+            highlightToolbar(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.sv.element.innerHTML !== "" && vditor.sv.element.childNodes.length === 1 &&
                 vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "P"

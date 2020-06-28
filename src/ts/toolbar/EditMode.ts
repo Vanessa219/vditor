@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
+import {highlightToolbar as SVHighlightToolbar} from "../sv/highlightToolbar";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {processAfterRender as processSVAfterRender} from "../sv/process";
@@ -115,6 +116,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         if (typeof event !== "string") {
             // 初始化不 focus
             vditor.sv.element.focus();
+            SVHighlightToolbar(vditor);
         }
         setPadding(vditor);
     }

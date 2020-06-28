@@ -592,6 +592,7 @@ interface IVditor {
     sv?: {
         element: HTMLPreElement,
         processTimeoutId: number,
+        hlToolbarTimeoutId: number,
         composingLock: boolean,
     };
 }
