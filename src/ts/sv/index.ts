@@ -2,10 +2,10 @@ import {uploadFiles} from "../upload/index";
 import {isCtrl} from "../util/compatibility";
 import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {getSelectText} from "./getSelectText";
+import {highlightToolbar} from "./highlightToolbar";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
-import {highlightToolbar} from "./highlightToolbar";
 
 class Editor {
     public element: HTMLPreElement;

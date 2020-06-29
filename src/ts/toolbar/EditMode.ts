@@ -1,9 +1,9 @@
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
-import {highlightToolbar as SVHighlightToolbar} from "../sv/highlightToolbar";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {highlightToolbar as SVHighlightToolbar} from "../sv/highlightToolbar";
 import {processAfterRender as processSVAfterRender} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";

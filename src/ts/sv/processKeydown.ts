@@ -7,9 +7,9 @@ import {matchHotKey} from "../util/hotKey";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {formatRender} from "./formatRender";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
+import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
 import {processAfterRender} from "./process";
-import {inputEvent} from "./inputEvent";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.sv.composingLock = event.isComposing;
@@ -75,12 +75,36 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 引用元素
     const blockquoteElement = hasClosestByAttribute(startContainer, "data-type", "blockquote");
-    if (blockquoteElement && event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
-        range.insertNode(document.createTextNode("\n"));
-        range.collapse(false);
-        inputEvent(vditor);
-        event.preventDefault();
-        return true;
+    if (blockquoteElement) {
+        // 回车
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+            range.insertNode(document.createTextNode("\n"));
+            range.collapse(false);
+            inputEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+        // 在 markder 标记中删除空格
+        if (event.key === "Backspace") {
+            let markerElement: HTMLElement;
+            if (startContainer.nodeType === 3) {
+                if (startContainer.parentElement.classList.contains("vditor-sv__marker") && range.startOffset > 1) {
+                    markerElement = startContainer.parentElement;
+                }
+            } else {
+                const currentElement = startContainer.childNodes[range.startOffset]?.previousSibling as HTMLElement;
+                if (currentElement && currentElement.nodeType !== 3 && currentElement.classList.contains("vditor-sv__marker")) {
+                    markerElement = currentElement;
+                }
+            }
+            if (markerElement) {
+                markerElement.innerHTML = ">";
+                range.selectNode(markerElement.firstChild);
+                range.collapse(false);
+                event.preventDefault();
+                return true;
+            }
+        }
     }
 
     // TODO: all next
