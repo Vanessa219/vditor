@@ -45,6 +45,9 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     blockElement.querySelectorAll("[style]").forEach((item) => {
         item.removeAttribute("style");
     });
+    blockElement.querySelectorAll("font").forEach((item) => {
+        item.outerHTML = item.innerHTML;
+    });
     let html = blockElement.outerHTML;
     if (event?.inputType === "insertParagraph" && blockElement.previousElementSibling
         && blockElement.previousElementSibling.textContent.trim() !== "") {

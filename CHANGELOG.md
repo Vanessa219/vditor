@@ -68,6 +68,7 @@
 
 ### v3.3.4 / 2020-06-xx
 
+* [516](https://github.com/Vanessa219/vditor/issues/516) 高亮自动填写功能未生效问题 `修复缺陷`
 * [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
 
 ### v3.3.3 / 2020-06-23

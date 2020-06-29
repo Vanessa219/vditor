@@ -92,7 +92,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                     markerElement = startContainer.parentElement;
                 }
             } else {
-                const currentElement = startContainer.childNodes[range.startOffset]?.previousSibling as HTMLElement;
+                const currentElement = startContainer.childNodes[range.startOffset - 1] as HTMLElement;
                 if (currentElement && currentElement.nodeType !== 3 && currentElement.classList.contains("vditor-sv__marker")) {
                     markerElement = currentElement;
                 }

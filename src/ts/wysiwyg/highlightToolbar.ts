@@ -514,15 +514,17 @@ export const highlightToolbar = (vditor: IVditor) => {
 
                 const codeElement = blockRenderElement.firstElementChild.firstElementChild;
 
-                const updateLanguage = () => {
-                    codeElement.className = `language-${language.value}`;
-                };
                 language.className = "vditor-input";
                 language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥-Enter") + ">");
                 language.value = codeElement.className.indexOf("language-") > -1 ?
-                    codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
+                    codeElement.className.split("-")[1].split(" ")[0] : "";
                 language.oninput = () => {
-                    updateLanguage();
+                    if (language.value.trim() !== "") {
+                        codeElement.className = `language-${language.value}`;
+                    } else {
+                        codeElement.className = "";
+                        vditor.hint.recentLanguage = "";
+                    }
                     if (blockRenderElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
                         blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML;
                         processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
