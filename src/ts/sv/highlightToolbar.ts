@@ -1,7 +1,6 @@
-import {highlightToolbarIRSV} from "../util/highlightToolbarIRSV";
-import {hasClosestByAttribute} from "../util/hasClosest";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
-
+import {hasClosestByAttribute} from "../util/hasClosest";
+import {highlightToolbarIRSV} from "../util/highlightToolbarIRSV";
 
 export const highlightToolbar = (vditor: IVditor) => {
     highlightToolbarIRSV(vditor, (typeElement: HTMLElement) => {
@@ -17,5 +16,5 @@ export const highlightToolbar = (vditor: IVditor) => {
         if (taskElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["check"]);
         }
-    })
+    });
 };

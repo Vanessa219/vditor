@@ -60,12 +60,15 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
     if (isSVElement) {
         html = blockElement.innerHTML;
-    } else if (blockElement.previousElementSibling) {
-        html = blockElement.previousElementSibling.outerHTML + blockElement.outerHTML;
-        blockElement.previousElementSibling.remove();
-    } else if (blockElement.nextElementSibling) {
-        html = blockElement.outerHTML + blockElement.nextElementSibling.outerHTML;
-        blockElement.nextElementSibling.remove();
+    } else {
+        if (blockElement.previousElementSibling) {
+            html = blockElement.previousElementSibling.outerHTML + html;
+            blockElement.previousElementSibling.remove();
+        }
+        if (blockElement.nextElementSibling) {
+            html = html + blockElement.nextElementSibling.outerHTML;
+            blockElement.nextElementSibling.remove();
+        }
     }
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
     html = vditor.lute.SpinVditorSVDOM(html);

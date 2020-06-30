@@ -17,5 +17,5 @@ export const highlightToolbar = (vditor: IVditor) => {
         } else {
             disableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
         }
-    })
+    });
 };

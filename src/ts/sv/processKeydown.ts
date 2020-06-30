@@ -8,6 +8,7 @@ import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
 import {processAfterRender} from "./process";
+import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.sv.composingLock = event.isComposing;
@@ -76,27 +77,40 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 引用元素
     const blockquoteElement = hasClosestByAttribute(startContainer, "data-type", "blockquote");
-    if (blockquoteElement) {
-        // 在 markder 标记中删除空格
-        if (event.key === "Backspace") {
-            let markerElement: HTMLElement;
-            if (startContainer.nodeType === 3) {
-                if (startContainer.parentElement.classList.contains("vditor-sv__marker") && range.startOffset > 1) {
-                    markerElement = startContainer.parentElement;
-                }
-            } else {
-                const currentElement = startContainer.childNodes[range.startOffset - 1] as HTMLElement;
-                if (currentElement && currentElement.nodeType !== 3 && currentElement.classList.contains("vditor-sv__marker")) {
-                    markerElement = currentElement;
-                }
+    // 在 markder 标记中删除空格
+    if (blockquoteElement && event.key === "Backspace") {
+        let markerElement: HTMLElement;
+        if (startContainer.nodeType === 3) {
+            if (startContainer.parentElement.classList.contains("vditor-sv__marker") && range.startOffset > 1) {
+                markerElement = startContainer.parentElement;
             }
-            if (markerElement) {
-                markerElement.innerHTML = ">";
-                range.selectNode(markerElement.firstChild);
-                range.collapse(false);
-                event.preventDefault();
-                return true;
+        } else {
+            const currentElement = startContainer.childNodes[range.startOffset - 1] as HTMLElement;
+            if (currentElement && currentElement.nodeType !== 3 &&
+                currentElement.classList.contains("vditor-sv__marker")) {
+                markerElement = currentElement;
             }
+        }
+        if (markerElement) {
+            markerElement.innerHTML = ">";
+            range.selectNode(markerElement.firstChild);
+            range.collapse(false);
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // 标题
+    const headingElement = hasClosestByHeadings(startContainer);
+    if (headingElement && event.key === "Backspace") {
+        const headingMarkerElement = headingElement.firstElementChild as HTMLElement;
+        if (headingMarkerElement.textContent.lastIndexOf(" ") > -1 &&
+            getSelectPosition(headingElement).start === headingMarkerElement.textContent.length) {
+            headingMarkerElement.innerHTML = headingMarkerElement.textContent.trim();
+            range.selectNode(headingMarkerElement.firstChild);
+            range.collapse(false);
+            event.preventDefault();
+            return true;
         }
     }
 

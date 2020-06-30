@@ -54,6 +54,10 @@
     content: ' ';
   }
 
+  h1, h2 {
+    border-bottom-width: 0 !important;
+  }
+
 
   &__marker {
     color: var(--second-color);
