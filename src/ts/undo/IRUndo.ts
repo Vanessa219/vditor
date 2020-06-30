@@ -11,6 +11,7 @@ class IRUndo {
     private redoStack: patch_obj[][];
     private stackSize = 50;
     private dmp: diff_match_patch;
+    private firstText: string;
     private lastText: string;
     private hasUndo: boolean;
 
@@ -19,6 +20,7 @@ class IRUndo {
         this.undoStack = [];
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
+        this.firstText = "";
         this.lastText = "";
         this.hasUndo = false;
     }
@@ -26,6 +28,7 @@ class IRUndo {
     public clearStack(vditor: IVditor) {
         this.redoStack = [];
         this.undoStack = [];
+        this.firstText = "";
         this.lastText = "";
         this.hasUndo = false;
         this.resetIcon(vditor);
@@ -54,6 +57,7 @@ class IRUndo {
             return;
         }
         if (this.undoStack.length < 2) {
+            this.firstText = '';
             return;
         }
         const state = this.undoStack.pop();
@@ -73,6 +77,9 @@ class IRUndo {
         if (!state) {
             return;
         }
+        if (!this.firstText && this.undoStack.length < 2) {
+            this.firstText = vditor.ir.element.innerText;
+        }
         this.undoStack.push(state);
         this.renderDiff(state, vditor, true);
     }
@@ -91,6 +98,13 @@ class IRUndo {
         if (isSafari()) {
             // Safari keydown 在 input 之后，不需要重复记录历史
             return;
+        }
+        if (this.firstText && vditor.ir.element.innerText !== this.firstText) {
+            // 必须保证只在第一次输入前执行一次
+            return;
+        }
+        if (!this.firstText) {
+            this.firstText = vditor.ir.element.innerText;
         }
         getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
         this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorIRDOM(vditor.ir.element.innerHTML);
