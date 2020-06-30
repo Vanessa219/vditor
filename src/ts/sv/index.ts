@@ -1,6 +1,6 @@
 import {uploadFiles} from "../upload/index";
 import {isCtrl} from "../util/compatibility";
-import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
 import {getSelectText} from "./getSelectText";
 import {highlightToolbar} from "./highlightToolbar";
 import {html2md} from "./html2md";
@@ -133,9 +133,6 @@ class Editor {
         this.element.addEventListener("keyup", (event) => {
             if (event.isComposing || isCtrl(event)) {
                 return;
-            }
-            if (event.key === "Enter") {
-                scrollCenter(vditor);
             }
             highlightToolbar(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&

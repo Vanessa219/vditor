@@ -1,11 +1,12 @@
-import {hasClosestBlock} from "../util/hasClosest";
+import {scrollCenter} from "../util/editorCommonEvent";
+import {hasClosestByAttribute} from "../util/hasClosest";
 import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
 
 export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();
-    let blockElement = hasClosestBlock(range.startContainer);
+    let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
     // 前可以输入空格
     if (blockElement && event) {
         // 前空格处理
@@ -55,10 +56,16 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         html = blockElement.previousElementSibling.outerHTML + html;
         blockElement.previousElementSibling.remove();
     }
-    // TODO: 链接引用，脚注，列表需要到最顶层？
+    // TODO: 链接引用，脚注？
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
     if (isSVElement) {
         html = blockElement.innerHTML;
+    } else if (blockElement.previousElementSibling) {
+        html = blockElement.previousElementSibling.outerHTML + blockElement.outerHTML;
+        blockElement.previousElementSibling.remove();
+    } else if (blockElement.nextElementSibling) {
+        html = blockElement.outerHTML + blockElement.nextElementSibling.outerHTML;
+        blockElement.nextElementSibling.remove();
     }
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
     html = vditor.lute.SpinVditorSVDOM(html);
@@ -69,6 +76,8 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         blockElement.outerHTML = html;
     }
     setRangeByWbr(vditor.sv.element, range);
+
+    scrollCenter(vditor);
 
     processAfterRender(vditor, {
         enableAddUndoStack: true,

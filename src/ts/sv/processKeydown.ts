@@ -1,10 +1,8 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {isCtrl} from "../util/compatibility";
-import {scrollCenter} from "../util/editorCommonEvent";
-import {execAfterRender} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {matchHotKey} from "../util/hotKey";
-import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
 import {formatRender} from "./formatRender";
 import {getCurrentLinePosition} from "./getCurrentLinePosition";
 import {inputEvent} from "./inputEvent";
@@ -28,22 +26,25 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
     const range = getEditorRange(vditor.sv.element);
     const startContainer = range.startContainer;
+    // 回车
+    if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+        const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+        if (blockElement && !blockElement.textContent.endsWith("\n")) {
+            // 结尾需 \n
+            blockElement.insertAdjacentText("beforeend", "\n");
+        }
+        range.insertNode(document.createTextNode("\n"));
+        range.collapse(false);
+        if (!blockElement || (blockElement && blockElement.innerHTML.trim() !== "")) {
+            inputEvent(vditor);
+        }
+        event.preventDefault();
+        return true;
+    }
+
     // 代码块
     const preElement = hasClosestByClassName(startContainer, "vditor-sv__marker--pre");
     if (preElement) {
-        // 换行
-        if (!isCtrl(event) && !event.altKey && event.key === "Enter") {
-            if (!preElement.firstElementChild.textContent.endsWith("\n")) {
-                preElement.firstElementChild.insertAdjacentText("beforeend", "\n");
-            }
-            range.insertNode(document.createTextNode("\n"));
-            range.collapse(false);
-            setSelectionFocus(range);
-            execAfterRender(vditor);
-            scrollCenter(vditor);
-            event.preventDefault();
-            return true;
-        }
         // Backspace: 光标位于第零个字符，仅删除代码块标签
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
             const codePosition = getSelectPosition(preElement, range);
@@ -76,14 +77,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // 引用元素
     const blockquoteElement = hasClosestByAttribute(startContainer, "data-type", "blockquote");
     if (blockquoteElement) {
-        // 回车
-        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
-            range.insertNode(document.createTextNode("\n"));
-            range.collapse(false);
-            inputEvent(vditor);
-            event.preventDefault();
-            return true;
-        }
         // 在 markder 标记中删除空格
         if (event.key === "Backspace") {
             let markerElement: HTMLElement;
