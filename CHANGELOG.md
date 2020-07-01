@@ -66,8 +66,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.4 / 2020-06-xx
+### v3.3.4 / 2020-07-xx
 
+* [524](https://github.com/Vanessa219/vditor/issues/524) no background-color change(dark mode-abcjs) `修复缺陷`
 * [516](https://github.com/Vanessa219/vditor/issues/516) 高亮自动填写功能未生效问题 `修复缺陷`
 * [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
 
