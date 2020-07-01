@@ -2,7 +2,6 @@
 
   font-family: $font-family-base;
   margin: 0 1px 0 0;
-  // https://github.com/Vanessa219/vditor/issues/328 height: 100%;
   overflow: auto;
   width: 100%;
   flex: 1;
@@ -42,22 +41,33 @@
     display: block;
   }
 
-  blockquote:empty::before,
-  pre > code:empty::before,
-  p:empty::before,
-  h1:empty::after,
-  h2:empty::after,
-  h3:empty::after,
-  h4:empty::after,
-  h5:empty::after,
-  h6:empty::after {
-    content: ' ';
+  .h1 {
+    font-size: 1.75em;
+    line-height: 44px;
   }
 
-  h1, h2 {
-    border-bottom-width: 0 !important;
+  .h2 {
+    font-size: 1.55em;
+    line-height: 38px;
   }
 
+  .h3 {
+    font-size: 1.38em;
+    line-height: 27px;
+  }
+
+  .h4 {
+    font-size: 1.25em;
+    line-height: 25px;
+  }
+
+  .h5 {
+    font-size: 1.13em;
+  }
+
+  .h6 {
+    font-size: 1em;
+  }
 
   &__marker {
     color: var(--second-color);

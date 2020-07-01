@@ -22,7 +22,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
-        && !isCtrl(event) && event.key !== "Escape") {
+        && !isCtrl(event) && event.key !== "Escape" && event.key !== " ") {
         return false;
     }
     const range = getEditorRange(vditor.sv.element);
@@ -77,8 +77,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 引用元素
     const blockquoteElement = hasClosestByAttribute(startContainer, "data-type", "blockquote");
-    // 在 markder 标记中删除空格
-    if (blockquoteElement && event.key === "Backspace") {
+    // 在 marker 标记中删除/空格
+    if (blockquoteElement && (event.key === "Backspace" || event.key === " ")) {
         let markerElement: HTMLElement;
         if (startContainer.nodeType === 3) {
             if (startContainer.parentElement.classList.contains("vditor-sv__marker") && range.startOffset > 1) {
@@ -90,9 +90,18 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 currentElement.classList.contains("vditor-sv__marker")) {
                 markerElement = currentElement;
             }
+            if ((startContainer as HTMLElement).classList.contains("vditor-sv__marker") &&
+                getSelectPosition(startContainer as HTMLElement).start === startContainer.textContent.length &&
+                startContainer.textContent !== ">") {
+                markerElement = (startContainer as HTMLElement);
+            }
         }
         if (markerElement) {
-            markerElement.innerHTML = ">";
+            if (event.key === "Backspace") {
+                markerElement.innerHTML = markerElement.innerHTML.substr(0, markerElement.innerHTML.length - 1);
+            } else {
+                markerElement.innerHTML = markerElement.innerHTML + " ";
+            }
             range.selectNode(markerElement.firstChild);
             range.collapse(false);
             event.preventDefault();

@@ -137,7 +137,7 @@ class Editor {
             highlightToolbar(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.sv.element.innerHTML !== "" && vditor.sv.element.childNodes.length === 1 &&
-                vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "P"
+                vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "DIV"
                 && vditor.sv.element.firstElementChild.childElementCount === 0
                 && (vditor.sv.element.textContent === "" || vditor.sv.element.textContent === "\n")) {
                 // 为空时显示 placeholder
