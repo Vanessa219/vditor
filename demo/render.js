@@ -24,7 +24,7 @@ const render = (fileName) => {
           anchor: 1,
           after () {
             if (window.innerWidth <= 768) {
-              return;
+              return
             }
             const outlineElement = document.getElementById('outline')
             Vditor.outlineRender(document.getElementById('preview'),

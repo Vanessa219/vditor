@@ -12,7 +12,7 @@ export const abcRender = (element: (HTMLElement | Document) = document,
         addScript(`${cdn}/dist/js/abcjs/abcjs_basic.min.js`, "vditorAbcjsScript").then(() => {
             abcElements.forEach((e: HTMLDivElement) => {
                 const divElement = document.createElement("div");
-                divElement.style.backgroundColor = "var(--preview-background-color)";
+                divElement.className = "language-abc";
                 e.parentNode.replaceChild(divElement, e);
                 ABCJS.renderAbc(divElement, e.textContent.trim());
                 divElement.style.overflowX = "auto";
