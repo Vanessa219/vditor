@@ -103,10 +103,6 @@ class WysiwygUndo {
     }
 
     public addToUndoStack(vditor: IVditor) {
-        if (vditor.wysiwyg.composingLock) {
-             // 中文输入过程中不记录 undo
-             return;
-        }
         // wysiwyg/afterRenderEvent.ts 已经 debounce
         let cloneRange: Range;
         if (getSelection().rangeCount !== 0 && !vditor.wysiwyg.element.querySelector("wbr")) {
