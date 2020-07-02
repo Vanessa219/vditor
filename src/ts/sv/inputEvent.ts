@@ -39,9 +39,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         blockElement = vditor.sv.element;
     }
     // 添加光标位置
-    if (!blockElement.querySelector("wbr")) {
-        range.insertNode(document.createElement("wbr"));
-    }
+    range.insertNode(document.createTextNode(Lute.Caret));
     // 清除浏览器自带的样式
     blockElement.querySelectorAll("[style]").forEach((item) => {
         item.removeAttribute("style");
@@ -49,7 +47,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     blockElement.querySelectorAll("font").forEach((item) => {
         item.outerHTML = item.innerHTML;
     });
-    let html = blockElement.outerHTML;
+    let html = blockElement.textContent;
     if (event?.inputType === "insertParagraph" && blockElement.previousElementSibling
         && blockElement.previousElementSibling.textContent.trim() !== "") {
         // 在粗体中换行
@@ -59,14 +57,14 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     // TODO: 链接引用，脚注？
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
     if (isSVElement) {
-        html = blockElement.innerHTML;
+        html = blockElement.textContent;
     } else {
         if (blockElement.previousElementSibling) {
-            html = blockElement.previousElementSibling.outerHTML + html;
+            html = blockElement.previousElementSibling.textContent + html;
             blockElement.previousElementSibling.remove();
         }
         if (blockElement.nextElementSibling) {
-            html = html + blockElement.nextElementSibling.outerHTML;
+            html = html + blockElement.nextElementSibling.textContent;
             blockElement.nextElementSibling.remove();
         }
     }

@@ -104,6 +104,7 @@ interface ILute {
     WalkSkipChildren: number;
     WalkContinue: number;
     Version: string;
+    Caret: string;
 
     New(): ILute;
 
@@ -196,10 +197,7 @@ interface ILute {
     HTML2VditorIRDOM(html: string): string;
 
     // sv 输入渲染
-    SpinVditorSVDOM(html: string): string;
-
-    // sv 获取 md
-    VditorSVDOM2Md(html: string): string;
+    SpinVditorSVDOM(text: string): string;
 }
 
 declare const webkitAudioContext: {

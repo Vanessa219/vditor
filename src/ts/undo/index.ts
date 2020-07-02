@@ -92,7 +92,7 @@ class Undo {
             return;
         }
         getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
-        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorSVDOM(vditor.sv.element.innerHTML);
+        this.undoStack[0][0].diffs[0][1] = vditor.lute.SpinVditorSVDOM(vditor.sv.element.textContent);
         this.lastText = this.undoStack[0][0].diffs[0][1];
         if (vditor.sv.element.querySelector("wbr")) {
             vditor.sv.element.querySelector("wbr").remove();
@@ -108,7 +108,7 @@ class Undo {
                 range.insertNode(document.createElement("wbr"));
             }
         }
-        const text = vditor.lute.SpinVditorSVDOM(vditor.sv.element.innerHTML);
+        const text = vditor.lute.SpinVditorSVDOM(vditor.sv.element.textContent);
         if (vditor.sv.element.querySelector("wbr")) {
             vditor.sv.element.querySelector("wbr").remove();
         }

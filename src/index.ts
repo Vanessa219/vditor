@@ -6,13 +6,13 @@ import {i18n} from "./ts/i18n";
 import {IR} from "./ts/ir";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
+import {processAfterRender as processSVAfterRender} from "./ts/sv/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
 import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
-import {formatRender} from "./ts/sv/formatRender";
 import {getSelectText} from "./ts/sv/getSelectText";
 import {html2md} from "./ts/sv/html2md";
 import {Editor} from "./ts/sv/index";
@@ -322,10 +322,8 @@ class Vditor extends VditorMethod {
             this.clearStack();
         }
         if (this.vditor.currentMode === "sv") {
-            formatRender(this.vditor, markdown, {
-                end: markdown.length,
-                start: markdown.length,
-            }, {
+            this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown);
+            processSVAfterRender(this.vditor, {
                 enableAddUndoStack: !clearStack,
                 enableHint: false,
                 enableInput: false,

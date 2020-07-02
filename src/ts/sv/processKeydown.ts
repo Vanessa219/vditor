@@ -72,6 +72,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         range.insertNode(document.createElement("wbr"));
         const wbrElement = document.querySelector("wbr");
         let markerElement;
+        // blockquote, heading, list marker 删除或空格
         if (wbrElement.parentElement?.className.indexOf("vditor-sv__marker") > -1) {
             markerElement = wbrElement.parentElement;
         } else if (wbrElement.previousSibling && wbrElement.previousSibling.nodeType !== 3 &&
@@ -85,6 +86,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 range.selectNode(markerElement.firstChild);
                 range.collapse(false);
                 event.preventDefault();
+                wbrElement.remove();
                 return true;
             }
             if (event.key === " ") {
@@ -92,6 +94,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 range.selectNode(markerElement.firstChild);
                 range.collapse(false);
                 event.preventDefault();
+                wbrElement.remove();
                 return true;
             }
         }
