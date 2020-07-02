@@ -66,10 +66,6 @@ export class Options {
             },
             emojiPath: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji`,
         },
-        keymap: {
-            deleteLine: "⌘-Backspace",
-            duplicate: "⌘-D",
-        },
         lang: "zh_CN",
         mode: "wysiwyg",
         outline: false,
@@ -381,10 +377,6 @@ export class Options {
 
             if (this.options.classes) {
                 this.options.classes = Object.assign({}, this.defaultOptions.classes, this.options.classes);
-            }
-
-            if (this.options.keymap) {
-                this.options.keymap = Object.assign({}, this.defaultOptions.keymap, this.options.keymap);
             }
 
             if (this.options.preview) {

@@ -68,11 +68,13 @@
 
 ### v3.3.4 / 2020-07-xx
 
+* [526](https://github.com/Vanessa219/vditor/issues/526) 字符串中带有 \ 符号时，从 \ 后面，但不是行尾 Backspace 删除字符到达 \ 时处理异常 `修复缺陷`
 * [517](https://github.com/Vanessa219/vditor/issues/517) Duplicate CSS(render.html) `修复缺陷`
 * [522](https://github.com/Vanessa219/vditor/issues/522) 从 WPS Office 复制文本，粘贴异常 `修复缺陷`
 * [524](https://github.com/Vanessa219/vditor/issues/524) no background-color change(dark mode-abcjs) `修复缺陷`
 * [516](https://github.com/Vanessa219/vditor/issues/516) 高亮自动填写功能未生效问题 `修复缺陷`
 * [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
+* 移除 `options.keymap`
 
 ### v3.3.3 / 2020-06-23
 

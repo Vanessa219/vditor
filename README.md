@@ -343,13 +343,6 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | - | - | - |
 | preview | Preview on the element className | '' |
 
-#### options.keymap
-
-|   | Explanation | Default |
-| - | - | - |
-| deleteLine | Delete the cursor line or selected line | '⌘-Backspace' |
-| duplicate | Copy current line or selected content | '⌘-D' |
-
 #### methods
 
 |   | Explanation |

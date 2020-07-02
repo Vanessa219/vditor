@@ -421,8 +421,6 @@ interface IOptions {
     debugger?: boolean;
     /** 是否启用打字机模式。默认值: false */
     typewriterMode?: boolean;
-    /** @link https://hacpai.com/article/1549638745630#options-keymap */
-    keymap?: { [key: string]: string };
     /** 编辑器总高度。默认值: 'auto' */
     height?: number | string;
     /** 编辑器最小高度 */
