@@ -68,6 +68,7 @@
 
 ### v3.3.4 / 2020-07-xx
 
+* [531](https://github.com/Vanessa219/vditor/issues/531) 移除 options.keymap `改进功能`
 * [529](https://github.com/Vanessa219/vditor/issues/529) 移除格式化按钮 `改进功能`
 * [526](https://github.com/Vanessa219/vditor/issues/526) 字符串中带有 \ 符号时，从 \ 后面，但不是行尾 Backspace 删除字符到达 \ 时处理异常 `修复缺陷`
 * [517](https://github.com/Vanessa219/vditor/issues/517) Duplicate CSS(render.html) `修复缺陷`
