@@ -102,6 +102,10 @@ class IRUndo {
     }
 
     public addToUndoStack(vditor: IVditor) {
+        if (vditor.ir.composingLock) {
+            // 中文输入过程中不记录 undo
+            return;
+        }
         let cloneRange: Range;
         if (getSelection().rangeCount !== 0 && !vditor.ir.element.querySelector("wbr")) {
             const range = getSelection().getRangeAt(0);
