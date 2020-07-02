@@ -1,9 +1,9 @@
 import {isCtrl} from "../util/compatibility";
+import {fixTab} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
 import {inputEvent} from "./inputEvent";
 import {processAfterRender} from "./process";
-import {fixTab} from "../util/fixBrowserBehavior";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.sv.composingLock = event.isComposing;
