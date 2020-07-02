@@ -22,7 +22,6 @@ import linkSVG from "../../assets/icons/link.svg";
 import listSVG from "../../assets/icons/list.svg";
 import moreSVG from "../../assets/icons/more.svg";
 import orderedListVG from "../../assets/icons/ordered-list.svg";
-import formatSVG from "../../assets/icons/outdent.svg";
 import outdentSVG from "../../assets/icons/outdent.svg";
 import previewSVG from "../../assets/icons/preview.svg";
 import quoteSVG from "../../assets/icons/quote.svg";
@@ -142,7 +141,6 @@ export class Options {
                     "export",
                     "outline",
                     "preview",
-                    "format",
                     "devtools",
                     "info",
                     "help",
@@ -327,11 +325,6 @@ export class Options {
     }, {
         icon: previewSVG,
         name: "preview",
-        tipPosition: "nw",
-    }, {
-        hotkey: "⌘-⇧-F",
-        icon: formatSVG,
-        name: "format",
         tipPosition: "nw",
     }, {
         icon: outlinerSVG,

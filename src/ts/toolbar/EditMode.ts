@@ -46,7 +46,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     disableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
 
     if (type === "ir") {
-        hideToolbar(vditor.toolbar.elements, ["format", "both"]);
+        hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
         vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
@@ -73,7 +73,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             IRHighlightToolbar(vditor);
         }
     } else if (type === "wysiwyg") {
-        hideToolbar(vditor.toolbar.elements, ["format", "both"]);
+        hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
         vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
@@ -96,7 +96,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         }
         vditor.wysiwyg.popover.style.display = "none";
     } else if (type === "sv") {
-        showToolbar(vditor.toolbar.elements, ["format", "both"]);
+        showToolbar(vditor.toolbar.elements, ["both"]);
         hideToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
         vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
