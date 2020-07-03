@@ -32,7 +32,7 @@ import tableSVG from "../../assets/icons/table.svg";
 import contentThemeSVG from "../../assets/icons/theme.svg";
 import undoSVG from "../../assets/icons/undo.svg";
 import uploadSVG from "../../assets/icons/upload.svg";
-import {VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {merge} from "./merge";
 
 export class Options {
@@ -42,7 +42,7 @@ export class Options {
         cache: {
             enable: true,
         },
-        cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+        cdn: Constants.CDN,
         classes: {
             preview: "",
         },
@@ -64,7 +64,7 @@ export class Options {
                 "smile": "😄",
                 "tada": "🎉️",
             },
-            emojiPath: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji`,
+            emojiPath: `${Constants.CDN}/dist/images/emoji`,
         },
         lang: "zh_CN",
         mode: "wysiwyg",
@@ -72,39 +72,12 @@ export class Options {
         placeholder: "",
         preview: {
             delay: 1000,
-            hljs: {
-                enable: true,
-                lineNumber: false,
-                style: "github",
-            },
-            markdown: {
-                autoSpace: false,
-                chinesePunct: false,
-                codeBlockPreview: true,
-                fixTermTypo: false,
-                footnotes: true,
-                linkBase: "",
-                listStyle: false,
-                sanitize: true,
-                setext: false,
-                toc: false,
-            },
-            math: {
-                engine: "KaTeX",
-                inlineDigit: false,
-                macros: {},
-            },
+            hljs: Constants.HLJS_OPTIONS,
+            markdown: Constants.MARKDOWN_OPTIONS,
+            math: Constants.MATH_OPTIONS,
             maxWidth: 800,
             mode: "both",
-            theme: {
-                current: "light",
-                list: {
-                    dark: "Dark",
-                    light: "Light",
-                    wechat: "WeChat",
-                },
-                path: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme`,
-            },
+            theme: Constants.THEME_OPTIONS,
         },
         resize: {
             enable: false,

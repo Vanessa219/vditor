@@ -32,7 +32,7 @@ import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {addScript} from "./ts/util/addScript";
 import {Options} from "./ts/util/Options";
-import {getCursorPosition, getEditorRange, setSelectionByPosition} from "./ts/util/selection";
+import {getCursorPosition, getEditorRange} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
@@ -196,15 +196,6 @@ class Vditor extends VditorMethod {
         this.vditor.undo.resetIcon(this.vditor);
         this.vditor.wysiwygUndo.resetIcon(this.vditor);
         this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
-    }
-
-    /** 选中从 start 开始到 end 结束的字符串，不支持 wysiwyg & ir 模式 */
-    public setSelection(start: number, end: number) {
-        if (this.vditor.currentMode !== "sv") {
-            console.error("所见即所得模式暂不支持该方法");
-        } else {
-            setSelectionByPosition(start, end, this.vditor.sv.element);
-        }
     }
 
     /** 返回选中的字符串 */

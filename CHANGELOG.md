@@ -85,6 +85,7 @@
 * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
 * `options.preview.markdow.theme` 修改为 `options.preview.theme`
 * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+* 移除 `setSelection`
 
 ### v3.3.3 / 2020-06-23
 

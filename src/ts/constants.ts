@@ -21,4 +21,37 @@ export abstract class Constants {
         "makefile", "markdown", "nginx", "objectivec", "php", "perl", "properties", "python", "ruby", "sql", "shell",
         "dart", "erb", "go", "gradle", "julia", "kotlin", "less", "lua", "matlab", "rust", "scss", "typescript", "ts",
         "yaml"];
+    public static readonly CDN = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
+    public static readonly MARKDOWN_OPTIONS = {
+        autoSpace: false,
+        chinesePunct: false,
+        codeBlockPreview: true,
+        fixTermTypo: false,
+        footnotes: true,
+        linkBase: "",
+        listStyle: false,
+        paragraphBeginningSpace: false,
+        sanitize: true,
+        setext: false,
+        toc: false,
+    };
+    public static readonly HLJS_OPTIONS = {
+        enable: true,
+        lineNumber: false,
+        style: "github",
+    };
+    public static readonly MATH_OPTIONS: IMath = {
+        engine: "KaTeX",
+        inlineDigit: false,
+        macros: {},
+    };
+    public static readonly THEME_OPTIONS = {
+        current: "light",
+        list: {
+            dark: "Dark",
+            light: "Light",
+            wechat: "WeChat",
+        },
+        path: `${Constants.CDN}/dist/css/content-theme`,
+    };
 }

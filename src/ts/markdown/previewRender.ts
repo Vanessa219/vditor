@@ -1,6 +1,7 @@
-import {VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {setContentTheme} from "../ui/setContentTheme";
 import {addScript} from "../util/addScript";
+import {merge} from "../util/merge";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -14,46 +15,21 @@ import {mermaidRender} from "./mermaidRender";
 import {mindmapRender} from "./mindmapRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
-import {merge} from "../util/merge";
 
 const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption: IPreviewOptions = {
         anchor: 0,
-        cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+        cdn: Constants.CDN,
         customEmoji: {},
-        emojiPath: `${(options && options.emojiPath) ||
-        `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`}/dist/images/emoji`,
-        hljs: {
-            enable: true,
-            lineNumber: false,
-            style: "github",
-        },
+        emojiPath: `${(options && options.emojiPath) || Constants.CDN}/dist/images/emoji`,
+        hljs: Constants.HLJS_OPTIONS,
         lang: "zh_CN",
-        markdown: {
-            autoSpace: false,
-            chinesePunct: false,
-            codeBlockPreview: true,
-            fixTermTypo: false,
-            footnotes: true,
-            linkBase: "",
-            listStyle: false,
-            paragraphBeginningSpace: false,
-            sanitize: true,
-            setext: false,
-            toc: false,
-        },
-        math: {
-            engine: "KaTeX",
-            inlineDigit: false,
-            macros: {},
-        },
+        markdown: Constants.MARKDOWN_OPTIONS,
+        math: Constants.MATH_OPTIONS,
         speech: {
             enable: false,
         },
-        theme: {
-            current: "light",
-            path: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme`,
-        },
+        theme: Constants.THEME_OPTIONS,
     };
     return merge(defaultOption, options);
 };

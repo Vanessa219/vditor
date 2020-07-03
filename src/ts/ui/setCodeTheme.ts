@@ -1,8 +1,7 @@
-import {Constants, VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {addStyle} from "../util/addStyle";
 
-export const setCodeTheme = (codeTheme: string,
-                             cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
+export const setCodeTheme = (codeTheme: string, cdn = Constants.CDN) => {
     if (!Constants.CODE_THEME.includes(codeTheme)) {
         codeTheme = "github";
     }
