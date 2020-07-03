@@ -4,7 +4,7 @@ import {accessLocalStorage, isSafari} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
-import {highlightToolbar} from "./highlightToolbar";
+import {highlightToolbarIR} from "./highlightToolbarIR";
 
 export const processHint = (vditor: IVditor) => {
     vditor.hint.render(vditor);
@@ -87,7 +87,7 @@ export const processHeading = (vditor: IVditor, value: string) => {
             range.collapse(true);
             document.execCommand("insertHTML", false, value);
         }
-        highlightToolbar(vditor);
+        highlightToolbarIR(vditor);
         renderToc(vditor);
     }
 };
@@ -193,5 +193,5 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     }
     setRangeByWbr(vditor.ir.element, range);
     processAfterRender(vditor);
-    highlightToolbar(vditor);
+    highlightToolbarIR(vditor);
 };

@@ -1,8 +1,8 @@
 import {disableToolbar, enableToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestByMatchTag} from "../util/hasClosest";
-import {highlightToolbarIRSV} from "../util/highlightToolbarIRSV";
+import {highlightToolbarIRSV} from "../util/highlightToolbar";
 
-export const highlightToolbar = (vditor: IVditor) => {
+export const highlightToolbarIR = (vditor: IVditor) => {
     highlightToolbarIRSV(vditor, (typeElement: HTMLElement) => {
         const liElement = hasClosestByMatchTag(typeElement, "LI");
         if (liElement) {

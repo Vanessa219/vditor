@@ -5,7 +5,7 @@ import {hasClosestBlock, hasClosestByMatchTag} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {genAPopover, highlightToolbar} from "./highlightToolbar";
+import {genAPopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
 
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
@@ -315,7 +315,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
     }
 
     if (useHighlight) {
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
     }
 
     if (useRender) {

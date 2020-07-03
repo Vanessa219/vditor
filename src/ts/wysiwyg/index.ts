@@ -15,7 +15,7 @@ import {
     setRangeByWbr,
 } from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {genImagePopover, highlightToolbar} from "./highlightToolbar";
+import {genImagePopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {showCode} from "./showCode";
@@ -264,7 +264,7 @@ class WYSIWYG {
                 }
             }
 
-            highlightToolbar(vditor);
+            highlightToolbarWYSIWYG(vditor);
 
             // 点击后光标落于预览区，需展开代码块
             let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview");
@@ -304,7 +304,7 @@ class WYSIWYG {
             // 没有被块元素包裹
             modifyPre(vditor, range);
 
-            highlightToolbar(vditor);
+            highlightToolbarWYSIWYG(vditor);
 
             if (event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "Backspace"
                 && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {

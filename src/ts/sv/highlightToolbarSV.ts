@@ -1,8 +1,8 @@
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestByAttribute} from "../util/hasClosest";
-import {highlightToolbarIRSV} from "../util/highlightToolbarIRSV";
+import {highlightToolbarIRSV} from "../util/highlightToolbar";
 
-export const highlightToolbar = (vditor: IVditor) => {
+export const highlightToolbarSV = (vditor: IVditor) => {
     highlightToolbarIRSV(vditor, (typeElement: HTMLElement) => {
         const ulElement = hasClosestByAttribute(typeElement, "data-type", "ul");
         if (ulElement) {

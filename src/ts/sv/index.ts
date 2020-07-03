@@ -2,7 +2,7 @@ import {uploadFiles} from "../upload/index";
 import {isCtrl} from "../util/compatibility";
 import {blurEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
 import {getSelectText} from "./getSelectText";
-import {highlightToolbar} from "./highlightToolbar";
+import {highlightToolbarSV} from "./highlightToolbarSV";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
 import {insertText} from "./insertText";
@@ -127,14 +127,14 @@ class Editor {
         });
 
         this.element.addEventListener("click", (event: InputEvent) => {
-            highlightToolbar(vditor);
+            highlightToolbarSV(vditor);
         });
 
         this.element.addEventListener("keyup", (event) => {
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
-            highlightToolbar(vditor);
+            highlightToolbarSV(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.sv.element.innerHTML !== "" && vditor.sv.element.childNodes.length === 1 &&
                 vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "DIV"

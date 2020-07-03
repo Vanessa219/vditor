@@ -1,5 +1,4 @@
 import {Constants} from "../constants";
-import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
 import {processAfterRender as processSVAfterRender} from "../sv/process";
@@ -7,7 +6,6 @@ import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {input} from "../wysiwyg/input";
 import {isCtrl, isFirefox} from "./compatibility";
 import {scrollCenter} from "./editorCommonEvent";
@@ -20,6 +18,7 @@ import {
 } from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {hasClosestByHeadings} from "./hasClosestByHeadings";
+import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
 import {
     getEditorRange,
@@ -77,11 +76,7 @@ export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
     if (blockElement) {
         blockElement.insertAdjacentHTML(position, `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor[vditor.currentMode].element, range);
-        if (vditor.currentMode === "ir") {
-            highlightToolbarIR(vditor);
-        } else {
-            highlightToolbar(vditor);
-        }
+        highlightToolbar(vditor);
         execAfterRender(vditor);
     }
 };
@@ -273,9 +268,7 @@ export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range
                 });
         }
         execAfterRender(vditor);
-        if (vditor.currentMode === "wysiwyg") {
-            highlightToolbar(vditor);
-        }
+        highlightToolbar(vditor);
     } else {
         vditor[vditor.currentMode].element.focus();
     }
@@ -330,9 +323,7 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
                 });
         }
         execAfterRender(vditor);
-        if (vditor.currentMode === "wysiwyg") {
-            highlightToolbar(vditor);
-        }
+        highlightToolbar(vditor);
     } else {
         vditor[vditor.currentMode].element.focus();
     }
@@ -433,13 +424,17 @@ export const renderToc = (vditor: IVditor) => {
     tocElement.innerHTML = tocHTML || "[ToC]";
 };
 
-export const execAfterRender = (vditor: IVditor) => {
+export const execAfterRender = (vditor: IVditor, options = {
+    enableAddUndoStack: true,
+    enableHint: false,
+    enableInput: true,
+}) => {
     if (vditor.currentMode === "wysiwyg") {
-        afterRenderEvent(vditor);
+        afterRenderEvent(vditor, options);
     } else if (vditor.currentMode === "ir") {
-        processAfterRender(vditor);
+        processAfterRender(vditor, options);
     } else if (vditor.currentMode === "sv") {
-        processSVAfterRender(vditor);
+        processSVAfterRender(vditor, options);
     }
 };
 
@@ -668,9 +663,7 @@ export const deleteColumn =
             const cells = tableElement.rows[i].cells;
             if (cells.length === 1) {
                 tableElement.remove();
-                if (vditor.currentMode === "wysiwyg") {
-                    highlightToolbar(vditor);
-                }
+                highlightToolbar(vditor);
                 break;
             }
             cells[index].remove();

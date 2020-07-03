@@ -1,14 +1,12 @@
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
-import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {highlightToolbar as SVHighlightToolbar} from "../sv/highlightToolbar";
 import {processAfterRender as processSVAfterRender} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
+import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {
@@ -66,12 +64,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
             processCodeRender(item, vditor);
         });
-
-        if (typeof event !== "string") {
-            // 初始化不 focus
-            vditor.ir.element.focus();
-            IRHighlightToolbar(vditor);
-        }
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
@@ -88,12 +80,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             enableHint: false,
             enableInput: false,
         });
-
-        if (typeof event !== "string") {
-            // 初始化不 focus
-            vditor.wysiwyg.element.focus();
-            highlightToolbar(vditor);
-        }
         vditor.wysiwyg.popover.style.display = "none";
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["both"]);
@@ -113,12 +99,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             enableHint: false,
             enableInput: false,
         });
-        if (typeof event !== "string") {
-            // 初始化不 focus
-            vditor.sv.element.focus();
-            SVHighlightToolbar(vditor);
-        }
         setPadding(vditor);
+    }
+    if (typeof event !== "string") {
+        // 初始化不 focus
+        vditor[vditor.currentMode].element.focus();
+        highlightToolbar(vditor);
     }
     if (typeof event === "string") {
         vditor.outline.render(vditor);

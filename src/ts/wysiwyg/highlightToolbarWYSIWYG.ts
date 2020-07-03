@@ -28,7 +28,7 @@ import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "
 import {afterRenderEvent} from "./afterRenderEvent";
 import {removeBlockElement} from "./processKeydown";
 
-export const highlightToolbar = (vditor: IVditor) => {
+export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
     vditor.wysiwyg.hlToolbarTimeoutId = window.setTimeout(() => {
         if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
@@ -680,7 +680,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
         previousElement.insertAdjacentElement("beforebegin", element);
         setRangeByWbr(vditor.wysiwyg.element, range);
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
         scrollCenter(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", upElement);
@@ -702,7 +702,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
         nextElement.insertAdjacentElement("afterend", element);
         setRangeByWbr(vditor.wysiwyg.element, range);
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
         scrollCenter(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", downElement);
@@ -721,7 +721,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
         setSelectionFocus(range);
         element.remove();
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 };

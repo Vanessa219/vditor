@@ -9,7 +9,7 @@ import {
     setSelectionFocus,
 } from "../util/selection";
 import {expandMarker} from "./expandMarker";
-import {highlightToolbar} from "./highlightToolbar";
+import {highlightToolbarIR} from "./highlightToolbarIR";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
 
@@ -142,7 +142,7 @@ class IR {
             }
 
             expandMarker(range, vditor);
-            highlightToolbar(vditor);
+            highlightToolbarIR(vditor);
         });
 
         this.element.addEventListener("keyup", (event) => {
@@ -152,7 +152,7 @@ class IR {
             if (event.key === "Enter") {
                 scrollCenter(vditor);
             }
-            highlightToolbar(vditor);
+            highlightToolbarIR(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.ir.element.innerHTML !== "" && vditor.ir.element.childNodes.length === 1 &&
                 vditor.ir.element.firstElementChild && vditor.ir.element.firstElementChild.tagName === "P"

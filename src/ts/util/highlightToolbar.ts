@@ -1,8 +1,11 @@
 import {Constants} from "../constants";
+import {highlightToolbarIR} from "../ir/highlightToolbarIR";
+import {highlightToolbarSV} from "../sv/highlightToolbarSV";
 import {disableToolbar, enableToolbar, removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {getEditorRange, selectIsEditor} from "../util/selection";
+import {highlightToolbarWYSIWYG} from "../wysiwyg/highlightToolbarWYSIWYG";
 
 export const highlightToolbarIRSV = (vditor: IVditor, processLi: (node: HTMLElement) => void) => {
     clearTimeout(vditor[vditor.currentMode].hlToolbarTimeoutId);
@@ -79,4 +82,14 @@ export const highlightToolbarIRSV = (vditor: IVditor, processLi: (node: HTMLElem
         }
 
     }, 200);
+};
+
+export const highlightToolbar = (vditor: IVditor) => {
+    if (vditor.currentMode === "wysiwyg") {
+        highlightToolbarWYSIWYG(vditor);
+    } else if (vditor.currentMode === "ir") {
+        highlightToolbarIR(vditor);
+    } else if (vditor.currentMode === "sv") {
+        highlightToolbarSV(vditor);
+    }
 };
