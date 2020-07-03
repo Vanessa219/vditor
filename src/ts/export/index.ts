@@ -60,7 +60,7 @@ export const exportHTML = (vditor: IVditor) => {
 <body><div class="vditor-reset" id="preview">${content}</div>
 <script>
     const previewElement = document.getElementById('preview')
-    Vditor.setContentTheme('${vditor.options.preview.theme}', '${vditor.options.cdn}');
+    Vditor.setContentTheme('${vditor.options.preview.theme.current}', '${vditor.options.preview.theme.path}');
     Vditor.codeRender(previewElement, '${vditor.options.lang}');
     Vditor.highlightRender(${JSON.stringify(vditor.options.preview.hljs)}, previewElement, '${vditor.options.cdn}');
     Vditor.mathRender(previewElement, {

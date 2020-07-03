@@ -96,8 +96,15 @@ export class Options {
             },
             maxWidth: 800,
             mode: "both",
-            theme: "light",
-            themes: {dark: "", light: "", wechat: ""},
+            theme: {
+                current: "light",
+                list: {
+                    dark: "Dark",
+                    light: "Light",
+                    wechat: "WeChat",
+                },
+                path: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme`,
+            },
         },
         resize: {
             enable: false,
@@ -165,255 +172,22 @@ export class Options {
         width: "auto",
     };
 
-    private toolbarItem = [{
-        icon: exportSVG,
-        name: "export",
-        tipPosition: "ne",
-    }, {
-        hotkey: "⌘-E",
-        icon: emojiSVG,
-        name: "emoji",
-        tipPosition: "ne",
-    }, {
-        hotkey: "⌘-H",
-        icon: headingsSVG,
-        name: "headings",
-        tipPosition: "ne",
-    }, {
-        hotkey: "⌘-B",
-        icon: boldSVG,
-        name: "bold",
-        prefix: "**",
-        suffix: "**",
-        tipPosition: "ne",
-    }, {
-        hotkey: "⌘-I",
-        icon: italicSVG,
-        name: "italic",
-        prefix: "*",
-        suffix: "*",
-        tipPosition: "ne",
-    }, {
-        hotkey: "⌘-S",
-        icon: strikekSVG,
-        name: "strike",
-        prefix: "~~",
-        suffix: "~~",
-        tipPosition: "ne",
-    }, {
-        hotkey: "⌘-K",
-        icon: linkSVG,
-        name: "link",
-        prefix: "[",
-        suffix: "](https://)",
-        tipPosition: "n",
-    }, {
-        name: "|",
-    }, {
-        hotkey: "⌘-L",
-        icon: listSVG,
-        name: "list",
-        prefix: "* ",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-O",
-        icon: orderedListVG,
-        name: "ordered-list",
-        prefix: "1. ",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-J",
-        icon: checkSVG,
-        name: "check",
-        prefix: "* [ ] ",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-⇧-I",
-        icon: outdentSVG,
-        name: "outdent",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-⇧-O",
-        icon: indentSVG,
-        name: "indent",
-        tipPosition: "n",
-    }, {
-        name: "|",
-    }, {
-        hotkey: "⌘-;",
-        icon: quoteSVG,
-        name: "quote",
-        prefix: "> ",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-⇧-H",
-        icon: lineSVG,
-        name: "line",
-        prefix: "---",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-U",
-        icon: codeSVG,
-        name: "code",
-        prefix: "```\n",
-        suffix: "\n```",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-G",
-        icon: inlineCodeSVG,
-        name: "inline-code",
-        prefix: "`",
-        suffix: "`",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-⇧-B",
-        icon: insertBeforeSVG,
-        name: "insert-before",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-⇧-E",
-        icon: insertAfterSVG,
-        name: "insert-after",
-        tipPosition: "n",
-    }, {
-        name: "|",
-    }, {
-        icon: uploadSVG,
-        name: "upload",
-        tipPosition: "n",
-    }, {
-        icon: recordSVG,
-        name: "record",
-        tipPosition: "n",
-    }, {
-        hotkey: "⌘-M",
-        icon: tableSVG,
-        name: "table",
-        prefix: "| col1",
-        suffix: " | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |",
-        tipPosition: "n",
-    }, {
-        name: "|",
-    }, {
-        hotkey: "⌘-Z",
-        icon: undoSVG,
-        name: "undo",
-        tipPosition: "nw",
-    }, {
-        hotkey: "⌘-Y",
-        icon: redoSVG,
-        name: "redo",
-        tipPosition: "nw",
-    }, {
-        name: "|",
-    }, {
-        icon: moreSVG,
-        name: "more",
-        tipPosition: "e",
-    }, {
-        hotkey: "⌘-'",
-        icon: fullscreenSVG,
-        name: "fullscreen",
-        tipPosition: "nw",
-    }, {
-        icon: editSVG,
-        name: "edit-mode",
-        tipPosition: "nw",
-    }, {
-        hotkey: "⌘-P",
-        icon: bothSVG,
-        name: "both",
-        tipPosition: "nw",
-    }, {
-        icon: previewSVG,
-        name: "preview",
-        tipPosition: "nw",
-    }, {
-        icon: outlinerSVG,
-        name: "outline",
-        tipPosition: "nw",
-    }, {
-        icon: contentThemeSVG,
-        name: "content-theme",
-        tipPosition: "nw",
-    }, {
-        icon: codeThemeSVG,
-        name: "code-theme",
-        tipPosition: "nw",
-    }, {
-        icon: bugSVG,
-        name: "devtools",
-        tipPosition: "nw",
-    }, {
-        icon: infoSVG,
-        name: "info",
-        tipPosition: "nw",
-    }, {
-        icon: helpSVG,
-        name: "help",
-        tipPosition: "nw",
-    }, {
-        name: "br",
-    }];
-
     constructor(options: IOptions) {
         this.options = options;
     }
 
     public merge(): IOptions {
         if (this.options) {
-            //     if (this.options.upload) {
-            //         this.options.upload = Object.assign({}, this.defaultOptions.upload, this.options.upload);
-            //     }
-            //
-            //     if (this.options.cache) {
-            //         this.options.cache = Object.assign({}, this.defaultOptions.cache, this.options.cache);
-            //     }
-            //
-            //     if (this.options.classes) {
-            //         this.options.classes = Object.assign({}, this.defaultOptions.classes, this.options.classes);
-            //     }
-            //
-            //     if (this.options.preview) {
-            //         if (this.options.preview.hljs) {
-            //             this.options.preview.hljs =
-            //                 Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
-            //         }
-            //         if (this.options.preview.math) {
-            //             this.options.preview.math =
-            //                 Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
-            //         }
-            //         if (this.options.preview.markdown) {
-            //             this.options.preview.markdown =
-            //                 Object.assign({}, this.defaultOptions.preview.markdown, this.options.preview.markdown);
-            //         }
-            //         if (this.options.preview.themes) {
-            //             this.options.preview.themes =
-            //                 Object.assign({}, this.defaultOptions.preview.themes, this.options.preview.themes);
-            //         }
-            //         this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview);
-            //     }
-            //
-            //     if (this.options.hint) {
-            //         this.options.hint = Object.assign({}, this.defaultOptions.hint, this.options.hint);
-            //     }
-            //
-            //     if (this.options.resize) {
-            //         this.options.resize = Object.assign({}, this.defaultOptions.resize, this.options.resize);
-            //     }
-            //
-            //     if (this.options.counter) {
-            //         this.options.counter = Object.assign({}, this.defaultOptions.counter, this.options.counter);
-            //     }
-            //
-            //     if (this.options.toolbarConfig) {
-            //         this.options.toolbarConfig =
-            //             Object.assign({}, this.defaultOptions.toolbarConfig, this.options.toolbarConfig);
-            //     }
             if (this.options.toolbar) {
                 this.options.toolbar = this.mergeToolbar(this.options.toolbar);
             } else {
                 this.options.toolbar = this.mergeToolbar(this.defaultOptions.toolbar);
+            }
+            if (this.options.preview?.theme?.list) {
+                this.defaultOptions.preview.theme.list = this.options.preview.theme.list;
+            }
+            if (this.options.hint?.emoji) {
+                this.defaultOptions.hint.emoji = this.options.hint.emoji;
             }
         }
 
@@ -427,10 +201,200 @@ export class Options {
     }
 
     private mergeToolbar(toolbar: Array<string | IMenuItem>) {
+        const toolbarItem = [{
+            icon: exportSVG,
+            name: "export",
+            tipPosition: "ne",
+        }, {
+            hotkey: "⌘-E",
+            icon: emojiSVG,
+            name: "emoji",
+            tipPosition: "ne",
+        }, {
+            hotkey: "⌘-H",
+            icon: headingsSVG,
+            name: "headings",
+            tipPosition: "ne",
+        }, {
+            hotkey: "⌘-B",
+            icon: boldSVG,
+            name: "bold",
+            prefix: "**",
+            suffix: "**",
+            tipPosition: "ne",
+        }, {
+            hotkey: "⌘-I",
+            icon: italicSVG,
+            name: "italic",
+            prefix: "*",
+            suffix: "*",
+            tipPosition: "ne",
+        }, {
+            hotkey: "⌘-S",
+            icon: strikekSVG,
+            name: "strike",
+            prefix: "~~",
+            suffix: "~~",
+            tipPosition: "ne",
+        }, {
+            hotkey: "⌘-K",
+            icon: linkSVG,
+            name: "link",
+            prefix: "[",
+            suffix: "](https://)",
+            tipPosition: "n",
+        }, {
+            name: "|",
+        }, {
+            hotkey: "⌘-L",
+            icon: listSVG,
+            name: "list",
+            prefix: "* ",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-O",
+            icon: orderedListVG,
+            name: "ordered-list",
+            prefix: "1. ",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-J",
+            icon: checkSVG,
+            name: "check",
+            prefix: "* [ ] ",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-I",
+            icon: outdentSVG,
+            name: "outdent",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-O",
+            icon: indentSVG,
+            name: "indent",
+            tipPosition: "n",
+        }, {
+            name: "|",
+        }, {
+            hotkey: "⌘-;",
+            icon: quoteSVG,
+            name: "quote",
+            prefix: "> ",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-H",
+            icon: lineSVG,
+            name: "line",
+            prefix: "---",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-U",
+            icon: codeSVG,
+            name: "code",
+            prefix: "```\n",
+            suffix: "\n```",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-G",
+            icon: inlineCodeSVG,
+            name: "inline-code",
+            prefix: "`",
+            suffix: "`",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-B",
+            icon: insertBeforeSVG,
+            name: "insert-before",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-⇧-E",
+            icon: insertAfterSVG,
+            name: "insert-after",
+            tipPosition: "n",
+        }, {
+            name: "|",
+        }, {
+            icon: uploadSVG,
+            name: "upload",
+            tipPosition: "n",
+        }, {
+            icon: recordSVG,
+            name: "record",
+            tipPosition: "n",
+        }, {
+            hotkey: "⌘-M",
+            icon: tableSVG,
+            name: "table",
+            prefix: "| col1",
+            suffix: " | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |",
+            tipPosition: "n",
+        }, {
+            name: "|",
+        }, {
+            hotkey: "⌘-Z",
+            icon: undoSVG,
+            name: "undo",
+            tipPosition: "nw",
+        }, {
+            hotkey: "⌘-Y",
+            icon: redoSVG,
+            name: "redo",
+            tipPosition: "nw",
+        }, {
+            name: "|",
+        }, {
+            icon: moreSVG,
+            name: "more",
+            tipPosition: "e",
+        }, {
+            hotkey: "⌘-'",
+            icon: fullscreenSVG,
+            name: "fullscreen",
+            tipPosition: "nw",
+        }, {
+            icon: editSVG,
+            name: "edit-mode",
+            tipPosition: "nw",
+        }, {
+            hotkey: "⌘-P",
+            icon: bothSVG,
+            name: "both",
+            tipPosition: "nw",
+        }, {
+            icon: previewSVG,
+            name: "preview",
+            tipPosition: "nw",
+        }, {
+            icon: outlinerSVG,
+            name: "outline",
+            tipPosition: "nw",
+        }, {
+            icon: contentThemeSVG,
+            name: "content-theme",
+            tipPosition: "nw",
+        }, {
+            icon: codeThemeSVG,
+            name: "code-theme",
+            tipPosition: "nw",
+        }, {
+            icon: bugSVG,
+            name: "devtools",
+            tipPosition: "nw",
+        }, {
+            icon: infoSVG,
+            name: "info",
+            tipPosition: "nw",
+        }, {
+            icon: helpSVG,
+            name: "help",
+            tipPosition: "nw",
+        }, {
+            name: "br",
+        }];
         const toolbarResult: IMenuItem[] = [];
         toolbar.forEach((menuItem: IMenuItem) => {
             let currentMenuItem = menuItem;
-            this.toolbarItem.forEach((defaultMenuItem: IMenuItem) => {
+            toolbarItem.forEach((defaultMenuItem: IMenuItem) => {
                 if (typeof menuItem === "string" && defaultMenuItem.name === menuItem) {
                     currentMenuItem = defaultMenuItem;
                 }

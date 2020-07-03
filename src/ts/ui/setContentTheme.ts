@@ -1,17 +1,8 @@
 import {addStyle} from "../util/addStyle";
 
-export const setContentTheme = (contentTheme: string, themes: IObject) => {
+export const setContentTheme = (contentTheme: string, path: string) => {
     const vditorContentTheme = document.getElementById("vditorContentTheme") as HTMLLinkElement;
-    if (contentTheme === "light") {
-        if (vditorContentTheme) {
-            vditorContentTheme.remove();
-        }
-        return;
-    }
-    let cssPath = themes[contentTheme];
-    if (!cssPath) {
-        cssPath = `${cssPath}/dist/css/content-theme/${contentTheme}.css`;
-    }
+    const cssPath = `${path}/${contentTheme}.css`;
     if (!vditorContentTheme) {
         addStyle(cssPath, "vditorContentTheme");
     } else if (vditorContentTheme.href !== cssPath) {

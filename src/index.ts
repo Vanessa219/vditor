@@ -136,12 +136,12 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置主题 */
-    public setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemes?: IObject) {
+    public setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) {
         this.vditor.options.theme = theme;
         setTheme(this.vditor);
         if (contentTheme) {
-            this.vditor.options.preview.theme = contentTheme;
-            setContentTheme(contentTheme, contentThemes || this.vditor.options.preview.themes);
+            this.vditor.options.preview.theme.current = contentTheme;
+            setContentTheme(contentTheme, contentThemePath || this.vditor.options.preview.theme.path);
         }
         if (codeTheme) {
             this.vditor.options.preview.hljs.style = codeTheme;

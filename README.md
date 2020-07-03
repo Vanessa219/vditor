@@ -231,6 +231,14 @@ new Vditor('vditor', {
 | parse | Preview callback (element: HTMLElement): void | - |
 | transform | Callback before rendering (html: string): string | - |
 
+#### options.preview.theme
+
+|   | Explanation | Default |
+| - | - | - |
+| current | current Markdown Theme | "light" |
+| list | Choose Markdown Theme List | { dark: "Dark", light: "Light", wechat: "WeChat" } |
+| path | CSS Path | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme` |
+
 #### options.preview.hljs
 
 |   | Explanation | Default |
@@ -249,7 +257,6 @@ new Vditor('vditor', {
 | toc | Insert Table of Contents | false |
 | footnotes | Footnotes | true |
 | codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
-| theme | Content Theme | 'light' |
 | setext | Whether to parse the setext header | fa;se |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
@@ -370,7 +377,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | html2md(value: string) | HTML to md |
 | tip(text: string, time: number) | notification. time is 0 will always display |
 | setPreviewMode(mode: "both" \| "editor") | Set preview mode |
-| setTheme(theme: "dark" \| "classic", contentTheme?: string, codeTheme?: string) | Set theme |
+| setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | Set theme |
 | getCurrentMode(): string | Get the editor's current editing mode |
 
 #### static methods
@@ -428,7 +435,7 @@ options?: IPreviewOptions {
 | graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 | setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
-| setContentTheme (contentTheme: string, cdn = options.cdn)  | update content theme |
+| setContentTheme (contentTheme: string, path: string)  | update content theme |
 | mindmapRender (element: (HTMLElement \| Document) = document, cdn = options.cdn)  | Render mind map |
 
 ## 🏗 Developer Guide

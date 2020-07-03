@@ -68,6 +68,9 @@
 
 ### v3.3.4 / 2020-07-xx
 
+* [519](https://github.com/Vanessa219/vditor/issues/519) 扩展 markdown 主题 `改进功能`
+* [533](https://github.com/Vanessa219/vditor/issues/533) 中文字符串中间插入 \ 字符导致乱码 `修复缺陷`
+* [528](https://github.com/Vanessa219/vditor/issues/528) wysiwyg & ir 列表中有两个代码块时的错误 `修复缺陷`
 * [531](https://github.com/Vanessa219/vditor/issues/531) 移除 options.keymap `改进功能`
 * [529](https://github.com/Vanessa219/vditor/issues/529) 移除格式化按钮 `改进功能`
 * [526](https://github.com/Vanessa219/vditor/issues/526) 字符串中带有 \ 符号时，从 \ 后面，但不是行尾 Backspace 删除字符到达 \ 时处理异常 `修复缺陷`
@@ -78,6 +81,10 @@
 * [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
 * 移除 `options.keymap`
 * 移除工具栏上的格式化功能
+--中文文档未更新--
+* `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+* `options.preview.markdow.theme` 修改为 `options.preview.theme`
+* `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
 
 ### v3.3.3 / 2020-06-23
 

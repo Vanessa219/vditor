@@ -14,9 +14,10 @@ import {mermaidRender} from "./mermaidRender";
 import {mindmapRender} from "./mindmapRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
+import {merge} from "../util/merge";
 
 const mergeOptions = (options?: IPreviewOptions) => {
-    const defaultOption:IPreviewOptions = {
+    const defaultOption: IPreviewOptions = {
         anchor: 0,
         cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
         customEmoji: {},
@@ -49,21 +50,12 @@ const mergeOptions = (options?: IPreviewOptions) => {
         speech: {
             enable: false,
         },
-        theme: "light",
+        theme: {
+            current: "light",
+            path: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme`,
+        },
     };
-    if (options?.hljs) {
-        options.hljs = Object.assign({}, defaultOption.hljs, options.hljs);
-    }
-    if (options?.speech) {
-        options.speech = Object.assign({}, defaultOption.speech, options.speech);
-    }
-    if (options?.math) {
-        options.math = Object.assign({}, defaultOption.math, options.math);
-    }
-    if (options?.markdown) {
-        options.markdown = Object.assign({}, defaultOption.markdown, options.markdown);
-    }
-    return Object.assign(defaultOption, options);
+    return merge(defaultOption, options);
 };
 
 export const md2html = (mdText: string, options?: IPreviewOptions) => {
@@ -106,7 +98,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
-    setContentTheme(mergedOptions.theme, mergedOptions.themes);
+    setContentTheme(mergedOptions.theme.current, mergedOptions.theme.path);
     if (mergedOptions.anchor === 1) {
         previewElement.classList.add("vditor-reset--anchor");
     }
