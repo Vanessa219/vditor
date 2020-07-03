@@ -559,22 +559,6 @@ interface IVditor {
         recordFirstPosition(vditor: IVditor, event: KeyboardEvent): void,
         resetIcon(vditor: IVditor): void,
     };
-    wysiwygUndo?: {
-        clearStack(vditor: IVditor): void,
-        redo(vditor: IVditor): void
-        undo(vditor: IVditor): void
-        addToUndoStack(vditor: IVditor): void
-        recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
-        resetIcon(vditor: IVditor): void,
-    };
-    irUndo?: {
-        clearStack(vditor: IVditor): void,
-        redo(vditor: IVditor): void
-        undo(vditor: IVditor): void
-        addToUndoStack(vditor: IVditor): void
-        recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
-        resetIcon(vditor: IVditor): void,
-    };
     wysiwyg?: {
         element: HTMLPreElement,
         popover: HTMLDivElement,

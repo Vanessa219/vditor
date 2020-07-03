@@ -36,7 +36,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
         }
 
         if (options.enableAddUndoStack) {
-            vditor.wysiwygUndo.addToUndoStack(vditor);
+            vditor.undo.addToUndoStack(vditor);
         }
     }, 800);
 };

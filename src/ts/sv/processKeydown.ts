@@ -14,7 +14,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.key.indexOf("Arrow") === -1) {
         vditor.undo.recordFirstPosition(vditor, event);
     }
-
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
         && !isCtrl(event) && event.key !== "Escape" && event.key !== " ") {

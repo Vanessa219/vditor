@@ -46,7 +46,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     if (type === "ir") {
         hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
-        vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "block";
@@ -67,7 +66,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
-        vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
         vditor.ir.element.parentElement.style.display = "none";
@@ -84,7 +82,6 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["both"]);
         hideToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
-        vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";
         if (vditor.options.preview.mode === "both") {
@@ -101,6 +98,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         });
         setPadding(vditor);
     }
+    vditor.undo.resetIcon(vditor);
     if (typeof event !== "string") {
         // 初始化不 focus
         vditor[vditor.currentMode].element.focus();

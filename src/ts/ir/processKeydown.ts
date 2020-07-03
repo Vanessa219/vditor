@@ -28,7 +28,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {
-        vditor.irUndo.recordFirstWbr(vditor, event);
+        vditor.undo.recordFirstPosition(vditor, event);
     }
 
     const range = getEditorRange(vditor.ir.element);

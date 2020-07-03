@@ -74,37 +74,17 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // undo
-        if (matchHotKey("⌘-Z", event)) {
-            if (vditor.currentMode === "sv" && !vditor.toolbar.elements.undo) {
-                vditor.undo.undo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "wysiwyg" && !vditor.toolbar.elements.undo) {
-                vditor.wysiwygUndo.undo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "ir") {
-                vditor.irUndo.undo(vditor);
-                event.preventDefault();
-                return;
-            }
+        if (matchHotKey("⌘-Z", event) && !vditor.toolbar.elements.undo) {
+            vditor.undo.undo(vditor);
+            event.preventDefault();
+            return;
         }
 
         // redo
-        if (matchHotKey("⌘-Y", event)) {
-            if (vditor.currentMode === "sv" && !vditor.toolbar.elements.redo) {
-                vditor.undo.redo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "wysiwyg" && !vditor.toolbar.elements.redo) {
-                vditor.wysiwygUndo.redo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "ir") {
-                vditor.irUndo.redo(vditor);
-                event.preventDefault();
-                return;
-            }
+        if (matchHotKey("⌘-Y", event) && !vditor.toolbar.elements.redo) {
+            vditor.undo.redo(vditor);
+            event.preventDefault();
+            return;
         }
 
         // esc

@@ -27,8 +27,6 @@ import {setContentTheme} from "./ts/ui/setContentTheme";
 import {setPreviewMode} from "./ts/ui/setPreviewMode";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
-import {IRUndo} from "./ts/undo/IRUndo";
-import {WysiwygUndo} from "./ts/undo/WysiwygUndo";
 import {Upload} from "./ts/upload/index";
 import {addScript} from "./ts/util/addScript";
 import {Options} from "./ts/util/Options";
@@ -86,9 +84,7 @@ class Vditor extends VditorMethod {
         this.vditor.sv = new Editor(this.vditor);
         this.vditor.undo = new Undo();
         this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-        this.vditor.wysiwygUndo = new WysiwygUndo();
         this.vditor.ir = new IR(this.vditor);
-        this.vditor.irUndo = new IRUndo();
         this.vditor.toolbar = new Toolbar(this.vditor);
 
         if (mergedOptions.resize.enable) {
@@ -194,7 +190,6 @@ class Vditor extends VditorMethod {
         enableToolbar(this.vditor.toolbar.elements, Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen",
             "edit-mode"]));
         this.vditor.undo.resetIcon(this.vditor);
-        this.vditor.wysiwygUndo.resetIcon(this.vditor);
         this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
     }
 
@@ -348,8 +343,6 @@ class Vditor extends VditorMethod {
     /** 清空 undo & redo 栈 */
     public clearStack() {
         this.vditor.undo.clearStack(this.vditor);
-        this.vditor.irUndo.clearStack(this.vditor);
-        this.vditor.wysiwygUndo.clearStack(this.vditor);
     }
 }
 

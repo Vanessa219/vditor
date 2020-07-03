@@ -69,7 +69,7 @@ export const processAfterRender = (vditor: IVditor, options = {
         }
 
         if (options.enableAddUndoStack) {
-            vditor.irUndo.addToUndoStack(vditor);
+            vditor.undo.addToUndoStack(vditor);
         }
     }, 800);
 };
