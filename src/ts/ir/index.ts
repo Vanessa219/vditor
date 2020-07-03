@@ -80,7 +80,10 @@ class IR {
         });
 
         this.element.addEventListener("compositionend", (event: InputEvent) => {
-            input(vditor, getSelection().getRangeAt(0).cloneRange());
+            if (!isFirefox()) {
+                input(vditor, getSelection().getRangeAt(0).cloneRange());
+            }
+            this.composingLock = false;
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {

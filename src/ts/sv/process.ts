@@ -12,10 +12,9 @@ export const processAfterRender = (vditor: IVditor, options = {
 
     clearTimeout(vditor.sv.processTimeoutId);
     vditor.sv.processTimeoutId = window.setTimeout(() => {
-        // if (vditor.ir.composingLock && isSafari()) {
-        //     // safari 中文输入遇到 addToUndoStack 会影响下一次的中文输入
-        //     return;
-        // }
+        if (vditor.sv.composingLock) {
+            return;
+        }
 
         const text = getMarkdown(vditor);
         if (typeof vditor.options.input === "function" && options.enableInput) {

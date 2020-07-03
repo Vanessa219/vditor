@@ -68,6 +68,7 @@
 
 ### v3.3.4 / 2020-07-xx
 
+* [532](https://github.com/Vanessa219/vditor/issues/532) 中文输入过程中不应记录 UndoStack `修复缺陷`
 * [519](https://github.com/Vanessa219/vditor/issues/519) 扩展 markdown 主题 `改进功能`
 * [533](https://github.com/Vanessa219/vditor/issues/533) 中文字符串中间插入 \ 字符导致乱码 `修复缺陷`
 * [528](https://github.com/Vanessa219/vditor/issues/528) wysiwyg & ir 列表中有两个代码块时的错误 `修复缺陷`

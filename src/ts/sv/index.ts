@@ -1,5 +1,5 @@
 import {uploadFiles} from "../upload/index";
-import {isCtrl} from "../util/compatibility";
+import {isCtrl, isFirefox} from "../util/compatibility";
 import {blurEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
 import {getSelectText} from "./getSelectText";
 import {highlightToolbarSV} from "./highlightToolbarSV";
@@ -116,7 +116,10 @@ class Editor {
         });
 
         this.element.addEventListener("compositionend", (event: InputEvent) => {
-            inputEvent(vditor, event);
+            if (!isFirefox()) {
+                inputEvent(vditor, event);
+            }
+            this.composingLock = false;
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {

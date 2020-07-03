@@ -1,5 +1,5 @@
 import {getMarkdown} from "../markdown/getMarkdown";
-import {accessLocalStorage, isSafari} from "../util/compatibility";
+import {accessLocalStorage} from "../util/compatibility";
 
 export const afterRenderEvent = (vditor: IVditor, options = {
     enableAddUndoStack: true,
@@ -11,8 +11,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     }
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
-        if (vditor.wysiwyg.composingLock && isSafari()) {
-            // safari 中文输入遇到 addToUndoStack 会影响下一次的中文输入
+        if (vditor.wysiwyg.composingLock) {
             return;
         }
         const text = getMarkdown(vditor);

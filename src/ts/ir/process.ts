@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {accessLocalStorage, isSafari} from "../util/compatibility";
+import {accessLocalStorage} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
@@ -44,8 +44,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 
     clearTimeout(vditor.ir.processTimeoutId);
     vditor.ir.processTimeoutId = window.setTimeout(() => {
-        if (vditor.ir.composingLock && isSafari()) {
-            // safari 中文输入遇到 addToUndoStack 会影响下一次的中文输入
+        if (vditor.ir.composingLock) {
             return;
         }
         const text = getMarkdown(vditor);

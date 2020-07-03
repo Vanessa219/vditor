@@ -166,7 +166,10 @@ class WYSIWYG {
                 renderToc(vditor);
                 return;
             }
-            input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
+            if (!isFirefox()) {
+                input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
+            }
+            this.composingLock = false;
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {
