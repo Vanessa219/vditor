@@ -6,7 +6,6 @@ import {i18n} from "./ts/i18n";
 import {IR} from "./ts/ir";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
-import {processAfterRender as processSVAfterRender} from "./ts/sv/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
 import {setLute} from "./ts/markdown/setLute";
@@ -17,6 +16,7 @@ import {getSelectText} from "./ts/sv/getSelectText";
 import {html2md} from "./ts/sv/html2md";
 import {Editor} from "./ts/sv/index";
 import {insertText} from "./ts/sv/insertText";
+import {processAfterRender as processSVAfterRender} from "./ts/sv/process";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
 import {disableToolbar, hidePanel} from "./ts/toolbar/setToolbar";
@@ -103,8 +103,8 @@ class Vditor extends VditorMethod {
             this.vditor.upload = new Upload();
         }
 
-        // const lutePath = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
-        const lutePath = "src/js/lute/lute.min.js";
+        const lutePath = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
+        // const lutePath = "src/js/lute/lute.min.js";
         // const lutePath = `${mergedOptions.cdn}/dist/js/lute/lute.min.js`;
         addScript(lutePath, "vditorLuteScript").then(() => {
             this.vditor.lute = setLute({
@@ -136,12 +136,12 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置主题 */
-    public setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string) {
+    public setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemes?: IObject) {
         this.vditor.options.theme = theme;
         setTheme(this.vditor);
         if (contentTheme) {
-            this.vditor.options.preview.markdown.theme = contentTheme;
-            setContentTheme(contentTheme, this.vditor.options.cdn);
+            this.vditor.options.preview.theme = contentTheme;
+            setContentTheme(contentTheme, contentThemes || this.vditor.options.preview.themes);
         }
         if (codeTheme) {
             this.vditor.options.preview.hljs.style = codeTheme;

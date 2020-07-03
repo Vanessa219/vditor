@@ -21,7 +21,7 @@ const validateFile = (vditor: IVditor, files: File[]) => {
     const uploadFileList = [];
     let errorTip = "";
     let uploadingStr = "";
-    const lang: (keyof II18nLang) = vditor.options.lang;
+    const lang: keyof II18n = vditor.options.lang;
 
     for (let iMax = files.length, i = 0; i < iMax; i++) {
         const file = files[i];

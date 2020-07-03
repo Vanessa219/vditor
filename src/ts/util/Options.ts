@@ -33,6 +33,7 @@ import contentThemeSVG from "../../assets/icons/theme.svg";
 import undoSVG from "../../assets/icons/undo.svg";
 import uploadSVG from "../../assets/icons/upload.svg";
 import {VDITOR_VERSION} from "../constants";
+import {merge} from "./merge";
 
 export class Options {
     public options: IOptions;
@@ -86,7 +87,6 @@ export class Options {
                 listStyle: false,
                 sanitize: true,
                 setext: false,
-                theme: "light",
                 toc: false,
             },
             math: {
@@ -96,6 +96,8 @@ export class Options {
             },
             maxWidth: 800,
             mode: "both",
+            theme: "light",
+            themes: {dark: "", light: "", wechat: ""},
         },
         resize: {
             enable: false,
@@ -360,51 +362,54 @@ export class Options {
 
     public merge(): IOptions {
         if (this.options) {
-            if (this.options.upload) {
-                this.options.upload = Object.assign({}, this.defaultOptions.upload, this.options.upload);
-            }
-
-            if (this.options.cache) {
-                this.options.cache = Object.assign({}, this.defaultOptions.cache, this.options.cache);
-            }
-
-            if (this.options.classes) {
-                this.options.classes = Object.assign({}, this.defaultOptions.classes, this.options.classes);
-            }
-
-            if (this.options.preview) {
-                if (this.options.preview.hljs) {
-                    this.options.preview.hljs =
-                        Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
-                }
-                if (this.options.preview.math) {
-                    this.options.preview.math =
-                        Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
-                }
-                if (this.options.preview.markdown) {
-                    this.options.preview.markdown =
-                        Object.assign({}, this.defaultOptions.preview.markdown, this.options.preview.markdown);
-                }
-                this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview);
-            }
-
-            if (this.options.hint) {
-                this.options.hint = Object.assign({}, this.defaultOptions.hint, this.options.hint);
-            }
-
-            if (this.options.resize) {
-                this.options.resize = Object.assign({}, this.defaultOptions.resize, this.options.resize);
-            }
-
-            if (this.options.counter) {
-                this.options.counter = Object.assign({}, this.defaultOptions.counter, this.options.counter);
-            }
-
-            if (this.options.toolbarConfig) {
-                this.options.toolbarConfig =
-                    Object.assign({}, this.defaultOptions.toolbarConfig, this.options.toolbarConfig);
-            }
-
+            //     if (this.options.upload) {
+            //         this.options.upload = Object.assign({}, this.defaultOptions.upload, this.options.upload);
+            //     }
+            //
+            //     if (this.options.cache) {
+            //         this.options.cache = Object.assign({}, this.defaultOptions.cache, this.options.cache);
+            //     }
+            //
+            //     if (this.options.classes) {
+            //         this.options.classes = Object.assign({}, this.defaultOptions.classes, this.options.classes);
+            //     }
+            //
+            //     if (this.options.preview) {
+            //         if (this.options.preview.hljs) {
+            //             this.options.preview.hljs =
+            //                 Object.assign({}, this.defaultOptions.preview.hljs, this.options.preview.hljs);
+            //         }
+            //         if (this.options.preview.math) {
+            //             this.options.preview.math =
+            //                 Object.assign({}, this.defaultOptions.preview.math, this.options.preview.math);
+            //         }
+            //         if (this.options.preview.markdown) {
+            //             this.options.preview.markdown =
+            //                 Object.assign({}, this.defaultOptions.preview.markdown, this.options.preview.markdown);
+            //         }
+            //         if (this.options.preview.themes) {
+            //             this.options.preview.themes =
+            //                 Object.assign({}, this.defaultOptions.preview.themes, this.options.preview.themes);
+            //         }
+            //         this.options.preview = Object.assign({}, this.defaultOptions.preview, this.options.preview);
+            //     }
+            //
+            //     if (this.options.hint) {
+            //         this.options.hint = Object.assign({}, this.defaultOptions.hint, this.options.hint);
+            //     }
+            //
+            //     if (this.options.resize) {
+            //         this.options.resize = Object.assign({}, this.defaultOptions.resize, this.options.resize);
+            //     }
+            //
+            //     if (this.options.counter) {
+            //         this.options.counter = Object.assign({}, this.defaultOptions.counter, this.options.counter);
+            //     }
+            //
+            //     if (this.options.toolbarConfig) {
+            //         this.options.toolbarConfig =
+            //             Object.assign({}, this.defaultOptions.toolbarConfig, this.options.toolbarConfig);
+            //     }
             if (this.options.toolbar) {
                 this.options.toolbar = this.mergeToolbar(this.options.toolbar);
             } else {
@@ -412,7 +417,7 @@ export class Options {
             }
         }
 
-        const mergedOptions = Object.assign({}, this.defaultOptions, this.options);
+        const mergedOptions = merge(this.defaultOptions, this.options);
 
         if (mergedOptions.cache.enable && !mergedOptions.cache.id) {
             throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");

@@ -15,7 +15,7 @@ export const initUI = (vditor: IVditor) => {
     vditor.element.innerHTML = "";
     vditor.element.classList.add("vditor");
     setTheme(vditor);
-    setContentTheme(vditor.options.preview.markdown.theme, vditor.options.cdn);
+    setContentTheme(vditor.options.preview.theme, vditor.options.preview.themes);
     if (typeof vditor.options.height === "number") {
         vditor.element.style.height = vditor.options.height + "px";
     }

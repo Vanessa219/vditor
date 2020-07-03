@@ -16,7 +16,7 @@ import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
 
 const mergeOptions = (options?: IPreviewOptions) => {
-    const defaultOption = {
+    const defaultOption:IPreviewOptions = {
         anchor: 0,
         cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
         customEmoji: {},
@@ -39,7 +39,6 @@ const mergeOptions = (options?: IPreviewOptions) => {
             paragraphBeginningSpace: false,
             sanitize: true,
             setext: false,
-            theme: "light",
             toc: false,
         },
         math: {
@@ -50,6 +49,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         speech: {
             enable: false,
         },
+        theme: "light",
     };
     if (options?.hljs) {
         options.hljs = Object.assign({}, defaultOption.hljs, options.hljs);
@@ -106,7 +106,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
-    setContentTheme(mergedOptions.markdown.theme, mergedOptions.cdn);
+    setContentTheme(mergedOptions.theme, mergedOptions.themes);
     if (mergedOptions.anchor === 1) {
         previewElement.classList.add("vditor-reset--anchor");
     }

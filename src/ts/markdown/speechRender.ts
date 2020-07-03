@@ -7,7 +7,7 @@ declare global {
         vditorSpeechRange: Range;
     }
 }
-export const speechRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") => {
+export const speechRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") => {
     if (typeof speechSynthesis === "undefined" || typeof SpeechSynthesisUtterance === "undefined") {
         return;
     }

@@ -11,7 +11,6 @@ export abstract class Constants {
     public static readonly EDIT_TOOLBARS: string[] = ["emoji", "headings", "bold", "italic", "strike", "link", "list",
         "ordered-list", "outdent", "indent", "check", "line", "quote", "code", "inline-code", "insert-after",
         "insert-before", "upload", "record", "table"];
-    public static readonly CONTENT_THEME: string[] = ["dark", "light", "wechat"];
     public static readonly CODE_THEME: string[] = ["abap", "algol", "algol_nu", "arduino", "autumn", "borland", "bw",
         "colorful", "dracula", "emacs", "friendly", "fruity", "github", "igor", "lovelace", "manni", "monokai",
         "monokailight", "murphy", "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments",

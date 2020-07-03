@@ -1,18 +1,22 @@
 const globalAny: any = global;
-globalAny.VDITOR_VERSION = 'version'
-globalAny.CDN_PATH = 'cdn/path'
-import {Options} from '../../src/ts/util/Options';
+globalAny.VDITOR_VERSION = "version";
+import {Options} from "../../src/ts/util/Options";
 
-describe('Options', () => {
-
-    test('Options toolbar', () => {
+describe("Options", () => {
+    const cache = {
+        enable: true,
+        id: "vditorTest",
+    };
+    test("Options toolbar", () => {
         const options = new Options({
-            toolbar: ['br', 'fullscreen', {
+            cache,
+            toolbar: ["br", "fullscreen", {
                 hotkey: "⌘-a",
                 name: "preview",
-            }]
+            }],
         });
         expect(options.merge()).toMatchObject({
+            cache,
             toolbar: [{
                 name: "br",
             }, {
@@ -24,108 +28,138 @@ describe('Options', () => {
                 name: "preview",
                 tipPosition: "nw",
             }],
-        })
+        });
     });
 
-    test('Options upload', () => {
+    test("Options upload", () => {
         const options = new Options({
+            cache,
             upload: {
-                accept: '.jpg'
-            }
+                accept: ".jpg",
+            },
         });
         expect(options.merge()).toMatchObject({
+            cache,
             upload: {
+                accept: ".jpg",
                 filename: expect.anything(),
                 linkToImgUrl: "",
                 max: 10 * 1024 * 1024,
                 url: "",
-                accept: '.jpg'
-            },
-        })
-    })
-
-    test('Options classes', () => {
-        const options = new Options({
-            classes: {
-                preview: "content-reset",
             },
         });
-        expect(options.merge()).toMatchObject({
-            classes: {
-                preview: "content-reset",
-            },
-        })
     });
 
-
-    test('Options preview', () => {
+    test("Options classes", () => {
         const options = new Options({
-            preview: {
-                url: 'https://hacpai.com/md',
-                mode: 'both',
+            cache,
+            classes: {
+                preview: "content-reset",
             },
         });
         expect(options.merge()).toMatchObject({
+            cache,
+            classes: {
+                preview: "content-reset",
+            },
+        });
+    });
+
+    test("Options preview", () => {
+        const options = new Options({
+            cache,
             preview: {
-                url: 'https://hacpai.com/md',
+                mode: "both",
+                url: "https://hacpai.com/md",
+            },
+        });
+        expect(options.merge()).toMatchObject({
+            cache,
+            preview: {
                 delay: 1000,
-                mode: 'both',
+                mode: "both",
+                url: "https://hacpai.com/md",
             },
-        })
+        });
     });
 
-    test('Options preview hljs', () => {
+    test("Options preview hljs", () => {
         const options = new Options({
+            cache,
             preview: {
-                mode: 'both',
                 hljs: {
-                    style: 'github'
-                }
+                    style: "github",
+                },
+                mode: "both",
             },
         });
         expect(options.merge().preview).toEqual({
             delay: 1000,
-            mode: 'both',
-            maxWidth: 768,
             hljs: {
-                style: 'github',
                 enable: true,
-            }
-        })
+                lineNumber: false,
+                style: "github",
+            },
+            markdown: {
+                autoSpace: false,
+                chinesePunct: false,
+                codeBlockPreview: true,
+                fixTermTypo: false,
+                footnotes: true,
+                linkBase: "",
+                listStyle: false,
+                sanitize: true,
+                setext: false,
+                toc: false,
+            },
+            math: {
+                engine: "KaTeX",
+                inlineDigit: false,
+                macros: {},
+            },
+            maxWidth: 800,
+            mode: "both",
+            theme: "light",
+            themes: {dark: "", light: "", wechat: ""},
+        });
     });
 
-    test('Options hint', () => {
+    test("Options hint", () => {
         const options = new Options({
+            cache,
             hint: {
-                emojiTail: '前往设置',
                 emoji: {
                     "+1": "👍",
                 },
+                emojiTail: "前往设置",
             },
         });
         expect(options.merge()).toMatchObject({
+            cache,
             hint: {
                 delay: 200,
-                emojiTail: '前往设置',
                 emoji: {
                     "+1": "👍",
                 },
-                emojiPath: globalAny.CDN_PATH + "/vditor/dist/images/emoji",
+                emojiPath: "https://cdn.jsdelivr.net/npm/vditor@version/dist/images/emoji",
+                emojiTail: "前往设置",
             },
-        })
+        });
     });
 
-    test('Options resize', () => {
+    test("Options resize", () => {
         const options = new Options({
+            cache,
             resize: {
                 enable: true,
             },
-        })
+        });
         expect(options.merge()).toMatchObject({
+            cache,
             resize: {
                 enable: true,
                 position: "bottom",
             },
-        })
+        });
     });
-})
+});

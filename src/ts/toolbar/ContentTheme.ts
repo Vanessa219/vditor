@@ -1,4 +1,3 @@
-import {Constants} from "../constants";
 import {setContentTheme} from "../ui/setContentTheme";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
@@ -15,7 +14,7 @@ export class ContentTheme extends MenuItem {
         const panelElement = document.createElement("div");
         panelElement.className = `vditor-hint${menuItem.level === 2 ? "" : " vditor-panel--arrow"}`;
         let innerHTML = "";
-        Constants.CONTENT_THEME.forEach((theme) => {
+        Object.keys(vditor.options.preview.themes).forEach((theme) => {
             innerHTML += `<button>${theme}</button>`;
         });
         panelElement.innerHTML =
@@ -23,8 +22,8 @@ export class ContentTheme extends MenuItem {
         panelElement.addEventListener(getEventName(), (event: MouseEvent & { target: HTMLElement }) => {
             if (event.target.tagName === "BUTTON") {
                 hidePanel(vditor, ["subToolbar"]);
-                vditor.options.preview.markdown.theme = event.target.textContent;
-                setContentTheme(event.target.textContent, vditor.options.cdn);
+                vditor.options.preview.theme = event.target.textContent;
+                setContentTheme(event.target.textContent, vditor.options.preview.themes);
                 event.preventDefault();
                 event.stopPropagation();
             }

@@ -36,7 +36,7 @@ window.addEventListener("message", (e) => {
   }
   Vditor.preview(document.getElementById('preview'), e.data, {
     markdown: {
-      theme: "${vditor.options.preview.markdown.theme}"
+      theme: "${vditor.options.preview.theme}"
     },
     hljs: {
       style: "${vditor.options.preview.hljs.style}"
@@ -60,7 +60,7 @@ export const exportHTML = (vditor: IVditor) => {
 <body><div class="vditor-reset" id="preview">${content}</div>
 <script>
     const previewElement = document.getElementById('preview')
-    Vditor.setContentTheme('${vditor.options.preview.markdown.theme}', '${vditor.options.cdn}');
+    Vditor.setContentTheme('${vditor.options.preview.theme}', '${vditor.options.cdn}');
     Vditor.codeRender(previewElement, '${vditor.options.lang}');
     Vditor.highlightRender(${JSON.stringify(vditor.options.preview.hljs)}, previewElement, '${vditor.options.cdn}');
     Vditor.mathRender(previewElement, {
