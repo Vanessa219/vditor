@@ -23,26 +23,46 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const startContainer = range.startContainer;
 
     // list item
+    // TODO Tab
     const listElement = hasClosestByAttribute(startContainer, "data-type", "li");
-    if (listElement && event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+    if (listElement) {
         const markerElement = listElement.querySelector('[data-type="li-marker"]');
-        if (markerElement && getSelectPosition(listElement, range).start ===
-            markerElement.textContent.length + listElement.getAttribute("data-space").length) {
-            // 清空列表标记符
-            if (listElement.getAttribute("data-space") === "") {
-                markerElement.remove();
+        const startIndex = getSelectPosition(listElement, range).start;
+        // 回车
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+            if (markerElement && startIndex ===
+                markerElement.textContent.length + listElement.getAttribute("data-space").length) {
+                // 清空列表标记符
+                if (listElement.getAttribute("data-space") === "") {
+                    markerElement.remove();
+                } else {
+                    markerElement.previousElementSibling.remove();
+                    inputEvent(vditor);
+                }
             } else {
-                markerElement.previousElementSibling.remove();
+                // 添加标记符号
+                range.insertNode(document.createTextNode("\n" +
+                    (markerElement ? listElement.getAttribute("data-space") + markerElement.textContent : "")));
+                range.collapse(false);
+                inputEvent(vditor);
             }
-        } else {
-            // 添加标记符号
-            range.insertNode(document.createTextNode("\n" +
-                (markerElement ? listElement.getAttribute("data-space") + markerElement.textContent : "")));
-            range.collapse(false);
-            inputEvent(vditor);
+            event.preventDefault();
+            return true;
         }
-        event.preventDefault();
-        return true;
+        // 光标在每一行的第一个字符后删除
+        if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+            const firstElement = hasClosestByAttribute(startContainer, "data-type", "li-marker") ||
+                hasClosestByAttribute(startContainer, "data-type", "li-space");
+            if (firstElement && startIndex === 1) {
+                range.setStart(startContainer, 0);
+                range.extractContents();
+                if (firstElement.textContent === "") {
+                    firstElement.remove();
+                }
+                event.preventDefault();
+                return true;
+            }
+        }
     }
 
     // 代码块
@@ -102,9 +122,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
-        // 光标在每一行的第一个字符后
-        const textElement = hasClosestByAttribute(startContainer, "data-type", "text") ||
-            hasClosestByAttribute(startContainer, "data-type", "li-marker");
+        // 光标在每一行的第一个字符后, list item 处理在上方
+        const textElement = hasClosestByAttribute(startContainer, "data-type", "text");
         if (textElement && range.startOffset === 1 && textElement.previousElementSibling &&
             textElement.previousElementSibling.getAttribute("data-type") === "newline") {
             range.setStart(startContainer, 0);
