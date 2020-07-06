@@ -16,21 +16,29 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
-        && !isCtrl(event) && event.key !== "Escape" && event.key !== " ") {
+        && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }
     const range = getEditorRange(vditor.sv.element);
     const startContainer = range.startContainer;
-    // 回车
-    if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
-        const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
-        if (blockElement && !blockElement.textContent.endsWith("\n")) {
-            // 结尾需 \n
-            blockElement.insertAdjacentText("beforeend", "\n");
-        }
-        range.insertNode(document.createTextNode("\n"));
-        range.collapse(false);
-        if (!blockElement || (blockElement && blockElement.innerHTML.trim() !== "")) {
+
+    // list item
+    const listElement = hasClosestByAttribute(startContainer, "data-type", "li");
+    if (listElement && event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+        const markerElement = listElement.querySelector('[data-type="li-marker"]');
+        if (markerElement && getSelectPosition(listElement, range).start ===
+            markerElement.textContent.length + listElement.getAttribute("data-space").length) {
+            // 清空列表标记符
+            if (listElement.getAttribute("data-space") === "") {
+                markerElement.remove();
+            } else {
+                markerElement.previousElementSibling.remove();
+            }
+        } else {
+            // 添加标记符号
+            range.insertNode(document.createTextNode("\n" +
+                (markerElement ? listElement.getAttribute("data-space") + markerElement.textContent : "")));
+            range.collapse(false);
             inputEvent(vditor);
         }
         event.preventDefault();
@@ -66,44 +74,44 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // 删除或空格不调用 lute 解析
-    if (event.key === "Backspace" || event.key === " ") {
-        range.insertNode(document.createElement("wbr"));
-        const wbrElement = document.querySelector("wbr");
-        let markerElement;
-        // blockquote, heading, list marker 删除或空格
-        if (wbrElement.parentElement?.className.indexOf("vditor-sv__marker") > -1) {
-            markerElement = wbrElement.parentElement;
-        } else if (wbrElement.previousSibling && wbrElement.previousSibling.nodeType !== 3 &&
-            (wbrElement.previousSibling as HTMLElement).className.indexOf("vditor-sv__marker") > -1) {
-            markerElement = wbrElement.previousSibling;
-        }
-        if (markerElement) {
-            const lastIndex = wbrElement.previousSibling.textContent.lastIndexOf(" ");
-            if (event.key === "Backspace" && lastIndex > -1) {
-                markerElement.textContent = markerElement.textContent.substr(0, lastIndex);
-                range.selectNode(markerElement.firstChild);
-                range.collapse(false);
-                event.preventDefault();
-                wbrElement.remove();
-                return true;
-            }
-            if (event.key === " ") {
-                markerElement.textContent = markerElement.textContent + " ";
-                range.selectNode(markerElement.firstChild);
-                range.collapse(false);
-                event.preventDefault();
-                wbrElement.remove();
-                return true;
-            }
-        }
-        wbrElement.remove();
-    }
-
     // tab
     if (fixTab(vditor, range, event)) {
         return true;
     }
 
+    // 回车，除 list item 外
+    if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+        // 添加 \n
+        range.insertNode(document.createTextNode("\n"));
+        range.collapse(false);
+        event.preventDefault();
+        return true;
+    }
+
+    // 删除后光标前有 newline 的处理
+    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    if (blockElement && event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+        const startIndex = getSelectPosition(blockElement, range).start;
+        // 光标在每一行的开始位置
+        if (startIndex === 0 && blockElement.previousElementSibling &&
+            blockElement.previousElementSibling.lastElementChild.getAttribute("data-type") === "newline") {
+            blockElement.previousElementSibling.lastElementChild.remove();
+            if (blockElement.textContent.trim() !== "") {
+                inputEvent(vditor);
+            }
+            event.preventDefault();
+            return true;
+        }
+        // 光标在每一行的第一个字符后
+        const textElement = hasClosestByAttribute(startContainer, "data-type", "text") ||
+            hasClosestByAttribute(startContainer, "data-type", "li-marker");
+        if (textElement && range.startOffset === 1 && textElement.previousElementSibling &&
+            textElement.previousElementSibling.getAttribute("data-type") === "newline") {
+            range.setStart(startContainer, 0);
+            range.extractContents();
+            event.preventDefault();
+            return true;
+        }
+    }
     return false;
 };
