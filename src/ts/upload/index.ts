@@ -42,18 +42,18 @@ const validateFile = (vditor: IVditor, files: File[]) => {
         const filename = vditor.options.upload.filename(file.name.substr(0, lastIndex)) + fileExt;
 
         if (vditor.options.upload.accept) {
-            let isAccept = false;
-            vditor.options.upload.accept.split(",").forEach((item) => {
+            const isAccept = vditor.options.upload.accept.split(",").some((item) => {
                 const type = item.trim();
                 if (type.indexOf(".") === 0) {
-                    if (fileExt === type) {
-                        isAccept = true;
+                    if (fileExt.toLowerCase() === type.toLowerCase()) {
+                        return true;
                     }
                 } else {
                     if (file.type.split("/")[0] === type.split("/")[0]) {
-                        isAccept = true;
+                        return true;
                     }
                 }
+                return false;
             });
 
             if (!isAccept) {

@@ -68,6 +68,7 @@
 
 ### v3.3.4 / 2020-07-xx
 
+* [536](https://github.com/Vanessa219/vditor/issues/536) 文件上传检查后缀忽略大小写 `改进功能`
 * [537](https://github.com/Vanessa219/vditor/issues/537) 添加 destroy 方法 `引入特新`
 * [532](https://github.com/Vanessa219/vditor/issues/532) 中文输入过程中不应记录 UndoStack `修复缺陷`
 * [519](https://github.com/Vanessa219/vditor/issues/519) 扩展 markdown 主题 `改进功能`

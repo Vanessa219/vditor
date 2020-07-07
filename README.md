@@ -378,6 +378,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | setPreviewMode(mode: "both" \| "editor") | Set preview mode |
 | setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | Set theme |
 | getCurrentMode(): string | Get the editor's current editing mode |
+| destroy() | Destroy the vditor |
 
 #### static methods
 
