@@ -344,6 +344,14 @@ class Vditor extends VditorMethod {
     public clearStack() {
         this.vditor.undo.clearStack(this.vditor);
     }
+
+    /** 销毁编辑器 */
+    public destroy() {
+        this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
+        this.vditor.element.classList.remove("vditor");
+        this.vditor.element.removeAttribute("style");
+        this.clearCache();
+    }
 }
 
 export default Vditor;

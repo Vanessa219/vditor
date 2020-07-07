@@ -68,6 +68,7 @@
 
 ### v3.3.4 / 2020-07-xx
 
+* [537](https://github.com/Vanessa219/vditor/issues/537) 添加 destroy 方法 `引入特新`
 * [532](https://github.com/Vanessa219/vditor/issues/532) 中文输入过程中不应记录 UndoStack `修复缺陷`
 * [519](https://github.com/Vanessa219/vditor/issues/519) 扩展 markdown 主题 `改进功能`
 * [533](https://github.com/Vanessa219/vditor/issues/533) 中文字符串中间插入 \ 字符导致乱码 `修复缺陷`
@@ -87,6 +88,7 @@
 * `options.preview.markdow.theme` 修改为 `options.preview.theme`
 * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
 * 移除 `setSelection`
+* 添加 `destory` 方法
 
 ### v3.3.3 / 2020-06-23
 
