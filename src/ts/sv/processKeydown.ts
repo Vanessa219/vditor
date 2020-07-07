@@ -22,18 +22,49 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getEditorRange(vditor.sv.element);
     const startContainer = range.startContainer;
 
+    // blockquote
+    const blockquoteLineElement = hasClosestByAttribute(startContainer, "data-type", "blockquote-line");
+    if (blockquoteLineElement) {
+        const startIndex = getSelectPosition(blockquoteLineElement, range).start;
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+            if (startIndex === 2 && blockquoteLineElement.firstElementChild) {
+                // 在 marker 中换行，删除 marker 标记
+                blockquoteLineElement.firstElementChild.remove();
+                event.preventDefault();
+                return true;
+            } else if (blockquoteLineElement.textContent.trim() !== "") {
+                // 换行应延续 >
+                range.insertNode(document.createTextNode("\n>"));
+                range.collapse(false);
+                inputEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
+        // 光标在每一行的第一个字符后删除
+        if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey && startIndex === 1) {
+            range.setStart(startContainer, 0);
+            range.extractContents();
+            if (blockquoteLineElement.firstElementChild.textContent === "") {
+                blockquoteLineElement.firstElementChild.remove();
+            }
+            event.preventDefault();
+            return true;
+        }
+    }
+
     // list item
-    // TODO Tab
     const listElement = hasClosestByAttribute(startContainer, "data-type", "li");
     if (listElement) {
         const markerElement = listElement.querySelector('[data-type="li-marker"]');
         const startIndex = getSelectPosition(listElement, range).start;
+        const space = listElement.getAttribute("data-space");
         // 回车
         if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
             if (markerElement && startIndex ===
-                markerElement.textContent.length + listElement.getAttribute("data-space").length) {
+                markerElement.textContent.length + space.length) {
                 // 清空列表标记符
-                if (listElement.getAttribute("data-space") === "") {
+                if (space === "") {
                     markerElement.remove();
                 } else {
                     markerElement.previousElementSibling.remove();
@@ -42,7 +73,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             } else {
                 // 添加标记符号
                 range.insertNode(document.createTextNode("\n" +
-                    (markerElement ? listElement.getAttribute("data-space") + markerElement.textContent : "")));
+                    (markerElement ? space + markerElement.textContent : "")));
                 range.collapse(false);
                 inputEvent(vditor);
             }
@@ -62,6 +93,13 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 event.preventDefault();
                 return true;
             }
+        }
+        if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + space.length) {
+            markerElement.insertAdjacentHTML("beforebegin",
+                `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
+            inputEvent(vditor);
+            event.preventDefault();
+            return true;
         }
     }
 
@@ -122,7 +160,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
-        // 光标在每一行的第一个字符后, list item 处理在上方
+        // 光标在每一行的第一个字符后, list item、blockquote line 处理在上方
         const textElement = hasClosestByAttribute(startContainer, "data-type", "text");
         if (textElement && range.startOffset === 1 && textElement.previousElementSibling &&
             textElement.previousElementSibling.getAttribute("data-type") === "newline") {
