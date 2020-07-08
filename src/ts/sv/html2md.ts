@@ -1,7 +1,7 @@
 import {setHeaders} from "../upload/setHeaders";
 import {processPasteCode} from "../util/processCode";
-import {insertText} from "./insertText";
 import {setSelectionFocus} from "../util/selection";
+import {insertText} from "./insertText";
 
 const setSelectionByInlineText = (text: string, childNodes: NodeListOf<ChildNode>) => {
     let offset = 0;
@@ -21,7 +21,6 @@ const setSelectionByInlineText = (text: string, childNodes: NodeListOf<ChildNode
     range.setEnd(childNodes[offset].childNodes[0], startIndex + text.length);
     setSelectionFocus(range);
 };
-
 
 // 直接使用 API 或 setOriginal 时不需要对图片进行服务器上传，直接转换。
 // 目前使用 textPlain 判断是否来自 API 或 setOriginal
