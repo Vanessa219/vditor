@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {i18n} from "../i18n/index";
 import {processToolbar} from "../ir/process";
-import {insertText} from "../sv/insertText";
+import {processToolbar as processToolbarSV} from "../sv/process";
 import {getEventName} from "../util/compatibility";
 import {updateHotkeyTip} from "../util/compatibility";
 import {toolbarEvent} from "../wysiwyg/toolbarEvent";
@@ -48,8 +48,8 @@ export class MenuItem {
                 processToolbar(vditor, this.element.children[0],
                     menuItem.prefix || "", menuItem.suffix || "");
             } else {
-                insertText(vditor, menuItem.prefix || "", menuItem.suffix || "",
-                    false, true);
+                processToolbarSV(vditor, this.element.children[0],
+                    menuItem.prefix || "", menuItem.suffix || "");
             }
         });
     }

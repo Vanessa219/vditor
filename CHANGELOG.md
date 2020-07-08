@@ -68,6 +68,7 @@
 
 ### v3.3.4 / 2020-07-xx
 
+* [539](https://github.com/Vanessa219/vditor/pull/539) 即时渲染模式 setValue 后，没有及时渲染 Code 区域 `修复缺陷`
 * [536](https://github.com/Vanessa219/vditor/issues/536) 文件上传检查后缀忽略大小写 `改进功能`
 * [537](https://github.com/Vanessa219/vditor/issues/537) 添加 destroy 方法 `引入特新`
 * [532](https://github.com/Vanessa219/vditor/issues/532) 中文输入过程中不应记录 UndoStack `修复缺陷`

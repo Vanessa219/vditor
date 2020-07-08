@@ -41,6 +41,23 @@
     display: block;
   }
 
+  .sup {
+    vertical-align: super;
+    font-size: smaller;
+  }
+
+  .strong {
+    font-weight: bold;
+  }
+
+  .em {
+    font-style: italic;
+  }
+
+  .s {
+    text-decoration: line-through;
+  }
+
   .h1 {
     font-size: 1.75em;
     line-height: 44px;

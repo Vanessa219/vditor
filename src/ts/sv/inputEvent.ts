@@ -66,7 +66,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         if (blockCodeElement && event.inputType === "deleteContentBackward") {
             const startIndex = getSelectPosition(blockElement, range).start;
             if (startIndex <= 2 || startIndex === blockCodeElement.textContent.length - 1) {
-                if (blockElement.querySelectorAll(".vditor-sv__marker").length !== 2) {
+                if (blockElement.querySelectorAll(".vditor-sv__marker").length === 1) {
                     blockElement.querySelector(".vditor-sv__marker").remove();
                 }
                 processAfterRender(vditor);
@@ -82,8 +82,24 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (!blockElement) {
         blockElement = vditor.sv.element;
     }
+    const footnotesElement = hasClosestByAttribute(range.startContainer, "data-type", "footnotes-block");
+    if (footnotesElement) {
+        // 修改脚注
+        blockElement = footnotesElement;
+    }
+    if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
+        // 修改链接引用
+        blockElement = vditor.sv.element;
+    }
+    if (hasClosestByAttribute(range.startContainer, "data-type", "footnotes-link")) {
+        // 修改脚注角标
+        blockElement = vditor.sv.element;
+    }
     // 添加光标位置
-    range.insertNode(document.createTextNode(Lute.Caret));
+    if (blockElement.textContent.indexOf(Lute.Caret) === -1) {
+        // 点击工具栏会插入 Caret
+        range.insertNode(document.createTextNode(Lute.Caret));
+    }
     // 清除浏览器自带的样式
     blockElement.querySelectorAll("[style]").forEach((item) => { // 不可前置，否则会影响 newline 的样式
         item.removeAttribute("style");
@@ -91,10 +107,6 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     blockElement.querySelectorAll("font").forEach((item) => { // 不可前置，否则会影响光标的位置
         item.outerHTML = item.innerHTML;
     });
-    if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
-        // 修改链接引用
-        blockElement = vditor.sv.element;
-    }
     let html = blockElement.textContent;
     if (event?.inputType === "insertParagraph" && blockElement.previousElementSibling
         && blockElement.previousElementSibling.textContent.trim() !== "") {
@@ -114,12 +126,17 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             html = html + blockElement.nextElementSibling.textContent;
             blockElement.nextElementSibling.remove();
         }
-        // TODO: 脚注？
         // 添加链接引用
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
             html += allLinkRefDefsElement.textContent;
             allLinkRefDefsElement.remove();
+        }
+        // 添加脚注
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
+        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement)) {
+            html += allFootnoteElement.textContent;
+            allFootnoteElement.remove();
         }
     }
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
@@ -133,6 +150,11 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement) {
             vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+        }
+
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
+        if (allFootnoteElement) {
+            vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement);
         }
     }
     setRangeByWbr(vditor.sv.element, range);

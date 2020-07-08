@@ -29,7 +29,8 @@ export const highlightToolbarIRSV = (vditor: IVditor, processLi: (node: HTMLElem
             typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 
-        const headingElement = hasClosestByHeadings(typeElement);
+        const headingElement = vditor.currentMode === "sv" ?
+            hasClosestByAttribute(typeElement, "data-type", "heading") : hasClosestByHeadings(typeElement);
         if (headingElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
         }
