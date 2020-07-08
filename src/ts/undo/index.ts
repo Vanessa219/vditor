@@ -93,7 +93,14 @@ class Undo {
             // Safari keydown 在 input 之后，不需要重复记录历史
             return;
         }
-        getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+        if (vditor.currentMode === "sv") {
+            const caretElement = document.createElement("span");
+            caretElement.className = "wbr";
+            caretElement.textContent = Lute.Caret;
+            getSelection().getRangeAt(0).insertNode(caretElement);
+        } else {
+            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+        }
         if (vditor.currentMode === "wysiwyg") {
             this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
                 vditor.lute.SpinVditorDOM(vditor[vditor.currentMode].element.innerHTML);
@@ -105,8 +112,10 @@ class Undo {
                 vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
         }
         this[vditor.currentMode].lastText = this[vditor.currentMode].undoStack[0][0].diffs[0][1];
-        if (vditor[vditor.currentMode].element.querySelector("wbr")) {
-            vditor[vditor.currentMode].element.querySelector("wbr").remove();
+        const wbrElement =
+            vditor[vditor.currentMode].element.querySelector(vditor.currentMode === "sv" ? ".wbr" : "wbr");
+        if (wbrElement) {
+            wbrElement.remove();
         }
         // 不能添加 setSelectionFocus(cloneRange); 否则 windows chrome 首次输入会烂
     }
@@ -118,7 +127,14 @@ class Undo {
             const range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 cloneRange = range.cloneRange();
-                range.insertNode(document.createElement("wbr"));
+                if (vditor.currentMode === "sv") {
+                    const caretElement = document.createElement("span");
+                    caretElement.className = "wbr";
+                    caretElement.textContent = Lute.Caret;
+                    range.insertNode(caretElement);
+                } else {
+                    range.insertNode(document.createElement("wbr"));
+                }
             }
         }
         let text;
@@ -129,8 +145,10 @@ class Undo {
         } else {
             text = vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
         }
-        if (vditor[vditor.currentMode].element.querySelector("wbr")) {
-            vditor[vditor.currentMode].element.querySelector("wbr").remove();
+        const wbrElement =
+            vditor[vditor.currentMode].element.querySelector(vditor.currentMode === "sv" ? ".wbr" : "wbr");
+        if (wbrElement) {
+            wbrElement.remove();
         }
         if (cloneRange) {
             setSelectionFocus(cloneRange);

@@ -9,7 +9,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.isComposing) {
         return false;
     }
-
     if (event.key.indexOf("Arrow") === -1) {
         vditor.undo.recordFirstPosition(vditor, event);
     }
@@ -60,8 +59,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         const space = listElement.getAttribute("data-space");
         // 回车
         if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+            const isTask = listElement.querySelector('[data-type="task-marker"]');
             if (markerElement && startIndex ===
-                markerElement.textContent.length + space.length) {
+                markerElement.textContent.length + space.length + (isTask ? 4 : 0)) {
                 // 清空列表标记符
                 if (space === "") {
                     markerElement.remove();
@@ -69,13 +69,18 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                     markerElement.previousElementSibling.remove();
                     inputEvent(vditor);
                 }
+                if (isTask) {
+                    listElement.querySelectorAll('[data-type="task-marker"]').forEach((item: HTMLElement) => {
+                        item.remove();
+                    });
+                }
             } else {
                 // 添加标记符号
                 let newMarker = "\n";
                 if (markerElement) {
                     newMarker += space + markerElement.textContent;
                 }
-                if (listElement.querySelector('[data-type="task-marker"]')) {
+                if (isTask) {
                     newMarker += " [ ] ";
                 }
                 range.insertNode(document.createTextNode(newMarker));
@@ -99,6 +104,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 return true;
             }
         }
+        // 第一个 marker 后 tab 进行缩进
         if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + space.length) {
             markerElement.insertAdjacentHTML("beforebegin",
                 `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);

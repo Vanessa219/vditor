@@ -26,30 +26,38 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             startSpace = false;
         }
         if (startSpace) {
+            processAfterRender(vditor);
             return;
         }
         //  list item marker 删除或空格
         const listElement = hasClosestByAttribute(range.startContainer, "data-type", "li");
         if (listElement) {
-            const liMarkerElement = listElement.querySelector('[data-type="li-marker"]');
-            if (getSelectPosition(listElement, range).start <= listElement.getAttribute("data-space").length +
-                (liMarkerElement ? liMarkerElement.textContent.length : 0) &&
-                event.inputType === "deleteContentBackward") {
+            if (event.data === " " &&
+                (hasClosestByAttribute(range.startContainer, "data-type", "li-marker") ||
+                    hasClosestByAttribute(range.startContainer, "data-type", "task-marker"))) {
+                processAfterRender(vditor);
                 return;
             }
-            if (event.data === " " &&
-                hasClosestByAttribute(range.startContainer, "data-type", "li-marker")) {
+            const liMarkerElement = listElement.querySelector('[data-type="li-marker"]');
+            if (event.inputType === "deleteContentBackward" && getSelectPosition(listElement, range).start <=
+                listElement.getAttribute("data-space").length +
+                (liMarkerElement ? liMarkerElement.textContent.length : 0) +
+                (listElement.querySelector('[data-type="task-marker"]') ? 4 : 0)
+            ) {
+                processAfterRender(vditor);
                 return;
             }
         }
         // heading marker 删除或空格
         const headingElement = hasClosestByAttribute(range.startContainer, "data-type", "heading-marker");
         if (headingElement && (event.data === " " || event.inputType === "deleteContentBackward")) {
+            processAfterRender(vditor);
             return;
         }
         // blockquote marker 删除或空格
         const blockquoteElement = hasClosestByAttribute(range.startContainer, "data-type", "blockquote-marker");
         if (blockquoteElement && (event.data === " " || event.inputType === "deleteContentBackward")) {
+            processAfterRender(vditor);
             return;
         }
         // block code marker 删除
@@ -61,12 +69,14 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
                 if (blockElement.querySelectorAll(".vditor-sv__marker").length !== 2) {
                     blockElement.querySelector(".vditor-sv__marker").remove();
                 }
+                processAfterRender(vditor);
                 return;
             }
         }
     }
     if (blockElement && blockElement.textContent.trimRight() === "$$") {
         // 内联数学公式
+        processAfterRender(vditor);
         return;
     }
     if (!blockElement) {
