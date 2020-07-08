@@ -1,5 +1,4 @@
 import {i18n} from "../i18n/index";
-import {insertText} from "../sv/insertText";
 import {getEditorRange, setSelectionFocus} from "../util/selection";
 import {getElement} from "./getElement";
 import {setHeaders} from "./setHeaders";
@@ -135,11 +134,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         }
     });
     setSelectionFocus(vditor.upload.range);
-    if (vditor.currentMode !== "sv") {
-        document.execCommand("insertHTML", false, succFileText);
-    } else {
-        insertText(vditor, succFileText, "", true);
-    }
+    document.execCommand("insertHTML", false, succFileText);
     vditor.upload.range = getSelection().getRangeAt(0).cloneRange();
 };
 

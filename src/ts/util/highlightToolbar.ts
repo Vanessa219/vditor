@@ -35,7 +35,9 @@ export const highlightToolbarIRSV = (vditor: IVditor, processLi: (node: HTMLElem
             setCurrentToolbar(vditor.toolbar.elements, ["headings"]);
         }
 
-        const quoteElement = hasClosestByMatchTag(typeElement, "BLOCKQUOTE");
+        const quoteElement =
+            vditor.currentMode === "sv" ? hasClosestByAttribute(typeElement, "data-type", "blockquote") :
+                hasClosestByMatchTag(typeElement, "BLOCKQUOTE");
         if (quoteElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["quote"]);
         }

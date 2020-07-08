@@ -1,7 +1,6 @@
 import {Constants} from "../constants";
-import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, dropEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {hasClosestByClassName} from "../util/hasClosest";
 import {
@@ -35,6 +34,7 @@ class IR {
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
+        dropEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -60,20 +60,6 @@ class IR {
                 },
             });
         });
-
-        if (vditor.options.upload.url || vditor.options.upload.handler) {
-            this.element.addEventListener("drop",
-                (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                    if (event.dataTransfer.types[0] !== "Files") {
-                        return;
-                    }
-                    const files = event.dataTransfer.items;
-                    if (files.length > 0) {
-                        uploadFiles(vditor, files);
-                    }
-                    event.preventDefault();
-                });
-        }
 
         this.element.addEventListener("compositionstart", (event: InputEvent) => {
             this.composingLock = true;

@@ -12,10 +12,10 @@ import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
-import {getSelectText} from "./ts/sv/getSelectText";
+import {getSelectText} from "./ts/util/getSelectText";
 import {html2md} from "./ts/sv/html2md";
 import {Editor} from "./ts/sv/index";
-import {insertText} from "./ts/sv/insertText";
+import {inputEvent} from "./ts/sv/inputEvent";
 import {processAfterRender as processSVAfterRender} from "./ts/sv/process";
 import {Tip} from "./ts/tip";
 import {Toolbar} from "./ts/toolbar/index";
@@ -264,37 +264,31 @@ class Vditor extends VditorMethod {
         if (window.getSelection().isCollapsed) {
             return;
         }
-        if (this.vditor.currentMode === "sv") {
-            insertText(this.vditor, "", "", true);
-        } else {
-            document.execCommand("delete", false);
-        }
+        document.execCommand("delete", false);
     }
 
     /** 更新选中内容 */
     public updateValue(value: string) {
-        if (this.vditor.currentMode === "sv") {
-            insertText(this.vditor, value, "", true);
-        } else {
-            document.execCommand("insertHTML", false, value);
-        }
+        document.execCommand("insertHTML", false, value);
     }
 
     /** 在焦点处插入内容，并默认进行 Markdown 渲染 */
     public insertValue(value: string, render = true) {
+        const range = getEditorRange(this.vditor[this.vditor.currentMode].element);
+        range.collapse(true);
         if (this.vditor.currentMode === "sv") {
-            insertText(this.vditor, value, "");
+            this.vditor.sv.preventInput = true;
+            document.execCommand("insertHTML", false, value);
+            if (render) {
+                inputEvent(this.vditor);
+            }
         } else if (this.vditor.currentMode === "wysiwyg") {
-            const range = getEditorRange(this.vditor.wysiwyg.element);
-            range.collapse(true);
             this.vditor.wysiwyg.preventInput = true;
             document.execCommand("insertHTML", false, value);
             if (render) {
                 input(this.vditor, getSelection().getRangeAt(0));
             }
         } else if (this.vditor.currentMode === "ir") {
-            const range = getEditorRange(this.vditor.ir.element);
-            range.collapse(true);
             this.vditor.ir.preventInput = true;
             document.execCommand("insertHTML", false, value);
             if (render) {

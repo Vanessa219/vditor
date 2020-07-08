@@ -579,5 +579,6 @@ interface IVditor {
         processTimeoutId: number,
         hlToolbarTimeoutId: number,
         composingLock: boolean,
+        preventInput: boolean,
     };
 }

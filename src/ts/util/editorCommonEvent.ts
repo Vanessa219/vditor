@@ -1,8 +1,8 @@
 import {processHeading} from "../ir/process";
 import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {getSelectText} from "../sv/getSelectText";
-import {insertText} from "../sv/insertText";
+import {getSelectText} from "./getSelectText";
+import {processHeading as processHeadingSV} from "../sv/process";
 import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
@@ -13,6 +13,7 @@ import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {getEventName, isCtrl} from "./compatibility";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
+import {uploadFiles} from "../upload";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -29,6 +30,22 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             vditor.options.blur(getMarkdown(vditor));
         }
     });
+};
+
+export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    if (vditor.options.upload.url || vditor.options.upload.handler) {
+        editorElement.addEventListener("drop",
+            (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
+                if (event.dataTransfer.types[0] !== "Files") {
+                    return;
+                }
+                const files = event.dataTransfer.items;
+                if (files.length > 0) {
+                    uploadFiles(vditor, files);
+                }
+                event.preventDefault();
+            });
+    }
 };
 
 export const scrollCenter = (vditor: IVditor) => {
@@ -109,9 +126,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 }
                 afterRenderEvent(vditor);
             } else if (vditor.currentMode === "sv") {
-                insertText(vditor,
-                    "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
-                    "", false, true);
+                processHeadingSV(vditor, "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ");
             } else if (vditor.currentMode === "ir") {
                 processHeading(vditor, "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ");
             }

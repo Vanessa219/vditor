@@ -1,7 +1,7 @@
 import {uploadFiles} from "../upload/index";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
-import {getSelectText} from "./getSelectText";
+import {blurEvent, dropEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
+import {getSelectText} from "../util/getSelectText";
 import {highlightToolbarSV} from "./highlightToolbarSV";
 import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
@@ -9,10 +9,10 @@ import {insertText} from "./insertText";
 
 class Editor {
     public element: HTMLPreElement;
-    public range: Range;
     public composingLock: boolean = false;
     public processTimeoutId: number;
     public hlToolbarTimeoutId: number;
+    public preventInput: boolean;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("pre");
@@ -27,6 +27,7 @@ class Editor {
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
+        dropEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -78,22 +79,6 @@ class Editor {
             insertText(vditor, textPlain, "", true);
         });
 
-        if (vditor.options.upload.url || vditor.options.upload.handler) {
-            this.element.addEventListener("drop", (event: CustomEvent & { dataTransfer?: DataTransfer }) => {
-                if (event.dataTransfer.types[0] !== "Files") {
-                    insertText(vditor, getSelection().toString(), "", false);
-                    event.preventDefault();
-                    return;
-                }
-                const files = event.dataTransfer.items;
-                if (files.length === 0) {
-                    return;
-                }
-                uploadFiles(vditor, files);
-                event.preventDefault();
-            });
-        }
-
         this.element.addEventListener("scroll", () => {
             if (vditor.preview.element.style.display !== "block") {
                 return;
@@ -124,6 +109,10 @@ class Editor {
 
         this.element.addEventListener("input", (event: InputEvent) => {
             if (this.composingLock) {
+                return;
+            }
+            if (this.preventInput) {
+                this.preventInput = false;
                 return;
             }
             inputEvent(vditor, event);

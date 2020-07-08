@@ -1,8 +1,7 @@
 import {Constants} from "../constants";
 import {hidePanel} from "../toolbar/setToolbar";
-import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, dropEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {isHeadingMD, isHrMD, paste, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
@@ -46,23 +45,10 @@ class WYSIWYG {
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
+        dropEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {
-        if (vditor.options.upload.url || vditor.options.upload.handler) {
-            this.element.addEventListener("drop",
-                (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                    if (event.dataTransfer.types[0] !== "Files") {
-                        return;
-                    }
-                    const files = event.dataTransfer.items;
-                    if (files.length > 0) {
-                        uploadFiles(vditor, files);
-                    }
-                    event.preventDefault();
-                });
-        }
-
         window.addEventListener("scroll", () => {
             hidePanel(vditor, ["hint"]);
             if (this.popover.style.display !== "block") {

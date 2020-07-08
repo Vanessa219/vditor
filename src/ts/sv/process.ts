@@ -1,7 +1,7 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage} from "../util/compatibility";
-import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
-import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
+import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {highlightToolbarSV} from "./highlightToolbarSV";
 import {inputEvent} from "./inputEvent";
 
@@ -48,15 +48,14 @@ export const processAfterRender = (vditor: IVditor, options = {
 
 export const processHeading = (vditor: IVditor, value: string) => {
     const range = getSelection().getRangeAt(0);
-    const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
+    const headingElement = hasClosestByAttribute(range.startContainer, "data-type", "heading") ||
+        range.startContainer as HTMLElement;
     if (headingElement) {
+        const headingMarkerElement = headingElement.querySelector(".vditor-sv__marker--heading");
+        range.selectNodeContents(headingMarkerElement);
         if (value === "") {
-            const headingMarkerElement = headingElement.querySelector(".vditor-sv__marker--heading");
-            range.selectNodeContents(headingMarkerElement);
             document.execCommand("delete");
         } else {
-            range.selectNodeContents(headingElement);
-            range.collapse(true);
             document.execCommand("insertHTML", false, value);
         }
         highlightToolbarSV(vditor);
@@ -83,11 +82,14 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
         if (commandName === "quote") {
-            const quoteElement = hasClosestByMatchTag(typeElement, "BLOCKQUOTE");
+            const quoteElement = hasClosestByAttribute(range.startContainer, "data-type", "blockquote");
             if (quoteElement) {
-                range.insertNode(document.createElement("wbr"));
-                quoteElement.outerHTML = quoteElement.innerHTML.trim() === "" ?
-                    `<p data-block="0">${quoteElement.innerHTML}</p>` : quoteElement.innerHTML;
+                quoteElement.querySelectorAll('[data-type="blockquote-line"]').forEach((item: HTMLElement) => {
+                    item.firstElementChild.remove();
+                });
+                inputEvent(vditor);
+                highlightToolbarSV(vditor);
+                return;
             }
         } else if (commandName === "link") {
             const aElement = hasClosestByAttribute(range.startContainer, "data-type", "a") as HTMLElement;
@@ -132,8 +134,10 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         const blockElement = hasClosestBlock(range.startContainer);
         if (commandName === "line") {
             if (blockElement) {
-                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
-                if (blockElement.innerHTML.trim() === "") {
+                const hrHTML = `<div data-type="thematic-break" class="vditor-sv__marker"><span class="vditor-sv__marker">---
+
+</span></div><wbr>`;
+                if (blockElement.textContent.trim() === "") {
                     blockElement.outerHTML = hrHTML;
                 } else {
                     blockElement.insertAdjacentHTML("afterend", hrHTML);
@@ -141,8 +145,10 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             }
         } else if (commandName === "quote") {
             if (blockElement) {
-                range.insertNode(document.createElement("wbr"));
-                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+                blockElement.insertAdjacentText("afterbegin", "> ");
+                inputEvent(vditor);
+                highlightToolbarSV(vditor);
+                return;
             }
         } else if (commandName === "link") {
             let html;
@@ -166,10 +172,6 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 html = "\n" + html;
             }
             document.execCommand("insertHTML", false, html);
-            if (commandName === "table") {
-                range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
-                setSelectionFocus(range);
-            }
             highlightToolbarSV(vditor);
             return;
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
