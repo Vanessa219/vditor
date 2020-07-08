@@ -118,10 +118,12 @@ interface ILute {
         renderers: {
             HTML2VditorDOM?: ILuteRender,
             HTML2VditorIRDOM?: ILuteRender,
+            HTML2VditorSVDOM?: ILuteRender,
             HTML2Md?: ILuteRender,
             Md2HTML?: ILuteRender,
             Md2VditorDOM?: ILuteRender,
             Md2VditorIRDOM?: ILuteRender,
+            Md2VditorSVDOM?: ILuteRender,
         },
     }): void;
 
@@ -192,7 +194,7 @@ interface ILute {
     VditorIRDOM2Md(html: string): string;
 
     // md 转换为 ir
-    Md2VditorIRDOM(html: string): string;
+    Md2VditorIRDOM(text: string): string;
 
     // 获取 HTML
     VditorIRDOM2HTML(html: string): string;
@@ -202,6 +204,12 @@ interface ILute {
 
     // sv 输入渲染
     SpinVditorSVDOM(text: string): string;
+
+    // 粘贴时将 html 转换为 sv
+    HTML2VditorSVDOM(html: string): string;
+
+    // md 转换为 sv
+    Md2VditorSVDOM(text: string): string;
 }
 
 declare const webkitAudioContext: {

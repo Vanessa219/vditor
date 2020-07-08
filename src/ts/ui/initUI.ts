@@ -1,5 +1,4 @@
 import {Constants} from "../constants";
-import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
 import {accessLocalStorage} from "../util/compatibility";
 import {setContentTheme} from "./setContentTheme";
@@ -149,7 +148,7 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
         if (vditor.options.value) {
             initValue = vditor.options.value;
         } else if (vditor.originalInnerHTML) {
-            initValue = html2md(vditor, vditor.originalInnerHTML);
+            initValue = vditor.lute.HTML2Md(vditor.originalInnerHTML);
         } else if (!vditor.options.cache.enable) {
             initValue = "";
         }

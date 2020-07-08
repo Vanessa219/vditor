@@ -12,7 +12,6 @@ import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
-import {html2md} from "./ts/sv/html2md";
 import {Editor} from "./ts/sv/index";
 import {inputEvent} from "./ts/sv/inputEvent";
 import {processAfterRender as processSVAfterRender} from "./ts/sv/process";
@@ -241,7 +240,7 @@ class Vditor extends VditorMethod {
 
     /** HTML 转 md */
     public html2md(value: string) {
-        return html2md(this.vditor, value);
+        return  this.vditor.lute.HTML2Md(value);
     }
 
     /** 获取 HTML */

@@ -1,11 +1,9 @@
-import {uploadFiles} from "../upload/index";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {blurEvent, dropEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
 import {getSelectText} from "../util/getSelectText";
 import {highlightToolbarSV} from "./highlightToolbarSV";
-import {html2md} from "./html2md";
 import {inputEvent} from "./inputEvent";
-import {insertText} from "./insertText";
+import {paste} from "../util/fixBrowserBehavior";
 
 class Editor {
     public element: HTMLPreElement;
@@ -37,46 +35,12 @@ class Editor {
             event.clipboardData.setData("text/plain", getSelectText(this.element));
         });
 
-        this.element.addEventListener("paste", (event: ClipboardEvent) => {
-            const textHTML = event.clipboardData.getData("text/html");
-            const textPlain = event.clipboardData.getData("text/plain");
-            event.stopPropagation();
-            event.preventDefault();
-            if (textHTML.trim() !== "") {
-                if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                    `<a href="${textPlain}">${textPlain}</a>` ||
-                    textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
-                    `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
-                    // https://github.com/b3log/vditor/issues/37
-                } else {
-                    const tempElement = document.createElement("div");
-                    tempElement.innerHTML = textHTML;
-                    tempElement.querySelectorAll("[style]").forEach((e) => {
-                        e.removeAttribute("style");
-                    });
-                    tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
-                        e.remove();
-                    });
-                    tempElement.querySelectorAll(".vditor-anchor").forEach((e) => {
-                        e.remove();
-                    });
-                    const mdValue = html2md(vditor, tempElement.innerHTML, textPlain).trimRight();
-                    insertText(vditor, mdValue, "", true);
-                    return;
-                }
-            } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
-                // https://github.com/b3log/vditor/issues/67
-            } else if (event.clipboardData.files.length > 0) {
-                // upload file
-                if (!(vditor.options.upload.url || vditor.options.upload.handler)) {
-                    return;
-                }
-                // NOTE: not work in Safari.
-                // maybe the browser considered local filesystem as the same domain as the pasted data
-                uploadFiles(vditor, event.clipboardData.files);
-                return;
-            }
-            insertText(vditor, textPlain, "", true);
+        this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
+            paste(vditor, event, {
+                pasteCode: (code: string) => {
+                    document.execCommand("insertHTML", false, code);
+                },
+            });
         });
 
         this.element.addEventListener("scroll", () => {
