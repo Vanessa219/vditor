@@ -1192,13 +1192,15 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     const renderers: {
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
+        HTML2VditorSVDOM?: ILuteRender,
         Md2VditorDOM?: ILuteRender,
         Md2VditorIRDOM?: ILuteRender,
+        Md2VditorSVDOM?: ILuteRender,
     } = {};
     const renderLinkDest: ILuteRenderCallback = (node) => {
         const src = node.TokensStr();
-        if (node.__internal_object__.Parent.Type === 34 && src
-            && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
+        if (node.__internal_object__.Parent.Type === 34 && src && src.indexOf("file://") === -1 &&
+            vditor.options.upload.linkToImgUrl) {
             const xhr = new XMLHttpRequest();
             xhr.open("POST", vditor.options.upload.linkToImgUrl);
             setHeaders(vditor, xhr);
@@ -1211,12 +1213,21 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                             return;
                         }
                         const original = responseJSON.data.originalURL;
-                        const imgElement: HTMLImageElement =
-                            vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
-                        imgElement.src = responseJSON.data.url;
-                        if (vditor.currentMode === "ir") {
-                            imgElement.previousElementSibling.previousElementSibling.innerHTML =
-                                responseJSON.data.url;
+                        if (vditor.currentMode === "sv") {
+                            vditor.sv.element.querySelectorAll('[data-type="image"] .vditor-sv__marker--link')
+                                .forEach((item: HTMLElement) => {
+                                    if (item.textContent === original) {
+                                        item.textContent = responseJSON.data.url;
+                                    }
+                                });
+                        } else {
+                            const imgElement: HTMLImageElement =
+                                vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
+                            imgElement.src = responseJSON.data.url;
+                            if (vditor.currentMode === "ir") {
+                                imgElement.previousElementSibling.previousElementSibling.innerHTML =
+                                    responseJSON.data.url;
+                            }
                         }
                         execAfterRender(vditor);
                     } else {
@@ -1228,8 +1239,10 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         }
         if (vditor.currentMode === "ir") {
             return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`, Lute.WalkStop];
-        } else {
+        } else if (vditor.currentMode === "wysiwyg") {
             return ["", Lute.WalkStop];
+        } else {
+            return [`<span class="vditor-sv__marker--link">${src}</span>`, Lute.WalkStop];
         }
     };
 
@@ -1249,21 +1262,28 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
 
     // process code
     const code = processPasteCode(textHTML, textPlain, vditor.currentMode);
-    const codeElement = hasClosestByMatchTag(event.target, "CODE");
+    const codeElement = vditor.currentMode === "sv" ?
+        hasClosestByAttribute(event.target, "data-type", "code-block") :
+        hasClosestByMatchTag(event.target, "CODE");
     if (codeElement) {
         // 粘贴在代码位置
-        const position = getSelectPosition(event.target);
-        if (codeElement.parentElement.tagName !== "PRE") {
-            // https://github.com/Vanessa219/vditor/issues/463
-            textPlain += Constants.ZWSP;
-        }
-        codeElement.textContent = codeElement.textContent.substring(0, position.start)
-            + textPlain + codeElement.textContent.substring(position.end);
-        setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
-            codeElement.parentElement);
-        if (codeElement.parentElement?.nextElementSibling.classList.contains(`vditor-${vditor.currentMode}__preview`)) {
-            codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
-            processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+        if (vditor.currentMode === "sv") {
+            document.execCommand("insertHTML", false, textPlain);
+        } else {
+            const position = getSelectPosition(event.target);
+            if (codeElement.parentElement.tagName !== "PRE") {
+                // https://github.com/Vanessa219/vditor/issues/463
+                textPlain += Constants.ZWSP;
+            }
+            codeElement.textContent = codeElement.textContent.substring(0, position.start)
+                + textPlain + codeElement.textContent.substring(position.end);
+            setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
+                codeElement.parentElement);
+            if (codeElement.parentElement?.nextElementSibling.classList
+                .contains(`vditor-${vditor.currentMode}__preview`)) {
+                codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
+                processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+            }
         }
     } else if (code) {
         callback.pasteCode(code);
@@ -1281,10 +1301,14 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 renderers.HTML2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
-            } else {
+            } else if (vditor.currentMode === "wysiwyg") {
                 renderers.HTML2VditorDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
+            } else {
+                renderers.HTML2VditorSVDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
+                insertHTML(vditor.lute.HTML2VditorSVDOM(tempElement.innerHTML), vditor);
             }
             vditor.outline.render(vditor);
         } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
@@ -1294,17 +1318,23 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 renderers.Md2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.Md2VditorIRDOM(textPlain), vditor);
-            } else {
+            } else if (vditor.currentMode === "wysiwyg") {
                 renderers.Md2VditorDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.Md2VditorDOM(textPlain), vditor);
+            } else {
+                renderers.Md2VditorSVDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
+                insertHTML(vditor.lute.Md2VditorSVDOM(textPlain), vditor);
             }
             vditor.outline.render(vditor);
         }
     }
-    vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
-        .forEach((item: HTMLElement) => {
-            processCodeRender(item, vditor);
-        });
+    if (vditor.currentMode !== "sv") {
+        vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+            .forEach((item: HTMLElement) => {
+                processCodeRender(item, vditor);
+            });
+    }
     execAfterRender(vditor);
 };

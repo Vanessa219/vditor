@@ -74,7 +74,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {
-    const range = getSelection().getRangeAt(0);
+    const range = getEditorRange(vditor.ir.element);
     const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
         if (value === "") {
