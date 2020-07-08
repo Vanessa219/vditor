@@ -1,9 +1,8 @@
 import {isCtrl} from "../util/compatibility";
 import {fixTab} from "../util/fixBrowserBehavior";
-import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
-import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
+import {hasClosestByAttribute} from "../util/hasClosest";
+import {getEditorRange, getSelectPosition} from "../util/selection";
 import {inputEvent} from "./inputEvent";
-import {processAfterRender} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.sv.composingLock = event.isComposing;
@@ -72,8 +71,14 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 }
             } else {
                 // 添加标记符号
-                range.insertNode(document.createTextNode("\n" +
-                    (markerElement ? space + markerElement.textContent : "")));
+                let newMarker = "\n";
+                if (markerElement) {
+                    newMarker += space + markerElement.textContent;
+                }
+                if (listElement.querySelector('[data-type="task-marker"]')) {
+                    newMarker += " [ ] ";
+                }
+                range.insertNode(document.createTextNode(newMarker));
                 range.collapse(false);
                 inputEvent(vditor);
             }
@@ -101,35 +106,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             event.preventDefault();
             return true;
         }
-    }
-
-    // 代码块
-    const preElement = hasClosestByClassName(startContainer, "vditor-sv__marker--pre");
-    if (preElement && event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
-        // Backspace: 光标位于第零个字符，仅删除代码块标签
-        const codePosition = getSelectPosition(preElement, range);
-        if ((codePosition.start === 0 ||
-            (codePosition.start === 1 && preElement.innerText === "\n")) // 空代码块，光标在 \n 后
-            && range.toString() === "") {
-            preElement.parentElement.outerHTML =
-                `<p data-block="0"><wbr>${preElement.firstElementChild.innerHTML}</p>`;
-            setRangeByWbr(vditor[vditor.currentMode].element, range);
-            processAfterRender(vditor);
-            event.preventDefault();
-            return true;
-        }
-    }
-
-    // 代码块语言或飘号后
-    const codeInfoElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info") ||
-        hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker") ||
-        hasClosestByAttribute(startContainer, "data-type", "math-block-open-marker");
-    if (codeInfoElement && (event.key === "Enter" || event.key === "Tab")) {
-        // 回车/tab 到代码块中
-        range.selectNodeContents(codeInfoElement.parentElement.querySelector("code"));
-        range.collapse(true);
-        event.preventDefault();
-        return true;
     }
 
     // tab

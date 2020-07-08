@@ -44,14 +44,30 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         }
         // heading marker 删除或空格
         const headingElement = hasClosestByAttribute(range.startContainer, "data-type", "heading-marker");
-        if (headingElement &&  (event.data === " " ||  event.inputType === "deleteContentBackward")) {
+        if (headingElement && (event.data === " " || event.inputType === "deleteContentBackward")) {
             return;
         }
-        // blockquote markder删除或空格
+        // blockquote marker 删除或空格
         const blockquoteElement = hasClosestByAttribute(range.startContainer, "data-type", "blockquote-marker");
-        if (blockquoteElement &&  (event.data === " " ||  event.inputType === "deleteContentBackward")) {
+        if (blockquoteElement && (event.data === " " || event.inputType === "deleteContentBackward")) {
             return;
         }
+        // block code marker 删除
+        const blockCodeElement =
+            hasClosestByAttribute(range.startContainer, "data-type", "code-block");
+        if (blockCodeElement && event.inputType === "deleteContentBackward") {
+            const startIndex = getSelectPosition(blockElement, range).start;
+            if (startIndex <= 2 || startIndex === blockCodeElement.textContent.length - 1) {
+                if (blockElement.querySelectorAll(".vditor-sv__marker").length !== 2) {
+                    blockElement.querySelector(".vditor-sv__marker").remove();
+                }
+                return;
+            }
+        }
+    }
+    if (blockElement && blockElement.textContent.trimRight() === "$$") {
+        // 内联数学公式
+        return;
     }
     if (!blockElement) {
         blockElement = vditor.sv.element;
