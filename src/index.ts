@@ -29,6 +29,7 @@ import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo";
 import {Upload} from "./ts/upload/index";
 import {addScript} from "./ts/util/addScript";
+import {processCodeRender} from "./ts/util/processCode";
 import {Options} from "./ts/util/Options";
 import {getCursorPosition, getEditorRange} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
@@ -322,6 +323,9 @@ class Vditor extends VditorMethod {
             });
         } else {
             this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
+            this.vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
+                processCodeRender(item, this.vditor);
+            });
             processAfterRender(this.vditor, {
                 enableAddUndoStack: !clearStack,
                 enableHint: false,
