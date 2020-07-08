@@ -52,7 +52,9 @@ export const processHeading = (vditor: IVditor, value: string) => {
         range.startContainer as HTMLElement;
     if (headingElement) {
         const headingMarkerElement = headingElement.querySelector(".vditor-sv__marker--heading");
-        range.selectNodeContents(headingMarkerElement);
+        if (headingMarkerElement) {
+            range.selectNodeContents(headingMarkerElement);
+        }
         if (value === "") {
             document.execCommand("delete");
         } else {

@@ -232,17 +232,21 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
 };
 
 export const insertHTML = (html: string, vditor: IVditor) => {
-    // TODO sv
     // 使用 lute 方法会添加 p 元素，只有一个 p 元素的时候进行删除
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
-    const pElements = tempElement.querySelectorAll("p");
-    if (pElements.length === 1 && !pElements[0].previousSibling && !pElements[0].nextSibling) {
-        if ((vditor.currentMode === "wysiwyg" && vditor.wysiwyg.element.children.length > 0) ||
-            (vditor.currentMode === "ir" && vditor.ir.element.children.length > 0)) {
-            // empty and past
-            html = pElements[0].innerHTML.trim();
+    const tempBlockElement = vditor.currentMode === "sv" ?
+        tempElement.querySelectorAll('[data-type="p"]') :
+        tempElement.querySelectorAll("p");
+    if (tempBlockElement.length === 1 && !tempBlockElement[0].previousSibling && !tempBlockElement[0].nextSibling &&
+        vditor[vditor.currentMode].element.children.length > 0) {
+        // empty and past
+        if (vditor.currentMode === "sv") {
+            tempBlockElement[0].querySelectorAll('[data-type="newline"]').forEach((item: HTMLElement) => {
+                item.remove();
+            });
         }
+        html = tempBlockElement[0].innerHTML.trim();
     }
 
     const pasteElement = document.createElement("template");
