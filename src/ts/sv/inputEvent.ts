@@ -91,6 +91,10 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     blockElement.querySelectorAll("font").forEach((item) => { // 不可前置，否则会影响光标的位置
         item.outerHTML = item.innerHTML;
     });
+    if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
+        // 修改链接引用
+        blockElement = vditor.sv.element;
+    }
     let html = blockElement.textContent;
     if (event?.inputType === "insertParagraph" && blockElement.previousElementSibling
         && blockElement.previousElementSibling.textContent.trim() !== "") {
@@ -102,7 +106,6 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (isSVElement) {
         html = blockElement.textContent;
     } else {
-        // TODO: 链接引用，脚注？
         if (blockElement.previousElementSibling) {
             html = blockElement.previousElementSibling.textContent + html;
             blockElement.previousElementSibling.remove();
@@ -110,6 +113,13 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         if (blockElement.nextElementSibling) {
             html = html + blockElement.nextElementSibling.textContent;
             blockElement.nextElementSibling.remove();
+        }
+        // TODO: 脚注？
+        // 添加链接引用
+        const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
+        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
+            html += allLinkRefDefsElement.textContent;
+            allLinkRefDefsElement.remove();
         }
     }
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
@@ -119,6 +129,11 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         blockElement.innerHTML = html;
     } else {
         blockElement.outerHTML = html;
+
+        const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
+        if (allLinkRefDefsElement) {
+            vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+        }
     }
     setRangeByWbr(vditor.sv.element, range);
 
