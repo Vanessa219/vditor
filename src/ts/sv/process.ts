@@ -1,5 +1,9 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage} from "../util/compatibility";
+import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {highlightToolbarSV} from "./highlightToolbarSV";
+import {inputEvent} from "./inputEvent";
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,
@@ -40,4 +44,162 @@ export const processAfterRender = (vditor: IVditor, options = {
             vditor.undo.addToUndoStack(vditor);
         }
     }, 800);
+};
+
+export const processHeading = (vditor: IVditor, value: string) => {
+    const range = getSelection().getRangeAt(0);
+    const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
+    if (headingElement) {
+        if (value === "") {
+            const headingMarkerElement = headingElement.querySelector(".vditor-sv__marker--heading");
+            range.selectNodeContents(headingMarkerElement);
+            document.execCommand("delete");
+        } else {
+            range.selectNodeContents(headingElement);
+            range.collapse(true);
+            document.execCommand("insertHTML", false, value);
+        }
+        highlightToolbarSV(vditor);
+    }
+};
+
+const removeInline = (range: Range, vditor: IVditor, type: string) => {
+    const inlineElement = hasClosestByAttribute(range.startContainer, "data-type", type) as HTMLElement;
+    if (inlineElement) {
+        inlineElement.firstElementChild.remove();
+        inlineElement.lastElementChild.remove();
+        range.insertNode(document.createElement("wbr"));
+        inlineElement.outerHTML = inlineElement.firstElementChild.innerHTML;
+    }
+};
+
+export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: string, suffix: string) => {
+    const range = getEditorRange(vditor.sv.element);
+    const commandName = actionBtn.getAttribute("data-type");
+    let typeElement = range.startContainer as HTMLElement;
+    if (typeElement.nodeType === 3) {
+        typeElement = typeElement.parentElement;
+    }
+    // 移除
+    if (actionBtn.classList.contains("vditor-menu--current")) {
+        if (commandName === "quote") {
+            const quoteElement = hasClosestByMatchTag(typeElement, "BLOCKQUOTE");
+            if (quoteElement) {
+                range.insertNode(document.createElement("wbr"));
+                quoteElement.outerHTML = quoteElement.innerHTML.trim() === "" ?
+                    `<p data-block="0">${quoteElement.innerHTML}</p>` : quoteElement.innerHTML;
+            }
+        } else if (commandName === "link") {
+            const aElement = hasClosestByAttribute(range.startContainer, "data-type", "a") as HTMLElement;
+            if (aElement) {
+                const aTextElement = hasClosestByAttribute(range.startContainer, "data-type", "link-text");
+                if (aTextElement) {
+                    range.insertNode(document.createElement("wbr"));
+                    aElement.outerHTML = aTextElement.innerHTML;
+                } else {
+                    aElement.outerHTML = aElement.querySelector('[data-type="link-text"]').innerHTML + "<wbr>";
+                }
+            }
+        } else if (commandName === "italic") {
+            removeInline(range, vditor, "em");
+        } else if (commandName === "bold") {
+            removeInline(range, vditor, "strong");
+        } else if (commandName === "strike") {
+            removeInline(range, vditor, "s");
+        } else if (commandName === "inline-code") {
+            removeInline(range, vditor, "code");
+        } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
+            const listElement = hasClosestBlock(range.startContainer);
+            if (listElement) {
+                listElement.querySelectorAll('[data-type="li-marker"').forEach((item: HTMLElement) => {
+                    item.remove();
+                });
+                listElement.querySelectorAll('[data-type="task-marker"').forEach((item: HTMLElement) => {
+                    item.remove();
+                });
+                inputEvent(vditor);
+                highlightToolbarSV(vditor);
+                return;
+            }
+        }
+    } else {
+        // 添加
+        if (vditor.sv.element.childNodes.length === 0) {
+            vditor.sv.element.innerHTML = `<div data-type="p" data-block="0"><span data-type="text"><wbr></span><span data-type="newline"><br><span style="display: none">
+</span></span></div>`;
+            setRangeByWbr(vditor.sv.element, range);
+        }
+        const blockElement = hasClosestBlock(range.startContainer);
+        if (commandName === "line") {
+            if (blockElement) {
+                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
+                if (blockElement.innerHTML.trim() === "") {
+                    blockElement.outerHTML = hrHTML;
+                } else {
+                    blockElement.insertAdjacentHTML("afterend", hrHTML);
+                }
+            }
+        } else if (commandName === "quote") {
+            if (blockElement) {
+                range.insertNode(document.createElement("wbr"));
+                blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+            }
+        } else if (commandName === "link") {
+            let html;
+            if (range.toString() === "") {
+                html = `${prefix}${Lute.Caret}${suffix}`;
+            } else {
+                html = `${prefix}${range.toString()}${suffix.replace(")", Lute.Caret + ")")}`;
+            }
+            document.execCommand("insertHTML", false, html);
+            highlightToolbarSV(vditor);
+            return;
+        } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
+            || commandName === "inline-code" || commandName === "code" || commandName === "table") {
+            let html;
+            if (range.toString() === "") {
+                html = `${prefix}${Lute.Caret}${suffix}`;
+            } else {
+                html = `${prefix}${range.toString()}${Lute.Caret}${suffix}`;
+            }
+            if (commandName === "table" || commandName === "code") {
+                html = "\n" + html;
+            }
+            document.execCommand("insertHTML", false, html);
+            if (commandName === "table") {
+                range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
+                setSelectionFocus(range);
+            }
+            highlightToolbarSV(vditor);
+            return;
+        } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
+            if (blockElement) {
+                const type = blockElement.getAttribute("data-type");
+                let listMarker = "* ";
+                if (commandName === "check") {
+                    listMarker = "* [ ] ";
+                } else if (commandName === "ordered-list") {
+                    listMarker = "1. ";
+                }
+                if (type !== "ul" && type !== "ol" && type !== "task") {
+                    blockElement.insertAdjacentText("afterbegin", listMarker);
+                } else {
+                    blockElement.querySelectorAll('[data-type="li-marker"').forEach((item: HTMLElement) => {
+                        item.textContent = listMarker;
+                    });
+                    if (commandName !== "check") {
+                        blockElement.querySelectorAll('[data-type="task-marker"').forEach((item: HTMLElement) => {
+                            item.remove();
+                        });
+                    }
+                }
+                inputEvent(vditor);
+                highlightToolbarSV(vditor);
+                return;
+            }
+        }
+    }
+    setRangeByWbr(vditor.sv.element, range);
+    processAfterRender(vditor);
+    highlightToolbarSV(vditor);
 };
