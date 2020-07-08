@@ -1,9 +1,9 @@
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {blurEvent, dropEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
+import {paste} from "../util/fixBrowserBehavior";
 import {getSelectText} from "../util/getSelectText";
 import {highlightToolbarSV} from "./highlightToolbarSV";
 import {inputEvent} from "./inputEvent";
-import {paste} from "../util/fixBrowserBehavior";
 
 class Editor {
     public element: HTMLPreElement;

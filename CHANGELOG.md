@@ -66,7 +66,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.4 / 2020-07-xx
+### v3.3.5 / 2020-07-xx
+
+### v3.3.4 / 2020-07-08
 
 * [539](https://github.com/Vanessa219/vditor/pull/539) 即时渲染模式 setValue 后，没有及时渲染 Code 区域 `修复缺陷`
 * [536](https://github.com/Vanessa219/vditor/issues/536) 文件上传检查后缀忽略大小写 `改进功能`
@@ -83,17 +85,6 @@
 * [524](https://github.com/Vanessa219/vditor/issues/524) no background-color change(dark mode-abcjs) `修复缺陷`
 * [516](https://github.com/Vanessa219/vditor/issues/516) 高亮自动填写功能未生效问题 `修复缺陷`
 * [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
-* 移除 `options.keymap`
-* 移除工具栏上的格式化功能
---中文文档未更新--
-* `setContentTheme` 参数修改为 `contentTheme: string, path: string`
-* `options.preview.markdow.theme` 修改为 `options.preview.theme`
-* `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
-* 移除 `setSelection`
-* 添加 `destory` 方法
-
-### v3.3.3 / 2020-06-23
-
 * [499](https://github.com/Vanessa219/vditor/issues/499) Chrome 浏览器，Up 方向键 光标位置移动异常 `修复缺陷`
 * [514](https://github.com/Vanessa219/vditor/issues/514) 只读没有禁用场景菜单 `修复缺陷`
 * [501](https://github.com/Vanessa219/vditor/issues/501) 反斜杠 \ 转义问题 `改进功能`
@@ -116,6 +107,13 @@
 * 文档修改
   * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
   * 为 `setValue` 方法添加 `clearStack` 参数；新增 `clearStack` 方法
+  * 移除 `options.keymap`
+  * 移除工具栏上的格式化功能
+  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
+  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+  * 移除 `setSelection`
+  * 添加 `destory` 方法
 
 ### v3.2.12 / 2020-06-07
 
