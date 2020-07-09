@@ -68,10 +68,13 @@
 
 ### v3.3.5 / 2020-07-xx
 
+* [548](https://github.com/Vanessa219/vditor/issues/548) 添加文件上传多选/单选配置 `引入特性`
+* [545](https://github.com/Vanessa219/vditor/issues/545) SV 模式列表项下输入代码块问题 `修复缺陷`
 * [544](https://github.com/Vanessa219/vditor/issues/544) SV 模式有序列表缩进问题 `修复缺陷`
 * [543](https://github.com/Vanessa219/vditor/issues/543) SV 模式删除选择文本问题 `修复缺陷`
 * [541](https://github.com/Vanessa219/vditor/issues/541) SV 模式列表和引用快捷键问题 `修复缺陷`
 * [546](https://github.com/Vanessa219/vditor/issues/546) SV 模式丢失 headingID `修复缺陷`
+* 添加 `options.upload.multiple`
 
 ### v3.3.4 / 2020-07-08
 
