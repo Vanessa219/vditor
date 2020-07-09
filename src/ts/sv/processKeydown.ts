@@ -118,18 +118,21 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (fixTab(vditor, range, event)) {
         return true;
     }
+    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
 
-    // 回车，除 list item 外
+    // 回车，除 list item，blockquote 的 marker 延续和清除外
     if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
         // 添加 \n
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
+        if (!blockElement || blockElement?.textContent.trim() !== "") {
+            inputEvent(vditor);
+        }
         event.preventDefault();
         return true;
     }
 
     // 删除后光标前有 newline 的处理
-    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
     if (blockElement && event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
         const startIndex = getSelectPosition(blockElement, range).start;
         // 光标在每一行的开始位置

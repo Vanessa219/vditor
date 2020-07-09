@@ -68,6 +68,9 @@
 
 ### v3.3.5 / 2020-07-xx
 
+* [541](https://github.com/Vanessa219/vditor/pull/541) SV 模式列表和引用快捷键问题 `修复缺陷`
+* [546](https://github.com/Vanessa219/vditor/pull/546) SV 模式丢失 headingID `修复缺陷`
+
 ### v3.3.4 / 2020-07-08
 
 * [539](https://github.com/Vanessa219/vditor/pull/539) 即时渲染模式 setValue 后，没有及时渲染 Code 区域 `修复缺陷`
