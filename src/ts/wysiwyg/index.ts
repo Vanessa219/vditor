@@ -178,7 +178,7 @@ class WYSIWYG {
             }
 
             // 前后空格处理
-            const startOffset = getSelectPosition(blockElement, range).start;
+            const startOffset = getSelectPosition(blockElement, vditor.wysiwyg.element, range).start;
 
             // 开始可以输入空格
             let startSpace = true;

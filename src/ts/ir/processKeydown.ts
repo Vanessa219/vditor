@@ -38,7 +38,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return false;
     }
 
-    fixCJKPosition(range, event);
+    fixCJKPosition(range, vditor, event);
 
     fixHR(range);
 
@@ -114,7 +114,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         if (event.key === "Backspace") {
-            const start = getSelectPosition(preBeforeElement).start;
+            const start = getSelectPosition(preBeforeElement, vditor.ir.element).start;
             if (start === 1) { // 删除零宽空格
                 range.setStart(startContainer, 0);
             }
@@ -165,7 +165,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         const headingElement = hasClosestByHeadings(startContainer);
         if (headingElement) {
             const headingLength = headingElement.firstElementChild.textContent.length;
-            if (getSelectPosition(headingElement).start === headingLength) {
+            if (getSelectPosition(headingElement, vditor.ir.element).start === headingLength) {
                 range.setStart(headingElement.firstElementChild.firstChild, headingLength - 1);
                 range.collapse(true);
             }

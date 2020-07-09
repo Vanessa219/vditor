@@ -42,13 +42,13 @@ export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor, startCo
 };
 
 // https://github.com/Vanessa219/vditor/issues/361
-export const fixCJKPosition = (range: Range, event: KeyboardEvent) => {
+export const fixCJKPosition = (range: Range, vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Enter" || event.key === "Tab" || event.key === "Backspace" || event.key.indexOf("Arrow") > -1
         || isCtrl(event) || event.key === "Escape" || event.shiftKey || event.altKey) {
         return;
     }
     const pElement = hasClosestByMatchTag(range.startContainer, "P");
-    if (pElement && getSelectPosition(pElement, range).start === 0) {
+    if (pElement && getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0) {
         const zwspNode = document.createTextNode(Constants.ZWSP);
         range.insertNode(zwspNode);
         range.setStartAfter(zwspNode);
@@ -123,7 +123,7 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
 
 export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
                                  blockElement: HTMLElement) => {
-    const position = getSelectPosition(element, range);
+    const position = getSelectPosition(element, vditor[vditor.currentMode].element, range);
     if ((event.key === "ArrowDown" && element.textContent.trimRight().substr(position.start).indexOf("\n") === -1) ||
         (event.key === "ArrowRight" && position.start >= element.textContent.trimRight().length)) {
         const nextElement = blockElement.nextElementSibling;
@@ -145,7 +145,7 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
 
 export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
                                   blockElement: HTMLElement) => {
-    const position = getSelectPosition(element, range);
+    const position = getSelectPosition(element, vditor[vditor.currentMode].element, range);
     if ((event.key === "ArrowUp" && element.textContent.substr(position.start).indexOf("\n") === -1) ||
         ((event.key === "ArrowLeft" || event.key === "Backspace") && position.start === 0)) {
         const previousElement = blockElement.previousElementSibling;
@@ -458,7 +458,7 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
 
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
             !liElement.previousElementSibling && range.toString() === "" &&
-            getSelectPosition(liElement, range).start === 0) {
+            getSelectPosition(liElement, vditor[vditor.currentMode].element, range).start === 0) {
             // 光标位于点和第一个字符中间时，无法删除 li 元素
             if (liElement.nextElementSibling) {
                 liElement.parentElement.insertAdjacentHTML("beforebegin",
@@ -578,7 +578,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
     // 软换行会被切割 https://github.com/Vanessa219/vditor/issues/220
     if (pElement.previousElementSibling && event.key === "Backspace" && !isCtrl(event) && !event.altKey &&
         !event.shiftKey && pElement.textContent.trimRight().split("\n").length > 1 &&
-        getSelectPosition(pElement, range).start === 0) {
+        getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0) {
         const lastElement = getLastNode(pElement.previousElementSibling) as HTMLElement;
         if (!lastElement.textContent.endsWith("\n")) {
             lastElement.textContent = lastElement.textContent + "\n";
@@ -914,7 +914,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
 
     // Backspace: 光标位于第零个字符，仅删除代码块标签
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
-        const codePosition = getSelectPosition(codeRenderElement, range);
+        const codePosition = getSelectPosition(codeRenderElement, vditor[vditor.currentMode].element, range);
         if ((codePosition.start === 0 ||
             (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
             && range.toString() === "") {
@@ -957,7 +957,7 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.toString() === "") {
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
-            getSelectPosition(blockquoteElement, range).start === 0) {
+            getSelectPosition(blockquoteElement, vditor[vditor.currentMode].element, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
             range.insertNode(document.createElement("wbr"));
             blockquoteElement.outerHTML = blockquoteElement.innerHTML;
@@ -977,7 +977,7 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
                 isEmpty = true;
                 pElement.remove();
             } else if (pElement.innerHTML.endsWith("\n\n") &&
-                getSelectPosition(pElement, range).start === pElement.textContent.length - 1) {
+                getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === pElement.textContent.length - 1) {
                 // 软换行
                 pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
                 isEmpty = true;
@@ -1133,7 +1133,7 @@ export const fixDelete = (vditor: IVditor, range: Range, event: KeyboardEvent, p
 
     if (pElement) {
         const previousElement = pElement.previousElementSibling;
-        if (previousElement && getSelectPosition(pElement, range).start === 0 &&
+        if (previousElement && getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0 &&
             ((isFirefox() && previousElement.tagName === "HR") || previousElement.tagName === "TABLE")) {
             if (previousElement.tagName === "TABLE") {
                 // table 后删除 https://github.com/Vanessa219/vditor/issues/243
@@ -1270,7 +1270,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         if (vditor.currentMode === "sv") {
             document.execCommand("insertHTML", false, textPlain);
         } else {
-            const position = getSelectPosition(event.target);
+            const position = getSelectPosition(event.target, vditor[vditor.currentMode].element);
             if (codeElement.parentElement.tagName !== "PRE") {
                 // https://github.com/Vanessa219/vditor/issues/463
                 textPlain += Constants.ZWSP;

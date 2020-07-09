@@ -4,16 +4,11 @@ import {highlightToolbarIRSV} from "../util/highlightToolbar";
 
 export const highlightToolbarSV = (vditor: IVditor) => {
     highlightToolbarIRSV(vditor, (typeElement: HTMLElement) => {
-        const ulElement = hasClosestByAttribute(typeElement, "data-type", "ul");
-        if (ulElement) {
+        if (hasClosestByAttribute(typeElement, "data-type", "ul")) {
             setCurrentToolbar(vditor.toolbar.elements, ["list"]);
-        }
-        const olElement = hasClosestByAttribute(typeElement, "data-type", "ol");
-        if (olElement) {
+        } else if (hasClosestByAttribute(typeElement, "data-type", "ol")) {
             setCurrentToolbar(vditor.toolbar.elements, ["ordered-list"]);
-        }
-        const taskElement = hasClosestByAttribute(typeElement, "data-type", "task");
-        if (taskElement) {
+        } else if (hasClosestByAttribute(typeElement, "data-type", "task")) {
             setCurrentToolbar(vditor.toolbar.elements, ["check"]);
         }
     });

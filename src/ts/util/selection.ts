@@ -94,7 +94,7 @@ export const setSelectionFocus = (range: Range) => {
     selection.addRange(range);
 };
 
-export const getSelectPosition = (editorElement: HTMLElement, range?: Range) => {
+export const getSelectPosition = (selectElement: HTMLElement, editorElement: HTMLElement, range?: Range) => {
     const position = {
         end: 0,
         start: 0,
@@ -109,10 +109,10 @@ export const getSelectPosition = (editorElement: HTMLElement, range?: Range) => 
 
     if (selectIsEditor(editorElement, range)) {
         const preSelectionRange = range.cloneRange();
-        if (editorElement.childNodes[0] && editorElement.childNodes[0].childNodes[0]) {
-            preSelectionRange.setStart(editorElement.childNodes[0].childNodes[0], 0);
+        if (selectElement.childNodes[0] && selectElement.childNodes[0].childNodes[0]) {
+            preSelectionRange.setStart(selectElement.childNodes[0].childNodes[0], 0);
         } else {
-            preSelectionRange.selectNodeContents(editorElement);
+            preSelectionRange.selectNodeContents(selectElement);
         }
         preSelectionRange.setEnd(range.startContainer, range.startOffset);
         position.start = preSelectionRange.toString().length;
