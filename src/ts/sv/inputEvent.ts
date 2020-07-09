@@ -69,6 +69,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             if (startIndex <= 2 || startIndex === blockCodeElement.textContent.length - 1) {
                 if (blockElement.querySelectorAll(".vditor-sv__marker").length === 1) {
                     blockElement.querySelector(".vditor-sv__marker").remove();
+                    blockElement.setAttribute("data-type", "p");
                 }
                 processAfterRender(vditor);
                 return;
