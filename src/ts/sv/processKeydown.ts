@@ -27,7 +27,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (blockquoteLineElement) {
         const startIndex = getSelectPosition(blockquoteLineElement, vditor.sv.element, range).start;
         if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
-            if (startIndex === 2 && blockquoteLineElement.firstElementChild) {
+            let markerLength = 0;
+            blockquoteLineElement.querySelectorAll('[data-type="blockquote-marker"').forEach((item: HTMLElement) => {
+                markerLength += item.textContent.length;
+            });
+            if (startIndex === markerLength && markerLength > 1) {
                 // 在 marker 中换行，删除 marker 标记
                 blockquoteLineElement.firstElementChild.remove();
                 event.preventDefault();
