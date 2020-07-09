@@ -66,8 +66,11 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.5 / 2020-07-xx
+### v3.3.6 / 2020-07-xx
 
+### v3.3.5 / 2020-07-09
+
+* [534](https://github.com/Vanessa219/vditor/issues/534) 支持导出到知乎 `引入特性`
 * [552](https://github.com/Vanessa219/vditor/issues/552) blockquote 换行需逐层跳出 `修复缺陷`
 * [551](https://github.com/Vanessa219/vditor/issues/551) Tab and ctrl+shift+J (checkbox) `修复缺陷`
 * [550](https://github.com/Vanessa219/vditor/issues/550) [Mermaid] State diagram rendering of multiple same node loops `修复缺陷`
@@ -78,10 +81,6 @@
 * [543](https://github.com/Vanessa219/vditor/issues/543) SV 模式删除选择文本问题 `修复缺陷`
 * [541](https://github.com/Vanessa219/vditor/issues/541) SV 模式列表和引用快捷键问题 `修复缺陷`
 * [546](https://github.com/Vanessa219/vditor/issues/546) SV 模式丢失 headingID `修复缺陷`
-* 添加 `options.upload.multiple`
-
-### v3.3.4 / 2020-07-08
-
 * [539](https://github.com/Vanessa219/vditor/pull/539) 即时渲染模式 setValue 后，没有及时渲染 Code 区域 `修复缺陷`
 * [536](https://github.com/Vanessa219/vditor/issues/536) 文件上传检查后缀忽略大小写 `改进功能`
 * [537](https://github.com/Vanessa219/vditor/issues/537) 添加 destroy 方法 `引入特新`
@@ -126,6 +125,7 @@
   * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
   * 移除 `setSelection`
   * 添加 `destory` 方法
+  * 添加 `options.upload.multiple`
 
 ### v3.2.12 / 2020-06-07
 
