@@ -1,5 +1,5 @@
 import {scrollCenter} from "../util/editorCommonEvent";
-import {hasClosestByAttribute} from "../util/hasClosest";
+import {hasClosestByAttribute, hasTopClosestByAttribute} from "../util/hasClosest";
 import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
@@ -95,6 +95,13 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (hasClosestByAttribute(range.startContainer, "data-type", "footnotes-link")) {
         // 修改脚注角标
         blockElement = vditor.sv.element;
+    }
+    // 列表需到顶层
+    const topListElement = hasTopClosestByAttribute(blockElement, "data-type", "ol") ||
+        hasTopClosestByAttribute(blockElement, "data-type", "ul") ||
+        hasTopClosestByAttribute(blockElement, "data-type", "task");
+    if (topListElement) {
+        blockElement = topListElement;
     }
     // 添加光标位置
     if (blockElement.textContent.indexOf(Lute.Caret) === -1) {
