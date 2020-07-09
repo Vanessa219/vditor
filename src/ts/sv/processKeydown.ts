@@ -72,7 +72,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 } else {
                     markerElement.previousElementSibling.remove();
                     inputEvent(vditor);
-                    addUndoStack = false
+                    addUndoStack = false;
                 }
                 if (isTask) {
                     listElement.querySelectorAll('[data-type="task-marker"]').forEach((item: HTMLElement) => {
@@ -115,8 +115,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
         // 第一个 marker 后 tab 进行缩进
         if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + space.length) {
-            markerElement.insertAdjacentHTML("beforebegin",
-                `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
+            if (/^\d/.test(markerElement.textContent)) {
+                markerElement.textContent = "1. ";
+                range.selectNodeContents(markerElement.firstChild);
+                range.collapse(false);
+            }
+            markerElement.insertAdjacentHTML("beforebegin", `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
             inputEvent(vditor);
             event.preventDefault();
             return true;

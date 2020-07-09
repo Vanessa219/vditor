@@ -977,7 +977,8 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
                 isEmpty = true;
                 pElement.remove();
             } else if (pElement.innerHTML.endsWith("\n\n") &&
-                getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === pElement.textContent.length - 1) {
+                getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start ===
+                pElement.textContent.length - 1) {
                 // 软换行
                 pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
                 isEmpty = true;

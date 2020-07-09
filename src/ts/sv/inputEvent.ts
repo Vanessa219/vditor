@@ -39,7 +39,8 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
                 return;
             }
             const liMarkerElement = listElement.querySelector('[data-type="li-marker"]');
-            if (event.inputType === "deleteContentBackward" && getSelectPosition(listElement, vditor.sv.element, range).start <=
+            if (event.inputType === "deleteContentBackward" &&
+                getSelectPosition(listElement, vditor.sv.element, range).start <=
                 listElement.getAttribute("data-space").length +
                 (liMarkerElement ? liMarkerElement.textContent.length : 0) +
                 (listElement.querySelector('[data-type="task-marker"]') ? 4 : 0)
