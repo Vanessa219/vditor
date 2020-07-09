@@ -1,5 +1,5 @@
 import {scrollCenter} from "../util/editorCommonEvent";
-import {hasClosestByAttribute} from "../util/hasClosest";
+import {hasClosestByAttribute, hasTopClosestByAttribute} from "../util/hasClosest";
 import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
@@ -10,7 +10,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     // 不调用 lute 解析
     if (blockElement && event && (event.inputType === "deleteContentBackward" || event.data === " ")) {
         // 开始可以输入空格
-        const startOffset = getSelectPosition(blockElement, range).start;
+        const startOffset = getSelectPosition(blockElement, vditor.sv.element, range).start;
         let startSpace = true;
         for (let i = startOffset - 1;
             // 软换行后有空格
@@ -39,7 +39,8 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
                 return;
             }
             const liMarkerElement = listElement.querySelector('[data-type="li-marker"]');
-            if (event.inputType === "deleteContentBackward" && getSelectPosition(listElement, range).start <=
+            if (event.inputType === "deleteContentBackward" &&
+                getSelectPosition(listElement, vditor.sv.element, range).start <=
                 listElement.getAttribute("data-space").length +
                 (liMarkerElement ? liMarkerElement.textContent.length : 0) +
                 (listElement.querySelector('[data-type="task-marker"]') ? 4 : 0)
@@ -64,7 +65,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         const blockCodeElement =
             hasClosestByAttribute(range.startContainer, "data-type", "code-block");
         if (blockCodeElement && event.inputType === "deleteContentBackward") {
-            const startIndex = getSelectPosition(blockElement, range).start;
+            const startIndex = getSelectPosition(blockElement, vditor.sv.element, range).start;
             if (startIndex <= 2 || startIndex === blockCodeElement.textContent.length - 1) {
                 if (blockElement.querySelectorAll(".vditor-sv__marker").length === 1) {
                     blockElement.querySelector(".vditor-sv__marker").remove();
@@ -94,6 +95,13 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (hasClosestByAttribute(range.startContainer, "data-type", "footnotes-link")) {
         // 修改脚注角标
         blockElement = vditor.sv.element;
+    }
+    // 列表需到顶层
+    const topListElement = hasTopClosestByAttribute(blockElement, "data-type", "ol") ||
+        hasTopClosestByAttribute(blockElement, "data-type", "ul") ||
+        hasTopClosestByAttribute(blockElement, "data-type", "task");
+    if (topListElement) {
+        blockElement = topListElement;
     }
     // 添加光标位置
     if (blockElement.textContent.indexOf(Lute.Caret) === -1) {

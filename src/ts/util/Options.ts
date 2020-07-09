@@ -138,6 +138,7 @@ export class Options {
             filename: (name: string) => name.replace(/\W/g, ""),
             linkToImgUrl: "",
             max: 10 * 1024 * 1024,
+            multiple: true,
             url: "",
             withCredentials: false,
         },

@@ -18,8 +18,9 @@ export const processHint = (vditor: IVditor) => {
             range.selectNodeContents(preBeforeElement);
         } else {
             const matchLangData: IHintData[] = [];
-            const key = preBeforeElement.textContent.substring(0, getSelectPosition(preBeforeElement).start)
-                .replace(Constants.ZWSP, "");
+            const key =
+                preBeforeElement.textContent.substring(0, getSelectPosition(preBeforeElement, vditor.ir.element).start)
+                    .replace(Constants.ZWSP, "");
             Constants.CODE_LANGUAGES.forEach((keyName) => {
                 if (keyName.indexOf(key.toLowerCase()) > -1) {
                     matchLangData.push({

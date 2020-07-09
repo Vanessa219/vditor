@@ -15,6 +15,46 @@ export const hasTopClosestByClassName = (element: Node, className: string) => {
     return closest || false;
 };
 
+export const hasTopClosestByAttribute = (element: Node, attr: string, value: string) => {
+    let closest = hasClosestByAttribute(element, attr, value);
+    let parentClosest: boolean | HTMLElement = false;
+    let findTop = false;
+    while (closest && !closest.classList.contains("vditor-reset") && !findTop) {
+        parentClosest = hasClosestByAttribute(closest.parentElement, attr, value);
+        if (parentClosest) {
+            closest = parentClosest;
+        } else {
+            findTop = true;
+        }
+    }
+    return closest || false;
+};
+
+export const hasTopClosestByTag = (element: Node, nodeName: string) => {
+    let closest = hasClosestByTag(element, nodeName);
+    let parentClosest: boolean | HTMLElement = false;
+    let findTop = false;
+    while (closest && !closest.classList.contains("vditor-reset") && !findTop) {
+        parentClosest = hasClosestByTag(closest.parentElement, nodeName);
+        if (parentClosest) {
+            closest = parentClosest;
+        } else {
+            findTop = true;
+        }
+    }
+    return closest || false;
+};
+
+export const getTopList = (element: Node) => {
+    const topUlElement = hasTopClosestByTag(element, "UL");
+    const topOlElement = hasTopClosestByTag(element, "OL");
+    let topListElement = topUlElement;
+    if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
+        topListElement = topOlElement;
+    }
+    return topListElement;
+};
+
 export const hasClosestByAttribute = (element: Node, attr: string, value: string) => {
     if (!element) {
         return false;
@@ -104,43 +144,6 @@ export const hasClosestByClassName = (element: Node, className: string) => {
         }
     }
     return isClosest && e;
-};
-
-export const hasTopClosestByTag = (element: Node, nodeName: string) => {
-    if (!element) {
-        return false;
-    }
-    if (element.nodeType === 3) {
-        element = element.parentElement;
-    }
-
-    let closest = hasClosestByTag(element, nodeName);
-    let parentClosest: boolean | HTMLElement = false;
-    if (closest) {
-        parentClosest = hasClosestByTag(closest.parentElement, nodeName);
-    }
-    let findTop = false;
-    while (closest && !closest.classList.contains("vditor-reset") && !findTop) {
-        if (parentClosest) {
-            closest = hasClosestByTag(closest.parentElement, nodeName);
-            if (closest) {
-                parentClosest = hasClosestByTag(closest.parentElement, nodeName);
-            }
-        } else {
-            findTop = true;
-        }
-    }
-    return closest || false;
-};
-
-export const getTopList = (element: Node) => {
-    const topUlElement = hasTopClosestByTag(element, "UL");
-    const topOlElement = hasTopClosestByTag(element, "OL");
-    let topListElement = topUlElement;
-    if (topOlElement && (!topUlElement || (topUlElement && topOlElement.contains(topUlElement)))) {
-        topListElement = topOlElement;
-    }
-    return topListElement;
 };
 
 export const getLastNode = (node: Node) => {
