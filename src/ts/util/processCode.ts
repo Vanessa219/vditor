@@ -27,6 +27,11 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
         // Xcode
         isCode = true;
     }
+    if (tempElement.childElementCount === 1 && tempElement.firstElementChild.tagName === "TABLE" &&
+        tempElement.querySelector(".line-number") && tempElement.querySelector(".line-content")) {
+        // 网页源码
+        isCode = true;
+    }
 
     if (isCode) {
         const code = text || html;
@@ -35,10 +40,7 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
                 return `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
                     code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
             }
-            if (type === "ir") {
-                return "```\n" + code.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "\n```";
-            }
-            return "```\n" + code + "\n```";
+            return "```\n" + code.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "\n```";
         } else {
             if (type === "wysiwyg") {
                 return `<code>${code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code><wbr>`;
@@ -69,7 +71,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         mermaidRender(previewPanel, `.vditor-${vditor.currentMode}__preview .language-mermaid`, vditor.options.cdn);
     } else if (language === "echarts") {
         chartRender(previewPanel, vditor.options.cdn);
-    }  else if (language === "mindmap") {
+    } else if (language === "mindmap") {
         mindmapRender(previewPanel, vditor.options.cdn);
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);
