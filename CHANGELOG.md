@@ -68,6 +68,7 @@
 
 ### v3.3.5 / 2020-07-xx
 
+* [551](https://github.com/Vanessa219/vditor/issues/551) Tab and ctrl+shift+J (checkbox) `修复缺陷`
 * [550](https://github.com/Vanessa219/vditor/issues/550) [Mermaid] State diagram rendering of multiple same node loops `修复缺陷`
 * [549](https://github.com/Vanessa219/vditor/issues/549) 粘贴 HTML 内容失败 `修复缺陷`
 * [548](https://github.com/Vanessa219/vditor/issues/548) 添加文件上传多选/单选配置 `引入特性`

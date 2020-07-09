@@ -1,6 +1,7 @@
 import {isCtrl} from "../util/compatibility";
 import {fixTab} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute} from "../util/hasClosest";
+import {matchHotKey} from "../util/hotKey";
 import {getEditorRange, getSelectPosition} from "../util/selection";
 import {inputEvent} from "./inputEvent";
 import {processAfterRender} from "./process";
@@ -60,11 +61,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         const markerElement = listElement.querySelector('[data-type="li-marker"]');
         const startIndex = getSelectPosition(listElement, vditor.sv.element, range).start;
         const space = listElement.getAttribute("data-space");
+        const taskMarkerElements = listElement.querySelectorAll('[data-type="task-marker"]');
         // 回车
         if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
-            const isTask = listElement.querySelector('[data-type="task-marker"]');
             if (markerElement && startIndex ===
-                markerElement.textContent.length + space.length + (isTask ? 4 : 0)) {
+                markerElement.textContent.length + space.length + (taskMarkerElements.length > 0 ? 4 : 0)) {
                 let addUndoStack = true;
                 // 清空列表标记符
                 if (space === "") {
@@ -74,7 +75,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                     inputEvent(vditor);
                     addUndoStack = false;
                 }
-                if (isTask) {
+                if (taskMarkerElements.length > 0) {
                     listElement.querySelectorAll('[data-type="task-marker"]').forEach((item: HTMLElement) => {
                         item.remove();
                     });
@@ -88,7 +89,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 if (markerElement) {
                     newMarker += space + markerElement.textContent;
                 }
-                if (isTask) {
+                if (taskMarkerElements.length > 0) {
                     newMarker += " [ ] ";
                 }
                 range.insertNode(document.createTextNode(newMarker));
@@ -114,14 +115,27 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
         }
         // 第一个 marker 后 tab 进行缩进
-        if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + space.length) {
+        if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + space.length
+            + (taskMarkerElements.length > 0 ? taskMarkerElements[1].textContent.length + 3 : 0)) {
             if (/^\d/.test(markerElement.textContent)) {
                 markerElement.textContent = "1. ";
                 range.selectNodeContents(markerElement.firstChild);
                 range.collapse(false);
             }
-            markerElement.insertAdjacentHTML("beforebegin", `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
+            markerElement.insertAdjacentHTML("beforebegin",
+                `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
             inputEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+        // toggle checked
+        if (taskMarkerElements.length > 0 && matchHotKey("⌘-⇧-J", event)) {
+            if (taskMarkerElements[1].textContent === " ") {
+                taskMarkerElements[1].textContent = "x";
+            } else {
+                taskMarkerElements[1].textContent = " ";
+            }
+            processAfterRender(vditor);
             event.preventDefault();
             return true;
         }
