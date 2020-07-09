@@ -141,7 +141,8 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
 const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
     // FileList | DataTransferItemList | File[] => File[]
     let fileList = [];
-    for (let iMax = files.length, i = 0; i < iMax; i++) {
+    const iMax = vditor.options.upload.multiple === true ? files.length : 1;
+    for (let i = 0; i < iMax; i++) {
         let fileItem = files[i];
         if (fileItem instanceof DataTransferItem) {
             fileItem = fileItem.getAsFile();
