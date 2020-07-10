@@ -257,7 +257,7 @@ new Vditor('vditor', {
 | toc | Insert Table of Contents | false |
 | footnotes | Footnotes | true |
 | codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
-| setext | Whether to parse the setext header | fa;se |
+| setext | Whether to parse the setext header | true |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
 | listStyle | add data-style attribute | false |
