@@ -26,7 +26,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const blockquoteLineElement = hasClosestByAttribute(startContainer, "data-type", "blockquote-line");
     if (blockquoteLineElement) {
         const startIndex = getSelectPosition(blockquoteLineElement, vditor.sv.element, range).start;
-        if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && startIndex !== 0) {
             let markerLength = 0;
             blockquoteLineElement.querySelectorAll('[data-type="blockquote-marker"').forEach((item: HTMLElement) => {
                 markerLength += item.textContent.length;
@@ -67,7 +67,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         const space = listElement.getAttribute("data-space");
         const taskMarkerElements = listElement.querySelectorAll('[data-type="task-marker"]');
         // 回车
-        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey && startIndex !== 0) {
             // enter
             if (markerElement && startIndex ===
                 markerElement.textContent.length + space.length + (taskMarkerElements.length > 0 ? 4 : 0)) {
@@ -154,10 +154,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 回车，除 list item，blockquote 的 marker 延续和清除外
     if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+        let isFirst = false;
+        if (blockElement && getSelectPosition(blockElement, vditor.sv.element).start === 0) {
+            // 允许段落开始换行
+            isFirst = true;
+        }
         // 添加 \n
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
-        if (!blockElement || blockElement?.textContent.trim() !== "") {
+        if ((!blockElement || blockElement?.textContent.trim() !== "") && !isFirst) {
             inputEvent(vditor);
         } else {
             processAfterRender(vditor);
