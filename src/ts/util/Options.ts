@@ -266,7 +266,7 @@ export class Options {
             hotkey: "⌘-U",
             icon: codeSVG,
             name: "code",
-            prefix: "```\n",
+            prefix: "```",
             suffix: "\n```",
             tipPosition: "n",
         }, {
