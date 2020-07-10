@@ -94,7 +94,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                     newMarker += space + markerElement.textContent;
                 }
                 if (taskMarkerElements.length > 0) {
-                    newMarker += " [ ] ";
+                    newMarker += "[ ] ";
                 }
                 range.insertNode(document.createTextNode(newMarker));
                 range.collapse(false);

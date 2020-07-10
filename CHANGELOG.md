@@ -68,6 +68,8 @@
 
 ### v3.3.6 / 2020-07-xx
 
+* [553](https://github.com/Vanessa219/vditor/issues/553) 子任务列表回车问题 `改进功能`
+
 ### v3.3.5 / 2020-07-09
 
 * [534](https://github.com/Vanessa219/vditor/issues/534) 支持导出到知乎 `引入特性`
