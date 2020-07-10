@@ -72,7 +72,7 @@
 ### v3.3.6 / 2020-07-09
 
 * [555](https://github.com/Vanessa219/vditor/issues/555) SV 模式段落块拆分问题 `修复缺陷`
-* [556](https://github.com/Vanessa219/vditor/issues/556) options.preview.markdown.setext 默认值修改为 false `改进功能`
+* [556](https://github.com/Vanessa219/vditor/issues/556) options.preview.markdown.setext 默认值修改为 true `改进功能`
 * [554](https://github.com/Vanessa219/vditor/issues/554) SV 模式 Ctrl+u 代码块生成光标初始定位优化 `改进功能`
 * [558](https://github.com/Vanessa219/vditor/issues/558) [suggestion] shift+enter and end the lists `改进功能`
 * [547](https://github.com/Vanessa219/vditor/issues/547) 文件上传 format 第一个参数 files 为空数组 `修复缺陷`
@@ -135,7 +135,7 @@
   * 添加 `destory` 方法
   * 添加 `options.upload.multiple`
   * 添加 `options.upload.fieldName`
-  * `options.preview.markdown.setext` 默认值修改为 `false`
+  * `options.preview.markdown.setext` 默认值修改为 `true`
 
 ### v3.2.12 / 2020-06-07
 
