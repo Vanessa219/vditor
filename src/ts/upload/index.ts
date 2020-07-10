@@ -192,7 +192,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
 
     const formData = new FormData();
     for (let i = 0, iMax = validateResult.length; i < iMax; i++) {
-        formData.append("file[]", validateResult[i]);
+        formData.append(vditor.options.upload.fieldName, validateResult[i]);
     }
 
     const extraData = vditor.options.upload.extraData;

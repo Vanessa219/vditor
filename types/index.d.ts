@@ -253,6 +253,8 @@ interface IUpload {
     extraData?: { [key: string]: string | Blob };
     /** 是否允许多文件上传。默认值：true */
     multiple?: boolean;
+    /** 上传字段名。默认值：file[] */
+    fieldName?: string;
 
     /** 每次上传前都会重新设置请求头 */
     setHeaders?(): IObject;

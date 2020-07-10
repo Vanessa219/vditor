@@ -337,6 +337,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | setHeaders | Use the return value to set the header before uploading (): { [key: string]: string } | - |
 | extraData | Append data to FormData { [key: string]: string | Blob } | - |
 | multiple | Allow multiple file uploads | true |
+| fieldName | The key of field name | file[] |
 
 #### options.resize
 

@@ -135,6 +135,7 @@ export class Options {
         typewriterMode: false,
         upload: {
             extraData: {},
+            fieldName: "file[]",
             filename: (name: string) => name.replace(/\W/g, ""),
             linkToImgUrl: "",
             max: 10 * 1024 * 1024,

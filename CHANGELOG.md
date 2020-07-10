@@ -68,8 +68,10 @@
 
 ### v3.3.6 / 2020-07-xx
 
+* [562](https://github.com/Vanessa219/vditor/issues/562) 为上传添加 fieldName 选项 `引入特性`
 * [553](https://github.com/Vanessa219/vditor/issues/553) 子任务列表回车问题 `改进功能`
-
+* 添加 `options.upload.fieldName`
+  
 ### v3.3.5 / 2020-07-09
 
 * [534](https://github.com/Vanessa219/vditor/issues/534) 支持导出到知乎 `引入特性`
