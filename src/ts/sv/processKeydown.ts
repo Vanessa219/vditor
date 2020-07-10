@@ -67,7 +67,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         const space = listElement.getAttribute("data-space");
         const taskMarkerElements = listElement.querySelectorAll('[data-type="task-marker"]');
         // 回车
-        if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+            // enter
             if (markerElement && startIndex ===
                 markerElement.textContent.length + space.length + (taskMarkerElements.length > 0 ? 4 : 0)) {
                 let addUndoStack = true;

@@ -68,6 +68,7 @@
 
 ### v3.3.6 / 2020-07-xx
 
+* [558](https://github.com/Vanessa219/vditor/issues/558) [suggestion] shift+enter and end the lists `改进功能`
 * [547](https://github.com/Vanessa219/vditor/issues/547) 文件上传 format 第一个参数 files 为空数组 `修复缺陷`
 * [562](https://github.com/Vanessa219/vditor/issues/562) 为上传添加 fieldName 选项 `引入特性`
 * [553](https://github.com/Vanessa219/vditor/issues/553) 子任务列表回车问题 `改进功能`
