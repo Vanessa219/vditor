@@ -211,15 +211,10 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     setHeaders(vditor, xhr);
     vditor.upload.isUploading = true;
     editorElement.setAttribute("contenteditable", "false");
-
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             vditor.upload.isUploading = false;
-            if (element) {
-                element.value = "";
-            }
             editorElement.setAttribute("contenteditable", "true");
-
             if (xhr.status === 200) {
                 if (vditor.options.upload.success) {
                     vditor.options.upload.success(editorElement, xhr.responseText);
@@ -236,6 +231,9 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
                 } else {
                     vditor.tip.show(xhr.responseText);
                 }
+            }
+            if (element) {
+                element.value = "";
             }
             vditor.upload.element.style.display = "none";
         }
