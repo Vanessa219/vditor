@@ -67,7 +67,7 @@ export class Options {
             emojiPath: `${Constants.CDN}/dist/images/emoji`,
         },
         lang: "zh_CN",
-        mode: "wysiwyg",
+        mode: "ir",
         outline: false,
         placeholder: "",
         preview: {

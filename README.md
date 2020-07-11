@@ -157,7 +157,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
 | typewriterMode | Whether to enable typewriter mode | false |
 | cdn | Configure self-built CDN address | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
-| mode | Editing mode: sv, ir, wysiwyg | 'wysiwyg' |
+| mode | Editing mode: sv, ir, wysiwyg | 'ir' |
 | debugger | Whether to display the log | false |
 | value | Editor initialization value | '' |
 | theme | Theme: classic, dark | 'classic' |

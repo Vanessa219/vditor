@@ -68,7 +68,10 @@
 
 ### v3.3.7 / 2020-07-xx
 
-  
+* [565](https://github.com/Vanessa219/vditor/issues/565) SV 模式支持缩进代码块 `改进功能`
+* [566](https://github.com/Vanessa219/vditor/issues/566) 行级代码解析渲染 `修复缺陷`
+* options.mode 默认值修改为 `ir`
+
 ### v3.3.6 / 2020-07-09
 
 * [555](https://github.com/Vanessa219/vditor/issues/555) SV 模式段落块拆分问题 `修复缺陷`
