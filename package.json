@@ -3,7 +3,7 @@
   "version": "3.3.6",
   "description": "♏ An In-browser Markdown editor, support WYSIWYG, Instant Rendering (Typora-like) and Split View modes.",
   "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
-  "homepage": "https://hacpai.com/tag/vditor",
+  "homepage": "https://vditor.b3log.org",
   "jsdelivr": "dist/index.min.js",
   "main": "dist/index.min.js",
   "funding": "https://hacpai.com/sponsor",
