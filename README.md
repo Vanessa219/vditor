@@ -27,17 +27,27 @@ The next generation of Markdown editor, built for the future
 
 Welcome to [Vditor Official Site](https://vditor.b3log.org) to learn more.
 
-## 📽️ Background
+## 🗺️ Background
 
-In the initial stage of developing [Sym](https://github.com/88250/symphony), we directly used WYSIWYG rich text editor. At that time, HTML-based editors were very popular, and it was very convenient to quote them in the project, which also conformed to the usage habits of users at that time.
+With the popularization of Markdown typesetting methods, more and more applications begin to integrate the Markdown editor. The current status of mainstream integrable Markdown editors is as follows:
 
-Later, the rise of Markdown gradually changed everyone's typography. In addition, several of our other projects are for programmer users, so it is also a general trend to migrate to md. We chose [CodeMirror](https://github.com/codemirror/CodeMirror), which is an excellent editor, it provides a rich programming interface for developers, and is also compatible with various browsers. it is good.
+* Some only support split-screen preview, that is, the editing area and preview area are separated
+* Some support WYSIWYG and split-screen previews at the same time, but they cannot fully support Markdown syntax typesetting in WYSIWYG mode
+* There is almost no instant rendering similar to Typora
 
-Later, as the business needs of our projects have precipitated, using CodeMirror sometimes feels more "cumbersome." For example, to implement @automatically complete the user name list, insert Emoji, upload files, etc., it requires more in-depth secondary development, and these business requirements are precisely common and necessary in many project scenarios.
+These three points correspond to three application scenarios:
 
-Finally, we decided to start implementing the editor ourselves in Sym. With the iterations of several versions, Sym's editor has matured. In the community [HacPai](https://hacpai.com) that we operate, people have asked us if we can separate the editor for everyone to use. At the same time, our front-end main programmer [V](https://hacpai.com/member/Vanessa) also felt a little bit overwhelmed with maintaining the editors scattered in various projects, plus a good impression of TypeScript, so I decided Use ts to implement a new browser-side md editor.
+* Split screen preview: adapt to the traditional Markdown usage scene, suitable for editing and typesetting on a large screen
+* WYSIWYG: Friendly to users who are not familiar with Markdown, users who are familiar with Markdown can also use it seamlessly
+* Instant rendering: In theory, this is the most elegant Markdown editing method, allowing users familiar with Markdown to focus more on content creation
 
-So, Vditor was born.
+Therefore, a Markdown editor that can **adapt to application scenarios** is essential, it needs to consider:
+
+* Use scenes of traditional Markdown users, providing split screen preview
+* Rich text editing users' usage scenarios, providing WYSIWYG
+* High-end Markdown users' use scenes, providing instant rendering
+
+Vditor has made efforts in these areas, hoping to make some contributions to the modern general Markdown editing field.
 
 ## ✨  Features
 
@@ -505,3 +515,15 @@ Vditor uses the [MIT](https://opensource.org/licenses/MIT) open source license.
 * [incubator-echarts](https://github.com/apache/incubator-echarts): A powerful, interactive charting and visualization library for browser
 * [abcjs](https://github.com/paulrosen/abcjs): JavaScript library for rendering standard music notation in a browser
 * [IntelliJ IDEA](https://www.jetbrains.com/?from=Vditor): Family of capable and ergonomic development environments
+
+## 📽️ History
+
+In the initial stage of developing [Sym](https://github.com/88250/symphony), we directly used WYSIWYG rich text editor. At that time, HTML-based editors were very popular, and it was very convenient to quote them in the project, which also conformed to the usage habits of users at that time.
+
+Later, the rise of Markdown gradually changed everyone's typography. In addition, several of our other projects are for programmer users, so it is also a general trend to migrate to md. We chose [CodeMirror](https://github.com/codemirror/CodeMirror), which is an excellent editor, it provides a rich programming interface for developers, and is also compatible with various browsers. it is good.
+
+Later, as the business needs of our projects have precipitated, using CodeMirror sometimes feels more "cumbersome." For example, to implement @automatically complete the user name list, insert Emoji, upload files, etc., it requires more in-depth secondary development, and these business requirements are precisely common and necessary in many project scenarios.
+
+Finally, we decided to start implementing the editor ourselves in Sym. With the iterations of several versions, Sym's editor has matured. In the community [HacPai](https://hacpai.com) that we operate, people have asked us if we can separate the editor for everyone to use. At the same time, our front-end main programmer [V](https://hacpai.com/member/Vanessa) also felt a little bit overwhelmed with maintaining the editors scattered in various projects, plus a good impression of TypeScript, so I decided Use ts to implement a new browser-side md editor.
+
+So, Vditor was born.
