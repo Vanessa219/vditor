@@ -18,6 +18,8 @@ $max-width: 520px !default;
   --toolbar-background-color: #f6f8fa;
   --toolbar-icon-color: #586069;
   --toolbar-icon-hover-color: #{$blurColor};
+  --toolbar-height: 35px;
+  --toolbar-divider-margin-top: 8px;
 
   --textarea-background-color: #fafbfc;
   --textarea-text-color: #24292e;

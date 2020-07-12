@@ -13,7 +13,7 @@ export const processAfterRender = (vditor: IVditor, options = {
     if (options.enableHint) {
         vditor.hint.render(vditor);
     }
-
+    vditor.preview.render(vditor);
     clearTimeout(vditor.sv.processTimeoutId);
     vditor.sv.processTimeoutId = window.setTimeout(() => {
         if (vditor.sv.composingLock) {
@@ -39,7 +39,7 @@ export const processAfterRender = (vditor: IVditor, options = {
         if (vditor.devtools) {
             vditor.devtools.renderEchart(vditor);
         }
-        vditor.preview.render(vditor);
+
         if (options.enableAddUndoStack) {
             vditor.undo.addToUndoStack(vditor);
         }

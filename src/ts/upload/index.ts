@@ -191,13 +191,14 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     }
 
     const formData = new FormData();
-    for (let i = 0, iMax = validateResult.length; i < iMax; i++) {
-        formData.append(vditor.options.upload.fieldName, validateResult[i]);
-    }
 
     const extraData = vditor.options.upload.extraData;
     for (const key of Object.keys(extraData)) {
         formData.append(key, extraData[key]);
+    }
+
+    for (let i = 0, iMax = validateResult.length; i < iMax; i++) {
+        formData.append(vditor.options.upload.fieldName, validateResult[i]);
     }
 
     const xhr = new XMLHttpRequest();
