@@ -68,7 +68,8 @@
 
 ### v3.3.7 / 2020-07-xx
 
-* [577](https://github.com/Vanessa219/vditor/pull/577) 粘贴 XML 代码问题 `修复缺陷`
+* [575](https://github.com/Vanessa219/vditor/issues/575) 编辑器存在 form 中，情景菜单会出发提交事件 `修复缺陷`
+* [577](https://github.com/Vanessa219/vditor/issues/577) 粘贴 XML 代码问题 `修复缺陷`
 * [573](https://github.com/Vanessa219/vditor/pull/573) style: 优化分隔符样式 `改进功能`
 * [572](https://github.com/Vanessa219/vditor/pull/572) fix: support aliyun oss `改进功能`
 * [570](https://github.com/Vanessa219/vditor/issues/570) no placeholder after(SV) `修复缺陷`
