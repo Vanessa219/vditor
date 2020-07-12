@@ -38,13 +38,46 @@ export class Preview {
             event.preventDefault();
         });
 
+        const actions = this.genActions(vditor.options.preview.actions);
+        // 如果只有一个选项时也没必要呈现
+        if (actions.length <= 1) {
+            this.element.appendChild(previewElement);
+            return ;
+        }
+
         const actionElement = document.createElement("div");
         actionElement.className = "vditor-preview__action";
-        actionElement.innerHTML = `<button class="vditor-preview__action--current" data-type="desktop">Desktop</button>
-<button data-type="tablet">Tablet</button>
-<button data-type="mobile">Mobile/Wechat</button>
-<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号">${mpWechatSVG}</button>
-<button data-type="zhihu" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到知乎">${zhihutSVG}</button>`;
+        const actionHtml: string[] = [];
+        const actionCustom: IPreviewActionCustom[] = [];
+        const customPrefix = `_custom-`;
+        for (let i = 0; i < actions.length; i++) {
+            const action = actions[i];
+            if (typeof action === "object") {
+                action.key = customPrefix + (action.key || `${i + 1}`);
+                actionCustom.push(action);
+                actionHtml.push(`
+                    <button data-type="${action.key}" class="${action.className}">${action.text}</button>`);
+                continue;
+            }
+            switch (action) {
+                case "desktop":
+                    actionHtml.push(`<button class="vditor-preview__action--current" data-type="desktop">Desktop</button>`);
+                    break;
+                case "tablet":
+                    actionHtml.push(`<button data-type="tablet">Tablet</button>`);
+                    break;
+                case "mobile":
+                    actionHtml.push(`<button data-type="mobile">Mobile/Wechat</button>`);
+                    break;
+                case "mp-wechat":
+                    actionHtml.push(`<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号">${mpWechatSVG}</button>`);
+                    break;
+                case "zhihu":
+                    actionHtml.push(`<button data-type="zhihu" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到知乎">${zhihutSVG}</button>`);
+                    break;
+            }
+        }
+        actionElement.innerHTML = actionHtml.join(``);
         this.element.appendChild(actionElement);
         this.element.appendChild(previewElement);
 
@@ -57,6 +90,11 @@ export class Preview {
             const type = btn.getAttribute("data-type");
             if (type === actionElement.querySelector(".vditor-preview__action--current").getAttribute("data-type")) {
                 return;
+            }
+
+            if (type.startsWith(customPrefix)) {
+                actionCustom.find((w: IPreviewActionCustom) => w.key === type).click();
+                return ;
             }
 
             if (type === "mp-wechat" || type === "zhihu") {
@@ -199,5 +237,14 @@ export class Preview {
         document.execCommand("copy");
         this.element.lastElementChild.remove();
         vditor.tip.show(`已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴`);
+    }
+
+    private genActions(actions: IPreviewActionType): Array<IPreviewAction| IPreviewActionCustom> {
+        if (actions === "none") {
+            return [];
+        } else if (actions === "all") {
+            return ["desktop" , "tablet" , "mobile" , "mp-wechat", "zhihu"];
+        }
+        return actions;
     }
 }
