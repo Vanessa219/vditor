@@ -68,9 +68,12 @@
 
 ### v3.3.7 / 2020-07-xx
 
+* [570](https://github.com/Vanessa219/vditor/issues/570) no placeholder after(SV) `修复缺陷`
+* [569](https://github.com/Vanessa219/vditor/issues/569) 预览区域工具栏配置 `引入特性`
 * [565](https://github.com/Vanessa219/vditor/issues/565) SV 模式支持缩进代码块 `改进功能`
 * [566](https://github.com/Vanessa219/vditor/issues/566) 行级代码解析渲染 `修复缺陷`
 * options.mode 默认值修改为 `ir`
+* 工具栏配置：默认值：["desktop", "tablet", "mobile", "mp-wechat", "zhihu"] 
 
 ### v3.3.6 / 2020-07-09
 
