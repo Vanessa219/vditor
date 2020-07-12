@@ -68,6 +68,8 @@
 
 ### v3.3.7 / 2020-07-xx
 
+* [573](https://github.com/Vanessa219/vditor/pull/573) style: 优化分隔符样式 `改进功能`
+* [572](https://github.com/Vanessa219/vditor/pull/572) fix: support aliyun oss `改进功能`
 * [570](https://github.com/Vanessa219/vditor/issues/570) no placeholder after(SV) `修复缺陷`
 * [569](https://github.com/Vanessa219/vditor/issues/569) 预览区域工具栏配置 `引入特性`
 * [565](https://github.com/Vanessa219/vditor/issues/565) SV 模式支持缩进代码块 `改进功能`
