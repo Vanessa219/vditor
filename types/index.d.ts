@@ -372,13 +372,9 @@ interface IPreview {
     markdown?: IMarkdownConfig;
     /** @link https://hacpai.com/article/1549638745630#options-preview-theme */
     theme?: IPreviewTheme;
-    /**
-     * 工具条，默认值：`all`
-     * - `all` 表示显示所有
-     * - `none` 表示不显示
-     * - `[ 'desktop', 'mobile']` 表示只显示桌面与手机
-     */
-    actions?: IPreviewActionType;
+    /** @link https://hacpai.com/article/1549638745630#options-preview-actions  */
+    actions?: Array<IPreviewAction | IPreviewActionCustom>;
+
     /** 预览回调 */
     parse?(element: HTMLElement): void;
 
@@ -387,25 +383,17 @@ interface IPreview {
 }
 
 type IPreviewAction = "desktop" | "tablet" | "mobile" | "mp-wechat" | "zhihu";
+
 interface IPreviewActionCustom {
-    /**
-     * 键名，不指定时自动生成
-     */
-    key?: string;
-    /**
-     * 按钮文本
-     */
+    /** 键名 */
+    key: string;
+    /** 按钮文本 */
     text: string;
-    /**
-     * 按钮 `class` 值
-     */
+    /** 按钮 className 值 */
     className?: string;
-    /**
-     * 点击时回调
-     */
-    click: () => void;
+    /** 点击回调 */
+    click: (key: string) => void;
 }
-type IPreviewActionType = "all" | "none" | Array<IPreviewAction | IPreviewActionCustom>;
 
 interface IPreviewOptions {
     customEmoji?: IObject;

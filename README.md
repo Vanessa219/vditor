@@ -271,6 +271,17 @@ new Vditor('vditor', {
 | macros | Macro definition passed in when rendering with MathJax | {} |
 | engine | Math formula rendering engine: KaTeX, MathJax | 'KaTeX' |
 
+#### options.preview.actions
+
+Default: "desktop" | "tablet" | "mobile" | "mp-wechat" | "zhihu"
+
+|   | Explanation | Default |
+| - | - | - |
+| key | Custom action ID, not Empty. | - |
+| text | Button Text | - |
+| className | Button Class | - |
+| click: (key: string) => void; | Click Event | - |
+
 #### options.hint
 
 |   | Explanation | Default |

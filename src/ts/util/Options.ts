@@ -71,7 +71,7 @@ export class Options {
         outline: false,
         placeholder: "",
         preview: {
-            actions: "all",
+            actions: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"],
             delay: 1000,
             hljs: Constants.HLJS_OPTIONS,
             markdown: Constants.MARKDOWN_OPTIONS,
