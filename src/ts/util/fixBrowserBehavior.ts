@@ -1269,7 +1269,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     if (codeElement) {
         // 粘贴在代码位置
         if (vditor.currentMode === "sv") {
-            document.execCommand("insertHTML", false, textPlain);
+            document.execCommand("insertHTML", false, textPlain.replace(/&/g, "&amp;").replace(/</g, "&lt;"));
         } else {
             const position = getSelectPosition(event.target, vditor[vditor.currentMode].element);
             if (codeElement.parentElement.tagName !== "PRE") {
