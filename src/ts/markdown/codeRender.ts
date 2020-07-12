@@ -2,10 +2,10 @@ import copySVG from "../../assets/icons/copy.svg";
 import {i18n} from "../i18n/index";
 import {code160to32} from "../util/code160to32";
 
-export const codeRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") => {
+export const codeRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") => {
     element.querySelectorAll("pre > code").forEach((e: HTMLElement, index: number) => {
         if (e.classList.contains("language-mermaid") || e.classList.contains("language-echarts") ||
-            e.classList.contains("language-mindmap")  || e.classList.contains("language-abc") ||
+            e.classList.contains("language-mindmap") || e.classList.contains("language-abc") ||
             e.classList.contains("language-graphviz")) {
             return;
         }

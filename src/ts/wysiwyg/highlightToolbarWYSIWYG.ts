@@ -1,7 +1,11 @@
 import alignCenterSVG from "../../assets/icons/align-center.svg";
-import downSVG from "../../assets/icons/down.svg";
 import alingLeftSVG from "../../assets/icons/align-left.svg";
 import alingRightSVG from "../../assets/icons/align-right.svg";
+import deleteColumnSVG from "../../assets/icons/delete-column.svg";
+import deleteRowSVG from "../../assets/icons/delete-row.svg";
+import downSVG from "../../assets/icons/down.svg";
+import insertColumnSVG from "../../assets/icons/insert-column.svg";
+import insertRowSVG from "../../assets/icons/insert-row.svg";
 import trashcanSVG from "../../assets/icons/trashcan.svg";
 import upSVG from "../../assets/icons/up.svg";
 import {Constants} from "../constants";
@@ -12,7 +16,7 @@ import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
-import {setTableAlign} from "../util/fixBrowserBehavior";
+import {deleteColumn, deleteRow, insertColumn, insertRow, setTableAlign} from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
     hasClosestByClassName,
@@ -22,8 +26,9 @@ import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHeading
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
+import {removeBlockElement} from "./processKeydown";
 
-export const highlightToolbar = (vditor: IVditor) => {
+export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
     vditor.wysiwyg.hlToolbarTimeoutId = window.setTimeout(() => {
         if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
@@ -262,6 +267,66 @@ export const highlightToolbar = (vditor: IVditor) => {
                 setAlign("right");
             };
 
+            const insertRowElement = document.createElement("button");
+            insertRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-row"] +
+                "<" + updateHotkeyTip("⌘-=") + ">");
+            insertRowElement.setAttribute("data-type", "insertRow");
+            insertRowElement.innerHTML = insertRowSVG;
+            insertRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            insertRowElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    insertRow(vditor, range, cellElement);
+                }
+            };
+
+            const insertColumnElement = document.createElement("button");
+            insertColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-column"] +
+                "<" + updateHotkeyTip("⌘-⇧-=") + ">");
+            insertColumnElement.setAttribute("data-type", "insertColumn");
+            insertColumnElement.innerHTML = insertColumnSVG;
+            insertColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            insertColumnElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    insertColumn(vditor, tableElement, cellElement);
+                }
+            };
+
+            const deleteRowElement = document.createElement("button");
+            deleteRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-row"] +
+                "<" + updateHotkeyTip("⌘--") + ">");
+            deleteRowElement.setAttribute("data-type", "deleteRow");
+            deleteRowElement.innerHTML = deleteRowSVG;
+            deleteRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            deleteRowElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    deleteRow(vditor, range, cellElement);
+                }
+            };
+
+            const deleteColumnElement = document.createElement("button");
+            deleteColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-column"] +
+                "<" + updateHotkeyTip("⌘-⇧--") + ">");
+            deleteColumnElement.setAttribute("data-type", "deleteColumn");
+            deleteColumnElement.innerHTML = deleteColumnSVG;
+            deleteColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            deleteColumnElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    deleteColumn(vditor, range, tableElement, cellElement);
+                }
+            };
+
             const inputWrap = document.createElement("span");
             inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].row);
             inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
@@ -287,6 +352,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     event.preventDefault();
                     return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             const input2Wrap = document.createElement("span");
@@ -314,6 +380,7 @@ export const highlightToolbar = (vditor: IVditor) => {
                     event.preventDefault();
                     return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             genUp(range, tableElement, vditor);
@@ -322,6 +389,10 @@ export const highlightToolbar = (vditor: IVditor) => {
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", left);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", center);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", right);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertRowElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertColumnElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", deleteRowElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", deleteColumnElement);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
@@ -356,6 +427,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLinkRef();
             };
             input.onkeydown = (event) => {
+                if (removeBlockElement(vditor, event)) {
+                    return;
+                }
                 linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input1);
             };
 
@@ -371,6 +445,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                 updateLinkRef();
             };
             input1.onkeydown = (event) => {
+                if (removeBlockElement(vditor, event)) {
+                    return;
+                }
                 linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
             };
 
@@ -409,7 +486,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                     range.collapse(false);
                     setSelectionFocus(range);
                     event.preventDefault();
+                    return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             genClose(footnotesRefElement, vditor);
@@ -435,15 +514,17 @@ export const highlightToolbar = (vditor: IVditor) => {
 
                 const codeElement = blockRenderElement.firstElementChild.firstElementChild;
 
-                const updateLanguage = () => {
-                    codeElement.className = `language-${language.value}`;
-                };
                 language.className = "vditor-input";
                 language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥-Enter") + ">");
                 language.value = codeElement.className.indexOf("language-") > -1 ?
-                    codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
+                    codeElement.className.split("-")[1].split(" ")[0] : "";
                 language.oninput = () => {
-                    updateLanguage();
+                    if (language.value.trim() !== "") {
+                        codeElement.className = `language-${language.value}`;
+                    } else {
+                        codeElement.className = "";
+                        vditor.hint.recentLanguage = "";
+                    }
                     if (blockRenderElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
                         blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML;
                         processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
@@ -454,6 +535,14 @@ export const highlightToolbar = (vditor: IVditor) => {
                     if (event.isComposing) {
                         return;
                     }
+                    if (removeBlockElement(vditor, event)) {
+                        return;
+                    }
+                    if (event.key === "Escape" && vditor.hint.element.style.display === "block") {
+                        vditor.hint.element.style.display = "none";
+                        event.preventDefault();
+                        return;
+                    }
                     if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
                         range.setStart(codeElement.firstChild, 0);
                         range.collapse(true);
@@ -462,7 +551,8 @@ export const highlightToolbar = (vditor: IVditor) => {
                     vditor.hint.select(event, vditor);
                 };
                 language.onkeyup = (event: KeyboardEvent) => {
-                    if (event.isComposing || event.key === "Enter" || event.key === "ArrowUp" || event.key === "ArrowDown") {
+                    if (event.isComposing || event.key === "Enter" || event.key === "ArrowUp" || event.key === "Escape"
+                        || event.key === "ArrowDown") {
                         return;
                     }
                     const matchLangData: IHintData[] = [];
@@ -515,7 +605,9 @@ export const highlightToolbar = (vditor: IVditor) => {
                     range.collapse(false);
                     setSelectionFocus(range);
                     event.preventDefault();
+                    return;
                 }
+                removeBlockElement(vditor, event);
             };
 
             genUp(range, headingElement, vditor);
@@ -588,7 +680,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
         previousElement.insertAdjacentElement("beforebegin", element);
         setRangeByWbr(vditor.wysiwyg.element, range);
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
         scrollCenter(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", upElement);
@@ -610,16 +702,13 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
         nextElement.insertAdjacentElement("afterend", element);
         setRangeByWbr(vditor.wysiwyg.element, range);
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
         scrollCenter(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", downElement);
 };
 
 const genClose = (element: HTMLElement, vditor: IVditor) => {
-    if (vditor.wysiwyg.element.children.length === 1 && vditor.wysiwyg.element.firstElementChild.tagName === "P") {
-        return;
-    }
     const close = document.createElement("button");
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
@@ -632,7 +721,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
         setSelectionFocus(range);
         element.remove();
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 };
@@ -686,6 +775,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
         linkHotkey(vditor.wysiwyg.element, aElement, event, input1);
     };
 
@@ -701,6 +793,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input1.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
         linkHotkey(vditor.wysiwyg.element, aElement, event, input2);
     };
 
@@ -717,6 +812,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         updateA();
     };
     input2.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
         linkHotkey(vditor.wysiwyg.element, aElement, event, input);
     };
 
@@ -747,6 +845,9 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     inputElement.oninput = () => {
         updateImg();
     };
+    inputElement.onkeydown = (elementEvent) => {
+        removeBlockElement(vditor, elementEvent);
+    };
 
     const altWrap = document.createElement("span");
     altWrap.setAttribute("aria-label", i18n[vditor.options.lang].alternateText);
@@ -760,6 +861,9 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     alt.oninput = () => {
         updateImg();
     };
+    alt.onkeydown = (elementEvent) => {
+        removeBlockElement(vditor, elementEvent);
+    };
 
     const titleWrap = document.createElement("span");
     titleWrap.setAttribute("aria-label", "Title");
@@ -772,6 +876,10 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     title.oninput = () => {
         updateImg();
     };
+    title.onkeydown = (elementEvent) => {
+        removeBlockElement(vditor, elementEvent);
+    };
+    genClose(imgElement, vditor);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", titleWrap);

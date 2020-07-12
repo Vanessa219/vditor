@@ -1,13 +1,12 @@
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
-import {highlightToolbar as IRHighlightToolbar} from "../ir/highlightToolbar";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {formatRender} from "../sv/formatRender";
+import {processAfterRender as processSVAfterRender} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
+import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {
@@ -45,9 +44,8 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     disableToolbar(vditor.toolbar.elements, ["outdent", "indent"]);
 
     if (type === "ir") {
-        hideToolbar(vditor.toolbar.elements, ["format", "both"]);
+        hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
-        vditor.irUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "block";
@@ -65,16 +63,9 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
             processCodeRender(item, vditor);
         });
-
-        if (typeof event !== "string") {
-            // 初始化不 focus
-            vditor.ir.element.focus();
-            IRHighlightToolbar(vditor);
-        }
     } else if (type === "wysiwyg") {
-        hideToolbar(vditor.toolbar.elements, ["format", "both"]);
+        hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
-        vditor.wysiwygUndo.resetIcon(vditor);
         vditor.sv.element.style.display = "none";
         vditor.wysiwyg.element.parentElement.style.display = "block";
         vditor.ir.element.parentElement.style.display = "none";
@@ -82,18 +73,15 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.currentMode = "wysiwyg";
 
         setPadding(vditor);
-        renderDomByMd(vditor, markdownText, false);
-
-        if (typeof event !== "string") {
-            // 初始化不 focus
-            vditor.wysiwyg.element.focus();
-            highlightToolbar(vditor);
-        }
+        renderDomByMd(vditor, markdownText, {
+            enableAddUndoStack: true,
+            enableHint: false,
+            enableInput: false,
+        });
         vditor.wysiwyg.popover.style.display = "none";
     } else if (type === "sv") {
-        showToolbar(vditor.toolbar.elements, ["format", "both"]);
+        showToolbar(vditor.toolbar.elements, ["both"]);
         hideToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
-        vditor.undo.resetIcon(vditor);
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "none";
         if (vditor.options.preview.mode === "both") {
@@ -102,16 +90,19 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.sv.element.style.display = "block";
         }
         vditor.currentMode = "sv";
-        formatRender(vditor, markdownText, undefined, {
+        vditor.sv.element.innerHTML = vditor.lute.SpinVditorSVDOM(markdownText);
+        processSVAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,
             enableInput: false,
         });
-        if (typeof event !== "string") {
-            // 初始化不 focus
-            vditor.sv.element.focus();
-        }
         setPadding(vditor);
+    }
+    vditor.undo.resetIcon(vditor);
+    if (typeof event !== "string") {
+        // 初始化不 focus
+        vditor[vditor.currentMode].element.focus();
+        highlightToolbar(vditor);
     }
     if (typeof event === "string") {
         vditor.outline.render(vditor);

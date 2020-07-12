@@ -37,12 +37,12 @@
   blockquote:empty::before,
   pre > code:empty::before,
   p:empty::before,
-  & > h1:empty::after,
-  & > h2:empty::after,
-  & >  h3:empty::after,
-  & > h4:empty::after,
-  & > h5:empty::after,
-  & > h6:empty::after {
+  h1:empty::after,
+  h2:empty::after,
+  h3:empty::after,
+  h4:empty::after,
+  h5:empty::after,
+  h6:empty::after {
     content: ' ';
   }
 
@@ -76,12 +76,12 @@
     }
   }
 
-  & > h1:before,
-  & > h2:before,
-  & >  h3:before,
-  & > h4:before,
-  & > h5:before,
-  & > h6:before,
+  & > .vditor-reset > h1:before,
+  & > .vditor-reset > h2:before,
+  & > .vditor-reset > h3:before,
+  & > .vditor-reset > h4:before,
+  & > .vditor-reset > h5:before,
+  & > .vditor-reset > h6:before,
   div.vditor-wysiwyg__block:before,
   div[data-type="link-ref-defs-block"]:before,
   div[data-type="footnotes-block"]:before,
@@ -95,23 +95,23 @@
     color: var(--second-color);
   }
 
-  & > h2:before {
+  & > .vditor-reset > h2:before {
     content: 'H2';
   }
 
-  & > h3:before {
+  & > .vditor-reset > h3:before {
     content: 'H3';
   }
 
-  & > h4:before {
+  & > .vditor-reset > h4:before {
     content: 'H4';
   }
 
-  & > h5:before {
+  & > .vditor-reset > h5:before {
     content: 'H5';
   }
 
-  & > h6:before {
+  & > .vditor-reset > h6:before {
     content: 'H6';
   }
 

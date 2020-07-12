@@ -1,125 +1,202 @@
-import {getMarkdown} from "../markdown/getMarkdown";
 import {isCtrl} from "../util/compatibility";
+import {fixTab} from "../util/fixBrowserBehavior";
+import {hasClosestByAttribute} from "../util/hasClosest";
 import {matchHotKey} from "../util/hotKey";
-import {getSelectPosition} from "../util/selection";
-import {formatRender} from "./formatRender";
-import {getCurrentLinePosition} from "./getCurrentLinePosition";
-import {insertText} from "./insertText";
+import {getEditorRange, getSelectPosition} from "../util/selection";
+import {inputEvent} from "./inputEvent";
+import {processAfterRender} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
-    vditor.undo.recordFirstPosition(vditor);
+    vditor.sv.composingLock = event.isComposing;
+    if (event.isComposing) {
+        return false;
+    }
+    if (event.key.indexOf("Arrow") === -1) {
+        vditor.undo.recordFirstPosition(vditor, event);
+    }
+    // 仅处理以下快捷键操作
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
+        && !isCtrl(event) && event.key !== "Escape") {
+        return false;
+    }
+    const range = getEditorRange(vditor.sv.element);
+    const startContainer = range.startContainer;
 
-    const editorElement = vditor.sv.element;
-    const position = getSelectPosition(editorElement);
-    const text = getMarkdown(vditor);
-    // tab and shift + tab
-    if (vditor.options.tab && event.key === "Tab") {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const selectLinePosition = getCurrentLinePosition(position, text);
-        const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
-
-        if (event.shiftKey) {
-            let shiftCount = 0;
-            let startIsShift = false;
-            const selectionShiftResult = selectLineList.map((value, index) => {
-                let shiftLineValue = value;
-                if (value.indexOf(vditor.options.tab) === 0) {
-                    if (index === 0) {
-                        startIsShift = true;
-                    }
-                    shiftCount++;
-                    shiftLineValue = value.replace(vditor.options.tab, "");
-                }
-                return shiftLineValue;
-            }).join("\n");
-
-            formatRender(vditor, text.substring(0, selectLinePosition.start) +
-                selectionShiftResult + text.substring(selectLinePosition.end - 1),
-                {
-                    end: position.end - shiftCount * vditor.options.tab.length,
-                    start: position.start - (startIsShift ? vditor.options.tab.length : 0),
-                });
-            return true;
-        }
-
-        if (position.start === position.end) {
-            insertText(vditor, vditor.options.tab, "");
-            return true;
-        }
-        const selectionResult = selectLineList.map((value) => {
-            return vditor.options.tab + value;
-        }).join("\n");
-        formatRender(vditor, text.substring(0, selectLinePosition.start) + selectionResult +
-            text.substring(selectLinePosition.end - 1),
-            {
-                end: position.end + selectLineList.length * vditor.options.tab.length,
-                start: position.start + vditor.options.tab.length,
+    // blockquote
+    const blockquoteLineElement = hasClosestByAttribute(startContainer, "data-type", "blockquote-line");
+    if (blockquoteLineElement) {
+        const startIndex = getSelectPosition(blockquoteLineElement, vditor.sv.element, range).start;
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && startIndex !== 0) {
+            let markerLength = 0;
+            blockquoteLineElement.querySelectorAll('[data-type="blockquote-marker"').forEach((item: HTMLElement) => {
+                markerLength += item.textContent.length;
             });
-        return true;
+            if (startIndex === markerLength && markerLength > 1) {
+                // 在 marker 中换行，删除 marker 标记
+                blockquoteLineElement.firstElementChild.remove();
+                event.preventDefault();
+                processAfterRender(vditor);
+                return true;
+            } else if (blockquoteLineElement.textContent.trim() !== "") {
+                // 换行应延续 >
+                range.insertNode(document.createTextNode("\n>"));
+                range.collapse(false);
+                inputEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
+        // 光标在每一行的第一个字符后删除
+        if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey && startIndex === 1) {
+            range.setStart(startContainer, 0);
+            range.extractContents();
+            if (blockquoteLineElement.firstElementChild.textContent === "") {
+                blockquoteLineElement.firstElementChild.remove();
+            }
+            processAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
     }
 
-    // delete
-    if (!isCtrl(event) && !event.shiftKey && event.keyCode === 8) {
-        if (position.start !== position.end) {
-            insertText(vditor, "", "", true);
+    // list item
+    const listElement = hasClosestByAttribute(startContainer, "data-type", "li");
+    if (listElement) {
+        const markerElement = listElement.querySelector('[data-type="li-marker"]');
+        const startIndex = getSelectPosition(listElement, vditor.sv.element, range).start;
+        const space = listElement.getAttribute("data-space");
+        const taskMarkerElements = listElement.querySelectorAll('[data-type="task-marker"]');
+        // 回车
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey && startIndex !== 0) {
+            // enter
+            if (markerElement && startIndex ===
+                markerElement.textContent.length + space.length + (taskMarkerElements.length > 0 ? 4 : 0)) {
+                let addUndoStack = true;
+                // 清空列表标记符
+                if (space === "") {
+                    markerElement.remove();
+                } else {
+                    markerElement.previousElementSibling.remove();
+                    inputEvent(vditor);
+                    addUndoStack = false;
+                }
+                if (taskMarkerElements.length > 0) {
+                    listElement.querySelectorAll('[data-type="task-marker"]').forEach((item: HTMLElement) => {
+                        item.remove();
+                    });
+                }
+                if (addUndoStack) {
+                    processAfterRender(vditor);
+                }
+            } else {
+                // 添加标记符号
+                let newMarker = "\n";
+                if (markerElement) {
+                    newMarker += space + markerElement.textContent;
+                }
+                if (taskMarkerElements.length > 0) {
+                    newMarker += "[ ] ";
+                }
+                range.insertNode(document.createTextNode(newMarker));
+                range.collapse(false);
+                inputEvent(vditor);
+            }
+            event.preventDefault();
+            return true;
+        }
+        // 光标在每一行的第一个字符后删除
+        if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+            const firstElement = hasClosestByAttribute(startContainer, "data-type", "li-marker") ||
+                hasClosestByAttribute(startContainer, "data-type", "li-space");
+            if (firstElement && startIndex === 1) {
+                range.setStart(startContainer, 0);
+                range.extractContents();
+                if (firstElement.textContent === "") {
+                    firstElement.remove();
+                }
+                processAfterRender(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
+        // 第一个 marker 后 tab 进行缩进
+        if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + space.length
+            + (taskMarkerElements.length > 0 ? taskMarkerElements[1].textContent.length + 3 : 0)) {
+            if (/^\d/.test(markerElement.textContent)) {
+                markerElement.textContent = "1. ";
+                range.selectNodeContents(markerElement.firstChild);
+                range.collapse(false);
+            }
+            markerElement.insertAdjacentHTML("beforebegin",
+                `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
+            inputEvent(vditor);
+            event.preventDefault();
+            return true;
+        }
+        // toggle checked
+        if (taskMarkerElements.length > 0 && matchHotKey("⌘-⇧-J", event)) {
+            if (taskMarkerElements[1].textContent === " ") {
+                taskMarkerElements[1].textContent = "x";
+            } else {
+                taskMarkerElements[1].textContent = " ";
+            }
+            processAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    // tab
+    if (fixTab(vditor, range, event)) {
+        return true;
+    }
+    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+
+    // 回车，除 list item，blockquote 的 marker 延续和清除外
+    if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+        let isFirst = false;
+        if (blockElement && getSelectPosition(blockElement, vditor.sv.element).start === 0) {
+            // 允许段落开始换行
+            isFirst = true;
+        }
+        // 添加 \n
+        range.insertNode(document.createTextNode("\n"));
+        range.collapse(false);
+        if ((!blockElement || blockElement?.textContent.trim() !== "") && !isFirst) {
+            inputEvent(vditor);
         } else {
-            // delete emoji
-            const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}][\u{2000}-\u{206F}][\u{2700}-\u{27BF}]|([\u{1F900}-\u{1F9FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F600}-\u{1F64F}])[\u{2000}-\u{206F}][\u{2600}-\u{26FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
-            const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
-            formatRender(vditor,
-                text.substring(0, position.start - deleteChar) + text.substring(position.start),
-                {
-                    end: position.start - deleteChar,
-                    start: position.start - deleteChar,
-                }, {
-                    enableAddUndoStack: true,
-                    enableHint: true,
-                    enableInput: true,
-                });
+            processAfterRender(vditor);
         }
         event.preventDefault();
-        event.stopPropagation();
         return true;
     }
 
-    // hotkey command + delete
-    if (vditor.options.keymap.deleteLine && matchHotKey(vditor.options.keymap.deleteLine, event)) {
-        const linePosition = getCurrentLinePosition(position, text);
-        const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
-        const startIndex = Math.min(deletedText.length, position.start);
-        formatRender(vditor, deletedText, {
-            end: startIndex,
-            start: startIndex,
-        });
-        event.preventDefault();
-        return true;
-    }
-
-    // hotkey command + d
-    if (vditor.options.keymap.duplicate && matchHotKey(vditor.options.keymap.duplicate, event)) {
-        let lineText = text.substring(position.start, position.end);
-        if (position.start === position.end) {
-            const linePosition = getCurrentLinePosition(position, text);
-            lineText = text.substring(linePosition.start, linePosition.end);
-            formatRender(vditor,
-                text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
-                {
-                    end: position.end + lineText.length,
-                    start: position.start + lineText.length,
-                });
-        } else {
-            formatRender(vditor,
-                text.substring(0, position.end) + lineText + text.substring(position.end),
-                {
-                    end: position.end + lineText.length,
-                    start: position.start + lineText.length,
-                });
+    // 删除后光标前有 newline 的处理
+    if (blockElement && event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+        const startIndex = getSelectPosition(blockElement, vditor.sv.element, range).start;
+        // 光标在每一行的开始位置
+        if (startIndex === 0 && blockElement.previousElementSibling &&
+            blockElement.previousElementSibling.lastElementChild.getAttribute("data-type") === "newline") {
+            blockElement.previousElementSibling.lastElementChild.remove();
+            range.extractContents();
+            if (blockElement.textContent.trim() !== "") {
+                inputEvent(vditor);
+            } else {
+                processAfterRender(vditor);
+            }
+            event.preventDefault();
+            return true;
         }
-        event.preventDefault();
-        return true;
+        // 光标在每一行的第一个字符后, list item、blockquote line 处理在上方
+        const textElement = hasClosestByAttribute(startContainer, "data-type", "text");
+        if (textElement && range.startOffset === 1 && textElement.previousElementSibling &&
+            textElement.previousElementSibling.getAttribute("data-type") === "newline") {
+            range.setStart(startContainer, 0);
+            range.extractContents();
+            processAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
     }
-
     return false;
 };

@@ -4,6 +4,10 @@ declare module "*.png";
 
 declare const Lute: ILute;
 
+interface IObject {
+    [key: string]: string;
+}
+
 interface ILuteNode {
     TokensStr: () => string;
     __internal_object__: {
@@ -92,7 +96,7 @@ interface ILuteRender {
 }
 
 interface ILuteOptions extends IMarkdownConfig {
-    emojis: { [key: string]: string };
+    emojis: IObject;
     emojiSite: string;
     headingAnchor: boolean;
     inlineMathDigit: boolean;
@@ -104,6 +108,7 @@ interface ILute {
     WalkSkipChildren: number;
     WalkContinue: number;
     Version: string;
+    Caret: string;
 
     New(): ILute;
 
@@ -113,16 +118,20 @@ interface ILute {
         renderers: {
             HTML2VditorDOM?: ILuteRender,
             HTML2VditorIRDOM?: ILuteRender,
+            HTML2VditorSVDOM?: ILuteRender,
             HTML2Md?: ILuteRender,
             Md2HTML?: ILuteRender,
             Md2VditorDOM?: ILuteRender,
             Md2VditorIRDOM?: ILuteRender,
+            Md2VditorSVDOM?: ILuteRender,
         },
     }): void;
 
     SetChineseParagraphBeginningSpace(enable: boolean): void;
 
-    SetRenderListMarker(enable: boolean): void;
+    SetRenderListStyle(enable: boolean): void;
+
+    SetLinkBase(url: string): void;
 
     SetSanitize(enable: boolean): void;
 
@@ -148,9 +157,9 @@ interface ILute {
 
     SetVditorCodeBlockPreview(enable: boolean): void;
 
-    PutEmojis(emojis: { [key: string]: string }): void;
+    PutEmojis(emojis: IObject): void;
 
-    GetEmojis(): { [key: string]: string };
+    GetEmojis(): IObject;
 
     FormatMd(markdown: string): string;
 
@@ -185,12 +194,22 @@ interface ILute {
     VditorIRDOM2Md(html: string): string;
 
     // md 转换为 ir
-    Md2VditorIRDOM(html: string): string;
+    Md2VditorIRDOM(text: string): string;
 
     // 获取 HTML
     VditorIRDOM2HTML(html: string): string;
 
+    // 粘贴时将 html 转换为 sv
     HTML2VditorIRDOM(html: string): string;
+
+    // sv 输入渲染
+    SpinVditorSVDOM(text: string): string;
+
+    // 粘贴时将 html 转换为 sv
+    HTML2VditorSVDOM(html: string): string;
+
+    // md 转换为 sv
+    Md2VditorSVDOM(text: string): string;
 }
 
 declare const webkitAudioContext: {
@@ -198,20 +217,20 @@ declare const webkitAudioContext: {
     new(contextOptions?: AudioContextOptions): AudioContext,
 };
 
-interface II18nLang {
-    en_US: string;
-    ko_KR: string;
-    zh_CN: string;
-}
-
 interface II18n {
-    en_US: { [key: string]: string };
-    ko_KR: { [key: string]: string };
-    zh_CN: { [key: string]: string };
+    en_US: IObject;
+    ko_KR: IObject;
+    zh_CN: IObject;
 }
 
 interface IClasses {
     preview?: string;
+}
+
+interface IPreviewTheme {
+    current: string;
+    list?: IObject;
+    path: string;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-upload */
@@ -229,12 +248,16 @@ interface IUpload {
     /** 跨站点访问控制。默认值: false */
     withCredentials?: boolean;
     /** 请求头设置 */
-    headers?: { [key: string]: string };
+    headers?: IObject;
     /** 额外请求参数 */
     extraData?: { [key: string]: string | Blob };
+    /** 是否允许多文件上传。默认值：true */
+    multiple?: boolean;
+    /** 上传字段名。默认值：file[] */
+    fieldName?: string;
 
     /** 每次上传前都会重新设置请求头 */
-    setHeaders?(): { [key: string]: string };
+    setHeaders?(): IObject;
 
     /** 上传成功回调 */
     success?(editor: HTMLPreElement, msg: string): void;
@@ -325,10 +348,10 @@ interface IMarkdownConfig {
     setext: boolean;
     /** 是否启用过滤 XSS。默认值: true */
     sanitize: boolean;
-    /** 内容主题。默认值：light */
-    theme?: string;
+    /** 链接前缀。默认值：'' */
+    linkBase?: string;
     /** 为列表添加标记，以便[自定义列表样式](https://github.com/Vanessa219/vditor/issues/390) 默认值：false */
-    listMarker?: boolean;
+    listStyle?: boolean;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview */
@@ -347,6 +370,10 @@ interface IPreview {
     math?: IMath;
     /** @link https://hacpai.com/article/1549638745630#options-preview-markdown */
     markdown?: IMarkdownConfig;
+    /** @link https://hacpai.com/article/1549638745630#options-preview-theme */
+    theme?: IPreviewTheme;
+    /** @link https://hacpai.com/article/1549638745630#options-preview-actions  */
+    actions?: Array<IPreviewAction | IPreviewActionCustom>;
 
     /** 预览回调 */
     parse?(element: HTMLElement): void;
@@ -355,9 +382,22 @@ interface IPreview {
     transform?(html: string): string;
 }
 
+type IPreviewAction = "desktop" | "tablet" | "mobile" | "mp-wechat" | "zhihu";
+
+interface IPreviewActionCustom {
+    /** 键名 */
+    key: string;
+    /** 按钮文本 */
+    text: string;
+    /** 按钮 className 值 */
+    className?: string;
+    /** 点击回调 */
+    click: (key: string) => void;
+}
+
 interface IPreviewOptions {
-    customEmoji?: { [key: string]: string };
-    lang?: (keyof II18nLang);
+    customEmoji?: IObject;
+    lang?: (keyof II18n);
     lazyLoadImage?: string;
     emojiPath?: string;
     hljs?: IHljs;
@@ -369,6 +409,7 @@ interface IPreviewOptions {
     cdn?: string;
     markdown?: IMarkdownConfig;
     renderers?: ILuteRender;
+    theme?: IPreviewTheme;
 
     transform?(html: string): string;
 
@@ -387,7 +428,7 @@ interface IHint {
     /** 提示 debounce 毫秒间隔。默认值: 200 */
     delay?: number;
     /** 默认表情，可从 [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go#L32) 中选取，也可自定义 */
-    emoji?: { [key: string]: string };
+    emoji?: IObject;
     /** 表情图片地址。默认值: 'https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji' */
     emojiPath?: string;
 
@@ -410,8 +451,6 @@ interface IOptions {
     debugger?: boolean;
     /** 是否启用打字机模式。默认值: false */
     typewriterMode?: boolean;
-    /** @link https://hacpai.com/article/1549638745630#options-keymap */
-    keymap?: { [key: string]: string };
     /** 编辑器总高度。默认值: 'auto' */
     height?: number | string;
     /** 编辑器最小高度 */
@@ -421,7 +460,7 @@ interface IOptions {
     /** 输入区域为空时的提示。默认值: '' */
     placeholder?: string;
     /** 多语言。默认值: 'zh_CN' */
-    lang?: (keyof II18nLang);
+    lang?: (keyof II18n);
     /** @link https://hacpai.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
     /** @link https://hacpai.com/article/1549638745630#options-resize */
@@ -445,7 +484,7 @@ interface IOptions {
     /** @link https://hacpai.com/article/1549638745630#options-hint */
     hint?: IHint;
     /** @link https://hacpai.com/article/1549638745630#options-toolbarConfig */
-    toolbarConfig: {
+    toolbarConfig?: {
         hide?: boolean,
         pin?: boolean,
     };
@@ -513,9 +552,6 @@ interface IVditor {
         element: HTMLElement
         render(vditor: IVditor, value?: string): void,
     };
-    sv?: {
-        element: HTMLPreElement,
-    };
     counter?: {
         element: HTMLElement
         render(vditor: IVditor, mdText?: string): void,
@@ -543,24 +579,11 @@ interface IVditor {
         range: Range,
     };
     undo?: {
+        clearStack(vditor: IVditor): void,
         redo(vditor: IVditor): void
         undo(vditor: IVditor): void
         addToUndoStack(vditor: IVditor): void
-        recordFirstPosition(vditor: IVditor): void,
-        resetIcon(vditor: IVditor): void,
-    };
-    wysiwygUndo?: {
-        redo(vditor: IVditor): void
-        undo(vditor: IVditor): void
-        addToUndoStack(vditor: IVditor): void
-        recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
-        resetIcon(vditor: IVditor): void,
-    };
-    irUndo?: {
-        redo(vditor: IVditor): void
-        undo(vditor: IVditor): void
-        addToUndoStack(vditor: IVditor): void
-        recordFirstWbr(vditor: IVditor, event: KeyboardEvent): void,
+        recordFirstPosition(vditor: IVditor, event: KeyboardEvent): void,
         resetIcon(vditor: IVditor): void,
     };
     wysiwyg?: {
@@ -577,5 +600,12 @@ interface IVditor {
         preventInput: boolean,
         processTimeoutId: number,
         hlToolbarTimeoutId: number,
+    };
+    sv?: {
+        element: HTMLPreElement,
+        processTimeoutId: number,
+        hlToolbarTimeoutId: number,
+        composingLock: boolean,
+        preventInput: boolean,
     };
 }

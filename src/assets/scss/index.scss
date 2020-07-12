@@ -34,7 +34,7 @@ $max-width: 520px !default;
 
   --ir-heading-color: #660e7a;
   --ir-title-color: #808080;
-  --ir-bi-color: #000080;
+  --ir-bi-color: #0033b3;
   --ir-link-color: #008000;
   --ir-bracket-color: #0000ff;
   --ir-paren-color: #008000;
@@ -80,3 +80,4 @@ $max-width: 520px !default;
 @import "reset";
 @import "wysiwyg";
 @import "ir";
+@import "sv";

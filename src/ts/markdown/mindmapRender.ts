@@ -1,16 +1,19 @@
-import {VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare const echarts: {
     init(element: HTMLElement): IEChart;
 };
 
-export const mindmapRender = (element: (HTMLElement | Document) = document,
-                              cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
+export const mindmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
     const mindmapElements = element.querySelectorAll(".language-mindmap");
     if (mindmapElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
             mindmapElements.forEach((e: HTMLDivElement) => {
+                const text = e.getAttribute("data-code");
+                if (!text) {
+                    return;
+                }
                 try {
                     if (e.getAttribute("data-processed") === "true") {
                         return;
@@ -18,7 +21,7 @@ export const mindmapRender = (element: (HTMLElement | Document) = document,
                     const option = {
                         series: [
                             {
-                                data: [JSON.parse(decodeURIComponent(e.getAttribute("data-code")))],
+                                data: [JSON.parse(decodeURIComponent(text))],
                                 initialTreeDepth: -1,
                                 itemStyle: {
                                     borderWidth: 0,

@@ -1,7 +1,7 @@
 import {isToC, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
-    hasClosestBlock, hasClosestByAttribute,
+    hasClosestBlock, hasClosestByAttribute, hasTopClosestByTag,
 } from "../util/hasClosest";
 import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
@@ -55,6 +55,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         }
 
         const isWYSIWYGElement = blockElement.isEqualNode(vditor.wysiwyg.element);
+        const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
 
         if (!isWYSIWYGElement) {
             // 列表需要到最顶层
@@ -70,7 +71,6 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             }
 
             // 修改脚注
-            const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
             if (footnoteElement) {
                 blockElement = footnoteElement;
             }
@@ -114,10 +114,11 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             .replace(/<\/(em|i)><em data-marker="\W{1}">/g, "")
             .replace(/<\/(s|strike)><s data-marker="~{1,2}">/g, "");
 
+        if (html === '<p data-block="0">```<wbr></p>' && vditor.hint.recentLanguage) {
+            html = '<p data-block="0">```<wbr></p>'.replace("```", "```" + vditor.hint.recentLanguage);
+        }
         log("SpinVditorDOM", html, "argument", vditor.options.debugger);
-
         html = vditor.lute.SpinVditorDOM(html);
-
         log("SpinVditorDOM", html, "result", vditor.options.debugger);
 
         if (isWYSIWYGElement) {
@@ -133,10 +134,21 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             if (allFootnoteElement) {
                 vditor.wysiwyg.element.insertAdjacentElement("beforeend", allFootnoteElement);
             }
+
+            if (footnoteElement) {
+                // 更新正文中的 tip
+                const footnoteItemElement = hasTopClosestByTag(vditor.wysiwyg.element.querySelector("wbr"), "LI");
+                if (footnoteItemElement) {
+                    const footnoteRefElement = vditor.wysiwyg.element.querySelector(`sup[data-type="footnotes-ref"][data-footnotes-label="${footnoteItemElement.getAttribute("data-marker")}"]`);
+                    if (footnoteRefElement) {
+                        footnoteRefElement.setAttribute("aria-label", footnoteItemElement.textContent.trim());
+                    }
+                }
+            }
         }
 
-        if (hasClosestByHeadings(blockElement) || html.startsWith("<h") || event.inputType === "deleteContentBackward"
-            || event.inputType === "deleteContentForward") {
+        if (hasClosestByHeadings(blockElement) || html.startsWith("<h") || event?.inputType === "deleteContentBackward"
+            || event?.inputType === "deleteContentForward") {
             renderToc(vditor);
         }
 
@@ -145,8 +157,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
 
         vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview[data-render='2']")
             .forEach((item: HTMLElement) => {
-            processCodeRender(item, vditor);
-        });
+                processCodeRender(item, vditor);
+            });
     }
 
     afterRenderEvent(vditor, {

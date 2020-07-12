@@ -1,11 +1,11 @@
 import {Constants} from "../constants";
 import {removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
 import {listToggle} from "../util/fixBrowserBehavior";
-import {hasClosestBlock, hasClosestByAttribute, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestBlock, hasClosestByMatchTag} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {genAPopover, highlightToolbar} from "./highlightToolbar";
+import {genAPopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
 
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
@@ -73,9 +73,10 @@ const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
     setRangeByWbr(vditor.wysiwyg.element, range);
 };
 
-export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
-    if (vditor.wysiwyg.composingLock) {
-        // Mac Chrome 中韩文结束会出发此事件，导致重复末尾字符 https://github.com/Vanessa219/vditor/issues/188
+export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) => {
+    if (vditor.wysiwyg.composingLock // Mac Chrome 中韩文结束会出发此事件，导致重复末尾字符 https://github.com/Vanessa219/vditor/issues/188
+        && event instanceof CustomEvent // 点击按钮应忽略输入法 https://github.com/Vanessa219/vditor/issues/473
+    ) {
         return;
     }
 
@@ -143,8 +144,8 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
             setRangeByWbr(vditor.wysiwyg.element, range);
         }
 
+        let blockElement = hasClosestBlock(range.startContainer);
         if (commandName === "quote") {
-            let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
                 blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
             }
@@ -198,7 +199,6 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 range.deleteContents();
             }
             range.insertNode(node);
-            const blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
             if (blockElement) {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             }
@@ -229,20 +229,57 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 setSelectionFocus(range);
             }
         } else if (commandName === "table") {
-            document.execCommand("insertHTML", false,
-                "<table data-block=\"0\"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead>"
-                + "<tbody><tr><td> </td><td> </td><td> "
-                + "</td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>");
-            range.selectNode(vditor.wysiwyg.element.querySelector("wbr").previousSibling);
-            vditor.wysiwyg.element.querySelector("wbr").remove();
-            setSelectionFocus(range);
-        } else if (commandName === "line") {
-            let element = range.startContainer as HTMLElement;
-            if (element.nodeType === 3) {
-                element = range.startContainer.parentElement;
+            let tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead><tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;
+            if (range.toString().trim() === "") {
+                if (blockElement && blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {
+                    blockElement.outerHTML = tableHTML;
+                } else {
+                    document.execCommand("insertHTML", false, tableHTML);
+                }
+                range.selectNode(vditor.wysiwyg.element.querySelector("wbr").previousSibling);
+                vditor.wysiwyg.element.querySelector("wbr").remove();
+                setSelectionFocus(range);
+            } else {
+                tableHTML = `<table data-block="0"><thead><tr>`;
+                const tableText = range.toString().split("\n");
+                const delimiter = tableText[0].split(",").length > tableText[0].split("\t").length ? "," : "\t";
+
+                tableText.forEach((rows, index) => {
+                    if (index === 0) {
+                        rows.split(delimiter).forEach((header, subIndex) => {
+                            if (subIndex === 0) {
+                                tableHTML += `<th>${header}<wbr></th>`;
+                            } else {
+                                tableHTML += `<th>${header}</th>`;
+                            }
+                        });
+                        tableHTML += "</tr></thead>";
+                    } else {
+                        if (index === 1) {
+                            tableHTML += "<tbody><tr>";
+                        } else {
+                            tableHTML += "<tr>";
+                        }
+                        rows.split(delimiter).forEach((cell) => {
+                            tableHTML += `<td>${cell}</td>`;
+                        });
+                        tableHTML += `</tr>`;
+                    }
+                });
+                tableHTML += "</tbody></table>";
+                document.execCommand("insertHTML", false, tableHTML);
+                setRangeByWbr(vditor.wysiwyg.element, range);
             }
-            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
-            setRangeByWbr(vditor.wysiwyg.element, range);
+        } else if (commandName === "line") {
+            if (blockElement) {
+                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
+                if (blockElement.innerHTML.trim() === "") {
+                    blockElement.outerHTML = hrHTML;
+                } else {
+                    blockElement.insertAdjacentHTML("afterend", hrHTML);
+                }
+                setRangeByWbr(vditor.wysiwyg.element, range);
+            }
         } else {
             // bold, italic, strike
             useHighlight = false;
@@ -278,7 +315,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
     }
 
     if (useHighlight) {
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
     }
 
     if (useRender) {

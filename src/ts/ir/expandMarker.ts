@@ -32,6 +32,17 @@ const nextIsNode = (range: Range) => {
     return false;
 };
 
+const previousIsNode = (range: Range) => {
+    const startContainer = range.startContainer;
+    const previousNode = startContainer.previousSibling as HTMLElement;
+    if (startContainer.nodeType === 3 && range.startOffset === 0 && previousNode && previousNode.nodeType !== 3 &&
+        // *em*|text
+        previousNode.classList.contains("vditor-ir__node") && !previousNode.getAttribute("data-block")) {
+        return previousNode;
+    }
+    return false;
+};
+
 export const expandMarker = (range: Range, vditor: IVditor) => {
     vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
@@ -47,6 +58,13 @@ export const expandMarker = (range: Range, vditor: IVditor) => {
     if (nextNode) {
         nextNode.classList.add("vditor-ir__node--expand");
         nextNode.classList.remove("vditor-ir__node--hidden");
+        return;
+    }
+
+    const previousNode = previousIsNode(range);
+    if (previousNode) {
+        previousNode.classList.add("vditor-ir__node--expand");
+        previousNode.classList.remove("vditor-ir__node--hidden");
         return;
     }
 };

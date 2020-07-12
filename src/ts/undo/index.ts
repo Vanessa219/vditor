@@ -1,149 +1,252 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
-import {getMarkdown} from "../markdown/getMarkdown";
-import {formatRender} from "../sv/formatRender";
-import {disableToolbar} from "../toolbar/setToolbar";
-import {enableToolbar} from "../toolbar/setToolbar";
+import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
+import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
-import {getSelectPosition} from "../util/selection";
+import {execAfterRender} from "../util/fixBrowserBehavior";
+import {highlightToolbar} from "../util/highlightToolbar";
+import {processCodeRender} from "../util/processCode";
+import {setRangeByWbr, setSelectionFocus} from "../util/selection";
+
+interface IUndo {
+    hasUndo: boolean;
+    lastText: string;
+    redoStack: patch_obj[][];
+    undoStack: patch_obj[][];
+}
 
 class Undo {
-    private undoStack: Array<{ patchList: patch_obj[], end: number }>;
-    private redoStack: Array<{ patchList: patch_obj[], end: number }>;
     private stackSize = 50;
     private dmp: diff_match_patch;
-    private lastText: string;
-    private hasUndo: boolean;
-    private timeout: number;
+    private wysiwyg: IUndo;
+    private ir: IUndo;
+    private sv: IUndo;
 
     constructor() {
-        this.redoStack = [];
-        this.undoStack = [];
+        this.resetStack();
         // @ts-ignore
         this.dmp = new DiffMatchPatch();
-        this.lastText = "";
-        this.hasUndo = false;
+    }
+
+    public clearStack(vditor: IVditor) {
+        this.resetStack();
+        this.resetIcon(vditor);
     }
 
     public resetIcon(vditor: IVditor) {
-        if (this.undoStack.length > 1) {
+        if (!vditor.toolbar) {
+            return;
+        }
+
+        if (this[vditor.currentMode].undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {
             disableToolbar(vditor.toolbar.elements, ["undo"]);
         }
 
-        if (this.redoStack.length !== 0) {
+        if (this[vditor.currentMode].redoStack.length !== 0) {
             enableToolbar(vditor.toolbar.elements, ["redo"]);
         } else {
             disableToolbar(vditor.toolbar.elements, ["redo"]);
         }
     }
 
-    public recordFirstPosition(vditor: IVditor) {
-        if (this.undoStack.length === 1) {
-            this.undoStack[0].end = getSelectPosition(vditor.sv.element).end;
-        }
-    }
-
     public undo(vditor: IVditor) {
-        if (vditor.sv.element.getAttribute("contenteditable") === "false") {
+        if (vditor[vditor.currentMode].element.getAttribute("contenteditable") === "false") {
             return;
         }
-        if (this.undoStack.length < 2) {
+        if (this[vditor.currentMode].undoStack.length < 2) {
             return;
         }
-        const state = this.undoStack.pop();
-        if (!state || !state.patchList) {
+        const state = this[vditor.currentMode].undoStack.pop();
+        if (!state) {
             return;
         }
-        this.redoStack.push(state);
+        this[vditor.currentMode].redoStack.push(state);
         this.renderDiff(state, vditor);
-        this.hasUndo = true;
+        this[vditor.currentMode].hasUndo = true;
     }
 
     public redo(vditor: IVditor) {
-        if (vditor.sv.element.getAttribute("contenteditable") === "false") {
+        if (vditor[vditor.currentMode].element.getAttribute("contenteditable") === "false") {
             return;
         }
-        const state = this.redoStack.pop();
-        if (!state || !state.patchList) {
+        const state = this[vditor.currentMode].redoStack.pop();
+        if (!state) {
             return;
         }
-        this.undoStack.push(state);
+        this[vditor.currentMode].undoStack.push(state);
         this.renderDiff(state, vditor, true);
     }
 
-    public addToUndoStack(vditor: IVditor) {
-        clearTimeout(this.timeout);
-        this.timeout = window.setTimeout(() => {
-            const text = getMarkdown(vditor);
-            const diff = this.dmp.diff_main(text, this.lastText, true);
-            const patchList = this.dmp.patch_make(text, this.lastText, diff);
-            if (patchList.length === 0) {
-                return;
-            }
-            this.lastText = text;
-            this.undoStack.push({patchList, end: getSelectPosition(vditor.sv.element).end});
-            if (this.undoStack.length > this.stackSize) {
-                this.undoStack.shift();
-            }
-            if (this.hasUndo) {
-                this.redoStack = [];
-                this.hasUndo = false;
-                disableToolbar(vditor.toolbar.elements, ["redo"]);
-            }
-
-            if (this.undoStack.length > 1) {
-                enableToolbar(vditor.toolbar.elements, ["undo"]);
-            }
-        }, 500);
+    public recordFirstPosition(vditor: IVditor, event: KeyboardEvent) {
+        if (getSelection().rangeCount === 0) {
+            return;
+        }
+        if (this[vditor.currentMode].undoStack.length !== 1 || this[vditor.currentMode].undoStack[0].length === 0) {
+            return;
+        }
+        if (isFirefox() && event.key === "Backspace") {
+            // Firefox 第一次删除无效
+            return;
+        }
+        if (isSafari()) {
+            // Safari keydown 在 input 之后，不需要重复记录历史
+            return;
+        }
+        if (vditor.currentMode === "sv") {
+            const caretElement = document.createElement("span");
+            caretElement.className = "wbr";
+            caretElement.textContent = Lute.Caret;
+            getSelection().getRangeAt(0).insertNode(caretElement);
+        } else {
+            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
+        }
+        if (vditor.currentMode === "wysiwyg") {
+            this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
+                vditor.lute.SpinVditorDOM(vditor[vditor.currentMode].element.innerHTML);
+        } else if (vditor.currentMode === "ir") {
+            this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
+                vditor.lute.SpinVditorIRDOM(vditor[vditor.currentMode].element.innerHTML);
+        } else {
+            this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
+                vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
+        }
+        this[vditor.currentMode].lastText = this[vditor.currentMode].undoStack[0][0].diffs[0][1];
+        const wbrElement =
+            vditor[vditor.currentMode].element.querySelector(vditor.currentMode === "sv" ? ".wbr" : "wbr");
+        if (wbrElement) {
+            wbrElement.remove();
+        }
+        // 不能添加 setSelectionFocus(cloneRange); 否则 windows chrome 首次输入会烂
     }
 
-    private renderDiff(state: { patchList: patch_obj[], end: number }, vditor: IVditor, isRedo: boolean = false) {
+    public addToUndoStack(vditor: IVditor) {
+        // afterRenderEvent.ts 已经 debounce
+        let cloneRange: Range;
+        if (getSelection().rangeCount !== 0 && !vditor[vditor.currentMode].element.querySelector("wbr")) {
+            const range = getSelection().getRangeAt(0);
+            if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
+                cloneRange = range.cloneRange();
+                if (vditor.currentMode === "sv") {
+                    const caretElement = document.createElement("span");
+                    caretElement.className = "wbr";
+                    caretElement.textContent = Lute.Caret;
+                    range.insertNode(caretElement);
+                } else {
+                    range.insertNode(document.createElement("wbr"));
+                }
+            }
+        }
         let text;
-        let positoin;
+        if (vditor.currentMode === "wysiwyg") {
+            text = vditor.lute.SpinVditorDOM(vditor[vditor.currentMode].element.innerHTML);
+        } else if (vditor.currentMode === "ir") {
+            text = vditor.lute.SpinVditorIRDOM(vditor[vditor.currentMode].element.innerHTML);
+        } else {
+            text = vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
+        }
+        const wbrElement =
+            vditor[vditor.currentMode].element.querySelector(vditor.currentMode === "sv" ? ".wbr" : "wbr");
+        if (wbrElement) {
+            wbrElement.remove();
+        }
+        if (cloneRange) {
+            setSelectionFocus(cloneRange);
+        }
+        const diff = this.dmp.diff_main(text, this[vditor.currentMode].lastText, true);
+        const patchList = this.dmp.patch_make(text, this[vditor.currentMode].lastText, diff);
+        if (patchList.length === 0 && this[vditor.currentMode].undoStack.length > 0) {
+            return;
+        }
+        this[vditor.currentMode].lastText = text;
+        this[vditor.currentMode].undoStack.push(patchList);
+        if (this[vditor.currentMode].undoStack.length > this.stackSize) {
+            this[vditor.currentMode].undoStack.shift();
+        }
+        if (this[vditor.currentMode].hasUndo) {
+            this[vditor.currentMode].redoStack = [];
+            this[vditor.currentMode].hasUndo = false;
+            disableToolbar(vditor.toolbar.elements, ["redo"]);
+        }
+
+        if (this[vditor.currentMode].undoStack.length > 1) {
+            enableToolbar(vditor.toolbar.elements, ["undo"]);
+        }
+    }
+
+    private renderDiff(state: patch_obj[], vditor: IVditor, isRedo: boolean = false) {
+        let text;
         if (isRedo) {
-            const redoPatchList = this.dmp.patch_deepCopy(state.patchList).reverse();
+            const redoPatchList = this.dmp.patch_deepCopy(state).reverse();
             redoPatchList.forEach((patch) => {
                 patch.diffs.forEach((diff) => {
                     diff[0] = -diff[0];
                 });
             });
-            text = this.dmp.patch_apply(redoPatchList, this.lastText)[0];
-            positoin = {
-                end: state.end,
-                start: state.end,
-            };
+            text = this.dmp.patch_apply(redoPatchList, this[vditor.currentMode].lastText)[0];
         } else {
-            text = this.dmp.patch_apply(state.patchList, this.lastText)[0];
-            if (this.undoStack[this.undoStack.length - 1]) {
-                positoin = {
-                    end: this.undoStack[this.undoStack.length - 1].end,
-                    start: this.undoStack[this.undoStack.length - 1].end,
-                };
-            }
+            text = this.dmp.patch_apply(state, this[vditor.currentMode].lastText)[0];
         }
 
-        this.lastText = text;
+        this[vditor.currentMode].lastText = text;
+        vditor[vditor.currentMode].element.innerHTML = text;
+        if (vditor.currentMode !== "sv") {
+            vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+                .forEach((blockElement: HTMLElement) => {
+                    processCodeRender(blockElement, vditor);
+                });
+        }
 
-        formatRender(vditor, text, positoin, {
+        if (!vditor[vditor.currentMode].element.querySelector("wbr")) {
+            // Safari 第一次输入没有光标，需手动定位到结尾
+            const range = getSelection().getRangeAt(0);
+            range.setEndBefore(vditor[vditor.currentMode].element);
+            range.collapse(false);
+        } else {
+            setRangeByWbr(
+                vditor[vditor.currentMode].element, vditor[vditor.currentMode].element.ownerDocument.createRange());
+            scrollCenter(vditor);
+        }
+
+        execAfterRender(vditor, {
             enableAddUndoStack: false,
             enableHint: false,
             enableInput: true,
         });
+        highlightToolbar(vditor);
 
-        scrollCenter(vditor);
-
-        if (this.undoStack.length > 1) {
+        if (this[vditor.currentMode].undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
         } else {
             disableToolbar(vditor.toolbar.elements, ["undo"]);
         }
 
-        if (this.redoStack.length !== 0) {
+        if (this[vditor.currentMode].redoStack.length !== 0) {
             enableToolbar(vditor.toolbar.elements, ["redo"]);
         } else {
             disableToolbar(vditor.toolbar.elements, ["redo"]);
         }
+    }
+
+    private resetStack() {
+        this.ir = {
+            hasUndo: false,
+            lastText: "",
+            redoStack: [],
+            undoStack: [],
+        };
+        this.sv = {
+            hasUndo: false,
+            lastText: "",
+            redoStack: [],
+            undoStack: [],
+        };
+        this.wysiwyg = {
+            hasUndo: false,
+            lastText: "",
+            redoStack: [],
+            undoStack: [],
+        };
     }
 }
 

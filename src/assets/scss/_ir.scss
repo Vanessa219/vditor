@@ -5,10 +5,6 @@
   position: relative;
   width: 100%;
 
-  &__block[data-type="html-block"] pre {
-    margin: 1em 0 !important;
-  }
-
   &__node {
     &[data-type="code-block"]:before,
     &[data-type="code-block"]:after,
@@ -25,6 +21,10 @@
     &[data-type="link-ref"],
     &[data-type="footnotes-ref"] {
       color: $blurColor;
+    }
+
+    &[data-type="html-block"] {
+      margin-bottom: 1em;
     }
 
     .vditor-ir__marker {
@@ -118,6 +118,12 @@
     }
   }
 
+  &__preview {
+    cursor: pointer;
+    white-space: initial;
+    min-height: 27px;
+  }
+
   &__link {
     color: var(--ir-bracket-color);
     text-decoration: underline;
@@ -165,22 +171,22 @@
   blockquote:empty::before,
   pre > code:empty::before,
   p:empty::before,
-  & > h1:empty::after,
-  & > h2:empty::after,
-  & > h3:empty::after,
-  & > h4:empty::after,
-  & > h5:empty::after,
-  & > h6:empty::after {
+  h1:empty::after,
+  h2:empty::after,
+  h3:empty::after,
+  h4:empty::after,
+  h5:empty::after,
+  h6:empty::after {
     content: ' ';
   }
 
   // block title
-  & > h1:before,
-  & > h2:before,
-  & > h3:before,
-  & > h4:before,
-  & > h5:before,
-  & > h6:before,
+  & .vditor-reset > h1:before,
+  & .vditor-reset > h2:before,
+  & .vditor-reset > h3:before,
+  & .vditor-reset > h4:before,
+  & .vditor-reset > h5:before,
+  & .vditor-reset > h6:before,
   div[data-type="link-ref-defs-block"]:before,
   div[data-type="footnotes-block"]:before,
   .vditor-toc:before {
@@ -193,23 +199,23 @@
     color: var(--second-color);
   }
 
-  & > h2:before {
+  & .vditor-reset > h2:before {
     content: 'H2';
   }
 
-  & > h3:before {
+  & .vditor-reset > h3:before {
     content: 'H3';
   }
 
-  & > h4:before {
+  & .vditor-reset > h4:before {
     content: 'H4';
   }
 
-  & > h5:before {
+  & .vditor-reset > h5:before {
     content: 'H5';
   }
 
-  & > h6:before {
+  & .vditor-reset > h6:before {
     content: 'H6';
   }
 

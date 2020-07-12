@@ -10,7 +10,6 @@ import {Divider} from "./Divider";
 import {EditMode} from "./EditMode";
 import {Emoji} from "./Emoji";
 import {Export} from "./Export";
-import {Format} from "./Format";
 import {Fullscreen} from "./Fullscreen";
 import {Headings} from "./Headings";
 import {Help} from "./Help";
@@ -126,9 +125,6 @@ export class Toolbar {
                 break;
             case "info":
                 menuItemObj = new Info(vditor, menuItem);
-                break;
-            case "format":
-                menuItemObj = new Format(vditor, menuItem);
                 break;
             case "edit-mode":
                 menuItemObj = new EditMode(vditor, menuItem);

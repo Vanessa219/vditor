@@ -1,4 +1,5 @@
 import mpWechatSVG from "../../assets/icons/mp-wechat.svg";
+import zhihutSVG from "../../assets/icons/zhihu.svg";
 import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
@@ -33,16 +34,40 @@ export class Preview {
             tempElement.className = "vditor-reset";
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
 
-            this.copyToWechat(vditor, tempElement);
+            this.copyToX(vditor, tempElement);
             event.preventDefault();
         });
 
+        const actions = vditor.options.preview.actions;
         const actionElement = document.createElement("div");
         actionElement.className = "vditor-preview__action";
-        actionElement.innerHTML = `<button class="vditor-preview__action--current" data-type="desktop">Desktop</button>
-<button data-type="tablet">Tablet</button>
-<button data-type="mobile">Mobile/Wechat</button>
-<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号">${mpWechatSVG}</button>`;
+        const actionHtml: string[] = [];
+        for (let i = 0; i < actions.length; i++) {
+            const action = actions[i];
+            if (typeof action === "object") {
+                actionHtml.push(`
+                    <button data-type="${action.key}" class="${action.className}">${action.text}</button>`);
+                continue;
+            }
+            switch (action) {
+                case "desktop":
+                    actionHtml.push(`<button class="vditor-preview__action--current" data-type="desktop">Desktop</button>`);
+                    break;
+                case "tablet":
+                    actionHtml.push(`<button data-type="tablet">Tablet</button>`);
+                    break;
+                case "mobile":
+                    actionHtml.push(`<button data-type="mobile">Mobile/Wechat</button>`);
+                    break;
+                case "mp-wechat":
+                    actionHtml.push(`<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号">${mpWechatSVG}</button>`);
+                    break;
+                case "zhihu":
+                    actionHtml.push(`<button data-type="zhihu" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到知乎">${zhihutSVG}</button>`);
+                    break;
+            }
+        }
+        actionElement.innerHTML = actionHtml.join("");
         this.element.appendChild(actionElement);
         this.element.appendChild(previewElement);
 
@@ -51,14 +76,15 @@ export class Preview {
             if (!btn) {
                 return;
             }
-
             const type = btn.getAttribute("data-type");
-            if (type === actionElement.querySelector(".vditor-preview__action--current").getAttribute("data-type")) {
+            const actionCustom = actions.find((w: IPreviewActionCustom) => w?.key === type) as IPreviewActionCustom;
+            if (actionCustom) {
+                actionCustom.click(type);
                 return;
             }
 
-            if (type === "mp-wechat") {
-                this.copyToWechat(vditor, this.element.lastElementChild.cloneNode(true) as HTMLElement);
+            if (type === "mp-wechat" || type === "zhihu") {
+                this.copyToX(vditor, this.element.lastElementChild.cloneNode(true) as HTMLElement, type);
                 return;
             }
 
@@ -173,11 +199,17 @@ export class Preview {
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
     }
 
-    private copyToWechat(vditor: IVditor, copyElement: HTMLElement) {
+    private copyToX(vditor: IVditor, copyElement: HTMLElement, type = "mp-wechat") {
         // fix math render
-        copyElement.querySelectorAll(".katex-html .base").forEach((item: HTMLElement) => {
-            item.style.display = "initial";
-        });
+        if (type !== "zhihu") {
+            copyElement.querySelectorAll(".katex-html .base").forEach((item: HTMLElement) => {
+                item.style.display = "initial";
+            });
+        } else {
+            copyElement.querySelectorAll(".vditor-math").forEach((item: HTMLElement) => {
+                item.outerHTML = `<img class="Formula-image" data-eeimg="true" src="//www.zhihu.com/equation?tex=" alt="${item.getAttribute("data-math")}\\" style="display: block; margin: 0 auto; max-width: 100%;">`;
+            });
+        }
         // 防止背景色被粘贴到公众号中
         copyElement.style.backgroundColor = "#fff";
         // 代码背景
@@ -185,13 +217,11 @@ export class Preview {
             item.style.backgroundImage = "none";
         });
         this.element.append(copyElement);
-
         const range = copyElement.ownerDocument.createRange();
         range.selectNode(copyElement);
         setSelectionFocus(range);
         document.execCommand("copy");
-
         this.element.lastElementChild.remove();
-        vditor.tip.show("已复制，可到微信公众号平台进行粘贴");
+        vditor.tip.show(`已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴`);
     }
 }

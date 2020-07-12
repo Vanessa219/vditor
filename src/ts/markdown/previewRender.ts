@@ -1,6 +1,7 @@
-import {VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {setContentTheme} from "../ui/setContentTheme";
 import {addScript} from "../util/addScript";
+import {merge} from "../util/merge";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -16,53 +17,21 @@ import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
 
 const mergeOptions = (options?: IPreviewOptions) => {
-    const defaultOption = {
+    const defaultOption: IPreviewOptions = {
         anchor: 0,
-        cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+        cdn: Constants.CDN,
         customEmoji: {},
-        emojiPath: `${(options && options.emojiPath) ||
-        `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`}/dist/images/emoji`,
-        hljs: {
-            enable: true,
-            lineNumber: false,
-            style: "github",
-        },
+        emojiPath: `${(options && options.emojiPath) || Constants.CDN}/dist/images/emoji`,
+        hljs: Constants.HLJS_OPTIONS,
         lang: "zh_CN",
-        markdown: {
-            autoSpace: false,
-            chinesePunct: false,
-            codeBlockPreview: true,
-            fixTermTypo: false,
-            footnotes: true,
-            listMarker: false,
-            paragraphBeginningSpace: false,
-            sanitize: true,
-            setext: false,
-            theme: "light",
-            toc: false,
-        },
-        math: {
-            engine: "KaTeX",
-            inlineDigit: false,
-            macros: {},
-        },
+        markdown: Constants.MARKDOWN_OPTIONS,
+        math: Constants.MATH_OPTIONS,
         speech: {
             enable: false,
         },
+        theme: Constants.THEME_OPTIONS,
     };
-    if (options?.hljs) {
-        options.hljs = Object.assign({}, defaultOption.hljs, options.hljs);
-    }
-    if (options?.speech) {
-        options.speech = Object.assign({}, defaultOption.speech, options.speech);
-    }
-    if (options?.math) {
-        options.math = Object.assign({}, defaultOption.math, options.math);
-    }
-    if (options?.markdown) {
-        options.markdown = Object.assign({}, defaultOption.markdown, options.markdown);
-    }
-    return Object.assign(defaultOption, options);
+    return merge(defaultOption, options);
 };
 
 export const md2html = (mdText: string, options?: IPreviewOptions) => {
@@ -79,7 +48,8 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             headingAnchor: mergedOptions.anchor !== 0,
             inlineMathDigit: mergedOptions.math.inlineDigit,
             lazyLoadImage: mergedOptions.lazyLoadImage,
-            listMarker: mergedOptions.markdown.listMarker,
+            linkBase: mergedOptions.markdown.linkBase,
+            listStyle: mergedOptions.markdown.listStyle,
             paragraphBeginningSpace: mergedOptions.markdown.paragraphBeginningSpace,
             sanitize: mergedOptions.markdown.sanitize,
             setext: mergedOptions.markdown.setext,
@@ -104,7 +74,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
-    setContentTheme(mergedOptions.markdown.theme, mergedOptions.cdn);
+    setContentTheme(mergedOptions.theme.current, mergedOptions.theme.path);
     if (mergedOptions.anchor === 1) {
         previewElement.classList.add("vditor-reset--anchor");
     }

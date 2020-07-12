@@ -1,5 +1,4 @@
 import {i18n} from "../i18n/index";
-import {insertText} from "../sv/insertText";
 import {getEditorRange, setSelectionFocus} from "../util/selection";
 import {getElement} from "./getElement";
 import {setHeaders} from "./setHeaders";
@@ -21,7 +20,7 @@ const validateFile = (vditor: IVditor, files: File[]) => {
     const uploadFileList = [];
     let errorTip = "";
     let uploadingStr = "";
-    const lang: (keyof II18nLang) = vditor.options.lang;
+    const lang: keyof II18n = vditor.options.lang;
 
     for (let iMax = files.length, i = 0; i < iMax; i++) {
         const file = files[i];
@@ -42,18 +41,18 @@ const validateFile = (vditor: IVditor, files: File[]) => {
         const filename = vditor.options.upload.filename(file.name.substr(0, lastIndex)) + fileExt;
 
         if (vditor.options.upload.accept) {
-            let isAccept = false;
-            vditor.options.upload.accept.split(",").forEach((item) => {
+            const isAccept = vditor.options.upload.accept.split(",").some((item) => {
                 const type = item.trim();
                 if (type.indexOf(".") === 0) {
-                    if (fileExt === type) {
-                        isAccept = true;
+                    if (fileExt.toLowerCase() === type.toLowerCase()) {
+                        return true;
                     }
                 } else {
                     if (file.type.split("/")[0] === type.split("/")[0]) {
-                        isAccept = true;
+                        return true;
                     }
                 }
+                return false;
             });
 
             if (!isAccept) {
@@ -135,18 +134,15 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         }
     });
     setSelectionFocus(vditor.upload.range);
-    if (vditor.currentMode !== "sv") {
-        document.execCommand("insertHTML", false, succFileText);
-    } else {
-        insertText(vditor, succFileText, "", true);
-    }
+    document.execCommand("insertHTML", false, succFileText);
     vditor.upload.range = getSelection().getRangeAt(0).cloneRange();
 };
 
 const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | File[], element?: HTMLInputElement) => {
     // FileList | DataTransferItemList | File[] => File[]
     let fileList = [];
-    for (let iMax = files.length, i = 0; i < iMax; i++) {
+    const filesMax = vditor.options.upload.multiple === true ? files.length : 1;
+    for (let i = 0; i < filesMax; i++) {
         let fileItem = files[i];
         if (fileItem instanceof DataTransferItem) {
             fileItem = fileItem.getAsFile();
@@ -196,7 +192,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
 
     const formData = new FormData();
     for (let i = 0, iMax = validateResult.length; i < iMax; i++) {
-        formData.append("file[]", validateResult[i]);
+        formData.append(vditor.options.upload.fieldName, validateResult[i]);
     }
 
     const extraData = vditor.options.upload.extraData;
@@ -215,15 +211,10 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
     setHeaders(vditor, xhr);
     vditor.upload.isUploading = true;
     editorElement.setAttribute("contenteditable", "false");
-
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             vditor.upload.isUploading = false;
-            if (element) {
-                element.value = "";
-            }
             editorElement.setAttribute("contenteditable", "true");
-
             if (xhr.status === 200) {
                 if (vditor.options.upload.success) {
                     vditor.options.upload.success(editorElement, xhr.responseText);
@@ -240,6 +231,9 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
                 } else {
                     vditor.tip.show(xhr.responseText);
                 }
+            }
+            if (element) {
+                element.value = "";
             }
             vditor.upload.element.style.display = "none";
         }

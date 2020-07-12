@@ -12,13 +12,7 @@ export class Redo extends MenuItem {
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-            if (vditor.currentMode === "sv") {
-                vditor.undo.redo(vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
-                vditor.wysiwygUndo.redo(vditor);
-            } else if (vditor.currentMode === "ir") {
-                vditor.irUndo.redo(vditor);
-            }
+            vditor.undo.redo(vditor);
         });
     }
 }

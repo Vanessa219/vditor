@@ -35,6 +35,7 @@
         height: 35px;
         width: 25px;
         box-sizing: border-box;
+        font-size: 0;
 
         &:focus {
           outline: none;
@@ -165,6 +166,9 @@
 @media screen and (max-width: $max-width) {
   .vditor-toolbar__item {
     padding: 0 12px;
+  }
+  .vditor-panel--left.vditor-panel--arrow:before {
+    right: 17px;
   }
 }
 

@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {isChrome} from "./compatibility";
-import {hasClosestBlock} from "./hasClosest";
+import {hasClosestBlock, hasClosestByClassName} from "./hasClosest";
 
 export const getEditorRange = (element: HTMLElement) => {
     let range: Range;
@@ -19,7 +19,7 @@ export const getEditorRange = (element: HTMLElement) => {
 
 export const getCursorPosition = (editor: HTMLElement) => {
     const range = window.getSelection().getRangeAt(0);
-    if (!editor.contains(range.startContainer)) {
+    if (!editor.contains(range.startContainer) && !hasClosestByClassName(range.startContainer, "vditor-panel--none")) {
         return {
             left: 0,
             top: 0,
@@ -29,32 +29,42 @@ export const getCursorPosition = (editor: HTMLElement) => {
     let cursorRect;
     if (range.getClientRects().length === 0) {
         if (range.startContainer.nodeType === 3) {
-            return {
-                left: 0,
-                top: 0,
-            };
-        }
-        const children = (range.startContainer as Element).children;
-        if (children[range.startOffset] &&
-            children[range.startOffset].getClientRects().length > 0) {
-            // markdown 模式回车
-            cursorRect = children[range.startOffset].getClientRects()[0];
-        } else if (range.startContainer.childNodes.length > 0) {
-            // in table or code block
-            range.selectNode(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
-            cursorRect = range.getClientRects()[0];
-            range.collapse(false);
-        } else {
-            cursorRect = (range.startContainer as HTMLElement).getClientRects()[0];
-        }
-        if (!cursorRect) {
-            let parentElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
-            while (!parentElement.getClientRects ||
-            (parentElement.getClientRects && parentElement.getClientRects().length === 0)) {
-                parentElement = parentElement.parentElement;
+            // 空行时，会出现没有 br 的情况，需要根据父元素 <p> 获取位置信息
+            const parent = range.startContainer.parentElement;
+            if (parent && parent.getClientRects().length > 0) {
+                cursorRect = parent.getClientRects()[0];
+            } else {
+                return {
+                    left: 0,
+                    top: 0,
+                };
             }
-            cursorRect = parentElement.getClientRects()[0];
+        } else {
+            const children = (range.startContainer as Element).children;
+            if (children[range.startOffset] &&
+                children[range.startOffset].getClientRects().length > 0) {
+                // markdown 模式回车
+                cursorRect = children[range.startOffset].getClientRects()[0];
+            } else if (range.startContainer.childNodes.length > 0) {
+                // in table or code block
+                const cloneRange = range.cloneRange();
+                range.selectNode(range.startContainer.childNodes[Math.max(0, range.startOffset - 1)]);
+                cursorRect = range.getClientRects()[0];
+                range.setEnd(cloneRange.endContainer, cloneRange.endOffset);
+                range.setStart(cloneRange.startContainer, cloneRange.startOffset);
+            } else {
+                cursorRect = (range.startContainer as HTMLElement).getClientRects()[0];
+            }
+            if (!cursorRect) {
+                let parentElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+                while (!parentElement.getClientRects ||
+                (parentElement.getClientRects && parentElement.getClientRects().length === 0)) {
+                    parentElement = parentElement.parentElement;
+                }
+                cursorRect = parentElement.getClientRects()[0];
+            }
         }
+
     } else {
         cursorRect = range.getClientRects()[0];
     }
@@ -84,7 +94,7 @@ export const setSelectionFocus = (range: Range) => {
     selection.addRange(range);
 };
 
-export const getSelectPosition = (editorElement: HTMLElement, range?: Range) => {
+export const getSelectPosition = (selectElement: HTMLElement, editorElement: HTMLElement, range?: Range) => {
     const position = {
         end: 0,
         start: 0,
@@ -99,10 +109,10 @@ export const getSelectPosition = (editorElement: HTMLElement, range?: Range) => 
 
     if (selectIsEditor(editorElement, range)) {
         const preSelectionRange = range.cloneRange();
-        if (editorElement.childNodes[0] && editorElement.childNodes[0].childNodes[0]) {
-            preSelectionRange.setStart(editorElement.childNodes[0].childNodes[0], 0);
+        if (selectElement.childNodes[0] && selectElement.childNodes[0].childNodes[0]) {
+            preSelectionRange.setStart(selectElement.childNodes[0].childNodes[0], 0);
         } else {
-            preSelectionRange.selectNodeContents(editorElement);
+            preSelectionRange.selectNodeContents(selectElement);
         }
         preSelectionRange.setEnd(range.startContainer, range.startOffset);
         position.start = preSelectionRange.toString().length;
@@ -225,20 +235,25 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     // 使用 lute 方法会添加 p 元素，只有一个 p 元素的时候进行删除
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
-    const pElements = tempElement.querySelectorAll("p");
-    if (pElements.length === 1 && !pElements[0].previousSibling && !pElements[0].nextSibling) {
-        if ((vditor.currentMode === "wysiwyg" && vditor.wysiwyg.element.children.length > 0) ||
-            (vditor.currentMode === "ir" && vditor.ir.element.children.length > 0)) {
-            // empty and past
-            html = pElements[0].innerHTML.trim();
+    const tempBlockElement = vditor.currentMode === "sv" ?
+        tempElement.querySelectorAll('[data-type="p"]') :
+        tempElement.querySelectorAll("p");
+    if (tempBlockElement.length === 1 && !tempBlockElement[0].previousSibling && !tempBlockElement[0].nextSibling &&
+        vditor[vditor.currentMode].element.children.length > 0) {
+        // empty and past
+        if (vditor.currentMode === "sv") {
+            tempBlockElement[0].querySelectorAll('[data-type="newline"]').forEach((item: HTMLElement) => {
+                item.remove();
+            });
         }
+        html = tempBlockElement[0].innerHTML.trim();
     }
 
     const pasteElement = document.createElement("template");
     pasteElement.innerHTML = html;
 
     const range = getEditorRange(vditor[vditor.currentMode].element);
-    if (range.toString() !== "" && vditor.currentMode !== "sv") {
+    if (range.toString() !== "") {
         vditor[vditor.currentMode].preventInput = true;
         document.execCommand("delete", false, "");
     }

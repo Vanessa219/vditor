@@ -1,4 +1,4 @@
-import {VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {addScript, addScriptSync} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
@@ -24,7 +24,7 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
     }
 
     const defaultOptions = {
-        cdn: `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`,
+        cdn: Constants.CDN,
         math: {
             engine: "KaTeX",
             inlineDigit: false,

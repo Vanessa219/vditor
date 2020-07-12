@@ -13,7 +13,8 @@ export const setLute = (options: ILuteOptions) => {
     lute.SetSetext(options.setext);
     lute.SetSanitize(options.sanitize);
     lute.SetChineseParagraphBeginningSpace(options.paragraphBeginningSpace);
-    lute.SetRenderListMarker(options.listMarker);
+    lute.SetRenderListStyle(options.listStyle);
+    lute.SetLinkBase(options.linkBase);
     if (options.lazyLoadImage) {
         lute.SetImageLazyLoading(options.lazyLoadImage);
     }

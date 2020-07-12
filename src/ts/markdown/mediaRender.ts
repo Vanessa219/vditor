@@ -16,6 +16,7 @@ const iframeRender = (element: HTMLElement, url: string) => {
     const facebookMatch = url.match(/(?:www\.|\/\/)facebook\.com\/([^\/]+)\/videos\/([0-9]+)/);
     const dailymotionMatch = url.match(/.+dailymotion.com\/(video|hub)\/(\w+)\?/);
     const bilibiliMatch = url.match(/(?:www\.|\/\/)bilibili\.com\/video\/(\w+)/);
+    const tedMatch = url.match(/(?:www\.|\/\/)ted\.com\/talks\/(\w+)/);
 
     if (youtubeMatch && youtubeMatch[1].length === 11) {
         element.insertAdjacentHTML("afterend",
@@ -50,6 +51,10 @@ const iframeRender = (element: HTMLElement, url: string) => {
             `<iframe class="iframe__video"
  src="//player.bilibili.com/player.html?bvid=${bilibiliMatch[1]}"></iframe>`);
         element.remove();
+    } else if (tedMatch && tedMatch[1]) {
+        element.insertAdjacentHTML("afterend",
+            `<iframe class="iframe__video" src="//embed.ted.com/talks/${tedMatch[1]}"></iframe>`);
+        element.remove();
     }
 };
 
@@ -64,7 +69,7 @@ export const mediaRender = (element: HTMLElement) => {
         }
         if (url.match(/^.+.(mp4|m4v|ogg|ogv|webm)$/)) {
             videoRender(aElement, url);
-        } else if (url.match(/^.+.(mp3|wav)$/)) {
+        } else if (url.match(/^.+.(mp3|wav|flac)$/)) {
             audioRender(aElement, url);
         } else {
             iframeRender(aElement, url);

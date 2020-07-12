@@ -1,16 +1,17 @@
 import {processHeading} from "../ir/process";
 import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {getSelectText} from "../sv/getSelectText";
-import {insertText} from "../sv/insertText";
+import {processHeading as processHeadingSV} from "../sv/process";
 import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
+import {uploadFiles} from "../upload";
 import {getCursorPosition} from "../util/selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {getEventName, isCtrl} from "./compatibility";
+import {getSelectText} from "./getSelectText";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 
@@ -29,6 +30,22 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             vditor.options.blur(getMarkdown(vditor));
         }
     });
+};
+
+export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    if (vditor.options.upload.url || vditor.options.upload.handler) {
+        editorElement.addEventListener("drop",
+            (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
+                if (event.dataTransfer.types[0] !== "Files") {
+                    return;
+                }
+                const files = event.dataTransfer.items;
+                if (files.length > 0) {
+                    uploadFiles(vditor, files);
+                }
+                event.preventDefault();
+            });
+    }
 };
 
 export const scrollCenter = (vditor: IVditor) => {
@@ -74,46 +91,25 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // undo
-        if (matchHotKey("⌘-Z", event)) {
-            if (vditor.currentMode === "sv" && !vditor.toolbar.elements.undo) {
-                vditor.undo.undo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "wysiwyg" && !vditor.toolbar.elements.undo) {
-                vditor.wysiwygUndo.undo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "ir") {
-                vditor.irUndo.undo(vditor);
-                event.preventDefault();
-                return;
-            }
+        if (matchHotKey("⌘-Z", event) && !vditor.toolbar.elements.undo) {
+            vditor.undo.undo(vditor);
+            event.preventDefault();
+            return;
         }
 
         // redo
-        if (matchHotKey("⌘-Y", event)) {
-            if (vditor.currentMode === "sv" && !vditor.toolbar.elements.redo) {
-                vditor.undo.redo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "wysiwyg" && !vditor.toolbar.elements.redo) {
-                vditor.wysiwygUndo.redo(vditor);
-                event.preventDefault();
-                return;
-            } else if (vditor.currentMode === "ir") {
-                vditor.irUndo.redo(vditor);
-                event.preventDefault();
-                return;
-            }
+        if (matchHotKey("⌘-Y", event) && !vditor.toolbar.elements.redo) {
+            vditor.undo.redo(vditor);
+            event.preventDefault();
+            return;
         }
 
         // esc
         if (event.key === "Escape") {
-            if (vditor.options.esc) {
-                vditor.options.esc(getMarkdown(vditor));
-            }
             if (vditor.hint.element.style.display === "block") {
                 vditor.hint.element.style.display = "none";
+            } else if (vditor.options.esc) {
+                vditor.options.esc(getMarkdown(vditor));
             }
             event.preventDefault();
             return;
@@ -130,9 +126,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                 }
                 afterRenderEvent(vditor);
             } else if (vditor.currentMode === "sv") {
-                insertText(vditor,
-                    "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ",
-                    "", false, true);
+                processHeadingSV(vditor, "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ");
             } else if (vditor.currentMode === "ir") {
                 processHeading(vditor, "#".repeat(parseInt(event.code.replace("Digit", ""), 10)) + " ");
             }
