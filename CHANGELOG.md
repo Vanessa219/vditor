@@ -70,6 +70,7 @@
 
 ### v3.3.7 / 2020-07-xx
 
+* [579](https://github.com/Vanessa219/vditor/issues/579) 样式调整 `改进功能`
 * [575](https://github.com/Vanessa219/vditor/issues/575) 编辑器存在 form 中，情景菜单会出发提交事件 `修复缺陷`
 * [577](https://github.com/Vanessa219/vditor/issues/577) 粘贴 XML 代码问题 `修复缺陷`
 * [573](https://github.com/Vanessa219/vditor/pull/573) style: 优化分隔符样式 `改进功能`
