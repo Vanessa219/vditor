@@ -37,7 +37,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 return true;
             } else if (blockquoteLineElement.textContent.trim() !== "") {
                 // 换行应延续 >
-                range.insertNode(document.createTextNode("\n>"));
+                let newMarker = "\n" + markerText;
+                const liMarkerElement = blockquoteLineElement.querySelector('[data-type="li-marker"]');
+                if (liMarkerElement) {
+                    newMarker += liMarkerElement.parentElement.getAttribute("data-space") + liMarkerElement.textContent;
+                    if (blockquoteLineElement.querySelector('[data-type="task-marker"]')) {
+                        newMarker += "[ ] ";
+                    }
+                }
+                range.insertNode(document.createTextNode(newMarker));
                 range.collapse(false);
                 inputEvent(vditor);
                 event.preventDefault();
