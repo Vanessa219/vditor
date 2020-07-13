@@ -145,7 +145,7 @@
   * `options.preview.markdow.theme` 修改为 `options.preview.theme`
   * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
   * 移除 `setSelection`
-  * 添加 `destory` 方法
+  * 添加 `destroy` 方法
   * 添加 `options.upload.multiple`
   * 添加 `options.upload.fieldName`
   * `options.preview.markdown.setext` 默认值修改为 `true`
