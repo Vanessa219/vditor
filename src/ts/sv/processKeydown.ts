@@ -21,17 +21,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
     const range = getEditorRange(vditor.sv.element);
     const startContainer = range.startContainer;
-
+    const codeBlockElement = hasClosestByAttribute(startContainer, "data-type", "code-block");
     // blockquote
     const blockquoteLineElement = hasClosestByAttribute(startContainer, "data-type", "blockquote-line");
-    if (blockquoteLineElement) {
+    if (blockquoteLineElement && !codeBlockElement) {
         const startIndex = getSelectPosition(blockquoteLineElement, vditor.sv.element, range).start;
         if (event.key === "Enter" && !isCtrl(event) && !event.altKey && startIndex !== 0) {
-            let markerLength = 0;
-            blockquoteLineElement.querySelectorAll('[data-type="blockquote-marker"').forEach((item: HTMLElement) => {
-                markerLength += item.textContent.length;
-            });
-            if (startIndex === markerLength && markerLength > 1) {
+            const markerText = Array(blockquoteLineElement.querySelectorAll('[data-type="blockquote-marker"]').length)
+                .fill(">").join(" ") + " ";
+            if (startIndex === markerText.length && markerText.length > 1) {
                 // 在 marker 中换行，删除 marker 标记
                 blockquoteLineElement.firstElementChild.remove();
                 event.preventDefault();
@@ -61,7 +59,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // list item
     const listElement = hasClosestByAttribute(startContainer, "data-type", "li");
-    if (listElement) {
+    if (listElement && !codeBlockElement) {
         const markerElement = listElement.querySelector('[data-type="li-marker"]');
         const startIndex = getSelectPosition(listElement, vditor.sv.element, range).start;
         const space = listElement.getAttribute("data-space");

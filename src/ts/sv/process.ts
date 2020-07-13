@@ -165,12 +165,13 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
             || commandName === "inline-code" || commandName === "code" || commandName === "table") {
             let html;
+            // https://github.com/Vanessa219/vditor/issues/563 代码块不需要后面的 ```
             if (range.toString() === "") {
-                html = `${prefix}${Lute.Caret}${suffix}`;
+                html = `${prefix}${Lute.Caret}${commandName === "code" ? "" : suffix}`;
             } else {
-                html = `${prefix}${range.toString()}${Lute.Caret}${suffix}`;
+                html = `${prefix}${range.toString()}${Lute.Caret}${commandName === "code" ? "" : suffix}`;
             }
-            if (commandName === "table" || commandName === "code") {
+            if (commandName === "table") {
                 html = "\n" + html;
             }
             document.execCommand("insertHTML", false, html);

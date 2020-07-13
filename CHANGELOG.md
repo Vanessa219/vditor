@@ -65,6 +65,8 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
+* [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
 
 ### v3.3.7 / 2020-07-xx
 
