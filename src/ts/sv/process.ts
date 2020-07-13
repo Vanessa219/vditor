@@ -13,34 +13,32 @@ export const processAfterRender = (vditor: IVditor, options = {
     if (options.enableHint) {
         vditor.hint.render(vditor);
     }
+
     vditor.preview.render(vditor);
+
+    const text = getMarkdown(vditor);
+    if (typeof vditor.options.input === "function" && options.enableInput) {
+        vditor.options.input(text);
+    }
+
+    if (vditor.options.counter.enable) {
+        vditor.counter.render(vditor, text);
+    }
+
+    if (vditor.options.cache.enable && accessLocalStorage()) {
+        localStorage.setItem(vditor.options.cache.id, text);
+        if (vditor.options.cache.after) {
+            vditor.options.cache.after(text);
+        }
+    }
+
+    if (vditor.devtools) {
+        vditor.devtools.renderEchart(vditor);
+    }
+
     clearTimeout(vditor.sv.processTimeoutId);
     vditor.sv.processTimeoutId = window.setTimeout(() => {
-        if (vditor.sv.composingLock) {
-            return;
-        }
-
-        const text = getMarkdown(vditor);
-        if (typeof vditor.options.input === "function" && options.enableInput) {
-            vditor.options.input(text);
-        }
-
-        if (vditor.options.counter.enable) {
-            vditor.counter.render(vditor, text);
-        }
-
-        if (vditor.options.cache.enable && accessLocalStorage()) {
-            localStorage.setItem(vditor.options.cache.id, text);
-            if (vditor.options.cache.after) {
-                vditor.options.cache.after(text);
-            }
-        }
-
-        if (vditor.devtools) {
-            vditor.devtools.renderEchart(vditor);
-        }
-
-        if (options.enableAddUndoStack) {
+        if (options.enableAddUndoStack && !vditor.sv.composingLock) {
             vditor.undo.addToUndoStack(vditor);
         }
     }, 800);
