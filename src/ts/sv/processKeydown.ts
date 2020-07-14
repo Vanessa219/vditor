@@ -164,7 +164,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
         let newLineText = "\n";
         if (blockElement.getAttribute("data-type") === "code-block") {
-            newLineText += blockElement.querySelector('[data-type="padding"]')?.textContent;
+            newLineText += blockElement.querySelector('[data-type="padding"]')?.textContent || "";
         }
         range.insertNode(document.createTextNode(newLineText));
         range.collapse(false);
