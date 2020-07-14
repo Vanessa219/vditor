@@ -32,7 +32,7 @@
         border: 0;
         padding: 10px 5px;
         background-color: transparent;
-        height: 35px;
+        height: var(--toolbar-height);
         width: 25px;
         box-sizing: border-box;
         font-size: 0;
@@ -59,7 +59,7 @@
       input {
         position: absolute;
         width: 25px;
-        height: 35px;
+        height: var(--toolbar-height);
         top: 0;
         left: 0;
         cursor: pointer;
@@ -70,8 +70,9 @@
 
     &__divider {
       float: left;
-      width: 16px;
-      height: 35px;
+      height: calc(var(--toolbar-height) - (var(--toolbar-divider-margin-top) * 2));
+      border-left: 1px solid var(--border-color);
+      margin: var(--toolbar-divider-margin-top) 8px;
     }
 
     &__br {

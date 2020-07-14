@@ -65,11 +65,57 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
+* [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
 
-### v3.3.4 / 2020-06-xx
+### v3.3.7 / 2020-07-xx
 
-### v3.3.3 / 2020-06-23
+* [575](https://github.com/Vanessa219/vditor/issues/575) 编辑器存在 form 中，情景菜单会出发提交事件 `修复缺陷`
+* [577](https://github.com/Vanessa219/vditor/issues/577) 粘贴 XML 代码问题 `修复缺陷`
+* [573](https://github.com/Vanessa219/vditor/pull/573) style: 优化分隔符样式 `改进功能`
+* [572](https://github.com/Vanessa219/vditor/pull/572) fix: support aliyun oss `改进功能`
+* [570](https://github.com/Vanessa219/vditor/issues/570) no placeholder after(SV) `修复缺陷`
+* [569](https://github.com/Vanessa219/vditor/issues/569) 预览区域工具栏配置 `引入特性`
+* [565](https://github.com/Vanessa219/vditor/issues/565) SV 模式支持缩进代码块 `改进功能`
+* [566](https://github.com/Vanessa219/vditor/issues/566) 行级代码解析渲染 `修复缺陷`
+* options.mode 默认值修改为 `ir`
+* 工具栏配置：默认值：["desktop", "tablet", "mobile", "mp-wechat", "zhihu"] 
 
+### v3.3.6 / 2020-07-09
+
+* [555](https://github.com/Vanessa219/vditor/issues/555) SV 模式段落块拆分问题 `修复缺陷`
+* [556](https://github.com/Vanessa219/vditor/issues/556) options.preview.markdown.setext 默认值修改为 true `改进功能`
+* [554](https://github.com/Vanessa219/vditor/issues/554) SV 模式 Ctrl+u 代码块生成光标初始定位优化 `改进功能`
+* [558](https://github.com/Vanessa219/vditor/issues/558) [suggestion] shift+enter and end the lists `改进功能`
+* [547](https://github.com/Vanessa219/vditor/issues/547) 文件上传 format 第一个参数 files 为空数组 `修复缺陷`
+* [562](https://github.com/Vanessa219/vditor/issues/562) 为上传添加 fieldName 选项 `引入特性`
+* [553](https://github.com/Vanessa219/vditor/issues/553) 子任务列表回车问题 `改进功能`
+* [534](https://github.com/Vanessa219/vditor/issues/534) 支持导出到知乎 `引入特性`
+* [552](https://github.com/Vanessa219/vditor/issues/552) blockquote 换行需逐层跳出 `修复缺陷`
+* [551](https://github.com/Vanessa219/vditor/issues/551) Tab and ctrl+shift+J (checkbox) `修复缺陷`
+* [550](https://github.com/Vanessa219/vditor/issues/550) [Mermaid] State diagram rendering of multiple same node loops `修复缺陷`
+* [549](https://github.com/Vanessa219/vditor/issues/549) 粘贴 HTML 内容失败 `修复缺陷`
+* [548](https://github.com/Vanessa219/vditor/issues/548) 添加文件上传多选/单选配置 `引入特性`
+* [545](https://github.com/Vanessa219/vditor/issues/545) SV 模式列表项下输入代码块问题 `修复缺陷`
+* [544](https://github.com/Vanessa219/vditor/issues/544) SV 模式有序列表缩进问题 `修复缺陷`
+* [543](https://github.com/Vanessa219/vditor/issues/543) SV 模式删除选择文本问题 `修复缺陷`
+* [541](https://github.com/Vanessa219/vditor/issues/541) SV 模式列表和引用快捷键问题 `修复缺陷`
+* [546](https://github.com/Vanessa219/vditor/issues/546) SV 模式丢失 headingID `修复缺陷`
+* [539](https://github.com/Vanessa219/vditor/pull/539) 即时渲染模式 setValue 后，没有及时渲染 Code 区域 `修复缺陷`
+* [536](https://github.com/Vanessa219/vditor/issues/536) 文件上传检查后缀忽略大小写 `改进功能`
+* [537](https://github.com/Vanessa219/vditor/issues/537) 添加 destroy 方法 `引入特新`
+* [532](https://github.com/Vanessa219/vditor/issues/532) 中文输入过程中不应记录 UndoStack `修复缺陷`
+* [519](https://github.com/Vanessa219/vditor/issues/519) 扩展 markdown 主题 `改进功能`
+* [533](https://github.com/Vanessa219/vditor/issues/533) 中文字符串中间插入 \ 字符导致乱码 `修复缺陷`
+* [528](https://github.com/Vanessa219/vditor/issues/528) wysiwyg & ir 列表中有两个代码块时的错误 `修复缺陷`
+* [531](https://github.com/Vanessa219/vditor/issues/531) 移除 options.keymap `改进功能`
+* [529](https://github.com/Vanessa219/vditor/issues/529) 移除格式化按钮 `改进功能`
+* [526](https://github.com/Vanessa219/vditor/issues/526) 字符串中带有 \ 符号时，从 \ 后面，但不是行尾 Backspace 删除字符到达 \ 时处理异常 `修复缺陷`
+* [517](https://github.com/Vanessa219/vditor/issues/517) Duplicate CSS(render.html) `修复缺陷`
+* [522](https://github.com/Vanessa219/vditor/issues/522) 从 WPS Office 复制文本，粘贴异常 `修复缺陷`
+* [524](https://github.com/Vanessa219/vditor/issues/524) no background-color change(dark mode-abcjs) `修复缺陷`
+* [516](https://github.com/Vanessa219/vditor/issues/516) 高亮自动填写功能未生效问题 `修复缺陷`
+* [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
 * [499](https://github.com/Vanessa219/vditor/issues/499) Chrome 浏览器，Up 方向键 光标位置移动异常 `修复缺陷`
 * [514](https://github.com/Vanessa219/vditor/issues/514) 只读没有禁用场景菜单 `修复缺陷`
 * [501](https://github.com/Vanessa219/vditor/issues/501) 反斜杠 \ 转义问题 `改进功能`
@@ -92,6 +138,16 @@
 * 文档修改
   * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
   * 为 `setValue` 方法添加 `clearStack` 参数；新增 `clearStack` 方法
+  * 移除 `options.keymap`
+  * 移除工具栏上的格式化功能
+  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
+  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+  * 移除 `setSelection`
+  * 添加 `destory` 方法
+  * 添加 `options.upload.multiple`
+  * 添加 `options.upload.fieldName`
+  * `options.preview.markdown.setext` 默认值修改为 `true`
 
 ### v3.2.12 / 2020-06-07
 

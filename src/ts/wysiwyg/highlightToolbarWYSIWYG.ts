@@ -28,7 +28,7 @@ import {getEditorRange, selectIsEditor, setRangeByWbr, setSelectionFocus} from "
 import {afterRenderEvent} from "./afterRenderEvent";
 import {removeBlockElement} from "./processKeydown";
 
-export const highlightToolbar = (vditor: IVditor) => {
+export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
     vditor.wysiwyg.hlToolbarTimeoutId = window.setTimeout(() => {
         if (vditor.wysiwyg.element.getAttribute("contenteditable") === "false") {
@@ -235,6 +235,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             }
 
             const left = document.createElement("button");
+            left.setAttribute("type", "button");
             left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft +
                 "<" + updateHotkeyTip("⌘-⇧-L") + ">");
             left.setAttribute("data-type", "left");
@@ -246,6 +247,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const center = document.createElement("button");
+            center.setAttribute("type", "button");
             center.setAttribute("aria-label", i18n[vditor.options.lang].alignCenter +
                 "<" + updateHotkeyTip("⌘-⇧-C") + ">");
             center.setAttribute("data-type", "center");
@@ -257,6 +259,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const right = document.createElement("button");
+            right.setAttribute("type", "button");
             right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight +
                 "<" + updateHotkeyTip("⌘-⇧-R") + ">");
             right.setAttribute("data-type", "right");
@@ -268,6 +271,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const insertRowElement = document.createElement("button");
+            insertRowElement.setAttribute("type", "button");
             insertRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-row"] +
                 "<" + updateHotkeyTip("⌘-=") + ">");
             insertRowElement.setAttribute("data-type", "insertRow");
@@ -283,6 +287,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const insertColumnElement = document.createElement("button");
+            insertColumnElement.setAttribute("type", "button");
             insertColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-column"] +
                 "<" + updateHotkeyTip("⌘-⇧-=") + ">");
             insertColumnElement.setAttribute("data-type", "insertColumn");
@@ -298,6 +303,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const deleteRowElement = document.createElement("button");
+            deleteRowElement.setAttribute("type", "button");
             deleteRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-row"] +
                 "<" + updateHotkeyTip("⌘--") + ">");
             deleteRowElement.setAttribute("data-type", "deleteRow");
@@ -313,6 +319,7 @@ export const highlightToolbar = (vditor: IVditor) => {
             };
 
             const deleteColumnElement = document.createElement("button");
+            deleteColumnElement.setAttribute("type", "button");
             deleteColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-column"] +
                 "<" + updateHotkeyTip("⌘-⇧--") + ">");
             deleteColumnElement.setAttribute("data-type", "deleteColumn");
@@ -514,15 +521,17 @@ export const highlightToolbar = (vditor: IVditor) => {
 
                 const codeElement = blockRenderElement.firstElementChild.firstElementChild;
 
-                const updateLanguage = () => {
-                    codeElement.className = `language-${language.value}`;
-                };
                 language.className = "vditor-input";
                 language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥-Enter") + ">");
                 language.value = codeElement.className.indexOf("language-") > -1 ?
-                    codeElement.className.split("-")[1].split(" ")[0] : vditor.hint.recentLanguage;
+                    codeElement.className.split("-")[1].split(" ")[0] : "";
                 language.oninput = () => {
-                    updateLanguage();
+                    if (language.value.trim() !== "") {
+                        codeElement.className = `language-${language.value}`;
+                    } else {
+                        codeElement.className = "";
+                        vditor.hint.recentLanguage = "";
+                    }
                     if (blockRenderElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
                         blockRenderElement.lastElementChild.innerHTML = blockRenderElement.firstElementChild.innerHTML;
                         processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
@@ -668,6 +677,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
         return;
     }
     const upElement = document.createElement("button");
+    upElement.setAttribute("type", "button");
     upElement.setAttribute("data-type", "up");
     upElement.setAttribute("aria-label", i18n[vditor.options.lang].up +
         "<" + updateHotkeyTip("⌘-⇧-U") + ">");
@@ -678,7 +688,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
         previousElement.insertAdjacentElement("beforebegin", element);
         setRangeByWbr(vditor.wysiwyg.element, range);
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
         scrollCenter(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", upElement);
@@ -690,6 +700,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
         return;
     }
     const downElement = document.createElement("button");
+    downElement.setAttribute("type", "button");
     downElement.setAttribute("data-type", "down");
     downElement.setAttribute("aria-label", i18n[vditor.options.lang].down +
         "<" + updateHotkeyTip("⌘-⇧-D") + ">");
@@ -700,7 +711,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
         nextElement.insertAdjacentElement("afterend", element);
         setRangeByWbr(vditor.wysiwyg.element, range);
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
         scrollCenter(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", downElement);
@@ -708,6 +719,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
 
 const genClose = (element: HTMLElement, vditor: IVditor) => {
     const close = document.createElement("button");
+    close.setAttribute("type", "button");
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
         "<" + updateHotkeyTip("⌘-⇧-X") + ">");
@@ -719,7 +731,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
         setSelectionFocus(range);
         element.remove();
         afterRenderEvent(vditor);
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 };

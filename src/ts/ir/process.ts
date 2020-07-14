@@ -1,10 +1,10 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {accessLocalStorage, isSafari} from "../util/compatibility";
+import {accessLocalStorage} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
-import {highlightToolbar} from "./highlightToolbar";
+import {highlightToolbarIR} from "./highlightToolbarIR";
 
 export const processHint = (vditor: IVditor) => {
     vditor.hint.render(vditor);
@@ -18,8 +18,9 @@ export const processHint = (vditor: IVditor) => {
             range.selectNodeContents(preBeforeElement);
         } else {
             const matchLangData: IHintData[] = [];
-            const key = preBeforeElement.textContent.substring(0, getSelectPosition(preBeforeElement).start)
-                .replace(Constants.ZWSP, "");
+            const key =
+                preBeforeElement.textContent.substring(0, getSelectPosition(preBeforeElement, vditor.ir.element).start)
+                    .replace(Constants.ZWSP, "");
             Constants.CODE_LANGUAGES.forEach((keyName) => {
                 if (keyName.indexOf(key.toLowerCase()) > -1) {
                     matchLangData.push({
@@ -44,8 +45,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 
     clearTimeout(vditor.ir.processTimeoutId);
     vditor.ir.processTimeoutId = window.setTimeout(() => {
-        if (vditor.ir.composingLock && isSafari()) {
-            // safari 中文输入遇到 addToUndoStack 会影响下一次的中文输入
+        if (vditor.ir.composingLock) {
             return;
         }
         const text = getMarkdown(vditor);
@@ -69,13 +69,13 @@ export const processAfterRender = (vditor: IVditor, options = {
         }
 
         if (options.enableAddUndoStack) {
-            vditor.irUndo.addToUndoStack(vditor);
+            vditor.undo.addToUndoStack(vditor);
         }
     }, 800);
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {
-    const range = getSelection().getRangeAt(0);
+    const range = getEditorRange(vditor.ir.element);
     const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
         if (value === "") {
@@ -87,7 +87,7 @@ export const processHeading = (vditor: IVditor, value: string) => {
             range.collapse(true);
             document.execCommand("insertHTML", false, value);
         }
-        highlightToolbar(vditor);
+        highlightToolbarIR(vditor);
         renderToc(vditor);
     }
 };
@@ -193,5 +193,5 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     }
     setRangeByWbr(vditor.ir.element, range);
     processAfterRender(vditor);
-    highlightToolbar(vditor);
+    highlightToolbarIR(vditor);
 };

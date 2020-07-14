@@ -24,7 +24,7 @@ const render = (fileName) => {
           anchor: 1,
           after () {
             if (window.innerWidth <= 768) {
-              return;
+              return
             }
             const outlineElement = document.getElementById('outline')
             Vditor.outlineRender(document.getElementById('preview'),
@@ -58,12 +58,12 @@ window.setTheme = (theme) => {
   const outlineElement = document.getElementById('outline')
   if (theme === 'dark') {
     Vditor.setCodeTheme('native')
-    Vditor.setContentTheme('dark')
+    Vditor.setContentTheme('dark', 'https://cdn.jsdelivr.net/npm/vditor/dist/css/content-theme')
     outlineElement.classList.add('dark')
     document.querySelector('html').style.backgroundColor = '#2f363d'
   } else {
     Vditor.setCodeTheme('github')
-    Vditor.setContentTheme('light')
+    Vditor.setContentTheme('light', 'https://cdn.jsdelivr.net/npm/vditor/dist/css/content-theme')
     outlineElement.classList.remove('dark')
     document.querySelector('html').style.backgroundColor = '#fff'
   }

@@ -2,8 +2,8 @@ import {Constants} from "../constants";
 import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
 import {getEventName} from "../util/compatibility";
+import {RecordMedia} from "../util/RecordMedia";
 import {MenuItem} from "./MenuItem";
-import {RecordMedia} from "./RecordMedia";
 
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

@@ -349,13 +349,13 @@ https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html
 
     缩进对齐的段落包含在这个脚注定义内。
 
-    ```
+    ```text
     可以使用代码块。
     ```
 
     还有其他行级排版语法，比如**加粗**和[链接](https://b3log.org)。
 
-```
+```text
 这里是一个脚注引用[^1]，这里是另一个脚注引用[^bignote]。
 [^1]: 第一个脚注定义。
 [^bignote]: 脚注定义可使用多段内容。

@@ -34,17 +34,17 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1) {
-        vditor.wysiwygUndo.recordFirstWbr(vditor, event);
-    }
-
-    if (!fixGSKeyBackspace(event, vditor)) {
-        return false;
+        vditor.undo.recordFirstPosition(vditor, event);
     }
 
     const range = getEditorRange(vditor.wysiwyg.element);
     const startContainer = range.startContainer;
 
-    fixCJKPosition(range, event);
+    if (!fixGSKeyBackspace(event, vditor, startContainer)) {
+        return false;
+    }
+
+    fixCJKPosition(range, vditor, event);
 
     fixHR(range);
 
@@ -256,7 +256,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (blockElement.previousElementSibling
                 && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
                 && blockElement.previousElementSibling.getAttribute("data-block") === "0") {
-                const rangeStart = getSelectPosition(blockElement, range).start;
+                const rangeStart = getSelectPosition(blockElement, vditor.wysiwyg.element, range).start;
                 if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                     // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
                     showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor, false);

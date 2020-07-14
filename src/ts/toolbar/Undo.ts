@@ -12,13 +12,7 @@ export class Undo extends MenuItem {
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-            if (vditor.currentMode === "sv") {
-                vditor.undo.undo(vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
-                vditor.wysiwygUndo.undo(vditor);
-            } else if (vditor.currentMode === "ir") {
-                vditor.irUndo.undo(vditor);
-            }
+            vditor.undo.undo(vditor);
         });
     }
 }

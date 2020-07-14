@@ -1,12 +1,11 @@
 import {Constants} from "../constants";
-import {highlightToolbar as highlightToolbarIR} from "../ir/highlightToolbar";
 import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
+import {processAfterRender as processSVAfterRender} from "../sv/process";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
-import {highlightToolbar} from "../wysiwyg/highlightToolbar";
 import {input} from "../wysiwyg/input";
 import {isCtrl, isFirefox} from "./compatibility";
 import {scrollCenter} from "./editorCommonEvent";
@@ -19,6 +18,7 @@ import {
 } from "./hasClosest";
 import {getLastNode} from "./hasClosest";
 import {hasClosestByHeadings} from "./hasClosestByHeadings";
+import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
 import {
     getEditorRange,
@@ -29,22 +29,26 @@ import {
 } from "./selection";
 
 // https://github.com/Vanessa219/vditor/issues/508 软键盘无法删除空块
-export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor) => {
+export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor, startContainer: Node) => {
     if (event.keyCode === 229 && event.code === "" && event.key === "Unidentified" && vditor.currentMode !== "sv") {
-        vditor[vditor.currentMode].composingLock = true;
-        return false;
+        const blockElement = hasClosestBlock(startContainer);
+        // 移动端的标点符号都显示为 299，因此需限定为空删除的条件
+        if (blockElement && blockElement.textContent.trim() === "") {
+            vditor[vditor.currentMode].composingLock = true;
+            return false;
+        }
     }
     return true;
 };
 
 // https://github.com/Vanessa219/vditor/issues/361
-export const fixCJKPosition = (range: Range, event: KeyboardEvent) => {
+export const fixCJKPosition = (range: Range, vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Enter" || event.key === "Tab" || event.key === "Backspace" || event.key.indexOf("Arrow") > -1
         || isCtrl(event) || event.key === "Escape" || event.shiftKey || event.altKey) {
         return;
     }
     const pElement = hasClosestByMatchTag(range.startContainer, "P");
-    if (pElement && getSelectPosition(pElement, range).start === 0) {
+    if (pElement && getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0) {
         const zwspNode = document.createTextNode(Constants.ZWSP);
         range.insertNode(zwspNode);
         range.setStartAfter(zwspNode);
@@ -72,11 +76,7 @@ export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
     if (blockElement) {
         blockElement.insertAdjacentHTML(position, `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
         setRangeByWbr(vditor[vditor.currentMode].element, range);
-        if (vditor.currentMode === "ir") {
-            highlightToolbarIR(vditor);
-        } else {
-            highlightToolbar(vditor);
-        }
+        highlightToolbar(vditor);
         execAfterRender(vditor);
     }
 };
@@ -123,7 +123,7 @@ const goPreviousCell = (cellElement: HTMLElement, range: Range, isSelected = tru
 
 export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
                                  blockElement: HTMLElement) => {
-    const position = getSelectPosition(element, range);
+    const position = getSelectPosition(element, vditor[vditor.currentMode].element, range);
     if ((event.key === "ArrowDown" && element.textContent.trimRight().substr(position.start).indexOf("\n") === -1) ||
         (event.key === "ArrowRight" && position.start >= element.textContent.trimRight().length)) {
         const nextElement = blockElement.nextElementSibling;
@@ -145,7 +145,7 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
 
 export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
                                   blockElement: HTMLElement) => {
-    const position = getSelectPosition(element, range);
+    const position = getSelectPosition(element, vditor[vditor.currentMode].element, range);
     if ((event.key === "ArrowUp" && element.textContent.substr(position.start).indexOf("\n") === -1) ||
         ((event.key === "ArrowLeft" || event.key === "Backspace") && position.start === 0)) {
         const previousElement = blockElement.previousElementSibling;
@@ -268,9 +268,7 @@ export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range
                 });
         }
         execAfterRender(vditor);
-        if (vditor.currentMode === "wysiwyg") {
-            highlightToolbar(vditor);
-        }
+        highlightToolbar(vditor);
     } else {
         vditor[vditor.currentMode].element.focus();
     }
@@ -325,9 +323,7 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
                 });
         }
         execAfterRender(vditor);
-        if (vditor.currentMode === "wysiwyg") {
-            highlightToolbar(vditor);
-        }
+        highlightToolbar(vditor);
     } else {
         vditor[vditor.currentMode].element.focus();
     }
@@ -428,11 +424,17 @@ export const renderToc = (vditor: IVditor) => {
     tocElement.innerHTML = tocHTML || "[ToC]";
 };
 
-export const execAfterRender = (vditor: IVditor) => {
+export const execAfterRender = (vditor: IVditor, options = {
+    enableAddUndoStack: true,
+    enableHint: false,
+    enableInput: true,
+}) => {
     if (vditor.currentMode === "wysiwyg") {
-        afterRenderEvent(vditor);
+        afterRenderEvent(vditor, options);
     } else if (vditor.currentMode === "ir") {
-        processAfterRender(vditor);
+        processAfterRender(vditor, options);
+    } else if (vditor.currentMode === "sv") {
+        processSVAfterRender(vditor, options);
     }
 };
 
@@ -456,7 +458,7 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
 
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
             !liElement.previousElementSibling && range.toString() === "" &&
-            getSelectPosition(liElement, range).start === 0) {
+            getSelectPosition(liElement, vditor[vditor.currentMode].element, range).start === 0) {
             // 光标位于点和第一个字符中间时，无法删除 li 元素
             if (liElement.nextElementSibling) {
                 liElement.parentElement.insertAdjacentHTML("beforebegin",
@@ -576,7 +578,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
     // 软换行会被切割 https://github.com/Vanessa219/vditor/issues/220
     if (pElement.previousElementSibling && event.key === "Backspace" && !isCtrl(event) && !event.altKey &&
         !event.shiftKey && pElement.textContent.trimRight().split("\n").length > 1 &&
-        getSelectPosition(pElement, range).start === 0) {
+        getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0) {
         const lastElement = getLastNode(pElement.previousElementSibling) as HTMLElement;
         if (!lastElement.textContent.endsWith("\n")) {
             lastElement.textContent = lastElement.textContent + "\n";
@@ -661,9 +663,7 @@ export const deleteColumn =
             const cells = tableElement.rows[i].cells;
             if (cells.length === 1) {
                 tableElement.remove();
-                if (vditor.currentMode === "wysiwyg") {
-                    highlightToolbar(vditor);
-                }
+                highlightToolbar(vditor);
                 break;
             }
             cells[index].remove();
@@ -914,7 +914,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
 
     // Backspace: 光标位于第零个字符，仅删除代码块标签
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
-        const codePosition = getSelectPosition(codeRenderElement, range);
+        const codePosition = getSelectPosition(codeRenderElement, vditor[vditor.currentMode].element, range);
         if ((codePosition.start === 0 ||
             (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
             && range.toString() === "") {
@@ -957,7 +957,7 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.toString() === "") {
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
-            getSelectPosition(blockquoteElement, range).start === 0) {
+            getSelectPosition(blockquoteElement, vditor[vditor.currentMode].element, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
             range.insertNode(document.createElement("wbr"));
             blockquoteElement.outerHTML = blockquoteElement.innerHTML;
@@ -977,7 +977,8 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
                 isEmpty = true;
                 pElement.remove();
             } else if (pElement.innerHTML.endsWith("\n\n") &&
-                getSelectPosition(pElement, range).start === pElement.textContent.length - 1) {
+                getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start ===
+                pElement.textContent.length - 1) {
                 // 软换行
                 pElement.innerHTML = pElement.innerHTML.substr(0, pElement.innerHTML.length - 2);
                 isEmpty = true;
@@ -1133,7 +1134,7 @@ export const fixDelete = (vditor: IVditor, range: Range, event: KeyboardEvent, p
 
     if (pElement) {
         const previousElement = pElement.previousElementSibling;
-        if (previousElement && getSelectPosition(pElement, range).start === 0 &&
+        if (previousElement && getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0 &&
             ((isFirefox() && previousElement.tagName === "HR") || previousElement.tagName === "TABLE")) {
             if (previousElement.tagName === "TABLE") {
                 // table 后删除 https://github.com/Vanessa219/vditor/issues/243
@@ -1192,13 +1193,15 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     const renderers: {
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
+        HTML2VditorSVDOM?: ILuteRender,
         Md2VditorDOM?: ILuteRender,
         Md2VditorIRDOM?: ILuteRender,
+        Md2VditorSVDOM?: ILuteRender,
     } = {};
     const renderLinkDest: ILuteRenderCallback = (node) => {
         const src = node.TokensStr();
-        if (node.__internal_object__.Parent.Type === 34 && src
-            && src.indexOf("file://") === -1 && vditor.options.upload.linkToImgUrl) {
+        if (node.__internal_object__.Parent.Type === 34 && src && src.indexOf("file://") === -1 &&
+            vditor.options.upload.linkToImgUrl) {
             const xhr = new XMLHttpRequest();
             xhr.open("POST", vditor.options.upload.linkToImgUrl);
             setHeaders(vditor, xhr);
@@ -1211,12 +1214,21 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                             return;
                         }
                         const original = responseJSON.data.originalURL;
-                        const imgElement: HTMLImageElement =
-                            vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
-                        imgElement.src = responseJSON.data.url;
-                        if (vditor.currentMode === "ir") {
-                            imgElement.previousElementSibling.previousElementSibling.innerHTML =
-                                responseJSON.data.url;
+                        if (vditor.currentMode === "sv") {
+                            vditor.sv.element.querySelectorAll('[data-type="image"] .vditor-sv__marker--link')
+                                .forEach((item: HTMLElement) => {
+                                    if (item.textContent === original) {
+                                        item.textContent = responseJSON.data.url;
+                                    }
+                                });
+                        } else {
+                            const imgElement: HTMLImageElement =
+                                vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
+                            imgElement.src = responseJSON.data.url;
+                            if (vditor.currentMode === "ir") {
+                                imgElement.previousElementSibling.previousElementSibling.innerHTML =
+                                    responseJSON.data.url;
+                            }
                         }
                         execAfterRender(vditor);
                     } else {
@@ -1228,8 +1240,10 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         }
         if (vditor.currentMode === "ir") {
             return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`, Lute.WalkStop];
-        } else {
+        } else if (vditor.currentMode === "wysiwyg") {
             return ["", Lute.WalkStop];
+        } else {
+            return [`<span class="vditor-sv__marker--link">${src}</span>`, Lute.WalkStop];
         }
     };
 
@@ -1249,21 +1263,28 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
 
     // process code
     const code = processPasteCode(textHTML, textPlain, vditor.currentMode);
-    const codeElement = hasClosestByMatchTag(event.target, "CODE");
+    const codeElement = vditor.currentMode === "sv" ?
+        hasClosestByAttribute(event.target, "data-type", "code-block") :
+        hasClosestByMatchTag(event.target, "CODE");
     if (codeElement) {
         // 粘贴在代码位置
-        const position = getSelectPosition(event.target);
-        if (codeElement.parentElement.tagName !== "PRE") {
-            // https://github.com/Vanessa219/vditor/issues/463
-            textPlain += Constants.ZWSP;
-        }
-        codeElement.textContent = codeElement.textContent.substring(0, position.start)
-            + textPlain + codeElement.textContent.substring(position.end);
-        setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
-            codeElement.parentElement);
-        if (codeElement.parentElement?.nextElementSibling.classList.contains(`vditor-${vditor.currentMode}__preview`)) {
-            codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
-            processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+        if (vditor.currentMode === "sv") {
+            document.execCommand("insertHTML", false, textPlain.replace(/&/g, "&amp;").replace(/</g, "&lt;"));
+        } else {
+            const position = getSelectPosition(event.target, vditor[vditor.currentMode].element);
+            if (codeElement.parentElement.tagName !== "PRE") {
+                // https://github.com/Vanessa219/vditor/issues/463
+                textPlain += Constants.ZWSP;
+            }
+            codeElement.textContent = codeElement.textContent.substring(0, position.start)
+                + textPlain + codeElement.textContent.substring(position.end);
+            setSelectionByPosition(position.start + textPlain.length, position.start + textPlain.length,
+                codeElement.parentElement);
+            if (codeElement.parentElement?.nextElementSibling.classList
+                .contains(`vditor-${vditor.currentMode}__preview`)) {
+                codeElement.parentElement.nextElementSibling.innerHTML = codeElement.outerHTML;
+                processCodeRender(codeElement.parentElement.nextElementSibling as HTMLElement, vditor);
+            }
         }
     } else if (code) {
         callback.pasteCode(code);
@@ -1281,10 +1302,14 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 renderers.HTML2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
-            } else {
+            } else if (vditor.currentMode === "wysiwyg") {
                 renderers.HTML2VditorDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
+            } else {
+                renderers.HTML2VditorSVDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
+                insertHTML(vditor.lute.HTML2VditorSVDOM(tempElement.innerHTML), vditor);
             }
             vditor.outline.render(vditor);
         } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
@@ -1294,17 +1319,23 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 renderers.Md2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.Md2VditorIRDOM(textPlain), vditor);
-            } else {
+            } else if (vditor.currentMode === "wysiwyg") {
                 renderers.Md2VditorDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.Md2VditorDOM(textPlain), vditor);
+            } else {
+                renderers.Md2VditorSVDOM = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
+                insertHTML(vditor.lute.Md2VditorSVDOM(textPlain), vditor);
             }
             vditor.outline.render(vditor);
         }
     }
-    vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
-        .forEach((item: HTMLElement) => {
-            processCodeRender(item, vditor);
-        });
+    if (vditor.currentMode !== "sv") {
+        vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+            .forEach((item: HTMLElement) => {
+                processCodeRender(item, vditor);
+            });
+    }
     execAfterRender(vditor);
 };

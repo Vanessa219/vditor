@@ -20,7 +20,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         }
 
         // 前后空格处理
-        const startOffset = getSelectPosition(blockElement, range).start;
+        const startOffset = getSelectPosition(blockElement, vditor.ir.element, range).start;
 
         // 开始可以输入空格
         let startSpace = true;
@@ -142,7 +142,6 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
             html = blockElement.previousElementSibling.outerHTML + html;
             blockElement.previousElementSibling.remove();
         }
-
         // 添加链接引用
         const allLinkRefDefsElement = vditor.ir.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
