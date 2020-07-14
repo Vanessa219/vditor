@@ -30,24 +30,12 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             return;
         }
         //  list item marker 删除或空格
-        const listElement = hasClosestByAttribute(range.startContainer, "data-type", "li");
-        if (listElement) {
-            if (event.data === " " &&
-                (hasClosestByAttribute(range.startContainer, "data-type", "li-marker") ||
-                    hasClosestByAttribute(range.startContainer, "data-type", "task-marker"))) {
-                processAfterRender(vditor);
-                return;
-            }
-            const liMarkerElement = listElement.querySelector('[data-type="li-marker"]');
-            if (event.inputType === "deleteContentBackward" &&
-                getSelectPosition(listElement, vditor.sv.element, range).start <=
-                listElement.getAttribute("data-space").length +
-                (liMarkerElement ? liMarkerElement.textContent.length : 0) +
-                (listElement.querySelector('[data-type="task-marker"]') ? 4 : 0)
-            ) {
-                processAfterRender(vditor);
-                return;
-            }
+        if ((event.data === " " || event.inputType === "deleteContentBackward") &&
+            (hasClosestByAttribute(range.startContainer, "data-type", "li-marker") ||
+                hasClosestByAttribute(range.startContainer, "data-type", "task-marker")
+            )) {
+            processAfterRender(vditor);
+            return;
         }
         // heading marker 删除或空格
         const headingElement = hasClosestByAttribute(range.startContainer, "data-type", "heading-marker");

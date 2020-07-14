@@ -1,6 +1,6 @@
 import {isCtrl} from "../util/compatibility";
 import {fixTab} from "../util/fixBrowserBehavior";
-import {hasClosestByAttribute} from "../util/hasClosest";
+import {hasClosestByAttribute, hasTopClosestByAttribute} from "../util/hasClosest";
 import {matchHotKey} from "../util/hotKey";
 import {getEditorRange, getSelectPosition} from "../util/selection";
 import {inputEvent} from "./inputEvent";
@@ -68,23 +68,26 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // list item
     const listElement = hasClosestByAttribute(startContainer, "data-type", "li");
     if (listElement && !codeBlockElement) {
-        const markerElement = listElement.querySelector('[data-type="li-marker"]');
         const startIndex = getSelectPosition(listElement, vditor.sv.element, range).start;
-        const space = listElement.getAttribute("data-space");
+        const markerElement = listElement.querySelector('[data-type="li-marker"]');
         const taskMarkerElements = listElement.querySelectorAll('[data-type="task-marker"]');
+        const paddingElement = listElement.querySelector('[data-type="padding"]');
+        const paddingText = paddingElement ? paddingElement.textContent : "";
         // 回车
         if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey && startIndex !== 0) {
             // enter
             if (markerElement && startIndex ===
-                markerElement.textContent.length + space.length + (taskMarkerElements.length > 0 ? 4 : 0)) {
+                markerElement.textContent.length + paddingText.length + (taskMarkerElements.length > 0 ? 4 : 0)) {
                 let addUndoStack = true;
+                const parentLiElement = hasClosestByAttribute(listElement.parentElement, "data-type", "li");
                 // 清空列表标记符
-                if (space === "") {
-                    markerElement.remove();
-                } else {
-                    markerElement.previousElementSibling.remove();
+                if (parentLiElement) {
+                    paddingElement.textContent = paddingText.substr(0, paddingText.length -
+                        parentLiElement.querySelector('[data-type="li-marker"]').textContent.length);
                     inputEvent(vditor);
                     addUndoStack = false;
+                } else {
+                    markerElement.remove();
                 }
                 if (taskMarkerElements.length > 0) {
                     listElement.querySelectorAll('[data-type="task-marker"]').forEach((item: HTMLElement) => {
@@ -96,9 +99,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 }
             } else {
                 // 添加标记符号
-                let newMarker = "\n";
+                let newMarker = "\n" + paddingText;
                 if (markerElement) {
-                    newMarker += space + markerElement.textContent;
+                    newMarker += markerElement.textContent;
                 }
                 if (taskMarkerElements.length > 0) {
                     newMarker += "[ ] ";
@@ -111,22 +114,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
         // 光标在每一行的第一个字符后删除
-        if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
-            const firstElement = hasClosestByAttribute(startContainer, "data-type", "li-marker") ||
-                hasClosestByAttribute(startContainer, "data-type", "li-space");
-            if (firstElement && startIndex === 1) {
-                range.setStart(startContainer, 0);
-                range.extractContents();
-                if (firstElement.textContent === "") {
-                    firstElement.remove();
-                }
-                processAfterRender(vditor);
-                event.preventDefault();
-                return true;
-            }
+        if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey && startIndex === 1) {
+            range.setStart(startContainer, 0);
+            range.extractContents();
+            // 不能使用 inputEvent，否则子列表会合并为松散列表
+            processAfterRender(vditor);
+            event.preventDefault();
+            return true;
         }
         // 第一个 marker 后 tab 进行缩进
-        if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + space.length
+        if (event.key === "Tab" && markerElement && startIndex === markerElement.textContent.length + paddingText.length
             + (taskMarkerElements.length > 0 ? taskMarkerElements[1].textContent.length + 3 : 0)) {
             if (/^\d/.test(markerElement.textContent)) {
                 markerElement.textContent = "1. ";
@@ -134,7 +131,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 range.collapse(false);
             }
             markerElement.insertAdjacentHTML("beforebegin",
-                `<span data-type="li-space">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
+                `<span data-type="padding">${markerElement.textContent.replace(/\S/g, " ")}</span>`);
             inputEvent(vditor);
             event.preventDefault();
             return true;
@@ -178,30 +175,31 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 删除后光标前有 newline 的处理
-    if (blockElement && event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
-        const startIndex = getSelectPosition(blockElement, vditor.sv.element, range).start;
-        // 光标在每一行的开始位置
-        if (startIndex === 0 && blockElement.previousElementSibling &&
-            blockElement.previousElementSibling.lastElementChild.getAttribute("data-type") === "newline") {
-            blockElement.previousElementSibling.lastElementChild.remove();
-            range.extractContents();
-            if (blockElement.textContent.trim() !== "") {
+    if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+        let deleteElement = hasTopClosestByAttribute(startContainer, "data-block", "0")
+        if (deleteElement) {
+            const startIndex = getSelectPosition(deleteElement, vditor.sv.element, range).start;
+            // 光标在每一块的开始位置
+            if (startIndex === 0 && deleteElement.previousElementSibling &&
+                deleteElement.previousElementSibling.lastElementChild.getAttribute("data-type") === "newline") {
+                deleteElement.previousElementSibling.lastElementChild.remove();
+                range.extractContents();
                 inputEvent(vditor);
-            } else {
-                processAfterRender(vditor);
+                event.preventDefault();
+                return true;
             }
-            event.preventDefault();
-            return true;
         }
-        // 光标在每一行的第一个字符后, list item、blockquote line 处理在上方
-        const textElement = hasClosestByAttribute(startContainer, "data-type", "text");
-        if (textElement && range.startOffset === 1 && textElement.previousElementSibling &&
-            textElement.previousElementSibling.getAttribute("data-type") === "newline") {
-            range.setStart(startContainer, 0);
-            range.extractContents();
-            processAfterRender(vditor);
-            event.preventDefault();
-            return true;
+        // 光标在每一行的第一个字符后, blockquote， list 处理在上方
+        deleteElement = hasClosestByAttribute(startContainer, "data-type", "text");
+        if (deleteElement) {
+            const startIndex = getSelectPosition(deleteElement, vditor.sv.element, range).start;
+            if (startIndex === 1) {
+                range.setStart(startContainer, 0);
+                range.extractContents();
+                inputEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
         }
     }
     return false;
