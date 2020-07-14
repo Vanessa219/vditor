@@ -153,17 +153,20 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (fixTab(vditor, range, event)) {
         return true;
     }
-    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
 
-    // 回车，除 list item，blockquote 的 marker 延续和清除外
-    if (event.key === "Enter" && !isCtrl(event) && !event.altKey) {
+    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    // 回车。list，blockquote marker 延续和清除
+    if (event.key === "Enter" && !isCtrl(event) && !event.altKey && blockElement) {
         let isFirst = false;
-        if (blockElement && getSelectPosition(blockElement, vditor.sv.element).start === 0) {
+        if (getSelectPosition(blockElement, vditor.sv.element).start === 0) {
             // 允许段落开始换行
             isFirst = true;
         }
-        // 添加 \n
-        range.insertNode(document.createTextNode("\n"));
+        let newLineText = "\n";
+        if (blockElement.getAttribute("data-type") === "code-block") {
+            newLineText += blockElement.querySelector('[data-type="padding"]')?.textContent;
+        }
+        range.insertNode(document.createTextNode(newLineText));
         range.collapse(false);
         if ((!blockElement || blockElement?.textContent.trim() !== "") && !isFirst) {
             inputEvent(vditor);
@@ -176,7 +179,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 删除后光标前有 newline 的处理
     if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
-        let deleteElement = hasTopClosestByAttribute(startContainer, "data-block", "0")
+        let deleteElement = hasTopClosestByAttribute(startContainer, "data-block", "0");
         if (deleteElement) {
             const startIndex = getSelectPosition(deleteElement, vditor.sv.element, range).start;
             // 光标在每一块的开始位置
