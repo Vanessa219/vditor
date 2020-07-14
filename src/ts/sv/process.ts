@@ -127,8 +127,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     } else {
         // 添加
         if (vditor.sv.element.childNodes.length === 0) {
-            vditor.sv.element.innerHTML = `<div data-type="p" data-block="0"><span data-type="text"><wbr></span><span data-type="newline"><br><span style="display: none">
-</span></span></div>`;
+            vditor.sv.element.innerHTML = `<span data-type="p" data-block="0"><span data-type="text"><wbr></span></span><span data-type="newline"><br><span style="display: none">
+</span></span>`;
             setRangeByWbr(vditor.sv.element, range);
         }
         const blockElement = hasClosestBlock(range.startContainer);
