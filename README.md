@@ -415,7 +415,7 @@ if (xhr.status === 200) {
 | setPreviewMode(mode: "both" \| "editor") | 设置预览模式 |
 | setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | 设置主题、内容主题及代码块风格 |
 | getCurrentMode(): string | 获取编辑器当前编辑模式 |
-| destory() |销毁编辑器|
+| destroy() |销毁编辑器|
 
 #### static methods
 
