@@ -85,6 +85,11 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         // 修改脚注角标
         blockElement = vditor.sv.element;
     }
+    // 有 blockquote 需到 blockquote
+    const blockquoteElement = hasTopClosestByAttribute(blockElement, "data-type", "blockquote");
+    if (blockquoteElement) {
+        blockElement = blockquoteElement;
+    }
     // 列表需到顶层
     const topListElement = hasTopClosestByAttribute(blockElement, "data-type", "ol") ||
         hasTopClosestByAttribute(blockElement, "data-type", "ul") ||
