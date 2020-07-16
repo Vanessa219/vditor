@@ -187,7 +187,7 @@ const vditor = new Vditor(id, {options...})
 | tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
 | typewriterMode | 是否启用打字机模式 | false |
 | cdn | 配置自建 CDN 地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
-| mode | 可选模式：sv, ir, wysiwyg | 'wysiwyg' |
+| mode | 可选模式：sv, ir, wysiwyg | 'ir' |
 | debugger | 是否显示日志 | false |
 | value | 编辑器初始化值 | '' |
 | theme | 主题：classic, dark | 'classic' |
@@ -300,6 +300,18 @@ new Vditor('vditor', {
 | inlineDigit | 内联数学公式起始 $ 后是否允许数字 | false |
 | macros | 使用 MathJax 渲染时传入的宏定义 | {} |
 | engine | 数学公式渲染引擎：KaTeX, MathJax | 'KaTeX' |
+
+#### options.preview.actions?: Array<IPreviewAction | IPreviewActionCustom>
+
+默认值为 ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]。
+可从默认值中挑选进行配置，也可使用以下字段进行自定制开发。
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| key | 按钮唯一标识，不能为空 | - |
+| text | 按钮文字 | - |
+| className | 按钮类名 | - |
+| click: (key: string) => void; | 按钮点击回调事件 | - |
 
 #### options.hint
 

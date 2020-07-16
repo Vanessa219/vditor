@@ -71,6 +71,7 @@
 
 ### v3.3.7 / 2020-07-17
 
+* [580](https://github.com/Vanessa219/vditor/issues/580) 重构 SV 模式 DOM `开发重构`
 * [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
 * [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
 * [579](https://github.com/Vanessa219/vditor/issues/579) 样式调整 `改进功能`
@@ -148,7 +149,7 @@
   * 添加 `options.upload.fieldName`
   * `options.preview.markdown.setext` 默认值修改为 `true`
   * options.mode 默认值修改为 `ir`
-  * 工具栏配置：默认值：["desktop", "tablet", "mobile", "mp-wechat", "zhihu"] 
+  * 支持预览区域工具栏配置及自定义
 
 ### v3.2.12 / 2020-06-07
 
