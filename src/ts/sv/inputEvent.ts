@@ -55,18 +55,18 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (!blockElement) {
         blockElement = vditor.sv.element;
     }
-    const footnotesElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-block");
-    if (footnotesElement) {
-        // 修改脚注
-        blockElement = footnotesElement;
-    }
-    if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
+    if (blockElement.firstElementChild.getAttribute("data-type") === "link-ref-defs-block") {
         // 修改链接引用
         blockElement = vditor.sv.element;
     }
     if (hasClosestByAttribute(startContainer, "data-type", "footnotes-link")) {
         // 修改脚注角标
         blockElement = vditor.sv.element;
+    }
+    const footnotesElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-block");
+    if (footnotesElement) {
+        // 修改脚注
+        blockElement = footnotesElement;
     }
     // 添加光标位置
     if (blockElement.textContent.indexOf(Lute.Caret) === -1) {
@@ -99,14 +99,14 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         // 添加链接引用
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
-            html += allLinkRefDefsElement.textContent;
-            allLinkRefDefsElement.remove();
+            html += allLinkRefDefsElement.parentElement.textContent;
+            allLinkRefDefsElement.parentElement.remove();
         }
         // 添加脚注
         const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
         if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement)) {
-            html += allFootnoteElement.textContent;
-            allFootnoteElement.remove();
+            html += allFootnoteElement.parentElement.textContent;
+            allFootnoteElement.parentElement.remove();
         }
     }
     html = processSpinVditorSVDOM(html, vditor);
@@ -117,12 +117,12 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
 
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement) {
-            vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+            vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement.parentElement);
         }
 
         const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
         if (allFootnoteElement) {
-            vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement);
+            vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement.parentElement);
         }
     }
     setRangeByWbr(vditor.sv.element, range);
