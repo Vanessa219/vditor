@@ -90,7 +90,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.sv.element.style.display = "block";
         }
         vditor.currentMode = "sv";
-        vditor.sv.element.innerHTML =  processSpinVditorSVDOM(markdownText, vditor);;
+        vditor.sv.element.innerHTML =  processSpinVditorSVDOM(markdownText, vditor);
         processSVAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,
