@@ -41,8 +41,6 @@ export class Headings extends MenuItem {
                     afterRenderEvent(vditor);
                 } else if (vditor.currentMode === "ir") {
                     processHeading(vditor, "");
-                } else {
-                    processHeadingSV(vditor, "");
                 }
                 actionBtn.classList.remove("vditor-menu--current");
             } else {
@@ -57,12 +55,13 @@ export class Headings extends MenuItem {
                 if (vditor.currentMode === "wysiwyg") {
                     setHeading(vditor, (event.target as HTMLElement).getAttribute("data-tag"));
                     afterRenderEvent(vditor);
+                    actionBtn.classList.add("vditor-menu--current");
                 } else if (vditor.currentMode === "ir") {
                     processHeading(vditor, (event.target as HTMLElement).getAttribute("data-value"));
+                    actionBtn.classList.add("vditor-menu--current");
                 } else {
                     processHeadingSV(vditor, (event.target as HTMLElement).getAttribute("data-value"));
                 }
-                actionBtn.classList.add("vditor-menu--current");
                 panelElement.style.display = "none";
             });
         }

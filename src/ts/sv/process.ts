@@ -1,10 +1,21 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage} from "../util/compatibility";
-import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
+import {hasClosestBlock} from "../util/hasClosest";
+import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {inputEvent} from "./inputEvent";
 
+const getPreviousNL = (spanElement: Element) => {
+    let previousElement = spanElement;
+    while (previousElement && previousElement.getAttribute("data-type") !== "newline") {
+        previousElement = previousElement.previousElementSibling;
+    }
+    if (previousElement && previousElement.getAttribute("data-type") === "newline") {
+        return previousElement;
+    }
+    return false;
+};
 export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
     html = "<div data-block='0'>" +
@@ -68,28 +79,17 @@ export const processAfterRender = (vditor: IVditor, options = {
 
 export const processHeading = (vditor: IVditor, value: string) => {
     const range = getEditorRange(vditor.sv.element);
-    const headingElement = hasClosestByAttribute(range.startContainer, "data-type", "heading") ||
-        range.startContainer as HTMLElement;
-    if (headingElement) {
-        const headingMarkerElement = headingElement.querySelector(".vditor-sv__marker--heading");
-        if (headingMarkerElement) {
-            range.selectNodeContents(headingMarkerElement);
-        }
-        if (value === "") {
-            document.execCommand("delete");
-        } else {
-            document.execCommand("insertHTML", false, value);
-        }
+    const headingElement = hasClosestByTag(range.startContainer, "SPAN");
+    if (headingElement && headingElement.textContent.trim() !== "") {
+        value = "\n" + value;
     }
+    range.collapse(true);
+    document.execCommand("insertHTML", false, value);
 };
 
 export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: string, suffix: string) => {
     const range = getEditorRange(vditor.sv.element);
     const commandName = actionBtn.getAttribute("data-type");
-    let typeElement = range.startContainer as HTMLElement;
-    if (typeElement.nodeType === 3) {
-        typeElement = typeElement.parentElement;
-    }
     // 添加
     if (vditor.sv.element.childNodes.length === 0) {
         vditor.sv.element.innerHTML = `<span data-type="p" data-block="0"><span data-type="text"><wbr></span></span><span data-type="newline"><br><span style="display: none">
@@ -97,24 +97,11 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         setRangeByWbr(vditor.sv.element, range);
     }
     const blockElement = hasClosestBlock(range.startContainer);
-    if (commandName === "line") {
-        if (blockElement) {
-            const hrHTML = `<div data-type="thematic-break" class="vditor-sv__marker"><span class="vditor-sv__marker">---
-
-</span></div><wbr>`;
-            if (blockElement.textContent.trim() === "") {
-                blockElement.outerHTML = hrHTML;
-            } else {
-                blockElement.insertAdjacentHTML("afterend", hrHTML);
-            }
-        }
-    } else if (commandName === "quote") {
-        if (blockElement) {
-            blockElement.insertAdjacentText("afterbegin", "> ");
-            inputEvent(vditor);
-            return;
-        }
-    } else if (commandName === "link") {
+    const spanElement = hasClosestByTag(range.startContainer, "SPAN");
+    if (!blockElement) {
+        return;
+    }
+    if (commandName === "link") {
         let html;
         if (range.toString() === "") {
             html = `${prefix}${Lute.Caret}${suffix}`;
@@ -123,8 +110,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         }
         document.execCommand("insertHTML", false, html);
         return;
-    } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
-        || commandName === "inline-code" || commandName === "code" || commandName === "table") {
+    } else if (commandName === "italic" || commandName === "bold" || commandName === "strike" ||
+        commandName === "inline-code" || commandName === "code" || commandName === "table" || commandName === "line") {
         let html;
         // https://github.com/Vanessa219/vditor/issues/563 代码块不需要后面的 ```
         if (range.toString() === "") {
@@ -132,31 +119,29 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         } else {
             html = `${prefix}${range.toString()}${Lute.Caret}${commandName === "code" ? "" : suffix}`;
         }
-        if (commandName === "table") {
-            html = "\n" + html;
+        if (commandName === "table" || (commandName === "code" && spanElement && spanElement.textContent !== "")) {
+            html = "\n\n" + html;
+        } else if (commandName === "line") {
+            html = `\n\n${prefix}\n${Lute.Caret}`;
         }
         document.execCommand("insertHTML", false, html);
         return;
-    } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
-        if (blockElement) {
-            const type = blockElement.getAttribute("data-type");
-            let listMarker = "* ";
+    } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list" ||
+        commandName === "quote") {
+        if (spanElement) {
+            let marker = "* ";
             if (commandName === "check") {
-                listMarker = "* [ ] ";
+                marker = "* [ ] ";
             } else if (commandName === "ordered-list") {
-                listMarker = "1. ";
+                marker = "1. ";
+            } else if (commandName === "quote") {
+                marker = "> ";
             }
-            if (type !== "ul" && type !== "ol" && type !== "task") {
-                blockElement.insertAdjacentText("afterbegin", listMarker);
+            const newLine = getPreviousNL(spanElement);
+            if (newLine) {
+                newLine.insertAdjacentText("afterend", marker);
             } else {
-                blockElement.querySelectorAll('[data-type="li-marker"').forEach((item: HTMLElement) => {
-                    item.textContent = listMarker;
-                });
-                if (commandName !== "check") {
-                    blockElement.querySelectorAll('[data-type="task-marker"').forEach((item: HTMLElement) => {
-                        item.remove();
-                    });
-                }
+                blockElement.insertAdjacentText("afterbegin", marker);
             }
             inputEvent(vditor);
             return;

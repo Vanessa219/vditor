@@ -56,6 +56,7 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                     html = tempElement.firstElementChild.firstElementChild.outerHTML + " ";
                     insertHTML(html, vditor);
                 } else {
+                    range.extractContents();
                     range.insertNode(document.createTextNode(value));
                 }
                 range.collapse(false);
