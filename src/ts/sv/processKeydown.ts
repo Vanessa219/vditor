@@ -151,6 +151,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.extractContents();
             if (spanElement.textContent.trim() !== "") {
                 inputEvent(vditor);
+            } else {
+                processAfterRender(vditor);
             }
             event.preventDefault();
             return true;
@@ -158,9 +160,22 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // 每一段第一个字符前
         if (blockElement && getSelectPosition(blockElement, vditor.sv.element, range).start === 0 &&
             blockElement.previousElementSibling) {
-            blockElement.previousElementSibling.lastElementChild.remove();
             range.extractContents();
-            inputEvent(vditor);
+            let previousLastElement = blockElement.previousElementSibling.lastElementChild;
+            if (previousLastElement.getAttribute("data-type") === "newline") {
+                previousLastElement.remove();
+                previousLastElement = blockElement.previousElementSibling.lastElementChild;
+            }
+            // 场景：末尾无法删除 [```\ntext\n```\n\n]
+            if (previousLastElement.getAttribute("data-type") !== "newline") {
+                previousLastElement.insertAdjacentHTML("afterend", blockElement.innerHTML);
+                blockElement.remove();
+            }
+            if (blockElement.textContent.trim() !== "" && !blockElement.previousElementSibling?.querySelector('[data-type="code-block-open-marker"]')) {
+                inputEvent(vditor);
+            } else {
+                processAfterRender(vditor);
+            }
             event.preventDefault();
             return true;
         }

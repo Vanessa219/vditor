@@ -55,7 +55,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (!blockElement) {
         blockElement = vditor.sv.element;
     }
-    if (blockElement.firstElementChild.getAttribute("data-type") === "link-ref-defs-block") {
+    if (blockElement.firstElementChild?.getAttribute("data-type") === "link-ref-defs-block") {
         // 修改链接引用
         blockElement = vditor.sv.element;
     }
@@ -81,12 +81,6 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         item.outerHTML = item.innerHTML;
     });
     let html = blockElement.textContent;
-    if (event?.inputType === "insertParagraph" && blockElement.previousElementSibling
-        && blockElement.previousElementSibling.textContent.trim() !== "") {
-        // 在粗体中换行
-        html = blockElement.previousElementSibling.outerHTML + html;
-        blockElement.previousElementSibling.remove();
-    }
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
     if (isSVElement) {
         html = blockElement.textContent;
