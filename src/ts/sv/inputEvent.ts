@@ -1,12 +1,15 @@
 import {scrollCenter} from "../util/editorCommonEvent";
-import {hasClosestByAttribute, hasTopClosestByAttribute} from "../util/hasClosest";
-import {log} from "../util/log";
+import {hasClosestByAttribute} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
-import {processAfterRender} from "./process";
+import {processAfterRender, processSpinVditorSVDOM} from "./process";
 
 export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();
-    let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+    let startContainer = range.startContainer;
+    if (range.startContainer.nodeType !== 3 && (range.startContainer as HTMLElement).tagName === "DIV") {
+        startContainer = range.startContainer.childNodes[range.startOffset - 1];
+    }
+    let blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
     // 不调用 lute 解析
     if (blockElement && event && (event.inputType === "deleteContentBackward" || event.data === " ")) {
         // 开始可以输入空格
@@ -29,51 +32,15 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             processAfterRender(vditor);
             return;
         }
-        //  list item marker 删除或空格
-        const listElement = hasClosestByAttribute(range.startContainer, "data-type", "li");
-        if (listElement) {
-            if (event.data === " " &&
-                (hasClosestByAttribute(range.startContainer, "data-type", "li-marker") ||
-                    hasClosestByAttribute(range.startContainer, "data-type", "task-marker"))) {
-                processAfterRender(vditor);
-                return;
-            }
-            const liMarkerElement = listElement.querySelector('[data-type="li-marker"]');
-            if (event.inputType === "deleteContentBackward" &&
-                getSelectPosition(listElement, vditor.sv.element, range).start <=
-                listElement.getAttribute("data-space").length +
-                (liMarkerElement ? liMarkerElement.textContent.length : 0) +
-                (listElement.querySelector('[data-type="task-marker"]') ? 4 : 0)
-            ) {
-                processAfterRender(vditor);
-                return;
-            }
-        }
-        // heading marker 删除或空格
-        const headingElement = hasClosestByAttribute(range.startContainer, "data-type", "heading-marker");
-        if (headingElement && (event.data === " " || event.inputType === "deleteContentBackward")) {
+        // 删除或空格不解析，否则会 format 回去
+        if ((event.data === " " || event.inputType === "deleteContentBackward") &&
+            (hasClosestByAttribute(startContainer, "data-type", "padding") // 场景：b 前进行删除 [> 1. a\n>   b]
+                || hasClosestByAttribute(startContainer, "data-type", "li-marker")  // 场景：删除最后一个字符 [* 1\n* ]
+                || hasClosestByAttribute(startContainer, "data-type", "task-marker")  // 场景：删除最后一个字符 [* [ ] ]
+                || hasClosestByAttribute(startContainer, "data-type", "blockquote-marker")  // 场景：删除最后一个字符 [> ]
+            )) {
             processAfterRender(vditor);
             return;
-        }
-        // blockquote marker 删除或空格
-        const blockquoteElement = hasClosestByAttribute(range.startContainer, "data-type", "blockquote-marker");
-        if (blockquoteElement && (event.data === " " || event.inputType === "deleteContentBackward")) {
-            processAfterRender(vditor);
-            return;
-        }
-        // block code marker 删除
-        const blockCodeElement =
-            hasClosestByAttribute(range.startContainer, "data-type", "code-block");
-        if (blockCodeElement && event.inputType === "deleteContentBackward") {
-            const startIndex = getSelectPosition(blockElement, vditor.sv.element, range).start;
-            if (startIndex <= 2 || startIndex === blockCodeElement.textContent.length - 1) {
-                if (blockElement.querySelectorAll(".vditor-sv__marker").length < 2) {
-                    blockElement.querySelector(".vditor-sv__marker")?.remove();
-                    blockElement.setAttribute("data-type", "p");
-                }
-                processAfterRender(vditor);
-                return;
-            }
         }
     }
     if (blockElement && blockElement.textContent.trimRight() === "$$") {
@@ -84,7 +51,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (!blockElement) {
         blockElement = vditor.sv.element;
     }
-    const footnotesElement = hasClosestByAttribute(range.startContainer, "data-type", "footnotes-block");
+    const footnotesElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-block");
     if (footnotesElement) {
         // 修改脚注
         blockElement = footnotesElement;
@@ -93,16 +60,9 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         // 修改链接引用
         blockElement = vditor.sv.element;
     }
-    if (hasClosestByAttribute(range.startContainer, "data-type", "footnotes-link")) {
+    if (hasClosestByAttribute(startContainer, "data-type", "footnotes-link")) {
         // 修改脚注角标
         blockElement = vditor.sv.element;
-    }
-    // 列表需到顶层
-    const topListElement = hasTopClosestByAttribute(blockElement, "data-type", "ol") ||
-        hasTopClosestByAttribute(blockElement, "data-type", "ul") ||
-        hasTopClosestByAttribute(blockElement, "data-type", "task");
-    if (topListElement) {
-        blockElement = topListElement;
     }
     // 添加光标位置
     if (blockElement.textContent.indexOf(Lute.Caret) === -1) {
@@ -127,13 +87,10 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (isSVElement) {
         html = blockElement.textContent;
     } else {
+        // 添加前一个块元素
         if (blockElement.previousElementSibling) {
             html = blockElement.previousElementSibling.textContent + html;
             blockElement.previousElementSibling.remove();
-        }
-        if (blockElement.nextElementSibling) {
-            html = html + blockElement.nextElementSibling.textContent;
-            blockElement.nextElementSibling.remove();
         }
         // 添加链接引用
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
@@ -148,9 +105,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             allFootnoteElement.remove();
         }
     }
-    log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
-    html = vditor.lute.SpinVditorSVDOM(html);
-    log("SpinVditorSVDOM", html, "result", vditor.options.debugger);
+    html = processSpinVditorSVDOM(html, vditor);
     if (isSVElement) {
         blockElement.innerHTML = html;
     } else {

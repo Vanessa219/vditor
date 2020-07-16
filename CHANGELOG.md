@@ -65,11 +65,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
-* [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
-* [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
 
 ### v3.3.7 / 2020-07-xx
 
+* [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
+* [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
 * [579](https://github.com/Vanessa219/vditor/issues/579) 样式调整 `改进功能`
 * [575](https://github.com/Vanessa219/vditor/issues/575) 编辑器存在 form 中，情景菜单会出发提交事件 `修复缺陷`
 * [577](https://github.com/Vanessa219/vditor/issues/577) 粘贴 XML 代码问题 `修复缺陷`

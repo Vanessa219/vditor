@@ -99,9 +99,9 @@ class Vditor extends VditorMethod {
             this.vditor.upload = new Upload();
         }
 
-        // const lutePath = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
+        const lutePath = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
         // const lutePath = "src/js/lute/lute.min.js";
-        const lutePath = `${mergedOptions.cdn}/dist/js/lute/lute.min.js`;
+        // const lutePath = `${mergedOptions.cdn}/dist/js/lute/lute.min.js`;
         addScript(lutePath, "vditorLuteScript").then(() => {
             this.vditor.lute = setLute({
                 autoSpace: this.vditor.options.preview.markdown.autoSpace,

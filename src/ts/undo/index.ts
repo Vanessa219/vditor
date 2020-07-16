@@ -93,14 +93,7 @@ class Undo {
             // Safari keydown 在 input 之后，不需要重复记录历史
             return;
         }
-        if (vditor.currentMode === "sv") {
-            const caretElement = document.createElement("span");
-            caretElement.className = "wbr";
-            caretElement.textContent = Lute.Caret;
-            getSelection().getRangeAt(0).insertNode(caretElement);
-        } else {
-            getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
-        }
+        getSelection().getRangeAt(0).insertNode(document.createElement("wbr"));
         if (vditor.currentMode === "wysiwyg") {
             this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
                 vditor.lute.SpinVditorDOM(vditor[vditor.currentMode].element.innerHTML);
@@ -108,12 +101,11 @@ class Undo {
             this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
                 vditor.lute.SpinVditorIRDOM(vditor[vditor.currentMode].element.innerHTML);
         } else {
-            this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
-                vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
+            this[vditor.currentMode].undoStack[0][0].diffs[0][1] = vditor[vditor.currentMode].element.innerHTML;
         }
         this[vditor.currentMode].lastText = this[vditor.currentMode].undoStack[0][0].diffs[0][1];
         const wbrElement =
-            vditor[vditor.currentMode].element.querySelector(vditor.currentMode === "sv" ? ".wbr" : "wbr");
+            vditor[vditor.currentMode].element.querySelector("wbr");
         if (wbrElement) {
             wbrElement.remove();
         }
@@ -127,14 +119,7 @@ class Undo {
             const range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 cloneRange = range.cloneRange();
-                if (vditor.currentMode === "sv") {
-                    const caretElement = document.createElement("span");
-                    caretElement.className = "wbr";
-                    caretElement.textContent = Lute.Caret;
-                    range.insertNode(caretElement);
-                } else {
-                    range.insertNode(document.createElement("wbr"));
-                }
+                range.insertNode(document.createElement("wbr"));
             }
         }
         let text;
@@ -143,10 +128,9 @@ class Undo {
         } else if (vditor.currentMode === "ir") {
             text = vditor.lute.SpinVditorIRDOM(vditor[vditor.currentMode].element.innerHTML);
         } else {
-            text = vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
+            text = vditor[vditor.currentMode].element.innerHTML;
         }
-        const wbrElement =
-            vditor[vditor.currentMode].element.querySelector(vditor.currentMode === "sv" ? ".wbr" : "wbr");
+        const wbrElement = vditor[vditor.currentMode].element.querySelector("wbr");
         if (wbrElement) {
             wbrElement.remove();
         }
