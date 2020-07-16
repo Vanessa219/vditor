@@ -37,6 +37,10 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             (hasClosestByAttribute(startContainer, "data-type", "padding") // 场景：b 前进行删除 [> 1. a\n>   b]
                 || hasClosestByAttribute(startContainer, "data-type", "li-marker")  // 场景：删除最后一个字符 [* 1\n* ]
                 || hasClosestByAttribute(startContainer, "data-type", "task-marker")  // 场景：删除最后一个字符 [* [ ] ]
+                // 场景：删除前面的飘号 [```\n``` ]
+                || hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker")
+                // 场景：删除后面的飘号 [```\n``` ]
+                || hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker")
                 || hasClosestByAttribute(startContainer, "data-type", "blockquote-marker")  // 场景：删除最后一个字符 [> ]
             )) {
             processAfterRender(vditor);
@@ -51,12 +55,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (!blockElement) {
         blockElement = vditor.sv.element;
     }
-    const footnotesElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-block");
-    if (footnotesElement) {
-        // 修改脚注
-        blockElement = footnotesElement;
-    }
-    if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
+    if (blockElement.firstElementChild?.getAttribute("data-type") === "link-ref-defs-block") {
         // 修改链接引用
         blockElement = vditor.sv.element;
     }
@@ -77,12 +76,6 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         item.outerHTML = item.innerHTML;
     });
     let html = blockElement.textContent;
-    if (event?.inputType === "insertParagraph" && blockElement.previousElementSibling
-        && blockElement.previousElementSibling.textContent.trim() !== "") {
-        // 在粗体中换行
-        html = blockElement.previousElementSibling.outerHTML + html;
-        blockElement.previousElementSibling.remove();
-    }
     const isSVElement = blockElement.isEqualNode(vditor.sv.element);
     if (isSVElement) {
         html = blockElement.textContent;
@@ -94,15 +87,15 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         }
         // 添加链接引用
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
-        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
-            html += allLinkRefDefsElement.textContent;
-            allLinkRefDefsElement.remove();
+        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement.parentElement)) {
+            html += allLinkRefDefsElement.parentElement.textContent;
+            allLinkRefDefsElement.parentElement.remove();
         }
         // 添加脚注
-        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
-        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement)) {
-            html += allFootnoteElement.textContent;
-            allFootnoteElement.remove();
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
+        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement.parentElement)) {
+            html += allFootnoteElement.parentElement.textContent;
+            allFootnoteElement.parentElement.remove();
         }
     }
     html = processSpinVditorSVDOM(html, vditor);
@@ -113,12 +106,12 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
 
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement) {
-            vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement);
+            vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement.parentElement);
         }
 
-        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
         if (allFootnoteElement) {
-            vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement);
+            vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement.parentElement);
         }
     }
     setRangeByWbr(vditor.sv.element, range);

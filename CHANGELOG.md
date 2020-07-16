@@ -66,7 +66,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.7 / 2020-07-xx
+### v3.3.8 / 2020-07-xx
+
+
+### v3.3.7 / 2020-07-17
 
 * [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
 * [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
@@ -79,11 +82,6 @@
 * [569](https://github.com/Vanessa219/vditor/issues/569) 预览区域工具栏配置 `引入特性`
 * [565](https://github.com/Vanessa219/vditor/issues/565) SV 模式支持缩进代码块 `改进功能`
 * [566](https://github.com/Vanessa219/vditor/issues/566) 行级代码解析渲染 `修复缺陷`
-* options.mode 默认值修改为 `ir`
-* 工具栏配置：默认值：["desktop", "tablet", "mobile", "mp-wechat", "zhihu"] 
-
-### v3.3.6 / 2020-07-09
-
 * [555](https://github.com/Vanessa219/vditor/issues/555) SV 模式段落块拆分问题 `修复缺陷`
 * [556](https://github.com/Vanessa219/vditor/issues/556) options.preview.markdown.setext 默认值修改为 true `改进功能`
 * [554](https://github.com/Vanessa219/vditor/issues/554) SV 模式 Ctrl+u 代码块生成光标初始定位优化 `改进功能`
@@ -149,6 +147,8 @@
   * 添加 `options.upload.multiple`
   * 添加 `options.upload.fieldName`
   * `options.preview.markdown.setext` 默认值修改为 `true`
+  * options.mode 默认值修改为 `ir`
+  * 工具栏配置：默认值：["desktop", "tablet", "mobile", "mp-wechat", "zhihu"] 
 
 ### v3.2.12 / 2020-06-07
 
