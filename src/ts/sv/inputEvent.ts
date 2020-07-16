@@ -63,11 +63,6 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         // 修改脚注角标
         blockElement = vditor.sv.element;
     }
-    const footnotesElement = hasClosestByAttribute(startContainer, "data-type", "footnotes-block");
-    if (footnotesElement) {
-        // 修改脚注
-        blockElement = footnotesElement;
-    }
     // 添加光标位置
     if (blockElement.textContent.indexOf(Lute.Caret) === -1) {
         // 点击工具栏会插入 Caret
@@ -92,13 +87,13 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         }
         // 添加链接引用
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
-        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
+        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement.parentElement)) {
             html += allLinkRefDefsElement.parentElement.textContent;
             allLinkRefDefsElement.parentElement.remove();
         }
         // 添加脚注
-        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
-        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement)) {
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
+        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement.parentElement)) {
             html += allFootnoteElement.parentElement.textContent;
             allFootnoteElement.parentElement.remove();
         }
@@ -114,7 +109,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement.parentElement);
         }
 
-        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-block']");
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
         if (allFootnoteElement) {
             vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement.parentElement);
         }
