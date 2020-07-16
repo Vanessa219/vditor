@@ -90,6 +90,24 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
 
 ![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
 
+## 🍱 Typography support
+
+* All CommonMark syntax: Thematic breaks, ATX headings, Setext headings, Indented code blocks, Fenced code blocks, HTML blocks, Link reference definitions, Paragraphs, Block quotes, Lists, Backslash escapes, Entity and numeric character references, Code spans, Emphasis and strong emphasis, Links, Images, Raw HTML, Hard line breaks, Soft line breaks, and Textual content.
+* All GFM syntax: Tables, Task list items, Strikethrough, Autolinks, XSS filtering
+* Common Markdown extended syntax: Footnotes, ToC, Custom Heading ID
+* Chart syntax
+   * Flow chart, sequence diagram, Gantt chart, supported by Mermaid
+   * Graphviz
+   * Line chart, pie chart, brain chart, etc., supported by ECharts
+* Stave: supported by abc.js
+* Math formulas: Math formula blocks, row-level math formulas, supported by MathJax and KaTeX
+* Chinese context optimization
+   * Insert space between Chinese and Western
+   * Terminology spelling correction
+   * Chinese followed by English comma period and other punctuation are replaced with Chinese corresponding punctuation
+
+Most of the above features can be enabled or disabled through the switch configuration, developers can choose to match according to their own application scenarios.
+
 ## 🗃 Showcases
 
 * [🎶 Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
