@@ -66,10 +66,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.8 / 2020-07-xx
+### v3.3.9 / 2020-07-xx
 
 
-### v3.3.7 / 2020-07-17
+### v3.3.8 / 2020-07-17
 
 * [580](https://github.com/Vanessa219/vditor/issues/580) 重构 SV 模式 DOM `开发重构`
 * [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
