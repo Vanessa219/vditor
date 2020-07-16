@@ -2,7 +2,6 @@ import {isCtrl, isFirefox} from "../util/compatibility";
 import {blurEvent, dropEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {getSelectText} from "../util/getSelectText";
-import {highlightToolbarSV} from "./highlightToolbarSV";
 import {inputEvent} from "./inputEvent";
 
 class Editor {
@@ -82,15 +81,10 @@ class Editor {
             inputEvent(vditor, event);
         });
 
-        this.element.addEventListener("click", (event: InputEvent) => {
-            highlightToolbarSV(vditor);
-        });
-
         this.element.addEventListener("keyup", (event) => {
             if (event.isComposing || isCtrl(event)) {
                 return;
             }
-            highlightToolbarSV(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.sv.element.innerHTML !== "" && vditor.sv.element.childNodes.length === 1 &&
                 vditor.sv.element.firstElementChild && vditor.sv.element.firstElementChild.tagName === "SPAN"
