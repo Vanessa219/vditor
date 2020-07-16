@@ -37,6 +37,10 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             (hasClosestByAttribute(startContainer, "data-type", "padding") // 场景：b 前进行删除 [> 1. a\n>   b]
                 || hasClosestByAttribute(startContainer, "data-type", "li-marker")  // 场景：删除最后一个字符 [* 1\n* ]
                 || hasClosestByAttribute(startContainer, "data-type", "task-marker")  // 场景：删除最后一个字符 [* [ ] ]
+                // 场景：删除前面的飘号 [```\n``` ]
+                || hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker")
+                // 场景：删除后面的飘号 [```\n``` ]
+                || hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker")
                 || hasClosestByAttribute(startContainer, "data-type", "blockquote-marker")  // 场景：删除最后一个字符 [> ]
             )) {
             processAfterRender(vditor);
