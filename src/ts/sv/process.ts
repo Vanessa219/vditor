@@ -1,10 +1,10 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage} from "../util/compatibility";
 import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
+import {log} from "../util/log";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {highlightToolbarSV} from "./highlightToolbarSV";
 import {inputEvent} from "./inputEvent";
-import {log} from "../util/log";
 
 export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
@@ -13,21 +13,19 @@ export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
         "</div>";
     log("SpinVditorSVDOM", html, "result", vditor.options.debugger);
     return html;
-}
+};
 
-export const getBlockquoteMarkers = (pElement: HTMLElement) => {
-    let markerText = ''
-    const previousElement = pElement.previousElementSibling
-    if (previousElement) {
-        if (previousElement.getAttribute("data-type") === "li-marker") {
-            // >   * 2 中的 [   * ]
-            markerText = previousElement.previousElementSibling.textContent + previousElement.textContent + markerText
-        } else if (previousElement.getAttribute("data-type") === "blockquote-marker") {
-            // >   * > 3 中的 [> ]
-            markerText = previousElement.textContent + markerText;
-        }
-        // previousElement = '';
+export const processPreviousMarkers = (textElement: HTMLElement) => {
+    let previousElement = textElement.previousElementSibling;
+    let markerText = "";
+    while (previousElement && (previousElement.getAttribute("data-type") === "li-marker" ||
+        previousElement.getAttribute("data-type") === "blockquote-marker" ||
+        previousElement.getAttribute("data-type") === "task-marker" ||
+        previousElement.getAttribute("data-type") === "padding")) {
+        markerText = previousElement.textContent + markerText;
+        previousElement = previousElement.previousElementSibling;
     }
+    return markerText;
 };
 
 export const processAfterRender = (vditor: IVditor, options = {
