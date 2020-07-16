@@ -4,6 +4,31 @@ import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {highlightToolbarSV} from "./highlightToolbarSV";
 import {inputEvent} from "./inputEvent";
+import {log} from "../util/log";
+
+export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
+    log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
+    html = "<div data-block='0'>" +
+        vditor.lute.SpinVditorSVDOM(html).replace(/<span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span><span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span></g, '<span data-type="newline"><br /><span style="display: none">\n</span></span><span data-type="newline"><br /><span style="display: none">\n</span></span></div><div data-block="0"><') +
+        "</div>";
+    log("SpinVditorSVDOM", html, "result", vditor.options.debugger);
+    return html;
+}
+
+export const getBlockquoteMarkers = (pElement: HTMLElement) => {
+    let markerText = ''
+    const previousElement = pElement.previousElementSibling
+    if (previousElement) {
+        if (previousElement.getAttribute("data-type") === "li-marker") {
+            // >   * 2 中的 [   * ]
+            markerText = previousElement.previousElementSibling.textContent + previousElement.textContent + markerText
+        } else if (previousElement.getAttribute("data-type") === "blockquote-marker") {
+            // >   * > 3 中的 [> ]
+            markerText = previousElement.textContent + markerText;
+        }
+        // previousElement = '';
+    }
+};
 
 export const processAfterRender = (vditor: IVditor, options = {
     enableAddUndoStack: true,

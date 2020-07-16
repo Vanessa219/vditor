@@ -6,6 +6,7 @@ import {execAfterRender} from "../util/fixBrowserBehavior";
 import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {processSpinVditorSVDOM} from "../sv/process";
 
 interface IUndo {
     hasUndo: boolean;
@@ -109,7 +110,7 @@ class Undo {
                 vditor.lute.SpinVditorIRDOM(vditor[vditor.currentMode].element.innerHTML);
         } else {
             this[vditor.currentMode].undoStack[0][0].diffs[0][1] =
-                vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
+                processSpinVditorSVDOM(vditor[vditor.currentMode].element.textContent, vditor);
         }
         this[vditor.currentMode].lastText = this[vditor.currentMode].undoStack[0][0].diffs[0][1];
         const wbrElement =
@@ -143,7 +144,7 @@ class Undo {
         } else if (vditor.currentMode === "ir") {
             text = vditor.lute.SpinVditorIRDOM(vditor[vditor.currentMode].element.innerHTML);
         } else {
-            text = vditor.lute.SpinVditorSVDOM(vditor[vditor.currentMode].element.textContent);
+            text = processSpinVditorSVDOM(vditor[vditor.currentMode].element.textContent, vditor);
         }
         const wbrElement =
             vditor[vditor.currentMode].element.querySelector(vditor.currentMode === "sv" ? ".wbr" : "wbr");
