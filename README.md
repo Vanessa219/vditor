@@ -2,7 +2,7 @@
 <img alt="Vditor" src="https://b3log.org/images/brand/vditor-128.png" />
 
 <br>
-<em>易于使用的 Markdown 编辑器，为适配不同应用场景而生</em>
+<em>易于使用的 Markdown 编辑器，为适配不同的应用场景而生</em>
 <br><br>
 <a title="MIT" target="_blank" href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square"></a>
 <a title="npm bundle size" target="_blank" href="https://www.npmjs.com/package/vditor"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/vditor?style=flat-square&color=blueviolet"></a>
