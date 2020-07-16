@@ -119,7 +119,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (textElement) {
             newLineText += processPreviousMarkers(textElement);
         } else {
-            let codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker")
+            let codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker");
             if (!codeMarkerElement) {
                 codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
                 if (codeMarkerElement) {
