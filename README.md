@@ -92,7 +92,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 ![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
 
-## 🍱 排版支持
+## 🍱 语法支持
 
 * 所有 CommonMark 语法：分隔线、ATX 标题、Setext 标题、缩进代码块、围栏代码块、HTML 块、链接引用定义、段落、块引用、列表、反斜杠转义、HTML 实体、行级代码、强调、加粗、链接、图片、行级 HTML、硬换行、软换行和纯文本。
 * 所有 GFM 语法：表格、任务列表项、删除线、自动链接、XSS 过滤

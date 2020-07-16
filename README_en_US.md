@@ -90,7 +90,7 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
 
 ![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
 
-## 🍱 Typography support
+## 🍱 Syntax support
 
 * All CommonMark syntax: Thematic breaks, ATX headings, Setext headings, Indented code blocks, Fenced code blocks, HTML blocks, Link reference definitions, Paragraphs, Block quotes, Lists, Backslash escapes, Entity and numeric character references, Code spans, Emphasis and strong emphasis, Links, Images, Raw HTML, Hard line breaks, Soft line breaks, and Textual content.
 * All GFM syntax: Tables, Task list items, Strikethrough, Autolinks, XSS filtering
