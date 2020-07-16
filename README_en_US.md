@@ -301,7 +301,7 @@ new Vditor('vditor', {
 
 #### options.preview.actions
 
-Default: "desktop" | "tablet" | "mobile" | "mp-wechat" | "zhihu"
+Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 
 |   | Explanation | Default |
 | - | - | - |
