@@ -1,8 +1,7 @@
 import {scrollCenter} from "../util/editorCommonEvent";
 import {hasClosestByAttribute, hasTopClosestByAttribute} from "../util/hasClosest";
-import {log} from "../util/log";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
-import {processAfterRender} from "./process";
+import {processAfterRender, processSpinVditorSVDOM} from "./process";
 
 export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();
@@ -120,14 +119,6 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     if (isSVElement) {
         html = blockElement.textContent;
     } else {
-        if (blockElement.previousElementSibling) {
-            html = blockElement.previousElementSibling.textContent + html;
-            blockElement.previousElementSibling.remove();
-        }
-        if (blockElement.nextElementSibling) {
-            html = html + blockElement.nextElementSibling.textContent;
-            blockElement.nextElementSibling.remove();
-        }
         // 添加链接引用
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
@@ -141,9 +132,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             allFootnoteElement.remove();
         }
     }
-    log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
-    html = vditor.lute.SpinVditorSVDOM(html);
-    log("SpinVditorSVDOM", html, "result", vditor.options.debugger);
+    html = processSpinVditorSVDOM(html, vditor);
     if (isSVElement) {
         blockElement.innerHTML = html;
     } else {
