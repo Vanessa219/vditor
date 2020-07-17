@@ -28,11 +28,16 @@ export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
 export const processPreviousMarkers = (textElement: HTMLElement) => {
     let previousElement = textElement.previousElementSibling;
     let markerText = "";
-    while (previousElement && (previousElement.getAttribute("data-type") === "li-marker" ||
-        previousElement.getAttribute("data-type") === "blockquote-marker" ||
-        previousElement.getAttribute("data-type") === "task-marker" ||
-        previousElement.getAttribute("data-type") === "padding")) {
-        markerText = previousElement.textContent + markerText;
+    let hasNL = false;
+    while (previousElement && !hasNL) {
+        if (previousElement.getAttribute("data-type") === "li-marker" ||
+            previousElement.getAttribute("data-type") === "blockquote-marker" ||
+            previousElement.getAttribute("data-type") === "task-marker" ||
+            previousElement.getAttribute("data-type") === "padding") {
+            markerText = previousElement.textContent + markerText;
+        } else if (previousElement.getAttribute("data-type") === "newline") {
+            hasNL = true;
+        }
         previousElement = previousElement.previousElementSibling;
     }
     return markerText;
