@@ -109,8 +109,10 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
             if (vditor.currentMode === "wysiwyg") {
                 succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block"
  data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre>`;
-            } else {
+            } else if (vditor.currentMode === "ir") {
                 succFileText += `<audio controls="controls" src="${path}"></audio>\n`;
+            } else {
+                succFileText += `[${filename}](${path})\n`;
             }
         } else if (type === ".apng"
             || type === ".bmp"

@@ -18,7 +18,7 @@ export class Record extends MenuItem {
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-            const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.sv.element;
+            const editorElement = vditor[vditor.currentMode].element;
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new RecordMedia(mediaStream);

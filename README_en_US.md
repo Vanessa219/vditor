@@ -2,7 +2,7 @@
 <img alt="Vditor" src="https://b3log.org/images/brand/vditor-128.png" />
 
 <br>
-The next generation of Markdown editor, built for the future
+Easy-to-use Markdown editor, born to adapt to different application scenarios
 <br><br>
 <a title="MIT" target="_blank" href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square"></a>
 <a title="npm bundle size" target="_blank" href="https://www.npmjs.com/package/vditor"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/vditor?style=flat-square&color=blueviolet"></a>
@@ -89,6 +89,24 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 The traditional *Split View* mode is suitable for Markdown editing on a large screen.
 
 ![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
+
+## 🍱 Syntax support
+
+* All CommonMark syntax: Thematic breaks, ATX headings, Setext headings, Indented code blocks, Fenced code blocks, HTML blocks, Link reference definitions, Paragraphs, Block quotes, Lists, Backslash escapes, Entity and numeric character references, Code spans, Emphasis and strong emphasis, Links, Images, Raw HTML, Hard line breaks, Soft line breaks, and Textual content.
+* All GFM syntax: Tables, Task list items, Strikethrough, Autolinks, XSS filtering
+* Common Markdown extended syntax: Footnotes, ToC, Custom Heading ID
+* Chart syntax
+   * Flow chart, sequence diagram, Gantt chart, supported by Mermaid
+   * Graphviz
+   * Line chart, pie chart, brain chart, etc., supported by ECharts
+* Stave: supported by abc.js
+* Math formulas: Math formula blocks, row-level math formulas, supported by MathJax and KaTeX
+* Chinese context optimization
+   * Insert space between Chinese and Western
+   * Terminology spelling correction
+   * Chinese followed by English comma period and other punctuation are replaced with Chinese corresponding punctuation
+
+Most of the above features can be enabled or disabled through the switch configuration, developers can choose to match according to their own application scenarios.
 
 ## 🗃 Showcases
 
@@ -283,7 +301,7 @@ new Vditor('vditor', {
 
 #### options.preview.actions
 
-Default: "desktop" | "tablet" | "mobile" | "mp-wechat" | "zhihu"
+Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 
 |   | Explanation | Default |
 | - | - | - |

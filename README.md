@@ -2,7 +2,7 @@
 <img alt="Vditor" src="https://b3log.org/images/brand/vditor-128.png" />
 
 <br>
-下一代的 Markdown 编辑器，为未来而构建
+易于使用的 Markdown 编辑器，为适配不同的应用场景而生
 <br><br>
 <a title="MIT" target="_blank" href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square"></a>
 <a title="npm bundle size" target="_blank" href="https://www.npmjs.com/package/vditor"><img alt="npm bundle size" src="https://img.shields.io/bundlephobia/minzip/vditor?style=flat-square&color=blueviolet"></a>
@@ -72,7 +72,6 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 ![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 
-
 ## 🔮 编辑模式
 
 ### 所见即所得（WYSIWYG）
@@ -92,6 +91,24 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 传统的*分屏预览*模式适合大屏下的 Markdown 编辑。
 
 ![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
+
+## 🍱 语法支持
+
+* 所有 CommonMark 语法：分隔线、ATX 标题、Setext 标题、缩进代码块、围栏代码块、HTML 块、链接引用定义、段落、块引用、列表、反斜杠转义、HTML 实体、行级代码、强调、加粗、链接、图片、行级 HTML、硬换行、软换行和纯文本。
+* 所有 GFM 语法：表格、任务列表项、删除线、自动链接、XSS 过滤
+* 常用 Markdown 扩展语法：脚注、ToC、自定义标题 ID
+* 图表语法
+  * 流程图、时序图、甘特图，通过 Mermaid 支持
+  * Graphviz
+  * 折线图、饼图、脑图等，通过 ECharts 支持
+* 五线谱：通过 abc.js 支持
+* 数学公式：数学公式块、行级数学公式，通过 MathJax 和 KaTeX 支持
+* 中文语境优化
+  * 中西文之间插入空格
+  * 术语拼写修正
+  * 中文后跟英文逗号句号等标点替换为中文对应标点
+
+以上大部分特性可以通过开关配置是否启用，开发者可根据自己的应用场景选择搭配。
 
 ## 🗃 案例
 
@@ -170,7 +187,7 @@ const vditor = new Vditor(id, {options...})
 | tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
 | typewriterMode | 是否启用打字机模式 | false |
 | cdn | 配置自建 CDN 地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
-| mode | 可选模式：sv, ir, wysiwyg | 'wysiwyg' |
+| mode | 可选模式：sv, ir, wysiwyg | 'ir' |
 | debugger | 是否显示日志 | false |
 | value | 编辑器初始化值 | '' |
 | theme | 主题：classic, dark | 'classic' |
@@ -283,6 +300,18 @@ new Vditor('vditor', {
 | inlineDigit | 内联数学公式起始 $ 后是否允许数字 | false |
 | macros | 使用 MathJax 渲染时传入的宏定义 | {} |
 | engine | 数学公式渲染引擎：KaTeX, MathJax | 'KaTeX' |
+
+#### options.preview.actions?: Array<IPreviewAction | IPreviewActionCustom>
+
+默认值为 ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]。
+可从默认值中挑选进行配置，也可使用以下字段进行自定制开发。
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| key | 按钮唯一标识，不能为空 | - |
+| text | 按钮文字 | - |
+| className | 按钮类名 | - |
+| click: (key: string) => void; | 按钮点击回调事件 | - |
 
 #### options.hint
 
@@ -415,7 +444,7 @@ if (xhr.status === 200) {
 | setPreviewMode(mode: "both" \| "editor") | 设置预览模式 |
 | setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | 设置主题、内容主题及代码块风格 |
 | getCurrentMode(): string | 获取编辑器当前编辑模式 |
-| destory() |销毁编辑器|
+| destroy() |销毁编辑器|
 
 #### static methods
 

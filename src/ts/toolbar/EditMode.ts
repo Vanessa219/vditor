@@ -2,7 +2,7 @@ import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {processAfterRender as processSVAfterRender} from "../sv/process";
+import {processAfterRender as processSVAfterRender, processSpinVditorSVDOM} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {highlightToolbar} from "../util/highlightToolbar";
@@ -90,7 +90,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.sv.element.style.display = "block";
         }
         vditor.currentMode = "sv";
-        vditor.sv.element.innerHTML = vditor.lute.SpinVditorSVDOM(markdownText);
+        vditor.sv.element.innerHTML =  processSpinVditorSVDOM(markdownText, vditor);
         processSVAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,

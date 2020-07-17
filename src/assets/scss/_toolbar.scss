@@ -71,7 +71,7 @@
     &__divider {
       float: left;
       height: calc(var(--toolbar-height) - (var(--toolbar-divider-margin-top) * 2));
-      border-left: 1px solid var(--border-color);
+      border-left: 1px solid var(--second-color);
       margin: var(--toolbar-divider-margin-top) 8px;
     }
 
