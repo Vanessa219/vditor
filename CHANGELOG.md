@@ -71,6 +71,7 @@
 
 ### v3.3.8 / 2020-07-17
 
+* [259](https://github.com/Vanessa219/vditor/issues/259) 分屏预览模式列表项自动完成 `引入特性`
 * [580](https://github.com/Vanessa219/vditor/issues/580) 重构 SV 模式 DOM `开发重构`
 * [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
 * [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
