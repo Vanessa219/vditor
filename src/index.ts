@@ -302,13 +302,13 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown);
             processSVAfterRender(this.vditor, {
-                enableAddUndoStack: !clearStack,
+                enableAddUndoStack: true,
                 enableHint: false,
                 enableInput: false,
             });
         } else if (this.vditor.currentMode === "wysiwyg") {
             renderDomByMd(this.vditor, markdown, {
-                enableAddUndoStack: !clearStack,
+                enableAddUndoStack: true,
                 enableHint: false,
                 enableInput: false,
             });
@@ -319,7 +319,7 @@ class Vditor extends VditorMethod {
                     processCodeRender(item, this.vditor);
                 });
             processAfterRender(this.vditor, {
-                enableAddUndoStack: !clearStack,
+                enableAddUndoStack: true,
                 enableHint: false,
                 enableInput: false,
             });
