@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
-import {processAfterRender as processSVAfterRender} from "../sv/process";
+import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
@@ -1193,7 +1193,6 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     const renderers: {
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
-        HTML2VditorSVDOM?: ILuteRender,
         Md2VditorDOM?: ILuteRender,
         Md2VditorIRDOM?: ILuteRender,
         Md2VditorSVDOM?: ILuteRender,
@@ -1307,9 +1306,9 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             } else {
-                renderers.HTML2VditorSVDOM = {renderLinkDest};
+                renderers.Md2VditorSVDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.HTML2VditorSVDOM(tempElement.innerHTML), vditor);
+                processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
             vditor.outline.render(vditor);
         } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
@@ -1326,7 +1325,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             } else {
                 renderers.Md2VditorSVDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.Md2VditorSVDOM(textPlain), vditor);
+                processPaste(vditor, textPlain);
             }
             vditor.outline.render(vditor);
         }

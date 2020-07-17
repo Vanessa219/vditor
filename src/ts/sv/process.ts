@@ -1,10 +1,33 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage} from "../util/compatibility";
-import {hasClosestBlock} from "../util/hasClosest";
+import {scrollCenter} from "../util/editorCommonEvent";
+import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {inputEvent} from "./inputEvent";
+
+export const processPaste = (vditor: IVditor, text: string) => {
+    const range = getEditorRange(vditor.sv.element);
+    range.extractContents();
+    range.insertNode(document.createTextNode(Lute.Caret));
+    range.insertNode(document.createTextNode(text));
+    let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+    if (!blockElement) {
+        blockElement = vditor.sv.element;
+    }
+    const html = "<div data-block='0'>" +
+        vditor.lute.Md2VditorSVDOM(blockElement.textContent).replace(/<span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span><span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span></g, '<span data-type="newline"><br /><span style="display: none">\n</span></span><span data-type="newline"><br /><span style="display: none">\n</span></span></div><div data-block="0"><') +
+        "</div>";
+    if (blockElement.isEqualNode(vditor.sv.element)) {
+        blockElement.innerHTML = html;
+    } else {
+        blockElement.outerHTML = html;
+    }
+    setRangeByWbr(vditor.sv.element, range);
+
+    scrollCenter(vditor);
+};
 
 const getPreviousNL = (spanElement: Element) => {
     let previousElement = spanElement;
@@ -16,6 +39,7 @@ const getPreviousNL = (spanElement: Element) => {
     }
     return false;
 };
+
 export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
     html = "<div data-block='0'>" +

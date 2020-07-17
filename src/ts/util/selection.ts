@@ -235,17 +235,9 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     // 使用 lute 方法会添加 p 元素，只有一个 p 元素的时候进行删除
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
-    const tempBlockElement = vditor.currentMode === "sv" ?
-        tempElement.querySelectorAll('[data-type="p"]') :
-        tempElement.querySelectorAll("p");
+    const tempBlockElement = tempElement.querySelectorAll("p");
     if (tempBlockElement.length === 1 && !tempBlockElement[0].previousSibling && !tempBlockElement[0].nextSibling &&
         vditor[vditor.currentMode].element.children.length > 0) {
-        // empty and past
-        if (vditor.currentMode === "sv") {
-            tempBlockElement[0].querySelectorAll('[data-type="newline"]').forEach((item: HTMLElement) => {
-                item.remove();
-            });
-        }
         html = tempBlockElement[0].innerHTML.trim();
     }
 
