@@ -99,36 +99,34 @@ class Vditor extends VditorMethod {
             this.vditor.upload = new Upload();
         }
 
-        // const lutePath = `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`;
-        // const lutePath = "src/js/lute/lute.min.js";
-        const lutePath = `${mergedOptions.cdn}/dist/js/lute/lute.min.js`;
-        addScript(lutePath, "vditorLuteScript").then(() => {
-            this.vditor.lute = setLute({
-                autoSpace: this.vditor.options.preview.markdown.autoSpace,
-                chinesePunct: this.vditor.options.preview.markdown.chinesePunct,
-                codeBlockPreview: this.vditor.options.preview.markdown.codeBlockPreview,
-                emojiSite: this.vditor.options.hint.emojiPath,
-                emojis: this.vditor.options.hint.emoji,
-                fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
-                footnotes: this.vditor.options.preview.markdown.footnotes,
-                headingAnchor: false,
-                inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
-                linkBase: this.vditor.options.preview.markdown.linkBase,
-                listStyle: this.vditor.options.preview.markdown.listStyle,
-                paragraphBeginningSpace: this.vditor.options.preview.markdown.paragraphBeginningSpace,
-                sanitize: this.vditor.options.preview.markdown.sanitize,
-                setext: this.vditor.options.preview.markdown.setext,
-                toc: this.vditor.options.preview.markdown.toc,
+        addScript(options._lutePath || `${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript")
+            .then(() => {
+                this.vditor.lute = setLute({
+                    autoSpace: this.vditor.options.preview.markdown.autoSpace,
+                    chinesePunct: this.vditor.options.preview.markdown.chinesePunct,
+                    codeBlockPreview: this.vditor.options.preview.markdown.codeBlockPreview,
+                    emojiSite: this.vditor.options.hint.emojiPath,
+                    emojis: this.vditor.options.hint.emoji,
+                    fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
+                    footnotes: this.vditor.options.preview.markdown.footnotes,
+                    headingAnchor: false,
+                    inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
+                    linkBase: this.vditor.options.preview.markdown.linkBase,
+                    listStyle: this.vditor.options.preview.markdown.listStyle,
+                    paragraphBeginningSpace: this.vditor.options.preview.markdown.paragraphBeginningSpace,
+                    sanitize: this.vditor.options.preview.markdown.sanitize,
+                    setext: this.vditor.options.preview.markdown.setext,
+                    toc: this.vditor.options.preview.markdown.toc,
+                });
+
+                this.vditor.preview = new Preview(this.vditor);
+
+                initUI(this.vditor);
+
+                if (mergedOptions.after) {
+                    mergedOptions.after();
+                }
             });
-
-            this.vditor.preview = new Preview(this.vditor);
-
-            initUI(this.vditor);
-
-            if (mergedOptions.after) {
-                mergedOptions.after();
-            }
-        });
     }
 
     /** 设置主题 */
@@ -240,7 +238,7 @@ class Vditor extends VditorMethod {
 
     /** HTML 转 md */
     public html2md(value: string) {
-        return  this.vditor.lute.HTML2Md(value);
+        return this.vditor.lute.HTML2Md(value);
     }
 
     /** 获取 HTML */

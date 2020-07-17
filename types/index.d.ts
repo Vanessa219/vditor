@@ -441,6 +441,8 @@ interface IResize {
 
 /** @link https://hacpai.com/article/1549638745630#options */
 interface IOptions {
+    /** 内部调试时使用 */
+    _lutePath?: string;
     /** 编辑器初始化值。默认值: '' */
     value?: string;
     /** 是否显示日志。默认值: false */
