@@ -68,6 +68,7 @@
 
 ### v3.3.9 / 2020-07-xx
 
+* [588](https://github.com/Vanessa219/vditor/issues/588) 第五版 SV 模式 bug 记录 `修复缺陷`
 
 ### v3.3.8 / 2020-07-17
 
