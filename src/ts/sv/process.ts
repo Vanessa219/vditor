@@ -56,17 +56,23 @@ export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
     return html;
 };
 
-export const processPreviousMarkers = (textElement: HTMLElement) => {
-    let previousElement = textElement.previousElementSibling;
+export const processPreviousMarkers = (spanElement: HTMLElement) => {
+    let previousElement = spanElement.previousElementSibling;
     let markerText = "";
     let hasNL = false;
     while (previousElement && !hasNL) {
-        if (previousElement.getAttribute("data-type") === "li-marker" ||
-            previousElement.getAttribute("data-type") === "blockquote-marker" ||
-            previousElement.getAttribute("data-type") === "task-marker" ||
-            previousElement.getAttribute("data-type") === "padding") {
-            markerText = previousElement.textContent + markerText;
-        } else if (previousElement.getAttribute("data-type") === "newline") {
+        const previousType = previousElement.getAttribute("data-type");
+        if (previousType === "li-marker" || previousType === "blockquote-marker" || previousType === "task-marker" ||
+            previousType === "padding") {
+            const spanType = spanElement.getAttribute("data-type");
+            if (previousType === "li-marker" &&
+                (spanType === "code-block-open-marker" || spanType === "code-block-info")) {
+                // https://github.com/Vanessa219/vditor/issues/586
+                markerText = previousElement.textContent.replace(/\S/g, " ") + markerText;
+            } else {
+                markerText = previousElement.textContent + markerText;
+            }
+        } else if (previousType === "newline") {
             hasNL = true;
         }
         previousElement = previousElement.previousElementSibling;

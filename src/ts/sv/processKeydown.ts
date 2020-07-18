@@ -119,17 +119,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         let newLineText = "\n";
         if (spanElement) {
             newLineText += processPreviousMarkers(spanElement);
-        } else {
-            let codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker");
-            if (!codeMarkerElement) {
-                codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
-                if (codeMarkerElement) {
-                    codeMarkerElement = codeMarkerElement.previousElementSibling as HTMLElement;
-                }
-            }
-            if (codeMarkerElement) {
-                newLineText += processPreviousMarkers(codeMarkerElement);
-            }
         }
         range.insertNode(document.createTextNode(newLineText));
         range.collapse(false);
@@ -147,7 +136,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (spanElement && spanElement.previousElementSibling?.getAttribute("data-type") === "newline" &&
             getSelectPosition(spanElement, vditor.sv.element, range).start === 1 &&
             // 飘号的处理需在 inputEvent 中，否则上下飘号对不齐
-            spanElement.getAttribute("data-type").indexOf("code-block-") === -1 ) {
+            spanElement.getAttribute("data-type").indexOf("code-block-") === -1) {
             // 光标在每一行的第一个字符后
             range.setStart(spanElement, 0);
             range.extractContents();
