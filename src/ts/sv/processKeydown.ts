@@ -107,6 +107,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    const spanElement = hasClosestByTag(startContainer, "SPAN");
     // 回车
     if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey && blockElement) {
         let isFirst = false;
@@ -116,8 +117,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             isFirst = true;
         }
         let newLineText = "\n";
-        if (textElement) {
-            newLineText += processPreviousMarkers(textElement);
+        if (spanElement) {
+            newLineText += processPreviousMarkers(spanElement);
         } else {
             let codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker");
             if (!codeMarkerElement) {
@@ -143,7 +144,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 删除后光标前有 newline 的处理
     if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
-        const spanElement = hasClosestByTag(startContainer, "SPAN");
         if (spanElement && spanElement.previousElementSibling?.getAttribute("data-type") === "newline" &&
             getSelectPosition(spanElement, vditor.sv.element, range).start === 1 &&
             // 飘号的处理需在 inputEvent 中，否则上下飘号对不齐
