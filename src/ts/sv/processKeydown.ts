@@ -145,7 +145,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
         const spanElement = hasClosestByTag(startContainer, "SPAN");
         if (spanElement && spanElement.previousElementSibling?.getAttribute("data-type") === "newline" &&
-            getSelectPosition(spanElement, vditor.sv.element, range).start === 1) {
+            getSelectPosition(spanElement, vditor.sv.element, range).start === 1 &&
+            // 飘号的处理需在 inputEvent 中，否则上下飘号对不齐
+            spanElement.getAttribute("data-type").indexOf("code-block-") === -1 ) {
             // 光标在每一行的第一个字符后
             range.setStart(spanElement, 0);
             range.extractContents();

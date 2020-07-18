@@ -29,13 +29,20 @@ export const processPaste = (vditor: IVditor, text: string) => {
     scrollCenter(vditor);
 };
 
-const getPreviousNL = (spanElement: Element) => {
-    let previousElement = spanElement;
-    while (previousElement && previousElement.getAttribute("data-type") !== "newline") {
-        previousElement = previousElement.previousElementSibling;
+export const getSideByType = (spanNode: Node, type: string, isPrevious = true) => {
+    let sideElement = spanNode as Element;
+    if (sideElement.nodeType === 3) {
+        sideElement = sideElement.parentElement;
     }
-    if (previousElement && previousElement.getAttribute("data-type") === "newline") {
-        return previousElement;
+    while (sideElement) {
+        if (sideElement.getAttribute("data-type") === type) {
+            return sideElement;
+        }
+        if (isPrevious) {
+            sideElement = sideElement.previousElementSibling;
+        } else {
+            sideElement = sideElement.nextElementSibling;
+        }
     }
     return false;
 };
@@ -166,7 +173,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             } else if (commandName === "quote") {
                 marker = "> ";
             }
-            const newLine = getPreviousNL(spanElement);
+            const newLine = getSideByType(spanElement, "newline");
             if (newLine) {
                 newLine.insertAdjacentText("afterend", marker);
             } else {
