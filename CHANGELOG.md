@@ -68,6 +68,7 @@
 
 ### v3.3.9 / 2020-07-xx
 
+* [591](https://github.com/Vanessa219/vditor/issues/591) 粘贴有可能不渲染本行内容 `改进功能`
 * [586](https://github.com/Vanessa219/vditor/issues/586) code block inside ordered list `修复缺陷`
 * [585](https://github.com/Vanessa219/vditor/issues/585) [suggestion] when enter after code block inside blockqoute `改进功能`
 * [584](https://github.com/Vanessa219/vditor/issues/584) Can not delete Code block `修复缺陷`

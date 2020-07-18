@@ -1331,10 +1331,19 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         }
     }
     if (vditor.currentMode !== "sv") {
-        vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
-            .forEach((item: HTMLElement) => {
-                processCodeRender(item, vditor);
-            });
+        const blockElement = hasClosestBlock(getEditorRange(vditor[vditor.currentMode].element).startContainer);
+        if (blockElement) {
+            // https://github.com/Vanessa219/vditor/issues/591
+            if (vditor.currentMode === "wysiwyg") {
+                blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
+            } else {
+                blockElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.outerHTML);
+            }
+            blockElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+                .forEach((item: HTMLElement) => {
+                    processCodeRender(item, vditor);
+                });
+        }
     }
     execAfterRender(vditor);
 };
