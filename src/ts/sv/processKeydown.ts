@@ -73,6 +73,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 listLastMarkerElement.nextElementSibling.textContent.trim() === "") {
                 if (listFirstMarkerElement.previousElementSibling?.getAttribute("data-type") === "padding") {
                     listFirstMarkerElement.previousElementSibling.remove();
+                    inputEvent(vditor);
                 } else {
                     if (isTask) {
                         listFirstMarkerElement.remove();
@@ -80,8 +81,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                         listLastMarkerElement.previousElementSibling.remove();
                     }
                     listLastMarkerElement.remove();
+                    processAfterRender(vditor);
                 }
-                processAfterRender(vditor);
                 event.preventDefault();
                 return true;
             }
