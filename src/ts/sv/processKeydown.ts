@@ -166,6 +166,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (blockElement.textContent.trim() !== "" && !blockElement.previousElementSibling?.querySelector('[data-type="code-block-open-marker"]')) {
                 inputEvent(vditor);
             } else {
+                if (previousLastElement.getAttribute("data-type") !== "newline") {
+                    // https://github.com/Vanessa219/vditor/issues/597
+                    range.selectNodeContents(previousLastElement.lastChild);
+                    range.collapse(false);
+                }
                 processAfterRender(vditor);
             }
             event.preventDefault();

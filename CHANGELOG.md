@@ -68,6 +68,7 @@
 
 ### v3.3.10 / 2020-07-xx
 
+* [597](https://github.com/Vanessa219/vditor/issues/597) one more backspace before delete lists `修复缺陷`
 * [599](https://github.com/Vanessa219/vditor/issues/599) Ordered list(minor bug) `修复缺陷`
 
 ### v3.3.9 / 2020-07-18
