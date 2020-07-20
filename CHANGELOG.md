@@ -68,6 +68,7 @@
 
 ### v3.3.10 / 2020-07-xx
 
+* [596](https://github.com/Vanessa219/vditor/issues/596) blockquote insdie ordered list `改进功能`
 * [605](https://github.com/Vanessa219/vditor/issues/605) 块节点上下插入的优化 `改进功能`
 * [602](https://github.com/Vanessa219/vditor/issues/602) Three enters inside codeblock `修复缺陷`
 * [600](https://github.com/Vanessa219/vditor/issues/600) codeblock inside footnote `修复缺陷`

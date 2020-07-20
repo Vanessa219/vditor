@@ -32,12 +32,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         textElement.previousElementSibling.getAttribute("data-type") === "blockquote-marker") {
         blockquoteMarkerElement = textElement.previousElementSibling as HTMLElement;
     }
-    // 回车逐个删除 marker 标记
+    // 回车逐个删除 blockquote marker 标记
     if (blockquoteMarkerElement) {
         if (event.key === "Enter" && !isCtrl(event) && !event.altKey &&
             blockquoteMarkerElement.nextElementSibling.textContent.trim() === "" &&
             getSelectPosition(blockquoteMarkerElement, vditor.sv.element, range).start ===
             blockquoteMarkerElement.textContent.length) {
+            if (blockquoteMarkerElement.previousElementSibling?.getAttribute("data-type") === "padding") {
+                // 列表中存在多行 BQ 时，标记回车需跳出列表
+                blockquoteMarkerElement.previousElementSibling.setAttribute("data-action", "enter-remove");
+            }
             blockquoteMarkerElement.remove();
             processAfterRender(vditor);
             event.preventDefault();
@@ -119,7 +123,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
         let newLineText = "\n";
         if (spanElement) {
-            newLineText += processPreviousMarkers(spanElement);
+            if (spanElement.previousElementSibling?.getAttribute("data-action") === "enter-remove") {
+                // https://github.com/Vanessa219/vditor/issues/596
+                spanElement.previousElementSibling.remove();
+                processAfterRender(vditor);
+                event.preventDefault();
+                return true;
+            } else {
+                newLineText += processPreviousMarkers(spanElement);
+            }
         }
         range.insertNode(document.createTextNode(newLineText));
         range.collapse(false);
