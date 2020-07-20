@@ -1204,6 +1204,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             const xhr = new XMLHttpRequest();
             xhr.open("POST", vditor.options.upload.linkToImgUrl);
             setHeaders(vditor, xhr);
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
