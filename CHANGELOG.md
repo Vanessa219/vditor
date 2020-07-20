@@ -66,11 +66,22 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.9 / 2020-07-xx
+### v3.3.10 / 2020-07-xx
 
+* [594](https://github.com/Vanessa219/vditor/issues/594) Blockquote, ordered list and code block `改进功能`
+* [593](https://github.com/Vanessa219/vditor/issues/593) IR 模式焦点离开时的渲染问题 `改进功能`
+* [604](https://github.com/Vanessa219/vditor/issues/604) 站外图片抓取请求的 Content-Type 是 text/plain `改进功能`
+* [597](https://github.com/Vanessa219/vditor/issues/597) one more backspace before delete lists `修复缺陷`
+* [599](https://github.com/Vanessa219/vditor/issues/599) Ordered list(minor bug) `修复缺陷`
 
-### v3.3.8 / 2020-07-17
+### v3.3.9 / 2020-07-18
 
+* [591](https://github.com/Vanessa219/vditor/issues/591) 粘贴有可能不渲染本行内容 `改进功能`
+* [586](https://github.com/Vanessa219/vditor/issues/586) code block inside ordered list `修复缺陷`
+* [585](https://github.com/Vanessa219/vditor/issues/585) [suggestion] when enter after code block inside blockqoute `改进功能`
+* [584](https://github.com/Vanessa219/vditor/issues/584) Can not delete Code block `修复缺陷`
+* [588](https://github.com/Vanessa219/vditor/issues/588) 第五版 SV 模式 bug 记录 `修复缺陷`
+* [259](https://github.com/Vanessa219/vditor/issues/259) 分屏预览模式列表项自动完成 `引入特性`
 * [580](https://github.com/Vanessa219/vditor/issues/580) 重构 SV 模式 DOM `开发重构`
 * [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
 * [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`

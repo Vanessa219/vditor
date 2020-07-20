@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
-import {processAfterRender as processSVAfterRender} from "../sv/process";
+import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
 import {processCodeRender, processPasteCode} from "../util/processCode";
@@ -1193,7 +1193,6 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     const renderers: {
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
-        HTML2VditorSVDOM?: ILuteRender,
         Md2VditorDOM?: ILuteRender,
         Md2VditorIRDOM?: ILuteRender,
         Md2VditorSVDOM?: ILuteRender,
@@ -1205,6 +1204,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             const xhr = new XMLHttpRequest();
             xhr.open("POST", vditor.options.upload.linkToImgUrl);
             setHeaders(vditor, xhr);
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
                     if (xhr.status === 200) {
@@ -1307,9 +1307,9 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             } else {
-                renderers.HTML2VditorSVDOM = {renderLinkDest};
+                renderers.Md2VditorSVDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.HTML2VditorSVDOM(tempElement.innerHTML), vditor);
+                processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
             vditor.outline.render(vditor);
         } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
@@ -1326,16 +1326,25 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             } else {
                 renderers.Md2VditorSVDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.Md2VditorSVDOM(textPlain), vditor);
+                processPaste(vditor, textPlain);
             }
             vditor.outline.render(vditor);
         }
     }
     if (vditor.currentMode !== "sv") {
-        vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
-            .forEach((item: HTMLElement) => {
-                processCodeRender(item, vditor);
-            });
+        const blockElement = hasClosestBlock(getEditorRange(vditor[vditor.currentMode].element).startContainer);
+        if (blockElement) {
+            // https://github.com/Vanessa219/vditor/issues/591
+            if (vditor.currentMode === "wysiwyg") {
+                blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
+            } else {
+                blockElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.outerHTML);
+            }
+            blockElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+                .forEach((item: HTMLElement) => {
+                    processCodeRender(item, vditor);
+                });
+        }
     }
     execAfterRender(vditor);
 };

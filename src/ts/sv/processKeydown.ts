@@ -73,6 +73,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 listLastMarkerElement.nextElementSibling.textContent.trim() === "") {
                 if (listFirstMarkerElement.previousElementSibling?.getAttribute("data-type") === "padding") {
                     listFirstMarkerElement.previousElementSibling.remove();
+                    inputEvent(vditor);
                 } else {
                     if (isTask) {
                         listFirstMarkerElement.remove();
@@ -80,8 +81,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                         listLastMarkerElement.previousElementSibling.remove();
                     }
                     listLastMarkerElement.remove();
+                    processAfterRender(vditor);
                 }
-                processAfterRender(vditor);
                 event.preventDefault();
                 return true;
             }
@@ -107,6 +108,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    const spanElement = hasClosestByTag(startContainer, "SPAN");
     // 回车
     if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey && blockElement) {
         let isFirst = false;
@@ -116,19 +118,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             isFirst = true;
         }
         let newLineText = "\n";
-        if (textElement) {
-            newLineText += processPreviousMarkers(textElement);
-        } else {
-            let codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker");
-            if (!codeMarkerElement) {
-                codeMarkerElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
-                if (codeMarkerElement) {
-                    codeMarkerElement = codeMarkerElement.previousElementSibling as HTMLElement;
-                }
-            }
-            if (codeMarkerElement) {
-                newLineText += processPreviousMarkers(codeMarkerElement);
-            }
+        if (spanElement) {
+            newLineText += processPreviousMarkers(spanElement);
         }
         range.insertNode(document.createTextNode(newLineText));
         range.collapse(false);
@@ -143,9 +134,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 删除后光标前有 newline 的处理
     if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
-        const spanElement = hasClosestByTag(startContainer, "SPAN");
         if (spanElement && spanElement.previousElementSibling?.getAttribute("data-type") === "newline" &&
-            getSelectPosition(spanElement, vditor.sv.element, range).start === 1) {
+            getSelectPosition(spanElement, vditor.sv.element, range).start === 1 &&
+            // 飘号的处理需在 inputEvent 中，否则上下飘号对不齐
+            spanElement.getAttribute("data-type").indexOf("code-block-") === -1) {
             // 光标在每一行的第一个字符后
             range.setStart(spanElement, 0);
             range.extractContents();
@@ -174,6 +166,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (blockElement.textContent.trim() !== "" && !blockElement.previousElementSibling?.querySelector('[data-type="code-block-open-marker"]')) {
                 inputEvent(vditor);
             } else {
+                if (previousLastElement.getAttribute("data-type") !== "newline") {
+                    // https://github.com/Vanessa219/vditor/issues/597
+                    range.selectNodeContents(previousLastElement.lastChild);
+                    range.collapse(false);
+                }
                 processAfterRender(vditor);
             }
             event.preventDefault();

@@ -118,7 +118,6 @@ interface ILute {
         renderers: {
             HTML2VditorDOM?: ILuteRender,
             HTML2VditorIRDOM?: ILuteRender,
-            HTML2VditorSVDOM?: ILuteRender,
             HTML2Md?: ILuteRender,
             Md2HTML?: ILuteRender,
             Md2VditorDOM?: ILuteRender,
@@ -205,10 +204,7 @@ interface ILute {
     // sv 输入渲染
     SpinVditorSVDOM(text: string): string;
 
-    // 粘贴时将 html 转换为 sv
-    HTML2VditorSVDOM(html: string): string;
-
-    // md 转换为 sv
+    // 粘贴是 md 转换为 sv
     Md2VditorSVDOM(text: string): string;
 }
 
@@ -344,7 +340,7 @@ interface IMarkdownConfig {
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview: boolean;
-    /** 是否解析 setext 标题。默认值: false */
+    /** 是否解析 setext 标题。默认值: true */
     setext: boolean;
     /** 是否启用过滤 XSS。默认值: true */
     sanitize: boolean;
@@ -445,6 +441,8 @@ interface IResize {
 
 /** @link https://hacpai.com/article/1549638745630#options */
 interface IOptions {
+    /** 内部调试时使用 */
+    _lutePath?: string;
     /** 编辑器初始化值。默认值: '' */
     value?: string;
     /** 是否显示日志。默认值: false */

@@ -1,21 +1,52 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {accessLocalStorage} from "../util/compatibility";
-import {hasClosestBlock} from "../util/hasClosest";
+import {scrollCenter} from "../util/editorCommonEvent";
+import {hasClosestBlock, hasClosestByAttribute} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {inputEvent} from "./inputEvent";
 
-const getPreviousNL = (spanElement: Element) => {
-    let previousElement = spanElement;
-    while (previousElement && previousElement.getAttribute("data-type") !== "newline") {
-        previousElement = previousElement.previousElementSibling;
+export const processPaste = (vditor: IVditor, text: string) => {
+    const range = getEditorRange(vditor.sv.element);
+    range.extractContents();
+    range.insertNode(document.createTextNode(Lute.Caret));
+    range.insertNode(document.createTextNode(text));
+    let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+    if (!blockElement) {
+        blockElement = vditor.sv.element;
     }
-    if (previousElement && previousElement.getAttribute("data-type") === "newline") {
-        return previousElement;
+    const html = "<div data-block='0'>" +
+        vditor.lute.Md2VditorSVDOM(blockElement.textContent).replace(/<span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span><span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span></g, '<span data-type="newline"><br /><span style="display: none">\n</span></span><span data-type="newline"><br /><span style="display: none">\n</span></span></div><div data-block="0"><') +
+        "</div>";
+    if (blockElement.isEqualNode(vditor.sv.element)) {
+        blockElement.innerHTML = html;
+    } else {
+        blockElement.outerHTML = html;
+    }
+    setRangeByWbr(vditor.sv.element, range);
+
+    scrollCenter(vditor);
+};
+
+export const getSideByType = (spanNode: Node, type: string, isPrevious = true) => {
+    let sideElement = spanNode as Element;
+    if (sideElement.nodeType === 3) {
+        sideElement = sideElement.parentElement;
+    }
+    while (sideElement) {
+        if (sideElement.getAttribute("data-type") === type) {
+            return sideElement;
+        }
+        if (isPrevious) {
+            sideElement = sideElement.previousElementSibling;
+        } else {
+            sideElement = sideElement.nextElementSibling;
+        }
     }
     return false;
 };
+
 export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
     html = "<div data-block='0'>" +
@@ -25,14 +56,33 @@ export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
     return html;
 };
 
-export const processPreviousMarkers = (textElement: HTMLElement) => {
-    let previousElement = textElement.previousElementSibling;
+export const processPreviousMarkers = (spanElement: HTMLElement) => {
+    const spanType = spanElement.getAttribute("data-type");
+    let previousElement = spanElement.previousElementSibling;
     let markerText = "";
-    while (previousElement && (previousElement.getAttribute("data-type") === "li-marker" ||
-        previousElement.getAttribute("data-type") === "blockquote-marker" ||
-        previousElement.getAttribute("data-type") === "task-marker" ||
-        previousElement.getAttribute("data-type") === "padding")) {
-        markerText = previousElement.textContent + markerText;
+    let hasNL = false;
+    while (previousElement && !hasNL) {
+        const previousType = previousElement.getAttribute("data-type");
+        if (previousType === "li-marker" || previousType === "blockquote-marker" || previousType === "task-marker" ||
+            previousType === "padding") {
+            if (previousType === "li-marker" &&
+                (spanType === "code-block-open-marker" || spanType === "code-block-info")) {
+                // https://github.com/Vanessa219/vditor/issues/586
+                markerText = previousElement.textContent.replace(/\S/g, " ") + markerText;
+            } else if (spanType === "code-block-close-marker" &&
+                previousElement.nextElementSibling.isSameNode(spanElement)) {
+                // https://github.com/Vanessa219/vditor/issues/594
+                const openMarker = getSideByType(spanElement, "code-block-open-marker");
+                if (openMarker && openMarker.previousElementSibling) {
+                    previousElement = openMarker.previousElementSibling;
+                    markerText = previousElement.textContent + markerText;
+                }
+            } else {
+                markerText = previousElement.textContent + markerText;
+            }
+        } else if (previousType === "newline") {
+            hasNL = true;
+        }
         previousElement = previousElement.previousElementSibling;
     }
     return markerText;
@@ -137,7 +187,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             } else if (commandName === "quote") {
                 marker = "> ";
             }
-            const newLine = getPreviousNL(spanElement);
+            const newLine = getSideByType(spanElement, "newline");
             if (newLine) {
                 newLine.insertAdjacentText("afterend", marker);
             } else {

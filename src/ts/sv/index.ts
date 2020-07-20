@@ -1,5 +1,5 @@
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, dropEvent, focusEvent, hotkeyEvent, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, dropEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {getSelectText} from "../util/getSelectText";
 import {inputEvent} from "./inputEvent";
@@ -93,6 +93,9 @@ class Editor {
                 // 为空时显示 placeholder
                 vditor.sv.element.innerHTML = "";
                 return;
+            }
+            if (event.key === "Enter") {
+                scrollCenter(vditor);
             }
         });
     }

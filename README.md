@@ -117,6 +117,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 * [📕 链滴笔记](https://github.com/88250/liandi) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
 * [🌟 Starfire](https://github.com/88250/starfire) 一个分布式的内容分享讨论社区，星星之火可以燎原
 * [📝 Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器
+* [更多案例](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
 
 ## 🛠️ 使用文档
 
@@ -155,10 +156,31 @@ const vditor = new Vditor(id, {options...})
 
 ### 主题
 
-* 支持黑白两套主题：classic/dark
-* 参考现有样式后使用自己开发的 scss/css 进行样式的完全自定制
+#### 编辑器主题
+
+编辑器所展现的外观。内置classic，dark 2 套主题。
+
+* 编辑器初始化时可通过 `options.theme` 设置内置主题
+* 初始化完成后可通过 `setTheme` 更新编辑器主题
 * 可通过修改 [index.scss](https://github.com/Vanessa219/vditor/blob/master/src/assets/scss/index.scss) 中的变量对主题颜色进行定制
-* 在内容显示元素上添加 `class="vditor-reset"` （经典主题） 或 `class="vditor-reset vditor-reset--dark"`（黑色主题） 属性可对内容进行更为友好的展示
+* 可参考现有结构和类名在原有基础上进行修改
+
+#### 内容主题
+
+Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套主题。支持内容主题扩展接口。
+
+* 需在显示元素上添加 `class="vditor-reset"`
+* 编辑器初始化时可通过 `options.preview.theme` 设置内置或自己开发的主题列表
+* 内容渲染初始化时可通过 `IPreviewOptions.theme` 设置内置或自己开发的主题
+* 初始化完成后可通过 `setTheme` 或 `setContentTheme` 更新内容主题
+
+#### 代码主题
+
+代码块所展现的外观。内置 github 等 36 套主题。
+
+* 编辑器初始化时可通过 `options.preview.hljs` 对代码块样式、行号、是否启用进行设置
+* 内容渲染初始化时可通过 `IPreviewOptions.hljs` 对代码块样式、行号、是否启用进行设置
+* 初始化完成后可通过 `setTheme` 或 `setCodeTheme` 更新代码主题
 
 ### API
 
@@ -442,7 +464,7 @@ if (xhr.status === 200) {
 | html2md(value: string) | HTML 转 md |
 | tip(text: string, time: number) | 消息提示。time 为 0 将一直显示 |
 | setPreviewMode(mode: "both" \| "editor") | 设置预览模式 |
-| setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | 设置主题、内容主题及代码块风格 |
+| setTheme(theme: "dark" \| "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | 设置主题、内容主题及代码块风格 |
 | getCurrentMode(): string | 获取编辑器当前编辑模式 |
 | destroy() |销毁编辑器|
 

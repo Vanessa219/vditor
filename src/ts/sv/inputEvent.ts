@@ -1,7 +1,7 @@
 import {scrollCenter} from "../util/editorCommonEvent";
 import {hasClosestByAttribute} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
-import {processAfterRender, processSpinVditorSVDOM} from "./process";
+import {getSideByType, processAfterRender, processSpinVditorSVDOM} from "./process";
 
 export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();
@@ -32,15 +32,45 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             processAfterRender(vditor);
             return;
         }
+        // https://github.com/Vanessa219/vditor/issues/584
+        if (event.inputType === "deleteContentBackward") {
+            const codeBlockMarkerElement =
+                hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker") ||
+                hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker");
+            if (codeBlockMarkerElement) {
+                if (codeBlockMarkerElement.getAttribute("data-type") === "code-block-close-marker") {
+                    const openMarkerElement = getSideByType(startContainer, "code-block-open-marker");
+                    if (openMarkerElement) {
+                        openMarkerElement.textContent = codeBlockMarkerElement.textContent;
+                        processAfterRender(vditor);
+                        return;
+                    }
+                }
+                if (codeBlockMarkerElement.getAttribute("data-type") === "code-block-open-marker") {
+                    const openMarkerElement = getSideByType(startContainer, "code-block-close-marker", false);
+                    if (openMarkerElement) {
+                        openMarkerElement.textContent = codeBlockMarkerElement.textContent;
+                        processAfterRender(vditor);
+                        return;
+                    }
+                }
+            }
+            blockElement.querySelectorAll('[data-type="code-block-open-marker"]').forEach((item: HTMLElement) => {
+                if (item.textContent.length === 1) {
+                    item.remove();
+                }
+            });
+            blockElement.querySelectorAll('[data-type="code-block-close-marker"]').forEach((item: HTMLElement) => {
+                if (item.textContent.length === 1) {
+                    item.remove();
+                }
+            });
+        }
         // 删除或空格不解析，否则会 format 回去
         if ((event.data === " " || event.inputType === "deleteContentBackward") &&
             (hasClosestByAttribute(startContainer, "data-type", "padding") // 场景：b 前进行删除 [> 1. a\n>   b]
                 || hasClosestByAttribute(startContainer, "data-type", "li-marker")  // 场景：删除最后一个字符 [* 1\n* ]
                 || hasClosestByAttribute(startContainer, "data-type", "task-marker")  // 场景：删除最后一个字符 [* [ ] ]
-                // 场景：删除前面的飘号 [```\n``` ]
-                || hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker")
-                // 场景：删除后面的飘号 [```\n``` ]
-                || hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker")
                 || hasClosestByAttribute(startContainer, "data-type", "blockquote-marker")  // 场景：删除最后一个字符 [> ]
             )) {
             processAfterRender(vditor);
