@@ -66,7 +66,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.10 / 2020-07-xx
+### v3.3.11 / 2020-07-xx
+
+### v3.3.10 / 2020-07-20
 
 * [596](https://github.com/Vanessa219/vditor/issues/596) blockquote insdie ordered list `改进功能`
 * [605](https://github.com/Vanessa219/vditor/issues/605) 块节点上下插入的优化 `改进功能`
@@ -78,9 +80,6 @@
 * [604](https://github.com/Vanessa219/vditor/issues/604) 站外图片抓取请求的 Content-Type 是 text/plain `改进功能`
 * [597](https://github.com/Vanessa219/vditor/issues/597) one more backspace before delete lists `修复缺陷`
 * [599](https://github.com/Vanessa219/vditor/issues/599) Ordered list(minor bug) `修复缺陷`
-
-### v3.3.9 / 2020-07-18
-
 * [591](https://github.com/Vanessa219/vditor/issues/591) 粘贴有可能不渲染本行内容 `改进功能`
 * [586](https://github.com/Vanessa219/vditor/issues/586) code block inside ordered list `修复缺陷`
 * [585](https://github.com/Vanessa219/vditor/issues/585) [suggestion] when enter after code block inside blockqoute `改进功能`
