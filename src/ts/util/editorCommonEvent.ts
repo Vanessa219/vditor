@@ -26,6 +26,12 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
 export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("blur", () => {
+        if (vditor.currentMode === "ir") {
+            const expandElement = vditor.ir.element.querySelector(".vditor-ir__node--expand");
+            if (expandElement) {
+                expandElement.classList.remove("vditor-ir__node--expand");
+            }
+        }
         if (vditor.options.blur) {
             vditor.options.blur(getMarkdown(vditor));
         }

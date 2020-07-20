@@ -68,6 +68,7 @@
 
 ### v3.3.10 / 2020-07-xx
 
+* [593](https://github.com/Vanessa219/vditor/issues/593) IR 模式焦点离开时的渲染问题 `改进功能`
 * [604](https://github.com/Vanessa219/vditor/issues/604) 站外图片抓取请求的 Content-Type 是 text/plain `改进功能`
 * [597](https://github.com/Vanessa219/vditor/issues/597) one more backspace before delete lists `修复缺陷`
 * [599](https://github.com/Vanessa219/vditor/issues/599) Ordered list(minor bug) `修复缺陷`
