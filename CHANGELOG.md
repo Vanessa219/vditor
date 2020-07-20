@@ -68,6 +68,7 @@
 
 ### v3.3.10 / 2020-07-xx
 
+* [590](https://github.com/Vanessa219/vditor/pull/590) Set value issue `修复缺陷`
 * [594](https://github.com/Vanessa219/vditor/issues/594) Blockquote, ordered list and code block `改进功能`
 * [593](https://github.com/Vanessa219/vditor/issues/593) IR 模式焦点离开时的渲染问题 `改进功能`
 * [604](https://github.com/Vanessa219/vditor/issues/604) 站外图片抓取请求的 Content-Type 是 text/plain `改进功能`
