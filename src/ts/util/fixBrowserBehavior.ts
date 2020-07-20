@@ -154,7 +154,7 @@ export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: 
             (previousElement && (previousElement.tagName === "TABLE" || previousElement.getAttribute("data-type")))) {
             blockElement.insertAdjacentHTML("beforebegin",
                 `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-            setRangeByWbr(vditor.ir.element, range);
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
         } else {
             range.selectNodeContents(previousElement);
             range.collapse(false);

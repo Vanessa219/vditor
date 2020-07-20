@@ -68,6 +68,9 @@
 
 ### v3.3.10 / 2020-07-xx
 
+* [605](https://github.com/Vanessa219/vditor/issues/605) 块节点上下插入的优化 `改进功能`
+* [602](https://github.com/Vanessa219/vditor/issues/602) Three enters inside codeblock `修复缺陷`
+* [600](https://github.com/Vanessa219/vditor/issues/600) codeblock inside footnote `修复缺陷`
 * [590](https://github.com/Vanessa219/vditor/pull/590) Set value issue `修复缺陷`
 * [594](https://github.com/Vanessa219/vditor/issues/594) Blockquote, ordered list and code block `改进功能`
 * [593](https://github.com/Vanessa219/vditor/issues/593) IR 模式焦点离开时的渲染问题 `改进功能`
