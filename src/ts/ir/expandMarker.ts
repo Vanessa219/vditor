@@ -1,4 +1,5 @@
 import {hasClosestByClassName, hasTopClosestByClassName} from "../util/hasClosest";
+import {setSelectionFocus} from "../util/selection";
 
 const nextIsNode = (range: Range) => {
     const startContainer = range.startContainer;
@@ -47,11 +48,12 @@ export const expandMarker = (range: Range, vditor: IVditor) => {
     vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
-
     const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
     if (nodeElement) {
         nodeElement.classList.add("vditor-ir__node--expand");
         nodeElement.classList.remove("vditor-ir__node--hidden");
+        // https://github.com/Vanessa219/vditor/issues/615 safari中光标位置跳动
+        setSelectionFocus(range);
     }
 
     const nextNode = nextIsNode(range);

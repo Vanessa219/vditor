@@ -68,6 +68,8 @@
 
 ### v3.3.11 / 2020-07-xx
 
+* [615](https://github.com/Vanessa219/vditor/issues/615) 即时渲染模式下在safari中光标位置跳动 `修复缺陷`
+
 ### v3.3.10 / 2020-07-20
 
 * [596](https://github.com/Vanessa219/vditor/issues/596) blockquote insdie ordered list `改进功能`
