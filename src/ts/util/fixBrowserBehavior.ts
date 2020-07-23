@@ -1215,7 +1215,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                         }
                         const original = responseJSON.data.originalURL;
                         if (vditor.currentMode === "sv") {
-                            vditor.sv.element.querySelectorAll('[data-type="image"] .vditor-sv__marker--link')
+                            vditor.sv.element.querySelectorAll(".vditor-sv__marker--link")
                                 .forEach((item: HTMLElement) => {
                                     if (item.textContent === original) {
                                         item.textContent = responseJSON.data.url;
