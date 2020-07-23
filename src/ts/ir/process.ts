@@ -80,14 +80,14 @@ export const processHeading = (vditor: IVditor, value: string) => {
     if (headingElement) {
         if (value === "") {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
-            const selection = window.getSelection();
-            selection.selectAllChildren(headingMarkerElement)
+            range.selectNodeContents(headingMarkerElement);
+            setSelectionFocus(range);
             document.execCommand("delete");
         } else {
-            const html = value + headingElement.innerText;
-            const selection = window.getSelection();
-            selection.selectAllChildren(headingElement)
-            document.execCommand("insertHTML", false, html);
+            range.selectNodeContents(headingElement);
+            range.collapse(true);
+            setSelectionFocus(range);
+            document.execCommand("insertHTML", false, value);
         }
         highlightToolbarIR(vditor);
         renderToc(vditor);
