@@ -189,6 +189,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | debugger | Whether to display the log | false |
 | value | Editor initialization value | '' |
 | theme | Theme: classic, dark | 'classic' |
+| icon | icon theme: ant, material | 'ant' |
 | outline | show outline | false |
 
 #### options.toolbar

@@ -213,6 +213,7 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | debugger | 是否显示日志 | false |
 | value | 编辑器初始化值 | '' |
 | theme | 主题：classic, dark | 'classic' |
+| icon | 图标风格：ant, material | 'ant' |
 | outline | 是否展现大纲 | false |
 
 #### options.toolbar

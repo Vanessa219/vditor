@@ -313,7 +313,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             deleteColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-column"] +
                 "<" + updateHotkeyTip("⌘-⇧--") + ">");
             deleteColumnElement.setAttribute("data-type", "deleteColumn");
-            deleteColumnElement.innerHTML = '<svg><use xlink:href="#vditor-icon-dekete-column"></use></svg>';
+            deleteColumnElement.innerHTML = '<svg><use xlink:href="#vditor-icon-delete-column"></use></svg>';
             deleteColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             deleteColumnElement.onclick = () => {
                 const startContainer = getSelection().getRangeAt(0).startContainer;
