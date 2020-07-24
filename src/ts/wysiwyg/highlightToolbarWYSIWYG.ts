@@ -1,13 +1,3 @@
-import alignCenterSVG from "../../assets/icons/align-center.svg";
-import alingLeftSVG from "../../assets/icons/align-left.svg";
-import alingRightSVG from "../../assets/icons/align-right.svg";
-import deleteColumnSVG from "../../assets/icons/delete-column.svg";
-import deleteRowSVG from "../../assets/icons/delete-row.svg";
-import downSVG from "../../assets/icons/down.svg";
-import insertColumnSVG from "../../assets/icons/insert-column.svg";
-import insertRowSVG from "../../assets/icons/insert-row.svg";
-import trashcanSVG from "../../assets/icons/trashcan.svg";
-import upSVG from "../../assets/icons/up.svg";
 import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {disableToolbar} from "../toolbar/setToolbar";
@@ -239,7 +229,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft +
                 "<" + updateHotkeyTip("⌘-⇧-L") + ">");
             left.setAttribute("data-type", "left");
-            left.innerHTML = alingLeftSVG;
+            left.innerHTML = '<svg><use xlink:href="#vditor-icon-align-left"></use></svg>';
             left.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "left" ? " vditor-icon--current" : "");
             left.onclick = () => {
@@ -251,7 +241,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             center.setAttribute("aria-label", i18n[vditor.options.lang].alignCenter +
                 "<" + updateHotkeyTip("⌘-⇧-C") + ">");
             center.setAttribute("data-type", "center");
-            center.innerHTML = alignCenterSVG;
+            center.innerHTML = '<svg><use xlink:href="#vditor-icon-align-center"></use></svg>';
             center.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "center" ? " vditor-icon--current" : "");
             center.onclick = () => {
@@ -263,7 +253,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight +
                 "<" + updateHotkeyTip("⌘-⇧-R") + ">");
             right.setAttribute("data-type", "right");
-            right.innerHTML = alingRightSVG;
+            right.innerHTML = '<svg><use xlink:href="#vditor-icon-align-right"></use></svg>';
             right.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
                 (alignType === "right" ? " vditor-icon--current" : "");
             right.onclick = () => {
@@ -275,7 +265,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             insertRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-row"] +
                 "<" + updateHotkeyTip("⌘-=") + ">");
             insertRowElement.setAttribute("data-type", "insertRow");
-            insertRowElement.innerHTML = insertRowSVG;
+            insertRowElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-row"></use></svg>';
             insertRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             insertRowElement.onclick = () => {
                 const startContainer = getSelection().getRangeAt(0).startContainer;
@@ -291,7 +281,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             insertColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-column"] +
                 "<" + updateHotkeyTip("⌘-⇧-=") + ">");
             insertColumnElement.setAttribute("data-type", "insertColumn");
-            insertColumnElement.innerHTML = insertColumnSVG;
+            insertColumnElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-column"></use></svg>';
             insertColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             insertColumnElement.onclick = () => {
                 const startContainer = getSelection().getRangeAt(0).startContainer;
@@ -307,7 +297,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             deleteRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-row"] +
                 "<" + updateHotkeyTip("⌘--") + ">");
             deleteRowElement.setAttribute("data-type", "deleteRow");
-            deleteRowElement.innerHTML = deleteRowSVG;
+            deleteRowElement.innerHTML = '<svg><use xlink:href="#vditor-icon-delete-row"></use></svg>';
             deleteRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             deleteRowElement.onclick = () => {
                 const startContainer = getSelection().getRangeAt(0).startContainer;
@@ -323,7 +313,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             deleteColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-column"] +
                 "<" + updateHotkeyTip("⌘-⇧--") + ">");
             deleteColumnElement.setAttribute("data-type", "deleteColumn");
-            deleteColumnElement.innerHTML = deleteColumnSVG;
+            deleteColumnElement.innerHTML = '<svg><use xlink:href="#vditor-icon-dekete-column"></use></svg>';
             deleteColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
             deleteColumnElement.onclick = () => {
                 const startContainer = getSelection().getRangeAt(0).startContainer;
@@ -681,7 +671,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
     upElement.setAttribute("data-type", "up");
     upElement.setAttribute("aria-label", i18n[vditor.options.lang].up +
         "<" + updateHotkeyTip("⌘-⇧-U") + ">");
-    upElement.innerHTML = upSVG;
+    upElement.innerHTML = '<svg><use xlink:href="#vditor-icon-up"></use></svg>';
     upElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     upElement.onclick = () => {
         range.insertNode(document.createElement("wbr"));
@@ -704,7 +694,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
     downElement.setAttribute("data-type", "down");
     downElement.setAttribute("aria-label", i18n[vditor.options.lang].down +
         "<" + updateHotkeyTip("⌘-⇧-D") + ">");
-    downElement.innerHTML = downSVG;
+    downElement.innerHTML = '<svg><use xlink:href="#vditor-icon-down"></use></svg>';
     downElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     downElement.onclick = () => {
         range.insertNode(document.createElement("wbr"));
@@ -723,7 +713,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
         "<" + updateHotkeyTip("⌘-⇧-X") + ">");
-    close.innerHTML = trashcanSVG;
+    close.innerHTML = '<svg><use xlink:href="#vditor-icon-trashcan"></use></svg>';
     close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     close.onclick = () => {
         const range = getEditorRange(vditor.wysiwyg.element);

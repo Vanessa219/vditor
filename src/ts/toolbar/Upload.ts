@@ -1,4 +1,3 @@
-import uploadSVG from "../../assets/icons/upload.svg";
 import {Constants} from "../constants";
 import {uploadFiles} from "../upload/index";
 import {MenuItem} from "./MenuItem";
@@ -13,7 +12,7 @@ export class Upload extends MenuItem {
         if (vditor.options.upload.accept) {
             inputHTML += ` accept="${vditor.options.upload.accept}"`;
         }
-        this.element.children[0].innerHTML = `${(menuItem.icon || uploadSVG)}${inputHTML}>`;
+        this.element.children[0].innerHTML = `${(menuItem.icon || '<svg><use xlink:href="#vditor-icon-upload"></use></svg>')}${inputHTML}>`;
         this._bindEvent(vditor);
     }
 

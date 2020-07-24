@@ -1,4 +1,3 @@
-import copySVG from "../../assets/icons/copy.svg";
 import {i18n} from "../i18n/index";
 import {code160to32} from "../util/code160to32";
 
@@ -35,7 +34,7 @@ export const codeRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") =>
 onmouseover="this.setAttribute('aria-label', '${i18n[lang].copy}')"
 class="vditor-tooltipped vditor-tooltipped__w"
 onclick="this.previousElementSibling.select();document.execCommand('copy');` +
-            `this.setAttribute('aria-label', '${i18n[lang].copied}')">${copySVG}</span>`;
+            `this.setAttribute('aria-label', '${i18n[lang].copied}')"><svg><use xlink:href="#vditor-icon-copy"></use></svg></span>`;
         const textarea = document.createElement("textarea");
         textarea.value = code160to32(codeText);
         divElement.insertAdjacentElement("afterbegin", textarea);

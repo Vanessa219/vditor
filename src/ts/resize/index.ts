@@ -1,4 +1,3 @@
-import resizeSVG from "../../assets/icons/resize.svg";
 
 export class Resize {
     public element: HTMLElement;
@@ -6,7 +5,7 @@ export class Resize {
     constructor(vditor: IVditor) {
         this.element = document.createElement("div");
         this.element.className = `vditor-resize vditor-resize--${vditor.options.resize.position}`;
-        this.element.innerHTML = `<div>${resizeSVG}</div>`;
+        this.element.innerHTML = `<div><svg><use xlink:href="#vditor-icon-resize"></use></svg></div>`;
 
         this.bindEvent(vditor);
     }

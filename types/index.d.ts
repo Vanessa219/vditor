@@ -409,6 +409,7 @@ interface IPreviewOptions {
     markdown?: IMarkdownConfig;
     renderers?: ILuteRender;
     theme?: IPreviewTheme;
+    icon?: "ant" | "material";
 
     transform?(html: string): string;
 
@@ -491,6 +492,8 @@ interface IOptions {
     };
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
+    /** 图标。默认值: 'material' */
+    icon?: "ant" | "material";
     /** @link https://hacpai.com/article/1549638745630#options-upload */
     upload?: IUpload;
     /** @link https://hacpai.com/article/1549638745630#options-classes */

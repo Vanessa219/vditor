@@ -68,12 +68,15 @@
 
 ### v3.3.11 / 2020-07-xx
 
+* [620](https://github.com/Vanessa219/vditor/issues/620) 支持多套图标配置 `引入特性`
+* [578](https://github.com/Vanessa219/vditor/issues/578) 图标切换为 ant-design 或 Material 风格 `改进功能`
 * [614](https://github.com/Vanessa219/vditor/issues/614) 添加 linkToImgUrl 回调 `引入特性`
 * [617](https://github.com/Vanessa219/vditor/issues/617) options.preview.theme.current 需设置不使用主题样式 `改进功能`
 * [611](https://github.com/Vanessa219/vditor/issues/611) SV 模式粘贴图片拉取上传问题 `修复缺陷`
 * [616](https://github.com/Vanessa219/vditor/pull/616) fix: safari下选中文字添加标题文字会消失 `修复缺陷`
 * [615](https://github.com/Vanessa219/vditor/issues/615) 即时渲染模式下在safari中光标位置跳动 `修复缺陷`
 * 添加 `options.upload.linkToImgCallback`
+* 添加 `options.icon`
 
 ### v3.3.10 / 2020-07-20
 

@@ -1,4 +1,3 @@
-import contractSVG from "../../assets/icons/contract.svg";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
@@ -28,7 +27,7 @@ export class Fullscreen extends MenuItem {
                 }
             } else {
                 if (!menuItem.level) {
-                    this.innerHTML = contractSVG;
+                    this.innerHTML = '<svg><use xlink:href="#vditor-icon-contract"></use></svg>';
                 }
                 vditor.element.classList.add("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {

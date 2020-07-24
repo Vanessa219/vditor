@@ -23,6 +23,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         customEmoji: {},
         emojiPath: `${(options && options.emojiPath) || Constants.CDN}/dist/images/emoji`,
         hljs: Constants.HLJS_OPTIONS,
+        icon: "ant",
         lang: "zh_CN",
         markdown: Constants.MARKDOWN_OPTIONS,
         math: Constants.MATH_OPTIONS,
@@ -102,4 +103,5 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.lazyLoadImage) {
         lazyLoadImageRender(previewElement);
     }
+    addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
 };

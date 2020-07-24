@@ -1,5 +1,3 @@
-import mpWechatSVG from "../../assets/icons/mp-wechat.svg";
-import zhihutSVG from "../../assets/icons/zhihu.svg";
 import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
@@ -60,10 +58,10 @@ export class Preview {
                     actionHtml.push(`<button data-type="mobile">Mobile/Wechat</button>`);
                     break;
                 case "mp-wechat":
-                    actionHtml.push(`<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号">${mpWechatSVG}</button>`);
+                    actionHtml.push(`<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号"><svg><use xlink:href="#vditor-icon-mp-wechat"></use></svg></button>`);
                     break;
                 case "zhihu":
-                    actionHtml.push(`<button data-type="zhihu" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到知乎">${zhihutSVG}</button>`);
+                    actionHtml.push(`<button data-type="zhihu" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到知乎"><svg><use xlink:href="#vditor-icon-zhihu"></use></svg></button>`);
                     break;
             }
         }
