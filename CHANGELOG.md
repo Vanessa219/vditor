@@ -66,7 +66,12 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.11 / 2020-07-xx
+### v3.3.12 / 2020-07-xx
+
+
+
+
+### v3.3.11 / 2020-07-24
 
 * [620](https://github.com/Vanessa219/vditor/issues/620) 支持多套图标配置 `引入特性`
 * [578](https://github.com/Vanessa219/vditor/issues/578) 添加 ant-design 及 Material 风格的图标 `改进功能`
@@ -75,11 +80,6 @@
 * [611](https://github.com/Vanessa219/vditor/issues/611) SV 模式粘贴图片拉取上传问题 `修复缺陷`
 * [616](https://github.com/Vanessa219/vditor/pull/616) fix: safari下选中文字添加标题文字会消失 `修复缺陷`
 * [615](https://github.com/Vanessa219/vditor/issues/615) 即时渲染模式下在safari中光标位置跳动 `修复缺陷`
-* 添加 `options.upload.linkToImgCallback`
-* 添加 `options.icon`
-
-### v3.3.10 / 2020-07-20
-
 * [596](https://github.com/Vanessa219/vditor/issues/596) blockquote insdie ordered list `改进功能`
 * [605](https://github.com/Vanessa219/vditor/issues/605) 块节点上下插入的优化 `改进功能`
 * [602](https://github.com/Vanessa219/vditor/issues/602) Three enters inside codeblock `修复缺陷`
@@ -175,6 +175,8 @@
   * `options.preview.markdown.setext` 默认值修改为 `true`
   * options.mode 默认值修改为 `ir`
   * 支持预览区域工具栏配置及自定义
+  * 添加 `options.upload.linkToImgCallback`
+  * 添加 `options.icon`
 
 ### v3.2.12 / 2020-06-07
 
