@@ -1347,7 +1347,8 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             if (vditor.currentMode === "wysiwyg") {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             } else {
-                blockElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.outerHTML);
+                const range = window.getSelection().getRangeAt(0);
+                IRInput(vditor, range);
             }
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
