@@ -1234,6 +1234,9 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                     } else {
                         vditor.tip.show(xhr.responseText);
                     }
+                    if (vditor.options.upload.linkToImgCallback) {
+                        vditor.options.upload.linkToImgCallback(xhr.responseText);
+                    }
                 }
             };
             xhr.send(JSON.stringify({url: src}));

@@ -275,6 +275,9 @@ interface IUpload {
 
     /** 将上传的文件处理后再返回  */
     file?(files: File[]): File[];
+
+    /** 图片地址上传后的回调  */
+    linkToImgCallback?(responseText: string): void;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-toolbar */
