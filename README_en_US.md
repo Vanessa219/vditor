@@ -66,7 +66,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 * Multi-language support, built-in Chinese, English, Korean text localization
 * Support mainstream browsers, mobile friendly
 
-![editor.png](https://b3logfile.com/file/2020/05/editor-adc7f8fd.png)
+![editor.png](https://b3logfile.com/file/2020/07/截图-08bb1e19.png)
 
 ![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 

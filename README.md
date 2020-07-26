@@ -68,7 +68,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 * 多语言支持，内置中、英、韩文本地化
 * 支持主流浏览器，对移动端友好
 
-![editor.png](https://b3logfile.com/file/2020/05/editor-adc7f8fd.png)
+![editor.png](https://b3logfile.com/file/2020/07/截图-08bb1e19.png)
 
 ![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 

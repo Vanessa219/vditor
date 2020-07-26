@@ -68,6 +68,8 @@
 
 ### v3.3.12 / 2020-07-xx
 
+* [451](https://github.com/Vanessa219/vditor/issues/451) IR 模式保留 Emoji 原始输入 `改进功能`
+
 ### v3.3.11 / 2020-07-24
 
 * [620](https://github.com/Vanessa219/vditor/issues/620) 支持多套图标配置 `引入特性`
