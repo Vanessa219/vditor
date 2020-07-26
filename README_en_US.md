@@ -76,19 +76,19 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 
 *WYSIWYG* mode is more friendly to users who are not familiar with Markdown, and you can use it seamlessly if you are familiar with Markdown.
 
-![vditor-wysiwyg](https://img.hacpai.com/file/2020/03/wysiwyg-94c13d78.gif)
+![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-614e93c0.gif)
 
 ### Instant Rendering
 
 *Instant Rendering* mode should not be unfamiliar to users who are familiar with Typora. In theory, this is the most elegant Markdown editing method.
 
-![vditor-ir](https://img.hacpai.com/file/2020/03/ir-6d784c1f.gif)
+![vditor-ir](https://b3logfile.com/file/2020/07/ir-6bfeacd5.gif)
 
 ### Split View
 
 The traditional *Split View* mode is suitable for Markdown editing on a large screen.
 
-![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
+![vditor-sv](https://b3logfile.com/file/2020/07/sv-3a199694.gif)
 
 ## 🍱 Syntax support
 

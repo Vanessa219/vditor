@@ -78,19 +78,19 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 *所见即所得*模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。
 
-![vditor-wysiwyg](https://img.hacpai.com/file/2020/03/wysiwyg-94c13d78.gif)
+![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-614e93c0.gif)
 
 ### 即时渲染（IR）
 
 *即时渲染*模式对熟悉 Typora 的用户应该不会感到陌生，理论上这是最优雅的 Markdown 编辑方式。
 
-![vditor-ir](https://img.hacpai.com/file/2020/03/ir-6d784c1f.gif)
+![vditor-ir](https://b3logfile.com/file/2020/07/ir-6bfeacd5.gif)
 
 ### 分屏预览（SV）
 
 传统的*分屏预览*模式适合大屏下的 Markdown 编辑。
 
-![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
+![vditor-sv](https://b3logfile.com/file/2020/07/sv-3a199694.gif)
 
 ## 🍱 语法支持
 
