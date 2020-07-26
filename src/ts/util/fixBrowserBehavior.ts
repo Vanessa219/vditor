@@ -1343,7 +1343,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             } else {
                 blockElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.outerHTML);
             }
-            blockElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+            vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
                 .forEach((item: HTMLElement) => {
                     processCodeRender(item, vditor);
                 });
