@@ -68,7 +68,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 * 多语言支持，内置中、英、韩文本地化
 * 支持主流浏览器，对移动端友好
 
-![editor.png](https://b3logfile.com/file/2020/07/截图-08bb1e19.png)
+![editor.png](https://b3logfile.com/file/2020/07/editor-b304aa97.png)
 
 ![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 
@@ -78,19 +78,19 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 *所见即所得*模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。
 
-![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-614e93c0.gif)
+![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-4f216b9b.gif)
 
 ### 即时渲染（IR）
 
 *即时渲染*模式对熟悉 Typora 的用户应该不会感到陌生，理论上这是最优雅的 Markdown 编辑方式。
 
-![vditor-ir](https://b3logfile.com/file/2020/07/ir-6bfeacd5.gif)
+![vditor-ir](https://b3logfile.com/file/2020/07/ir-67cd956c.gif)
 
 ### 分屏预览（SV）
 
 传统的*分屏预览*模式适合大屏下的 Markdown 编辑。
 
-![vditor-sv](https://b3logfile.com/file/2020/07/sv-3a199694.gif)
+![vditor-sv](https://b3logfile.com/file/2020/07/sv-595dcb28.gif)
 
 ## 🍱 语法支持
 
