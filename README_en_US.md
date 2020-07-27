@@ -66,7 +66,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 * Multi-language support, built-in Chinese, English, Korean text localization
 * Support mainstream browsers, mobile friendly
 
-![editor.png](https://b3logfile.com/file/2020/07/截图-08bb1e19.png)
+![editor.png](https://b3logfile.com/file/2020/07/editor-b304aa97.png)
 
 ![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 
@@ -76,19 +76,19 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 
 *WYSIWYG* mode is more friendly to users who are not familiar with Markdown, and you can use it seamlessly if you are familiar with Markdown.
 
-![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-614e93c0.gif)
+![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-4f216b9b.gif)
 
 ### Instant Rendering
 
 *Instant Rendering* mode should not be unfamiliar to users who are familiar with Typora. In theory, this is the most elegant Markdown editing method.
 
-![vditor-ir](https://b3logfile.com/file/2020/07/ir-6bfeacd5.gif)
+![vditor-ir](https://b3logfile.com/file/2020/07/ir-67cd956c.gif)
 
 ### Split View
 
 The traditional *Split View* mode is suitable for Markdown editing on a large screen.
 
-![vditor-sv](https://b3logfile.com/file/2020/07/sv-3a199694.gif)
+![vditor-sv](https://b3logfile.com/file/2020/07/sv-595dcb28.gif)
 
 ## 🍱 Syntax support
 
