@@ -32,7 +32,6 @@ export abstract class Constants {
         listStyle: false,
         paragraphBeginningSpace: false,
         sanitize: true,
-        setext: true,
         toc: false,
     };
     public static readonly HLJS_OPTIONS = {

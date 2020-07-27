@@ -115,7 +115,6 @@ class Vditor extends VditorMethod {
                     listStyle: this.vditor.options.preview.markdown.listStyle,
                     paragraphBeginningSpace: this.vditor.options.preview.markdown.paragraphBeginningSpace,
                     sanitize: this.vditor.options.preview.markdown.sanitize,
-                    setext: this.vditor.options.preview.markdown.setext,
                     toc: this.vditor.options.preview.markdown.toc,
                 });
 

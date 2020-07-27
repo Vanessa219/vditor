@@ -375,10 +375,7 @@ export const isHrMD = (text: string) => {
     return false;
 };
 
-export const isHeadingMD = (text: string, setext: boolean) => {
-    if (!setext) {
-        return false;
-    }
+export const isHeadingMD = (text: string) => {
     // - =
     const textArray = text.trimRight().split("\n");
     text = textArray.pop();
@@ -564,7 +561,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             return true;
         }
 
-        if (isHeadingMD(pElement.innerHTML, vditor.options.preview.markdown.setext)) {
+        if (isHeadingMD(pElement.innerHTML)) {
             // heading 渲染
             pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0"><wbr>\n</p>');
             setRangeByWbr(vditor[vditor.currentMode].element, range);

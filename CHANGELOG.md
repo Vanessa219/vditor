@@ -68,7 +68,9 @@
 
 ### v3.3.12 / 2020-07-xx
 
+* [626](https://github.com/Vanessa219/vditor/issues/626) 去除 Setext 标题解析开关 `开发重构`
 * [451](https://github.com/Vanessa219/vditor/issues/451) IR 模式保留 Emoji 原始输入 `改进功能`
+* 移除 `options.preview.markdown.setext`
 
 ### v3.3.11 / 2020-07-24
 

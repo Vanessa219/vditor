@@ -152,8 +152,6 @@ interface ILute {
 
     SetEmojiSite(emojiSite: string): void;
 
-    SetSetext(enable: boolean): void;
-
     SetVditorCodeBlockPreview(enable: boolean): void;
 
     PutEmojis(emojis: IObject): void;
@@ -343,8 +341,6 @@ interface IMarkdownConfig {
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview: boolean;
-    /** 是否解析 setext 标题。默认值: true */
-    setext: boolean;
     /** 是否启用过滤 XSS。默认值: true */
     sanitize: boolean;
     /** 链接前缀。默认值：'' */

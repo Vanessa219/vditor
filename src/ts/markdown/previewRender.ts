@@ -53,7 +53,6 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             listStyle: mergedOptions.markdown.listStyle,
             paragraphBeginningSpace: mergedOptions.markdown.paragraphBeginningSpace,
             sanitize: mergedOptions.markdown.sanitize,
-            setext: mergedOptions.markdown.setext,
             toc: mergedOptions.markdown.toc,
         });
         if (options?.renderers) {
