@@ -258,5 +258,6 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     } else {
         range.insertNode(pasteElement.content.cloneNode(true));
         range.collapse(false);
+        setSelectionFocus(range);
     }
 };
