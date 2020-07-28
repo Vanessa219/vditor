@@ -66,7 +66,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.12 / 2020-07-xx
+### v3.4.0 / 2020-07-xx
+
+
+### v3.3.12 / 2020-07-28
 
 * [632](https://github.com/Vanessa219/vditor/issues/632) 复制代码块解析优化 `改进功能`
 * [627](https://github.com/Vanessa219/vditor/issues/627) 为 <kbd> 提供单独的渲染效果 `改进功能`
@@ -78,10 +81,6 @@
 * [587](https://github.com/Vanessa219/vditor/issues/587) IR & SV 保留 Setext 风格标题 `改进功能`
 * [626](https://github.com/Vanessa219/vditor/issues/626) 去除 Setext 标题解析开关 `开发重构`
 * [451](https://github.com/Vanessa219/vditor/issues/451) IR 模式保留 Emoji 原始输入 `改进功能`
-* 移除 `options.preview.markdown.setext`
-
-### v3.3.11 / 2020-07-24
-
 * [620](https://github.com/Vanessa219/vditor/issues/620) 支持多套图标配置 `引入特性`
 * [578](https://github.com/Vanessa219/vditor/issues/578) 添加 ant-design 及 Material 风格的图标 `改进功能`
 * [614](https://github.com/Vanessa219/vditor/issues/614) 添加 linkToImgUrl 回调 `引入特性`
@@ -186,6 +185,7 @@
   * 支持预览区域工具栏配置及自定义
   * 添加 `options.upload.linkToImgCallback`
   * 添加 `options.icon`
+  * 移除 `options.preview.markdown.setext`
 
 ### v3.2.12 / 2020-06-07
 
