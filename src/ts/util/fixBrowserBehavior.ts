@@ -1339,11 +1339,17 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         const blockElement = hasClosestBlock(getEditorRange(vditor[vditor.currentMode].element).startContainer);
         if (blockElement) {
             // https://github.com/Vanessa219/vditor/issues/591
+            const range = getEditorRange(vditor[vditor.currentMode].element)
+            vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
+                wbr.remove();
+            });
+            range.insertNode(document.createElement("wbr"));
             if (vditor.currentMode === "wysiwyg") {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             } else {
                 blockElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.outerHTML);
             }
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
             vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
                 .forEach((item: HTMLElement) => {
                     processCodeRender(item, vditor);

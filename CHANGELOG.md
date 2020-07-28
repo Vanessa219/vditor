@@ -68,6 +68,7 @@
 
 ### v3.3.12 / 2020-07-xx
 
+* [608](https://github.com/Vanessa219/vditor/issues/608) 更新使用截图和演示动画 `文档相关`
 * [587](https://github.com/Vanessa219/vditor/issues/587) IR & SV 保留 Setext 风格标题 `改进功能`
 * [626](https://github.com/Vanessa219/vditor/issues/626) 去除 Setext 标题解析开关 `开发重构`
 * [451](https://github.com/Vanessa219/vditor/issues/451) IR 模式保留 Emoji 原始输入 `改进功能`
