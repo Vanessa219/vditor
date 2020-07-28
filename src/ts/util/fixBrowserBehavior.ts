@@ -1339,7 +1339,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         const blockElement = hasClosestBlock(getEditorRange(vditor[vditor.currentMode].element).startContainer);
         if (blockElement) {
             // https://github.com/Vanessa219/vditor/issues/591
-            const range = getEditorRange(vditor[vditor.currentMode].element)
+            const range = getEditorRange(vditor[vditor.currentMode].element);
             vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
                 wbr.remove();
             });
