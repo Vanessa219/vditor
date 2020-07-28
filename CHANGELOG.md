@@ -68,6 +68,7 @@
 
 ### v3.3.12 / 2020-07-xx
 
+* [623](https://github.com/Vanessa219/vditor/pull/623) 修复即时渲染模式下复制光标位置错误和添加位置错误的问题 `修复缺陷`
 * [608](https://github.com/Vanessa219/vditor/issues/608) 更新使用截图和演示动画 `文档相关`
 * [587](https://github.com/Vanessa219/vditor/issues/587) IR & SV 保留 Setext 风格标题 `改进功能`
 * [626](https://github.com/Vanessa219/vditor/issues/626) 去除 Setext 标题解析开关 `开发重构`
