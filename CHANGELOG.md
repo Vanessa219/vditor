@@ -1,6 +1,17 @@
 ## Vditor change log
 
 ### 升级
+
+* v3.3
+  * options.mode 默认值修改为 `ir`
+  * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
+  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
+  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+  * 移除 `setSelection`
+  * 移除 `options.keymap`
+  * 移除 `options.preview.markdown.setext`
+  * 移除工具栏上的格式化功能：`options.toolbar` 中移除 `format` 选项
 * v3.2
   * IPreviewOptions.anchor 从 `boolean` 类型修改为 `number` 类型
 * v3.1
