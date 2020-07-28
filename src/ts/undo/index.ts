@@ -93,24 +93,21 @@ class Undo {
             // Safari keydown 在 input 之后，不需要重复记录历史
             return;
         }
-        const caretObj = this.addCaret(vditor);
-        this[vditor.currentMode].undoStack[0][0].diffs[0][1] = caretObj.text;
-        this[vditor.currentMode].lastText = caretObj.text;
+        const text = this.addCaret(vditor);
+        this[vditor.currentMode].undoStack[0][0].diffs[0][1] = text;
+        this[vditor.currentMode].lastText = text;
         // 不能添加 setSelectionFocus(cloneRange); 否则 windows chrome 首次输入会烂
     }
 
     public addToUndoStack(vditor: IVditor) {
         // afterRenderEvent.ts 已经 debounce
-        const caretObj = this.addCaret(vditor);
-        if (caretObj.cloneRange) {
-            setSelectionFocus(caretObj.cloneRange);
-        }
-        const diff = this.dmp.diff_main(caretObj.text, this[vditor.currentMode].lastText, true);
-        const patchList = this.dmp.patch_make(caretObj.text, this[vditor.currentMode].lastText, diff);
+        const text = this.addCaret(vditor, true);
+        const diff = this.dmp.diff_main(text, this[vditor.currentMode].lastText, true);
+        const patchList = this.dmp.patch_make(text, this[vditor.currentMode].lastText, diff);
         if (patchList.length === 0 && this[vditor.currentMode].undoStack.length > 0) {
             return;
         }
-        this[vditor.currentMode].lastText = caretObj.text;
+        this[vditor.currentMode].lastText = text;
         this[vditor.currentMode].undoStack.push(patchList);
         if (this[vditor.currentMode].undoStack.length > this.stackSize) {
             this[vditor.currentMode].undoStack.shift();
@@ -201,27 +198,25 @@ class Undo {
         };
     }
 
-    private addCaret(vditor: IVditor) {
+    private addCaret(vditor: IVditor, setFocus = false) {
         let cloneRange: Range;
         if (getSelection().rangeCount !== 0 && !vditor[vditor.currentMode].element.querySelector("wbr")) {
             const range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 cloneRange = range.cloneRange();
-                const wbrTempElement = document.createElement("span");
-                wbrTempElement.className = "vditor-wbr";
-                range.insertNode(wbrTempElement);
+                const wbrElement = document.createElement("span");
+                wbrElement.className = "vditor-wbr";
+                range.insertNode(wbrElement);
             }
         }
-
         const text = vditor[vditor.currentMode].element.innerHTML;
-        const wbrElement = vditor[vditor.currentMode].element.querySelector(".wbr");
-        if (wbrElement) {
-            wbrElement.remove();
+        vditor[vditor.currentMode].element.querySelectorAll(".vditor-wbr").forEach((item) => {
+            item.outerHTML = "";
+        });
+        if (setFocus && cloneRange) {
+            setSelectionFocus(cloneRange);
         }
-        return {
-            cloneRange,
-            text: text.replace('<span class="vditor-wbr"></span>', "<wbr>"),
-        };
+        return text.replace('<span class="vditor-wbr"></span>', "<wbr>");
     }
 }
 
