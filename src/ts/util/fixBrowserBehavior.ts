@@ -41,14 +41,15 @@ export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor, startCo
     return true;
 };
 
-// https://github.com/Vanessa219/vditor/issues/361
+// https://github.com/Vanessa219/vditor/issues/361 代码块后输入中文
 export const fixCJKPosition = (range: Range, vditor: IVditor, event: KeyboardEvent) => {
     if (event.key === "Enter" || event.key === "Tab" || event.key === "Backspace" || event.key.indexOf("Arrow") > -1
         || isCtrl(event) || event.key === "Escape" || event.shiftKey || event.altKey) {
         return;
     }
-    const pElement = hasClosestByMatchTag(range.startContainer, "P");
-    if (pElement && getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0) {
+    const pLiElement = hasClosestByMatchTag(range.startContainer, "P") ||
+        hasClosestByMatchTag(range.startContainer, "LI");
+    if (pLiElement && getSelectPosition(pLiElement, vditor[vditor.currentMode].element, range).start === 0) {
         const zwspNode = document.createTextNode(Constants.ZWSP);
         range.insertNode(zwspNode);
         range.setStartAfter(zwspNode);
