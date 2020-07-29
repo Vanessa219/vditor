@@ -60,7 +60,9 @@ export const processPreviousMarkers = (spanElement: HTMLElement) => {
     const spanType = spanElement.getAttribute("data-type");
     let previousElement = spanElement.previousElementSibling;
     // 有内容的子列表/标题，在其 marker 后换行
-    let markerText = (spanType && spanType !== "text" && spanType !== "heading-marker") ? spanElement.textContent : "";
+    let markerText = (spanType && spanType !== "text" && spanType !== "heading-marker" &&
+        spanType !== "yaml-front-matter-open-marker" && spanType !== "yaml-front-matter-close-marker") ?
+        spanElement.textContent : "";
     let hasNL = false;
     while (previousElement && !hasNL) {
         const previousType = previousElement.getAttribute("data-type");

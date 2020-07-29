@@ -14,7 +14,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     let blockElement = hasClosestBlock(range.startContainer);
     // 前后可以输入空格
     if (blockElement && !ignoreSpace) {
-        if (isHrMD(blockElement.innerHTML) ||
+        if ((isHrMD(blockElement.innerHTML) && blockElement.previousElementSibling) ||
             isHeadingMD(blockElement.innerHTML)) {
             return;
         }
@@ -104,16 +104,16 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
     let html = "";
     if (!isIRElement) {
+        const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
         // 列表需要到最顶层
         const topListElement = getTopList(range.startContainer);
         if (topListElement) {
-            const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
-            if (blockquoteElement) {
-                // li 中有 blockquote 就只渲染 blockquote
-                blockElement = hasClosestBlock(range.startContainer) || blockElement;
-            } else {
-                blockElement = topListElement;
-            }
+            blockElement = topListElement;
+        }
+
+        // 应到引用层，否则 > --- 会解析为 front-matter；列表中有 blockquote 则解析 blockquote；blockquote 中有列表则解析列表
+        if (blockquoteElement && (!topListElement || (topListElement && !blockquoteElement.contains(topListElement)))) {
+            blockElement = blockquoteElement;
         }
 
         // 修改脚注

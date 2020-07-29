@@ -543,7 +543,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
         }
 
         // hr 渲染
-        if (isHrMD(pElement.innerHTML)) {
+        if (isHrMD(pElement.innerHTML) && pElement.previousElementSibling) {
             // 软换行后 hr 前有内容
             let pInnerHTML = "";
             const innerHTMLList = pElement.innerHTML.trimRight().split("\n");
