@@ -81,6 +81,7 @@
 
 ### v3.4.0 / 2020-07-xx
 
+* [643](https://github.com/Vanessa219/vditor/issues/643) 支持 YAML Front Matter `引入特性`
 * [648](https://github.com/Vanessa219/vditor/pull/648) added ja_JP lang `改进功能`
 * [644](https://github.com/Vanessa219/vditor/pull/644) 粘贴多行代码时，避免代码段与当前行内容混淆在一起 `改进功能`
 * [639](https://github.com/Vanessa219/vditor/issues/639) 列表嵌套代码块后输入中文的问题 `修复缺陷`

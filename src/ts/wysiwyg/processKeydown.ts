@@ -102,8 +102,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 codeRenderElement)) {
                 return true;
             }
-            if (insertBeforeBlock(vditor, event, range, codeRenderElement.firstElementChild as HTMLElement,
-                codeRenderElement)) {
+
+            if (codeRenderElement.getAttribute("data-type") !== "yaml-front-matter" &&
+                insertBeforeBlock(vditor, event, range, codeRenderElement.firstElementChild as HTMLElement,
+                    codeRenderElement)) {
                 return true;
             }
         }

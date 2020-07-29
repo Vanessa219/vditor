@@ -127,6 +127,14 @@
     content: "</>";
   }
 
+  div.vditor-wysiwyg__block[data-type="yaml-front-matter"]:before {
+    content: "F";
+  }
+
+  div.vditor-wysiwyg__block[data-type="math-block"]:before {
+    content: "$$";
+  }
+
   .vditor-toc:before {
     content: "ToC";
   }

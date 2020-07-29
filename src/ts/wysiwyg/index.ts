@@ -211,8 +211,8 @@ class WYSIWYG {
             }
 
             if ((startSpace && !blockElement.querySelector(".language-mindmap"))
-                || endSpace || isHrMD(blockElement.innerHTML) ||
-                (isHeadingMD(blockElement.innerHTML) && blockElement.previousElementSibling)) {
+                || endSpace || isHeadingMD(blockElement.innerHTML) ||
+                (isHrMD(blockElement.innerHTML) && blockElement.previousElementSibling)) {
                 return;
             }
 
