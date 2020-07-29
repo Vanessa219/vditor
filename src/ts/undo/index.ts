@@ -65,7 +65,7 @@ class Undo {
         this.renderDiff(state, vditor);
         this[vditor.currentMode].hasUndo = true;
         // undo 操作后，需要关闭 hint
-        vditor.hint.genHTML([], '', vditor);
+        vditor.hint.element.style.display = "none";
     }
 
     public redo(vditor: IVditor) {

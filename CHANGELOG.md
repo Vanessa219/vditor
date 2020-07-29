@@ -76,11 +76,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
-* [636](https://github.com/Vanessa219/vditor/issues/636) SV 模式 Setext 标题问题 `修复缺陷`
-* [643](https://github.com/Vanessa219/vditor/issues/643) 支持 YAML Front Matter `引入特性`
 
 ### v3.4.0 / 2020-07-xx
 
+* [636](https://github.com/Vanessa219/vditor/issues/636) SV 模式 Setext 标题问题 `修复缺陷`
+* [647](https://github.com/Vanessa219/vditor/pull/647) 即时渲染模式输入 ``` 后会弹出 hint，此时执行 undo 后， hint 不消失 `改进功能`
 * [643](https://github.com/Vanessa219/vditor/issues/643) 支持 YAML Front Matter `引入特性`
 * [648](https://github.com/Vanessa219/vditor/pull/648) added ja_JP lang `改进功能`
 * [644](https://github.com/Vanessa219/vditor/pull/644) 粘贴多行代码时，避免代码段与当前行内容混淆在一起 `改进功能`
