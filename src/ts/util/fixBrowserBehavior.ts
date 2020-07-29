@@ -1292,6 +1292,11 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             }
         }
     } else if (code) {
+        let codeFix = code;
+        if (/\n/.test(code)) {
+            // 粘贴多行代码时，避免代码段的 ``` 与当前行内容混淆在一起
+            codeFix = `\n${code}`;
+        }
         callback.pasteCode(code);
     } else {
         if (textHTML.trim() !== "") {
