@@ -14,12 +14,13 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     let blockElement = hasClosestBlock(range.startContainer);
     // 前后可以输入空格
     if (blockElement && !ignoreSpace) {
-        if (isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
+        if (isHrMD(blockElement.innerHTML) ||
+            isHeadingMD(blockElement.innerHTML)) {
             return;
         }
 
         // 前后空格处理
-        const startOffset = getSelectPosition(blockElement, range).start;
+        const startOffset = getSelectPosition(blockElement, vditor.ir.element, range).start;
 
         // 开始可以输入空格
         let startSpace = true;
@@ -100,6 +101,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     }
 
     const isIRElement = blockElement.isEqualNode(vditor.ir.element);
+    const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
     let html = "";
     if (!isIRElement) {
         // 列表需要到最顶层
@@ -115,7 +117,6 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         }
 
         // 修改脚注
-        const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
         if (footnoteElement) {
             blockElement = footnoteElement;
         }
@@ -141,7 +142,6 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
             html = blockElement.previousElementSibling.outerHTML + html;
             blockElement.previousElementSibling.remove();
         }
-
         // 添加链接引用
         const allLinkRefDefsElement = vditor.ir.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
@@ -176,8 +176,21 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         if (allFootnoteElement) {
             vditor.ir.element.insertAdjacentElement("beforeend", allFootnoteElement);
         }
-    }
 
+        // 更新正文中的 tip
+        if (footnoteElement) {
+            const footnoteItemElement = hasClosestByAttribute(vditor.ir.element.querySelector("wbr"),
+                "data-type", "footnotes-def");
+            if (footnoteItemElement) {
+                const footnoteItemText = footnoteItemElement.textContent;
+                const marker = footnoteItemText.substring(1, footnoteItemText.indexOf("]:"));
+                const footnoteRefElement = vditor.ir.element.querySelector(`sup[data-type="footnotes-ref"][data-footnotes-label="${marker}"]`);
+                if (footnoteRefElement) {
+                    footnoteRefElement.setAttribute("aria-label", footnoteItemText.substr(marker.length + 3).trim());
+                }
+            }
+        }
+    }
     setRangeByWbr(vditor.ir.element, range);
 
     vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {

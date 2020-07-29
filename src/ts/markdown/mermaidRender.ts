@@ -1,4 +1,4 @@
-import {VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare const mermaid: {
@@ -6,7 +6,7 @@ declare const mermaid: {
 };
 
 export const mermaidRender = (element: HTMLElement, className = ".language-mermaid",
-                              cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
+                              cdn = Constants.CDN) => {
     if (element.querySelectorAll(className).length === 0) {
         return;
     }

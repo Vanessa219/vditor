@@ -24,34 +24,26 @@
  * SOFTWARE.
  *
  */
-.vditor-reset {
-    color: #d1d5da;
-}
-
-.vditor-reset a, .vditor-ir__link {
-    color: #4285f4;
-}
-
 .vditor-reset h1, .vditor-reset h2 {
-    border-bottom: 1px solid #d1d5da
+    border-bottom: 1px solid #eaecef;
 }
 
 .vditor-reset hr {
-    background-color: #d1d5da
+    background-color: #eaecef;
 }
 
 .vditor-reset blockquote {
-    padding: 0 1em;
-    color: #b9b9b9;
-    border-left: .25em solid #d1d5da
+    color: #6a737d;
+    border-left: .25em solid #eaecef
 }
 
 .vditor-reset iframe {
-    border: 1px solid #141414
+    border: 1px solid #d1d5da
 }
 
 .vditor-reset table tr {
-    background-color: #2f363d
+    border-top: 1px solid #c6cbd1;
+    background-color: #fafbfc
 }
 
 .vditor-reset table td, .vditor-reset table th {
@@ -59,11 +51,11 @@
 }
 
 .vditor-reset table tbody tr:nth-child(2n) {
-    background-color: #24292e
+    background-color: #fff
 }
 
 .vditor-reset code:not(.hljs):not(.highlight-chroma) {
-    background-color: rgba(66, 133, 244, .36)
+    background-color: rgba(27, 31, 35, .05);
 }
 
 .vditor-reset code:not(.hljs):not(.highlight-chroma).language-echarts,
@@ -72,50 +64,46 @@
 .vditor-reset code:not(.hljs):not(.highlight-chroma).language-math,
 .vditor-reset code:not(.hljs):not(.highlight-chroma).language-mermaid,
 .vditor-reset .language-abc {
-    background-color: rgba(120, 146, 190, .55)
+    background-color: rgba(27, 31, 35, .02);
 }
 
 .vditor-reset kbd {
-    color: #d1d5da;
-    background-color: #2f363d;
-    border: 1px solid #141414;
-    box-shadow: inset 0 -1px 0 #141414
-}
-
-.vditor-copy svg {
-    color: #b9b9b9
+    color: #24292e;
+    background-color: #fafbfc;
+    border: solid 1px #d1d5da;
+    box-shadow: inset 0 -1px 0 #d1d5da;
 }
 
 .vditor-speech {
-    background-color: #1d2125;
-    border: 1px solid #141414;
-    color: #b9b9b9
+    background-color: #f6f8fa;
+    border: 1px solid #d1d5da;
+    color: #586069;
 }
 
 .vditor-speech--current, .vditor-speech:hover {
-    color: #fff
+    color: #4285f4;
 }
 
 .vditor-linkcard a {
-    background-color: #1d2125;
+    background-color: #f6f8fa;
 }
 
 .vditor-linkcard a:visited .vditor-linkcard__abstract {
-    color: hsla(0, 0%, 72.5%, .36)
+    color: rgba(88, 96, 105, 0.36);
 }
 
 .vditor-linkcard__title {
-    color: #d1d5da
+    color: #24292e;
 }
 
 .vditor-linkcard__abstract {
-    color: #b9b9b9
+    color: #586069;
 }
 
 .vditor-linkcard__site {
-    color: #fff
+    color: #4285f4;
 }
 
 .vditor-linkcard__image {
-    background-color: hsla(0, 0%, 72.5%, .36)
+    background-color: rgba(88, 96, 105, 0.36);
 }

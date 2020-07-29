@@ -1,7 +1,6 @@
 import {Constants} from "../constants";
-import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {blurEvent, dropEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {hasClosestByClassName} from "../util/hasClosest";
 import {
@@ -9,7 +8,7 @@ import {
     setSelectionFocus,
 } from "../util/selection";
 import {expandMarker} from "./expandMarker";
-import {highlightToolbar} from "./highlightToolbar";
+import {highlightToolbarIR} from "./highlightToolbarIR";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
 
@@ -31,12 +30,11 @@ class IR {
 
         this.bindEvent(vditor);
 
-        document.execCommand("DefaultParagraphSeparator", false, "p");
-
         focusEvent(vditor, this.element);
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
+        dropEvent(vditor, this.element);
     }
 
     private bindEvent(vditor: IVditor) {
@@ -63,26 +61,15 @@ class IR {
             });
         });
 
-        if (vditor.options.upload.url || vditor.options.upload.handler) {
-            this.element.addEventListener("drop",
-                (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                    if (event.dataTransfer.types[0] !== "Files") {
-                        return;
-                    }
-                    const files = event.dataTransfer.items;
-                    if (files.length > 0) {
-                        uploadFiles(vditor, files);
-                    }
-                    event.preventDefault();
-                });
-        }
-
-        this.element.addEventListener("compositionend", (event: InputEvent) => {
-            input(vditor, getSelection().getRangeAt(0).cloneRange());
-        });
-
         this.element.addEventListener("compositionstart", (event: InputEvent) => {
             this.composingLock = true;
+        });
+
+        this.element.addEventListener("compositionend", (event: InputEvent) => {
+            if (!isFirefox()) {
+                input(vditor, getSelection().getRangeAt(0).cloneRange());
+            }
+            this.composingLock = false;
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {
@@ -125,9 +112,6 @@ class IR {
                 }
             }
 
-            expandMarker(range, vditor);
-            highlightToolbar(vditor);
-
             // 点击后光标落于预览区
             let previewElement = hasClosestByClassName(event.target, "vditor-ir__preview");
             if (!previewElement) {
@@ -145,6 +129,9 @@ class IR {
                 setSelectionFocus(range);
                 scrollCenter(vditor);
             }
+
+            expandMarker(range, vditor);
+            highlightToolbarIR(vditor);
         });
 
         this.element.addEventListener("keyup", (event) => {
@@ -154,7 +141,7 @@ class IR {
             if (event.key === "Enter") {
                 scrollCenter(vditor);
             }
-            highlightToolbar(vditor);
+            highlightToolbarIR(vditor);
             if ((event.key === "Backspace" || event.key === "Delete") &&
                 vditor.ir.element.innerHTML !== "" && vditor.ir.element.childNodes.length === 1 &&
                 vditor.ir.element.firstElementChild && vditor.ir.element.firstElementChild.tagName === "P"
@@ -182,6 +169,9 @@ class IR {
                 if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                     processHint(vditor);
                 }
+                expandMarker(range, vditor);
+            } else if (event.keyCode === 229 && event.code === "" && event.key === "Unidentified") {
+                // https://github.com/Vanessa219/vditor/issues/508 IR 删除到节点需展开
                 expandMarker(range, vditor);
             }
 

@@ -1,12 +1,11 @@
 import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
-import {getMarkdown} from "../markdown/getMarkdown";
-import {formatRender} from "../sv/formatRender";
 import {code160to32} from "../util/code160to32";
+import {isCtrl} from "../util/compatibility";
 import {execAfterRender} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
-import {getCursorPosition, getSelectPosition, insertHTML, setSelectionFocus} from "../util/selection";
+import {getCursorPosition, insertHTML, setSelectionFocus} from "../util/selection";
 
 export class Hint {
     public timeId: number;
@@ -24,16 +23,9 @@ export class Hint {
         if (!window.getSelection().focusNode) {
             return;
         }
-        const position = getSelectPosition(vditor.currentMode === "wysiwyg" ?
-            vditor.wysiwyg.element : vditor.sv.element);
         let currentLineValue: string;
-        if (vditor.currentMode !== "sv") {
-            const range = getSelection().getRangeAt(0);
-            currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
-        } else {
-            currentLineValue = getMarkdown(vditor)
-                .substring(0, position.end).split("\n").slice(-1).pop();
-        }
+        const range = getSelection().getRangeAt(0);
+        currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
 
         let key = this.getKey(currentLineValue, ":");
         let isAt = false;
@@ -135,68 +127,58 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         const splitChar = value.indexOf("@") === 0 ? "@" : ":";
         const range: Range = window.getSelection().getRangeAt(0);
 
-        if (vditor.currentMode !== "sv") {
-            if (vditor.currentMode === "ir") {
-                const preBeforeElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block-info");
-                if (preBeforeElement) {
-                    preBeforeElement.textContent = Constants.ZWSP + value.trimRight();
-                    range.selectNodeContents(preBeforeElement);
-                    range.collapse(false);
-                    processAfterRender(vditor);
-                    preBeforeElement.parentElement.querySelectorAll("code").forEach((item) => {
-                        item.className = "language-" + value.trimRight();
-                    });
-                    processCodeRender(preBeforeElement.parentElement.querySelector(".vditor-ir__preview"), vditor);
-                    this.recentLanguage = value.trimRight();
-                    return;
-                }
-            }
-            if (vditor.currentMode === "wysiwyg" && range.startContainer.nodeType !== 3 &&
-                (range.startContainer as HTMLElement).firstElementChild.classList.contains("vditor-input")) {
-                const inputElement = (range.startContainer as HTMLElement).firstElementChild as HTMLInputElement;
-                inputElement.value = value.trimRight();
-                range.selectNodeContents(inputElement);
+        // 代码提示
+        if (vditor.currentMode === "ir") {
+            const preBeforeElement = hasClosestByAttribute(range.startContainer, "data-type", "code-block-info");
+            if (preBeforeElement) {
+                preBeforeElement.textContent = Constants.ZWSP + value.trimRight();
+                range.selectNodeContents(preBeforeElement);
                 range.collapse(false);
-                inputElement.dispatchEvent(new CustomEvent("input"));
+                processAfterRender(vditor);
+                preBeforeElement.parentElement.querySelectorAll("code").forEach((item) => {
+                    item.className = "language-" + value.trimRight();
+                });
+                processCodeRender(preBeforeElement.parentElement.querySelector(".vditor-ir__preview"), vditor);
                 this.recentLanguage = value.trimRight();
                 return;
             }
-
-            range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
-            range.deleteContents();
-            if (value.indexOf(":") > -1) {
-                insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
-                range.insertNode(document.createTextNode(" "));
-            } else {
-                range.insertNode(document.createTextNode(value));
-            }
-            range.collapse(false);
-            setSelectionFocus(range);
-
-            if (vditor.currentMode === "wysiwyg") {
-                const preElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
-                if (preElement && preElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
-                    preElement.lastElementChild.innerHTML = preElement.firstElementChild.innerHTML;
-                    processCodeRender(preElement.lastElementChild as HTMLElement, vditor);
-                }
-            } else {
-                const preElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker--pre");
-                if (preElement && preElement.nextElementSibling.classList.contains("vditor-ir__preview")) {
-                    preElement.nextElementSibling.innerHTML = preElement.innerHTML;
-                    processCodeRender(preElement.nextElementSibling as HTMLElement, vditor);
-                }
-            }
-            execAfterRender(vditor);
-        } else {
-            const position = getSelectPosition(vditor.sv.element, range);
-            const text = getMarkdown(vditor);
-            const preText = text.substring(0, text.substring(0, position.start).lastIndexOf(splitChar));
-            formatRender(vditor, preText + value + text.substring(position.start),
-                {
-                    end: (preText + value).length,
-                    start: (preText + value).length,
-                });
         }
+        if (vditor.currentMode === "wysiwyg" && range.startContainer.nodeType !== 3 &&
+            (range.startContainer as HTMLElement).firstElementChild.classList.contains("vditor-input")) {
+            const inputElement = (range.startContainer as HTMLElement).firstElementChild as HTMLInputElement;
+            inputElement.value = value.trimRight();
+            range.selectNodeContents(inputElement);
+            range.collapse(false);
+            inputElement.dispatchEvent(new CustomEvent("input"));
+            this.recentLanguage = value.trimRight();
+            return;
+        }
+
+        range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
+        range.deleteContents();
+        if (value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
+            insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
+            range.insertNode(document.createTextNode(" "));
+        } else {
+            range.insertNode(document.createTextNode(value));
+        }
+        range.collapse(false);
+        setSelectionFocus(range);
+
+        if (vditor.currentMode === "wysiwyg") {
+            const preElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__block");
+            if (preElement && preElement.lastElementChild.classList.contains("vditor-wysiwyg__preview")) {
+                preElement.lastElementChild.innerHTML = preElement.firstElementChild.innerHTML;
+                processCodeRender(preElement.lastElementChild as HTMLElement, vditor);
+            }
+        } else if (vditor.currentMode === "ir") {
+            const preElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker--pre");
+            if (preElement && preElement.nextElementSibling.classList.contains("vditor-ir__preview")) {
+                preElement.nextElementSibling.innerHTML = preElement.innerHTML;
+                processCodeRender(preElement.nextElementSibling as HTMLElement, vditor);
+            }
+        }
+        execAfterRender(vditor);
     }
 
     public select(event: KeyboardEvent, vditor: IVditor) {
@@ -229,7 +211,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 currentHintElement.previousElementSibling.className = "vditor-hint--current";
             }
             return true;
-        } else if (event.key === "Enter") {
+        } else if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter") {
             event.preventDefault();
             event.stopPropagation();
             this.fillEmoji(currentHintElement, vditor);

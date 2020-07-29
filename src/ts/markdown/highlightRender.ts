@@ -1,4 +1,4 @@
-import {Constants, VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 
@@ -7,7 +7,7 @@ declare const hljs: {
 };
 
 export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Document = document,
-                                cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
+                                cdn = Constants.CDN) => {
     let style = hljsOption.style;
     if (!Constants.CODE_THEME.includes(style)) {
         style = "github";
@@ -19,7 +19,7 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
     }
     addStyle(`${cdn}/dist/js/highlight.js/styles/${style}.css`, "vditorHljsStyle");
 
-    if (!hljsOption.enable) {
+    if (hljsOption.enable === false) {
         return;
     }
 

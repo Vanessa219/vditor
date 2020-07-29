@@ -32,9 +32,10 @@
         border: 0;
         padding: 10px 5px;
         background-color: transparent;
-        height: 35px;
+        height: var(--toolbar-height);
         width: 25px;
         box-sizing: border-box;
+        font-size: 0;
 
         &:focus {
           outline: none;
@@ -58,7 +59,7 @@
       input {
         position: absolute;
         width: 25px;
-        height: 35px;
+        height: var(--toolbar-height);
         top: 0;
         left: 0;
         cursor: pointer;
@@ -69,8 +70,9 @@
 
     &__divider {
       float: left;
-      width: 16px;
-      height: 35px;
+      height: calc(var(--toolbar-height) - (var(--toolbar-divider-margin-top) * 2));
+      border-left: 1px solid var(--second-color);
+      margin: var(--toolbar-divider-margin-top) 8px;
     }
 
     &__br {
@@ -165,6 +167,9 @@
 @media screen and (max-width: $max-width) {
   .vditor-toolbar__item {
     padding: 0 12px;
+  }
+  .vditor-panel--left.vditor-panel--arrow:before {
+    right: 17px;
   }
 }
 

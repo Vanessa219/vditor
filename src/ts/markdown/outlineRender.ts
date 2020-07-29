@@ -8,7 +8,12 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
             const space = new Array((headingNo - 1) * 2).fill("&emsp;").join("");
             let text = "";
             if (vditor && vditor.currentMode === "ir") {
-                text = item.textContent.substring(headingNo + 1).trim();
+                const markerElement = item.querySelector('[data-type="heading-marker"]');
+                if (markerElement.getAttribute("data-render") === "2") {
+                    text = item.textContent.replace(markerElement.textContent, "").trim();
+                } else {
+                    text = item.textContent.substring(headingNo + 1).trim();
+                }
             } else {
                 text = item.textContent.trim();
             }
@@ -21,10 +26,13 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     targetElement.innerHTML = tocHTML;
     targetElement.querySelectorAll(".vditor-outline__item").forEach((item) => {
         item.addEventListener("click", (event: Event & { target: HTMLElement }) => {
-            const id = item.getAttribute("data-id");
+            const idElement = document.getElementById(item.getAttribute("data-id"));
+            if (!idElement) {
+                return;
+            }
             if (vditor) {
                 if (vditor.options.height === "auto") {
-                    let windowScrollY = document.getElementById(id).offsetTop + vditor.element.offsetTop;
+                    let windowScrollY = idElement.offsetTop + vditor.element.offsetTop;
                     if (!vditor.options.toolbarConfig.pin) {
                         windowScrollY += vditor.toolbar.element.offsetHeight;
                     }
@@ -34,13 +42,13 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                         window.scrollTo(window.scrollX, vditor.element.offsetTop);
                     }
                     if (vditor.preview.element.contains(contentElement)) {
-                        contentElement.parentElement.scrollTop = document.getElementById(id).offsetTop;
+                        contentElement.parentElement.scrollTop = idElement.offsetTop;
                     } else {
-                        contentElement.scrollTop = document.getElementById(id).offsetTop;
+                        contentElement.scrollTop = idElement.offsetTop;
                     }
                 }
             } else {
-                window.scrollTo(window.scrollX, document.getElementById(id).offsetTop);
+                window.scrollTo(window.scrollX, idElement.offsetTop);
             }
             targetElement.querySelectorAll(".vditor-outline__item").forEach((subItem) => {
                 subItem.classList.remove("vditor-outline__item--current");

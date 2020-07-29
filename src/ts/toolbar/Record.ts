@@ -2,8 +2,8 @@ import {Constants} from "../constants";
 import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
 import {getEventName} from "../util/compatibility";
+import {RecordMedia} from "../util/RecordMedia";
 import {MenuItem} from "./MenuItem";
-import {RecordMedia} from "./RecordMedia";
 
 export class Record extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -18,7 +18,7 @@ export class Record extends MenuItem {
             if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-            const editorElement = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.element : vditor.sv.element;
+            const editorElement = vditor[vditor.currentMode].element;
             if (!mediaRecorder) {
                 navigator.mediaDevices.getUserMedia({audio: true}).then((mediaStream: MediaStream) => {
                     mediaRecorder = new RecordMedia(mediaStream);

@@ -1,6 +1,19 @@
 ## Vditor change log
 
 ### 升级
+
+* v3.3
+  * options.mode 默认值修改为 `ir`
+  * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
+  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
+  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+  * 移除 `setSelection`
+  * 移除 `options.keymap`
+  * 移除 `options.preview.markdown.setext`
+  * 移除工具栏上的格式化功能：`options.toolbar` 中移除 `format` 选项
+* v3.2
+  * IPreviewOptions.anchor 从 `boolean` 类型修改为 `number` 类型
 * v3.1
   * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "markdown" | "text"; }`
   * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
@@ -64,11 +77,153 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.2.10 / 2020-05-xx
+### v3.4.0 / 2020-07-xx
 
 
-### v3.2.9 / 2020-05-22
+### v3.3.12 / 2020-07-28
 
+* [632](https://github.com/Vanessa219/vditor/issues/632) 复制代码块解析优化 `改进功能`
+* [627](https://github.com/Vanessa219/vditor/issues/627) 为 <kbd> 提供单独的渲染效果 `改进功能`
+* [621](https://github.com/Vanessa219/vditor/issues/621) 粘贴数学公式时渲染报错 `修复缺陷`
+* [619](https://github.com/Vanessa219/vditor/issues/619) 即时渲染下list删除(或剪切)的问题 `修复缺陷`
+* [633](https://github.com/Vanessa219/vditor/issues/633) SV 模式光标在列表标记符中的问题 `修复缺陷`
+* [623](https://github.com/Vanessa219/vditor/pull/623) 修复即时渲染模式下复制光标位置错误和添加位置错误的问题 `修复缺陷`
+* [608](https://github.com/Vanessa219/vditor/issues/608) 更新使用截图和演示动画 `文档相关`
+* [587](https://github.com/Vanessa219/vditor/issues/587) IR & SV 保留 Setext 风格标题 `改进功能`
+* [626](https://github.com/Vanessa219/vditor/issues/626) 去除 Setext 标题解析开关 `开发重构`
+* [451](https://github.com/Vanessa219/vditor/issues/451) IR 模式保留 Emoji 原始输入 `改进功能`
+* [620](https://github.com/Vanessa219/vditor/issues/620) 支持多套图标配置 `引入特性`
+* [578](https://github.com/Vanessa219/vditor/issues/578) 添加 ant-design 及 Material 风格的图标 `改进功能`
+* [614](https://github.com/Vanessa219/vditor/issues/614) 添加 linkToImgUrl 回调 `引入特性`
+* [617](https://github.com/Vanessa219/vditor/issues/617) options.preview.theme.current 需设置不使用主题样式 `改进功能`
+* [611](https://github.com/Vanessa219/vditor/issues/611) SV 模式粘贴图片拉取上传问题 `修复缺陷`
+* [616](https://github.com/Vanessa219/vditor/pull/616) fix: safari下选中文字添加标题文字会消失 `修复缺陷`
+* [615](https://github.com/Vanessa219/vditor/issues/615) 即时渲染模式下在safari中光标位置跳动 `修复缺陷`
+* [596](https://github.com/Vanessa219/vditor/issues/596) blockquote insdie ordered list `改进功能`
+* [605](https://github.com/Vanessa219/vditor/issues/605) 块节点上下插入的优化 `改进功能`
+* [602](https://github.com/Vanessa219/vditor/issues/602) Three enters inside codeblock `修复缺陷`
+* [600](https://github.com/Vanessa219/vditor/issues/600) codeblock inside footnote `修复缺陷`
+* [590](https://github.com/Vanessa219/vditor/pull/590) Set value issue `修复缺陷`
+* [594](https://github.com/Vanessa219/vditor/issues/594) Blockquote, ordered list and code block `改进功能`
+* [593](https://github.com/Vanessa219/vditor/issues/593) IR 模式焦点离开时的渲染问题 `改进功能`
+* [604](https://github.com/Vanessa219/vditor/issues/604) 站外图片抓取请求的 Content-Type 是 text/plain `改进功能`
+* [597](https://github.com/Vanessa219/vditor/issues/597) one more backspace before delete lists `修复缺陷`
+* [599](https://github.com/Vanessa219/vditor/issues/599) Ordered list(minor bug) `修复缺陷`
+* [591](https://github.com/Vanessa219/vditor/issues/591) 粘贴有可能不渲染本行内容 `改进功能`
+* [586](https://github.com/Vanessa219/vditor/issues/586) code block inside ordered list `修复缺陷`
+* [585](https://github.com/Vanessa219/vditor/issues/585) [suggestion] when enter after code block inside blockqoute `改进功能`
+* [584](https://github.com/Vanessa219/vditor/issues/584) Can not delete Code block `修复缺陷`
+* [588](https://github.com/Vanessa219/vditor/issues/588) 第五版 SV 模式 bug 记录 `修复缺陷`
+* [259](https://github.com/Vanessa219/vditor/issues/259) 分屏预览模式列表项自动完成 `引入特性`
+* [580](https://github.com/Vanessa219/vditor/issues/580) 重构 SV 模式 DOM `开发重构`
+* [567](https://github.com/Vanessa219/vditor/issues/567) SV 模式块引用嵌套列表、代码块问题 `修复缺陷`
+* [563](https://github.com/Vanessa219/vditor/issues/563) SV 模式列表项下的代码块问题 `修复缺陷`
+* [579](https://github.com/Vanessa219/vditor/issues/579) 样式调整 `改进功能`
+* [575](https://github.com/Vanessa219/vditor/issues/575) 编辑器存在 form 中，情景菜单会出发提交事件 `修复缺陷`
+* [577](https://github.com/Vanessa219/vditor/issues/577) 粘贴 XML 代码问题 `修复缺陷`
+* [573](https://github.com/Vanessa219/vditor/pull/573) style: 优化分隔符样式 `改进功能`
+* [572](https://github.com/Vanessa219/vditor/pull/572) fix: support aliyun oss `改进功能`
+* [570](https://github.com/Vanessa219/vditor/issues/570) no placeholder after(SV) `修复缺陷`
+* [569](https://github.com/Vanessa219/vditor/issues/569) 预览区域工具栏配置 `引入特性`
+* [565](https://github.com/Vanessa219/vditor/issues/565) SV 模式支持缩进代码块 `改进功能`
+* [566](https://github.com/Vanessa219/vditor/issues/566) 行级代码解析渲染 `修复缺陷`
+* [555](https://github.com/Vanessa219/vditor/issues/555) SV 模式段落块拆分问题 `修复缺陷`
+* [556](https://github.com/Vanessa219/vditor/issues/556) options.preview.markdown.setext 默认值修改为 true `改进功能`
+* [554](https://github.com/Vanessa219/vditor/issues/554) SV 模式 Ctrl+u 代码块生成光标初始定位优化 `改进功能`
+* [558](https://github.com/Vanessa219/vditor/issues/558) [suggestion] shift+enter and end the lists `改进功能`
+* [547](https://github.com/Vanessa219/vditor/issues/547) 文件上传 format 第一个参数 files 为空数组 `修复缺陷`
+* [562](https://github.com/Vanessa219/vditor/issues/562) 为上传添加 fieldName 选项 `引入特性`
+* [553](https://github.com/Vanessa219/vditor/issues/553) 子任务列表回车问题 `改进功能`
+* [534](https://github.com/Vanessa219/vditor/issues/534) 支持导出到知乎 `引入特性`
+* [552](https://github.com/Vanessa219/vditor/issues/552) blockquote 换行需逐层跳出 `修复缺陷`
+* [551](https://github.com/Vanessa219/vditor/issues/551) Tab and ctrl+shift+J (checkbox) `修复缺陷`
+* [550](https://github.com/Vanessa219/vditor/issues/550) [Mermaid] State diagram rendering of multiple same node loops `修复缺陷`
+* [549](https://github.com/Vanessa219/vditor/issues/549) 粘贴 HTML 内容失败 `修复缺陷`
+* [548](https://github.com/Vanessa219/vditor/issues/548) 添加文件上传多选/单选配置 `引入特性`
+* [545](https://github.com/Vanessa219/vditor/issues/545) SV 模式列表项下输入代码块问题 `修复缺陷`
+* [544](https://github.com/Vanessa219/vditor/issues/544) SV 模式有序列表缩进问题 `修复缺陷`
+* [543](https://github.com/Vanessa219/vditor/issues/543) SV 模式删除选择文本问题 `修复缺陷`
+* [541](https://github.com/Vanessa219/vditor/issues/541) SV 模式列表和引用快捷键问题 `修复缺陷`
+* [546](https://github.com/Vanessa219/vditor/issues/546) SV 模式丢失 headingID `修复缺陷`
+* [539](https://github.com/Vanessa219/vditor/pull/539) 即时渲染模式 setValue 后，没有及时渲染 Code 区域 `修复缺陷`
+* [536](https://github.com/Vanessa219/vditor/issues/536) 文件上传检查后缀忽略大小写 `改进功能`
+* [537](https://github.com/Vanessa219/vditor/issues/537) 添加 destroy 方法 `引入特新`
+* [532](https://github.com/Vanessa219/vditor/issues/532) 中文输入过程中不应记录 UndoStack `修复缺陷`
+* [519](https://github.com/Vanessa219/vditor/issues/519) 扩展 markdown 主题 `改进功能`
+* [533](https://github.com/Vanessa219/vditor/issues/533) 中文字符串中间插入 \ 字符导致乱码 `修复缺陷`
+* [528](https://github.com/Vanessa219/vditor/issues/528) wysiwyg & ir 列表中有两个代码块时的错误 `修复缺陷`
+* [531](https://github.com/Vanessa219/vditor/issues/531) 移除 options.keymap `改进功能`
+* [529](https://github.com/Vanessa219/vditor/issues/529) 移除格式化按钮 `改进功能`
+* [526](https://github.com/Vanessa219/vditor/issues/526) 字符串中带有 \ 符号时，从 \ 后面，但不是行尾 Backspace 删除字符到达 \ 时处理异常 `修复缺陷`
+* [517](https://github.com/Vanessa219/vditor/issues/517) Duplicate CSS(render.html) `修复缺陷`
+* [522](https://github.com/Vanessa219/vditor/issues/522) 从 WPS Office 复制文本，粘贴异常 `修复缺陷`
+* [524](https://github.com/Vanessa219/vditor/issues/524) no background-color change(dark mode-abcjs) `修复缺陷`
+* [516](https://github.com/Vanessa219/vditor/issues/516) 高亮自动填写功能未生效问题 `修复缺陷`
+* [355](https://github.com/Vanessa219/vditor/issues/355) 新增 VditorSVDOM 渲染器 `引入特新`
+* [499](https://github.com/Vanessa219/vditor/issues/499) Chrome 浏览器，Up 方向键 光标位置移动异常 `修复缺陷`
+* [514](https://github.com/Vanessa219/vditor/issues/514) 只读没有禁用场景菜单 `修复缺陷`
+* [501](https://github.com/Vanessa219/vditor/issues/501) 反斜杠 \ 转义问题 `改进功能`
+* [508](https://github.com/Vanessa219/vditor/issues/508) 软键盘 bug `修复缺陷`
+* [504](https://github.com/Vanessa219/vditor/issues/504) 解决编辑器中 esc 推出 hint 和 options.esc 冲突 `修复缺陷`
+* [500](https://github.com/Vanessa219/vditor/issues/500) wysiwyg 模式下打字数学公式会闪 `改进功能`
+* [498](https://github.com/Vanessa219/vditor/issues/498) 修复 <summary> <details> 标签编辑问题 `修复缺陷`
+* [488](https://github.com/Vanessa219/vditor/pull/488) setValue 增加 clearStack 参数，添加 clearStack 方法 `引入特新`
+* [478](https://github.com/Vanessa219/vditor/issues/478) add tip to footnote `改进功能`
+* [492](https://github.com/Vanessa219/vditor/issues/492) 列表内含有代码块，修改列表中的文字时，代码块会闪 `修复缺陷`
+* [496](https://github.com/Vanessa219/vditor/issues/496) 行级 HTML 空格问题 `修复缺陷`
+* [495](https://github.com/Vanessa219/vditor/issues/495) 行级 HTML 退格问题 `修复缺陷`
+* [494](https://github.com/Vanessa219/vditor/issues/494) 三种模式支持 list-style 样式 `改进功能`
+* [489](https://github.com/Vanessa219/vditor/issues/489) 为 vditor.b3log.org/demo 添加源码 `改进功能`
+* [493](https://github.com/Vanessa219/vditor/issues/493) 修复 XSS 过滤 `修复缺陷`
+* [486](https://github.com/Vanessa219/vditor/pull/486) getCursorPosition 针对空行会得到错误数据 `修复缺陷`
+* [485](https://github.com/Vanessa219/vditor/issues/485) IR 模式下，<details>的编辑问题 `修复缺陷`
+* [484](https://github.com/Vanessa219/vditor/issues/484) 添加 TED 视频支持 `改进功能`
+* [480](https://github.com/Vanessa219/vditor/issues/480) Mindmap 和 Echarts 内容为空时会报错 `修复缺陷`
+* 文档修改
+  * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
+  * 为 `setValue` 方法添加 `clearStack` 参数；新增 `clearStack` 方法
+  * 移除 `options.keymap`
+  * 移除工具栏上的格式化功能
+  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
+  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+  * 移除 `setSelection`
+  * 添加 `destroy` 方法
+  * 添加 `options.upload.multiple`
+  * 添加 `options.upload.fieldName`
+  * `options.preview.markdown.setext` 默认值修改为 `true`
+  * options.mode 默认值修改为 `ir`
+  * 支持预览区域工具栏配置及自定义
+  * 添加 `options.upload.linkToImgCallback`
+  * 添加 `options.icon`
+  * 移除 `options.preview.markdown.setext`
+
+### v3.2.12 / 2020-06-07
+
+* [475](https://github.com/Vanessa219/vditor/issues/475) 从网页和其它 md 编辑器中复制的 iframe 和 视频标签 无法粘贴到 Vditor `修复缺陷`
+* [455](https://github.com/Vanessa219/vditor/issues/455) HTML 实体在切换编辑模式时的转义问题 `修复缺陷`
+* [466](https://github.com/Vanessa219/vditor/issues/466) Tab is not working inside Quote(safari) `修复缺陷`
+* [467](https://github.com/Vanessa219/vditor/issues/467) 为表格添加行列增删按钮 `引入特性`
+* [472](https://github.com/Vanessa219/vditor/issues/472) Add details preview in ir mode `引入特性`
+* [471](https://github.com/Vanessa219/vditor/issues/471) 移动端子工具栏箭头没对齐 `修复缺陷`
+* [473](https://github.com/Vanessa219/vditor/issues/473) different between press "Ctrl+b" and click "B" icon. `修复缺陷`
+* [463](https://github.com/Vanessa219/vditor/issues/463) 在行内代码中进行粘贴时光标位置不对及报错处理 `修复缺陷`
+* [462](https://github.com/Vanessa219/vditor/issues/462) ctrl+z ir 模式没有渲染代码块 `修复缺陷`
+* [456](https://github.com/Vanessa219/vditor/pull/456) 根据逗号/制表符生成表格 `引入特性`
+* [453](https://github.com/Vanessa219/vditor/issues/453) bold 位于子菜单中无作用 `修复缺陷`
+* [449](https://github.com/Vanessa219/vditor/issues/449) table(IR mode) `修复缺陷`
+* [443](https://github.com/Vanessa219/vditor/issues/443) 快捷键中文版 `文档相关`
+* [438](https://github.com/Vanessa219/vditor/issues/438) one empty line when ctrl+shift+h `改进功能`
+* [439](https://github.com/Vanessa219/vditor/issues/439) not working ctrl+shift+x at links `修复缺陷`
+* [444](https://github.com/Vanessa219/vditor/pull/444) delete tables when cells are empty `改进功能`
+* [447](https://github.com/Vanessa219/vditor/pull/447) run vditor.insertValue('abc') throw error `修复缺陷`
+* [435](https://github.com/Vanessa219/vditor/issues/435) task list 合并会添加 p 标签 `修复缺陷`
+* [432](https://github.com/Vanessa219/vditor/issues/432) 代码块中输入 &pars 解析问题 `修复缺陷`
+* [433](https://github.com/Vanessa219/vditor/issues/433) language position(code block, wysiwyg mode) `修复缺陷`
+* [431](https://github.com/Vanessa219/vditor/issues/431) 链接、图片相对路径支持 `引入特性`
+* [430](https://github.com/Vanessa219/vditor/issues/430) cursor location when press ctrl+b after checkbox `修复缺陷`
+* [429](https://github.com/Vanessa219/vditor/issues/429) localStorage被禁用时，报错 `修复缺陷`
+* [427](https://github.com/Vanessa219/vditor/issues/427) headings 大小调整 `改进功能`
 * [422](https://github.com/Vanessa219/vditor/issues/422) inserted one line before table block(windows/Firefox) `修复缺陷`
 * [425](https://github.com/Vanessa219/vditor/issues/425) 支持 flac 音频格式解析 `改进功能`
 * [409](https://github.com/Vanessa219/vditor/issues/409) codeblock(mac safari) `修复缺陷`
@@ -116,12 +271,13 @@
 * [369](https://github.com/Vanessa219/vditor/issues/369) when paste, code can not highlight `修复缺陷`
 * [370](https://github.com/Vanessa219/vditor/issues/370) Copy Paste multiline at markdown mode `改进功能`
 * 文档修改
-  * 为 `options.upload` 添加 `extraData`
+  * 为 `options.upload` 添加 `extraData` 配置
   * 添加静态方法 `mindmapRender`
-  * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker` 配置
-  * IPreviewOptions.anchor 从 boolean 修改为 number
-  * static-preview.html => preview.html，static.html => vditor.b3log.org/demo/render.html，添加 vditor.b3log.org
-  * 添加 options.cache.after(markdown:string)
+  * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker`, `linkBase` 配置
+  * IPreviewOptions.anchor 从 `boolean` 类型修改为 `number` 类型
+  * 示例代码地址修改：static-preview.html => preview.html，static.html => vditor.b3log.org/demo/render.html
+  * 添加 [Vditor](https://vditor.b3log.org) 官方首页
+  * 添加缓存回调 `options.cache.after(markdown:string)`
   
 
 ### v3.1.23 / 2020-05-05

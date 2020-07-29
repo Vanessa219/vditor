@@ -1,23 +1,15 @@
-import {Constants, VDITOR_VERSION} from "../constants";
 import {addStyle} from "../util/addStyle";
 
-export const setContentTheme = (contentTheme: string,
-                                cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
-    if (!Constants.CONTENT_THEME.includes(contentTheme)) {
+export const setContentTheme = (contentTheme: string, path: string) => {
+    if (!contentTheme || !path) {
         return;
     }
     const vditorContentTheme = document.getElementById("vditorContentTheme") as HTMLLinkElement;
-    const href = `${cdn}/dist/css/content-theme/${contentTheme}.css`;
-    if (contentTheme === "light") {
-        if (vditorContentTheme) {
-            vditorContentTheme.remove();
-        }
-        return;
-    }
+    const cssPath = `${path}/${contentTheme}.css`;
     if (!vditorContentTheme) {
-        addStyle(href, "vditorContentTheme");
-    } else if (vditorContentTheme.href !== href) {
+        addStyle(cssPath, "vditorContentTheme");
+    } else if (vditorContentTheme.href !== cssPath) {
         vditorContentTheme.remove();
-        addStyle(href, "vditorContentTheme");
+        addStyle(cssPath, "vditorContentTheme");
     }
 };

@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
-import {html2md} from "../sv/html2md";
 import {setEditMode} from "../toolbar/EditMode";
+import {accessLocalStorage} from "../util/compatibility";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
@@ -14,7 +14,7 @@ export const initUI = (vditor: IVditor) => {
     vditor.element.innerHTML = "";
     vditor.element.classList.add("vditor");
     setTheme(vditor);
-    setContentTheme(vditor.options.preview.markdown.theme, vditor.options.cdn);
+    setContentTheme(vditor.options.preview.theme.current, vditor.options.preview.theme.path);
     if (typeof vditor.options.height === "number") {
         vditor.element.style.height = vditor.options.height + "px";
     }
@@ -67,6 +67,8 @@ export const initUI = (vditor: IVditor) => {
     }
 
     setEditMode(vditor, vditor.options.mode, afterRender(vditor, contentElement));
+
+    document.execCommand("DefaultParagraphSeparator", false, "p");
 
     if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== "undefined") {
         // https://github.com/Vanessa219/vditor/issues/379
@@ -141,12 +143,12 @@ const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     });
 
     // set default value
-    let initValue = localStorage.getItem(vditor.options.cache.id);
+    let initValue = accessLocalStorage() && localStorage.getItem(vditor.options.cache.id);
     if (!vditor.options.cache.enable || !initValue) {
         if (vditor.options.value) {
             initValue = vditor.options.value;
         } else if (vditor.originalInnerHTML) {
-            initValue = html2md(vditor, vditor.originalInnerHTML);
+            initValue = vditor.lute.HTML2Md(vditor.originalInnerHTML);
         } else if (!vditor.options.cache.enable) {
             initValue = "";
         }
