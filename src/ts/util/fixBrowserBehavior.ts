@@ -154,7 +154,7 @@ export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: 
             (previousElement && (previousElement.tagName === "TABLE" || previousElement.getAttribute("data-type")))) {
             blockElement.insertAdjacentHTML("beforebegin",
                 `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-            setRangeByWbr(vditor.ir.element, range);
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
         } else {
             range.selectNodeContents(previousElement);
             range.collapse(false);
@@ -375,10 +375,7 @@ export const isHrMD = (text: string) => {
     return false;
 };
 
-export const isHeadingMD = (text: string, setext: boolean) => {
-    if (!setext) {
-        return false;
-    }
+export const isHeadingMD = (text: string) => {
     // - =
     const textArray = text.trimRight().split("\n");
     text = textArray.pop();
@@ -564,9 +561,13 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
             return true;
         }
 
-        if (isHeadingMD(pElement.innerHTML, vditor.options.preview.markdown.setext)) {
+        if (isHeadingMD(pElement.innerHTML)) {
             // heading 渲染
-            pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0"><wbr>\n</p>');
+            if (vditor.currentMode === "wysiwyg") {
+                pElement.outerHTML = vditor.lute.SpinVditorDOM(pElement.innerHTML + '<p data-block="0"><wbr>\n</p>');
+            } else {
+                pElement.outerHTML = vditor.lute.SpinVditorIRDOM(pElement.innerHTML + '<p data-block="0"><wbr>\n</p>');
+            }
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
             scrollCenter(vditor);
@@ -1215,7 +1216,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                         }
                         const original = responseJSON.data.originalURL;
                         if (vditor.currentMode === "sv") {
-                            vditor.sv.element.querySelectorAll('[data-type="image"] .vditor-sv__marker--link')
+                            vditor.sv.element.querySelectorAll(".vditor-sv__marker--link")
                                 .forEach((item: HTMLElement) => {
                                     if (item.textContent === original) {
                                         item.textContent = responseJSON.data.url;
@@ -1233,6 +1234,9 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                         execAfterRender(vditor);
                     } else {
                         vditor.tip.show(xhr.responseText);
+                    }
+                    if (vditor.options.upload.linkToImgCallback) {
+                        vditor.options.upload.linkToImgCallback(xhr.responseText);
                     }
                 }
             };
@@ -1335,16 +1339,22 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         const blockElement = hasClosestBlock(getEditorRange(vditor[vditor.currentMode].element).startContainer);
         if (blockElement) {
             // https://github.com/Vanessa219/vditor/issues/591
+            const range = getEditorRange(vditor[vditor.currentMode].element);
+            vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
+                wbr.remove();
+            });
+            range.insertNode(document.createElement("wbr"));
             if (vditor.currentMode === "wysiwyg") {
                 blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.outerHTML);
             } else {
                 blockElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.outerHTML);
             }
-            blockElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
-                .forEach((item: HTMLElement) => {
-                    processCodeRender(item, vditor);
-                });
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
         }
+        vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
+            .forEach((item: HTMLElement) => {
+                processCodeRender(item, vditor);
+            });
     }
     execAfterRender(vditor);
 };

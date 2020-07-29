@@ -212,7 +212,7 @@ class WYSIWYG {
 
             if ((startSpace && !blockElement.querySelector(".language-mindmap"))
                 || endSpace || isHrMD(blockElement.innerHTML) ||
-                isHeadingMD(blockElement.innerHTML, vditor.options.preview.markdown.setext)) {
+                isHeadingMD(blockElement.innerHTML)) {
                 return;
             }
 

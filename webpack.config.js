@@ -123,7 +123,7 @@ module.exports = [
       'method.min': './src/method.ts',
     },
     resolve: {
-      extensions: ['.js', '.ts', '.svg', 'png'],
+      extensions: ['.js', '.ts', 'png'],
     },
     module: {
       rules: [
@@ -163,19 +163,7 @@ module.exports = [
         {
           test: /\.ts$/,
           use: 'ts-loader',
-        },
-        {
-          test: /\.svg$/,
-          include: [path.resolve(__dirname, './src/assets/icons')],
-          use: [
-            {
-              loader: 'html-loader',
-              options: {
-                minimize: true,
-              },
-            },
-          ],
-        },
+        }
       ],
     },
     plugins: [

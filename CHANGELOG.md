@@ -1,6 +1,17 @@
 ## Vditor change log
 
 ### 升级
+
+* v3.3
+  * options.mode 默认值修改为 `ir`
+  * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
+  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
+  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+  * 移除 `setSelection`
+  * 移除 `options.keymap`
+  * 移除 `options.preview.markdown.setext`
+  * 移除工具栏上的格式化功能：`options.toolbar` 中移除 `format` 选项
 * v3.2
   * IPreviewOptions.anchor 从 `boolean` 类型修改为 `number` 类型
 * v3.1
@@ -66,16 +77,39 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.3.10 / 2020-07-xx
+### v3.4.0 / 2020-07-xx
 
+* [636](https://github.com/Vanessa219/vditor/issues/636) SV 模式 Setext 标题问题 `修复缺陷`
+
+### v3.3.12 / 2020-07-28
+
+* [632](https://github.com/Vanessa219/vditor/issues/632) 复制代码块解析优化 `改进功能`
+* [627](https://github.com/Vanessa219/vditor/issues/627) 为 <kbd> 提供单独的渲染效果 `改进功能`
+* [621](https://github.com/Vanessa219/vditor/issues/621) 粘贴数学公式时渲染报错 `修复缺陷`
+* [619](https://github.com/Vanessa219/vditor/issues/619) 即时渲染下list删除(或剪切)的问题 `修复缺陷`
+* [633](https://github.com/Vanessa219/vditor/issues/633) SV 模式光标在列表标记符中的问题 `修复缺陷`
+* [623](https://github.com/Vanessa219/vditor/pull/623) 修复即时渲染模式下复制光标位置错误和添加位置错误的问题 `修复缺陷`
+* [608](https://github.com/Vanessa219/vditor/issues/608) 更新使用截图和演示动画 `文档相关`
+* [587](https://github.com/Vanessa219/vditor/issues/587) IR & SV 保留 Setext 风格标题 `改进功能`
+* [626](https://github.com/Vanessa219/vditor/issues/626) 去除 Setext 标题解析开关 `开发重构`
+* [451](https://github.com/Vanessa219/vditor/issues/451) IR 模式保留 Emoji 原始输入 `改进功能`
+* [620](https://github.com/Vanessa219/vditor/issues/620) 支持多套图标配置 `引入特性`
+* [578](https://github.com/Vanessa219/vditor/issues/578) 添加 ant-design 及 Material 风格的图标 `改进功能`
+* [614](https://github.com/Vanessa219/vditor/issues/614) 添加 linkToImgUrl 回调 `引入特性`
+* [617](https://github.com/Vanessa219/vditor/issues/617) options.preview.theme.current 需设置不使用主题样式 `改进功能`
+* [611](https://github.com/Vanessa219/vditor/issues/611) SV 模式粘贴图片拉取上传问题 `修复缺陷`
+* [616](https://github.com/Vanessa219/vditor/pull/616) fix: safari下选中文字添加标题文字会消失 `修复缺陷`
+* [615](https://github.com/Vanessa219/vditor/issues/615) 即时渲染模式下在safari中光标位置跳动 `修复缺陷`
+* [596](https://github.com/Vanessa219/vditor/issues/596) blockquote insdie ordered list `改进功能`
+* [605](https://github.com/Vanessa219/vditor/issues/605) 块节点上下插入的优化 `改进功能`
+* [602](https://github.com/Vanessa219/vditor/issues/602) Three enters inside codeblock `修复缺陷`
+* [600](https://github.com/Vanessa219/vditor/issues/600) codeblock inside footnote `修复缺陷`
+* [590](https://github.com/Vanessa219/vditor/pull/590) Set value issue `修复缺陷`
 * [594](https://github.com/Vanessa219/vditor/issues/594) Blockquote, ordered list and code block `改进功能`
 * [593](https://github.com/Vanessa219/vditor/issues/593) IR 模式焦点离开时的渲染问题 `改进功能`
 * [604](https://github.com/Vanessa219/vditor/issues/604) 站外图片抓取请求的 Content-Type 是 text/plain `改进功能`
 * [597](https://github.com/Vanessa219/vditor/issues/597) one more backspace before delete lists `修复缺陷`
 * [599](https://github.com/Vanessa219/vditor/issues/599) Ordered list(minor bug) `修复缺陷`
-
-### v3.3.9 / 2020-07-18
-
 * [591](https://github.com/Vanessa219/vditor/issues/591) 粘贴有可能不渲染本行内容 `改进功能`
 * [586](https://github.com/Vanessa219/vditor/issues/586) code block inside ordered list `修复缺陷`
 * [585](https://github.com/Vanessa219/vditor/issues/585) [suggestion] when enter after code block inside blockqoute `改进功能`
@@ -161,6 +195,9 @@
   * `options.preview.markdown.setext` 默认值修改为 `true`
   * options.mode 默认值修改为 `ir`
   * 支持预览区域工具栏配置及自定义
+  * 添加 `options.upload.linkToImgCallback`
+  * 添加 `options.icon`
+  * 移除 `options.preview.markdown.setext`
 
 ### v3.2.12 / 2020-06-07
 

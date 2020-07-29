@@ -152,8 +152,6 @@ interface ILute {
 
     SetEmojiSite(emojiSite: string): void;
 
-    SetSetext(enable: boolean): void;
-
     SetVditorCodeBlockPreview(enable: boolean): void;
 
     PutEmojis(emojis: IObject): void;
@@ -275,6 +273,9 @@ interface IUpload {
 
     /** 将上传的文件处理后再返回  */
     file?(files: File[]): File[];
+
+    /** 图片地址上传后的回调  */
+    linkToImgCallback?(responseText: string): void;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-toolbar */
@@ -340,8 +341,6 @@ interface IMarkdownConfig {
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview: boolean;
-    /** 是否解析 setext 标题。默认值: true */
-    setext: boolean;
     /** 是否启用过滤 XSS。默认值: true */
     sanitize: boolean;
     /** 链接前缀。默认值：'' */
@@ -406,6 +405,7 @@ interface IPreviewOptions {
     markdown?: IMarkdownConfig;
     renderers?: ILuteRender;
     theme?: IPreviewTheme;
+    icon?: "ant" | "material";
 
     transform?(html: string): string;
 
@@ -488,6 +488,8 @@ interface IOptions {
     };
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
+    /** 图标。默认值: 'material' */
+    icon?: "ant" | "material";
     /** @link https://hacpai.com/article/1549638745630#options-upload */
     upload?: IUpload;
     /** @link https://hacpai.com/article/1549638745630#options-classes */

@@ -68,7 +68,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 * 多语言支持，内置中、英、韩文本地化
 * 支持主流浏览器，对移动端友好
 
-![editor.png](https://b3logfile.com/file/2020/05/editor-adc7f8fd.png)
+![editor.png](https://b3logfile.com/file/2020/07/editor-b304aa97.png)
 
 ![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 
@@ -78,19 +78,19 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 *所见即所得*模式对不熟悉 Markdown 的用户较为友好，熟悉 Markdown 的话也可以无缝使用。
 
-![vditor-wysiwyg](https://img.hacpai.com/file/2020/03/wysiwyg-94c13d78.gif)
+![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-4f216b9b.gif)
 
 ### 即时渲染（IR）
 
 *即时渲染*模式对熟悉 Typora 的用户应该不会感到陌生，理论上这是最优雅的 Markdown 编辑方式。
 
-![vditor-ir](https://img.hacpai.com/file/2020/03/ir-6d784c1f.gif)
+![vditor-ir](https://b3logfile.com/file/2020/07/ir-67cd956c.gif)
 
 ### 分屏预览（SV）
 
 传统的*分屏预览*模式适合大屏下的 Markdown 编辑。
 
-![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
+![vditor-sv](https://b3logfile.com/file/2020/07/sv-595dcb28.gif)
 
 ## 🍱 语法支持
 
@@ -112,11 +112,11 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 ## 🗃 案例
 
-* [🎶 Sym](https://github.com/88250/symphony) 一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
-* [🎸 Solo](https://github.com/88250/solo) & [🎷 Pipe](https://github.com/88250/pipe) B3log 分布式社区的博客端节点，欢迎加入下一代社区网络
-* [📕 链滴笔记](https://github.com/88250/liandi) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
-* [🌟 Starfire](https://github.com/88250/starfire) 一个分布式的内容分享讨论社区，星星之火可以燎原
-* [📝 Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器
+* [Sym](https://github.com/88250/symphony) 一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
+* [Solo](https://github.com/88250/solo) & [Pipe](https://github.com/88250/pipe) B3log 分布式社区的博客端节点，欢迎加入下一代社区网络
+* [链滴笔记](https://github.com/88250/liandi) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
+* [Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器
+* [为知笔记 Lite](https://github.com/WizTeam/WizNoteLite) 聚焦于输入，让写作与思考不受干扰
 * [更多案例](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
 
 ## 🛠️ 使用文档
@@ -200,12 +200,12 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
 | lang | 多语言：en_US, ko_KR, zh_CN | 'zh_CN' |
-| input | 输入后触发 (value: string, previewElement?: HTMLElement): void | - |
-| focus | 聚焦后触发 (value: string): void | - |
-| blur | 失焦后触发 (value: string): void | - |
-| esc | <kbd>esc</kbd> 按下后触发 (value: string): void | - |
-| ctrlEnter | <kbd>⌘/ctrl+enter</kbd> 按下后触发 (value: string): void | - |
-| select | 编辑器中选中文字后触发 (value: string): void | - |
+| input(value: string, previewElement?: HTMLElement): void | 输入后触发  | - |
+| focus(value: string): void | 聚焦后触发 | - |
+| blur(value: string): void | 失焦后触发 | - |
+| esc(value: string): void | <kbd>esc</kbd> 按下后触发 | - |
+| ctrlEnter(value: string): void | <kbd>⌘/ctrl+enter</kbd> 按下后触发 | - |
+| select(value: string): void | 编辑器中选中文字后触发 | - |
 | tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
 | typewriterMode | 是否启用打字机模式 | false |
 | cdn | 配置自建 CDN 地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
@@ -213,6 +213,7 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | debugger | 是否显示日志 | false |
 | value | 编辑器初始化值 | '' |
 | theme | 主题：classic, dark | 'classic' |
+| icon | 图标风格：ant, material | 'ant' |
 | outline | 是否展现大纲 | false |
 
 #### options.toolbar
@@ -245,7 +246,7 @@ new Vditor('vditor', {
 | hotkey | 快捷键，格式为<kbd>⌘/ctrl-key</kbd> 或 <kbd>⌘/ctrl-⇧/shift-key</kbd> | - |
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
-| click | 自定义按钮点击时触发的事件 (): void | - |
+| click(): void | 自定义按钮点击时触发的事件 | - |
 | className | 样式名 | '' |
 | toolbar?: Array<options.toolbar> | 子菜单 | - |
 
@@ -270,7 +271,7 @@ new Vditor('vditor', {
 | - | - | - |
 | enable | 是否使用 localStorage 进行缓存 | true |
 | id | 缓存 key，第一个参数为元素且启用缓存时**必填** | - |
-| after | 缓存后的回调 (html: string): string | - |
+| after(html: string): string | 缓存后的回调 | - |
 
 #### options.preview
 
@@ -280,8 +281,8 @@ new Vditor('vditor', {
 | maxWidth | 预览区域最大宽度 | 800 |
 | mode | 显示模式：both, editor | 'both' |
 | url | md 解析请求 | - |
-| parse | 预览回调 (element: HTMLElement): void | - |
-| transform | 渲染之前回调 (html: string): string | - |
+| parse(element: HTMLElement): void | 预览回调 | - |
+| transform(html: string): string | 渲染之前回调 | - |
 
 #### options.preview.hljs
 
@@ -301,7 +302,6 @@ new Vditor('vditor', {
 | toc | 插入目录 | false |
 | footnotes | 脚注 | true |
 | codeBlockPreview | wysiwyg 和 ir 模式下是否对代码块进行渲染 | true |
-| setext | 是否解析 setext 标题 | true |
 | paragraphBeginningSpace | 段落开头空两个 | false |
 | sanitize | 是否启用过滤 XSS | true |
 | listStyle | 为列表添加 data-style 属性 | false |
@@ -333,7 +333,7 @@ new Vditor('vditor', {
 | key | 按钮唯一标识，不能为空 | - |
 | text | 按钮文字 | - |
 | className | 按钮类名 | - |
-| click: (key: string) => void; | 按钮点击回调事件 | - |
+| click(key: string) => void | 按钮点击回调事件 | - |
 
 #### options.hint
 
@@ -343,7 +343,7 @@ new Vditor('vditor', {
 | emoji | 默认表情，可从[lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | 常用表情提示 | - |
 | emojiPath | 表情图片地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
-| at | @用户回调 (value: string): Array\<any>，需同步返回数组 [{value: '', html: ''}] | - |
+| at(value: string): Array\<any> | @用户回调，需同步返回数组 [{value: '', html: ''}] | - |
 
 #### options.upload
 
@@ -409,19 +409,20 @@ if (xhr.status === 200) {
 | url | 上传 url | '' |
 | max | 上传文件最大 Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | 剪切板中包含图片地址时，使用此 url 重新上传 | '' |
-| success | 上传成功回调 (editor: HTMLPreElement, msg: string): void | - |
-| error | 上传失败回调 (msg: string): void | - |
+| linkToImgCallback(responseText: string): void | 图片地址时上传回调 | - |
+| success(editor: HTMLPreElement, msg: string): void | 上传成功回调 | - |
+| error(msg: string): void | 上传失败回调 | - |
 | token | CORS 上传验证，头为 X-Upload-Token | - |
 | withCredentials | 跨站点访问控制 | false |
 | headers | 请求头设置 | - |
-| filename | 文件名安全处理 (name: string): string \| name => name.replace(/\W/g, '') |   |
+| filename(name: string): string | 文件名安全处理 | name => name.replace(/\W/g, '') |
 | accept | 文件上传类型，同[input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
-| validate | 校验，成功时返回 true 否则返回错误信息 (files: File[]) => string \| boolean | - |
-| handler | 自定义上传，当发生错误时返回错误信息 (files: File[]) => string \| null | - |
-| format | 对服务端返回的数据进行转换，以满足内置的数据结构 (files: File[], responseText: string): string | - |
-| file | 将上传的文件处理后再返回 (files: File[]): File[] | - |
-| setHeaders | 上传前使用返回值设置头 (): { [key: string]: string } | - |
-| extraData | 为 FormData 添加额外的参数 { [key: string]: string \| Blob } | - |
+| validate(files: File[]) => string \| boolean | 校验，成功时返回 true 否则返回错误信息 | - |
+| handler(files: File[]) => string \| null | 自定义上传，当发生错误时返回错误信息 | - |
+| format(files: File[], responseText: string): string | 对服务端返回的数据进行转换，以满足内置的数据结构 | - |
+| file(files: File[]): File[] | 将上传的文件处理后再返回 | - |
+| setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |
+| extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数 | - |
 | multiple | 上传文件是否为多个 | true |
 | fieldName | 上传字段名称 | 'file[]' |
 
@@ -431,7 +432,7 @@ if (xhr.status === 200) {
 | - | - | - |
 | enable | 是否支持大小拖拽 | false |
 | position | 拖拽栏位置：top, bottom | 'bottom' |
-| after | 拖拽结束的回调 (height: number): void | - |
+| after(height: number): void | 拖拽结束的回调 | - |
 
 #### options.classes
 
@@ -524,8 +525,8 @@ options?: IPreviewOptions {
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
 | outlineRender(contentElement: HTMLElement, targetElement: Element) | 对大纲进行渲染 |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | 对启用懒加载的图片进行渲染 |
-| setCodeTheme (codeTheme: string, cdn = options.cdn) | 设置代码主题，codeTheme 参见 options.preview.hljs.style |
-| setContentTheme (contentTheme: string, path: string) | 设置内容主题，contentTheme 参见 options.preview.theme.list |
+| setCodeTheme(codeTheme: string, cdn = options.cdn) | 设置代码主题，codeTheme 参见 options.preview.hljs.style |
+| setContentTheme(contentTheme: string, path: string) | 设置内容主题，contentTheme 参见 options.preview.theme.list |
 
 ## 🏗 开发文档
 

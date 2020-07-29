@@ -81,10 +81,12 @@ export const processHeading = (vditor: IVditor, value: string) => {
         if (value === "") {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
             range.selectNodeContents(headingMarkerElement);
+            setSelectionFocus(range);
             document.execCommand("delete");
         } else {
             range.selectNodeContents(headingElement);
             range.collapse(true);
+            setSelectionFocus(range);
             document.execCommand("insertHTML", false, value);
         }
         highlightToolbarIR(vditor);

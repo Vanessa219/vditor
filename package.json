@@ -1,7 +1,7 @@
 {
   "name": "vditor",
-  "version": "3.3.9",
-  "description": "♏ An In-browser Markdown editor, support WYSIWYG, Instant Rendering (Typora-like) and Split View modes.",
+  "version": "3.3.12",
+  "description": "♏ 易于使用的 Markdown 编辑器，为适配不同的应用场景而生",
   "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://vditor.b3log.org",
   "jsdelivr": "dist/index.min.js",
@@ -29,7 +29,6 @@
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.6.0",
     "file-loader": "^4.3.0",
-    "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.5.4",

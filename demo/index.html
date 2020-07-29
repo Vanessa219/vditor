@@ -37,23 +37,36 @@
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <style>
+        body {
+            margin: 0;
+        }
+
+        .nav {
+            text-align: center;
+            margin: 20px 0
+        }
+
         a {
             color: #4285f4;
+        }
+
+        #vditor {
+            margin: 0 20px 20px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.4/dist/vconsole.min.js"></script>
 </head>
 <body>
-<h2>
-    <a href="https://vditor.b3log.org" target="_blank">官网</a> |
-    <a href="/render.html">Render</a> |
+<div class="vditor-reset nav">
+    <a href="https://vditor.b3log.org" target="_blank">官网</a> &nbsp; &nbsp;
+    <a href="/render.html">Render</a> &nbsp; &nbsp;
     <button onclick="window.vditor.setTheme('dark', 'dark',  'native');document.querySelector('body').style.backgroundColor='#2f363d'">
         Dark Mode
-    </button>
+    </button> &nbsp; &nbsp;
     <button onclick="window.vditor.setTheme('light', 'light', 'github');document.querySelector('body').style.backgroundColor=''">
         Light Mode
     </button>
-</h2>
+</div>
 <div id="vditor">
 <h1>Vditor</h1>
 <ul>

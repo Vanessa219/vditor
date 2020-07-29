@@ -8,7 +8,12 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
             const space = new Array((headingNo - 1) * 2).fill("&emsp;").join("");
             let text = "";
             if (vditor && vditor.currentMode === "ir") {
-                text = item.textContent.substring(headingNo + 1).trim();
+                const markerElement = item.querySelector('[data-type="heading-marker"]');
+                if (markerElement.getAttribute("data-render") === "2") {
+                    text = item.textContent.replace(markerElement.textContent, "").trim();
+                } else {
+                    text = item.textContent.substring(headingNo + 1).trim();
+                }
             } else {
                 text = item.textContent.trim();
             }

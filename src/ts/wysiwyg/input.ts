@@ -60,7 +60,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         if (!isWYSIWYGElement) {
             // 列表需要到最顶层
             const topListElement = getTopList(range.startContainer);
-            if (topListElement) {
+            if (topListElement && !footnoteElement) {
                 const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
                 if (blockquoteElement) {
                     // li 中有 blockquote 就只渲染 blockquote

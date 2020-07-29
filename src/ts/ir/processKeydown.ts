@@ -18,7 +18,7 @@ import {
     hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
-import {getEditorRange, getSelectPosition} from "../util/selection";
+import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -168,6 +168,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (getSelectPosition(headingElement, vditor.ir.element).start === headingLength) {
                 range.setStart(headingElement.firstElementChild.firstChild, headingLength - 1);
                 range.collapse(true);
+                setSelectionFocus(range);
             }
         }
     }

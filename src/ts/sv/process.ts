@@ -59,26 +59,27 @@ export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
 export const processPreviousMarkers = (spanElement: HTMLElement) => {
     const spanType = spanElement.getAttribute("data-type");
     let previousElement = spanElement.previousElementSibling;
-    let markerText = "";
+    let markerText = (spanType && spanType !== "text") ? spanElement.textContent : ""; // 有内容的子列表，在其 marker 后换行
     let hasNL = false;
     while (previousElement && !hasNL) {
         const previousType = previousElement.getAttribute("data-type");
         if (previousType === "li-marker" || previousType === "blockquote-marker" || previousType === "task-marker" ||
             previousType === "padding") {
+            const previousText = previousElement.textContent;
             if (previousType === "li-marker" &&
                 (spanType === "code-block-open-marker" || spanType === "code-block-info")) {
                 // https://github.com/Vanessa219/vditor/issues/586
-                markerText = previousElement.textContent.replace(/\S/g, " ") + markerText;
+                markerText = previousText.replace(/\S/g, " ") + markerText;
             } else if (spanType === "code-block-close-marker" &&
                 previousElement.nextElementSibling.isSameNode(spanElement)) {
                 // https://github.com/Vanessa219/vditor/issues/594
                 const openMarker = getSideByType(spanElement, "code-block-open-marker");
                 if (openMarker && openMarker.previousElementSibling) {
                     previousElement = openMarker.previousElementSibling;
-                    markerText = previousElement.textContent + markerText;
+                    markerText = previousText + markerText;
                 }
             } else {
-                markerText = previousElement.textContent + markerText;
+                markerText = previousText + markerText;
             }
         } else if (previousType === "newline") {
             hasNL = true;

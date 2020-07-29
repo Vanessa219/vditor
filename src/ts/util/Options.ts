@@ -1,37 +1,3 @@
-import insertAfterSVG from "../../assets/icons/after.svg";
-import outlinerSVG from "../../assets/icons/align-center.svg";
-import insertBeforeSVG from "../../assets/icons/before.svg";
-import boldSVG from "../../assets/icons/bold.svg";
-import bothSVG from "../../assets/icons/both.svg";
-import bugSVG from "../../assets/icons/bug.svg";
-import checkSVG from "../../assets/icons/check.svg";
-import codeThemeSVG from "../../assets/icons/code-theme.svg";
-import codeSVG from "../../assets/icons/code.svg";
-import editSVG from "../../assets/icons/edit.svg";
-import emojiSVG from "../../assets/icons/emoji.svg";
-import exportSVG from "../../assets/icons/export.svg";
-import fullscreenSVG from "../../assets/icons/fullscreen.svg";
-import headingsSVG from "../../assets/icons/headings.svg";
-import helpSVG from "../../assets/icons/help.svg";
-import indentSVG from "../../assets/icons/indent.svg";
-import infoSVG from "../../assets/icons/info.svg";
-import inlineCodeSVG from "../../assets/icons/inline-code.svg";
-import italicSVG from "../../assets/icons/italic.svg";
-import lineSVG from "../../assets/icons/line.svg";
-import linkSVG from "../../assets/icons/link.svg";
-import listSVG from "../../assets/icons/list.svg";
-import moreSVG from "../../assets/icons/more.svg";
-import orderedListVG from "../../assets/icons/ordered-list.svg";
-import outdentSVG from "../../assets/icons/outdent.svg";
-import previewSVG from "../../assets/icons/preview.svg";
-import quoteSVG from "../../assets/icons/quote.svg";
-import recordSVG from "../../assets/icons/record.svg";
-import redoSVG from "../../assets/icons/redo.svg";
-import strikekSVG from "../../assets/icons/strike.svg";
-import tableSVG from "../../assets/icons/table.svg";
-import contentThemeSVG from "../../assets/icons/theme.svg";
-import undoSVG from "../../assets/icons/undo.svg";
-import uploadSVG from "../../assets/icons/upload.svg";
 import {Constants} from "../constants";
 import {merge} from "./merge";
 
@@ -66,6 +32,7 @@ export class Options {
             },
             emojiPath: `${Constants.CDN}/dist/images/emoji`,
         },
+        icon: "ant",
         lang: "zh_CN",
         mode: "ir",
         outline: false,
@@ -178,43 +145,43 @@ export class Options {
 
     private mergeToolbar(toolbar: Array<string | IMenuItem>) {
         const toolbarItem = [{
-            icon: exportSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-export"></use></svg>',
             name: "export",
             tipPosition: "ne",
         }, {
             hotkey: "⌘-E",
-            icon: emojiSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-emoji"></use></svg>',
             name: "emoji",
             tipPosition: "ne",
         }, {
             hotkey: "⌘-H",
-            icon: headingsSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-headings"></use></svg>',
             name: "headings",
             tipPosition: "ne",
         }, {
             hotkey: "⌘-B",
-            icon: boldSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-bold"></use></svg>',
             name: "bold",
             prefix: "**",
             suffix: "**",
             tipPosition: "ne",
         }, {
             hotkey: "⌘-I",
-            icon: italicSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-italic"></use></svg>',
             name: "italic",
             prefix: "*",
             suffix: "*",
             tipPosition: "ne",
         }, {
             hotkey: "⌘-S",
-            icon: strikekSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-strike"></use></svg>',
             name: "strike",
             prefix: "~~",
             suffix: "~~",
             tipPosition: "ne",
         }, {
             hotkey: "⌘-K",
-            icon: linkSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-link"></use></svg>',
             name: "link",
             prefix: "[",
             suffix: "](https://)",
@@ -223,83 +190,83 @@ export class Options {
             name: "|",
         }, {
             hotkey: "⌘-L",
-            icon: listSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-list"></use></svg>',
             name: "list",
             prefix: "* ",
             tipPosition: "n",
         }, {
             hotkey: "⌘-O",
-            icon: orderedListVG,
+            icon: '<svg><use xlink:href="#vditor-icon-ordered-list"></use></svg>',
             name: "ordered-list",
             prefix: "1. ",
             tipPosition: "n",
         }, {
             hotkey: "⌘-J",
-            icon: checkSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-check"></use></svg>',
             name: "check",
             prefix: "* [ ] ",
             tipPosition: "n",
         }, {
             hotkey: "⌘-⇧-I",
-            icon: outdentSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-outdent"></use></svg>',
             name: "outdent",
             tipPosition: "n",
         }, {
             hotkey: "⌘-⇧-O",
-            icon: indentSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-indent"></use></svg>',
             name: "indent",
             tipPosition: "n",
         }, {
             name: "|",
         }, {
             hotkey: "⌘-;",
-            icon: quoteSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-quote"></use></svg>',
             name: "quote",
             prefix: "> ",
             tipPosition: "n",
         }, {
             hotkey: "⌘-⇧-H",
-            icon: lineSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-line"></use></svg>',
             name: "line",
             prefix: "---",
             tipPosition: "n",
         }, {
             hotkey: "⌘-U",
-            icon: codeSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-code"></use></svg>',
             name: "code",
             prefix: "```",
             suffix: "\n```",
             tipPosition: "n",
         }, {
             hotkey: "⌘-G",
-            icon: inlineCodeSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-inline-code"></use></svg>',
             name: "inline-code",
             prefix: "`",
             suffix: "`",
             tipPosition: "n",
         }, {
             hotkey: "⌘-⇧-B",
-            icon: insertBeforeSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-before"></use></svg>',
             name: "insert-before",
             tipPosition: "n",
         }, {
             hotkey: "⌘-⇧-E",
-            icon: insertAfterSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-after"></use></svg>',
             name: "insert-after",
             tipPosition: "n",
         }, {
             name: "|",
         }, {
-            icon: uploadSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-upload"></use></svg>',
             name: "upload",
             tipPosition: "n",
         }, {
-            icon: recordSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-record"></use></svg>',
             name: "record",
             tipPosition: "n",
         }, {
             hotkey: "⌘-M",
-            icon: tableSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-table"></use></svg>',
             name: "table",
             prefix: "| col1",
             suffix: " | col2 | col3 |\n| --- | --- | --- |\n|  |  |  |\n|  |  |  |",
@@ -308,60 +275,60 @@ export class Options {
             name: "|",
         }, {
             hotkey: "⌘-Z",
-            icon: undoSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-undo"></use></svg>',
             name: "undo",
             tipPosition: "nw",
         }, {
             hotkey: "⌘-Y",
-            icon: redoSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-redo"></use></svg>',
             name: "redo",
             tipPosition: "nw",
         }, {
             name: "|",
         }, {
-            icon: moreSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-more"></use></svg>',
             name: "more",
             tipPosition: "e",
         }, {
             hotkey: "⌘-'",
-            icon: fullscreenSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-fullscreen"></use></svg>',
             name: "fullscreen",
             tipPosition: "nw",
         }, {
-            icon: editSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-edit"></use></svg>',
             name: "edit-mode",
             tipPosition: "nw",
         }, {
             hotkey: "⌘-P",
-            icon: bothSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-both"></use></svg>',
             name: "both",
             tipPosition: "nw",
         }, {
-            icon: previewSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-preview"></use></svg>',
             name: "preview",
             tipPosition: "nw",
         }, {
-            icon: outlinerSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-align-center"></use></svg>',
             name: "outline",
             tipPosition: "nw",
         }, {
-            icon: contentThemeSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-theme"></use></svg>',
             name: "content-theme",
             tipPosition: "nw",
         }, {
-            icon: codeThemeSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-code-theme"></use></svg>',
             name: "code-theme",
             tipPosition: "nw",
         }, {
-            icon: bugSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-bug"></use></svg>',
             name: "devtools",
             tipPosition: "nw",
         }, {
-            icon: infoSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-info"></use></svg>',
             name: "info",
             tipPosition: "nw",
         }, {
-            icon: helpSVG,
+            icon: '<svg><use xlink:href="#vditor-icon-help"></use></svg>',
             name: "help",
             tipPosition: "nw",
         }, {

@@ -66,7 +66,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 * Multi-language support, built-in Chinese, English, Korean text localization
 * Support mainstream browsers, mobile friendly
 
-![editor.png](https://b3logfile.com/file/2020/05/editor-adc7f8fd.png)
+![editor.png](https://b3logfile.com/file/2020/07/editor-b304aa97.png)
 
 ![preview.png](https://b3logfile.com/file/2020/05/preview-80846f66.png)
 
@@ -76,19 +76,19 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 
 *WYSIWYG* mode is more friendly to users who are not familiar with Markdown, and you can use it seamlessly if you are familiar with Markdown.
 
-![vditor-wysiwyg](https://img.hacpai.com/file/2020/03/wysiwyg-94c13d78.gif)
+![vditor-wysiwyg](https://b3logfile.com/file/2020/07/wysiwyg-4f216b9b.gif)
 
 ### Instant Rendering
 
 *Instant Rendering* mode should not be unfamiliar to users who are familiar with Typora. In theory, this is the most elegant Markdown editing method.
 
-![vditor-ir](https://img.hacpai.com/file/2020/03/ir-6d784c1f.gif)
+![vditor-ir](https://b3logfile.com/file/2020/07/ir-67cd956c.gif)
 
 ### Split View
 
 The traditional *Split View* mode is suitable for Markdown editing on a large screen.
 
-![vditor-sv](https://img.hacpai.com/file/2020/03/sv-776055ce.gif)
+![vditor-sv](https://b3logfile.com/file/2020/07/sv-595dcb28.gif)
 
 ## 🍱 Syntax support
 
@@ -110,11 +110,12 @@ Most of the above features can be enabled or disabled through the switch configu
 
 ## 🗃 Showcases
 
-* [🎶 Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
-* [🎸 Solo](https://github.com/88250/solo) & [🎷 Pipe](https://github.com/88250/pipe) B3log distributed community blog end node, welcome to join the next generation community network
-* [📕 LianDi Note](https://github.com/88250/liandi) A desktop note application that supports Windows, Mac and Linux
-* [🌟 Starfire](https://github.com/88250/starfire) A distributed content-sharing and discussion community, the spark can catch fire
-* [📝 Arya](https://github.com/nicejade/markdown-online-editor) Based on Vue, Vditor, built online Markdown editor
+* [Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
+* [Solo](https://github.com/88250/solo) & [Pipe](https://github.com/88250/pipe) B3log distributed community blog end node, welcome to join the next generation community network
+* [LianDi Note](https://github.com/88250/liandi) A desktop note application that supports Windows, Mac and Linux
+* [Arya](https://github.com/nicejade/markdown-online-editor) Based on Vue, Vditor, built online Markdown editor
+* [WizNote Lite](https://github.com/WizTeam/WizNoteLite) Focus on input, so that writing and thinking are not disturbed
+* [More cases](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
 
 ## 🛠️ User Guide
 
@@ -189,6 +190,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | debugger | Whether to display the log | false |
 | value | Editor initialization value | '' |
 | theme | Theme: classic, dark | 'classic' |
+| icon | icon theme: ant, material | 'ant' |
 | outline | show outline | false |
 
 #### options.toolbar
@@ -285,7 +287,6 @@ new Vditor('vditor', {
 | toc | Insert Table of Contents | false |
 | footnotes | Footnotes | true |
 | codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
-| setext | Whether to parse the setext header | true |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
 | listStyle | add data-style attribute | false |
@@ -362,6 +363,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | url | Upload url | '' |
 | max | The largest upload file Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | When the clipboard contains the image address, use this url to re-upload | '' |
+| linkToImgCallback | Callback when uploading picture address | - |
 | success | Upload success callback (editor: HTMLPreElement, msg: string): void | - |
 | error | Upload failure callback (msg: string): void | - |
 | token | CORS upload verification, header is X-Upload-Token | - |

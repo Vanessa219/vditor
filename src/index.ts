@@ -115,7 +115,6 @@ class Vditor extends VditorMethod {
                     listStyle: this.vditor.options.preview.markdown.listStyle,
                     paragraphBeginningSpace: this.vditor.options.preview.markdown.paragraphBeginningSpace,
                     sanitize: this.vditor.options.preview.markdown.sanitize,
-                    setext: this.vditor.options.preview.markdown.setext,
                     toc: this.vditor.options.preview.markdown.toc,
                 });
 
@@ -127,6 +126,7 @@ class Vditor extends VditorMethod {
                     mergedOptions.after();
                 }
             });
+        addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
     }
 
     /** 设置主题 */
@@ -302,13 +302,13 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown);
             processSVAfterRender(this.vditor, {
-                enableAddUndoStack: !clearStack,
+                enableAddUndoStack: true,
                 enableHint: false,
                 enableInput: false,
             });
         } else if (this.vditor.currentMode === "wysiwyg") {
             renderDomByMd(this.vditor, markdown, {
-                enableAddUndoStack: !clearStack,
+                enableAddUndoStack: true,
                 enableHint: false,
                 enableInput: false,
             });
@@ -319,7 +319,7 @@ class Vditor extends VditorMethod {
                     processCodeRender(item, this.vditor);
                 });
             processAfterRender(this.vditor, {
-                enableAddUndoStack: !clearStack,
+                enableAddUndoStack: true,
                 enableHint: false,
                 enableInput: false,
             });
@@ -346,6 +346,7 @@ class Vditor extends VditorMethod {
         this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
         this.vditor.element.classList.remove("vditor");
         this.vditor.element.removeAttribute("style");
+        document.getElementById("vditorIconScript").remove();
         this.clearCache();
     }
 }

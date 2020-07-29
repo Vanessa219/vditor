@@ -37,13 +37,23 @@
     <meta property="og:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png"/>
     <style>
+        body {
+            margin: 0;
+        }
+
+        .nav {
+            text-align: center;
+            margin: 20px 0
+        }
+
+
         .link {
             cursor: pointer;
             color: #4285f4;
         }
 
         #previewWrap {
-            padding: 0 220px 20px 0;
+            padding: 0 226px 20px 20px;
         }
 
         #preview {
@@ -55,7 +65,7 @@
             display: none;
             position: fixed;
             width: 186px;
-            top: 20px;
+            top: 64px;
             right: 20px;
             bottom: 20px;
             overflow: auto;
@@ -150,17 +160,17 @@
     </style>
 </head>
 <body>
-<h2>
-    <a class="link" href="https://vditor.b3log.org" target="_blank">官网</a> |
-    <a class="link" href="/">Editor</a> |
-    <button onclick="setTheme('dark')">Dark Mode</button>
+<div class="vditor-reset nav">
+    <a class="link" href="https://vditor.b3log.org" target="_blank">官网</a> &nbsp; &nbsp;
+    <a class="link" href="/">Editor</a> &nbsp; &nbsp;
+    <button onclick="setTheme('dark')">Dark Mode</button> &nbsp; &nbsp;
     <button onclick="setTheme('light')">Light Mode</button>
-</h2>
-<div class="markdown-list">
-    <span class="link" data-file="zh_CN">zh_CN</span> |
-    <span class="link" data-file="ko_KR">ko_KR</span> |
-    <span class="link" data-file="cute-list">cute-list</span> |
-    <span class="link" data-file="entity">entity</span> |
+</div>
+<div class="markdown-list nav">
+    <span class="link" data-file="zh_CN">zh_CN</span> &nbsp; &nbsp;
+    <span class="link" data-file="ko_KR">ko_KR</span> &nbsp; &nbsp;
+    <span class="link" data-file="cute-list">cute-list</span> &nbsp; &nbsp;
+    <span class="link" data-file="entity">entity</span> &nbsp; &nbsp;
 </div>
 <div id="previewWrap">
     <div id="preview" class="preview"></div>

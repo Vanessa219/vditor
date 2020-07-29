@@ -23,6 +23,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         customEmoji: {},
         emojiPath: `${(options && options.emojiPath) || Constants.CDN}/dist/images/emoji`,
         hljs: Constants.HLJS_OPTIONS,
+        icon: "ant",
         lang: "zh_CN",
         markdown: Constants.MARKDOWN_OPTIONS,
         math: Constants.MATH_OPTIONS,
@@ -52,7 +53,6 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             listStyle: mergedOptions.markdown.listStyle,
             paragraphBeginningSpace: mergedOptions.markdown.paragraphBeginningSpace,
             sanitize: mergedOptions.markdown.sanitize,
-            setext: mergedOptions.markdown.setext,
             toc: mergedOptions.markdown.toc,
         });
         if (options?.renderers) {
@@ -102,4 +102,5 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.lazyLoadImage) {
         lazyLoadImageRender(previewElement);
     }
+    addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
 };
