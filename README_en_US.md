@@ -176,7 +176,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | minHeight | Editing area minimum height | - |
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
-| lang | i18n: en_US, ko_KR, zh_CN | 'zh_CN' |
+| lang | i18n: en_US, ja_JP, ko_KR, zh_CN | 'zh_CN' |
 | input | Trigger after input (value: string, previewElement?: HTMLElement): void | - |
 | focus | Trigger after focusing (value: string): void | - |
 | blur | Trigger after out of focus (value: string): void | - |

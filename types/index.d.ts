@@ -213,6 +213,7 @@ declare const webkitAudioContext: {
 
 interface II18n {
     en_US: IObject;
+    ja_JP: IObject;
     ko_KR: IObject;
     zh_CN: IObject;
 }
