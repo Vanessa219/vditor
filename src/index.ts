@@ -346,6 +346,7 @@ class Vditor extends VditorMethod {
         this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
         this.vditor.element.classList.remove("vditor");
         this.vditor.element.removeAttribute("style");
+        document.getElementById("vditorIconScript").remove();
         this.clearCache();
     }
 }
