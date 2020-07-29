@@ -79,6 +79,7 @@
 
 ### v3.4.0 / 2020-07-xx
 
+* [638](https://github.com/Vanessa219/vditor/pull/638) ir模式下图片编辑时很难触发md图片代码显示 `改进功能`
 * [636](https://github.com/Vanessa219/vditor/issues/636) SV 模式 Setext 标题问题 `修复缺陷`
 
 ### v3.3.12 / 2020-07-28

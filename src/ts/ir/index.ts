@@ -93,7 +93,7 @@ class IR {
                 this.preventInput = true;
                 processAfterRender(vditor);
                 return;
-            }         
+            }
 
             const range = getEditorRange(this.element);
 
@@ -132,11 +132,12 @@ class IR {
 
             // 点击图片光标选中图片地址
             if (event.target.tagName === "IMG") {
-              const linkElement = event.target.parentElement.querySelector<HTMLSpanElement>(".vditor-ir__marker--link");
-              if (linkElement) {
-                range.selectNode(linkElement);
-                setSelectionFocus(range);
-              }
+                const linkElement =
+                    event.target.parentElement.querySelector<HTMLSpanElement>(".vditor-ir__marker--link");
+                if (linkElement) {
+                    range.selectNode(linkElement);
+                    setSelectionFocus(range);
+                }
             }
 
             expandMarker(range, vditor);
