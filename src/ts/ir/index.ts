@@ -36,23 +36,30 @@ class IR {
         selectEvent(vditor, this.element);
         dropEvent(vditor, this.element);
     }
+    private copyEvent(event: ClipboardEvent & { target: HTMLElement }, vditor: IVditor) {
+        const range = getSelection().getRangeAt(0);
+        if (range.toString() === "") {
+          return;
+        }
+        event.stopPropagation();
+        event.preventDefault();
 
+        const tempElement = document.createElement("div");
+        tempElement.appendChild(range.cloneContents());
+
+        event.clipboardData.setData("text/plain", vditor.lute.VditorIRDOM2Md(tempElement.innerHTML).trim());
+        event.clipboardData.setData("text/html", "");
+    }
     private bindEvent(vditor: IVditor) {
-        this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
-            const range = getSelection().getRangeAt(0);
-            if (range.toString() === "") {
-                return;
-            }
-            event.stopPropagation();
-            event.preventDefault();
+        const copyEvent = this.copyEvent;
+        this.element.addEventListener(
+            "copy",
+            (event: ClipboardEvent & { target: HTMLElement }) => copyEvent(event, vditor));
 
-            const tempElement = document.createElement("div");
-            tempElement.appendChild(range.cloneContents());
-
-            event.clipboardData.setData("text/plain", vditor.lute.VditorIRDOM2Md(tempElement.innerHTML).trim());
-            event.clipboardData.setData("text/html", "");
+        this.element.addEventListener("cut", (event: ClipboardEvent & { target: HTMLElement }) => {
+            copyEvent(event, vditor);
+            document.execCommand("delete");
         });
-
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
             paste(vditor, event, {
                 pasteCode: (code: string) => {
