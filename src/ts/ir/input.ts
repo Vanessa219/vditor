@@ -78,7 +78,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
 
     if (!blockElement.querySelector("wbr")) {
         const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
-        if (previewRenderElement) {
+        if (previewRenderElement && previewRenderElement.previousElementSibling) {
             // 光标如果落在预览区域中，则重置到代码区域
             if (previewRenderElement.previousElementSibling.firstElementChild) {
                 range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);

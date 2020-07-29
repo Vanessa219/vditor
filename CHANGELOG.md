@@ -81,6 +81,7 @@
 
 ### v3.4.0 / 2020-07-xx
 
+* [644](https://github.com/Vanessa219/vditor/pull/644) 粘贴多行代码时，避免代码段与当前行内容混淆在一起 `改进功能`
 * [639](https://github.com/Vanessa219/vditor/issues/639) 列表嵌套代码块后输入中文的问题 `修复缺陷`
 * [641](https://github.com/Vanessa219/vditor/issues/641) 清空 undo 栈后，第一次编辑操作无法进行记录 `修复缺陷`
 * [640](https://github.com/Vanessa219/vditor/issues/640) options.icon 无法进行切换 `改进功能`
