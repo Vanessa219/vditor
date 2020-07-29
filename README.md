@@ -103,6 +103,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
   * 折线图、饼图、脑图等，通过 ECharts 支持
 * 五线谱：通过 abc.js 支持
 * 数学公式：数学公式块、行级数学公式，通过 MathJax 和 KaTeX 支持
+* YAML Front Matter
 * 中文语境优化
   * 中西文之间插入空格
   * 术语拼写修正
