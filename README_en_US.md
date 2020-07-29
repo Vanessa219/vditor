@@ -101,6 +101,7 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
    * Line chart, pie chart, brain chart, etc., supported by ECharts
 * Stave: supported by abc.js
 * Math formulas: Math formula blocks, row-level math formulas, supported by MathJax and KaTeX
+* YAML Front Matter
 * Chinese context optimization
    * Insert space between Chinese and Western
    * Terminology spelling correction
