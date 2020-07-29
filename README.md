@@ -200,7 +200,7 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | minHeight | 编辑区域最小高度 | - |
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
-| lang | 多语言：en_US, ko_KR, zh_CN | 'zh_CN' |
+| lang | 多语言：en_US, ja_JP, ko_KR, zh_CN | 'zh_CN' |
 | input(value: string, previewElement?: HTMLElement): void | 输入后触发  | - |
 | focus(value: string): void | 聚焦后触发 | - |
 | blur(value: string): void | 失焦后触发 | - |
