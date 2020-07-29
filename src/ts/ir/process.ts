@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {accessLocalStorage} from "../util/compatibility";
+import {accessLocalStorage, throttle} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
@@ -197,3 +197,5 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     processAfterRender(vditor);
     highlightToolbarIR(vditor);
 };
+
+export const throttleProcessToolbar = throttle(processToolbar, 200);

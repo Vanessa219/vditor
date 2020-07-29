@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {i18n} from "../i18n/index";
-import {processToolbar} from "../ir/process";
+import {throttleProcessToolbar} from "../ir/process";
 import {processToolbar as processToolbarSV} from "../sv/process";
 import {getEventName} from "../util/compatibility";
 import {updateHotkeyTip} from "../util/compatibility";
@@ -45,7 +45,7 @@ export class MenuItem {
             if (vditor.currentMode === "wysiwyg") {
                 toolbarEvent(vditor, this.element.children[0], event);
             } else if (vditor.currentMode === "ir") {
-                processToolbar(vditor, this.element.children[0],
+              throttleProcessToolbar(vditor, this.element.children[0],
                     menuItem.prefix || "", menuItem.suffix || "");
             } else {
                 processToolbarSV(vditor, this.element.children[0],
