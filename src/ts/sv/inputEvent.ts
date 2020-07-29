@@ -32,8 +32,9 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             processAfterRender(vditor);
             return;
         }
-        // https://github.com/Vanessa219/vditor/issues/584
+
         if (event.inputType === "deleteContentBackward") {
+            // https://github.com/Vanessa219/vditor/issues/584 代码块 marker 删除
             const codeBlockMarkerElement =
                 hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker") ||
                 hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker");
@@ -65,6 +66,13 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
                     item.remove();
                 }
             });
+
+            // 标题删除
+            const headingElement = hasClosestByAttribute(startContainer, "data-type", "heading-marker");
+            if (headingElement && headingElement.textContent.indexOf("#") === -1) {
+                processAfterRender(vditor);
+                return;
+            }
         }
         // 删除或空格不解析，否则会 format 回去
         if ((event.data === " " || event.inputType === "deleteContentBackward") &&
