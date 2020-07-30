@@ -77,7 +77,11 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.4.0 / 2020-07-xx
+### v3.4.1 / 2020-08-xx
+
+* [650](https://github.com/Vanessa219/vditor/pull/650) 全选剪切及任务列表样式和点击问题改进 `修复缺陷`
+
+### v3.4.0 / 2020-07-30
 
 * [636](https://github.com/Vanessa219/vditor/issues/636) SV 模式 Setext 标题问题 `修复缺陷`
 * [647](https://github.com/Vanessa219/vditor/pull/647) 即时渲染模式输入 ``` 后会弹出 hint，此时执行 undo 后， hint 不消失 `改进功能`

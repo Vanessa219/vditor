@@ -1,5 +1,13 @@
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, dropEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {
+    blurEvent,
+    copyEvent, cutEvent,
+    dropEvent,
+    focusEvent,
+    hotkeyEvent,
+    scrollCenter,
+    selectEvent,
+} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {getSelectText} from "../util/getSelectText";
 import {inputEvent} from "./inputEvent";
@@ -25,15 +33,17 @@ class Editor {
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
         dropEvent(vditor, this.element);
+        copyEvent(vditor, this.element, this.copy);
+        cutEvent(vditor, this.element, this.copy);
+    }
+
+    private copy(event: ClipboardEvent) {
+        event.stopPropagation();
+        event.preventDefault();
+        event.clipboardData.setData("text/plain", getSelectText(this.element));
     }
 
     private bindEvent(vditor: IVditor) {
-        this.element.addEventListener("copy", (event: ClipboardEvent) => {
-            event.stopPropagation();
-            event.preventDefault();
-            event.clipboardData.setData("text/plain", getSelectText(this.element));
-        });
-
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
             paste(vditor, event, {
                 pasteCode: (code: string) => {
