@@ -40,7 +40,7 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
                 return `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
                     code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
             }
-            return "```\n" + code.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "\n```";
+            return "\n```\n" + code.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "\n```";
         } else {
             if (type === "wysiwyg") {
                 return `<code>${code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code><wbr>`;

@@ -66,7 +66,7 @@ class Vditor extends VditorMethod {
         const getOptions = new Options(options);
         const mergedOptions = getOptions.merge();
 
-        if (!["en_US", "ko_KR", "zh_CN"].includes(mergedOptions.lang)) {
+        if (!["en_US", "ja_JP", "ko_KR", "zh_CN"].includes(mergedOptions.lang)) {
             throw new Error("options.lang error, see https://hacpai.com/article/1549638745630#options");
         }
 
@@ -296,19 +296,16 @@ class Vditor extends VditorMethod {
 
     /** 设置编辑器内容 */
     public setValue(markdown: string, clearStack = false) {
-        if (clearStack) {
-            this.clearStack();
-        }
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown);
             processSVAfterRender(this.vditor, {
-                enableAddUndoStack: true,
+                enableAddUndoStack: clearStack,
                 enableHint: false,
                 enableInput: false,
             });
         } else if (this.vditor.currentMode === "wysiwyg") {
             renderDomByMd(this.vditor, markdown, {
-                enableAddUndoStack: true,
+                enableAddUndoStack: clearStack,
                 enableHint: false,
                 enableInput: false,
             });
@@ -319,7 +316,7 @@ class Vditor extends VditorMethod {
                     processCodeRender(item, this.vditor);
                 });
             processAfterRender(this.vditor, {
-                enableAddUndoStack: true,
+                enableAddUndoStack: clearStack,
                 enableHint: false,
                 enableInput: false,
             });
@@ -334,11 +331,15 @@ class Vditor extends VditorMethod {
             }
             this.clearCache();
         }
+        if (clearStack) {
+            this.clearStack();
+        }
     }
 
     /** 清空 undo & redo 栈 */
     public clearStack() {
         this.vditor.undo.clearStack(this.vditor);
+        this.vditor.undo.addToUndoStack(this.vditor);
     }
 
     /** 销毁编辑器 */

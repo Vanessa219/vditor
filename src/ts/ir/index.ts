@@ -130,6 +130,16 @@ class IR {
                 scrollCenter(vditor);
             }
 
+            // 点击图片光标选中图片地址
+            if (event.target.tagName === "IMG") {
+                const linkElement =
+                    event.target.parentElement.querySelector<HTMLSpanElement>(".vditor-ir__marker--link");
+                if (linkElement) {
+                    range.selectNode(linkElement);
+                    setSelectionFocus(range);
+                }
+            }
+
             expandMarker(range, vditor);
             highlightToolbarIR(vditor);
         });

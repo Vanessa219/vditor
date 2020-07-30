@@ -101,6 +101,7 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
    * Line chart, pie chart, brain chart, etc., supported by ECharts
 * Stave: supported by abc.js
 * Math formulas: Math formula blocks, row-level math formulas, supported by MathJax and KaTeX
+* YAML Front Matter
 * Chinese context optimization
    * Insert space between Chinese and Western
    * Terminology spelling correction
@@ -176,7 +177,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | minHeight | Editing area minimum height | - |
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
-| lang | i18n: en_US, ko_KR, zh_CN | 'zh_CN' |
+| lang | i18n: en_US, ja_JP, ko_KR, zh_CN | 'zh_CN' |
 | input | Trigger after input (value: string, previewElement?: HTMLElement): void | - |
 | focus | Trigger after focusing (value: string): void | - |
 | blur | Trigger after out of focus (value: string): void | - |
