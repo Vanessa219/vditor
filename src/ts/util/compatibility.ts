@@ -66,16 +66,3 @@ export const updateHotkeyTip = (hotkey: string) => {
 export const isChrome = () => {
     return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 };
-
-// 节流函数
-export const throttle = (fn: any, time: number) => {
-  let isRun = false;
-  return function(...arg: any) {
-    if (isRun) { return; }
-    isRun = true;
-    setTimeout(() => {
-      fn.apply(this, arg);
-      isRun = false;
-    }, time);
-  };
-};

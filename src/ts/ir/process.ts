@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {accessLocalStorage, throttle} from "../util/compatibility";
+import {removeCurrentToolbar} from "../toolbar/setToolbar";
+import {accessLocalStorage} from "../util/compatibility";
 import {listToggle, renderToc} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
@@ -113,6 +114,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     if (typeElement.nodeType === 3) {
         typeElement = typeElement.parentElement;
     }
+    let useHighlight = true;
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
         if (commandName === "quote") {
@@ -143,6 +145,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             removeInline(range, vditor, "code");
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName);
+            useHighlight = false;
+            actionBtn.classList.remove("vditor-menu--current");
         }
     } else {
         // 添加
@@ -191,11 +195,14 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);
+            useHighlight = false;
+            removeCurrentToolbar(vditor.toolbar.elements, ["check", "list", "ordered-list"]);
+            actionBtn.classList.add("vditor-menu--current");
         }
     }
     setRangeByWbr(vditor.ir.element, range);
     processAfterRender(vditor);
-    highlightToolbarIR(vditor);
+    if (useHighlight) {
+        highlightToolbarIR(vditor);
+    }
 };
-
-export const throttleProcessToolbar = throttle(processToolbar, 200);
