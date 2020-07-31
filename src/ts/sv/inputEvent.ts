@@ -123,6 +123,11 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             html = blockElement.previousElementSibling.textContent + html;
             blockElement.previousElementSibling.remove();
         }
+        if (blockElement.previousElementSibling && html.indexOf("---\n") === 0) {
+            // 确认 yaml-front 是否为首行
+            html = blockElement.previousElementSibling.textContent + html;
+            blockElement.previousElementSibling.remove();
+        }
         // 添加链接引用
         const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement.parentElement)) {
