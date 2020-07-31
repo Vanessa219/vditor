@@ -37,10 +37,10 @@ class Editor {
         cutEvent(vditor, this.element, this.copy);
     }
 
-    private copy(event: ClipboardEvent) {
+    private copy(event: ClipboardEvent, vditor: IVditor) {
         event.stopPropagation();
         event.preventDefault();
-        event.clipboardData.setData("text/plain", getSelectText(this.element));
+        event.clipboardData.setData("text/plain", getSelectText(vditor[vditor.currentMode].element));
     }
 
     private bindEvent(vditor: IVditor) {

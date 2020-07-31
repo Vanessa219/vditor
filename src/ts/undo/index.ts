@@ -202,8 +202,9 @@ class Undo {
 
     private addCaret(vditor: IVditor, setFocus = false) {
         let cloneRange: Range;
+        let range: Range;
         if (getSelection().rangeCount !== 0 && !vditor[vditor.currentMode].element.querySelector("wbr")) {
-            const range = getSelection().getRangeAt(0);
+            range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 cloneRange = range.cloneRange();
                 const wbrElement = document.createElement("span");
@@ -214,6 +215,9 @@ class Undo {
         const text = vditor[vditor.currentMode].element.innerHTML;
         vditor[vditor.currentMode].element.querySelectorAll(".vditor-wbr").forEach((item) => {
             item.outerHTML = "";
+            if (range) {
+                range.collapse(true);
+            }
         });
         if (setFocus && cloneRange) {
             setSelectionFocus(cloneRange);
