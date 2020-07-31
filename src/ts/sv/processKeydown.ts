@@ -86,6 +86,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                         listLastMarkerElement.previousElementSibling.previousElementSibling.remove();
                         listLastMarkerElement.previousElementSibling.remove();
                     }
+                    listLastMarkerElement.nextElementSibling.remove();
                     listLastMarkerElement.remove();
                     processAfterRender(vditor);
                 }
