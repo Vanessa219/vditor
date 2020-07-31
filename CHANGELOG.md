@@ -79,6 +79,7 @@
 
 ### v3.4.1 / 2020-08-xx
 
+* [654](https://github.com/Vanessa219/vditor/issues/654) SV 模式 Placeholder 显示问题 `修复缺陷`
 * [650](https://github.com/Vanessa219/vditor/pull/650) 全选剪切及任务列表样式和点击问题改进 `修复缺陷`
 
 ### v3.4.0 / 2020-07-30
