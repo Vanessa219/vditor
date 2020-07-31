@@ -95,7 +95,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             // 第一个 marker 后 tab 进行缩进
             if (event.key === "Tab") {
                 if (/^\d/.test(listFirstMarkerElement.textContent)) {
-                    listFirstMarkerElement.textContent = "1. ";
+                    listFirstMarkerElement.textContent = "1" +
+                        (listFirstMarkerElement.textContent.indexOf(".") > -1 ? ". " : ") ");
                     range.selectNodeContents(listLastMarkerElement.firstChild);
                     range.collapse(false);
                 }
