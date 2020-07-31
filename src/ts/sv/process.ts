@@ -61,7 +61,8 @@ export const processPreviousMarkers = (spanElement: HTMLElement) => {
     let previousElement = spanElement.previousElementSibling;
     // 有内容的子列表/标题，在其 marker 后换行
     let markerText = (spanType && spanType !== "text" && spanType !== "heading-marker" &&
-        spanType !== "yaml-front-matter-open-marker" && spanType !== "yaml-front-matter-close-marker") ?
+        spanType !== "yaml-front-matter-open-marker" && spanType !== "yaml-front-matter-close-marker"
+        && spanType !== "code-block-info" && spanType !== "code-block-close-marker" && spanType !== "code-block-open-marker") ?
         spanElement.textContent : "";
     let hasNL = false;
     while (previousElement && !hasNL) {

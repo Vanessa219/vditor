@@ -79,6 +79,7 @@
 
 ### v3.4.1 / 2020-08-xx
 
+* [655](https://github.com/Vanessa219/vditor/issues/655) SV 模式代码块开始标记符 info 后回车问题 `修复缺陷`
 * [656](https://github.com/Vanessa219/vditor/issues/656) SV 模式有序列表延续问题 `修复缺陷`
 * [654](https://github.com/Vanessa219/vditor/issues/654) SV 模式 Placeholder 显示问题 `修复缺陷`
 * [650](https://github.com/Vanessa219/vditor/pull/650) 全选剪切及任务列表样式和点击问题改进 `修复缺陷`
