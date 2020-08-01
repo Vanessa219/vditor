@@ -110,7 +110,8 @@ class IR {
             if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
                 const lastRect = this.element.lastElementChild.getBoundingClientRect();
                 if (event.y > lastRect.top + lastRect.height) {
-                    if (this.element.lastElementChild.tagName === "P") {
+                    if (this.element.lastElementChild.tagName === "P" &&
+                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
                         range.selectNodeContents(this.element.lastElementChild);
                         range.collapse(false);
                     } else {
