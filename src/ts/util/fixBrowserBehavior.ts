@@ -1253,9 +1253,9 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     };
 
     // 浏览器地址栏拷贝处理
-    if (textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+    if (textHTML.replace(/&amp;/g, "&").replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
         `<a href="${textPlain}">${textPlain}</a>` ||
-        textHTML.replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
+        textHTML.replace(/&amp;/g, "&").replace(/<(|\/)(html|body|meta)[^>]*?>/ig, "").trim() ===
         `<!--StartFragment--><a href="${textPlain}">${textPlain}</a><!--EndFragment-->`) {
         textHTML = "";
     }

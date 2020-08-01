@@ -79,6 +79,8 @@
 
 ### v3.4.2 / 2020-08-xx
 
+* [446](https://github.com/Vanessa219/vditor/issues/446) 改进复制粘贴链接体验 `引入特性`
+
 ### v3.4.1 / 2020-07-31
 
 * [658](https://github.com/Vanessa219/vditor/issues/658) SV 模式打字机模式问题 `修复缺陷`
