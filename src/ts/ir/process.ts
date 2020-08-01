@@ -2,10 +2,11 @@ import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
-import {listToggle, renderToc} from "../util/fixBrowserBehavior";
+import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {highlightToolbarIR} from "./highlightToolbarIR";
+import {input} from "./input";
 
 export const processHint = (vditor: IVditor) => {
     vditor.hint.render(vditor);
@@ -80,19 +81,13 @@ export const processHeading = (vditor: IVditor, value: string) => {
     const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
         const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
-        if (value === "") {
-            range.selectNodeContents(headingMarkerElement);
-            setSelectionFocus(range);
-            document.execCommand("delete");
+        if (headingMarkerElement) {
+            headingMarkerElement.innerHTML = value;
         } else {
-            headingMarkerElement.remove();
-            range.selectNodeContents(headingElement);
-            range.collapse(true);
-            setSelectionFocus(range);
-            document.execCommand("insertHTML", false, value);
+            headingElement.insertAdjacentText("afterbegin", value);
         }
+        input(vditor, range.cloneRange());
         highlightToolbarIR(vditor);
-        renderToc(vditor);
     }
 };
 
