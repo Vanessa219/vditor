@@ -41,7 +41,7 @@
     display: block;
   }
 
-  span[data-type="text"]:empty {
+  span[data-type="newline"] + span[data-type="text"]:empty {
     display: inherit;
   }
 
