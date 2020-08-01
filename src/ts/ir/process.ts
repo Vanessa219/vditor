@@ -79,12 +79,13 @@ export const processHeading = (vditor: IVditor, value: string) => {
     const range = getEditorRange(vditor.ir.element);
     const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
+        const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
         if (value === "") {
-            const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
             range.selectNodeContents(headingMarkerElement);
             setSelectionFocus(range);
             document.execCommand("delete");
         } else {
+            headingMarkerElement.remove();
             range.selectNodeContents(headingElement);
             range.collapse(true);
             setSelectionFocus(range);
