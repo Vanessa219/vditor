@@ -111,6 +111,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.selectNodeContents(preBeforeElement.nextElementSibling.firstChild);
             range.collapse(true);
             event.preventDefault();
+            hidePanel(vditor, ["hint"]);
             return true;
         }
 
