@@ -41,6 +41,10 @@
     display: block;
   }
 
+  span[data-type="newline"] + span[data-type="text"]:empty {
+    display: inherit;
+  }
+
   .sup {
     vertical-align: super;
     font-size: smaller;

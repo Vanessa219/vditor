@@ -31,6 +31,7 @@ export class Options {
                 "tada": "🎉️",
             },
             emojiPath: `${Constants.CDN}/dist/images/emoji`,
+            extend: [],
         },
         icon: "ant",
         lang: "zh_CN",

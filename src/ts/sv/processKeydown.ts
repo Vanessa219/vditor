@@ -11,7 +11,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (event.isComposing) {
         return false;
     }
-    if (event.key.indexOf("Arrow") === -1) {
+
+    if (event.key.indexOf("Arrow") === -1 && event.key !== "Meta" && event.key !== "Control" && event.key !== "Alt" &&
+        event.key !== "Shift" && event.key !== "CapsLock" && event.key !== "Escape" && !/^F\d{1,2}$/.test(event.key)) {
         vditor.undo.recordFirstPosition(vditor, event);
     }
     // 仅处理以下快捷键操作
@@ -84,6 +86,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                         listLastMarkerElement.previousElementSibling.previousElementSibling.remove();
                         listLastMarkerElement.previousElementSibling.remove();
                     }
+                    listLastMarkerElement.nextElementSibling.remove();
                     listLastMarkerElement.remove();
                     processAfterRender(vditor);
                 }
@@ -92,13 +95,13 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             // 第一个 marker 后 tab 进行缩进
             if (event.key === "Tab") {
+                listFirstMarkerElement.insertAdjacentHTML("beforebegin",
+                    `<span data-type="padding">${listFirstMarkerElement.textContent.replace(/\S/g, " ")}</span>`);
                 if (/^\d/.test(listFirstMarkerElement.textContent)) {
-                    listFirstMarkerElement.textContent = "1. ";
+                    listFirstMarkerElement.textContent = listFirstMarkerElement.textContent.replace(/^\d{1,}/, "1");
                     range.selectNodeContents(listLastMarkerElement.firstChild);
                     range.collapse(false);
                 }
-                listFirstMarkerElement.insertAdjacentHTML("beforebegin",
-                    `<span data-type="padding">${listFirstMarkerElement.textContent.replace(/\S/g, " ")}</span>`);
                 inputEvent(vditor);
                 event.preventDefault();
                 return true;

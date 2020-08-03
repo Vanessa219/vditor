@@ -90,7 +90,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.sv.element.style.display = "block";
         }
         vditor.currentMode = "sv";
-        vditor.sv.element.innerHTML =  processSpinVditorSVDOM(markdownText, vditor);
+        let svHTML =  processSpinVditorSVDOM(markdownText, vditor);
+        if (svHTML === "<div data-block='0'></div>") {
+            // https://github.com/Vanessa219/vditor/issues/654 SV 模式 Placeholder 显示问题
+            svHTML = "";
+        }
+        vditor.sv.element.innerHTML = svHTML;
         processSVAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,

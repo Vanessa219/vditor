@@ -1,7 +1,15 @@
 import {Constants} from "../constants";
 import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, dropEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {
+    blurEvent,
+    copyEvent, cutEvent,
+    dropEvent,
+    focusEvent,
+    hotkeyEvent,
+    scrollCenter,
+    selectEvent,
+} from "../util/editorCommonEvent";
 import {isHeadingMD, isHrMD, paste, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
@@ -46,6 +54,50 @@ class WYSIWYG {
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
         dropEvent(vditor, this.element);
+        copyEvent(vditor, this.element, this.copy);
+        cutEvent(vditor, this.element, this.copy);
+    }
+
+    private copy(event: ClipboardEvent, vditor: IVditor) {
+        const range = getSelection().getRangeAt(0);
+        if (range.toString() === "") {
+            return;
+        }
+        event.stopPropagation();
+        event.preventDefault();
+
+        const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
+        const codeEndElement = hasClosestByMatchTag(range.endContainer, "CODE");
+        if (codeElement && codeEndElement && codeEndElement.isSameNode(codeElement)) {
+            let codeText = "";
+            if (codeElement.parentElement.tagName === "PRE") {
+                codeText = range.toString();
+            } else {
+                codeText = "`" + range.toString() + "`";
+            }
+            event.clipboardData.setData("text/plain", codeText);
+            event.clipboardData.setData("text/html", "");
+            return;
+        }
+
+        const aElement = hasClosestByMatchTag(range.startContainer, "A");
+        const aEndElement = hasClosestByMatchTag(range.endContainer, "A");
+        if (aElement && aEndElement && aEndElement.isSameNode(aElement)) {
+            let aTitle = aElement.getAttribute("title") || "";
+            if (aTitle) {
+                aTitle = ` "${aTitle}"`;
+            }
+            event.clipboardData.setData("text/plain",
+                `[${range.toString()}](${aElement.getAttribute("href")}${aTitle})`);
+            event.clipboardData.setData("text/html", "");
+            return;
+        }
+
+        const tempElement = document.createElement("div");
+        tempElement.appendChild(range.cloneContents());
+
+        event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
+        event.clipboardData.setData("text/html", "");
     }
 
     private bindEvent(vditor: IVditor) {
@@ -78,48 +130,6 @@ class WYSIWYG {
                 max = window.scrollY - vditor.element.offsetTop + max;
             }
             this.popover.style.top = Math.max(max, Math.min(top, this.element.clientHeight - 21)) + "px";
-        });
-
-        this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
-            const range = getSelection().getRangeAt(0);
-            if (range.toString() === "") {
-                return;
-            }
-            event.stopPropagation();
-            event.preventDefault();
-
-            const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
-            const codeEndElement = hasClosestByMatchTag(range.endContainer, "CODE");
-            if (codeElement && codeEndElement && codeEndElement.isSameNode(codeElement)) {
-                let codeText = "";
-                if (codeElement.parentElement.tagName === "PRE") {
-                    codeText = range.toString();
-                } else {
-                    codeText = "`" + range.toString() + "`";
-                }
-                event.clipboardData.setData("text/plain", codeText);
-                event.clipboardData.setData("text/html", "");
-                return;
-            }
-
-            const aElement = hasClosestByMatchTag(range.startContainer, "A");
-            const aEndElement = hasClosestByMatchTag(range.endContainer, "A");
-            if (aElement && aEndElement && aEndElement.isSameNode(aElement)) {
-                let aTitle = aElement.getAttribute("title") || "";
-                if (aTitle) {
-                    aTitle = ` "${aTitle}"`;
-                }
-                event.clipboardData.setData("text/plain",
-                    `[${range.toString()}](${aElement.getAttribute("href")}${aTitle})`);
-                event.clipboardData.setData("text/html", "");
-                return;
-            }
-
-            const tempElement = document.createElement("div");
-            tempElement.appendChild(range.cloneContents());
-
-            event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
-            event.clipboardData.setData("text/html", "");
         });
 
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
@@ -241,7 +251,8 @@ class WYSIWYG {
             if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
                 const lastRect = this.element.lastElementChild.getBoundingClientRect();
                 if (event.y > lastRect.top + lastRect.height) {
-                    if (this.element.lastElementChild.tagName === "P") {
+                    if (this.element.lastElementChild.tagName === "P" &&
+                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
                         range.selectNodeContents(this.element.lastElementChild);
                         range.collapse(false);
                     } else {

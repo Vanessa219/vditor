@@ -1,6 +1,14 @@
 import {Constants} from "../constants";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, dropEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {
+    blurEvent,
+    copyEvent, cutEvent,
+    dropEvent,
+    focusEvent,
+    hotkeyEvent,
+    scrollCenter,
+    selectEvent,
+} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {hasClosestByClassName} from "../util/hasClosest";
 import {
@@ -35,24 +43,26 @@ class IR {
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
         dropEvent(vditor, this.element);
+        copyEvent(vditor, this.element, this.copy);
+        cutEvent(vditor, this.element, this.copy);
+    }
+
+    private copy(event: ClipboardEvent, vditor: IVditor) {
+        const range = getSelection().getRangeAt(0);
+        if (range.toString() === "") {
+            return;
+        }
+        event.stopPropagation();
+        event.preventDefault();
+
+        const tempElement = document.createElement("div");
+        tempElement.appendChild(range.cloneContents());
+
+        event.clipboardData.setData("text/plain", vditor.lute.VditorIRDOM2Md(tempElement.innerHTML).trim());
+        event.clipboardData.setData("text/html", "");
     }
 
     private bindEvent(vditor: IVditor) {
-        this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
-            const range = getSelection().getRangeAt(0);
-            if (range.toString() === "") {
-                return;
-            }
-            event.stopPropagation();
-            event.preventDefault();
-
-            const tempElement = document.createElement("div");
-            tempElement.appendChild(range.cloneContents());
-
-            event.clipboardData.setData("text/plain", vditor.lute.VditorIRDOM2Md(tempElement.innerHTML).trim());
-            event.clipboardData.setData("text/html", "");
-        });
-
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
             paste(vditor, event, {
                 pasteCode: (code: string) => {
@@ -100,7 +110,8 @@ class IR {
             if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
                 const lastRect = this.element.lastElementChild.getBoundingClientRect();
                 if (event.y > lastRect.top + lastRect.height) {
-                    if (this.element.lastElementChild.tagName === "P") {
+                    if (this.element.lastElementChild.tagName === "P" &&
+                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
                         range.selectNodeContents(this.element.lastElementChild);
                         range.collapse(false);
                     } else {

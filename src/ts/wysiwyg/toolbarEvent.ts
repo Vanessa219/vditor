@@ -227,6 +227,11 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 range.surroundContents(node);
                 range.insertNode(node);
                 setSelectionFocus(range);
+                genAPopover(vditor, node);
+                const textInputElements = vditor.wysiwyg.popover.querySelectorAll("input");
+                textInputElements[0].value = node.innerText;
+                textInputElements[1].focus();
+                useHighlight = false;
             }
         } else if (commandName === "table") {
             let tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead><tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;

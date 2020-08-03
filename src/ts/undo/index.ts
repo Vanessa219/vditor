@@ -1,5 +1,5 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
-import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
+import {disableToolbar, enableToolbar, hidePanel} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {execAfterRender} from "../util/fixBrowserBehavior";
@@ -65,7 +65,7 @@ class Undo {
         this.renderDiff(state, vditor);
         this[vditor.currentMode].hasUndo = true;
         // undo 操作后，需要关闭 hint
-        vditor.hint.element.style.display = "none";
+        hidePanel(vditor, ["hint"]);
     }
 
     public redo(vditor: IVditor) {
@@ -84,7 +84,8 @@ class Undo {
         if (getSelection().rangeCount === 0) {
             return;
         }
-        if (this[vditor.currentMode].undoStack.length !== 1 || this[vditor.currentMode].undoStack[0].length === 0) {
+        if (this[vditor.currentMode].undoStack.length !== 1 || this[vditor.currentMode].undoStack[0].length === 0 ||
+            this[vditor.currentMode].redoStack.length > 0) {
             return;
         }
         if (isFirefox() && event.key === "Backspace") {
@@ -96,6 +97,10 @@ class Undo {
             return;
         }
         const text = this.addCaret(vditor);
+        if (text.replace("<wbr>", "") !== this[vditor.currentMode].undoStack[0][0].diffs[0][1].replace("<wbr>", "")) {
+            // 当还不没有存入 undo 栈时，按下 ctrl 后会覆盖 lastText
+            return;
+        }
         this[vditor.currentMode].undoStack[0][0].diffs[0][1] = text;
         this[vditor.currentMode].lastText = text;
         // 不能添加 setSelectionFocus(cloneRange); 否则 windows chrome 首次输入会烂
@@ -202,8 +207,9 @@ class Undo {
 
     private addCaret(vditor: IVditor, setFocus = false) {
         let cloneRange: Range;
+        let range: Range;
         if (getSelection().rangeCount !== 0 && !vditor[vditor.currentMode].element.querySelector("wbr")) {
-            const range = getSelection().getRangeAt(0);
+            range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 cloneRange = range.cloneRange();
                 const wbrElement = document.createElement("span");

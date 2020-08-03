@@ -33,7 +33,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 添加第一次记录 undo 的光标
-    if (event.key.indexOf("Arrow") === -1) {
+    if (event.key.indexOf("Arrow") === -1 && event.key !== "Meta" && event.key !== "Control" && event.key !== "Alt" &&
+        event.key !== "Shift" && event.key !== "CapsLock" && event.key !== "Escape" && !/^F\d{1,2}$/.test(event.key)) {
         vditor.undo.recordFirstPosition(vditor, event);
     }
 

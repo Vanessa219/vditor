@@ -54,6 +54,19 @@ export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     }
 };
 
+export const copyEvent =
+    (vditor: IVditor, editorElement: HTMLElement, copy: (event: ClipboardEvent, vditor: IVditor) => void) => {
+        editorElement.addEventListener("copy", (event: ClipboardEvent) => copy(event, vditor));
+    };
+
+export const cutEvent =
+    (vditor: IVditor, editorElement: HTMLElement, copy: (event: ClipboardEvent, vditor: IVditor) => void) => {
+        editorElement.addEventListener("cut", (event: ClipboardEvent) => {
+            copy(event, vditor);
+            document.execCommand("delete");
+        });
+    };
+
 export const scrollCenter = (vditor: IVditor) => {
     if (!vditor.options.typewriterMode) {
         return;
@@ -72,7 +85,8 @@ export const scrollCenter = (vditor: IVditor) => {
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
         // hint: 上下选择
-        if ((vditor.options.hint.at || vditor.toolbar.elements.emoji) && vditor.hint.select(event, vditor)) {
+        if ((vditor.options.hint.extend.length > 1 || vditor.toolbar.elements.emoji) &&
+            vditor.hint.select(event, vditor)) {
             return;
         }
 

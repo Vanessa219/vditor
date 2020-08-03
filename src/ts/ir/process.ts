@@ -1,10 +1,12 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
-import {listToggle, renderToc} from "../util/fixBrowserBehavior";
+import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {highlightToolbarIR} from "./highlightToolbarIR";
+import {input} from "./input";
 
 export const processHint = (vditor: IVditor) => {
     vditor.hint.render(vditor);
@@ -78,19 +80,14 @@ export const processHeading = (vditor: IVditor, value: string) => {
     const range = getEditorRange(vditor.ir.element);
     const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
-        if (value === "") {
-            const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
-            range.selectNodeContents(headingMarkerElement);
-            setSelectionFocus(range);
-            document.execCommand("delete");
+        const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
+        if (headingMarkerElement) {
+            headingMarkerElement.innerHTML = value;
         } else {
-            range.selectNodeContents(headingElement);
-            range.collapse(true);
-            setSelectionFocus(range);
-            document.execCommand("insertHTML", false, value);
+            headingElement.insertAdjacentText("afterbegin", value);
         }
+        input(vditor, range.cloneRange());
         highlightToolbarIR(vditor);
-        renderToc(vditor);
     }
 };
 
@@ -113,6 +110,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     if (typeElement.nodeType === 3) {
         typeElement = typeElement.parentElement;
     }
+    let useHighlight = true;
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
         if (commandName === "quote") {
@@ -143,6 +141,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             removeInline(range, vditor, "code");
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName);
+            useHighlight = false;
+            actionBtn.classList.remove("vditor-menu--current");
         }
     } else {
         // 添加
@@ -191,9 +191,14 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);
+            useHighlight = false;
+            removeCurrentToolbar(vditor.toolbar.elements, ["check", "list", "ordered-list"]);
+            actionBtn.classList.add("vditor-menu--current");
         }
     }
     setRangeByWbr(vditor.ir.element, range);
     processAfterRender(vditor);
-    highlightToolbarIR(vditor);
+    if (useHighlight) {
+        highlightToolbarIR(vditor);
+    }
 };
