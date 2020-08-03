@@ -77,10 +77,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.4.3 / 2020-08-xx
+### v3.4.4 / 2020-08-xx
 
 
-### v3.4.2 / 2020-08-03
+### v3.4.3 / 2020-08-03
 
 * [653](https://github.com/Vanessa219/vditor/issues/653) [Feature Request] Hashtag `引入特性`
 * [441](https://github.com/Vanessa219/vditor/issues/441) 对标 Typora 反馈 `改进功能`
