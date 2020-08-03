@@ -77,17 +77,16 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.4.2 / 2020-08-xx
+### v3.4.3 / 2020-08-xx
+
+
+### v3.4.2 / 2020-08-03
 
 * [653](https://github.com/Vanessa219/vditor/issues/653) [Feature Request] Hashtag `引入特性`
 * [441](https://github.com/Vanessa219/vditor/issues/441) 对标 Typora 反馈 `改进功能`
 * [669](https://github.com/Vanessa219/vditor/issues/669) links problem(Wysiwyg) `改进功能`
 * [667](https://github.com/Vanessa219/vditor/issues/667) lists (SV) `修复缺陷`
 * [446](https://github.com/Vanessa219/vditor/issues/446) 改进复制粘贴链接体验 `引入特性`
-* `options.hint.at` => "options.hint.extend: IHintExtend[]"
-
-### v3.4.1 / 2020-07-31
-
 * [658](https://github.com/Vanessa219/vditor/issues/658) SV 模式打字机模式问题 `修复缺陷`
 * [655](https://github.com/Vanessa219/vditor/issues/655) SV 模式代码块开始标记符 info 后回车问题 `修复缺陷`
 * [656](https://github.com/Vanessa219/vditor/issues/656) SV 模式有序列表延续问题 `修复缺陷`
@@ -102,6 +101,8 @@
 * [641](https://github.com/Vanessa219/vditor/issues/641) 清空 undo 栈后，第一次编辑操作无法进行记录 `修复缺陷`
 * [640](https://github.com/Vanessa219/vditor/issues/640) options.icon 无法进行切换 `改进功能`
 * [638](https://github.com/Vanessa219/vditor/pull/638) ir模式下图片编辑时很难触发md图片代码显示 `改进功能`
+* 文档修改
+  * 3.4.2 `options.hint.at` => "options.hint.extend: IHintExtend[]"
 
 ### v3.3.12 / 2020-07-28
 
