@@ -344,7 +344,7 @@ new Vditor('vditor', {
 | emoji | 默认表情，可从[lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | 常用表情提示 | - |
 | emojiPath | 表情图片地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
-| extend: IHintExtend[] | 对 @/话题等关键字自动补全的扩展 | - |
+| extend: IHintExtend[] | 对 @/话题等关键字自动补全的扩展 | [] |
 
 ```ts
 interface IHintExtend {

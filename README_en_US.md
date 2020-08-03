@@ -320,7 +320,7 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | emoji | The default emoji can be selected from [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go), or can be customized | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | Common emoji | - |
 | emojiPath | Emoji path | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
-| extend: IHintExtend[] | @/# and other keyword auto-completion expansion | - |
+| extend: IHintExtend[] | @/# and other keyword auto-completion expansion | [] |
 
 ```ts
 interface IHintExtend {
