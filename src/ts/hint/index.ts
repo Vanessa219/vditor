@@ -11,12 +11,15 @@ export class Hint {
     public timeId: number;
     public element: HTMLDivElement;
     public recentLanguage: string;
+    private splitChar = "";
+    private lastIndex = -1;
 
-    constructor() {
+    constructor(hintExtends: IHintExtend[]) {
         this.timeId = -1;
         this.element = document.createElement("div");
         this.element.className = "vditor-hint";
         this.recentLanguage = "";
+        hintExtends.push({key: ":"});
     }
 
     public render(vditor: IVditor) {
@@ -27,25 +30,13 @@ export class Hint {
         const range = getSelection().getRangeAt(0);
         currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
 
-        let key = this.getKey(currentLineValue, ":");
-        let isAt = false;
+        const key = this.getKey(currentLineValue, vditor.options.hint.extend);
 
         if (typeof key === "undefined") {
-            isAt = true;
-            key = this.getKey(currentLineValue, "@");
-        }
-
-        if (key === undefined) {
             this.element.style.display = "none";
             clearTimeout(this.timeId);
         } else {
-            if (isAt && vditor.options.hint.at) {
-                clearTimeout(this.timeId);
-                this.timeId = window.setTimeout(() => {
-                    this.genHTML(vditor.options.hint.at(key), key, vditor);
-                }, vditor.options.hint.delay);
-            }
-            if (!isAt) {
+            if (this.splitChar === ":") {
                 const emojiHint = key === "" ? vditor.options.hint.emoji : vditor.lute.GetEmojis();
                 const matchEmojiData: IHintData[] = [];
                 Object.keys(emojiHint).forEach((keyName) => {
@@ -64,6 +55,15 @@ export class Hint {
                     }
                 });
                 this.genHTML(matchEmojiData, key, vditor);
+            } else {
+                vditor.options.hint.extend.forEach((item) => {
+                    if (item.key === this.splitChar) {
+                        clearTimeout(this.timeId);
+                        this.timeId = window.setTimeout(() => {
+                            this.genHTML(item.hint(key), key, vditor);
+                        }, vditor.options.hint.delay);
+                    }
+                });
             }
         }
     }
@@ -124,7 +124,6 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         this.element.style.display = "none";
 
         const value = element.getAttribute("data-value");
-        const splitChar = value.indexOf("@") === 0 ? "@" : ":";
         const range: Range = window.getSelection().getRangeAt(0);
 
         // 代码提示
@@ -154,9 +153,9 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
             return;
         }
 
-        range.setStart(range.startContainer, range.startContainer.textContent.lastIndexOf(splitChar));
+        range.setStart(range.startContainer, this.lastIndex);
         range.deleteContents();
-        if (value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
+        if (this.splitChar === ":" && value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
             insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
             range.insertNode(document.createTextNode(" "));
         } else {
@@ -220,9 +219,22 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         return false;
     }
 
-    private getKey(currentLineValue: string, splitChar: string) {
-        const lineArray = currentLineValue.split(splitChar);
+    private getKey(currentLineValue: string, extend: IHintExtend[]) {
+        this.lastIndex = -1;
+        this.splitChar = "";
+        extend.forEach((item) => {
+            const currentLastIndex = currentLineValue.lastIndexOf(item.key);
+            if (this.lastIndex < currentLastIndex) {
+                this.splitChar = item.key;
+                this.lastIndex = currentLastIndex;
+            }
+        });
+
         let key;
+        if (this.lastIndex === -1) {
+            return key;
+        }
+        const lineArray = currentLineValue.split(this.splitChar);
         const lastItem = lineArray[lineArray.length - 1];
         const maxLength = 32;
         if (lineArray.length > 1 && lastItem.trim() === lastItem) {

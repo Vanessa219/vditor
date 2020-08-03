@@ -79,10 +79,12 @@
 
 ### v3.4.2 / 2020-08-xx
 
+* [653](https://github.com/Vanessa219/vditor/issues/653) [Feature Request] Hashtag `引入特性`
 * [441](https://github.com/Vanessa219/vditor/issues/441) 对标 Typora 反馈 `改进功能`
 * [669](https://github.com/Vanessa219/vditor/issues/669) links problem(Wysiwyg) `改进功能`
 * [667](https://github.com/Vanessa219/vditor/issues/667) lists (SV) `修复缺陷`
 * [446](https://github.com/Vanessa219/vditor/issues/446) 改进复制粘贴链接体验 `引入特性`
+* `options.hint.at` => "options.hint.extend: IHintExtend[]"
 
 ### v3.4.1 / 2020-07-31
 

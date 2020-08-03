@@ -73,7 +73,7 @@ class Vditor extends VditorMethod {
         this.vditor = {
             currentMode: mergedOptions.mode,
             element: id,
-            hint: new Hint(),
+            hint: new Hint(mergedOptions.hint.extend),
             lute: undefined,
             options: mergedOptions,
             originalInnerHTML: id.innerHTML,

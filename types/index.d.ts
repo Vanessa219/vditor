@@ -418,6 +418,12 @@ interface IHintData {
     value: string;
 }
 
+interface IHintExtend {
+    key: string;
+
+    hint?(value: string): IHintData[];
+}
+
 /** @link https://hacpai.com/article/1549638745630#options-hint */
 interface IHint {
     /** 常用表情提示 HTML */
@@ -428,9 +434,7 @@ interface IHint {
     emoji?: IObject;
     /** 表情图片地址。默认值: 'https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji' */
     emojiPath?: string;
-
-    /** `@`用户回调 */
-    at?(value: string): IHintData[];
+    extend?: IHintExtend[];
 }
 
 interface IResize {
