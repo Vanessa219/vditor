@@ -55,10 +55,10 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 * 支持三种编辑模式：所见即所得（wysiwyg）、即时渲染（ir）、分屏预览（sv）
 * 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://hacpai.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染
-* 内置安全过滤、导出、图片懒加载、任务列表、at、多平台预览、多主题切换、复制到微信公众号功能
+* 内置安全过滤、导出、图片懒加载、任务列表、多平台预览、多主题切换、复制到微信公众号/知乎功能
 * 实现 CommonMark 和 GFM 规范，可对 Markdown 进行格式化和语法树查看，并支持[10+项](https://hacpai.com/article/1549638745630#options-preview-markdown)配置
 * 工具栏包含 36+ 项操作，除支持扩展外还可对每一项中的[快捷键](https://hacpai.com/article/1582778815353)、提示、提示位置、图标、点击事件、类名、子工具栏进行自定义
-* 表情自动补全，设置常用表情，支持表情自定义
+* 表情/at/话题等自动补全扩展
 * 可使用拖拽、剪切板粘贴上传，显示实时上传进度，支持 CORS 跨域上传
 * 实时保存内容，防止意外丢失
 * 录音支持，用户可直接发布语音
@@ -344,7 +344,18 @@ new Vditor('vditor', {
 | emoji | 默认表情，可从[lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | 常用表情提示 | - |
 | emojiPath | 表情图片地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
-| at(value: string): Array\<any> | @用户回调，需同步返回数组 [{value: '', html: ''}] | - |
+| extend: IHintExtend[] | 对 @/话题等关键字自动补全的扩展 | - |
+
+```ts
+interface IHintExtend {
+    key: string;
+
+    hint?(value: string): Array<{
+        html: string;
+        value: string;
+    }>;
+}
+```
 
 #### options.upload
 

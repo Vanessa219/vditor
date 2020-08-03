@@ -53,10 +53,10 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 
 * Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
 * Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://hacpai.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
-* Built-in security filtering, export, image lazy loading, task list, at, multi-platform preview, multi-theme switching, copy to WeChat function
+* Built-in security filtering, export, image lazy loading, task list, multi-platform preview, multi-theme switching, copy to WeChat/zhihu function
 * Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://hacpai.com/article/1549638745630#options-preview-markdown)
 * The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://hacpai.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
-* Emoji auto-complete, set common emoticons, support emoticon customization
+* Extend auto-complete for emoji/@/# and so on
 * You can use drag and drop, paste and paste to upload, display real-time upload progress, support CORS cross-domain upload
 * Save content in real time to prevent accidental loss
 * Recording support, users can directly publish voice
@@ -320,7 +320,18 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | emoji | The default emoji can be selected from [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go), or can be customized | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | Common emoji | - |
 | emojiPath | Emoji path | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
-| at | @user callback (value: string): Array\<any>, Need to return array synchronously [{value: '', html: ''}] | - |
+| extend: IHintExtend[] | @/# and other keyword auto-completion expansion | - |
+
+```ts
+interface IHintExtend {
+    key: string;
+
+    hint?(value: string): Array<{
+        html: string;
+        value: string;
+    }>;
+}
+```
 
 #### options.upload
 
