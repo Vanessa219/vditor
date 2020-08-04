@@ -44,16 +44,28 @@ const previousIsNode = (range: Range) => {
     return false;
 };
 
-export const expandMarker = (range: Range, vditor: IVditor) => {
+export const expandMarker = (range: Range, vditor: IVditor, event: MouseEvent = null) => {
     vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
-    const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
+
+    let eventTarget = event ? event.target : null;
+    if (eventTarget === vditor.ir.element) {
+        // 鼠标选取多行文本时， 会触发 click 事件，且 target 为 ir.element，此时保持原有规则
+        eventTarget = null;
+    }
+
+    // range.collapsed = false 且 触发 click 事件时，range 并不会改变，此时 eventTarget 与 range 不一致，应该按照 eventTarget 处理
+    const target = (!range.collapsed && eventTarget) ? eventTarget as HTMLElement : range.startContainer;
+    const nodeElement = hasTopClosestByClassName(target, "vditor-ir__node");
     if (nodeElement) {
         nodeElement.classList.add("vditor-ir__node--expand");
         nodeElement.classList.remove("vditor-ir__node--hidden");
         // https://github.com/Vanessa219/vditor/issues/615 safari中光标位置跳动
-        setSelectionFocus(range);
+        // range.collapsed = false 时无需修正 range，否则会导致选中多行文本，且首行为 nodeElement 时，无法取消选择
+        if (range.collapsed) {            
+            setSelectionFocus(range);
+        }
     }
 
     const nextNode = nextIsNode(range);

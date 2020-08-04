@@ -151,7 +151,7 @@ class IR {
                 }
             }
 
-            expandMarker(range, vditor);
+            expandMarker(range, vditor, event);
             highlightToolbarIR(vditor);
         });
 
