@@ -578,9 +578,9 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
     }
 
     // 软换行会被切割 https://github.com/Vanessa219/vditor/issues/220
-    // range.collapsed = false 时不会产生 220 issue，过度处理反倒会引起 range 异常
-    if (range.collapsed && pElement.previousElementSibling && event.key === "Backspace" && !isCtrl(event) && !event.altKey &&
-        !event.shiftKey && pElement.textContent.trimRight().split("\n").length > 1 &&
+    if (range.collapsed && pElement.previousElementSibling && event.key === "Backspace" &&
+        !isCtrl(event) && !event.altKey && !event.shiftKey &&
+        pElement.textContent.trimRight().split("\n").length > 1 &&
         getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0) {
         const lastElement = getLastNode(pElement.previousElementSibling) as HTMLElement;
         if (!lastElement.textContent.endsWith("\n")) {
