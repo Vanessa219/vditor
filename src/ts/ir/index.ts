@@ -107,22 +107,6 @@ class IR {
 
             const range = getEditorRange(this.element);
 
-            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
-                const lastRect = this.element.lastElementChild.getBoundingClientRect();
-                if (event.y > lastRect.top + lastRect.height) {
-                    if (this.element.lastElementChild.tagName === "P" &&
-                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
-                        range.selectNodeContents(this.element.lastElementChild);
-                        range.collapse(false);
-                    } else {
-                        this.element.insertAdjacentHTML("beforeend",
-                            `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-                        setRangeByWbr(this.element, range);
-                    }
-                    return;
-                }
-            }
-
             // 点击后光标落于预览区
             let previewElement = hasClosestByClassName(event.target, "vditor-ir__preview");
             if (!previewElement) {
@@ -148,6 +132,21 @@ class IR {
                 if (linkElement) {
                     range.selectNode(linkElement);
                     setSelectionFocus(range);
+                }
+            }
+
+            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
+                const lastRect = this.element.lastElementChild.getBoundingClientRect();
+                if (event.y > lastRect.top + lastRect.height) {
+                    if (this.element.lastElementChild.tagName === "P" &&
+                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
+                        range.selectNodeContents(this.element.lastElementChild);
+                        range.collapse(false);
+                    } else {
+                        this.element.insertAdjacentHTML("beforeend",
+                            `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+                        setRangeByWbr(this.element, range);
+                    }
                 }
             }
 
