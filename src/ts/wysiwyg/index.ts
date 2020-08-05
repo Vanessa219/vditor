@@ -220,7 +220,7 @@ class WYSIWYG {
                 return;
             }
 
-            if ((startSpace && !blockElement.querySelector(".language-mindmap"))
+            if ((startSpace && blockElement.getAttribute("data-type") !== "code-block")
                 || endSpace || isHeadingMD(blockElement.innerHTML) ||
                 (isHrMD(blockElement.innerHTML) && blockElement.previousElementSibling)) {
                 return;
