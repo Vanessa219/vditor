@@ -79,6 +79,7 @@
 
 ### v3.4.4 / 2020-08-xx
 
+* [685](https://github.com/Vanessa219/vditor/issues/685) options.icon 增加判断如果没有该属性则不引入js `改进功能`
 * [689](https://github.com/Vanessa219/vditor/pull/689) 存在软换行时，选中文本执行 Backspace，会导致内容异常 `修复缺陷`
 * [686](https://github.com/Vanessa219/vditor/pull/686) 修正 Issue：Code 内 Delete 键可能删除过多内容 & Code 内 回车后光标位置异常 `修复缺陷`
 * [681](https://github.com/Vanessa219/vditor/pull/681) 修正 ExpandMarker 规则，避免无法取消选中区域 `修复缺陷`

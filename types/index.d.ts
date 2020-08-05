@@ -406,7 +406,7 @@ interface IPreviewOptions {
     markdown?: IMarkdownConfig;
     renderers?: ILuteRender;
     theme?: IPreviewTheme;
-    icon?: "ant" | "material";
+    icon?: "ant" | "material" | undefined;
 
     transform?(html: string): string;
 
