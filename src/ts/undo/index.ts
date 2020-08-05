@@ -208,18 +208,23 @@ class Undo {
     private addCaret(vditor: IVditor, setFocus = false) {
         let cloneRange: Range;
         let range: Range;
+        let wbrElement: HTMLElement;
         if (getSelection().rangeCount !== 0 && !vditor[vditor.currentMode].element.querySelector("wbr")) {
             range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 cloneRange = range.cloneRange();
-                const wbrElement = document.createElement("span");
+                wbrElement = document.createElement("span");
                 wbrElement.className = "vditor-wbr";
                 range.insertNode(wbrElement);
             }
         }
         const text = vditor[vditor.currentMode].element.innerHTML;
         vditor[vditor.currentMode].element.querySelectorAll(".vditor-wbr").forEach((item) => {
-            item.outerHTML = "";
+            if (item === wbrElement) {
+                item.parentNode.removeChild(item); 
+            } else {
+                item.outerHTML = "";
+            }
         });
         if (setFocus && cloneRange) {
             setSelectionFocus(cloneRange);
