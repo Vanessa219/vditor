@@ -79,6 +79,7 @@
 
 ### v3.4.4 / 2020-08-xx
 
+* [681](https://github.com/Vanessa219/vditor/pull/681) 修正 ExpandMarker 规则，避免无法取消选中区域 `修复缺陷`
 
 ### v3.4.3 / 2020-08-03
 

@@ -48,6 +48,11 @@ export const expandMarker = (range: Range, vditor: IVditor) => {
     vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
+
+    if (!range.collapsed) {
+        return;
+    }
+
     const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
     if (nodeElement) {
         nodeElement.classList.add("vditor-ir__node--expand");

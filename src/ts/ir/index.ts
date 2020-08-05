@@ -150,7 +150,15 @@ class IR {
                 }
             }
 
-            expandMarker(range, vditor);
+            if (range.toString() === "") {
+                expandMarker(range, vditor);
+            } else {
+                // 当点击选中区域时 eventTarget 与 range 不一致，需延迟等待 range 发生变化
+                setTimeout(() => {
+                    expandMarker(getEditorRange(this.element), vditor);
+                });
+            }
+
             highlightToolbarIR(vditor);
         });
 
