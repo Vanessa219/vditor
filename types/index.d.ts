@@ -225,7 +225,7 @@ interface IClasses {
 interface IPreviewTheme {
     current: string;
     list?: IObject;
-    path: string;
+    path?: string;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-upload */
@@ -319,11 +319,11 @@ interface IHljs {
 /** @link https://hacpai.com/article/1549638745630#options-preview-math */
 interface IMath {
     /** 内联数学公式起始 $ 后是否允许数字。默认值: false */
-    inlineDigit: boolean;
+    inlineDigit?: boolean;
     /** 使用 MathJax 渲染时传入的宏定义。默认值: {} */
-    macros: object;
+    macros?: object;
     /** 数学公式渲染引擎。默认值: 'KaTeX' */
-    engine: "KaTeX" | "MathJax";
+    engine?: "KaTeX" | "MathJax";
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview-markdown */
@@ -341,9 +341,9 @@ interface IMarkdownConfig {
     /** 脚注。默认值: true */
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
-    codeBlockPreview: boolean;
+    codeBlockPreview?: boolean;
     /** 是否启用过滤 XSS。默认值: true */
-    sanitize: boolean;
+    sanitize?: boolean;
     /** 链接前缀。默认值：'' */
     linkBase?: string;
     /** 为列表添加标记，以便[自定义列表样式](https://github.com/Vanessa219/vditor/issues/390) 默认值：false */
@@ -472,7 +472,7 @@ interface IOptions {
     counter?: {
         enable: boolean;
         max?: number;
-        type: "markdown" | "text";
+        type?: "markdown" | "text";
     };
     /** @link https://hacpai.com/article/1549638745630#options-cache */
     cache?: {

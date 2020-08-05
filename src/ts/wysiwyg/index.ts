@@ -260,7 +260,6 @@ class WYSIWYG {
                             `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
                         setRangeByWbr(this.element, range);
                     }
-                    return;
                 }
             }
 
