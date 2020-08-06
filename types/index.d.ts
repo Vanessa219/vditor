@@ -537,7 +537,7 @@ interface IVditor {
     element: HTMLElement;
     options: IOptions;
     originalInnerHTML: string;
-    lute: ILute;
+    lute: Lute;
     currentMode: "sv" | "wysiwyg" | "ir";
     devtools?: {
         element: HTMLDivElement,
