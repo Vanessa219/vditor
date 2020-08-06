@@ -220,7 +220,7 @@ class WYSIWYG {
                 return;
             }
 
-            if ((startSpace && !blockElement.querySelector(".language-mindmap"))
+            if ((startSpace && blockElement.getAttribute("data-type") !== "code-block")
                 || endSpace || isHeadingMD(blockElement.innerHTML) ||
                 (isHrMD(blockElement.innerHTML) && blockElement.previousElementSibling)) {
                 return;
@@ -260,7 +260,6 @@ class WYSIWYG {
                             `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
                         setRangeByWbr(this.element, range);
                     }
-                    return;
                 }
             }
 

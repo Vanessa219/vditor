@@ -77,11 +77,17 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.4.4 / 2020-08-xx
+### v3.4.5 / 2020-08-xx
 
 
-### v3.4.3 / 2020-08-03
 
+### v3.4.4 / 2020-08-05
+
+* [687](https://github.com/Vanessa219/vditor/issues/687) Code 内 Enter/Backspace/Delete 可能不触发 input，并导致 Code 不及时渲染 `改进功能`
+* [685](https://github.com/Vanessa219/vditor/issues/685) options.icon 增加判断如果没有该属性则不引入js `改进功能`
+* [689](https://github.com/Vanessa219/vditor/pull/689) 存在软换行时，选中文本执行 Backspace，会导致内容异常 `修复缺陷`
+* [686](https://github.com/Vanessa219/vditor/pull/686) 修正 Issue：Code 内 Delete 键可能删除过多内容 & Code 内 回车后光标位置异常 `修复缺陷`
+* [681](https://github.com/Vanessa219/vditor/pull/681) 修正 ExpandMarker 规则，避免无法取消选中区域 `修复缺陷`
 * [653](https://github.com/Vanessa219/vditor/issues/653) [Feature Request] Hashtag `引入特性`
 * [441](https://github.com/Vanessa219/vditor/issues/441) 对标 Typora 反馈 `改进功能`
 * [669](https://github.com/Vanessa219/vditor/issues/669) links problem(Wysiwyg) `改进功能`

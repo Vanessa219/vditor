@@ -578,8 +578,9 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
     }
 
     // 软换行会被切割 https://github.com/Vanessa219/vditor/issues/220
-    if (pElement.previousElementSibling && event.key === "Backspace" && !isCtrl(event) && !event.altKey &&
-        !event.shiftKey && pElement.textContent.trimRight().split("\n").length > 1 &&
+    if (range.collapsed && pElement.previousElementSibling && event.key === "Backspace" &&
+        !isCtrl(event) && !event.altKey && !event.shiftKey &&
+        pElement.textContent.trimRight().split("\n").length > 1 &&
         getSelectPosition(pElement, vditor[vditor.currentMode].element, range).start === 0) {
         const lastElement = getLastNode(pElement.previousElementSibling) as HTMLElement;
         if (!lastElement.textContent.endsWith("\n")) {
@@ -937,17 +938,12 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
-        if (codeRenderElement.firstElementChild.classList.contains("language-mindmap")) {
-            // 脑图换行需要渲染
-            if (vditor.currentMode === "wysiwyg") {
-                input(vditor, range);
-            } else {
-                IRInput(vditor, range);
-            }
+        if (vditor.currentMode === "wysiwyg") {
+            input(vditor, range);
         } else {
-            execAfterRender(vditor);
-            scrollCenter(vditor);
+            IRInput(vditor, range);
         }
+        scrollCenter(vditor);
         event.preventDefault();
         return true;
     }

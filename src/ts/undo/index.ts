@@ -207,9 +207,8 @@ class Undo {
 
     private addCaret(vditor: IVditor, setFocus = false) {
         let cloneRange: Range;
-        let range: Range;
         if (getSelection().rangeCount !== 0 && !vditor[vditor.currentMode].element.querySelector("wbr")) {
-            range = getSelection().getRangeAt(0);
+            const range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 cloneRange = range.cloneRange();
                 const wbrElement = document.createElement("span");
@@ -219,7 +218,8 @@ class Undo {
         }
         const text = vditor[vditor.currentMode].element.innerHTML;
         vditor[vditor.currentMode].element.querySelectorAll(".vditor-wbr").forEach((item) => {
-            item.outerHTML = "";
+            item.remove();
+            // 使用 item.outerHTML = "" 会产生 https://github.com/Vanessa219/vditor/pull/686;
         });
         if (setFocus && cloneRange) {
             setSelectionFocus(cloneRange);

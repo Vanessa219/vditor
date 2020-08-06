@@ -126,7 +126,9 @@ class Vditor extends VditorMethod {
                     mergedOptions.after();
                 }
             });
-        addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+        if (mergedOptions.icon) {
+            addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+        }
     }
 
     /** 设置主题 */

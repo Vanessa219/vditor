@@ -107,22 +107,6 @@ class IR {
 
             const range = getEditorRange(this.element);
 
-            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
-                const lastRect = this.element.lastElementChild.getBoundingClientRect();
-                if (event.y > lastRect.top + lastRect.height) {
-                    if (this.element.lastElementChild.tagName === "P" &&
-                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
-                        range.selectNodeContents(this.element.lastElementChild);
-                        range.collapse(false);
-                    } else {
-                        this.element.insertAdjacentHTML("beforeend",
-                            `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
-                        setRangeByWbr(this.element, range);
-                    }
-                    return;
-                }
-            }
-
             // 点击后光标落于预览区
             let previewElement = hasClosestByClassName(event.target, "vditor-ir__preview");
             if (!previewElement) {
@@ -151,7 +135,30 @@ class IR {
                 }
             }
 
-            expandMarker(range, vditor);
+            if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
+                const lastRect = this.element.lastElementChild.getBoundingClientRect();
+                if (event.y > lastRect.top + lastRect.height) {
+                    if (this.element.lastElementChild.tagName === "P" &&
+                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
+                        range.selectNodeContents(this.element.lastElementChild);
+                        range.collapse(false);
+                    } else {
+                        this.element.insertAdjacentHTML("beforeend",
+                            `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
+                        setRangeByWbr(this.element, range);
+                    }
+                }
+            }
+
+            if (range.toString() === "") {
+                expandMarker(range, vditor);
+            } else {
+                // https://github.com/Vanessa219/vditor/pull/681 当点击选中区域时 eventTarget 与 range 不一致，需延迟等待 range 发生变化
+                setTimeout(() => {
+                    expandMarker(getEditorRange(this.element), vditor);
+                });
+            }
+
             highlightToolbarIR(vditor);
         });
 
