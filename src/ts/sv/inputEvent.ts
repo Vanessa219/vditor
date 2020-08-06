@@ -1,32 +1,169 @@
-import {getMarkdown} from "../markdown/getMarkdown";
+import {scrollCenter} from "../util/editorCommonEvent";
+import {hasClosestByAttribute} from "../util/hasClosest";
+import {getSelectPosition, setRangeByWbr} from "../util/selection";
+import {getSideByType, processAfterRender, processSpinVditorSVDOM} from "./process";
 
-export const inputEvent = (vditor: IVditor, options = {
-    enableAddUndoStack: true,
-    enableHint: false,
-    enableInput: true,
-}) => {
-    const text = getMarkdown(vditor);
-    if (vditor.options.counter.enable) {
-        vditor.counter.render(vditor, text);
+export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
+    const range = getSelection().getRangeAt(0).cloneRange();
+    let startContainer = range.startContainer;
+    if (range.startContainer.nodeType !== 3 && (range.startContainer as HTMLElement).tagName === "DIV") {
+        startContainer = range.startContainer.childNodes[range.startOffset - 1];
     }
-    if (typeof vditor.options.input === "function" && options.enableInput) {
-        vditor.options.input(text, vditor.preview.element);
-    }
-    if (options.enableHint) {
-        vditor.hint.render(vditor);
-    }
-    if (vditor.options.cache.enable) {
-        localStorage.setItem(vditor.options.cache.id, text);
-        if (vditor.options.cache.after) {
-            vditor.options.cache.after(text);
+    let blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    // 不调用 lute 解析
+    if (blockElement && event && (event.inputType === "deleteContentBackward" || event.data === " ")) {
+        // 开始可以输入空格
+        const startOffset = getSelectPosition(blockElement, vditor.sv.element, range).start;
+        let startSpace = true;
+        for (let i = startOffset - 1;
+            // 软换行后有空格
+             i > blockElement.textContent.substr(0, startOffset).lastIndexOf("\n"); i--) {
+            if (blockElement.textContent.charAt(i) !== " " &&
+                // 多个 tab 前删除不形成代码块 https://github.com/Vanessa219/vditor/issues/162 1
+                blockElement.textContent.charAt(i) !== "\t") {
+                startSpace = false;
+                break;
+            }
+        }
+        if (startOffset === 0) {
+            startSpace = false;
+        }
+        if (startSpace) {
+            processAfterRender(vditor);
+            return;
+        }
+
+        if (event.inputType === "deleteContentBackward") {
+            // https://github.com/Vanessa219/vditor/issues/584 代码块 marker 删除
+            const codeBlockMarkerElement =
+                hasClosestByAttribute(startContainer, "data-type", "code-block-open-marker") ||
+                hasClosestByAttribute(startContainer, "data-type", "code-block-close-marker");
+            if (codeBlockMarkerElement) {
+                if (codeBlockMarkerElement.getAttribute("data-type") === "code-block-close-marker") {
+                    const openMarkerElement = getSideByType(startContainer, "code-block-open-marker");
+                    if (openMarkerElement) {
+                        openMarkerElement.textContent = codeBlockMarkerElement.textContent;
+                        processAfterRender(vditor);
+                        return;
+                    }
+                }
+                if (codeBlockMarkerElement.getAttribute("data-type") === "code-block-open-marker") {
+                    const openMarkerElement = getSideByType(startContainer, "code-block-close-marker", false);
+                    if (openMarkerElement) {
+                        openMarkerElement.textContent = codeBlockMarkerElement.textContent;
+                        processAfterRender(vditor);
+                        return;
+                    }
+                }
+            }
+            blockElement.querySelectorAll('[data-type="code-block-open-marker"]').forEach((item: HTMLElement) => {
+                if (item.textContent.length === 1) {
+                    item.remove();
+                }
+            });
+            blockElement.querySelectorAll('[data-type="code-block-close-marker"]').forEach((item: HTMLElement) => {
+                if (item.textContent.length === 1) {
+                    item.remove();
+                }
+            });
+
+            // 标题删除
+            const headingElement = hasClosestByAttribute(startContainer, "data-type", "heading-marker");
+            if (headingElement && headingElement.textContent.indexOf("#") === -1) {
+                processAfterRender(vditor);
+                return;
+            }
+        }
+        // 删除或空格不解析，否则会 format 回去
+        if ((event.data === " " || event.inputType === "deleteContentBackward") &&
+            (hasClosestByAttribute(startContainer, "data-type", "padding") // 场景：b 前进行删除 [> 1. a\n>   b]
+                || hasClosestByAttribute(startContainer, "data-type", "li-marker")  // 场景：删除最后一个字符 [* 1\n* ]
+                || hasClosestByAttribute(startContainer, "data-type", "task-marker")  // 场景：删除最后一个字符 [* [ ] ]
+                || hasClosestByAttribute(startContainer, "data-type", "blockquote-marker")  // 场景：删除最后一个字符 [> ]
+            )) {
+            processAfterRender(vditor);
+            return;
         }
     }
-    vditor.preview.render(vditor);
-    if (options.enableAddUndoStack) {
-        vditor.undo.addToUndoStack(vditor);
+    if (blockElement && blockElement.textContent.trimRight() === "$$") {
+        // 内联数学公式
+        processAfterRender(vditor);
+        return;
     }
+    if (!blockElement) {
+        blockElement = vditor.sv.element;
+    }
+    if (blockElement.firstElementChild?.getAttribute("data-type") === "link-ref-defs-block") {
+        // 修改链接引用
+        blockElement = vditor.sv.element;
+    }
+    if (hasClosestByAttribute(startContainer, "data-type", "footnotes-link")) {
+        // 修改脚注角标
+        blockElement = vditor.sv.element;
+    }
+    // 添加光标位置
+    if (blockElement.textContent.indexOf(Lute.Caret) === -1) {
+        // 点击工具栏会插入 Caret
+        range.insertNode(document.createTextNode(Lute.Caret));
+    }
+    // 清除浏览器自带的样式
+    blockElement.querySelectorAll("[style]").forEach((item) => { // 不可前置，否则会影响 newline 的样式
+        item.removeAttribute("style");
+    });
+    blockElement.querySelectorAll("font").forEach((item) => { // 不可前置，否则会影响光标的位置
+        item.outerHTML = item.innerHTML;
+    });
+    let html = blockElement.textContent;
+    const isSVElement = blockElement.isEqualNode(vditor.sv.element);
+    if (isSVElement) {
+        html = blockElement.textContent;
+    } else {
+        // 添加前一个块元素
+        if (blockElement.previousElementSibling) {
+            html = blockElement.previousElementSibling.textContent + html;
+            blockElement.previousElementSibling.remove();
+        }
+        if (blockElement.previousElementSibling && html.indexOf("---\n") === 0) {
+            // 确认 yaml-front 是否为首行
+            html = blockElement.previousElementSibling.textContent + html;
+            blockElement.previousElementSibling.remove();
+        }
+        // 添加链接引用
+        const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
+        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement.parentElement)) {
+            html += allLinkRefDefsElement.parentElement.textContent;
+            allLinkRefDefsElement.parentElement.remove();
+        }
+        // 添加脚注
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
+        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement.parentElement)) {
+            html += allFootnoteElement.parentElement.textContent;
+            allFootnoteElement.parentElement.remove();
+        }
+    }
+    html = processSpinVditorSVDOM(html, vditor);
+    if (isSVElement) {
+        blockElement.innerHTML = html;
+    } else {
+        blockElement.outerHTML = html;
 
-    if (vditor.devtools) {
-        vditor.devtools.renderEchart(vditor);
+        const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
+        if (allLinkRefDefsElement) {
+            vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement.parentElement);
+        }
+
+        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
+        if (allFootnoteElement) {
+            vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement.parentElement);
+        }
     }
+    setRangeByWbr(vditor.sv.element, range);
+
+    scrollCenter(vditor);
+
+    processAfterRender(vditor, {
+        enableAddUndoStack: true,
+        enableHint: true,
+        enableInput: true,
+    });
 };

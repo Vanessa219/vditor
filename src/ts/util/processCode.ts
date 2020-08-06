@@ -19,12 +19,17 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
     const pres = tempElement.querySelectorAll("pre");
     if (tempElement.childElementCount === 1 && pres.length === 1
         && pres[0].className !== "vditor-wysiwyg"
-        && pres[0].className !== "vditor-textarea") {
+        && pres[0].className !== "vditor-sv") {
         // IDE
         isCode = true;
     }
     if (html.indexOf('\n<p class="p1">') === 0) {
         // Xcode
+        isCode = true;
+    }
+    if (tempElement.childElementCount === 1 && tempElement.firstElementChild.tagName === "TABLE" &&
+        tempElement.querySelector(".line-number") && tempElement.querySelector(".line-content")) {
+        // 网页源码
         isCode = true;
     }
 
@@ -35,10 +40,7 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
                 return `<div class="vditor-wysiwyg__block" data-block="0" data-type="code-block"><pre><code>${
                     code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}<wbr></code></pre></div>`;
             }
-            if (type === "ir") {
-                return "```\n" + code.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "\n```";
-            }
-            return "```\n" + code + "\n```";
+            return "\n```\n" + code.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "\n```";
         } else {
             if (type === "wysiwyg") {
                 return `<code>${code.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</code><wbr>`;
@@ -55,6 +57,11 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     }
     const codeElement = previewPanel.querySelector("code");
     if (!codeElement) {
+        if (previewPanel.parentElement.getAttribute("data-type") === "html-block") {
+            previewPanel.style.backgroundColor = "var(--preview-background-color)";
+            previewPanel.style.padding = "0.2em 0.4em";
+            previewPanel.setAttribute("data-render", "1");
+        }
         return;
     }
     const language = codeElement.className.replace("language-", "");
@@ -64,7 +71,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         mermaidRender(previewPanel, `.vditor-${vditor.currentMode}__preview .language-mermaid`, vditor.options.cdn);
     } else if (language === "echarts") {
         chartRender(previewPanel, vditor.options.cdn);
-    }  else if (language === "mindmap") {
+    } else if (language === "mindmap") {
         mindmapRender(previewPanel, vditor.options.cdn);
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);

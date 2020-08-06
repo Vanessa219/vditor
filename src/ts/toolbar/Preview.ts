@@ -18,7 +18,7 @@ export class Preview extends MenuItem {
                 return;
             }
 
-            const toolbars = Constants.EDIT_TOOLBARS.concat(["both", "format", "edit-mode", "devtools"]);
+            const toolbars = Constants.EDIT_TOOLBARS.concat(["both", "edit-mode", "devtools"]);
             if (btnElement.classList.contains("vditor-menu--current")) {
                 btnElement.classList.remove("vditor-menu--current");
                 if (vditor.currentMode === "sv") {

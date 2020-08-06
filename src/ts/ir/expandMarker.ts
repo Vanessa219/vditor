@@ -1,4 +1,5 @@
 import {hasClosestByClassName, hasTopClosestByClassName} from "../util/hasClosest";
+import {setSelectionFocus} from "../util/selection";
 
 const nextIsNode = (range: Range) => {
     const startContainer = range.startContainer;
@@ -32,21 +33,45 @@ const nextIsNode = (range: Range) => {
     return false;
 };
 
+const previousIsNode = (range: Range) => {
+    const startContainer = range.startContainer;
+    const previousNode = startContainer.previousSibling as HTMLElement;
+    if (startContainer.nodeType === 3 && range.startOffset === 0 && previousNode && previousNode.nodeType !== 3 &&
+        // *em*|text
+        previousNode.classList.contains("vditor-ir__node") && !previousNode.getAttribute("data-block")) {
+        return previousNode;
+    }
+    return false;
+};
+
 export const expandMarker = (range: Range, vditor: IVditor) => {
     vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
 
+    if (!range.collapsed) {
+        return;
+    }
+
     const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
     if (nodeElement) {
         nodeElement.classList.add("vditor-ir__node--expand");
         nodeElement.classList.remove("vditor-ir__node--hidden");
+        // https://github.com/Vanessa219/vditor/issues/615 safari中光标位置跳动
+        setSelectionFocus(range);
     }
 
     const nextNode = nextIsNode(range);
     if (nextNode) {
         nextNode.classList.add("vditor-ir__node--expand");
         nextNode.classList.remove("vditor-ir__node--hidden");
+        return;
+    }
+
+    const previousNode = previousIsNode(range);
+    if (previousNode) {
+        previousNode.classList.add("vditor-ir__node--expand");
+        previousNode.classList.remove("vditor-ir__node--hidden");
         return;
     }
 };

@@ -5,13 +5,11 @@
   position: relative;
   width: 100%;
 
-  &__block[data-type="html-block"] pre {
-    margin: 1em 0 !important;
-  }
-
   &__node {
     &[data-type="code-block"]:before,
     &[data-type="code-block"]:after,
+    &[data-type="yaml-front-matter"]:before,
+    &[data-type="yaml-front-matter"]:after,
     &[data-type="math-block"]:before,
     &[data-type="math-block"]:after {
       content: ' ';
@@ -25,6 +23,10 @@
     &[data-type="link-ref"],
     &[data-type="footnotes-ref"] {
       color: $blurColor;
+    }
+
+    &[data-type="html-block"] {
+      margin-bottom: 1em;
     }
 
     .vditor-ir__marker {
@@ -104,6 +106,11 @@
         content: '```';
       }
 
+      &[data-type="yaml-front-matter"]:before,
+      &[data-type="yaml-front-matter"]:after {
+        content: '---';
+      }
+
       &[data-type="math-block"]:before,
       &[data-type="math-block"]:after {
         content: '$$';
@@ -112,10 +119,18 @@
 
     span[data-type="code-block-open-marker"],
     span[data-type="code-block-close-marker"],
+    span[data-type="yaml-front-matter-open-marker"],
+    span[data-type="yaml-front-matter-close-marker"],
     span[data-type="math-block-open-marker"],
     span[data-type="math-block-close-marker"] {
       display: none;
     }
+  }
+
+  &__preview {
+    cursor: pointer;
+    white-space: initial;
+    min-height: 27px;
   }
 
   &__link {

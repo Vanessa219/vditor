@@ -3,7 +3,7 @@ import {isCtrl} from "../util/compatibility";
 import {
     fixBlockquote, fixCJKPosition,
     fixCodeBlock, fixCursorDownInlineMath,
-    fixDelete, fixFirefoxArrowUpTable, fixHR,
+    fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
@@ -18,7 +18,7 @@ import {
     hasClosestByMatchTag,
 } from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
-import {getEditorRange, getSelectPosition} from "../util/selection";
+import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -27,14 +27,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 添加第一次记录 undo 的光标
-    if (event.key.indexOf("Arrow") === -1) {
-        vditor.irUndo.recordFirstWbr(vditor, event);
+    if (event.key.indexOf("Arrow") === -1 && event.key !== "Meta" && event.key !== "Control" && event.key !== "Alt" &&
+        event.key !== "Shift" && event.key !== "CapsLock" && event.key !== "Escape" && !/^F\d{1,2}$/.test(event.key)) {
+        vditor.undo.recordFirstPosition(vditor, event);
     }
 
     const range = getEditorRange(vditor.ir.element);
     const startContainer = range.startContainer;
 
-    fixCJKPosition(range, event);
+    if (!fixGSKeyBackspace(event, vditor, startContainer)) {
+        return false;
+    }
+
+    fixCJKPosition(range, vditor, event);
 
     fixHR(range);
 
@@ -80,7 +85,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             return true;
         }
     }
-
     // 代码块
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
     if (preRenderElement && preRenderElement.tagName === "PRE") {
@@ -107,11 +111,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.selectNodeContents(preBeforeElement.nextElementSibling.firstChild);
             range.collapse(true);
             event.preventDefault();
+            hidePanel(vditor, ["hint"]);
             return true;
         }
 
         if (event.key === "Backspace") {
-            const start = getSelectPosition(preBeforeElement).start;
+            const start = getSelectPosition(preBeforeElement, vditor.ir.element).start;
             if (start === 1) { // 删除零宽空格
                 range.setStart(startContainer, 0);
             }
@@ -162,9 +167,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         const headingElement = hasClosestByHeadings(startContainer);
         if (headingElement) {
             const headingLength = headingElement.firstElementChild.textContent.length;
-            if (getSelectPosition(headingElement).start === headingLength) {
+            if (getSelectPosition(headingElement, vditor.ir.element).start === headingLength) {
                 range.setStart(headingElement.firstElementChild.firstChild, headingLength - 1);
                 range.collapse(true);
+                setSelectionFocus(range);
             }
         }
     }

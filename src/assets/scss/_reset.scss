@@ -84,30 +84,30 @@
 
     h1 {
       padding-bottom: 0.3em;
-      font-size: 1.7em;
+      font-size: 1.75em;
       border-bottom: 1px solid #eaecef;
     }
 
     h2 {
       padding-bottom: 0.3em;
-      font-size: 1.5em;
+      font-size: 1.55em;
       border-bottom: 1px solid #eaecef;
     }
 
     h3 {
-      font-size: 1.25em;
+      font-size: 1.38em;
     }
 
     h4 {
-      font-size: 1em
+      font-size: 1.25em
     }
 
     h5 {
-      font-size: 0.875em;
+      font-size: 1.13em;
     }
 
     h6 {
-      font-size: 0.85em;
+      font-size: 1em;
     }
 
     hr {
@@ -199,6 +199,11 @@
       &.language-mindmap {
         background-color: rgba(27, 31, 35, .02);
       }
+
+    }
+
+    .language-abc {
+      background-color: rgba(27, 31, 35, .02);
     }
 
     pre {
@@ -270,6 +275,7 @@
       polygon {
         fill: transparent;
       }
+
       parsererror {
         overflow: auto;
       }
@@ -278,6 +284,7 @@
 
   &-task {
     list-style: none;
+    word-break: break-all;
 
     input {
       margin: 0 .2em .25em -1.6em;
@@ -300,7 +307,7 @@
     span {
       cursor: pointer;
       position: absolute;
-      right: 0.5em;
+      right: 15px;
       top: 0.5em;
     }
 

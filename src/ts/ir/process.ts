@@ -1,10 +1,12 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
-import {isSafari} from "../util/compatibility";
-import {listToggle, renderToc} from "../util/fixBrowserBehavior";
+import {removeCurrentToolbar} from "../toolbar/setToolbar";
+import {accessLocalStorage} from "../util/compatibility";
+import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
-import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
-import {highlightToolbar} from "./highlightToolbar";
+import {getEditorRange, getSelectPosition, setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {highlightToolbarIR} from "./highlightToolbarIR";
+import {input} from "./input";
 
 export const processHint = (vditor: IVditor) => {
     vditor.hint.render(vditor);
@@ -18,8 +20,9 @@ export const processHint = (vditor: IVditor) => {
             range.selectNodeContents(preBeforeElement);
         } else {
             const matchLangData: IHintData[] = [];
-            const key = preBeforeElement.textContent.substring(0, getSelectPosition(preBeforeElement).start)
-                .replace(Constants.ZWSP, "");
+            const key =
+                preBeforeElement.textContent.substring(0, getSelectPosition(preBeforeElement, vditor.ir.element).start)
+                    .replace(Constants.ZWSP, "");
             Constants.CODE_LANGUAGES.forEach((keyName) => {
                 if (keyName.indexOf(key.toLowerCase()) > -1) {
                     matchLangData.push({
@@ -44,8 +47,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 
     clearTimeout(vditor.ir.processTimeoutId);
     vditor.ir.processTimeoutId = window.setTimeout(() => {
-        if (vditor.ir.composingLock && isSafari()) {
-            // safari 中文输入遇到 addToUndoStack 会影响下一次的中文输入
+        if (vditor.ir.composingLock) {
             return;
         }
         const text = getMarkdown(vditor);
@@ -57,7 +59,7 @@ export const processAfterRender = (vditor: IVditor, options = {
             vditor.counter.render(vditor, text);
         }
 
-        if (vditor.options.cache.enable) {
+        if (vditor.options.cache.enable && accessLocalStorage()) {
             localStorage.setItem(vditor.options.cache.id, text);
             if (vditor.options.cache.after) {
                 vditor.options.cache.after(text);
@@ -69,26 +71,23 @@ export const processAfterRender = (vditor: IVditor, options = {
         }
 
         if (options.enableAddUndoStack) {
-            vditor.irUndo.addToUndoStack(vditor);
+            vditor.undo.addToUndoStack(vditor);
         }
     }, 800);
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {
-    const range = getSelection().getRangeAt(0);
+    const range = getEditorRange(vditor.ir.element);
     const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
-        if (value === "") {
-            const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
-            range.selectNodeContents(headingMarkerElement);
-            document.execCommand("delete");
+        const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
+        if (headingMarkerElement) {
+            headingMarkerElement.innerHTML = value;
         } else {
-            range.selectNodeContents(headingElement);
-            range.collapse(true);
-            document.execCommand("insertHTML", false, value);
+            headingElement.insertAdjacentText("afterbegin", value);
         }
-        highlightToolbar(vditor);
-        renderToc(vditor);
+        input(vditor, range.cloneRange());
+        highlightToolbarIR(vditor);
     }
 };
 
@@ -111,6 +110,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
     if (typeElement.nodeType === 3) {
         typeElement = typeElement.parentElement;
     }
+    let useHighlight = true;
     // 移除
     if (actionBtn.classList.contains("vditor-menu--current")) {
         if (commandName === "quote") {
@@ -141,6 +141,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             removeInline(range, vditor, "code");
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName);
+            useHighlight = false;
+            actionBtn.classList.remove("vditor-menu--current");
         }
     } else {
         // 添加
@@ -148,15 +150,17 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             vditor.ir.element.innerHTML = '<p data-block="0"><wbr></p>';
             setRangeByWbr(vditor.ir.element, range);
         }
-
+        const blockElement = hasClosestBlock(range.startContainer);
         if (commandName === "line") {
-            if (typeElement.classList.contains("vditor-reset")) {
-                typeElement.innerHTML = '<hr data-block="0"><p data-block="0">\n<wbr></p>';
-            } else {
-                typeElement.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
+            if (blockElement) {
+                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
+                if (blockElement.innerHTML.trim() === "") {
+                    blockElement.outerHTML = hrHTML;
+                } else {
+                    blockElement.insertAdjacentHTML("afterend", hrHTML);
+                }
             }
         } else if (commandName === "quote") {
-            const blockElement = hasClosestBlock(range.startContainer);
             if (blockElement) {
                 range.insertNode(document.createElement("wbr"));
                 blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
@@ -175,17 +179,26 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;
             } else {
-                html = `${prefix}${range.toString()}<wbr>${prefix}`;
+                html = `${prefix}${range.toString()}<wbr>${suffix}`;
             }
             if (commandName === "table" || commandName === "code") {
                 html = "\n" + html;
             }
             document.execCommand("insertHTML", false, html);
+            if (commandName === "table") {
+                range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
+                setSelectionFocus(range);
+            }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);
+            useHighlight = false;
+            removeCurrentToolbar(vditor.toolbar.elements, ["check", "list", "ordered-list"]);
+            actionBtn.classList.add("vditor-menu--current");
         }
     }
     setRangeByWbr(vditor.ir.element, range);
     processAfterRender(vditor);
-    highlightToolbar(vditor);
+    if (useHighlight) {
+        highlightToolbarIR(vditor);
+    }
 };

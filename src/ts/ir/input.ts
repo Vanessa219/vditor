@@ -13,13 +13,14 @@ import {processAfterRender} from "./process";
 export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     let blockElement = hasClosestBlock(range.startContainer);
     // 前后可以输入空格
-    if (blockElement && !ignoreSpace) {
-        if (isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
+    if (blockElement && !ignoreSpace && blockElement.getAttribute("data-type") !== "code-block") {
+        if ((isHrMD(blockElement.innerHTML) && blockElement.previousElementSibling) ||
+            isHeadingMD(blockElement.innerHTML)) {
             return;
         }
 
         // 前后空格处理
-        const startOffset = getSelectPosition(blockElement, range).start;
+        const startOffset = getSelectPosition(blockElement, vditor.ir.element, range).start;
 
         // 开始可以输入空格
         let startSpace = true;
@@ -47,20 +48,19 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
             }
         }
 
-        if ((startSpace && !blockElement.querySelector(".language-mindmap")) || endSpace) {
-            if (endSpace) {
-                const markerElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker");
-                if (markerElement) {
-                    // inline marker space https://github.com/Vanessa219/vditor/issues/239
-                } else {
-                    const previousNode = range.startContainer.previousSibling as HTMLElement;
-                    if (previousNode && previousNode.nodeType !== 3 && previousNode.classList.contains("vditor-ir__node--expand")) {
-                        // FireFox https://github.com/Vanessa219/vditor/issues/239
-                        previousNode.classList.remove("vditor-ir__node--expand");
-                    }
-                    return;
-                }
+        if (startSpace) {
+            return;
+        }
+        if (endSpace) {
+            const markerElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker");
+            if (markerElement) {
+                // inline marker space https://github.com/Vanessa219/vditor/issues/239
             } else {
+                const previousNode = range.startContainer.previousSibling as HTMLElement;
+                if (previousNode && previousNode.nodeType !== 3 && previousNode.classList.contains("vditor-ir__node--expand")) {
+                    // FireFox https://github.com/Vanessa219/vditor/issues/239
+                    previousNode.classList.remove("vditor-ir__node--expand");
+                }
                 return;
             }
         }
@@ -77,7 +77,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
 
     if (!blockElement.querySelector("wbr")) {
         const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
-        if (previewRenderElement) {
+        if (previewRenderElement && previewRenderElement.previousElementSibling) {
             // 光标如果落在预览区域中，则重置到代码区域
             if (previewRenderElement.previousElementSibling.firstElementChild) {
                 range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
@@ -100,22 +100,22 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
     }
 
     const isIRElement = blockElement.isEqualNode(vditor.ir.element);
+    const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
     let html = "";
     if (!isIRElement) {
+        const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
         // 列表需要到最顶层
         const topListElement = getTopList(range.startContainer);
         if (topListElement) {
-            const blockquoteElement = hasClosestByTag(range.startContainer, "BLOCKQUOTE");
-            if (blockquoteElement) {
-                // li 中有 blockquote 就只渲染 blockquote
-                blockElement = hasClosestBlock(range.startContainer) || blockElement;
-            } else {
-                blockElement = topListElement;
-            }
+            blockElement = topListElement;
+        }
+
+        // 应到引用层，否则 > --- 会解析为 front-matter；列表中有 blockquote 则解析 blockquote；blockquote 中有列表则解析列表
+        if (blockquoteElement && (!topListElement || (topListElement && !blockquoteElement.contains(topListElement)))) {
+            blockElement = blockquoteElement;
         }
 
         // 修改脚注
-        const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
         if (footnoteElement) {
             blockElement = footnoteElement;
         }
@@ -141,7 +141,6 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
             html = blockElement.previousElementSibling.outerHTML + html;
             blockElement.previousElementSibling.remove();
         }
-
         // 添加链接引用
         const allLinkRefDefsElement = vditor.ir.element.querySelector("[data-type='link-ref-defs-block']");
         if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement)) {
@@ -176,8 +175,21 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         if (allFootnoteElement) {
             vditor.ir.element.insertAdjacentElement("beforeend", allFootnoteElement);
         }
-    }
 
+        // 更新正文中的 tip
+        if (footnoteElement) {
+            const footnoteItemElement = hasClosestByAttribute(vditor.ir.element.querySelector("wbr"),
+                "data-type", "footnotes-def");
+            if (footnoteItemElement) {
+                const footnoteItemText = footnoteItemElement.textContent;
+                const marker = footnoteItemText.substring(1, footnoteItemText.indexOf("]:"));
+                const footnoteRefElement = vditor.ir.element.querySelector(`sup[data-type="footnotes-ref"][data-footnotes-label="${marker}"]`);
+                if (footnoteRefElement) {
+                    footnoteRefElement.setAttribute("aria-label", footnoteItemText.substr(marker.length + 3).trim());
+                }
+            }
+        }
+    }
     setRangeByWbr(vditor.ir.element, range);
 
     vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {

@@ -25,7 +25,7 @@ module.exports = {
     'jest-puppeteer.js': './demo/jest-puppeteer.js',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.svg', '.png', '.scss'],
+    extensions: ['.js', '.ts', '.png', '.scss'],
   },
   module: {
     rules: [
@@ -53,18 +53,6 @@ module.exports = {
           },
           {
             loader: 'sass-loader', // compiles Sass to CSS
-          },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        include: [path.resolve(__dirname, './src/assets/icons')],
-        use: [
-          {
-            loader: 'html-loader',
-            options: {
-              minimize: true,
-            },
           },
         ],
       },

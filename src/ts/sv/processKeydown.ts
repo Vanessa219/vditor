@@ -1,125 +1,196 @@
-import {getMarkdown} from "../markdown/getMarkdown";
 import {isCtrl} from "../util/compatibility";
-import {matchHotKey} from "../util/hotKey";
-import {getSelectPosition} from "../util/selection";
-import {formatRender} from "./formatRender";
-import {getCurrentLinePosition} from "./getCurrentLinePosition";
-import {insertText} from "./insertText";
+import {fixTab} from "../util/fixBrowserBehavior";
+import {hasClosestByAttribute} from "../util/hasClosest";
+import {hasClosestByTag} from "../util/hasClosestByHeadings";
+import {getEditorRange, getSelectPosition} from "../util/selection";
+import {inputEvent} from "./inputEvent";
+import {processAfterRender, processPreviousMarkers} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
-    vditor.undo.recordFirstPosition(vditor);
+    vditor.sv.composingLock = event.isComposing;
+    if (event.isComposing) {
+        return false;
+    }
 
-    const editorElement = vditor.sv.element;
-    const position = getSelectPosition(editorElement);
-    const text = getMarkdown(vditor);
-    // tab and shift + tab
-    if (vditor.options.tab && event.key === "Tab") {
-        event.preventDefault();
-        event.stopPropagation();
+    if (event.key.indexOf("Arrow") === -1 && event.key !== "Meta" && event.key !== "Control" && event.key !== "Alt" &&
+        event.key !== "Shift" && event.key !== "CapsLock" && event.key !== "Escape" && !/^F\d{1,2}$/.test(event.key)) {
+        vditor.undo.recordFirstPosition(vditor, event);
+    }
+    // 仅处理以下快捷键操作
+    if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
+        && !isCtrl(event) && event.key !== "Escape") {
+        return false;
+    }
+    const range = getEditorRange(vditor.sv.element);
+    let startContainer = range.startContainer;
+    if (range.startContainer.nodeType !== 3 && (range.startContainer as HTMLElement).tagName === "DIV") {
+        startContainer = range.startContainer.childNodes[range.startOffset - 1];
+    }
+    const textElement = hasClosestByAttribute(startContainer, "data-type", "text");
 
-        const selectLinePosition = getCurrentLinePosition(position, text);
-        const selectLineList = text.substring(selectLinePosition.start, selectLinePosition.end - 1).split("\n");
+    // blockquote
+    let blockquoteMarkerElement = hasClosestByAttribute(startContainer, "data-type", "blockquote-marker");
+    if (!blockquoteMarkerElement && range.startOffset === 0 && textElement && textElement.previousElementSibling &&
+        textElement.previousElementSibling.getAttribute("data-type") === "blockquote-marker") {
+        blockquoteMarkerElement = textElement.previousElementSibling as HTMLElement;
+    }
+    // 回车逐个删除 blockquote marker 标记
+    if (blockquoteMarkerElement) {
+        if (event.key === "Enter" && !isCtrl(event) && !event.altKey &&
+            blockquoteMarkerElement.nextElementSibling.textContent.trim() === "" &&
+            getSelectPosition(blockquoteMarkerElement, vditor.sv.element, range).start ===
+            blockquoteMarkerElement.textContent.length) {
+            if (blockquoteMarkerElement.previousElementSibling?.getAttribute("data-type") === "padding") {
+                // 列表中存在多行 BQ 时，标记回车需跳出列表
+                blockquoteMarkerElement.previousElementSibling.setAttribute("data-action", "enter-remove");
+            }
+            blockquoteMarkerElement.remove();
+            processAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+    }
 
-        if (event.shiftKey) {
-            let shiftCount = 0;
-            let startIsShift = false;
-            const selectionShiftResult = selectLineList.map((value, index) => {
-                let shiftLineValue = value;
-                if (value.indexOf(vditor.options.tab) === 0) {
-                    if (index === 0) {
-                        startIsShift = true;
+    // list item
+    const listMarkerElement = hasClosestByAttribute(startContainer, "data-type", "li-marker") as HTMLElement;
+    const taskMarkerElement = hasClosestByAttribute(startContainer, "data-type", "task-marker") as HTMLElement;
+    let listLastMarkerElement = listMarkerElement;
+    if (!listLastMarkerElement) {
+        if (taskMarkerElement && taskMarkerElement.nextElementSibling.getAttribute("data-type") !== "task-marker") {
+            listLastMarkerElement = taskMarkerElement;
+        }
+    }
+    if (!listLastMarkerElement && range.startOffset === 0 && textElement && textElement.previousElementSibling &&
+        (textElement.previousElementSibling.getAttribute("data-type") === "li-marker" ||
+            textElement.previousElementSibling.getAttribute("data-type") === "task-marker")) {
+        listLastMarkerElement = textElement.previousElementSibling as HTMLElement;
+    }
+    if (listLastMarkerElement) {
+        const startIndex = getSelectPosition(listLastMarkerElement, vditor.sv.element, range).start;
+        const isTask = listLastMarkerElement.getAttribute("data-type") === "task-marker";
+        let listFirstMarkerElement = listLastMarkerElement;
+        if (isTask) {
+            listFirstMarkerElement = listLastMarkerElement.previousElementSibling.previousElementSibling
+                .previousElementSibling as HTMLElement;
+        }
+        if (startIndex === listLastMarkerElement.textContent.length) {
+            // 回车清空列表标记符
+            if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey &&
+                listLastMarkerElement.nextElementSibling.textContent.trim() === "") {
+                if (listFirstMarkerElement.previousElementSibling?.getAttribute("data-type") === "padding") {
+                    listFirstMarkerElement.previousElementSibling.remove();
+                    inputEvent(vditor);
+                } else {
+                    if (isTask) {
+                        listFirstMarkerElement.remove();
+                        listLastMarkerElement.previousElementSibling.previousElementSibling.remove();
+                        listLastMarkerElement.previousElementSibling.remove();
                     }
-                    shiftCount++;
-                    shiftLineValue = value.replace(vditor.options.tab, "");
+                    listLastMarkerElement.nextElementSibling.remove();
+                    listLastMarkerElement.remove();
+                    processAfterRender(vditor);
                 }
-                return shiftLineValue;
-            }).join("\n");
+                event.preventDefault();
+                return true;
+            }
+            // 第一个 marker 后 tab 进行缩进
+            if (event.key === "Tab") {
+                listFirstMarkerElement.insertAdjacentHTML("beforebegin",
+                    `<span data-type="padding">${listFirstMarkerElement.textContent.replace(/\S/g, " ")}</span>`);
+                if (/^\d/.test(listFirstMarkerElement.textContent)) {
+                    listFirstMarkerElement.textContent = listFirstMarkerElement.textContent.replace(/^\d{1,}/, "1");
+                    range.selectNodeContents(listLastMarkerElement.firstChild);
+                    range.collapse(false);
+                }
+                inputEvent(vditor);
+                event.preventDefault();
+                return true;
+            }
+        }
+    }
 
-            formatRender(vditor, text.substring(0, selectLinePosition.start) +
-                selectionShiftResult + text.substring(selectLinePosition.end - 1),
-                {
-                    end: position.end - shiftCount * vditor.options.tab.length,
-                    start: position.start - (startIsShift ? vditor.options.tab.length : 0),
-                });
+    // tab
+    if (fixTab(vditor, range, event)) {
+        return true;
+    }
+
+    const blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    const spanElement = hasClosestByTag(startContainer, "SPAN");
+    // 回车
+    if (event.key === "Enter" && !isCtrl(event) && !event.altKey && !event.shiftKey && blockElement) {
+        let isFirst = false;
+        const newLineMatch = blockElement.textContent.match(/^\n+/);
+        if (getSelectPosition(blockElement, vditor.sv.element).start <= (newLineMatch ? newLineMatch[0].length : 0)) {
+            // 允许段落开始换行
+            isFirst = true;
+        }
+        let newLineText = "\n";
+        if (spanElement) {
+            if (spanElement.previousElementSibling?.getAttribute("data-action") === "enter-remove") {
+                // https://github.com/Vanessa219/vditor/issues/596
+                spanElement.previousElementSibling.remove();
+                processAfterRender(vditor);
+                event.preventDefault();
+                return true;
+            } else {
+                newLineText += processPreviousMarkers(spanElement);
+            }
+        }
+        range.insertNode(document.createTextNode(newLineText));
+        range.collapse(false);
+        if (blockElement && blockElement.textContent.trim() !== "" && !isFirst) {
+            inputEvent(vditor);
+        } else {
+            processAfterRender(vditor);
+        }
+        event.preventDefault();
+        return true;
+    }
+
+    // 删除后光标前有 newline 的处理
+    if (event.key === "Backspace" && !isCtrl(event) && !event.altKey && !event.shiftKey) {
+        if (spanElement && spanElement.previousElementSibling?.getAttribute("data-type") === "newline" &&
+            getSelectPosition(spanElement, vditor.sv.element, range).start === 1 &&
+            // 飘号的处理需在 inputEvent 中，否则上下飘号对不齐
+            spanElement.getAttribute("data-type").indexOf("code-block-") === -1) {
+            // 光标在每一行的第一个字符后
+            range.setStart(spanElement, 0);
+            range.extractContents();
+            if (spanElement.textContent.trim() !== "") {
+                inputEvent(vditor);
+            } else {
+                processAfterRender(vditor);
+            }
+            event.preventDefault();
             return true;
         }
-
-        if (position.start === position.end) {
-            insertText(vditor, vditor.options.tab, "");
+        // 每一段第一个字符前
+        if (blockElement && getSelectPosition(blockElement, vditor.sv.element, range).start === 0 &&
+            blockElement.previousElementSibling) {
+            range.extractContents();
+            let previousLastElement = blockElement.previousElementSibling.lastElementChild;
+            if (previousLastElement.getAttribute("data-type") === "newline") {
+                previousLastElement.remove();
+                previousLastElement = blockElement.previousElementSibling.lastElementChild;
+            }
+            // 场景：末尾无法删除 [```\ntext\n```\n\n]
+            if (previousLastElement.getAttribute("data-type") !== "newline") {
+                previousLastElement.insertAdjacentHTML("afterend", blockElement.innerHTML);
+                blockElement.remove();
+            }
+            if (blockElement.textContent.trim() !== "" && !blockElement.previousElementSibling?.querySelector('[data-type="code-block-open-marker"]')) {
+                inputEvent(vditor);
+            } else {
+                if (previousLastElement.getAttribute("data-type") !== "newline") {
+                    // https://github.com/Vanessa219/vditor/issues/597
+                    range.selectNodeContents(previousLastElement.lastChild);
+                    range.collapse(false);
+                }
+                processAfterRender(vditor);
+            }
+            event.preventDefault();
             return true;
         }
-        const selectionResult = selectLineList.map((value) => {
-            return vditor.options.tab + value;
-        }).join("\n");
-        formatRender(vditor, text.substring(0, selectLinePosition.start) + selectionResult +
-            text.substring(selectLinePosition.end - 1),
-            {
-                end: position.end + selectLineList.length * vditor.options.tab.length,
-                start: position.start + vditor.options.tab.length,
-            });
-        return true;
     }
-
-    // delete
-    if (!isCtrl(event) && !event.shiftKey && event.keyCode === 8) {
-        if (position.start !== position.end) {
-            insertText(vditor, "", "", true);
-        } else {
-            // delete emoji
-            const emojiMatch = text.substring(0, position.start).match(/([\u{1F300}-\u{1F5FF}][\u{2000}-\u{206F}][\u{2700}-\u{27BF}]|([\u{1F900}-\u{1F9FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F600}-\u{1F64F}])[\u{2000}-\u{206F}][\u{2600}-\u{26FF}]|[\u{1F300}-\u{1F5FF}]|[\u{1F100}-\u{1F1FF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F200}-\u{1F2FF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F000}-\u{1F02F}]|[\u{FE00}-\u{FE0F}]|[\u{1F0A0}-\u{1F0FF}]|[\u{0000}-\u{007F}][\u{20D0}-\u{20FF}]|[\u{0000}-\u{007F}][\u{FE00}-\u{FE0F}][\u{20D0}-\u{20FF}])$/u);
-            const deleteChar = emojiMatch ? emojiMatch[0].length : 1;
-            formatRender(vditor,
-                text.substring(0, position.start - deleteChar) + text.substring(position.start),
-                {
-                    end: position.start - deleteChar,
-                    start: position.start - deleteChar,
-                }, {
-                    enableAddUndoStack: true,
-                    enableHint: true,
-                    enableInput: true,
-                });
-        }
-        event.preventDefault();
-        event.stopPropagation();
-        return true;
-    }
-
-    // hotkey command + delete
-    if (vditor.options.keymap.deleteLine && matchHotKey(vditor.options.keymap.deleteLine, event)) {
-        const linePosition = getCurrentLinePosition(position, text);
-        const deletedText = text.substring(0, linePosition.start) + text.substring(linePosition.end);
-        const startIndex = Math.min(deletedText.length, position.start);
-        formatRender(vditor, deletedText, {
-            end: startIndex,
-            start: startIndex,
-        });
-        event.preventDefault();
-        return true;
-    }
-
-    // hotkey command + d
-    if (vditor.options.keymap.duplicate && matchHotKey(vditor.options.keymap.duplicate, event)) {
-        let lineText = text.substring(position.start, position.end);
-        if (position.start === position.end) {
-            const linePosition = getCurrentLinePosition(position, text);
-            lineText = text.substring(linePosition.start, linePosition.end);
-            formatRender(vditor,
-                text.substring(0, linePosition.end) + lineText + text.substring(linePosition.end),
-                {
-                    end: position.end + lineText.length,
-                    start: position.start + lineText.length,
-                });
-        } else {
-            formatRender(vditor,
-                text.substring(0, position.end) + lineText + text.substring(position.end),
-                {
-                    end: position.end + lineText.length,
-                    start: position.start + lineText.length,
-                });
-        }
-        event.preventDefault();
-        return true;
-    }
-
     return false;
 };

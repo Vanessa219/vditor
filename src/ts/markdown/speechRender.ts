@@ -1,5 +1,3 @@
-import pauseSVG from "../../assets/icons/pause.svg";
-import playSVG from "../../assets/icons/play.svg";
 import {setSelectionFocus} from "../util/selection";
 
 declare global {
@@ -7,11 +5,12 @@ declare global {
         vditorSpeechRange: Range;
     }
 }
-export const speechRender = (element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") => {
+export const speechRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") => {
     if (typeof speechSynthesis === "undefined" || typeof SpeechSynthesisUtterance === "undefined") {
         return;
     }
-
+    const playSVG = '<svg><use xlink:href="#vditor-icon-play"></use></svg>';
+    const pauseSVG = '<svg><use xlink:href="#vditor-icon-pause"></use></svg>';
     let speechDom: HTMLDivElement = document.querySelector(".vditor-speech");
     if (!speechDom) {
         speechDom = document.createElement("div");

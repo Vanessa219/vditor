@@ -1,6 +1,6 @@
 import {Constants} from "../constants";
 import {processHeading} from "../ir/process";
-import {insertText} from "../sv/insertText";
+import {processHeading as processHeadingSV} from "../sv/process";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
@@ -35,20 +35,17 @@ export class Headings extends MenuItem {
                 return;
             }
             actionBtn.blur();
-            if (vditor.currentMode === "wysiwyg" && actionBtn.classList.contains("vditor-menu--current")) {
-                removeHeading(vditor);
-                afterRenderEvent(vditor);
-                actionBtn.classList.remove("vditor-menu--current");
-            } else if (vditor.currentMode === "ir" && actionBtn.classList.contains("vditor-menu--current")) {
-                processHeading(vditor, "");
+            if (actionBtn.classList.contains("vditor-menu--current")) {
+                if (vditor.currentMode === "wysiwyg") {
+                    removeHeading(vditor);
+                    afterRenderEvent(vditor);
+                } else if (vditor.currentMode === "ir") {
+                    processHeading(vditor, "");
+                }
                 actionBtn.classList.remove("vditor-menu--current");
             } else {
-                if (panelElement.style.display === "block") {
-                    panelElement.style.display = "none";
-                } else {
-                    hidePanel(vditor, ["subToolbar"]);
-                    panelElement.style.display = "block";
-                }
+                hidePanel(vditor, ["subToolbar"]);
+                panelElement.style.display = "block";
             }
         });
 
@@ -63,8 +60,7 @@ export class Headings extends MenuItem {
                     processHeading(vditor, (event.target as HTMLElement).getAttribute("data-value"));
                     actionBtn.classList.add("vditor-menu--current");
                 } else {
-                    insertText(vditor, (event.target as HTMLElement).getAttribute("data-value"), "",
-                        false, true);
+                    processHeadingSV(vditor, (event.target as HTMLElement).getAttribute("data-value"));
                 }
                 panelElement.style.display = "none";
             });

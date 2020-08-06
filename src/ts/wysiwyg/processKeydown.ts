@@ -3,12 +3,12 @@ import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
     fixBlockquote, fixCJKPosition,
-    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixHR,
+    fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
     fixList,
     fixMarkdown,
     fixTab,
     fixTable,
-    fixTask, insertAfterBlock,
+    fixTask, insertAfterBlock, insertBeforeBlock,
 } from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock,
@@ -33,14 +33,19 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 添加第一次记录 undo 的光标
-    if (event.key.indexOf("Arrow") === -1) {
-        vditor.wysiwygUndo.recordFirstWbr(vditor, event);
+    if (event.key.indexOf("Arrow") === -1 && event.key !== "Meta" && event.key !== "Control" && event.key !== "Alt" &&
+        event.key !== "Shift" && event.key !== "CapsLock" && event.key !== "Escape" && !/^F\d{1,2}$/.test(event.key)) {
+        vditor.undo.recordFirstPosition(vditor, event);
     }
 
     const range = getEditorRange(vditor.wysiwyg.element);
     const startContainer = range.startContainer;
 
-    fixCJKPosition(range, event);
+    if (!fixGSKeyBackspace(event, vditor, startContainer)) {
+        return false;
+    }
+
+    fixCJKPosition(range, vditor, event);
 
     fixHR(range);
 
@@ -96,6 +101,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             if (insertAfterBlock(vditor, event, range, codeRenderElement.firstElementChild as HTMLElement,
                 codeRenderElement)) {
+                return true;
+            }
+
+            if (codeRenderElement.getAttribute("data-type") !== "yaml-front-matter" &&
+                insertBeforeBlock(vditor, event, range, codeRenderElement.firstElementChild as HTMLElement,
+                    codeRenderElement)) {
                 return true;
             }
         }
@@ -198,13 +209,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 删除有子工具栏的块
-    if (matchHotKey("⌘-⇧-X", event)) {
-        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
-        if (itemElement) {
-            itemElement.click();
-            event.preventDefault();
-            return true;
-        }
+    if (removeBlockElement(vditor, event)) {
+        return true;
     }
 
     // 对有子工具栏的块上移
@@ -231,8 +237,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
-    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面
-    if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter") {
+    // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面，li & p 使用浏览器默认
+    if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter" &&
+        startContainer.parentElement.tagName !== "LI" && startContainer.parentElement.tagName !== "P") {
         if (["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
             // 行内元素软换行需继续 https://github.com/Vanessa219/vditor/issues/170
             range.insertNode(document.createTextNode("\n" + Constants.ZWSP));
@@ -256,7 +263,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (blockElement.previousElementSibling
                 && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
                 && blockElement.previousElementSibling.getAttribute("data-block") === "0") {
-                const rangeStart = getSelectPosition(blockElement, range).start;
+                const rangeStart = getSelectPosition(blockElement, vditor.wysiwyg.element, range).start;
                 if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                     // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
                     showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor, false);
@@ -293,7 +300,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
 
             // 修正光标位于 inline math/html 前，按下删除按钮 code 中内容会被删除, 不能返回，还需要进行后续处理
-            blockElement.querySelectorAll("span.vditor-wysiwyg__block").forEach((item) => {
+            blockElement.querySelectorAll("span.vditor-wysiwyg__block[data-type='math-inline']").forEach((item) => {
                 (item.firstElementChild as HTMLElement).style.display = "inline";
                 (item.lastElementChild as HTMLElement).style.display = "none";
             });
@@ -326,4 +333,16 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
     return false;
+};
+
+export const removeBlockElement = (vditor: IVditor, event: KeyboardEvent) => {
+    // 删除有子工具栏的块
+    if (matchHotKey("⌘-⇧-X", event)) {
+        const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
+        if (itemElement) {
+            itemElement.click();
+            event.preventDefault();
+            return true;
+        }
+    }
 };

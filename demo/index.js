@@ -1,6 +1,8 @@
 import Vditor from '../src/index'
 import '../src/assets/scss/index.scss'
 
+// new VConsole()
+
 let toolbar
 if (window.innerWidth < 768) {
   toolbar = [
@@ -40,7 +42,6 @@ if (window.innerWidth < 768) {
       toolbar: [
         'fullscreen',
         'both',
-        'format',
         'preview',
         'info',
         'help',
@@ -49,7 +50,10 @@ if (window.innerWidth < 768) {
 }
 
 window.vditor = new Vditor('vditor', {
+  // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
+  _lutePath: 'src/js/lute/lute.min.js',
   toolbar,
+  mode: 'ir',
   height: window.innerHeight + 100,
   outline: true,
   debugger: true,
@@ -74,6 +78,35 @@ window.vditor = new Vditor('vditor', {
       'sd': '💔',
       'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
     },
+    extend: [
+      {
+        key: '@',
+        hint: (key) => {
+          console.log(key)
+          if ('vanessa'.indexOf(key.toLocaleLowerCase()) > -1) {
+            return [
+              {
+                value: '@Vanessa',
+                html: '<img src="https://avatars0.githubusercontent.com/u/970828?s=60&v=4"/> Vanessa',
+              }]
+          }
+          return []
+        },
+      },
+      {
+        key: '#',
+        hint: (key) => {
+          console.log(key)
+          if ('vditor'.indexOf(key.toLocaleLowerCase()) > -1) {
+            return [
+              {
+                value: '#Vditor',
+                html: '<span style="color: #999;">#Vditor</span> ♏ 一款浏览器端的 Markdown 编辑器，支持所见即所得（富文本）、即时渲染（类似 Typora）和分屏预览模式。',
+              }]
+          }
+          return []
+        },
+      }],
   },
   tab: '\t',
   upload: {

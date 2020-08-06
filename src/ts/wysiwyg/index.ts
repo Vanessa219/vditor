@@ -1,8 +1,15 @@
 import {Constants} from "../constants";
 import {hidePanel} from "../toolbar/setToolbar";
-import {uploadFiles} from "../upload";
 import {isCtrl, isFirefox} from "../util/compatibility";
-import {blurEvent, focusEvent, hotkeyEvent, scrollCenter, selectEvent} from "../util/editorCommonEvent";
+import {
+    blurEvent,
+    copyEvent, cutEvent,
+    dropEvent,
+    focusEvent,
+    hotkeyEvent,
+    scrollCenter,
+    selectEvent,
+} from "../util/editorCommonEvent";
 import {isHeadingMD, isHrMD, paste, renderToc} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
@@ -15,7 +22,7 @@ import {
     setRangeByWbr,
 } from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {genImagePopover, highlightToolbar} from "./highlightToolbar";
+import {genImagePopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {showCode} from "./showCode";
@@ -42,29 +49,58 @@ class WYSIWYG {
 
         this.bindEvent(vditor);
 
-        document.execCommand("DefaultParagraphSeparator", false, "p");
-
         focusEvent(vditor, this.element);
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);
+        dropEvent(vditor, this.element);
+        copyEvent(vditor, this.element, this.copy);
+        cutEvent(vditor, this.element, this.copy);
+    }
+
+    private copy(event: ClipboardEvent, vditor: IVditor) {
+        const range = getSelection().getRangeAt(0);
+        if (range.toString() === "") {
+            return;
+        }
+        event.stopPropagation();
+        event.preventDefault();
+
+        const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
+        const codeEndElement = hasClosestByMatchTag(range.endContainer, "CODE");
+        if (codeElement && codeEndElement && codeEndElement.isSameNode(codeElement)) {
+            let codeText = "";
+            if (codeElement.parentElement.tagName === "PRE") {
+                codeText = range.toString();
+            } else {
+                codeText = "`" + range.toString() + "`";
+            }
+            event.clipboardData.setData("text/plain", codeText);
+            event.clipboardData.setData("text/html", "");
+            return;
+        }
+
+        const aElement = hasClosestByMatchTag(range.startContainer, "A");
+        const aEndElement = hasClosestByMatchTag(range.endContainer, "A");
+        if (aElement && aEndElement && aEndElement.isSameNode(aElement)) {
+            let aTitle = aElement.getAttribute("title") || "";
+            if (aTitle) {
+                aTitle = ` "${aTitle}"`;
+            }
+            event.clipboardData.setData("text/plain",
+                `[${range.toString()}](${aElement.getAttribute("href")}${aTitle})`);
+            event.clipboardData.setData("text/html", "");
+            return;
+        }
+
+        const tempElement = document.createElement("div");
+        tempElement.appendChild(range.cloneContents());
+
+        event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
+        event.clipboardData.setData("text/html", "");
     }
 
     private bindEvent(vditor: IVditor) {
-        if (vditor.options.upload.url || vditor.options.upload.handler) {
-            this.element.addEventListener("drop",
-                (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                    if (event.dataTransfer.types[0] !== "Files") {
-                        return;
-                    }
-                    const files = event.dataTransfer.items;
-                    if (files.length > 0) {
-                        uploadFiles(vditor, files);
-                    }
-                    event.preventDefault();
-                });
-        }
-
         window.addEventListener("scroll", () => {
             hidePanel(vditor, ["hint"]);
             if (this.popover.style.display !== "block") {
@@ -94,48 +130,6 @@ class WYSIWYG {
                 max = window.scrollY - vditor.element.offsetTop + max;
             }
             this.popover.style.top = Math.max(max, Math.min(top, this.element.clientHeight - 21)) + "px";
-        });
-
-        this.element.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
-            const range = getSelection().getRangeAt(0);
-            if (range.toString() === "") {
-                return;
-            }
-            event.stopPropagation();
-            event.preventDefault();
-
-            const codeElement = hasClosestByMatchTag(range.startContainer, "CODE");
-            const codeEndElement = hasClosestByMatchTag(range.endContainer, "CODE");
-            if (codeElement && codeEndElement && codeEndElement.isSameNode(codeElement)) {
-                let codeText = "";
-                if (codeElement.parentElement.tagName === "PRE") {
-                    codeText = range.toString();
-                } else {
-                    codeText = "`" + range.toString() + "`";
-                }
-                event.clipboardData.setData("text/plain", codeText);
-                event.clipboardData.setData("text/html", "");
-                return;
-            }
-
-            const aElement = hasClosestByMatchTag(range.startContainer, "A");
-            const aEndElement = hasClosestByMatchTag(range.endContainer, "A");
-            if (aElement && aEndElement && aEndElement.isSameNode(aElement)) {
-                let aTitle = aElement.getAttribute("title") || "";
-                if (aTitle) {
-                    aTitle = ` "${aTitle}"`;
-                }
-                event.clipboardData.setData("text/plain",
-                    `[${range.toString()}](${aElement.getAttribute("href")}${aTitle})`);
-                event.clipboardData.setData("text/html", "");
-                return;
-            }
-
-            const tempElement = document.createElement("div");
-            tempElement.appendChild(range.cloneContents());
-
-            event.clipboardData.setData("text/plain", vditor.lute.VditorDOM2Md(tempElement.innerHTML).trim());
-            event.clipboardData.setData("text/html", "");
         });
 
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
@@ -168,7 +162,10 @@ class WYSIWYG {
                 renderToc(vditor);
                 return;
             }
-            input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
+            if (!isFirefox()) {
+                input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
+            }
+            this.composingLock = false;
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {
@@ -191,7 +188,7 @@ class WYSIWYG {
             }
 
             // 前后空格处理
-            const startOffset = getSelectPosition(blockElement, range).start;
+            const startOffset = getSelectPosition(blockElement, vditor.wysiwyg.element, range).start;
 
             // 开始可以输入空格
             let startSpace = true;
@@ -223,8 +220,9 @@ class WYSIWYG {
                 return;
             }
 
-            if ((startSpace && !blockElement.querySelector(".language-mindmap"))
-                || endSpace || isHrMD(blockElement.innerHTML) || isHeadingMD(blockElement.innerHTML)) {
+            if ((startSpace && blockElement.getAttribute("data-type") !== "code-block")
+                || endSpace || isHeadingMD(blockElement.innerHTML) ||
+                (isHrMD(blockElement.innerHTML) && blockElement.previousElementSibling)) {
                 return;
             }
 
@@ -253,7 +251,8 @@ class WYSIWYG {
             if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
                 const lastRect = this.element.lastElementChild.getBoundingClientRect();
                 if (event.y > lastRect.top + lastRect.height) {
-                    if (this.element.lastElementChild.tagName === "P") {
+                    if (this.element.lastElementChild.tagName === "P" &&
+                        this.element.lastElementChild.textContent.trim().replace(Constants.ZWSP, "") === "") {
                         range.selectNodeContents(this.element.lastElementChild);
                         range.collapse(false);
                     } else {
@@ -261,11 +260,10 @@ class WYSIWYG {
                             `<p data-block="0">${Constants.ZWSP}<wbr></p>`);
                         setRangeByWbr(this.element, range);
                     }
-                    return;
                 }
             }
 
-            highlightToolbar(vditor);
+            highlightToolbarWYSIWYG(vditor);
 
             // 点击后光标落于预览区，需展开代码块
             let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview");
@@ -305,7 +303,7 @@ class WYSIWYG {
             // 没有被块元素包裹
             modifyPre(vditor, range);
 
-            highlightToolbar(vditor);
+            highlightToolbarWYSIWYG(vditor);
 
             if (event.key !== "ArrowDown" && event.key !== "ArrowRight" && event.key !== "Backspace"
                 && event.key !== "ArrowLeft" && event.key !== "ArrowUp") {

@@ -5,7 +5,7 @@ import {hasClosestBlock, hasClosestByMatchTag} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
 import {getEditorRange, setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {genAPopover, highlightToolbar} from "./highlightToolbar";
+import {genAPopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getNextHTML, getPreviousHTML, splitElement} from "./inlineTag";
 
 const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
@@ -73,9 +73,10 @@ const cancelBES = (range: Range, vditor: IVditor, commandName: string) => {
     setRangeByWbr(vditor.wysiwyg.element, range);
 };
 
-export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
-    if (vditor.wysiwyg.composingLock) {
-        // Mac Chrome 中韩文结束会出发此事件，导致重复末尾字符 https://github.com/Vanessa219/vditor/issues/188
+export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) => {
+    if (vditor.wysiwyg.composingLock // Mac Chrome 中韩文结束会出发此事件，导致重复末尾字符 https://github.com/Vanessa219/vditor/issues/188
+        && event instanceof CustomEvent // 点击按钮应忽略输入法 https://github.com/Vanessa219/vditor/issues/473
+    ) {
         return;
     }
 
@@ -226,25 +227,64 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
                 range.surroundContents(node);
                 range.insertNode(node);
                 setSelectionFocus(range);
+                genAPopover(vditor, node);
+                const textInputElements = vditor.wysiwyg.popover.querySelectorAll("input");
+                textInputElements[0].value = node.innerText;
+                textInputElements[1].focus();
+                useHighlight = false;
             }
         } else if (commandName === "table") {
-            const tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead>
-<tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;
-            if (blockElement && blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {
-                blockElement.outerHTML = tableHTML;
+            let tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead><tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;
+            if (range.toString().trim() === "") {
+                if (blockElement && blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {
+                    blockElement.outerHTML = tableHTML;
+                } else {
+                    document.execCommand("insertHTML", false, tableHTML);
+                }
+                range.selectNode(vditor.wysiwyg.element.querySelector("wbr").previousSibling);
+                vditor.wysiwyg.element.querySelector("wbr").remove();
+                setSelectionFocus(range);
             } else {
+                tableHTML = `<table data-block="0"><thead><tr>`;
+                const tableText = range.toString().split("\n");
+                const delimiter = tableText[0].split(",").length > tableText[0].split("\t").length ? "," : "\t";
+
+                tableText.forEach((rows, index) => {
+                    if (index === 0) {
+                        rows.split(delimiter).forEach((header, subIndex) => {
+                            if (subIndex === 0) {
+                                tableHTML += `<th>${header}<wbr></th>`;
+                            } else {
+                                tableHTML += `<th>${header}</th>`;
+                            }
+                        });
+                        tableHTML += "</tr></thead>";
+                    } else {
+                        if (index === 1) {
+                            tableHTML += "<tbody><tr>";
+                        } else {
+                            tableHTML += "<tr>";
+                        }
+                        rows.split(delimiter).forEach((cell) => {
+                            tableHTML += `<td>${cell}</td>`;
+                        });
+                        tableHTML += `</tr>`;
+                    }
+                });
+                tableHTML += "</tbody></table>";
                 document.execCommand("insertHTML", false, tableHTML);
+                setRangeByWbr(vditor.wysiwyg.element, range);
             }
-            range.selectNode(vditor.wysiwyg.element.querySelector("wbr").previousSibling);
-            vditor.wysiwyg.element.querySelector("wbr").remove();
-            setSelectionFocus(range);
         } else if (commandName === "line") {
-            let element = range.startContainer as HTMLElement;
-            if (element.nodeType === 3) {
-                element = range.startContainer.parentElement;
+            if (blockElement) {
+                const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
+                if (blockElement.innerHTML.trim() === "") {
+                    blockElement.outerHTML = hrHTML;
+                } else {
+                    blockElement.insertAdjacentHTML("afterend", hrHTML);
+                }
+                setRangeByWbr(vditor.wysiwyg.element, range);
             }
-            element.insertAdjacentHTML("afterend", '<hr data-block="0"><p data-block="0">\n<wbr></p>');
-            setRangeByWbr(vditor.wysiwyg.element, range);
         } else {
             // bold, italic, strike
             useHighlight = false;
@@ -280,7 +320,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element) => {
     }
 
     if (useHighlight) {
-        highlightToolbar(vditor);
+        highlightToolbarWYSIWYG(vditor);
     }
 
     if (useRender) {

@@ -1,4 +1,4 @@
-import {VDITOR_VERSION} from "../constants";
+import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare class Viz {
@@ -7,7 +7,7 @@ declare class Viz {
     constructor({}: { worker: Worker });
 }
 
-export const graphvizRender = (element: HTMLElement, cdn = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`) => {
+export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN) => {
     const graphvizElements = element.querySelectorAll(".language-graphviz");
 
     if (graphvizElements.length === 0) {

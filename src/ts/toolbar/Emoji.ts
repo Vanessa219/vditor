@@ -1,5 +1,5 @@
-import {insertText} from "../sv/insertText";
 import {getEventName} from "../util/compatibility";
+import {execAfterRender} from "../util/fixBrowserBehavior";
 import {getEditorRange, insertHTML, setSelectionFocus} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 import {toggleSubMenu} from "./setToolbar";
@@ -43,31 +43,26 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
             element.addEventListener(getEventName(), (event: Event) => {
                 event.preventDefault();
                 const value = element.getAttribute("data-value");
-                if (vditor.currentMode === "sv") {
-                    insertText(vditor, value, "", true);
-                } else {
-                    let range;
-                    let html = "";
-                    if (vditor.currentMode === "wysiwyg") {
-                        range = getEditorRange(vditor.wysiwyg.element);
-                        html = vditor.lute.SpinVditorDOM(value);
-                    } else if (vditor.currentMode === "ir") {
-                        range = getEditorRange(vditor.ir.element);
-                        html = vditor.lute.SpinVditorIRDOM(value);
-                    }
-                    if (value.indexOf(":") > -1) {
-                        const tempElement = document.createElement("div");
-                        tempElement.innerHTML = html;
-                        html = tempElement.firstElementChild.firstElementChild.outerHTML + " ";
-                        insertHTML(html, vditor);
-                    } else {
-                        range.insertNode(document.createTextNode(value));
-                    }
-                    range.collapse(false);
-                    setSelectionFocus(range);
+                const range = getEditorRange(vditor[vditor.currentMode].element);
+                let html = value;
+                if (vditor.currentMode === "wysiwyg") {
+                    html = vditor.lute.SpinVditorDOM(value);
+                } else if (vditor.currentMode === "ir") {
+                    html = vditor.lute.SpinVditorIRDOM(value);
                 }
-
+                if (value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
+                    const tempElement = document.createElement("div");
+                    tempElement.innerHTML = html;
+                    html = tempElement.firstElementChild.firstElementChild.outerHTML + " ";
+                    insertHTML(html, vditor);
+                } else {
+                    range.extractContents();
+                    range.insertNode(document.createTextNode(value));
+                }
+                range.collapse(false);
+                setSelectionFocus(range);
                 panelElement.style.display = "none";
+                execAfterRender(vditor);
             });
             element.addEventListener("mouseover", (event: Event) => {
                 if ((event.target as HTMLElement).tagName === "BUTTON") {

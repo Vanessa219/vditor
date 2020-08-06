@@ -70,7 +70,8 @@
 .vditor-reset code:not(.hljs):not(.highlight-chroma).language-mindmap,
 .vditor-reset code:not(.hljs):not(.highlight-chroma).language-graphviz,
 .vditor-reset code:not(.hljs):not(.highlight-chroma).language-math,
-.vditor-reset code:not(.hljs):not(.highlight-chroma).language-mermaid {
+.vditor-reset code:not(.hljs):not(.highlight-chroma).language-mermaid,
+.vditor-reset .language-abc {
     background-color: rgba(120, 146, 190, .55)
 }
 
