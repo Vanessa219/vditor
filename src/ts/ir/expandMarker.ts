@@ -49,11 +49,15 @@ export const expandMarker = (range: Range, vditor: IVditor) => {
         item.classList.remove("vditor-ir__node--expand");
     });
 
-    if (!range.collapsed) {
+
+    const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
+    const nodeElementEnd = !range.collapsed && hasTopClosestByClassName(range.endContainer, "vditor-ir__node");
+    // 选中文本为同一个 nodeElement 内时，需要展开
+    if (!range.collapsed && (!nodeElement || nodeElement !== nodeElementEnd)) {
         return;
     }
 
-    const nodeElement = hasTopClosestByClassName(range.startContainer, "vditor-ir__node");
+    
     if (nodeElement) {
         nodeElement.classList.add("vditor-ir__node--expand");
         nodeElement.classList.remove("vditor-ir__node--hidden");
