@@ -1,5 +1,5 @@
 export const setLute = (options: ILuteOptions) => {
-    const lute: ILute = Lute.New();
+    const lute: Lute = Lute.New();
     lute.PutEmojis(options.emojis);
     lute.SetEmojiSite(options.emojiSite);
     lute.SetHeadingAnchor(options.headingAnchor);
