@@ -107,13 +107,13 @@ declare class Lute {
   public static Version: string;
   public static Caret: string;
 
-  private constructor();
-
   public static New(): Lute;
 
   public static GetHeadingID(node: ILuteNode): string;
 
-  SetJSRenderers(options?: {
+  private constructor();
+
+  public SetJSRenderers(options?: {
     renderers: {
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
@@ -125,84 +125,84 @@ declare class Lute {
     },
   }): void;
 
-  SetChineseParagraphBeginningSpace(enable: boolean): void;
+  public SetChineseParagraphBeginningSpace(enable: boolean): void;
 
-  SetRenderListStyle(enable: boolean): void;
+  public SetRenderListStyle(enable: boolean): void;
 
-  SetLinkBase(url: string): void;
+  public SetLinkBase(url: string): void;
 
-  SetSanitize(enable: boolean): void;
+  public SetSanitize(enable: boolean): void;
 
-  SetHeadingAnchor(enable: boolean): void;
+  public SetHeadingAnchor(enable: boolean): void;
 
-  SetImageLazyLoading(imagePath: string): void;
+  public SetImageLazyLoading(imagePath: string): void;
 
-  SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
+  public SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
-  SetToC(enable: boolean): void;
+  public SetToC(enable: boolean): void;
 
-  SetFootnotes(enable: boolean): void;
+  public SetFootnotes(enable: boolean): void;
 
-  SetAutoSpace(enable: boolean): void;
+  public SetAutoSpace(enable: boolean): void;
 
-  SetChinesePunct(enable: boolean): void;
+  public SetChinesePunct(enable: boolean): void;
 
-  SetFixTermTypo(enable: boolean): void;
+  public SetFixTermTypo(enable: boolean): void;
 
-  SetEmojiSite(emojiSite: string): void;
+  public SetEmojiSite(emojiSite: string): void;
 
-  SetVditorCodeBlockPreview(enable: boolean): void;
+  public SetVditorCodeBlockPreview(enable: boolean): void;
 
-  PutEmojis(emojis: IObject): void;
+  public PutEmojis(emojis: IObject): void;
 
-  GetEmojis(): IObject;
+  public GetEmojis(): IObject;
 
-  FormatMd(markdown: string): string;
+  public FormatMd(markdown: string): string;
 
   // debugger md
-  RenderEChartsJSON(text: string): string;
+  public RenderEChartsJSON(text: string): string;
 
   // md 转换为 html
-  Md2HTML(markdown: string): string;
+  public Md2HTML(markdown: string): string;
 
   // 粘贴时将 html 转换为 md
-  HTML2Md(html: string): string;
+  public HTML2Md(html: string): string;
 
   // wysiwyg 转换为 html
-  VditorDOM2HTML(vhtml: string): string;
+  public VditorDOM2HTML(vhtml: string): string;
 
   // wysiwyg 输入渲染
-  SpinVditorDOM(html: string): string;
+  public SpinVditorDOM(html: string): string;
 
   // 粘贴时将 html 转换为 wysiwyg
-  HTML2VditorDOM(html: string): string;
+  public HTML2VditorDOM(html: string): string;
 
   // 将 wysiwyg 转换为 md
-  VditorDOM2Md(html: string): string;
+  public VditorDOM2Md(html: string): string;
 
   // 将 md 转换为 wysiwyg
-  Md2VditorDOM(markdown: string): string;
+  public Md2VditorDOM(markdown: string): string;
 
   // ir 输入渲染
-  SpinVditorIRDOM(markdown: string): string;
+  public SpinVditorIRDOM(markdown: string): string;
 
   // ir 获取 md
-  VditorIRDOM2Md(html: string): string;
+  public VditorIRDOM2Md(html: string): string;
 
   // md 转换为 ir
-  Md2VditorIRDOM(text: string): string;
+  public Md2VditorIRDOM(text: string): string;
 
   // 获取 HTML
-  VditorIRDOM2HTML(html: string): string;
+  public VditorIRDOM2HTML(html: string): string;
 
   // 粘贴时将 html 转换为 sv
-  HTML2VditorIRDOM(html: string): string;
+  public HTML2VditorIRDOM(html: string): string;
 
   // sv 输入渲染
-  SpinVditorSVDOM(text: string): string;
+  public SpinVditorSVDOM(text: string): string;
 
   // 粘贴是 md 转换为 sv
-  Md2VditorSVDOM(text: string): string;
+  public Md2VditorSVDOM(text: string): string;
 }
 
 declare const webkitAudioContext: {

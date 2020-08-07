@@ -79,7 +79,7 @@
 
 ### v3.4.5 / 2020-08-xx
 
-
+* [697](https://github.com/Vanessa219/vditor/pull/697) 修复Lute类型的定义 `开发重构`
 
 ### v3.4.4 / 2020-08-05
 
