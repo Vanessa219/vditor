@@ -76,9 +76,12 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [684](https://github.com/Vanessa219/vditor/issues/684) 图片使用引用风格时的解析问题 `修复缺陷`
 
 ### v3.4.5 / 2020-08-xx
 
+* [698](https://github.com/Vanessa219/vditor/issues/698) 图片上传解析问题 `修复缺陷`
+* [696](https://github.com/Vanessa219/vditor/issues/696) 图片参考式解析问题 `修复缺陷`
 * [694](https://github.com/Vanessa219/vditor/pull/694) Fix expandmarker for node element `修复缺陷`
 * [697](https://github.com/Vanessa219/vditor/pull/697) 修复Lute类型的定义 `开发重构`
 

@@ -105,7 +105,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         let type = key.substr(lastIndex);
         const filename = vditor.options.upload.filename(key.substr(0, lastIndex)) + type;
         type = type.toLowerCase();
-        if (type === ".wav" || type === ".mp3" || type === ".ogg") {
+        if (type.indexOf(".wav") === 0 || type.indexOf(".mp3") === 0 || type.indexOf(".ogg") === 0) {
             if (vditor.currentMode === "wysiwyg") {
                 succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block"
  data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre>`;
@@ -114,14 +114,14 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
             } else {
                 succFileText += `[${filename}](${path})\n`;
             }
-        } else if (type === ".apng"
-            || type === ".bmp"
-            || type === ".gif"
-            || type === ".ico" || type === ".cur"
-            || type === ".jpg" || type === ".jpeg" || type === ".jfif" || type === ".pjp" || type === ".pjpeg"
-            || type === ".png"
-            || type === ".svg"
-            || type === ".webp") {
+        } else if (type.indexOf(".apng") === 0
+            || type.indexOf(".bmp") === 0
+            || type.indexOf(".gif") === 0
+            || type.indexOf(".ico") === 0 || type.indexOf(".cur") === 0
+            || type.indexOf(".jpg") === 0 || type.indexOf(".jpeg") === 0 || type.indexOf(".jfif") === 0 || type.indexOf(".pjp") === 0 || type.indexOf(".pjpeg") === 0
+            || type.indexOf(".png") === 0
+            || type.indexOf(".svg") === 0
+            || type.indexOf(".webp") === 0) {
             if (vditor.currentMode === "wysiwyg") {
                 succFileText += `<img alt="${filename}" src="${path}">`;
             } else {
