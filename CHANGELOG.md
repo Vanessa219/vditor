@@ -77,16 +77,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.4.5 / 2020-08-xx
+### v3.4.6 / 2020-08-xx
+
+### v3.4.5 / 2020-08-07
 
 * [684](https://github.com/Vanessa219/vditor/issues/684) 图片使用引用风格时的解析问题 `修复缺陷`
 * [698](https://github.com/Vanessa219/vditor/issues/698) 图片上传解析问题 `修复缺陷`
 * [696](https://github.com/Vanessa219/vditor/issues/696) 图片参考式解析问题 `修复缺陷`
 * [694](https://github.com/Vanessa219/vditor/pull/694) Fix expandmarker for node element `修复缺陷`
 * [697](https://github.com/Vanessa219/vditor/pull/697) 修复Lute类型的定义 `开发重构`
-
-### v3.4.4 / 2020-08-05
-
 * [687](https://github.com/Vanessa219/vditor/issues/687) Code 内 Enter/Backspace/Delete 可能不触发 input，并导致 Code 不及时渲染 `改进功能`
 * [685](https://github.com/Vanessa219/vditor/issues/685) options.icon 增加判断如果没有该属性则不引入js `改进功能`
 * [689](https://github.com/Vanessa219/vditor/pull/689) 存在软换行时，选中文本执行 Backspace，会导致内容异常 `修复缺陷`
