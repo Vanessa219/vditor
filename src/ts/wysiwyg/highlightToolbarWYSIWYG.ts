@@ -399,59 +399,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         // link ref popover
         const linkRefElement = hasClosestByAttribute(typeElement, "data-type", "link-ref");
         if (linkRefElement) {
-            vditor.wysiwyg.popover.innerHTML = "";
-
-            const updateLinkRef = () => {
-                if (input.value.trim() !== "") {
-                    linkRefElement.textContent = input.value;
-                }
-                // data-link-label
-                if (input1.value.trim() !== "") {
-                    linkRefElement.setAttribute("data-link-label", input1.value);
-                }
-            };
-
-            const inputWrap = document.createElement("span");
-            inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
-            inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const input = document.createElement("input");
-            inputWrap.appendChild(input);
-            input.className = "vditor-input";
-            input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
-            input.style.width = "120px";
-            input.value = linkRefElement.textContent;
-            input.oninput = () => {
-                updateLinkRef();
-            };
-            input.onkeydown = (event) => {
-                if (removeBlockElement(vditor, event)) {
-                    return;
-                }
-                linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input1);
-            };
-
-            const input1Wrap = document.createElement("span");
-            input1Wrap.setAttribute("aria-label", i18n[vditor.options.lang].linkRef);
-            input1Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
-            const input1 = document.createElement("input");
-            input1Wrap.appendChild(input1);
-            input1.className = "vditor-input";
-            input1.setAttribute("placeholder", i18n[vditor.options.lang].linkRef);
-            input1.value = linkRefElement.getAttribute("data-link-label");
-            input1.oninput = () => {
-                updateLinkRef();
-            };
-            input1.onkeydown = (event) => {
-                if (removeBlockElement(vditor, event)) {
-                    return;
-                }
-                linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
-            };
-
-            genClose(linkRefElement, vditor);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
-            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
-            setPopoverPosition(vditor, linkRefElement);
+            genLinkRefPopover(vditor, linkRefElement);
         }
 
         // footnote popover
@@ -661,6 +609,66 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
 
 };
 
+export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) => {
+    vditor.wysiwyg.popover.innerHTML = "";
+
+    const updateLinkRef = () => {
+        if (input.value.trim() !== "") {
+            if (linkRefElement.tagName === "IMG") {
+                linkRefElement.setAttribute("alt", input.value);
+            } else {
+                linkRefElement.textContent = input.value;
+            }
+        }
+        // data-link-label
+        if (input1.value.trim() !== "") {
+            linkRefElement.setAttribute("data-link-label", input1.value);
+        }
+    };
+
+    const inputWrap = document.createElement("span");
+    inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].textIsNotEmpty);
+    inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const input = document.createElement("input");
+    inputWrap.appendChild(input);
+    input.className = "vditor-input";
+    input.setAttribute("placeholder", i18n[vditor.options.lang].textIsNotEmpty);
+    input.style.width = "120px";
+    input.value = linkRefElement.getAttribute("alt") || linkRefElement.textContent;
+    input.oninput = () => {
+        updateLinkRef();
+    };
+    input.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
+        linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input1);
+    };
+
+    const input1Wrap = document.createElement("span");
+    input1Wrap.setAttribute("aria-label", i18n[vditor.options.lang].linkRef);
+    input1Wrap.className = "vditor-tooltipped vditor-tooltipped__n";
+    const input1 = document.createElement("input");
+    input1Wrap.appendChild(input1);
+    input1.className = "vditor-input";
+    input1.setAttribute("placeholder", i18n[vditor.options.lang].linkRef);
+    input1.value = linkRefElement.getAttribute("data-link-label");
+    input1.oninput = () => {
+        updateLinkRef();
+    };
+    input1.onkeydown = (event) => {
+        if (removeBlockElement(vditor, event)) {
+            return;
+        }
+        linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
+    };
+
+    genClose(linkRefElement, vditor);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
+    vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
+    setPopoverPosition(vditor, linkRefElement);
+};
+
 const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
     const previousElement = element.previousElementSibling;
     if (!previousElement || (!element.parentElement.isEqualNode(vditor.wysiwyg.element) && element.tagName !== "LI")) {
@@ -866,12 +874,12 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     };
 
     const titleWrap = document.createElement("span");
-    titleWrap.setAttribute("aria-label", "Title");
+    titleWrap.setAttribute("aria-label", i18n[vditor.options.lang].title);
     titleWrap.className = "vditor-tooltipped vditor-tooltipped__n";
     const title = document.createElement("input");
     titleWrap.appendChild(title);
     title.className = "vditor-input";
-    title.setAttribute("placeholder", "Title");
+    title.setAttribute("placeholder", i18n[vditor.options.lang].title);
     title.value = imgElement.getAttribute("title") || "";
     title.oninput = () => {
         updateImg();

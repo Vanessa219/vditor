@@ -22,7 +22,7 @@ import {
     setRangeByWbr,
 } from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
-import {genImagePopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
+import {genImagePopover, genLinkRefPopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
 import {showCode} from "./showCode";
@@ -33,7 +33,7 @@ class WYSIWYG {
     public afterRenderTimeoutId: number;
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
-    public composingLock: boolean = false;
+    public composingLock = false;
 
     constructor(vditor: IVditor) {
         const divElement = document.createElement("div");
@@ -151,7 +151,7 @@ class WYSIWYG {
         });
 
         // 中文处理
-        this.element.addEventListener("compositionstart", (event: InputEvent) => {
+        this.element.addEventListener("compositionstart", () => {
             this.composingLock = true;
         });
 
@@ -243,7 +243,11 @@ class WYSIWYG {
             }
 
             if (event.target.tagName === "IMG") {
-                genImagePopover(event, vditor);
+                if (event.target.getAttribute("data-type") === "link-ref") {
+                    genLinkRefPopover(vditor, event.target);
+                } else {
+                    genImagePopover(event, vditor);
+                }
                 return;
             }
 
