@@ -241,7 +241,7 @@ export const insertHTML = (html: string, vditor: IVditor) => {
         html = tempBlockElement[0].innerHTML.trim();
     }
 
-    const pasteElement = document.createElement("template");
+    const pasteElement = document.createElement("div");
     pasteElement.innerHTML = html;
 
     const range = getEditorRange(vditor[vditor.currentMode].element);
@@ -251,12 +251,14 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     }
 
     const blockElement = hasClosestBlock(range.startContainer);
-    if (pasteElement.content.firstElementChild &&
-        pasteElement.content.firstElementChild.getAttribute("data-block") === "0" && blockElement) {
+    if (pasteElement.firstElementChild &&
+        pasteElement.firstElementChild.getAttribute("data-block") === "0" && blockElement) {
         // 粘贴内容为块元素时，应在下一段落中插入
-        blockElement.insertAdjacentHTML("afterend", html);
+        pasteElement.lastElementChild.insertAdjacentHTML("beforeend", "<wbr>");
+        blockElement.insertAdjacentHTML("afterend",  pasteElement.innerHTML);
+        setRangeByWbr(vditor[vditor.currentMode].element, range);
     } else {
-        range.insertNode(pasteElement.content.cloneNode(true));
+        range.insertNode(pasteElement.firstChild);
         range.collapse(false);
         setSelectionFocus(range);
     }
