@@ -250,15 +250,19 @@ export const insertHTML = (html: string, vditor: IVditor) => {
         document.execCommand("delete", false, "");
     }
 
-    const blockElement = hasClosestBlock(range.startContainer);
     if (pasteElement.firstElementChild &&
-        pasteElement.firstElementChild.getAttribute("data-block") === "0" && blockElement) {
+        pasteElement.firstElementChild.getAttribute("data-block") === "0") {
         // 粘贴内容为块元素时，应在下一段落中插入
         pasteElement.lastElementChild.insertAdjacentHTML("beforeend", "<wbr>");
-        blockElement.insertAdjacentHTML("afterend",  pasteElement.innerHTML);
+        const blockElement = hasClosestBlock(range.startContainer);
+        if (!blockElement) {
+            vditor[vditor.currentMode].element.insertAdjacentHTML("beforeend", pasteElement.innerHTML);
+        } else {
+            blockElement.insertAdjacentHTML("afterend", pasteElement.innerHTML);
+        }
         setRangeByWbr(vditor[vditor.currentMode].element, range);
     } else {
-        range.insertNode(pasteElement.cloneNode(true));
+        range.insertNode(pasteElement.firstChild);
         range.collapse(false);
         setSelectionFocus(range);
     }
