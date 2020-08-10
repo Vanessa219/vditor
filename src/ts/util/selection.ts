@@ -258,7 +258,7 @@ export const insertHTML = (html: string, vditor: IVditor) => {
         blockElement.insertAdjacentHTML("afterend",  pasteElement.innerHTML);
         setRangeByWbr(vditor[vditor.currentMode].element, range);
     } else {
-        range.insertNode(pasteElement.firstChild);
+        range.insertNode(pasteElement.cloneNode(true));
         range.collapse(false);
         setSelectionFocus(range);
     }
