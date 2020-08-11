@@ -43,25 +43,24 @@ export class Preview {
         for (let i = 0; i < actions.length; i++) {
             const action = actions[i];
             if (typeof action === "object") {
-                actionHtml.push(`
-                    <button data-type="${action.key}" class="${action.className}">${action.text}</button>`);
+                actionHtml.push(`<button type="button" data-type="${action.key}" class="${action.className}">${action.text}</button>`);
                 continue;
             }
             switch (action) {
                 case "desktop":
-                    actionHtml.push(`<button class="vditor-preview__action--current" data-type="desktop">Desktop</button>`);
+                    actionHtml.push(`<button type="button" class="vditor-preview__action--current" data-type="desktop">Desktop</button>`);
                     break;
                 case "tablet":
-                    actionHtml.push(`<button data-type="tablet">Tablet</button>`);
+                    actionHtml.push(`<button type="button" data-type="tablet">Tablet</button>`);
                     break;
                 case "mobile":
-                    actionHtml.push(`<button data-type="mobile">Mobile/Wechat</button>`);
+                    actionHtml.push(`<button type="button" data-type="mobile">Mobile/Wechat</button>`);
                     break;
                 case "mp-wechat":
-                    actionHtml.push(`<button data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号"><svg><use xlink:href="#vditor-icon-mp-wechat"></use></svg></button>`);
+                    actionHtml.push(`<button type="button" data-type="mp-wechat" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到公众号"><svg><use xlink:href="#vditor-icon-mp-wechat"></use></svg></button>`);
                     break;
                 case "zhihu":
-                    actionHtml.push(`<button data-type="zhihu" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到知乎"><svg><use xlink:href="#vditor-icon-zhihu"></use></svg></button>`);
+                    actionHtml.push(`<button type="button" data-type="zhihu" class="vditor-tooltipped vditor-tooltipped__w" aria-label="复制到知乎"><svg><use xlink:href="#vditor-icon-zhihu"></use></svg></button>`);
                     break;
             }
         }

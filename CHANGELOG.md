@@ -79,6 +79,8 @@
 
 ### v3.4.6 / 2020-08-xx
 
+* [701](https://github.com/Vanessa219/vditor/issues/701) 复制到微信、知乎的改进 `改进功能`
+
 ### v3.4.5 / 2020-08-07
 
 * [684](https://github.com/Vanessa219/vditor/issues/684) 图片使用引用风格时的解析问题 `修复缺陷`
