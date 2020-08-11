@@ -935,6 +935,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         if (!codeRenderElement.firstElementChild.textContent.endsWith("\n")) {
             codeRenderElement.firstElementChild.insertAdjacentText("beforeend", "\n");
         }
+        range.extractContents();
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
