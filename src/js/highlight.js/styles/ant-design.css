@@ -2,9 +2,9 @@
 .highlight-chroma {
     display: block;
     padding: 16px 32px;
-    color: rgba(0,0,0,.85);
+    color: rgba(0, 0, 0, .85);
     font-size: 14px;
-    font-family: lucida console,Consolas,Monaco,andale mono,ubuntu mono,monospace;
+    font-family: lucida console, Consolas, Monaco, andale mono, ubuntu mono, monospace;
     line-height: 2;
     white-space: pre;
     background: white;
@@ -12,6 +12,16 @@
     border-radius: 2px;
 }
 
+.highlight-chroma::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+.highlight-o {
+    color: #0b8235;
+}
+.highlight-p {
+    color: #999;
+}
 /* Error */
 .highlight-chroma .highlight-err {
     color: #a61717;
@@ -89,8 +99,7 @@
 
 /* KeywordReserved */
 .highlight-chroma .highlight-kr {
-    color: #6ab825;
-    font-weight: bold
+    color: #008dff;
 }
 
 /* KeywordType */
@@ -209,12 +218,12 @@
 
 /* LiteralStringRegex */
 .highlight-chroma .highlight-sr {
-    color: #ed9d13
+    color: #e90;
 }
 
 /* LiteralStringSingle */
 .highlight-chroma .highlight-s1 {
-    color: #ed9d13
+    color: #0b8235
 }
 
 /* LiteralStringSymbol */
@@ -283,7 +292,7 @@
 
 /* CommentSingle */
 .highlight-chroma .highlight-c1 {
-    color: #999999;
+    color: #708090;
     font-style: italic
 }
 
@@ -368,32 +377,12 @@
     color: #666666
 }
 
-/*
-
-Atom One Dark by Daniel Gamage
-Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
-
-base:    #282c34
-mono-1:  #abb2bf
-mono-2:  #818896
-mono-3:  #5c6370
-hue-1:   #56b6c2
-hue-2:   #61aeee
-hue-3:   #c678dd
-hue-4:   #98c379
-hue-5:   #e06c75
-hue-5-2: #be5046
-hue-6:   #d19a66
-hue-6-2: #e6c07b
-
-*/
-
 .hljs {
     display: block;
     padding: 16px 32px;
-    color: rgba(0,0,0,.85);
+    color: rgba(0, 0, 0, .85);
     font-size: 14px;
-    font-family: lucida console,Consolas,Monaco,andale mono,ubuntu mono,monospace;
+    font-family: lucida console, Consolas, Monaco, andale mono, ubuntu mono, monospace;
     line-height: 2;
     white-space: pre;
     background: white;
@@ -401,9 +390,14 @@ hue-6-2: #e6c07b
     border-radius: 2px;
 }
 
+.hljs::selection {
+    text-shadow: none;
+    background: #b3d4fc;
+}
+
 .hljs-comment,
 .hljs-quote {
-    color: #5c6370;
+    color: #708090;
     font-style: italic;
 }
 
@@ -418,19 +412,22 @@ hue-6-2: #e6c07b
 .hljs-selector-tag,
 .hljs-deletion,
 .hljs-subst {
-    color: #e06c75;
+    color: #999;
 }
 
 .hljs-literal {
     color: #56b6c2;
 }
 
+
+.hljs-regexp {
+    color: #e90;
+}
 .hljs-string,
-.hljs-regexp,
 .hljs-addition,
 .hljs-attribute,
 .hljs-meta-string {
-    color: #98c379;
+    color: #0b8235;
 }
 
 .hljs-built_in,
@@ -446,7 +443,7 @@ hue-6-2: #e6c07b
 .hljs-selector-attr,
 .hljs-selector-pseudo,
 .hljs-number {
-    color: #d19a66;
+    color: #f81d22;
 }
 
 .hljs-symbol,
@@ -455,7 +452,7 @@ hue-6-2: #e6c07b
 .hljs-meta,
 .hljs-selector-id,
 .hljs-title {
-    color: #61aeee;
+    color: #f81d22;
 }
 
 .hljs-emphasis {
