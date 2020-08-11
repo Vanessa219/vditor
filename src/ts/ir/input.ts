@@ -75,20 +75,11 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
         blockElement = vditor.ir.element;
     }
 
+    // document.exeComment insertHTML 会插入 wbr
     if (!blockElement.querySelector("wbr")) {
-        const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
-        if (previewRenderElement && previewRenderElement.previousElementSibling) {
-            // 光标如果落在预览区域中，则重置到代码区域
-            if (previewRenderElement.previousElementSibling.firstElementChild) {
-                range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
-            } else {
-                range.selectNodeContents(previewRenderElement.previousElementSibling);
-            }
-            range.collapse(false);
-        }
-        // document.exeComment insertHTML 会插入 wbr
         range.insertNode(document.createElement("wbr"));
     }
+
     // 清除浏览器自带的样式
     blockElement.querySelectorAll("[style]").forEach((item) => {
         item.removeAttribute("style");

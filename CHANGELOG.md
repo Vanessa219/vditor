@@ -76,9 +76,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [706](https://github.com/Vanessa219/vditor/issues/706) 光标非正常移动 `修复缺陷`
 
 ### v3.4.6 / 2020-08-xx
 
+* [703](https://github.com/Vanessa219/vditor/issues/703) codeblock with backspace(IR) `修复缺陷`
 * [708](https://github.com/Vanessa219/vditor/issues/708) linkToImgUrl 方法添加 token `改进功能`
 * [701](https://github.com/Vanessa219/vditor/issues/701) 复制到微信、知乎的改进 `改进功能`
 

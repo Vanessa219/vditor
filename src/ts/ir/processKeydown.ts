@@ -19,6 +19,9 @@ import {
 } from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
+import {Constants} from "../constants";
+import {processAfterRender} from "./process";
+import {expandMarker} from "./expandMarker";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -159,10 +162,30 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
+    const blockElement = hasClosestBlock(startContainer);
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
         if (fixDelete(vditor, range, event, pElement)) {
             return true;
         }
+
+        if (blockElement && blockElement.previousElementSibling
+            && blockElement.previousElementSibling.getAttribute("data-type") === "code-block") {
+            const rangeStart = getSelectPosition(blockElement, vditor.ir.element, range).start;
+            if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
+                // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
+                range.selectNodeContents(blockElement.previousElementSibling.querySelector(".vditor-ir__marker--pre code"));
+                range.collapse(false);
+                expandMarker(range, vditor);
+                if (blockElement.textContent.trim().replace(Constants.ZWSP, "") === "") {
+                    // 当前块为空且不是最后一个时，需要删除
+                    blockElement.remove();
+                    processAfterRender(vditor);
+                }
+                event.preventDefault();
+                return true;
+            }
+        }
+
         // 光标位于标题前，marker 后
         const headingElement = hasClosestByHeadings(startContainer);
         if (headingElement) {
@@ -175,7 +198,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
     }
 
-    const blockElement = hasClosestBlock(startContainer);
     if ((event.key === "ArrowUp" || event.key === "ArrowDown") && blockElement) {
         // https://github.com/Vanessa219/vditor/issues/358
         blockElement.querySelectorAll(".vditor-ir__node").forEach((item: HTMLElement) => {

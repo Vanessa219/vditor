@@ -267,7 +267,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                     // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
                     showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor, false);
-                    if (blockElement.innerHTML.trim() === "") {
+                    if (blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {
                         // 当前块为空且不是最后一个时，需要删除
                         blockElement.remove();
                         afterRenderEvent(vditor);
