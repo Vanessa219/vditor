@@ -79,6 +79,7 @@
 
 ### v3.4.6 / 2020-08-xx
 
+* [708](https://github.com/Vanessa219/vditor/issues/708) linkToImgUrl 方法添加 token `改进功能`
 * [701](https://github.com/Vanessa219/vditor/issues/701) 复制到微信、知乎的改进 `改进功能`
 
 ### v3.4.5 / 2020-08-07

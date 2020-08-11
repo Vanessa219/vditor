@@ -1201,6 +1201,12 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             vditor.options.upload.linkToImgUrl) {
             const xhr = new XMLHttpRequest();
             xhr.open("POST", vditor.options.upload.linkToImgUrl);
+            if (vditor.options.upload.token) {
+                xhr.setRequestHeader("X-Upload-Token", vditor.options.upload.token);
+            }
+            if (vditor.options.upload.withCredentials) {
+                xhr.withCredentials = true;
+            }
             setHeaders(vditor, xhr);
             xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             xhr.onreadystatechange = () => {
