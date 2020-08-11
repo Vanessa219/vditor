@@ -35,8 +35,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         let typeElement = range.startContainer as HTMLElement;
         if (range.startContainer.nodeType === 3) {
             typeElement = range.startContainer.parentElement;
-        }
-        if (typeElement.classList.contains("vditor-reset")) {
+        } else {
             typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
         }
 

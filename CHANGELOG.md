@@ -76,17 +76,17 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+
+### v3.4.7 / 2020-08-xx
+
+### v3.4.6 / 2020-08-11
+
+* [709](https://github.com/Vanessa219/vditor/issues/709) 操作栏按钮快速点击问题「ir」「wysiwyg」模式 `改进功能`
 * [706](https://github.com/Vanessa219/vditor/issues/706) 光标非正常移动 `修复缺陷`
-
-### v3.4.6 / 2020-08-xx
-
 * [676](https://github.com/Vanessa219/vditor/issues/676) 请求：增加 Ant Design 主题 `引入特性`
 * [703](https://github.com/Vanessa219/vditor/issues/703) codeblock with backspace(IR) `修复缺陷`
 * [708](https://github.com/Vanessa219/vditor/issues/708) linkToImgUrl 方法添加 token `改进功能`
 * [701](https://github.com/Vanessa219/vditor/issues/701) 复制到微信、知乎的改进 `改进功能`
-
-### v3.4.5 / 2020-08-07
-
 * [684](https://github.com/Vanessa219/vditor/issues/684) 图片使用引用风格时的解析问题 `修复缺陷`
 * [698](https://github.com/Vanessa219/vditor/issues/698) 图片上传解析问题 `修复缺陷`
 * [696](https://github.com/Vanessa219/vditor/issues/696) 图片参考式解析问题 `修复缺陷`

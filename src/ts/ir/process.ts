@@ -164,6 +164,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             if (blockElement) {
                 range.insertNode(document.createElement("wbr"));
                 blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
+                useHighlight = false;
+                actionBtn.classList.add("vditor-menu--current");
             }
         } else if (commandName === "link") {
             let html;
@@ -173,6 +175,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 html = `${prefix}${range.toString()}${suffix.replace(")", "<wbr>)")}`;
             }
             document.execCommand("insertHTML", false, html);
+            useHighlight = false;
+            actionBtn.classList.add("vditor-menu--current");
         } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
             || commandName === "inline-code" || commandName === "code" || commandName === "table") {
             let html;
@@ -183,11 +187,17 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             }
             if (commandName === "table" || commandName === "code") {
                 html = "\n" + html;
+                actionBtn.classList.add("vditor-menu--disabled");
+            } else {
+                actionBtn.classList.add("vditor-menu--current");
             }
             document.execCommand("insertHTML", false, html);
             if (commandName === "table") {
                 range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
                 setSelectionFocus(range);
+            }
+            if (commandName !== "code" && commandName !== "inline-code") {
+                useHighlight = false;
             }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);

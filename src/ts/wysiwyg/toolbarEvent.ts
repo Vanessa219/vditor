@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {removeCurrentToolbar, setCurrentToolbar} from "../toolbar/setToolbar";
+import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {listToggle} from "../util/fixBrowserBehavior";
 import {hasClosestBlock, hasClosestByMatchTag} from "../util/hasClosest";
 import {processCodeRender} from "../util/processCode";
@@ -109,11 +109,13 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 setRangeByWbr(vditor.wysiwyg.element, range);
             }
         } else if (commandName === "inline-code") {
-            if (!range.collapsed) {
-                document.execCommand("removeFormat", false, "");
-            } else {
-                range.selectNode(range.startContainer.parentElement);
-                document.execCommand("removeFormat", false, "");
+            let inlineCodeElement = hasClosestByMatchTag(range.startContainer, "CODE");
+            if (!inlineCodeElement) {
+                inlineCodeElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;
+            }
+            if (inlineCodeElement) {
+                inlineCodeElement.outerHTML = inlineCodeElement.innerHTML.replace(Constants.ZWSP, "") + "<wbr>";
+                setRangeByWbr(vditor.wysiwyg.element, range);
             }
         } else if (commandName === "link") {
             if (!range.collapsed) {
@@ -184,8 +186,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 range.insertNode(node);
                 setSelectionFocus(range);
             }
-            useHighlight = false;
-            setCurrentToolbar(vditor.toolbar.elements, ["inline-code"]);
+            actionBtn.classList.add("vditor-menu--current");
         } else if (commandName === "code") {
             const node = document.createElement("div");
             node.className = "vditor-wysiwyg__block";
@@ -207,6 +208,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 (item: HTMLElement) => {
                     processCodeRender(item, vditor);
                 });
+            actionBtn.classList.add("vditor-menu--disabled");
         } else if (commandName === "link") {
             if (range.toString() === "") {
                 const aElement = document.createElement("a");
@@ -218,7 +220,6 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 const textInputElement = vditor.wysiwyg.popover.querySelector("input");
                 textInputElement.value = "";
                 textInputElement.focus();
-                useHighlight = false;
                 useRender = false;
             } else {
                 const node = document.createElement("a");
@@ -231,8 +232,9 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 const textInputElements = vditor.wysiwyg.popover.querySelectorAll("input");
                 textInputElements[0].value = node.innerText;
                 textInputElements[1].focus();
-                useHighlight = false;
             }
+            useHighlight = false;
+            actionBtn.classList.add("vditor-menu--current");
         } else if (commandName === "table") {
             let tableHTML = `<table data-block="0"><thead><tr><th>col1<wbr></th><th>col2</th><th>col3</th></tr></thead><tbody><tr><td> </td><td> </td><td> </td></tr><tr><td> </td><td> </td><td> </td></tr></tbody></table>`;
             if (range.toString().trim() === "") {
@@ -275,6 +277,8 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 document.execCommand("insertHTML", false, tableHTML);
                 setRangeByWbr(vditor.wysiwyg.element, range);
             }
+            useHighlight = false;
+            actionBtn.classList.add("vditor-menu--disabled");
         } else if (commandName === "line") {
             if (blockElement) {
                 const hrHTML = '<hr data-block="0"><p data-block="0"><wbr>\n</p>';
