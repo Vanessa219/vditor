@@ -37,10 +37,6 @@
       transition: $transition;
     }
 
-    .vditor-ir__marker--pre code {
-       background-color: var(--code-background-color) !important;
-    }
-
     &--hidden {
       .vditor-ir__marker {
         visibility: hidden;
@@ -87,8 +83,10 @@
           color: var(--ir-heading-color);
         }
 
-        &--pre {
+        &--pre code {
           color: var(--textarea-text-color);
+          background-color: var(--code-background-color) !important;
+          height: auto;
         }
       }
 
