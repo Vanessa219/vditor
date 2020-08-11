@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl} from "../util/compatibility";
 import {
@@ -19,9 +20,8 @@ import {
 } from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
-import {Constants} from "../constants";
-import {processAfterRender} from "./process";
 import {expandMarker} from "./expandMarker";
+import {processAfterRender} from "./process";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
