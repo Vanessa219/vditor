@@ -47,9 +47,10 @@ export abstract class Constants {
     public static readonly THEME_OPTIONS = {
         current: "light",
         list: {
-            dark: "Dark",
-            light: "Light",
-            wechat: "WeChat",
+            "ant-design": "Ant Design",
+            "dark": "Dark",
+            "light": "Light",
+            "wechat": "WeChat",
         },
         path: `${Constants.CDN}/dist/css/content-theme`,
     };

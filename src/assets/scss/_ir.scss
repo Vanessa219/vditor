@@ -37,8 +37,8 @@
       transition: $transition;
     }
 
-    .vditor-ir__preview code:not(.hljs):not(.highlight-chroma) {
-      background-color: var(--preview-background-color);
+    .vditor-ir__marker--pre code {
+       background-color: var(--code-background-color) !important;
     }
 
     &--hidden {
@@ -89,15 +89,6 @@
 
         &--pre {
           color: var(--textarea-text-color);
-
-          .language-mermaid,
-          .language-math,
-          .language-graphviz,
-          .language-echarts,
-          .language-mindmap {
-            background-color: var(--code-background-color) !important;
-            height: auto;
-          }
         }
       }
 

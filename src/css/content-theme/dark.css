@@ -33,6 +33,7 @@
 }
 
 .vditor-reset h1, .vditor-reset h2 {
+    padding-bottom: 0.3em;
     border-bottom: 1px solid #d1d5da
 }
 
@@ -63,15 +64,11 @@
 }
 
 .vditor-reset code:not(.hljs):not(.highlight-chroma) {
-    background-color: rgba(66, 133, 244, .36)
+    background-color: rgba(66, 133, 244, .36);
+    --code-background-color: rgba(66, 133, 244, .36);
 }
 
-.vditor-reset code:not(.hljs):not(.highlight-chroma).language-echarts,
-.vditor-reset code:not(.hljs):not(.highlight-chroma).language-mindmap,
-.vditor-reset code:not(.hljs):not(.highlight-chroma).language-graphviz,
-.vditor-reset code:not(.hljs):not(.highlight-chroma).language-math,
-.vditor-reset code:not(.hljs):not(.highlight-chroma).language-mermaid,
-.vditor-reset .language-abc {
+.vditor-reset pre code:not(.hljs):not(.highlight-chroma), .vditor-reset .language-abc {
     background-color: rgba(120, 146, 190, .55)
 }
 

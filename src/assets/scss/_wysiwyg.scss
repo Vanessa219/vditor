@@ -70,10 +70,6 @@
     cursor: pointer;
     white-space: initial;
     min-height: 27px;
-
-    code:not(.hljs):not(.highlight-chroma) {
-      background-color: var(--preview-background-color);
-    }
   }
 
   & > .vditor-reset > h1:before,
