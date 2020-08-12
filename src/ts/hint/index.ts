@@ -107,6 +107,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         this.element.style.top = `${y + (lineHeight || 22)}px`;
         this.element.style.left = `${x}px`;
         this.element.style.display = "block";
+        this.element.style.right = "auto";
 
         this.element.querySelectorAll("button").forEach((element) => {
             element.addEventListener("click", (event) => {
@@ -117,6 +118,10 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         // hint 展现在上部
         if (this.element.getBoundingClientRect().bottom > window.innerHeight) {
             this.element.style.top = `${y - this.element.offsetHeight}px`;
+        }
+        if (this.element.getBoundingClientRect().right > window.innerWidth) {
+            this.element.style.left = "auto";
+            this.element.style.right = "0";
         }
     }
 
