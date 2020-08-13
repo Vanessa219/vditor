@@ -262,7 +262,9 @@ export const insertHTML = (html: string, vditor: IVditor) => {
         }
         setRangeByWbr(vditor[vditor.currentMode].element, range);
     } else {
-        range.insertNode(pasteElement.firstChild);
+        const pasteTemplate = document.createElement("template");
+        pasteTemplate.innerHTML = html;
+        range.insertNode(pasteTemplate.content.cloneNode(true));
         range.collapse(false);
         setSelectionFocus(range);
     }
