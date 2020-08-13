@@ -174,7 +174,7 @@ export class Options {
             suffix: "*",
             tipPosition: "ne",
         }, {
-            hotkey: "⌘-S",
+            hotkey: "⌘-D",
             icon: '<svg><use xlink:href="#vditor-icon-strike"></use></svg>',
             name: "strike",
             prefix: "~~",

@@ -118,6 +118,7 @@
 * [638](https://github.com/Vanessa219/vditor/pull/638) ir模式下图片编辑时很难触发md图片代码显示 `改进功能`
 * 文档修改
   * 3.4.2 `options.hint.at` => "options.hint.extend: IHintExtend[]"
+  * 3.4.7 删除线快捷键修改为 `⌘-D`
 
 ### v3.3.12 / 2020-07-28
 
