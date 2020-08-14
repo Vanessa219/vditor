@@ -128,6 +128,7 @@
   }
 
   pre.vditor-reset {
+    -webkit-user-modify: read-write-plaintext-only;
     background-color: var(--panel-background-color);
     margin: 0;
     white-space: pre-wrap;
