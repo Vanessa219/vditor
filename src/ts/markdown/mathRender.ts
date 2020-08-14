@@ -88,6 +88,9 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                 }
                 const math = code160to32(mathElement.textContent);
                 mathElement.setAttribute("data-math", math);
+                if (!math) {
+                    return;
+                }
                 window.MathJax.texReset();
                 const mathOptions = window.MathJax.getMetricsFor(mathElement);
                 mathOptions.display = mathElement.tagName === "DIV";

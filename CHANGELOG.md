@@ -79,6 +79,8 @@
 
 ### v3.4.7 / 2020-08-xx
 
+* [714](https://github.com/Vanessa219/vditor/issues/714) preview 数学公式解析问题 `修复缺陷`
+
 ### v3.4.6 / 2020-08-11
 
 * [709](https://github.com/Vanessa219/vditor/issues/709) 操作栏按钮快速点击问题「ir」「wysiwyg」模式 `改进功能`
