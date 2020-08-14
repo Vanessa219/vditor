@@ -102,5 +102,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.lazyLoadImage) {
         lazyLoadImageRender(previewElement);
     }
-    addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+    if (mergedOptions.icon) {
+        addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+    }
 };
