@@ -114,10 +114,14 @@ module.exports = {
     new webpack.DefinePlugin({
       VDITOR_VERSION: JSON.stringify(pkg.version),
     }),
-    new CopyPlugin([
-      {from: 'src/images', to: 'images'},
-      {from: 'src/js', to: 'js'},
-    ]),
+    new CopyPlugin({
+      patterns: [
+        {from: 'src/css', to: 'css'},
+        {from: 'src/images', to: 'images'},
+        {from: 'src/js', to: 'js'},
+        {from: 'types', to: 'types'},
+      ],
+    }),
   ],
   devServer: {
     contentBase: path.join(__dirname, '.'),

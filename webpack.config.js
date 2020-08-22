@@ -45,7 +45,7 @@ SOFTWARE.
 
 const rimraf = require('rimraf')
 
-rimraf.sync('./dist', {},() => {
+rimraf.sync('./dist', {}, () => {
   console.log('rm dist')
 })
 
@@ -100,12 +100,14 @@ module.exports = [
       new WebpackOnBuildPlugin(() => {
         fs.unlinkSync('./dist/index.js')
       }),
-      new CopyPlugin([
-        {from: 'src/css', to: 'css'},
-        {from: 'src/images', to: 'images'},
-        {from: 'src/js', to: 'js'},
-        {from: 'types', to: 'types'},
-      ]),
+      new CopyPlugin({
+        patterns: [
+          {from: 'src/css', to: 'css'},
+          {from: 'src/images', to: 'images'},
+          {from: 'src/js', to: 'js'},
+          {from: 'types', to: 'types'},
+        ],
+      }),
     ],
   }, {
     mode: 'production',
@@ -163,7 +165,7 @@ module.exports = [
         {
           test: /\.ts$/,
           use: 'ts-loader',
-        }
+        },
       ],
     },
     plugins: [
