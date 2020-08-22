@@ -292,6 +292,7 @@ new Vditor('vditor', {
 | sanitize | Use XSS | true |
 | listStyle | add data-style attribute | false |
 | linkBase | link prefix | '' |
+| mark | enable mark tag | false |
 
 #### options.preview.math
 
