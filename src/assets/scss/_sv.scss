@@ -62,6 +62,11 @@
     text-decoration: line-through;
   }
 
+  .mark:not(.vditor-sv__marker) {
+    background-color: yellow;
+    color: black;
+  }
+
   .h1 {
     font-size: 1.75em;
     line-height: 44px;

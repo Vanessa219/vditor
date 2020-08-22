@@ -100,109 +100,110 @@ interface ILuteOptions extends IMarkdownConfig {
     inlineMathDigit: boolean;
     lazyLoadImage?: string;
 }
+
 declare class Lute {
-  public static WalkStop: number;
-  public static WalkSkipChildren: number;
-  public static WalkContinue: number;
-  public static Version: string;
-  public static Caret: string;
+    public static WalkStop: number;
+    public static WalkSkipChildren: number;
+    public static WalkContinue: number;
+    public static Version: string;
+    public static Caret: string;
 
-  public static New(): Lute;
+    public static New(): Lute;
 
-  public static GetHeadingID(node: ILuteNode): string;
+    public static GetHeadingID(node: ILuteNode): string;
 
-  private constructor();
+    private constructor();
 
-  public SetJSRenderers(options?: {
-    renderers: {
-        HTML2VditorDOM?: ILuteRender,
-        HTML2VditorIRDOM?: ILuteRender,
-        HTML2Md?: ILuteRender,
-        Md2HTML?: ILuteRender,
-        Md2VditorDOM?: ILuteRender,
-        Md2VditorIRDOM?: ILuteRender,
-        Md2VditorSVDOM?: ILuteRender,
-    },
-  }): void;
+    public SetJSRenderers(options?: {
+        renderers: {
+            HTML2VditorDOM?: ILuteRender,
+            HTML2VditorIRDOM?: ILuteRender,
+            HTML2Md?: ILuteRender,
+            Md2HTML?: ILuteRender,
+            Md2VditorDOM?: ILuteRender,
+            Md2VditorIRDOM?: ILuteRender,
+            Md2VditorSVDOM?: ILuteRender,
+        },
+    }): void;
 
-  public SetChineseParagraphBeginningSpace(enable: boolean): void;
+    public SetChineseParagraphBeginningSpace(enable: boolean): void;
 
-  public SetRenderListStyle(enable: boolean): void;
+    public SetRenderListStyle(enable: boolean): void;
 
-  public SetLinkBase(url: string): void;
+    public SetLinkBase(url: string): void;
 
-  public SetSanitize(enable: boolean): void;
+    public SetMark(enable: boolean): void;
 
-  public SetHeadingAnchor(enable: boolean): void;
+    public SetSanitize(enable: boolean): void;
 
-  public SetImageLazyLoading(imagePath: string): void;
+    public SetHeadingAnchor(enable: boolean): void;
 
-  public SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
+    public SetImageLazyLoading(imagePath: string): void;
 
-  public SetToC(enable: boolean): void;
+    public SetInlineMathAllowDigitAfterOpenMarker(enable: boolean): void;
 
-  public SetFootnotes(enable: boolean): void;
+    public SetToC(enable: boolean): void;
 
-  public SetAutoSpace(enable: boolean): void;
+    public SetFootnotes(enable: boolean): void;
 
-  public SetChinesePunct(enable: boolean): void;
+    public SetAutoSpace(enable: boolean): void;
 
-  public SetFixTermTypo(enable: boolean): void;
+    public SetChinesePunct(enable: boolean): void;
 
-  public SetEmojiSite(emojiSite: string): void;
+    public SetFixTermTypo(enable: boolean): void;
 
-  public SetVditorCodeBlockPreview(enable: boolean): void;
+    public SetEmojiSite(emojiSite: string): void;
 
-  public PutEmojis(emojis: IObject): void;
+    public SetVditorCodeBlockPreview(enable: boolean): void;
 
-  public GetEmojis(): IObject;
+    public PutEmojis(emojis: IObject): void;
 
-  public FormatMd(markdown: string): string;
+    public GetEmojis(): IObject;
 
-  // debugger md
-  public RenderEChartsJSON(text: string): string;
+    // debugger md
+    public RenderEChartsJSON(text: string): string;
 
-  // md 转换为 html
-  public Md2HTML(markdown: string): string;
+    // md 转换为 html
+    public Md2HTML(markdown: string): string;
 
-  // 粘贴时将 html 转换为 md
-  public HTML2Md(html: string): string;
+    // 粘贴时将 html 转换为 md
+    public HTML2Md(html: string): string;
 
-  // wysiwyg 转换为 html
-  public VditorDOM2HTML(vhtml: string): string;
+    // wysiwyg 转换为 html
+    public VditorDOM2HTML(vhtml: string): string;
 
-  // wysiwyg 输入渲染
-  public SpinVditorDOM(html: string): string;
+    // wysiwyg 输入渲染
+    public SpinVditorDOM(html: string): string;
 
-  // 粘贴时将 html 转换为 wysiwyg
-  public HTML2VditorDOM(html: string): string;
+    // 粘贴时将 html 转换为 wysiwyg
+    public HTML2VditorDOM(html: string): string;
 
-  // 将 wysiwyg 转换为 md
-  public VditorDOM2Md(html: string): string;
+    // 将 wysiwyg 转换为 md
+    public VditorDOM2Md(html: string): string;
 
-  // 将 md 转换为 wysiwyg
-  public Md2VditorDOM(markdown: string): string;
+    // 将 md 转换为 wysiwyg
+    public Md2VditorDOM(markdown: string): string;
 
-  // ir 输入渲染
-  public SpinVditorIRDOM(markdown: string): string;
+    // ir 输入渲染
+    public SpinVditorIRDOM(markdown: string): string;
 
-  // ir 获取 md
-  public VditorIRDOM2Md(html: string): string;
+    // ir 获取 md
+    public VditorIRDOM2Md(html: string): string;
 
-  // md 转换为 ir
-  public Md2VditorIRDOM(text: string): string;
+    // md 转换为 ir
+    public Md2VditorIRDOM(text: string): string;
 
-  // 获取 HTML
-  public VditorIRDOM2HTML(html: string): string;
+    // 获取 HTML
+    public VditorIRDOM2HTML(html: string): string;
 
-  // 粘贴时将 html 转换为 sv
-  public HTML2VditorIRDOM(html: string): string;
+    // 粘贴时将 html 转换为 sv
+    public HTML2VditorIRDOM(html: string): string;
 
-  // sv 输入渲染
-  public SpinVditorSVDOM(text: string): string;
+    // sv 输入渲染
+    public SpinVditorSVDOM(text: string): string;
 
-  // 粘贴是 md 转换为 sv
-  public Md2VditorSVDOM(text: string): string;
+    // 粘贴是 md 转换为 sv
+    public Md2VditorSVDOM(text: string): string;
 }
 
 declare const webkitAudioContext: {
@@ -347,6 +348,8 @@ interface IMarkdownConfig {
     linkBase?: string;
     /** 为列表添加标记，以便[自定义列表样式](https://github.com/Vanessa219/vditor/issues/390) 默认值：false */
     listStyle?: boolean;
+    /** 支持 mark 标记 */
+    mark?: boolean;
 }
 
 /** @link https://hacpai.com/article/1549638745630#options-preview */

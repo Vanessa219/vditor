@@ -62,6 +62,7 @@ window.vditor = new Vditor('vditor', {
   preview: {
     markdown: {
       toc: true,
+      mark: true,
     },
   },
   toolbarConfig: {

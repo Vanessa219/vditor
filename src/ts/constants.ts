@@ -30,6 +30,7 @@ export abstract class Constants {
         footnotes: true,
         linkBase: "",
         listStyle: false,
+        mark: false,
         paragraphBeginningSpace: false,
         sanitize: true,
         toc: false,
