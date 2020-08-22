@@ -77,7 +77,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.4.7 / 2020-08-xx
+### v3.5.0 / 2020-08-xx
+
+### v3.4.7 / 2020-08-22
 
 * [717](https://github.com/Vanessa219/vditor/issues/717) 在IR模式下插入特殊字符的bug `修复缺陷`
 * [719](https://github.com/Vanessa219/vditor/issues/719) 支持 ==Mark== 标记语法 `引入特性`
@@ -85,9 +87,6 @@
 * [718](https://github.com/Vanessa219/vditor/issues/718) 脚注太长浮层渲染溢出 `修复缺陷`
 * [716](https://github.com/Vanessa219/vditor/issues/716) insertValue 无法插入html文本 `改进功能`
 * [714](https://github.com/Vanessa219/vditor/issues/714) preview 数学公式解析问题 `修复缺陷`
-
-### v3.4.6 / 2020-08-11
-
 * [709](https://github.com/Vanessa219/vditor/issues/709) 操作栏按钮快速点击问题「ir」「wysiwyg」模式 `改进功能`
 * [706](https://github.com/Vanessa219/vditor/issues/706) 光标非正常移动 `修复缺陷`
 * [676](https://github.com/Vanessa219/vditor/issues/676) 请求：增加 Ant Design 主题 `引入特性`
