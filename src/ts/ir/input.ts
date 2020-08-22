@@ -176,7 +176,8 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
                 const marker = footnoteItemText.substring(1, footnoteItemText.indexOf("]:"));
                 const footnoteRefElement = vditor.ir.element.querySelector(`sup[data-type="footnotes-ref"][data-footnotes-label="${marker}"]`);
                 if (footnoteRefElement) {
-                    footnoteRefElement.setAttribute("aria-label", footnoteItemText.substr(marker.length + 3).trim());
+                    footnoteRefElement.setAttribute("aria-label",
+                        footnoteItemText.substr(marker.length + 3).trim().substr(0, 24));
                 }
             }
         }

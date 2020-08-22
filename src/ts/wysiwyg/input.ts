@@ -141,7 +141,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
                 if (footnoteItemElement) {
                     const footnoteRefElement = vditor.wysiwyg.element.querySelector(`sup[data-type="footnotes-ref"][data-footnotes-label="${footnoteItemElement.getAttribute("data-marker")}"]`);
                     if (footnoteRefElement) {
-                        footnoteRefElement.setAttribute("aria-label", footnoteItemElement.textContent.trim());
+                        footnoteRefElement.setAttribute("aria-label",
+                            footnoteItemElement.textContent.trim().substr(0, 24));
                     }
                 }
             }
