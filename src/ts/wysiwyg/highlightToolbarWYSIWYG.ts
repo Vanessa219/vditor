@@ -36,7 +36,8 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         if (range.startContainer.nodeType === 3) {
             typeElement = range.startContainer.parentElement;
         } else {
-            typeElement = typeElement.childNodes[range.startOffset] as HTMLElement;
+            typeElement = typeElement.childNodes[range.startOffset >= typeElement.childNodes.length ?
+                typeElement.childNodes.length - 1 : range.startOffset] as HTMLElement;
         }
 
         const footnotesElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-block");
@@ -441,7 +442,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         }
 
         let blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block") as HTMLElement;
-        // block popover: math-inline, math-block, html-block, html-inline, code-block
+        // block popover: math-inline, math-block, html-block, html-inline, code-block, html-entity
         if (blockRenderElement && blockRenderElement.getAttribute("data-type").indexOf("block") > -1) {
             vditor.wysiwyg.popover.innerHTML = "";
             genUp(range, blockRenderElement, vditor);

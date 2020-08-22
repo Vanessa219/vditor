@@ -77,7 +77,12 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
 
     // document.exeComment insertHTML 会插入 wbr
     if (!blockElement.querySelector("wbr")) {
-        range.insertNode(document.createElement("wbr"));
+        const previewRenderElement = hasClosestByClassName(range.startContainer, "vditor-ir__preview");
+        if (previewRenderElement) {
+            previewRenderElement.previousElementSibling.insertAdjacentHTML("beforeend", "<wbr>");
+        } else {
+            range.insertNode(document.createElement("wbr"));
+        }
     }
 
     // 清除浏览器自带的样式

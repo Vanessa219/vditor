@@ -56,16 +56,18 @@ export const fixCJKPosition = (range: Range, vditor: IVditor, event: KeyboardEve
     }
 };
 
-// https://github.com/Vanessa219/vditor/issues/381
+// https://github.com/Vanessa219/vditor/issues/381 光标在内联数学公式中无法向下移动
 export const fixCursorDownInlineMath = (range: Range, key: string) => {
     if (key === "ArrowDown" || key === "ArrowUp") {
-        const inlineMathElement = hasClosestByAttribute(range.startContainer, "data-type", "math-inline");
-        if (inlineMathElement) {
+        const inlineElement = hasClosestByAttribute(range.startContainer, "data-type", "math-inline") ||
+            hasClosestByAttribute(range.startContainer, "data-type", "html-entity") ||
+            hasClosestByAttribute(range.startContainer, "data-type", "html-inline");
+        if (inlineElement) {
             if (key === "ArrowDown") {
-                range.setStartAfter(inlineMathElement.parentElement);
+                range.setStartAfter(inlineElement.parentElement);
             }
             if (key === "ArrowUp") {
-                range.setStartBefore(inlineMathElement.parentElement);
+                range.setStartBefore(inlineElement.parentElement);
             }
         }
     }

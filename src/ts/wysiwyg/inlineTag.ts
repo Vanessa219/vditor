@@ -21,6 +21,7 @@ export const nextIsCode = (range: Range) => {
 
     if (nextNode && nextNode.nodeType !== 3 && (nextNode.tagName === "CODE" ||
         nextNode.getAttribute("data-type") === "math-inline" ||
+        nextNode.getAttribute("data-type") === "html-entity" ||
         nextNode.getAttribute("data-type") === "html-inline")
     ) {
         return true;

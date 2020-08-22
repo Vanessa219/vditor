@@ -79,6 +79,7 @@
 
 ### v3.4.7 / 2020-08-xx
 
+* [717](https://github.com/Vanessa219/vditor/issues/717) 在IR模式下插入特殊字符的bug `修复缺陷`
 * [719](https://github.com/Vanessa219/vditor/issues/719) 支持 ==Mark== 标记语法 `引入特性`
 * [711](https://github.com/Vanessa219/vditor/issues/711) 调试工具栏图颜色不适配暗黑主题 `改进功能`
 * [718](https://github.com/Vanessa219/vditor/issues/718) 脚注太长浮层渲染溢出 `修复缺陷`

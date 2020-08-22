@@ -210,17 +210,22 @@ class IR {
                     if (previewRenderElement.previousElementSibling.firstElementChild) {
                         range.selectNodeContents(previewRenderElement.previousElementSibling.firstElementChild);
                     } else {
-                        // 行内数学公式
+                        // 行内数学公式/html entity
                         range.selectNodeContents(previewRenderElement.previousElementSibling);
                     }
                     range.collapse(false);
                     event.preventDefault();
                     return true;
                 }
-                // 行内数学公式
                 if (previewRenderElement.tagName === "SPAN" &&
                     (event.key === "ArrowDown" || event.key === "ArrowRight")) {
-                    range.selectNodeContents(previewRenderElement.parentElement.lastElementChild);
+                    if (previewRenderElement.parentElement.getAttribute("data-type") === "html-entity") {
+                        // html entity
+                        previewRenderElement.parentElement.insertAdjacentText("afterend", Constants.ZWSP);
+                        range.setStart(previewRenderElement.parentElement.nextSibling, 1);
+                    } else {
+                        range.selectNodeContents(previewRenderElement.parentElement.lastElementChild);
+                    }
                     range.collapse(false);
                     event.preventDefault();
                     return true;
