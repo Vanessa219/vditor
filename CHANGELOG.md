@@ -79,6 +79,7 @@
 
 ### v3.4.7 / 2020-08-xx
 
+* [711](https://github.com/Vanessa219/vditor/issues/711) 调试工具栏图颜色不适配暗黑主题 `改进功能`
 * [718](https://github.com/Vanessa219/vditor/issues/718) 脚注太长浮层渲染溢出 `修复缺陷`
 * [716](https://github.com/Vanessa219/vditor/issues/716) insertValue 无法插入html文本 `改进功能`
 * [714](https://github.com/Vanessa219/vditor/issues/714) preview 数学公式解析问题 `修复缺陷`
