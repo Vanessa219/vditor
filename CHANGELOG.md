@@ -2,6 +2,8 @@
 
 ### 升级
 
+* 3.4
+  * `options.hint.at` => "options.hint.extend: IHintExtend[]"
 * v3.3
   * options.mode 默认值修改为 `ir`
   * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
