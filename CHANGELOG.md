@@ -81,6 +81,8 @@
 
 ### v3.5.0 / 2020-08-xx
 
+* [730](https://github.com/Vanessa219/vditor/issues/730) 数学公式细节处理 `修复缺陷`
+
 ### v3.4.7 / 2020-08-22
 
 * [717](https://github.com/Vanessa219/vditor/issues/717) 在IR模式下插入特殊字符的bug `修复缺陷`
