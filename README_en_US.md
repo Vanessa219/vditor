@@ -18,14 +18,14 @@ Easy-to-use Markdown editor, born to adapt to different application scenarios
 </p>
 
 <p align="center">
-<a href="https://github.com/Vanessa219/vditor/blob/master/README.md">中文</a> &nbsp;|&nbsp; <a href="https://vditor.b3log.org/demo/index.html">Demo</a>
+<a href="https://github.com/Vanessa219/vditor/blob/master/README.md">中文</a> &nbsp;|&nbsp; <a href="https://b3log.org/vditor/demo/index.html">Demo</a>
 </p>
 
 ## 💡 Introduction
 
-[Vditor](https://vditor.b3log.org) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular, provide [desktop](https://github.com/88250/liandi).
+[Vditor](https://b3log.org/vditor) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React and Angular, provide [desktop](https://b3log.org/siyuan).
 
-Welcome to [Vditor Official Site](https://vditor.b3log.org) to learn more.
+Welcome to [Vditor Official Site](https://b3log.org/vditor) to learn more.
 
 ## 🗺️ Background
 
@@ -113,7 +113,7 @@ Most of the above features can be enabled or disabled through the switch configu
 
 * [Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
 * [Solo](https://github.com/88250/solo) & [Pipe](https://github.com/88250/pipe) B3log distributed community blog end node, welcome to join the next generation community network
-* [LianDi Note](https://github.com/88250/liandi) A desktop note application that supports Windows, Mac and Linux
+* [SiYuan Note](https://b3log.org/siyuan) A desktop note application that supports Windows, Mac and Linux
 * [Arya](https://github.com/nicejade/markdown-online-editor) Based on Vue, Vditor, built online Markdown editor
 * [WizNote Lite](https://github.com/WizTeam/WizNoteLite) Focus on input, so that writing and thinking are not disturbed
 * [More cases](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
@@ -139,7 +139,7 @@ const vditor = new Vditor(id, {options...})
 
 ### HTML script
 
-* Insert CSS and js in HTML, you can refer to [demo](https://vditor.b3log.org/demo/index.html)
+* Insert CSS and js in HTML, you can refer to [demo](https://b3log.org/vditor/demo/index.html)
 
 ```html
 <!-- ⚠️Please specify the version number in the production environment, such as https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
@@ -149,7 +149,7 @@ const vditor = new Vditor(id, {options...})
 
 ### Demo code
 
-* [Demo](https://vditor.b3log.org/demo/index.html)
+* [Demo](https://b3log.org/vditor/demo/index.html)
 * [CommonJS Editor](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
 * [CommonJS Render](https://github.com/Vanessa219/vditor/blob/master/demo/render.js)
 

@@ -224,7 +224,7 @@
 * [496](https://github.com/Vanessa219/vditor/issues/496) 行级 HTML 空格问题 `修复缺陷`
 * [495](https://github.com/Vanessa219/vditor/issues/495) 行级 HTML 退格问题 `修复缺陷`
 * [494](https://github.com/Vanessa219/vditor/issues/494) 三种模式支持 list-style 样式 `改进功能`
-* [489](https://github.com/Vanessa219/vditor/issues/489) 为 vditor.b3log.org/demo 添加源码 `改进功能`
+* [489](https://github.com/Vanessa219/vditor/issues/489) 为 b3log.org/vditor/demo 添加源码 `改进功能`
 * [493](https://github.com/Vanessa219/vditor/issues/493) 修复 XSS 过滤 `修复缺陷`
 * [486](https://github.com/Vanessa219/vditor/pull/486) getCursorPosition 针对空行会得到错误数据 `修复缺陷`
 * [485](https://github.com/Vanessa219/vditor/issues/485) IR 模式下，<details>的编辑问题 `修复缺陷`
@@ -326,8 +326,8 @@
   * 添加静态方法 `mindmapRender`
   * 为 `IMarkdownConfig` 添加 `sanitize`, `listMarker`, `linkBase` 配置
   * IPreviewOptions.anchor 从 `boolean` 类型修改为 `number` 类型
-  * 示例代码地址修改：static-preview.html => preview.html，static.html => vditor.b3log.org/demo/render.html
-  * 添加 [Vditor](https://vditor.b3log.org) 官方首页
+  * 示例代码地址修改：static-preview.html => preview.html，static.html => b3log.org/vditor/demo/render.html
+  * 添加 [Vditor](https://b3log.org/vditor) 官方首页
   * 添加缓存回调 `options.cache.after(markdown:string)`
   
 

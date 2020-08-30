@@ -18,12 +18,12 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Vanessa219/vditor/blob/master/README_en_US.md">English</a> &nbsp;|&nbsp; <a href="https://vditor.b3log.org/demo/index.html">Demo</a>
+<a href="https://github.com/Vanessa219/vditor/blob/master/README_en_US.md">English</a> &nbsp;|&nbsp; <a href="https://b3log.org/vditor/demo/index.html">Demo</a>
 </p>
 
 ## 💡 简介
 
-[Vditor](https://vditor.b3log.org) 是一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。它使用 TypeScript 实现，支持原生 JavaScript、Vue、React、Angular，提供[桌面版](https://github.com/88250/liandi)。
+[Vditor](https://b3log.org/vditor) 是一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。它使用 TypeScript 实现，支持原生 JavaScript、Vue、React、Angular，提供[桌面版](https://b3log.org/siyuan)。
 
 欢迎到 [Vditor 官方讨论区](https://hacpai.com/tag/vditor)了解更多。同时也欢迎关注 B3log 开源社区微信公众号 `B3log开源`：
 
@@ -115,7 +115,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 * [Sym](https://github.com/88250/symphony) 一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
 * [Solo](https://github.com/88250/solo) & [Pipe](https://github.com/88250/pipe) B3log 分布式社区的博客端节点，欢迎加入下一代社区网络
-* [链滴笔记](https://github.com/88250/liandi) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
+* [思源笔记](https://b3log.org/siyuan) 一款桌面端笔记应用，支持 Windows、Mac 和 Linux
 * [Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器
 * [为知笔记 Lite](https://github.com/WizTeam/WizNoteLite) 聚焦于输入，让写作与思考不受干扰
 * [更多案例](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
@@ -141,7 +141,7 @@ const vditor = new Vditor(id, {options...})
 
 ### HTML script
 
-* 在 HTML 中插入 CSS 和 JavaScript，可参考 [demo](https://vditor.b3log.org/demo/index.html)
+* 在 HTML 中插入 CSS 和 JavaScript，可参考 [demo](https://b3log.org/vditor/demo/index.html)
 
 ```html
 <!-- ⚠️生产环境请指定版本号，如 https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
@@ -151,7 +151,7 @@ const vditor = new Vditor(id, {options...})
 
 ### 示例代码
 
-* [官方示例](https://vditor.b3log.org/demo/index.html) / [示例源码](https://github.com/Vanessa219/b3log-index/tree/master/src/vditor)
+* [官方示例](https://b3log.org/vditor/demo/index.html) / [示例源码](https://github.com/Vanessa219/b3log-index/tree/master/src/vditor)
 * [CommonJS Editor](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
 * [CommonJS Render](https://github.com/Vanessa219/vditor/blob/master/demo/render.js)
 
@@ -580,7 +580,7 @@ options?: IPreviewOptions {
 
 ## 🏘️ 社区
 
-* [官网](https://vditor.b3log.org)
+* [官网](https://b3log.org/vditor)
 * [讨论区](https://hacpai.com/tag/vditor)
 * [报告问题](https://github.com/Vanessa219/vditor/issues/new)
 

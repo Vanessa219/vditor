@@ -22,7 +22,7 @@ export class Info extends MenuItem {
 <div style="display: flex;flex-wrap: wrap;">
     <ul style="list-style: none;flex: 1;min-width:148px">
         <li>
-        项目地址：<a href="https://vditor.b3log.org" target="_blank">vditor.b3log.org</a>
+        项目地址：<a href="https://b3log.org/vditor" target="_blank">b3log.org/vditor</a>
         </li>
         <li>
         开源协议：MIT
