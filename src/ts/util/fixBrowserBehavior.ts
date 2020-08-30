@@ -150,7 +150,8 @@ export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: 
                                   blockElement: HTMLElement) => {
     const position = getSelectPosition(element, vditor[vditor.currentMode].element, range);
     if ((event.key === "ArrowUp" && element.textContent.substr(position.start).indexOf("\n") === -1) ||
-        ((event.key === "ArrowLeft" || (event.key === "Backspace" && range.toString() === "")) && position.start === 0)) {
+        ((event.key === "ArrowLeft" || (event.key === "Backspace" && range.toString() === "")) &&
+            position.start === 0)) {
         const previousElement = blockElement.previousElementSibling;
         // table || code
         if (!previousElement ||
