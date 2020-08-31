@@ -79,9 +79,11 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.5.1 / 2020-09-xx
+### v3.5.2 / 2020-09-xx
 
-### v3.5.0 / 2020-08-30
+* [736](https://github.com/Vanessa219/vditor/issues/736) MathJax 数学公式会抖动 `改进功能`
+
+### v3.5.1 / 2020-08-30
 
 * [735](https://github.com/Vanessa219/vditor/issues/735) 官网地址及桌面端地址修改 `文档相关`
 * [730](https://github.com/Vanessa219/vditor/issues/730) 数学公式细节处理 `修复缺陷`

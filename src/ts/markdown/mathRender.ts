@@ -80,8 +80,7 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
         }
         // 循环加载会抛异常
         addScriptSync(`${options.cdn}/dist/js/mathjax/tex-svg.js`, "vditorMathJaxScript");
-        // 等到 js 文件执行完成
-        setTimeout(() => {
+        const renderMath = () => {
             mathElements.forEach((mathElement) => {
                 if (mathElement.getAttribute("data-math")) {
                     return;
@@ -107,6 +106,14 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                     }
                 });
             });
-        });
+        };
+        // 初次加载需等到 js 文件执行完成
+        if (!window.MathJax.texReset) {
+            setTimeout(() => {
+                renderMath();
+            });
+        } else {
+            renderMath();
+        }
     }
 };
