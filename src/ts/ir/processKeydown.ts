@@ -21,7 +21,8 @@ import {
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
 import {expandMarker} from "./expandMarker";
-import {processAfterRender} from "./process";
+import {processAfterRender, processHeading} from "./process";
+import {matchHotKey} from "../util/hotKey";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -162,6 +163,28 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return true;
     }
 
+    const headingElement = hasClosestByHeadings(startContainer);
+    if (headingElement) {
+        // enter++: 标题变大
+        if (matchHotKey("⌘-=", event)) {
+            const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
+            if (headingMarkerElement && headingMarkerElement.textContent.trim().length > 1) {
+                processHeading(vditor, headingMarkerElement.textContent.substr(1));
+            }
+            event.preventDefault();
+            return true;
+        }
+
+        // enter++: 标题变小
+        if (matchHotKey("⌘--", event)) {
+            const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
+            if (headingMarkerElement && headingMarkerElement.textContent.trim().length < 6) {
+                processHeading(vditor, headingMarkerElement.textContent.trim() + "# ");
+            }
+            event.preventDefault();
+            return true;
+        }
+    }
     const blockElement = hasClosestBlock(startContainer);
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === "") {
         if (fixDelete(vditor, range, event, pElement)) {
@@ -188,7 +211,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // 光标位于标题前，marker 后
-        const headingElement = hasClosestByHeadings(startContainer);
         if (headingElement) {
             const headingLength = headingElement.firstElementChild.textContent.length;
             if (getSelectPosition(headingElement, vditor.ir.element).start === headingLength) {

@@ -81,6 +81,7 @@
 
 ### v3.5.2 / 2020-09-xx
 
+* [738](https://github.com/Vanessa219/vditor/issues/738) IR 模式标题变大变小快捷键及光标位置 `修复缺陷`
 * [736](https://github.com/Vanessa219/vditor/issues/736) MathJax 数学公式会抖动 `改进功能`
 
 ### v3.5.1 / 2020-08-30

@@ -85,6 +85,8 @@ export const processHeading = (vditor: IVditor, value: string) => {
             headingMarkerElement.innerHTML = value;
         } else {
             headingElement.insertAdjacentText("afterbegin", value);
+            range.selectNodeContents(headingElement);
+            range.collapse(false);
         }
         input(vditor, range.cloneRange());
         highlightToolbarIR(vditor);
