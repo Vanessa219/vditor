@@ -9,8 +9,9 @@ import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
+import {Constants} from "../constants";
 
-export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
+export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
     // 前后可以输入空格
     if (blockElement && !ignoreSpace && blockElement.getAttribute("data-type") !== "code-block") {
@@ -132,7 +133,9 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false) => {
             }
             // firefox 列表回车不会产生新的 list item https://github.com/Vanessa219/vditor/issues/194
             html = html.replace("<div><wbr><br></div>", "<li><p><wbr><br></p></li>");
-        } else if (blockElement.previousElementSibling && blockElement.previousElementSibling.textContent !== "") {
+        } else if (blockElement.previousElementSibling &&
+            blockElement.previousElementSibling.textContent.replace(Constants.ZWSP, "") !== "" &&
+            event && event.inputType === "insertParagraph") {
             // 换行时需要处理上一段落
             html = blockElement.previousElementSibling.outerHTML + html;
             blockElement.previousElementSibling.remove();

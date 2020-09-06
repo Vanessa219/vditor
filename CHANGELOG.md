@@ -81,6 +81,7 @@
 
 ### v3.5.2 / 2020-09-xx
 
+* [744](https://github.com/Vanessa219/vditor/issues/744) IR 模式代码块闪烁 `修复缺陷`
 * [748](https://github.com/Vanessa219/vditor/issues/748) 数学公式中出现中文不能渲染问题 `修复缺陷`
 * [738](https://github.com/Vanessa219/vditor/issues/738) IR 模式标题变大变小快捷键及光标位置 `修复缺陷`
 * [736](https://github.com/Vanessa219/vditor/issues/736) MathJax 数学公式会抖动 `改进功能`

@@ -90,7 +90,7 @@ class IR {
             if (this.composingLock) {
                 return;
             }
-            input(vditor, getSelection().getRangeAt(0).cloneRange());
+            input(vditor, getSelection().getRangeAt(0).cloneRange(), false, event);
         });
 
         this.element.addEventListener("click", (event: MouseEvent & { target: HTMLInputElement }) => {
