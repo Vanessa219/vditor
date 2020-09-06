@@ -99,9 +99,9 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                     window.MathJax.startup.document.clear();
                     window.MathJax.startup.document.updateDocument();
 
-                    const errorText = mathElement.querySelector("mjx-container").textContent.trim();
-                    if (errorText !== "") {
-                        mathElement.innerHTML = errorText;
+                    const errorTextElement = mathElement.querySelector('[data-mml-node="merror"]');
+                    if (errorTextElement && errorTextElement.textContent.trim() !== "") {
+                        mathElement.innerHTML = errorTextElement.textContent.trim();
                         mathElement.className = "vditor-math vditor-reset--error";
                     }
                 });
