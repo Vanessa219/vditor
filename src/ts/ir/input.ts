@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
@@ -9,7 +10,6 @@ import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {processAfterRender} from "./process";
-import {Constants} from "../constants";
 
 export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);

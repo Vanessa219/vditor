@@ -79,16 +79,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.5.2 / 2020-09-xx
+### v3.5.3 / 2020-09-xx
+
+### v3.5.2 / 2020-09-06
 
 * [747](https://github.com/Vanessa219/vditor/issues/747) options.esc 中文处理 `改进功能`
 * [744](https://github.com/Vanessa219/vditor/issues/744) IR 模式代码块闪烁 `修复缺陷`
 * [748](https://github.com/Vanessa219/vditor/issues/748) 数学公式中出现中文不能渲染问题 `修复缺陷`
 * [738](https://github.com/Vanessa219/vditor/issues/738) IR 模式标题变大变小快捷键及光标位置 `修复缺陷`
 * [736](https://github.com/Vanessa219/vditor/issues/736) MathJax 数学公式会抖动 `改进功能`
-
-### v3.5.1 / 2020-08-30
-
 * [735](https://github.com/Vanessa219/vditor/issues/735) 官网地址及桌面端地址修改 `文档相关`
 * [730](https://github.com/Vanessa219/vditor/issues/730) 数学公式细节处理 `修复缺陷`
 
