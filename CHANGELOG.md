@@ -81,6 +81,8 @@
 
 ### v3.5.3 / 2020-09-xx
 
+* [749](https://github.com/Vanessa219/vditor/issues/749) 即时渲染模式转义符 \ 改进 `改进功能`
+
 ### v3.5.2 / 2020-09-06
 
 * [747](https://github.com/Vanessa219/vditor/issues/747) options.esc 中文处理 `改进功能`
