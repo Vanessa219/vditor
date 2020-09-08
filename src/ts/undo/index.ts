@@ -6,6 +6,8 @@ import {execAfterRender} from "../util/fixBrowserBehavior";
 import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {chartRender} from "../markdown/chartRender";
+import {mindmapRender} from "../markdown/mindmapRender";
 
 interface IUndo {
     hasUndo: boolean;
@@ -170,6 +172,19 @@ class Undo {
             enableInput: true,
         });
         highlightToolbar(vditor);
+
+        vditor.ir.element.querySelectorAll(".vditor-ir__preview .language-echarts").forEach((item: HTMLElement) => {
+            item.innerHTML = item.parentElement.previousElementSibling.firstElementChild.innerHTML;
+            item.removeAttribute("_echarts_instance_");
+            item.removeAttribute("data-processed");
+            chartRender(item.parentElement, vditor.options.cdn);
+        });
+        vditor.ir.element.querySelectorAll(".vditor-ir__preview .language-mindmap").forEach((item: HTMLElement) => {
+            item.innerHTML = item.parentElement.previousElementSibling.firstElementChild.innerHTML;
+            item.removeAttribute("_echarts_instance_");
+            item.removeAttribute("data-processed");
+            mindmapRender(item.parentElement, vditor.options.cdn);
+        });
 
         if (this[vditor.currentMode].undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);

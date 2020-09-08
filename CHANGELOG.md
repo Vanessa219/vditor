@@ -81,6 +81,7 @@
 
 ### v3.5.3 / 2020-09-xx
 
+* [752](https://github.com/Vanessa219/vditor/issues/752) 图表和脑图 undo bug `修复缺陷`
 * [749](https://github.com/Vanessa219/vditor/issues/749) 即时渲染模式转义符 \ 改进 `改进功能`
 
 ### v3.5.2 / 2020-09-06
