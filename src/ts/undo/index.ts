@@ -1,4 +1,6 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
+import {chartRender} from "../markdown/chartRender";
+import {mindmapRender} from "../markdown/mindmapRender";
 import {disableToolbar, enableToolbar, hidePanel} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
@@ -6,8 +8,6 @@ import {execAfterRender} from "../util/fixBrowserBehavior";
 import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
-import {chartRender} from "../markdown/chartRender";
-import {mindmapRender} from "../markdown/mindmapRender";
 
 interface IUndo {
     hasUndo: boolean;

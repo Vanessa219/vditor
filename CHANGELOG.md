@@ -79,15 +79,14 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.5.3 / 2020-09-xx
+### v3.5.4 / 2020-09-xx
+
+### v3.5.3 / 2020-09-09
 
 * [746](https://github.com/Vanessa219/vditor/issues/746) 代码片段都没了 `修复缺陷`
 * [753](https://github.com/Vanessa219/vditor/issues/753) 更新社区地址为 ld246.com `文档相关`
 * [752](https://github.com/Vanessa219/vditor/issues/752) 图表和脑图 undo bug `修复缺陷`
 * [749](https://github.com/Vanessa219/vditor/issues/749) 即时渲染模式转义符 \ 改进 `改进功能`
-
-### v3.5.2 / 2020-09-06
-
 * [747](https://github.com/Vanessa219/vditor/issues/747) options.esc 中文处理 `改进功能`
 * [744](https://github.com/Vanessa219/vditor/issues/744) IR 模式代码块闪烁 `修复缺陷`
 * [748](https://github.com/Vanessa219/vditor/issues/748) 数学公式中出现中文不能渲染问题 `修复缺陷`
