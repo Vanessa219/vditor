@@ -52,10 +52,10 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 ## ✨  Features
 
 * Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
-* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://hacpai.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
+* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://ld246.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
 * Built-in security filtering, export, image lazy loading, task list, multi-platform preview, multi-theme switching, copy to WeChat/zhihu function
-* Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://hacpai.com/article/1549638745630#options-preview-markdown)
-* The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://hacpai.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
+* Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://ld246.com/article/1549638745630#options-preview-markdown)
+* The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://ld246.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
 * Extend auto-complete for emoji/@/# and so on
 * You can use drag and drop, paste and paste to upload, display real-time upload progress, support CORS cross-domain upload
 * Save content in real time to prevent accidental loss
@@ -210,7 +210,7 @@ new Vditor('vditor', {
       tip: '成为赞助者',
       className: 'right',
       icon: '<svg t="1589994565028" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2808" width="32" height="32"><path d="M506.6 423.6m-29.8 0a29.8 29.8 0 1 0 59.6 0 29.8 29.8 0 1 0-59.6 0Z" fill="#0F0F0F" p-id="2809"></path><path d="M717.8 114.5c-83.5 0-158.4 65.4-211.2 122-52.7-56.6-127.7-122-211.2-122-159.5 0-273.9 129.3-273.9 288.9C21.5 562.9 429.3 913 506.6 913s485.1-350.1 485.1-509.7c0.1-159.5-114.4-288.8-273.9-288.8z" fill="#FAFCFB" p-id="2810"></path><path d="M506.6 926c-22 0-61-20.1-116-59.6-51.5-37-109.9-86.4-164.6-139-65.4-63-217.5-220.6-217.5-324 0-81.4 28.6-157.1 80.6-213.1 53.2-57.2 126.4-88.8 206.3-88.8 40 0 81.8 14.1 124.2 41.9 28.1 18.4 56.6 42.8 86.9 74.2 30.3-31.5 58.9-55.8 86.9-74.2 42.5-27.8 84.3-41.9 124.2-41.9 79.9 0 153.2 31.5 206.3 88.8 52 56 80.6 131.7 80.6 213.1 0 103.4-152.1 261-217.5 324-54.6 52.6-113.1 102-164.6 139-54.8 39.5-93.8 59.6-115.8 59.6zM295.4 127.5c-72.6 0-139.1 28.6-187.3 80.4-47.5 51.2-73.7 120.6-73.7 195.4 0 64.8 78.3 178.9 209.6 305.3 53.8 51.8 111.2 100.3 161.7 136.6 56.1 40.4 88.9 54.8 100.9 54.8s44.7-14.4 100.9-54.8c50.5-36.3 108-84.9 161.7-136.6 131.2-126.4 209.6-240.5 209.6-305.3 0-74.9-26.2-144.2-73.7-195.4-48.2-51.9-114.7-80.4-187.3-80.4-61.8 0-127.8 38.5-201.7 117.9-2.5 2.6-5.9 4.1-9.5 4.1s-7.1-1.5-9.5-4.1C423.2 166 357.2 127.5 295.4 127.5z" fill="#141414" p-id="2811"></path><path d="M353.9 415.6m-33.8 0a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Z" fill="#0F0F0F" p-id="2812"></path><path d="M659.3 415.6m-33.8 0a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Z" fill="#0F0F0F" p-id="2813"></path><path d="M411.6 538.5c0 52.3 42.8 95 95 95 52.3 0 95-42.8 95-95v-31.7h-190v31.7z" fill="#5B5143" p-id="2814"></path><path d="M506.6 646.5c-59.6 0-108-48.5-108-108v-31.7c0-7.2 5.8-13 13-13h190.1c7.2 0 13 5.8 13 13v31.7c0 59.5-48.5 108-108.1 108z m-82-126.7v18.7c0 45.2 36.8 82 82 82s82-36.8 82-82v-18.7h-164z" fill="#141414" p-id="2815"></path><path d="M450.4 578.9a54.7 27.5 0 1 0 109.4 0 54.7 27.5 0 1 0-109.4 0Z" fill="#EA64F9" p-id="2816"></path><path d="M256 502.7a32.1 27.5 0 1 0 64.2 0 32.1 27.5 0 1 0-64.2 0Z" fill="#EFAFF9" p-id="2817"></path><path d="M703.3 502.7a32.1 27.5 0 1 0 64.2 0 32.1 27.5 0 1 0-64.2 0Z" fill="#EFAFF9" p-id="2818"></path></svg>',
-      click () {alert('捐赠地址：https://hacpai.com/sponsor')},
+      click () {alert('捐赠地址：https://ld246.com/sponsor')},
     }],
 })
 ```
@@ -469,7 +469,7 @@ options?: IPreviewOptions {
  cdn?: string; // Self-built CDN address
  lazyLoadImage?: string; // use "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" to lazy load image
  markdown?: options.preview.markdown;
- renderers?: ILuteRender; // Custom rendering method https://hacpai.com/article/1588412297062
+ renderers?: ILuteRender; // Custom rendering method https://ld246.com/article/1588412297062
 }
 ```
 
@@ -482,10 +482,10 @@ options?: IPreviewOptions {
 | chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Chart rendering |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Stave rendering |
 | outlineRender(contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) | Outline rendering |
-| md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
+| md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | Page Markdown article rendering |
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | Highlight the code block in element |
-| mediaRender(element: HTMLElement) | Rendering as [specific link](https://hacpai.com/article/1589813914768) as video, audio, embedded iframe |
+| mediaRender(element: HTMLElement) | Rendering as [specific link](https://ld246.com/article/1589813914768) as video, audio, embedded iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
 | graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
@@ -498,9 +498,9 @@ options?: IPreviewOptions {
 
 ### Principle related
 
-* [Discussion on WYSIWYG Markdown Editor](https://hacpai.com/article/1579414663700)
-* [Vditor implements Markdown WYSIWYG](https://hacpai.com/article/1577370404903)
-* [Lute is a Markdown engine optimized for Chinese context, supports Go and JavaScript](https://hacpai.com/article/1567047822949)
+* [Discussion on WYSIWYG Markdown Editor](https://ld246.com/article/1579414663700)
+* [Vditor implements Markdown WYSIWYG](https://ld246.com/article/1577370404903)
+* [Lute is a Markdown engine optimized for Chinese context, supports Go and JavaScript](https://ld246.com/article/1567047822949)
 
 ### Environment
 
@@ -527,13 +527,13 @@ Please read [CHANGELOG](https://github.com/Vanessa219/vditor/blob/master/CHANGEL
 
 ## Ⓜ️ Markdown User Guide
 
-* [Basic syntax](https://hacpai.com/article/1583129520165)
-* [Extended syntax](https://hacpai.com/article/1583305480675)
-* [Quick Reference Manual](https://hacpai.com/article/1583308420519)
+* [Basic syntax](https://ld246.com/article/1583129520165)
+* [Extended syntax](https://ld246.com/article/1583305480675)
+* [Quick Reference Manual](https://ld246.com/article/1583308420519)
 
 ## 🏘️ Community
 
-* [Forum](https://hacpai.com/tag/vditor)
+* [Forum](https://ld246.com/tag/vditor)
 * [Issues](https://github.com/Vanessa219/vditor/issues/new)
 
 ## 📄 License
@@ -557,6 +557,6 @@ Later, the rise of Markdown gradually changed everyone's typography. In addition
 
 Later, as the business needs of our projects have precipitated, using CodeMirror sometimes feels more "cumbersome." For example, to implement @automatically complete the user name list, insert Emoji, upload files, etc., it requires more in-depth secondary development, and these business requirements are precisely common and necessary in many project scenarios.
 
-Finally, we decided to start implementing the editor ourselves in Sym. With the iterations of several versions, Sym's editor has matured. In the community [HacPai](https://hacpai.com) that we operate, people have asked us if we can separate the editor for everyone to use. At the same time, our front-end main programmer [V](https://hacpai.com/member/Vanessa) also felt a little bit overwhelmed with maintaining the editors scattered in various projects, plus a good impression of TypeScript, so I decided Use ts to implement a new browser-side md editor.
+Finally, we decided to start implementing the editor ourselves in Sym. With the iterations of several versions, Sym's editor has matured. In the community [LianDi](https://ld246.com) that we operate, people have asked us if we can separate the editor for everyone to use. At the same time, our front-end main programmer [V](https://ld246.com/member/Vanessa) also felt a little bit overwhelmed with maintaining the editors scattered in various projects, plus a good impression of TypeScript, so I decided Use ts to implement a new browser-side md editor.
 
 So, Vditor was born.

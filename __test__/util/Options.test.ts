@@ -70,7 +70,7 @@ describe("Options", () => {
             cache,
             preview: {
                 mode: "both",
-                url: "https://hacpai.com/md",
+                url: "https://ld246.com/md",
             },
         });
         expect(options.merge()).toMatchObject({
@@ -78,7 +78,7 @@ describe("Options", () => {
             preview: {
                 delay: 1000,
                 mode: "both",
-                url: "https://hacpai.com/md",
+                url: "https://ld246.com/md",
             },
         });
     });

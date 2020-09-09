@@ -39,7 +39,7 @@ class Vditor {
     public static speechRender = speechRender;
     /** 对图片进行懒加载 */
     public static lazyLoadImageRender = lazyLoadImageRender;
-    /** Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vaness) */
+    /** Markdown 文本转换为 HTML，该方法需使用[异步编程](https://ld246.com/article/1546828434083?r=Vaness) */
     public static md2html = md2html;
     /** 页面 Markdown 文章渲染 */
     public static preview = previewRender;

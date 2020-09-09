@@ -14,7 +14,7 @@
 - *倾斜* - `*倾斜*`
 - ~~删除线~~ - `~~删除线~~`
 - `Code 标记` - `` `Code 标记` ``
-- [超级链接](https://hacpai.com) - `[超级链接](https://hacpai.com)`
+- [超级链接](https://ld246.com) - `[超级链接](https://ld246.com)`
 - [username@gmail.com](mailto:username@gmail.com) - `[username@gmail.com](mailto:username@gmail.com)`
 
 ### 提及用户
@@ -28,7 +28,7 @@
 
 ### 表情符号 Emoji
 
-支持大部分标准的表情符号，可使用输入法直接输入，也可手动输入字符格式。通过输入 `:` 触发自动完成，可在个人设置中[设置常用表情](https://hacpai.com/settings/function)。
+支持大部分标准的表情符号，可使用输入法直接输入，也可手动输入字符格式。通过输入 `:` 触发自动完成，可在个人设置中[设置常用表情](https://ld246.com/settings/function)。
 
 #### 一些表情例子
 
@@ -372,4 +372,4 @@ https://v.qq.com/x/cover/zf2z0xpqcculhcz/y0016tj0qvh.html
 
 ## 快捷键
 
-我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://hacpai.com/article/1582778815353)
+我们的编辑器支持很多快捷键，具体请参考 [键盘快捷键](https://ld246.com/article/1582778815353)

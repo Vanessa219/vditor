@@ -18,7 +18,7 @@ interface ILuteNode {
 
 type ILuteRenderCallback = (node: ILuteNode, entering: boolean) => [string, number];
 
-/** @link https://hacpai.com/article/1588412297062 */
+/** @link https://ld246.com/article/1588412297062 */
 interface ILuteRender {
     renderDocument?: ILuteRenderCallback;
     renderParagraph?: ILuteRenderCallback;
@@ -228,7 +228,7 @@ interface IPreviewTheme {
     path?: string;
 }
 
-/** @link https://hacpai.com/article/1549638745630#options-upload */
+/** @link https://ld246.com/article/1549638745630#options-upload */
 interface IUpload {
     /** 上传 url */
     url?: string;
@@ -279,7 +279,7 @@ interface IUpload {
     linkToImgCallback?(responseText: string): void;
 }
 
-/** @link https://hacpai.com/article/1549638745630#options-toolbar */
+/** @link https://ld246.com/article/1549638745630#options-toolbar */
 interface IMenuItem {
     /** 唯一标示 */
     name: string;
@@ -306,7 +306,7 @@ interface IMenuItem {
     click?(status?: boolean): void;
 }
 
-/** @link https://hacpai.com/article/1549638745630#options-preview-hljs */
+/** @link https://ld246.com/article/1549638745630#options-preview-hljs */
 interface IHljs {
     /** 是否启用行号。默认值: false */
     lineNumber?: boolean;
@@ -316,7 +316,7 @@ interface IHljs {
     enable?: boolean;
 }
 
-/** @link https://hacpai.com/article/1549638745630#options-preview-math */
+/** @link https://ld246.com/article/1549638745630#options-preview-math */
 interface IMath {
     /** 内联数学公式起始 $ 后是否允许数字。默认值: false */
     inlineDigit?: boolean;
@@ -326,7 +326,7 @@ interface IMath {
     engine?: "KaTeX" | "MathJax";
 }
 
-/** @link https://hacpai.com/article/1549638745630#options-preview-markdown */
+/** @link https://ld246.com/article/1549638745630#options-preview-markdown */
 interface IMarkdownConfig {
     /** 自动空格。默认值: false */
     autoSpace?: boolean;
@@ -352,7 +352,7 @@ interface IMarkdownConfig {
     mark?: boolean;
 }
 
-/** @link https://hacpai.com/article/1549638745630#options-preview */
+/** @link https://ld246.com/article/1549638745630#options-preview */
 interface IPreview {
     /** 预览 debounce 毫秒间隔。默认值: 1000 */
     delay?: number;
@@ -362,15 +362,15 @@ interface IPreview {
     mode?: "both" | "editor";
     /** md 解析请求 */
     url?: string;
-    /** @link https://hacpai.com/article/1549638745630#options-preview-hljs */
+    /** @link https://ld246.com/article/1549638745630#options-preview-hljs */
     hljs?: IHljs;
-    /** @link https://hacpai.com/article/1549638745630#options-preview-math */
+    /** @link https://ld246.com/article/1549638745630#options-preview-math */
     math?: IMath;
-    /** @link https://hacpai.com/article/1549638745630#options-preview-markdown */
+    /** @link https://ld246.com/article/1549638745630#options-preview-markdown */
     markdown?: IMarkdownConfig;
-    /** @link https://hacpai.com/article/1549638745630#options-preview-theme */
+    /** @link https://ld246.com/article/1549638745630#options-preview-theme */
     theme?: IPreviewTheme;
-    /** @link https://hacpai.com/article/1549638745630#options-preview-actions  */
+    /** @link https://ld246.com/article/1549638745630#options-preview-actions  */
     actions?: Array<IPreviewAction | IPreviewActionCustom>;
 
     /** 预览回调 */
@@ -426,7 +426,7 @@ interface IHintExtend {
     hint?(value: string): IHintData[];
 }
 
-/** @link https://hacpai.com/article/1549638745630#options-hint */
+/** @link https://ld246.com/article/1549638745630#options-hint */
 interface IHint {
     /** 常用表情提示 HTML */
     emojiTail?: string;
@@ -446,7 +446,7 @@ interface IResize {
     after?(height: number): void;
 }
 
-/** @link https://hacpai.com/article/1549638745630#options */
+/** @link https://ld246.com/article/1549638745630#options */
 interface IOptions {
     /** 内部调试时使用 */
     _lutePath?: string;
@@ -466,17 +466,17 @@ interface IOptions {
     placeholder?: string;
     /** 多语言。默认值: 'zh_CN' */
     lang?: (keyof II18n);
-    /** @link https://hacpai.com/article/1549638745630#options-toolbar */
+    /** @link https://ld246.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
-    /** @link https://hacpai.com/article/1549638745630#options-resize */
+    /** @link https://ld246.com/article/1549638745630#options-resize */
     resize?: IResize;
-    /** @link https://hacpai.com/article/1549638745630#options-counter */
+    /** @link https://ld246.com/article/1549638745630#options-counter */
     counter?: {
         enable: boolean;
         max?: number;
         type?: "markdown" | "text";
     };
-    /** @link https://hacpai.com/article/1549638745630#options-cache */
+    /** @link https://ld246.com/article/1549638745630#options-cache */
     cache?: {
         id?: string;
         enable?: boolean;
@@ -484,11 +484,11 @@ interface IOptions {
     };
     /** 编辑模式。默认值: 'wysiwyg' */
     mode?: "wysiwyg" | "sv" | "ir";
-    /** @link https://hacpai.com/article/1549638745630#options-preview */
+    /** @link https://ld246.com/article/1549638745630#options-preview */
     preview?: IPreview;
-    /** @link https://hacpai.com/article/1549638745630#options-hint */
+    /** @link https://ld246.com/article/1549638745630#options-hint */
     hint?: IHint;
-    /** @link https://hacpai.com/article/1549638745630#options-toolbarConfig */
+    /** @link https://ld246.com/article/1549638745630#options-toolbarConfig */
     toolbarConfig?: {
         hide?: boolean,
         pin?: boolean,
@@ -497,9 +497,9 @@ interface IOptions {
     theme?: "classic" | "dark";
     /** 图标。默认值: 'material' */
     icon?: "ant" | "material";
-    /** @link https://hacpai.com/article/1549638745630#options-upload */
+    /** @link https://ld246.com/article/1549638745630#options-upload */
     upload?: IUpload;
-    /** @link https://hacpai.com/article/1549638745630#options-classes */
+    /** @link https://ld246.com/article/1549638745630#options-classes */
     classes?: IClasses;
     /** 配置自建 CDN 地址。默认值: 'https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}' */
     cdn?: string;

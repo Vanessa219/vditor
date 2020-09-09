@@ -67,7 +67,7 @@ class Vditor extends VditorMethod {
         const mergedOptions = getOptions.merge();
 
         if (!["en_US", "ja_JP", "ko_KR", "zh_CN"].includes(mergedOptions.lang)) {
-            throw new Error("options.lang error, see https://hacpai.com/article/1549638745630#options");
+            throw new Error("options.lang error, see https://ld246.com/article/1549638745630#options");
         }
 
         this.vditor = {
@@ -233,7 +233,7 @@ class Vditor extends VditorMethod {
     /** 启用缓存 */
     public enableCache() {
         if (!this.vditor.options.cache.id) {
-            throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");
+            throw new Error("need options.cache.id, see https://ld246.com/article/1549638745630#options");
             return;
         }
         this.vditor.options.cache.enable = true;

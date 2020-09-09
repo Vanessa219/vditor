@@ -6,7 +6,7 @@
   "homepage": "https://b3log.org/vditor",
   "jsdelivr": "dist/index.min.js",
   "main": "dist/index.min.js",
-  "funding": "https://hacpai.com/sponsor",
+  "funding": "https://ld246.com/sponsor",
   "files": [
     "dist/*",
     "src/index.ts",

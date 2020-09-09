@@ -8,7 +8,7 @@ describe("use puppeteer to test methods", () => {
     const defaultValue = `下一代的 Markdown 编辑器，为未来而构建
 [Vditor](https://github.com/Vanessa219/vditor) 是一款浏览器端的 Markdown 编辑器，使用 TypeScript 实现。`;
     const insertValue = "于是，Vditor 就这样诞生了。";
-    const updateValue = "* [Vditor 使用指南](https://hacpai.com/article/1549638745630?r=Vanessa)";
+    const updateValue = "* [Vditor 使用指南](https://ld246.com/article/1549638745630?r=Vanessa)";
 
     beforeAll(async () => {
         browser = await puppeteer.launch();
@@ -111,7 +111,7 @@ describe("use puppeteer to test methods", () => {
         const result = await page.evaluate(() => {
             vditorTest.enableCache();
             vditorTest.setSelection(0, 14);
-            vditorTest.updateValue("* [Vditor 使用指南](https://hacpai.com/article/1549638745630?r=Vanessa)");
+            vditorTest.updateValue("* [Vditor 使用指南](https://ld246.com/article/1549638745630?r=Vanessa)");
             return {
                 value: vditorTest.getValue(),
                 cache: localStorage.getItem("vditorvditorTest"),
@@ -131,9 +131,9 @@ describe("use puppeteer to test methods", () => {
 
     it("method: html2md", async () => {
         const result = await page.evaluate(() => {
-            return vditorTest.html2md('<a href="https://hacpai.com/tag/vditor">讨论区</a>');
+            return vditorTest.html2md('<a href="https://ld246.com/tag/vditor">讨论区</a>');
         });
-        expect(result).toBe("[讨论区](https://hacpai.com/tag/vditor)");
+        expect(result).toBe("[讨论区](https://ld246.com/tag/vditor)");
     });
 
     it("method: isUploading false", async () => {

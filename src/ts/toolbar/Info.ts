@@ -33,7 +33,7 @@ export class Info extends MenuItem {
         组件版本：Vditor v${VDITOR_VERSION} / Lute v${Lute.Version}
         </li>
         <li>
-        赞助捐赠：<a href="https://hacpai.com/sponsor" target="_blank">https://hacpai.com/sponsor</a>
+        赞助捐赠：<a href="https://ld246.com/sponsor" target="_blank">https://ld246.com/sponsor</a>
         </li>
     </ul>
 </div>

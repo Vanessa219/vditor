@@ -138,7 +138,7 @@ export class Options {
         const mergedOptions = merge(this.defaultOptions, this.options);
 
         if (mergedOptions.cache.enable && !mergedOptions.cache.id) {
-            throw new Error("need options.cache.id, see https://hacpai.com/article/1549638745630#options");
+            throw new Error("need options.cache.id, see https://ld246.com/article/1549638745630#options");
         }
 
         return mergedOptions;

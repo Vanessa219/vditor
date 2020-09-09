@@ -25,7 +25,7 @@
 
 [Vditor](https://b3log.org/vditor) 是一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。它使用 TypeScript 实现，支持原生 JavaScript、Vue、React、Angular，提供[桌面版](https://b3log.org/siyuan)。
 
-欢迎到 [Vditor 官方讨论区](https://hacpai.com/tag/vditor)了解更多。同时也欢迎关注 B3log 开源社区微信公众号 `B3log开源`：
+欢迎到 [Vditor 官方讨论区](https://ld246.com/tag/vditor)了解更多。同时也欢迎关注 B3log 开源社区微信公众号 `B3log开源`：
 
 ![b3logos.jpg](https://b3logfile.com/file/2020/08/b3logos-032af045.jpg)
 
@@ -54,10 +54,10 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 ## ✨  特性
 
 * 支持三种编辑模式：所见即所得（wysiwyg）、即时渲染（ir）、分屏预览（sv）
-* 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://hacpai.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染
+* 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://ld246.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染
 * 内置安全过滤、导出、图片懒加载、任务列表、多平台预览、多主题切换、复制到微信公众号/知乎功能
-* 实现 CommonMark 和 GFM 规范，可对 Markdown 进行格式化和语法树查看，并支持[10+项](https://hacpai.com/article/1549638745630#options-preview-markdown)配置
-* 工具栏包含 36+ 项操作，除支持扩展外还可对每一项中的[快捷键](https://hacpai.com/article/1582778815353)、提示、提示位置、图标、点击事件、类名、子工具栏进行自定义
+* 实现 CommonMark 和 GFM 规范，可对 Markdown 进行格式化和语法树查看，并支持[10+项](https://ld246.com/article/1549638745630#options-preview-markdown)配置
+* 工具栏包含 36+ 项操作，除支持扩展外还可对每一项中的[快捷键](https://ld246.com/article/1582778815353)、提示、提示位置、图标、点击事件、类名、子工具栏进行自定义
 * 表情/at/话题等自动补全扩展
 * 可使用拖拽、剪切板粘贴上传，显示实时上传进度，支持 CORS 跨域上传
 * 实时保存内容，防止意外丢失
@@ -233,7 +233,7 @@ new Vditor('vditor', {
       tip: '成为赞助者',
       className: 'right',
       icon: '<svg t="1589994565028" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2808" width="32" height="32"><path d="M506.6 423.6m-29.8 0a29.8 29.8 0 1 0 59.6 0 29.8 29.8 0 1 0-59.6 0Z" fill="#0F0F0F" p-id="2809"></path><path d="M717.8 114.5c-83.5 0-158.4 65.4-211.2 122-52.7-56.6-127.7-122-211.2-122-159.5 0-273.9 129.3-273.9 288.9C21.5 562.9 429.3 913 506.6 913s485.1-350.1 485.1-509.7c0.1-159.5-114.4-288.8-273.9-288.8z" fill="#FAFCFB" p-id="2810"></path><path d="M506.6 926c-22 0-61-20.1-116-59.6-51.5-37-109.9-86.4-164.6-139-65.4-63-217.5-220.6-217.5-324 0-81.4 28.6-157.1 80.6-213.1 53.2-57.2 126.4-88.8 206.3-88.8 40 0 81.8 14.1 124.2 41.9 28.1 18.4 56.6 42.8 86.9 74.2 30.3-31.5 58.9-55.8 86.9-74.2 42.5-27.8 84.3-41.9 124.2-41.9 79.9 0 153.2 31.5 206.3 88.8 52 56 80.6 131.7 80.6 213.1 0 103.4-152.1 261-217.5 324-54.6 52.6-113.1 102-164.6 139-54.8 39.5-93.8 59.6-115.8 59.6zM295.4 127.5c-72.6 0-139.1 28.6-187.3 80.4-47.5 51.2-73.7 120.6-73.7 195.4 0 64.8 78.3 178.9 209.6 305.3 53.8 51.8 111.2 100.3 161.7 136.6 56.1 40.4 88.9 54.8 100.9 54.8s44.7-14.4 100.9-54.8c50.5-36.3 108-84.9 161.7-136.6 131.2-126.4 209.6-240.5 209.6-305.3 0-74.9-26.2-144.2-73.7-195.4-48.2-51.9-114.7-80.4-187.3-80.4-61.8 0-127.8 38.5-201.7 117.9-2.5 2.6-5.9 4.1-9.5 4.1s-7.1-1.5-9.5-4.1C423.2 166 357.2 127.5 295.4 127.5z" fill="#141414" p-id="2811"></path><path d="M353.9 415.6m-33.8 0a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Z" fill="#0F0F0F" p-id="2812"></path><path d="M659.3 415.6m-33.8 0a33.8 33.8 0 1 0 67.6 0 33.8 33.8 0 1 0-67.6 0Z" fill="#0F0F0F" p-id="2813"></path><path d="M411.6 538.5c0 52.3 42.8 95 95 95 52.3 0 95-42.8 95-95v-31.7h-190v31.7z" fill="#5B5143" p-id="2814"></path><path d="M506.6 646.5c-59.6 0-108-48.5-108-108v-31.7c0-7.2 5.8-13 13-13h190.1c7.2 0 13 5.8 13 13v31.7c0 59.5-48.5 108-108.1 108z m-82-126.7v18.7c0 45.2 36.8 82 82 82s82-36.8 82-82v-18.7h-164z" fill="#141414" p-id="2815"></path><path d="M450.4 578.9a54.7 27.5 0 1 0 109.4 0 54.7 27.5 0 1 0-109.4 0Z" fill="#EA64F9" p-id="2816"></path><path d="M256 502.7a32.1 27.5 0 1 0 64.2 0 32.1 27.5 0 1 0-64.2 0Z" fill="#EFAFF9" p-id="2817"></path><path d="M703.3 502.7a32.1 27.5 0 1 0 64.2 0 32.1 27.5 0 1 0-64.2 0Z" fill="#EFAFF9" p-id="2818"></path></svg>',
-      click () {alert('捐赠地址：https://hacpai.com/sponsor')},
+      click () {alert('捐赠地址：https://ld246.com/sponsor')},
     }],
 })
 ```
@@ -516,7 +516,7 @@ options?: IPreviewOptions {
  lazyLoadImage?: string; // 设置为 Loading 图片地址后将启用图片的懒加载
  markdown?: options.preview.markdown;
  theme?: options.preview.theme;
- renderers?: ILuteRender; // 自定义渲染 https://hacpai.com/article/1588412297062
+ renderers?: ILuteRender; // 自定义渲染 https://ld246.com/article/1588412297062
 }
 ```
 
@@ -529,10 +529,10 @@ options?: IPreviewOptions {
 | chartRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 图表渲染 |
 | mindmapRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 脑图渲染 |
 | abcRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 五线谱渲染 |
-| md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://hacpai.com/article/1546828434083?r=Vanessa#toc_h3_1) |
+| md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
-| mediaRender(element: HTMLElement) | 为[特定链接](https://hacpai.com/article/1589813914768)分别渲染为视频、音频、嵌入的 iframe |
+| mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频、嵌入的 iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
@@ -545,9 +545,9 @@ options?: IPreviewOptions {
 
 ### 原理相关
 
-* [关于所见即所得 Markdown 编辑器的讨论](https://hacpai.com/article/1579414663700)
-* [Vditor 实现 Markdown 所见即所得](https://hacpai.com/article/1577370404903)
-* [Lute 一款对中文语境优化的 Markdown 引擎，支持 Go 和 JavaScript](https://hacpai.com/article/1567047822949)
+* [关于所见即所得 Markdown 编辑器的讨论](https://ld246.com/article/1579414663700)
+* [Vditor 实现 Markdown 所见即所得](https://ld246.com/article/1577370404903)
+* [Lute 一款对中文语境优化的 Markdown 引擎，支持 Go 和 JavaScript](https://ld246.com/article/1567047822949)
 
 ### 环境
 
@@ -574,14 +574,14 @@ options?: IPreviewOptions {
 
 ## Ⓜ️ Markdown 使用指南
 
-* [基础语法](https://hacpai.com/article/1583129520165)
-* [扩展语法](https://hacpai.com/article/1583305480675)
-* [速查手册](https://hacpai.com/article/1583308420519)
+* [基础语法](https://ld246.com/article/1583129520165)
+* [扩展语法](https://ld246.com/article/1583305480675)
+* [速查手册](https://ld246.com/article/1583308420519)
 
 ## 🏘️ 社区
 
 * [官网](https://b3log.org/vditor)
-* [讨论区](https://hacpai.com/tag/vditor)
+* [讨论区](https://ld246.com/tag/vditor)
 * [报告问题](https://github.com/Vanessa219/vditor/issues/new)
 
 ## 📄 授权
@@ -604,6 +604,6 @@ Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 
 再后来，随着我们项目业务需求方面的沉淀，使用 CodeMirror 有时候会感到比较“笨重”。比如要实现 @自动完成用户名列表、插入 Emoji、上传文件等就需要比较深入的二次开发，而这些业务需求恰恰是很多项目场景共有且必备的。
 
-终于，我们决定开始在 Sym 中自己实现编辑器。随着几个版本的迭代，Sym 的编辑器也日趋成熟。在我们运营的社区[黑客派](https://hacpai.com)上陆续有人问我们是否能将编辑器单独抽离出来提供给大家使用。与此同时，我们的前端主程 [V](https://hacpai.com/member/Vanessa) 同学对于维护分散在各个项目中的编辑器也感到有点力不从心，外加对 TypeScript 的好感，所以就决定使用 ts 来实现一个全新的浏览器端 md 编辑器。
+终于，我们决定开始在 Sym 中自己实现编辑器。随着几个版本的迭代，Sym 的编辑器也日趋成熟。在我们运营的社区[链滴](https://ld246.com)上陆续有人问我们是否能将编辑器单独抽离出来提供给大家使用。与此同时，我们的前端主程 [V](https://ld246.com/member/Vanessa) 同学对于维护分散在各个项目中的编辑器也感到有点力不从心，外加对 TypeScript 的好感，所以就决定使用 ts 来实现一个全新的浏览器端 md 编辑器。
 
 于是，Vditor 就这样诞生了。

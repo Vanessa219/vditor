@@ -28,7 +28,7 @@ window.vditorTest = new Vditor('vditorTest', {
   },
   hint: {
     emojiPath: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/emoji',
-    emojiTail: '<a href="https://hacpai.com/settings/function" target="_blank">设置常用表情</a>',
+    emojiTail: '<a href="https://ld246.com/settings/function" target="_blank">设置常用表情</a>',
     emoji: {
       '+1': '👍',
       '-1': '👎',
@@ -40,11 +40,11 @@ window.vditorTest = new Vditor('vditorTest', {
       return [
         {
           value: '@88250',
-          html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> 88250',
+          html: '<img src="https://img.ld246.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> 88250',
         },
         {
           value: '@Vanessa',
-          html: '<img src="https://img.hacpai.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> Vanessa',
+          html: '<img src="https://img.ld246.com/avatar/1353745196354_1535379434567.png?imageView2/1/w/52/h/52/interlace/0/q"> Vanessa',
         }]
     },
   },
