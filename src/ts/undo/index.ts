@@ -99,7 +99,8 @@ class Undo {
             return;
         }
         const text = this.addCaret(vditor);
-        if (text.replace("<wbr>", "") !== this[vditor.currentMode].undoStack[0][0].diffs[0][1].replace("<wbr>", "")) {
+        if (text.replace("<wbr>", "").replace(" vditor-ir__node--expand", "")
+            !== this[vditor.currentMode].undoStack[0][0].diffs[0][1].replace("<wbr>", "")) {
             // 当还不没有存入 undo 栈时，按下 ctrl 后会覆盖 lastText
             return;
         }
