@@ -81,6 +81,7 @@
 
 ### v3.5.3 / 2020-09-xx
 
+* [746](https://github.com/Vanessa219/vditor/issues/746) 代码片段都没了 `修复缺陷`
 * [753](https://github.com/Vanessa219/vditor/issues/753) 更新社区地址为 ld246.com `文档相关`
 * [752](https://github.com/Vanessa219/vditor/issues/752) 图表和脑图 undo bug `修复缺陷`
 * [749](https://github.com/Vanessa219/vditor/issues/749) 即时渲染模式转义符 \ 改进 `改进功能`

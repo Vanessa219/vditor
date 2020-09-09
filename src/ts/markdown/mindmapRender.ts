@@ -10,6 +10,10 @@ export const mindmapRender = (element: (HTMLElement | Document) = document, cdn 
     if (mindmapElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
             mindmapElements.forEach((e: HTMLDivElement) => {
+                if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
+                    e.parentElement.classList.contains("vditor-ir__marker--pre ")) {
+                    return;
+                }
                 const text = e.getAttribute("data-code");
                 if (!text) {
                     return;

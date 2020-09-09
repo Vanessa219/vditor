@@ -3,6 +3,10 @@ import {code160to32} from "../util/code160to32";
 
 export const codeRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") => {
     element.querySelectorAll("pre > code").forEach((e: HTMLElement, index: number) => {
+        if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
+            e.parentElement.classList.contains("vditor-ir__marker--pre ")) {
+            return;
+        }
         if (e.classList.contains("language-mermaid") || e.classList.contains("language-echarts") ||
             e.classList.contains("language-mindmap") || e.classList.contains("language-abc") ||
             e.classList.contains("language-graphviz")) {
