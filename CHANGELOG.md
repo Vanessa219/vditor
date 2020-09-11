@@ -81,6 +81,8 @@
 
 ### v3.5.4 / 2020-09-xx
 
+* [757](https://github.com/Vanessa219/vditor/issues/757) 汉语拼音中文空格问题 `修复缺陷`
+* [756](https://github.com/Vanessa219/vditor/issues/756) 任务列表编辑问题 `修复缺陷`
 * [755](https://github.com/Vanessa219/vditor/issues/755) 撤销后光标位置改进 `修复缺陷`
 
 ### v3.5.3 / 2020-09-09
