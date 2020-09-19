@@ -81,6 +81,7 @@
 
 ### v3.5.4 / 2020-09-xx
 
+* [746](https://github.com/Vanessa219/vditor/issues/746) 块引用 > 按下后即渲染（允许空内容的块引用） `改进功能`
 * [757](https://github.com/Vanessa219/vditor/issues/757) 汉语拼音中文空格问题 `修复缺陷`
 * [756](https://github.com/Vanessa219/vditor/issues/756) 任务列表编辑问题 `修复缺陷`
 * [755](https://github.com/Vanessa219/vditor/issues/755) 撤销后光标位置改进 `修复缺陷`
