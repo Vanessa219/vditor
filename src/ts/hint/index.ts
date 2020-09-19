@@ -97,7 +97,7 @@ export class Hint {
                     html = html.substr(0, lastIndex) + replaceHtml;
                 }
             }
-            hintsHTML += `<button data-value="${hintData.value} "
+            hintsHTML += `<button data-value="${encodeURIComponent(hintData.value)} "
 ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         });
 
@@ -128,7 +128,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
     public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
         this.element.style.display = "none";
 
-        const value = element.getAttribute("data-value");
+        const value = decodeURIComponent(element.getAttribute("data-value"));
         const range: Range = window.getSelection().getRangeAt(0);
 
         // 代码提示
@@ -215,7 +215,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 currentHintElement.previousElementSibling.className = "vditor-hint--current";
             }
             return true;
-        } else if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter") {
+        } else if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter" && !event.isComposing) {
             event.preventDefault();
             event.stopPropagation();
             this.fillEmoji(currentHintElement, vditor);
