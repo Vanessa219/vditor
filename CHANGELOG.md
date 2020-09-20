@@ -79,16 +79,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.5.4 / 2020-09-xx
+### v3.5.5 / 2020-09-xx
+
+### v3.5.4 / 2020-09-20
 
 * [765](https://github.com/Vanessa219/vditor/issues/765) hint 组件中文回车及单引号转译修复 `修复缺陷`
 * [746](https://github.com/Vanessa219/vditor/issues/746) 块引用 > 按下后即渲染（允许空内容的块引用） `改进功能`
 * [757](https://github.com/Vanessa219/vditor/issues/757) 汉语拼音中文空格问题 `修复缺陷`
 * [756](https://github.com/Vanessa219/vditor/issues/756) 任务列表编辑问题 `修复缺陷`
 * [755](https://github.com/Vanessa219/vditor/issues/755) 撤销后光标位置改进 `修复缺陷`
-
-### v3.5.3 / 2020-09-09
-
 * [746](https://github.com/Vanessa219/vditor/issues/746) 代码片段都没了 `修复缺陷`
 * [753](https://github.com/Vanessa219/vditor/issues/753) 更新社区地址为 ld246.com `文档相关`
 * [752](https://github.com/Vanessa219/vditor/issues/752) 图表和脑图 undo bug `修复缺陷`
