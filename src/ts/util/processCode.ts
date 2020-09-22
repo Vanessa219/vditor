@@ -68,7 +68,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     if (language === "abc") {
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {
-        mermaidRender(previewPanel, `.vditor-${vditor.currentMode}__preview .language-mermaid`, vditor.options.cdn);
+        mermaidRender(previewPanel, vditor.options.cdn);
     } else if (language === "echarts") {
         chartRender(previewPanel, vditor.options.cdn);
     } else if (language === "mindmap") {

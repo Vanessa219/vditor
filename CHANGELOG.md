@@ -81,6 +81,10 @@
 
 ### v3.5.5 / 2020-09-xx
 
+* [768](https://github.com/Vanessa219/vditor/issues/768) mermaid 问题修复 `修复缺陷`
+* 文档修改
+  * 3.5.5 `mermaidRender` 移除 `className` 参数
+
 ### v3.5.4 / 2020-09-20
 
 * [765](https://github.com/Vanessa219/vditor/issues/765) hint 组件中文回车及单引号转译修复 `修复缺陷`

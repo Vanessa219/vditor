@@ -477,7 +477,7 @@ options?: IPreviewOptions {
 
 |   | Explanation |
 | - | - |
-| mermaidRender(element: HTMLElement, className = ".language-mermaid", cdn = options.cdn) | Convert elements in class to className in element to flowchart/sequence diagram/gantt diagram |
+| mermaidRender(element: HTMLElement, cdn = options.cdn) | Convert elements in class to className in element to flowchart/sequence diagram/gantt diagram |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | Add a copy button for the code block in element |
 | chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Chart rendering |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Stave rendering |

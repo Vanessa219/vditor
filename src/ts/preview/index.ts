@@ -188,7 +188,7 @@ export class Preview {
             cdn: vditor.options.cdn,
             math: vditor.options.preview.math,
         });
-        mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, ".language-mermaid", vditor.options.cdn);
+        mermaidRender(vditor.preview.element.lastElementChild as HTMLElement,  vditor.options.cdn);
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
