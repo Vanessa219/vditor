@@ -1,5 +1,5 @@
-import {addScript} from "../util/addScript";
 import {Constants} from "../constants";
+import {addScript} from "../util/addScript";
 
 declare const mermaid: {
     init(option: { noteMargin: number; }, c: Element): void;
