@@ -81,6 +81,7 @@
 
 ### v3.5.5 / 2020-09-xx
 
+* [770](https://github.com/Vanessa219/vditor/issues/770) 取消列表项自动合并 `改进功能`
 * [768](https://github.com/Vanessa219/vditor/issues/768) mermaid 问题修复 `修复缺陷`
 * 文档修改
   * 3.5.5 `mermaidRender` 移除 `className` 参数
