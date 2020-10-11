@@ -68,6 +68,7 @@ export const exportHTML = (vditor: IVditor) => {
         math: ${JSON.stringify(vditor.options.preview.math)},
     });
     Vditor.mermaidRender(previewElement, '${vditor.options.cdn}');
+    Vditor.flowchartRender(previewElement, '${vditor.options.cdn}');
     Vditor.graphvizRender(previewElement, '${vditor.options.cdn}');
     Vditor.chartRender(previewElement, '${vditor.options.cdn}');
     Vditor.mindmapRender(previewElement, '${vditor.options.cdn}');

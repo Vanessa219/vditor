@@ -1,6 +1,7 @@
 import {abcRender} from "./ts/markdown/abcRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
+import {flowchartRender} from "./ts/markdown/flowchartRender";
 import {graphvizRender} from "./ts/markdown/graphvizRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
 import {lazyLoadImageRender} from "./ts/markdown/lazyLoadImageRender";
@@ -23,8 +24,10 @@ class Vditor {
     public static highlightRender = highlightRender;
     /** 对数学公式进行渲染 */
     public static mathRender = mathRender;
-    /** 转换 element 中 class 为 className 的元素为流程图/时序图/甘特图 */
+    /** 流程图/时序图/甘特图渲染 */
     public static mermaidRender = mermaidRender;
+    /** flowchart.js 渲染 */
+    public static flowchartRender = flowchartRender;
     /** 图表渲染 */
     public static chartRender = chartRender;
     /** 五线谱渲染 */

@@ -6,6 +6,7 @@ import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
 import {codeRender} from "./codeRender";
+import {flowchartRender} from "./flowchartRender";
 import {graphvizRender} from "./graphvizRender";
 import {highlightRender} from "./highlightRender";
 import {lazyLoadImageRender} from "./lazyLoadImageRender";
@@ -85,6 +86,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         math: mergedOptions.math,
     });
     mermaidRender(previewElement, mergedOptions.cdn);
+    flowchartRender(previewElement, mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn);
     mindmapRender(previewElement, mergedOptions.cdn);

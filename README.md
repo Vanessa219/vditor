@@ -524,7 +524,8 @@ options?: IPreviewOptions {
 
 |   | 说明 |
 | - | - |
-| mermaidRender(element: HTMLElement, cdn = options.cdn) | 转换 element 中 class 为 className 的元素为流程图/时序图/甘特图 |
+| mermaidRender(element: HTMLElement, cdn = options.cdn) | 流程图/时序图/甘特图 |
+| flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart 渲染 |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
 | chartRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 图表渲染 |
 | mindmapRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 脑图渲染 |
@@ -565,7 +566,7 @@ options?: IPreviewOptions {
 如果代码有修改或需要使用自建 CDN 的话，可按以下步骤进行操作：
 
 * 初始化时，需对 `options` 及 `IPreviewOptions` 中的 `cdn`，`emojiPath`, `themes` 进行配置
-* `highlightRender` , `mathRender` , `abcRender` , `chartRender` , `mermaidRender`，`mindmapRender`，`graphvizRender`，`setCodeTheme`，`setContentTheme` 方法中需添加 cdn 参数
+* `highlightRender` , `mathRender` , `abcRender` , `chartRender` , `mermaidRender`， `flowchartRender`，`mindmapRender`，`graphvizRender`，`setCodeTheme`，`setContentTheme` 方法中需添加 cdn 参数
 * 将 build 成功的 dist 目录或 [jsDelivr](https://www.jsdelivr.com/package/npm/vditor?path=dist) 中的 dist 目录拷贝至正确的位置
 
 ### 升级

@@ -2,6 +2,7 @@ import {i18n} from "../i18n/index";
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
+import {flowchartRender} from "../markdown/flowchartRender";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
@@ -189,6 +190,7 @@ export class Preview {
             math: vditor.options.preview.math,
         });
         mermaidRender(vditor.preview.element.lastElementChild as HTMLElement,  vditor.options.cdn);
+        flowchartRender(vditor.preview.element.lastElementChild as HTMLElement,  vditor.options.cdn);
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);

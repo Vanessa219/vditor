@@ -1,6 +1,7 @@
 import {abcRender} from "../markdown/abcRender";
 import {chartRender} from "../markdown/chartRender";
 import {codeRender} from "../markdown/codeRender";
+import {flowchartRender} from "../markdown/flowchartRender";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
@@ -69,6 +70,8 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {
         mermaidRender(previewPanel, vditor.options.cdn);
+    } else if (language === "flowchart") {
+        flowchartRender(previewPanel, vditor.options.cdn);
     } else if (language === "echarts") {
         chartRender(previewPanel, vditor.options.cdn);
     } else if (language === "mindmap") {
