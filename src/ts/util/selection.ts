@@ -237,7 +237,7 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     tempElement.innerHTML = html;
     const tempBlockElement = tempElement.querySelectorAll("p");
     if (tempBlockElement.length === 1 && !tempBlockElement[0].previousSibling && !tempBlockElement[0].nextSibling &&
-        vditor[vditor.currentMode].element.children.length > 0) {
+        vditor[vditor.currentMode].element.children.length > 0 && tempElement.firstElementChild.tagName === "P") {
         html = tempBlockElement[0].innerHTML.trim();
     }
 

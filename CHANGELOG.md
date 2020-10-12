@@ -81,6 +81,7 @@
 
 ### v3.5.5 / 2020-09-xx
 
+* [774](https://github.com/Vanessa219/vditor/issues/774) sv 模式在 table 后换行 bug`修复缺陷`
 * [773](https://github.com/Vanessa219/vditor/issues/773) vditor支持FlowCharts的流程图语法 `引入特性`
 * [770](https://github.com/Vanessa219/vditor/issues/770) 取消列表项自动合并 `改进功能`
 * [768](https://github.com/Vanessa219/vditor/issues/768) mermaid 问题修复 `修复缺陷`
