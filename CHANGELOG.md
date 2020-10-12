@@ -2,6 +2,8 @@
 
 ### 升级
 
+* 3.5
+  * `mermaidRender` 移除 `className` 参数
 * 3.4
   * `options.hint.at` => "options.hint.extend: IHintExtend[]"
 * v3.3
@@ -79,18 +81,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.5.5 / 2020-09-xx
+### v3.5.5 / 2020-10-12
 
 * [777](https://github.com/Vanessa219/vditor/issues/777) blockquote 复制问题 `修复缺陷`
 * [774](https://github.com/Vanessa219/vditor/issues/774) sv 模式在 table 后换行 bug`修复缺陷`
 * [773](https://github.com/Vanessa219/vditor/issues/773) vditor支持FlowCharts的流程图语法 `引入特性`
 * [770](https://github.com/Vanessa219/vditor/issues/770) 取消列表项自动合并 `改进功能`
 * [768](https://github.com/Vanessa219/vditor/issues/768) mermaid 问题修复 `修复缺陷`
-* 文档修改
-  * 3.5.5 `mermaidRender` 移除 `className` 参数；添加 `flowchartRender` 方法
-
-### v3.5.4 / 2020-09-20
-
 * [765](https://github.com/Vanessa219/vditor/issues/765) hint 组件中文回车及单引号转译修复 `修复缺陷`
 * [746](https://github.com/Vanessa219/vditor/issues/746) 块引用 > 按下后即渲染（允许空内容的块引用） `改进功能`
 * [757](https://github.com/Vanessa219/vditor/issues/757) 汉语拼音中文空格问题 `修复缺陷`
@@ -107,6 +104,8 @@
 * [736](https://github.com/Vanessa219/vditor/issues/736) MathJax 数学公式会抖动 `改进功能`
 * [735](https://github.com/Vanessa219/vditor/issues/735) 官网地址及桌面端地址修改 `文档相关`
 * [730](https://github.com/Vanessa219/vditor/issues/730) 数学公式细节处理 `修复缺陷`
+* 文档修改
+  * 3.5.5 `mermaidRender` 移除 `className` 参数；添加 `flowchartRender` 方法
 
 ### v3.4.7 / 2020-08-22
 
