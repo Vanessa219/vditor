@@ -395,6 +395,8 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 }
 ```
 
+后端返回的数据结构不一致时，可使用 `linkToImgFormat` 进行转换。
+
 * `success`，`format`，`error` 不会同时触发，具体调用情况如下：
 
 ```js
