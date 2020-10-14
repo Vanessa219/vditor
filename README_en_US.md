@@ -377,6 +377,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | max | The largest upload file Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | When the clipboard contains the image address, use this url to re-upload | '' |
 | linkToImgCallback | Callback when uploading picture address | - |
+| linkToImgFormat | Transform the data returned by the server to meet the built-in data structure (responseText: string): string | - |
 | success | Upload success callback (editor: HTMLPreElement, msg: string): void | - |
 | error | Upload failure callback (msg: string): void | - |
 | token | CORS upload verification, header is X-Upload-Token | - |
