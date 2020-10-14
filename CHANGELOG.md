@@ -81,6 +81,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
+### v3.6.9 / 2020-10-xx
+
+* [780](https://github.com/Vanessa219/vditor/pull/780) linkToImg支持自定义format `引入特性`
+
 ### v3.5.5 / 2020-10-12
 
 * [777](https://github.com/Vanessa219/vditor/issues/777) blockquote 复制问题 `修复缺陷`

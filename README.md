@@ -395,8 +395,6 @@ xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
 }
 ```
 
-后端返回的数据结构不一致时，可使用 `linkToImgFormat` 进行转换。
-
 * `success`，`format`，`error` 不会同时触发，具体调用情况如下：
 
 ```js
@@ -424,7 +422,8 @@ if (xhr.status === 200) {
 | url | 上传 url | '' |
 | max | 上传文件最大 Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | 剪切板中包含图片地址时，使用此 url 重新上传 | '' |
-| linkToImgCallback(responseText: string): void | 图片地址时上传回调 | - |
+| linkToImgCallback(responseText: string): void | 图片地址上传回调 | - |
+| linkToImgFormat(responseText: string): string | 对图片地址上传的返回值进行格式化 | - |
 | success(editor: HTMLPreElement, msg: string): void | 上传成功回调 | - |
 | error(msg: string): void | 上传失败回调 | - |
 | token | CORS 上传验证，头为 X-Upload-Token | - |
