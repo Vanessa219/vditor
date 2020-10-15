@@ -132,6 +132,8 @@ declare class Lute {
 
     public SetLinkBase(url: string): void;
 
+    public SetLinkPrefix(url: string): void;
+
     public SetMark(enable: boolean): void;
 
     public SetSanitize(enable: boolean): void;
@@ -347,8 +349,10 @@ interface IMarkdownConfig {
     codeBlockPreview?: boolean;
     /** 是否启用过滤 XSS。默认值: true */
     sanitize?: boolean;
-    /** 链接前缀。默认值：'' */
+    /** 链接相对路径前缀。默认值：'' */
     linkBase?: string;
+    /** 链接强制前缀。默认值：'' */
+    linkPrefix?: string;
     /** 为列表添加标记，以便[自定义列表样式](https://github.com/Vanessa219/vditor/issues/390) 默认值：false */
     listStyle?: boolean;
     /** 支持 mark 标记 */

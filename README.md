@@ -306,7 +306,8 @@ new Vditor('vditor', {
 | paragraphBeginningSpace | 段落开头空两个 | false |
 | sanitize | 是否启用过滤 XSS | true |
 | listStyle | 为列表添加 data-style 属性 | false |
-| linkBase | 链接前缀 | '' |
+| linkBase | 链接相对路径前缀 | '' |
+| linkPrefix | 链接强制前缀 | '' |
 | mark | 启用 mark 标记 | false |
 
 #### options.preview.theme

@@ -83,6 +83,7 @@
 
 ### v3.6.9 / 2020-10-xx
 
+* [781](https://github.com/Vanessa219/vditor/pull/781) 增加 `linkPrefix` 用于强制对链接目标地址添加前缀 `引入特性`
 * [780](https://github.com/Vanessa219/vditor/pull/780) linkToImg支持自定义format `引入特性`
 
 ### v3.5.5 / 2020-10-12

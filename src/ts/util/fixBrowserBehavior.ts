@@ -1220,7 +1220,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                         if (vditor.options.upload.linkToImgFormat) {
                             responseText = vditor.options.upload.linkToImgFormat(xhr.responseText);
                         }
-                        const responseJSON = JSON.parse(xhr.responseText);
+                        const responseJSON = JSON.parse(responseText);
                         if (responseJSON.code !== 0) {
                             vditor.tip.show(responseJSON.msg);
                             return;

@@ -51,6 +51,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             inlineMathDigit: mergedOptions.math.inlineDigit,
             lazyLoadImage: mergedOptions.lazyLoadImage,
             linkBase: mergedOptions.markdown.linkBase,
+            linkPrefix: mergedOptions.markdown.linkPrefix,
             listStyle: mergedOptions.markdown.listStyle,
             paragraphBeginningSpace: mergedOptions.markdown.paragraphBeginningSpace,
             sanitize: mergedOptions.markdown.sanitize,

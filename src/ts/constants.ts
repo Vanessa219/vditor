@@ -29,6 +29,7 @@ export abstract class Constants {
         fixTermTypo: false,
         footnotes: true,
         linkBase: "",
+        linkPrefix: "",
         listStyle: false,
         mark: false,
         paragraphBeginningSpace: false,

@@ -291,7 +291,8 @@ new Vditor('vditor', {
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
 | listStyle | add data-style attribute | false |
-| linkBase | link prefix | '' |
+| linkBase | link relative path prefix | '' |
+| linkPrefix | link prefix | '' |
 | mark | enable mark tag | false |
 
 #### options.preview.math
