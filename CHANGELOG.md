@@ -83,6 +83,7 @@
 
 ### v3.6.9 / 2020-10-xx
 
+* [784](https://github.com/Vanessa219/vditor/pull/784) 从 WPS 粘贴时标题转 Markdown 优化 `改进功能`
 * [781](https://github.com/Vanessa219/vditor/pull/781) 增加 `linkPrefix` 用于强制对链接目标地址添加前缀 `引入特性`
 * [780](https://github.com/Vanessa219/vditor/pull/780) linkToImg支持自定义format `引入特性`
 
