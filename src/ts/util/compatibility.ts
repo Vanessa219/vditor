@@ -16,11 +16,7 @@ export const accessLocalStorage = () => {
 
 // 用户 iPhone 点击延迟/需要双击的处理
 export const getEventName = () => {
-    if (navigator.userAgent.indexOf("iPhone") > -1) {
-        return "touchstart";
-    } else {
-        return "click";
-    }
+    return "click";
 };
 
 // 区别 mac 上的 ctrl 和 meta
