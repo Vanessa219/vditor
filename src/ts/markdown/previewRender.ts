@@ -43,6 +43,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             autoSpace: mergedOptions.markdown.autoSpace,
             chinesePunct: mergedOptions.markdown.chinesePunct,
             codeBlockPreview: mergedOptions.markdown.codeBlockPreview,
+            mathBlockPreview: mergedOptions.markdown.mathBlockPreview,
             emojiSite: mergedOptions.emojiPath,
             emojis: mergedOptions.customEmoji,
             fixTermTypo: mergedOptions.markdown.fixTermTypo,

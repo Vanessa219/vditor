@@ -158,6 +158,8 @@ declare class Lute {
 
     public SetVditorCodeBlockPreview(enable: boolean): void;
 
+    public SetVditorMathBlockPreview(enable: boolean): void;
+
     public PutEmojis(emojis: IObject): void;
 
     public GetEmojis(): IObject;
@@ -347,6 +349,8 @@ interface IMarkdownConfig {
     footnotes?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview?: boolean;
+    /** wysiwyg & ir 模式数学公式块是否渲染。默认值: true */
+    mathBlockPreview?: boolean;
     /** 是否启用过滤 XSS。默认值: true */
     sanitize?: boolean;
     /** 链接相对路径前缀。默认值：'' */

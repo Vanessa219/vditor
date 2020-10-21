@@ -105,6 +105,7 @@ class Vditor extends VditorMethod {
                     autoSpace: this.vditor.options.preview.markdown.autoSpace,
                     chinesePunct: this.vditor.options.preview.markdown.chinesePunct,
                     codeBlockPreview: this.vditor.options.preview.markdown.codeBlockPreview,
+                    mathBlockPreview: this.vditor.options.preview.markdown.mathBlockPreview,
                     emojiSite: this.vditor.options.hint.emojiPath,
                     emojis: this.vditor.options.hint.emoji,
                     fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,

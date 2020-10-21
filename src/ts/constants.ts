@@ -26,6 +26,7 @@ export abstract class Constants {
         autoSpace: false,
         chinesePunct: false,
         codeBlockPreview: true,
+        mathBlockPreview: true,
         fixTermTypo: false,
         footnotes: true,
         linkBase: "",
