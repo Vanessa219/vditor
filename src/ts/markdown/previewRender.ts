@@ -53,6 +53,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             linkBase: mergedOptions.markdown.linkBase,
             linkPrefix: mergedOptions.markdown.linkPrefix,
             listStyle: mergedOptions.markdown.listStyle,
+            mark: mergedOptions.markdown.mark,
             mathBlockPreview: mergedOptions.markdown.mathBlockPreview,
             paragraphBeginningSpace: mergedOptions.markdown.paragraphBeginningSpace,
             sanitize: mergedOptions.markdown.sanitize,
