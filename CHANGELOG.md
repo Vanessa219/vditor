@@ -81,8 +81,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.6.9 / 2020-10-xx
+### v3.6.0 / 2020-10-xx
 
+* [796](https://github.com/Vanessa219/vditor/pull/796) 列表项合并 `改进功能`
+* [787](https://github.com/Vanessa219/vditor/pull/787) IR 模式 Setext 风格标题编辑问题 `修复缺陷`
 * [784](https://github.com/Vanessa219/vditor/pull/784) 从 WPS 粘贴时标题转 Markdown 优化 `改进功能`
 * [781](https://github.com/Vanessa219/vditor/pull/781) 增加 `linkPrefix` 用于强制对链接目标地址添加前缀 `引入特性`
 * [780](https://github.com/Vanessa219/vditor/pull/780) linkToImg支持自定义format `引入特性`
