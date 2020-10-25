@@ -80,6 +80,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [786](https://github.com/Vanessa219/vditor/pull/786) 数学公式块预览开关 `引入特性`
 
 ### v3.6.0 / 2020-10-xx
 
