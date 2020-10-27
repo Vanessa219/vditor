@@ -83,6 +83,10 @@ class IR {
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {
+            if (event.inputType === "deleteByDrag" || event.inputType === "insertFromDrop") {
+                // https://github.com/Vanessa219/vditor/issues/801 编辑器内容拖拽问题
+                return;
+            }
             if (this.preventInput) {
                 this.preventInput = false;
                 return;

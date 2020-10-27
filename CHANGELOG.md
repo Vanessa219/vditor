@@ -84,6 +84,7 @@
 
 ### v3.6.0 / 2020-10-xx
 
+* [801](https://github.com/Vanessa219/vditor/pull/801) 编辑器拖拽问题 `修复缺陷`
 * [796](https://github.com/Vanessa219/vditor/pull/796) 列表项合并 `改进功能`
 * [787](https://github.com/Vanessa219/vditor/pull/787) IR 模式 Setext 风格标题编辑问题 `修复缺陷`
 * [784](https://github.com/Vanessa219/vditor/pull/784) 从 WPS 粘贴时标题转 Markdown 优化 `改进功能`
