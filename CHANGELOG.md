@@ -81,7 +81,7 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.6.0 / 2020-10-xx
+### v3.6.0 / 2020-10-27
 
 * [786](https://github.com/Vanessa219/vditor/issues/786) 数学公式块预览开关 `引入特性`
 * [800](https://github.com/Vanessa219/vditor/issues/800) WG 模式代码块预览开关问题 `修复缺陷`
