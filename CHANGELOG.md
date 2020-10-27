@@ -80,15 +80,16 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
-* [786](https://github.com/Vanessa219/vditor/pull/786) 数学公式块预览开关 `引入特性`
 
 ### v3.6.0 / 2020-10-xx
 
-* [801](https://github.com/Vanessa219/vditor/pull/801) 编辑器拖拽问题 `修复缺陷`
-* [796](https://github.com/Vanessa219/vditor/pull/796) 列表项合并 `改进功能`
-* [787](https://github.com/Vanessa219/vditor/pull/787) IR 模式 Setext 风格标题编辑问题 `修复缺陷`
-* [784](https://github.com/Vanessa219/vditor/pull/784) 从 WPS 粘贴时标题转 Markdown 优化 `改进功能`
-* [781](https://github.com/Vanessa219/vditor/pull/781) 增加 `linkPrefix` 用于强制对链接目标地址添加前缀 `引入特性`
+* [786](https://github.com/Vanessa219/vditor/issues/786) 数学公式块预览开关 `引入特性`
+* [800](https://github.com/Vanessa219/vditor/issues/800) WG 模式代码块预览开关问题 `修复缺陷`
+* [801](https://github.com/Vanessa219/vditor/issues/801) 编辑器拖拽问题 `修复缺陷`
+* [796](https://github.com/Vanessa219/vditor/issues/796) 列表项合并 `改进功能`
+* [787](https://github.com/Vanessa219/vditor/issues/787) IR 模式 Setext 风格标题编辑问题 `修复缺陷`
+* [784](https://github.com/Vanessa219/vditor/issues/784) 从 WPS 粘贴时标题转 Markdown 优化 `改进功能`
+* [781](https://github.com/Vanessa219/vditor/issues/781) 增加 `linkPrefix` 用于强制对链接目标地址添加前缀 `引入特性`
 * [780](https://github.com/Vanessa219/vditor/pull/780) linkToImg支持自定义format `引入特性`
 
 ### v3.5.5 / 2020-10-12

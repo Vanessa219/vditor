@@ -303,6 +303,7 @@ new Vditor('vditor', {
 | toc | 插入目录 | false |
 | footnotes | 脚注 | true |
 | codeBlockPreview | wysiwyg 和 ir 模式下是否对代码块进行渲染 | true |
+| mathBlockPreview | wysiwyg 和 ir 模式下是否对数学公式进行渲染 | true |
 | paragraphBeginningSpace | 段落开头空两个 | false |
 | sanitize | 是否启用过滤 XSS | true |
 | listStyle | 为列表添加 data-style 属性 | false |

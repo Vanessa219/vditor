@@ -287,7 +287,8 @@ new Vditor('vditor', {
 | chinesePunct | Automatic punctuation correction | false |
 | toc | Insert Table of Contents | false |
 | footnotes | Footnotes | true |
-| codeBlockPreview |Whether to render code blocks in wysiwyg and ir modes | true |
+| codeBlockPreview | Whether to render code blocks in wysiwyg and ir modes | true |
+| mathBlockPreview | Whether to render math blocks in wysiwyg and ir modes | true |
 | paragraphBeginningSpace | Two spaces before the paragraph | false |
 | sanitize | Use XSS | true |
 | listStyle | add data-style attribute | false |
