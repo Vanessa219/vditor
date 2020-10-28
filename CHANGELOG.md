@@ -81,6 +81,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
+### v3.6.1 / 2020-10-xx
+
+* [802](https://github.com/Vanessa219/vditor/issues/802) 粘贴后需滚动到粘贴内容的末尾 `改进功能`
+
 ### v3.6.0 / 2020-10-27
 
 * [786](https://github.com/Vanessa219/vditor/issues/786) 数学公式块预览开关 `引入特性`

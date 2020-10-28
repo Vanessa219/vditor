@@ -1368,4 +1368,5 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             });
     }
     execAfterRender(vditor);
+    scrollCenter(vditor);
 };
