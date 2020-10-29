@@ -504,6 +504,11 @@ interface IOptions {
         hide?: boolean,
         pin?: boolean,
     };
+    /** 评论 */
+    comment?: {
+        add(id: string): void
+        remove(ids: string[]): void;
+    };
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
     /** 图标。默认值: 'ant' */

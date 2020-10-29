@@ -357,6 +357,21 @@ class Vditor extends VditorMethod {
         document.getElementById("vditorIconScript").remove();
         this.clearCache();
     }
+
+    /** 获取评论 ID */
+    public getCommentIds() {
+        return [""];
+    }
+
+    /** 高亮评论 */
+    public hlCommentIds(ids: string[]) {
+
+    }
+
+    /** 评论之后文字添加下划线样式 */
+    public afterCommentId(id: string) {
+
+    }
 }
 
 export default Vditor;

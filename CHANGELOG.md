@@ -80,6 +80,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
+* [721](https://github.com/Vanessa219/vditor/issues/721) 所见即所得模式加入划词评论 `引入特性`
 
 ### v3.6.1 / 2020-10-xx
 
