@@ -113,9 +113,8 @@ Most of the above features can be enabled or disabled through the switch configu
 
 * [Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
 * [Solo](https://github.com/88250/solo) & [Pipe](https://github.com/88250/pipe) B3log distributed community blog end node, welcome to join the next generation community network
-* [SiYuan Note](https://b3log.org/siyuan) A desktop note application that supports Windows, Mac and Linux
+* [SiYuan](https://b3log.org/siyuan) A Markdown Block-Reference and Bidirectional-Link note-taking application
 * [Arya](https://github.com/nicejade/markdown-online-editor) Based on Vue, Vditor, built online Markdown editor
-* [WizNote Lite](https://github.com/WizTeam/WizNoteLite) Focus on input, so that writing and thinking are not disturbed
 * [More cases](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
 
 ## 🛠️ User Guide
