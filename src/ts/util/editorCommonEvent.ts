@@ -31,6 +31,8 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (expandElement) {
                 expandElement.classList.remove("vditor-ir__node--expand");
             }
+        } else if (vditor.currentMode === "wysiwyg") {
+            vditor.wysiwyg.hideComment();
         }
         if (vditor.options.blur) {
             vditor.options.blur(getMarkdown(vditor));
@@ -199,7 +201,7 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         editorElement.onmouseup = () => {
             const selectText = getSelectText(vditor[vditor.currentMode].element);
             if (selectText) {
-                if (vditor.currentMode === "wysiwyg") {
+                if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
                     vditor.wysiwyg.showComment();
                 }
                 if (vditor.options.select) {

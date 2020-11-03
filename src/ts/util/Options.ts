@@ -12,6 +12,9 @@ export class Options {
         classes: {
             preview: "",
         },
+        comment: {
+            enable: false,
+        },
         counter: {
             enable: false,
             type: "markdown",
@@ -132,6 +135,9 @@ export class Options {
             }
             if (this.options.hint?.emoji) {
                 this.defaultOptions.hint.emoji = this.options.hint.emoji;
+            }
+            if (this.options.comment) {
+                this.defaultOptions.comment = this.options.comment;
             }
         }
 

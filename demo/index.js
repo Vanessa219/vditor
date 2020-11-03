@@ -65,6 +65,9 @@ window.vditor = new Vditor('vditor', {
       mark: true,
     },
   },
+  comment: {
+    enable: true,
+  },
   toolbarConfig: {
     pin: true,
   },

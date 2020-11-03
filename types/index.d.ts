@@ -506,8 +506,9 @@ interface IOptions {
     };
     /** 评论 */
     comment?: {
-        add(id: string): void
-        remove(ids: string[]): void;
+        enable: boolean
+        add?(id: string): void
+        remove?(ids: string[]): void;
     };
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
