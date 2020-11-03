@@ -616,6 +616,8 @@ interface IVditor {
         hlToolbarTimeoutId: number,
         preventInput: boolean,
         composingLock: boolean,
+        showComment(): void,
+        hideComment(): void,
     };
     ir?: {
         element: HTMLPreElement,

@@ -1,4 +1,5 @@
 import {Constants} from "../constants";
+import {i18n} from "../i18n";
 import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {
@@ -17,6 +18,7 @@ import {
 } from "../util/hasClosest";
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {
+    getCursorPosition,
     getEditorRange,
     getSelectPosition,
     setRangeByWbr,
@@ -30,6 +32,7 @@ import {showCode} from "./showCode";
 class WYSIWYG {
     public element: HTMLPreElement;
     public popover: HTMLDivElement;
+    public selectPopover: HTMLDivElement;
     public afterRenderTimeoutId: number;
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
@@ -41,11 +44,16 @@ class WYSIWYG {
 
         divElement.innerHTML = `<pre class="vditor-reset" placeholder="${vditor.options.placeholder}"
  contenteditable="true" spellcheck="false"></pre>
-<div class="vditor-panel vditor-panel--none"></div>`;
+<div class="vditor-panel vditor-panel--none"></div>
+<div class="vditor-panel vditor-panel--none">
+    <button type="button" aria-label="${i18n[vditor.options.lang].comment}" class="vditor-icon vditor-tooltipped vditor-tooltipped__n">
+        <svg><use xlink:href="#vditor-icon-comment"></use></svg>
+    </button>
+</div>`;
 
         this.element = divElement.firstElementChild as HTMLPreElement;
-
-        this.popover = divElement.lastElementChild as HTMLDivElement;
+        this.popover = divElement.firstElementChild.nextElementSibling as HTMLDivElement;
+        this.selectPopover = divElement.lastElementChild as HTMLDivElement;
 
         this.bindEvent(vditor);
 
@@ -56,6 +64,16 @@ class WYSIWYG {
         dropEvent(vditor, this.element);
         copyEvent(vditor, this.element, this.copy);
         cutEvent(vditor, this.element, this.copy);
+    }
+
+    public showComment() {
+        const range = getSelection().getRangeAt(0);
+        const position = getCursorPosition(this.element);
+        this.selectPopover.setAttribute("style", `left:${position.left}px;display:block;top:${Math.max(-8, position.top - 21 - this.element.scrollTop)}px`);
+    }
+
+    public hideComment() {
+        this.selectPopover.setAttribute("style", "display:none");
     }
 
     private copy(event: ClipboardEvent, vditor: IVditor) {
@@ -103,20 +121,32 @@ class WYSIWYG {
     private bindEvent(vditor: IVditor) {
         window.addEventListener("scroll", () => {
             hidePanel(vditor, ["hint"]);
-            if (this.popover.style.display !== "block") {
+            if (this.popover.style.display !== "block" || this.selectPopover.style.display !== "block") {
                 return;
             }
             const top = parseInt(this.popover.getAttribute("data-top"), 10);
             if (vditor.options.height !== "auto") {
                 if (vditor.options.toolbarConfig.pin && vditor.toolbar.element.getBoundingClientRect().top === 0) {
-                    this.popover.style.top = Math.max(window.scrollY - vditor.element.offsetTop - 8,
+                    const popoverTop = Math.max(window.scrollY - vditor.element.offsetTop - 8,
                         Math.min(top - vditor.wysiwyg.element.scrollTop, this.element.clientHeight - 21)) + "px";
+                    if (this.popover.style.display === "block") {
+                        this.popover.style.top = popoverTop;
+                    }
+                    if (this.selectPopover.style.display === "block") {
+                        this.selectPopover.style.top = popoverTop;
+                    }
                 }
                 return;
             } else if (!vditor.options.toolbarConfig.pin) {
                 return;
             }
-            this.popover.style.top = Math.max(top, (window.scrollY - vditor.element.offsetTop - 8)) + "px";
+            const popoverTop1 = Math.max(top, (window.scrollY - vditor.element.offsetTop - 8)) + "px";
+            if (this.popover.style.display === "block") {
+                this.popover.style.top = popoverTop1;
+            }
+            if (this.selectPopover.style.display === "block") {
+                this.selectPopover.style.top = popoverTop1;
+            }
         });
 
         this.element.addEventListener("scroll", () => {

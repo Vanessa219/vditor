@@ -195,14 +195,20 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    if (!vditor.options.select) {
-        return;
-    }
     editorElement.addEventListener("selectstart", (event: Event) => {
         editorElement.onmouseup = () => {
             const selectText = getSelectText(vditor[vditor.currentMode].element);
             if (selectText) {
-                vditor.options.select(selectText);
+                if (vditor.currentMode === "wysiwyg") {
+                    vditor.wysiwyg.showComment();
+                }
+                if (vditor.options.select) {
+                    vditor.options.select(selectText);
+                }
+            } else {
+                if (vditor.currentMode === "wysiwyg") {
+                    vditor.wysiwyg.hideComment();
+                }
             }
         };
     });
