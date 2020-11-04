@@ -218,7 +218,7 @@ const uploadFiles = (vditor: IVditor, files: FileList | DataTransferItemList | F
         if (xhr.readyState === XMLHttpRequest.DONE) {
             vditor.upload.isUploading = false;
             editorElement.setAttribute("contenteditable", "true");
-            if (xhr.status === 200) {
+            if (xhr.status >= 200 && xhr.status < 300) {
                 if (vditor.options.upload.success) {
                     vditor.options.upload.success(editorElement, xhr.responseText);
                 } else {
