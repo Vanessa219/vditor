@@ -265,6 +265,11 @@
     }
   }
 
+  &-comment {
+    background-color: rgb(250, 241, 209);
+    border-bottom: 2px solid rgb(255, 198, 10);
+  }
+
   &-task {
     list-style: none !important;
     word-break: break-all;

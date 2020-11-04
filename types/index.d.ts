@@ -112,6 +112,8 @@ declare class Lute {
 
     public static GetHeadingID(node: ILuteNode): string;
 
+    public static NewNodeID(): string;
+
     private constructor();
 
     public SetJSRenderers(options?: {
@@ -507,7 +509,7 @@ interface IOptions {
     /** 评论 */
     comment?: {
         enable: boolean
-        add?(id: string): void
+        add?(id: string, text: string): void
         remove?(ids: string[]): void;
     };
     /** 主题。默认值: 'classic' */
@@ -612,6 +614,7 @@ interface IVditor {
     };
     wysiwyg?: {
         element: HTMLPreElement,
+        selectPopover: HTMLDivElement,
         popover: HTMLDivElement,
         afterRenderTimeoutId: number,
         hlToolbarTimeoutId: number,

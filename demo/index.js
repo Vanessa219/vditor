@@ -49,6 +49,15 @@ if (window.innerWidth < 768) {
     }]
 }
 
+const bindCommentEvent = (input) => {
+  input.addEventListener("blur", () => {
+    if (input.value.trim() === "") {
+      window.vditor.removeCommentIds([input.getAttribute("data-id")])
+      input.remove();
+    }
+  })
+}
+
 window.vditor = new Vditor('vditor', {
   _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
   // _lutePath: 'src/js/lute/lute.min.js',
@@ -67,6 +76,14 @@ window.vditor = new Vditor('vditor', {
   },
   comment: {
     enable: true,
+    add (id, text) {
+      const inputElement = document.createElement("input")
+      inputElement.setAttribute("data-id", id);
+      inputElement.value = text
+      bindCommentEvent(inputElement);
+      document.getElementById("comments").insertAdjacentElement("beforeend", inputElement);
+      inputElement.focus();
+    }
   },
   toolbarConfig: {
     pin: true,

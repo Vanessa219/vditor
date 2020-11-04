@@ -25,13 +25,14 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    editorElement.addEventListener("blur", () => {
+    editorElement.addEventListener("blur", (event) => {
         if (vditor.currentMode === "ir") {
             const expandElement = vditor.ir.element.querySelector(".vditor-ir__node--expand");
             if (expandElement) {
                 expandElement.classList.remove("vditor-ir__node--expand");
             }
-        } else if (vditor.currentMode === "wysiwyg") {
+        } else if (vditor.currentMode === "wysiwyg" &&
+            !vditor.wysiwyg.selectPopover.contains(event.relatedTarget as HTMLElement)) {
             vditor.wysiwyg.hideComment();
         }
         if (vditor.options.blur) {
@@ -199,19 +200,21 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("selectstart", (event: Event) => {
         editorElement.onmouseup = () => {
-            const selectText = getSelectText(vditor[vditor.currentMode].element);
-            if (selectText) {
-                if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
-                    vditor.wysiwyg.showComment();
+            setTimeout(() => { // 鼠标放开后 range 没有即时更新
+                const selectText = getSelectText(vditor[vditor.currentMode].element);
+                if (selectText.trim()) {
+                    if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
+                        vditor.wysiwyg.showComment();
+                    }
+                    if (vditor.options.select) {
+                        vditor.options.select(selectText);
+                    }
+                } else {
+                    if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
+                        vditor.wysiwyg.hideComment();
+                    }
                 }
-                if (vditor.options.select) {
-                    vditor.options.select(selectText);
-                }
-            } else {
-                if (vditor.currentMode === "wysiwyg") {
-                    vditor.wysiwyg.hideComment();
-                }
-            }
+            })
         };
     });
 };

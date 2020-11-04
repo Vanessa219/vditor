@@ -368,6 +368,11 @@ class Vditor extends VditorMethod {
 
     }
 
+    /** 删除评论 */
+    public removeCommentIds(ids: string[]) {
+
+    }
+
     /** 评论之后文字添加下划线样式 */
     public afterCommentId(id: string) {
 

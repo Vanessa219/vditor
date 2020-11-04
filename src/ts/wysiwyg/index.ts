@@ -64,10 +64,28 @@ class WYSIWYG {
         dropEvent(vditor, this.element);
         copyEvent(vditor, this.element, this.copy);
         cutEvent(vditor, this.element, this.copy);
+
+        if (vditor.options.comment.enable) {
+            this.selectPopover.querySelector("button").onclick = () => {
+                const id = Lute.NewNodeID()
+                const range = getSelection().getRangeAt(0);
+                vditor.options.comment.add(id, range.toString());
+                const contents = range.cloneContents();
+                contents.querySelectorAll("span").forEach((item) => {
+                    console.log(item);
+                });
+                range.deleteContents();
+                const spanElement = document.createElement("span")
+                spanElement.classList.add("comment-id-" + id, "vditor-comment");
+                spanElement.setAttribute("data-cmtid", id);
+                spanElement.append(contents);
+                range.insertNode(spanElement);
+                this.hideComment();
+            }
+        }
     }
 
     public showComment() {
-        const range = getSelection().getRangeAt(0);
         const position = getCursorPosition(this.element);
         this.selectPopover.setAttribute("style", `left:${position.left}px;display:block;top:${Math.max(-8, position.top - 21 - this.element.scrollTop)}px`);
     }
