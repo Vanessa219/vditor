@@ -49,12 +49,58 @@ if (window.innerWidth < 768) {
     }]
 }
 
-const bindCommentEvent = (input) => {
-  input.addEventListener("blur", () => {
-    if (input.value.trim() === "") {
-      window.vditor.removeCommentIds([input.getAttribute("data-id")])
-      input.remove();
+const bindCommentEvent = (cmtElement) => {
+  const inputElement = cmtElement.querySelector('input')
+  const id = cmtElement.getAttribute('data-id')
+  inputElement.addEventListener('blur', () => {
+    if (inputElement.value.trim() === '') {
+      window.vditor.removeCommentIds([id])
+      cmtElement.remove()
     }
+  })
+  cmtElement.querySelector('button').addEventListener('click', () => {
+    window.vditor.removeCommentIds([id])
+    cmtElement.remove()
+  })
+
+  cmtElement.addEventListener('mouseover', () => {
+    window.vditor.hlCommentIds([id])
+  })
+
+  cmtElement.addEventListener('mouseout', () => {
+    window.vditor.unHlCommentIds([id])
+  })
+}
+
+const renderComments = (ids) => {
+  let cmts = localStorage.getItem('cmts')
+  if (!cmts) {
+    localStorage.setItem('cmts', '[]')
+    cmts = []
+  } else {
+    cmts = JSON.parse(cmts);
+  }
+
+  ids.forEach(id => {
+    let text = ''
+    cmts.find((item) => {
+      if (item.id === id) {
+        text = item.text
+        return true
+      }
+    })
+
+    const cmtElement = document.createElement('div')
+    cmtElement.setAttribute('data-id', id)
+    cmtElement.innerHTML = `<div>
+${text}<br>
+<button>删除</button><br>
+<input> 
+</div>`
+    cmtElement.value = text
+    document.getElementById('comments').
+      insertAdjacentElement('beforeend', cmtElement)
+    bindCommentEvent(cmtElement)
   })
 }
 
@@ -77,13 +123,31 @@ window.vditor = new Vditor('vditor', {
   comment: {
     enable: true,
     add (id, text) {
-      const inputElement = document.createElement("input")
-      inputElement.setAttribute("data-id", id);
-      inputElement.value = text
-      bindCommentEvent(inputElement);
-      document.getElementById("comments").insertAdjacentElement("beforeend", inputElement);
-      inputElement.focus();
-    }
+      const cmtElement = document.createElement('div')
+      cmtElement.setAttribute('data-id', id)
+      cmtElement.innerHTML = `<div>
+${text}<br>
+<button>删除</button><br>
+<input> 
+</div>`
+      cmtElement.value = text
+      document.getElementById('comments').
+        insertAdjacentElement('beforeend', cmtElement)
+      bindCommentEvent(cmtElement)
+      cmtElement.querySelector("input").focus();
+      let cmts = localStorage.getItem('cmts')
+      if (!cmts) {
+        localStorage.setItem('cmts', '[]')
+        cmts = []
+      } else {
+        cmts = JSON.parse(cmts)
+      }
+      cmts.push({id, text})
+      localStorage.setItem('cmts', JSON.stringify(cmts))
+    },
+  },
+  after () {
+    renderComments(window.vditor.getCommentIds())
   },
   toolbarConfig: {
     pin: true,

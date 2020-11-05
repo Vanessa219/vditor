@@ -79,6 +79,29 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             setCurrentToolbar(vditor.toolbar.elements, ["strike"]);
         }
 
+        // comments
+        vditor.wysiwyg.element.querySelectorAll(".vditor-comment--focus").forEach((item) => {
+            item.classList.remove("vditor-comment--focus");
+        });
+        const commentElement = hasClosestByClassName(typeElement, "vditor-comment");
+        if (commentElement) {
+            let ids = commentElement.getAttribute("data-cmtids").split(" ");
+            if (ids.length > 1 && commentElement.nextSibling.isSameNode(commentElement.nextElementSibling)) {
+                const nextIds = commentElement.nextElementSibling.getAttribute("data-cmtids").split(" ")
+                ids.find((id) => {
+                    if (nextIds.includes(id)) {
+                        ids = [id];
+                        return true;
+                    }
+                });
+            }
+            vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                if (item.getAttribute("data-cmtids").indexOf(ids[0]) > -1) {
+                    item.classList.add("vditor-comment--focus");
+                }
+            });
+        }
+
         const aElement = hasClosestByMatchTag(typeElement, "A");
         if (aElement) {
             setCurrentToolbar(vditor.toolbar.elements, ["link"]);

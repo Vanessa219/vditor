@@ -360,22 +360,67 @@ class Vditor extends VditorMethod {
 
     /** 获取评论 ID */
     public getCommentIds() {
-        return [""];
+        if (this.vditor.currentMode !== "wysiwyg") {
+            return;
+        }
+        let ids: string[] = [];
+        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+            ids = ids.concat(item.getAttribute("data-cmtids").split(" "));
+        });
+        return Array.from(new Set(ids));
     }
 
     /** 高亮评论 */
     public hlCommentIds(ids: string[]) {
+        if (this.vditor.currentMode !== "wysiwyg") {
+            return;
+        }
+        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+            item.classList.remove("vditor-comment--hover");
+            ids.forEach((id) => {
+                if (item.getAttribute("data-cmtids").indexOf(id) > -1) {
+                    item.classList.add("vditor-comment--hover");
+                }
+            });
+        });
+    }
 
+    /** 取消评论高亮 */
+    public unHlCommentIds(ids: string[]) {
+        if (this.vditor.currentMode !== "wysiwyg") {
+            return;
+        }
+        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+            ids.forEach((id) => {
+                if (item.getAttribute("data-cmtids").indexOf(id) > -1) {
+                    item.classList.remove("vditor-comment--hover");
+                }
+            });
+        });
     }
 
     /** 删除评论 */
-    public removeCommentIds(ids: string[]) {
-
-    }
-
-    /** 评论之后文字添加下划线样式 */
-    public afterCommentId(id: string) {
-
+    public removeCommentIds(removeIds: string[]) {
+        if (this.vditor.currentMode !== "wysiwyg") {
+            return;
+        }
+        removeIds.forEach((removeId) => {
+            this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                const ids = item.getAttribute("data-cmtids").split(" ");
+                ids.find((id, index) => {
+                    if (id === removeId) {
+                        ids.splice(index, 1);
+                        return true;
+                    }
+                });
+                if (ids.length === 0) {
+                    item.outerHTML = item.innerHTML;
+                    getEditorRange(this.vditor.element).collapse(true);
+                } else {
+                    item.setAttribute("data-cmtids", ids.join(" "));
+                }
+            });
+        });
     }
 }
 

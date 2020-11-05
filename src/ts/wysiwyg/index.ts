@@ -67,21 +67,25 @@ class WYSIWYG {
 
         if (vditor.options.comment.enable) {
             this.selectPopover.querySelector("button").onclick = () => {
-                const id = Lute.NewNodeID()
+                const id = Lute.NewNodeID();
                 const range = getSelection().getRangeAt(0);
                 vditor.options.comment.add(id, range.toString());
                 const contents = range.cloneContents();
-                contents.querySelectorAll("span").forEach((item) => {
-                    console.log(item);
-                });
                 range.deleteContents();
-                const spanElement = document.createElement("span")
-                spanElement.classList.add("comment-id-" + id, "vditor-comment");
-                spanElement.setAttribute("data-cmtid", id);
-                spanElement.append(contents);
-                range.insertNode(spanElement);
+                contents.childNodes.forEach((item: HTMLElement) => {
+                    if (item.nodeType === 3) {
+                        const commentElement = document.createElement("span");
+                        commentElement.classList.add("vditor-comment");
+                        commentElement.setAttribute("data-cmtids", id);
+                        item.parentNode.insertBefore(commentElement, item);
+                        commentElement.appendChild(item);
+                    } else if (item.classList.contains("vditor-comment")) {
+                        item.setAttribute("data-cmtids", item.getAttribute("data-cmtids") + " " + id);
+                    }
+                });
+                range.insertNode(contents);
                 this.hideComment();
-            }
+            };
         }
     }
 
