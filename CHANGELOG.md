@@ -85,6 +85,7 @@
 ### v3.6.1 / 2020-10-xx
 
 * [802](https://github.com/Vanessa219/vditor/issues/802) 粘贴后需滚动到粘贴内容的末尾 `改进功能`
+* [806](https://github.com/Vanessa219/vditor/pull/806) 修复201不算成功的问题  `改进功能`
 
 ### v3.6.0 / 2020-10-27
 
