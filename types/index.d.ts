@@ -402,6 +402,8 @@ interface IPreviewActionCustom {
     text: string;
     /** 按钮 className 值 */
     className?: string;
+    /** 按钮提示信息 */
+    tooltip?: string;
     /** 点击回调 */
     click: (key: string) => void;
 }

@@ -44,7 +44,7 @@ export class Preview {
         for (let i = 0; i < actions.length; i++) {
             const action = actions[i];
             if (typeof action === "object") {
-                actionHtml.push(`<button type="button" data-type="${action.key}" class="${action.className}">${action.text}</button>`);
+                actionHtml.push(`<button type="button" data-type="${action.key}" class="${action.className}"${action.tooltip ? ` aria-label="${action.tooltip}"` : ""}">${action.text}</button>`);
                 continue;
             }
             switch (action) {
@@ -189,8 +189,8 @@ export class Preview {
             cdn: vditor.options.cdn,
             math: vditor.options.preview.math,
         });
-        mermaidRender(vditor.preview.element.lastElementChild as HTMLElement,  vditor.options.cdn);
-        flowchartRender(vditor.preview.element.lastElementChild as HTMLElement,  vditor.options.cdn);
+        mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
+        flowchartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
