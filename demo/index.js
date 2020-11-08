@@ -78,7 +78,7 @@ const renderComments = (ids) => {
     localStorage.setItem('cmts', '[]')
     cmts = []
   } else {
-    cmts = JSON.parse(cmts);
+    cmts = JSON.parse(cmts)
   }
 
   ids.forEach(id => {
@@ -105,8 +105,8 @@ ${text}<br>
 }
 
 window.vditor = new Vditor('vditor', {
-  _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
-  // _lutePath: 'src/js/lute/lute.min.js',
+  // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
+  _lutePath: 'src/js/lute/lute.min.js',
   toolbar,
   mode: 'wysiwyg',
   height: window.innerHeight + 100,
@@ -134,7 +134,7 @@ ${text}<br>
       document.getElementById('comments').
         insertAdjacentElement('beforeend', cmtElement)
       bindCommentEvent(cmtElement)
-      cmtElement.querySelector("input").focus();
+      cmtElement.querySelector('input').focus()
       let cmts = localStorage.getItem('cmts')
       if (!cmts) {
         localStorage.setItem('cmts', '[]')
