@@ -32,9 +32,9 @@ import {Options} from "./ts/util/Options";
 import {processCodeRender} from "./ts/util/processCode";
 import {getCursorPosition, getEditorRange} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
+import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
-import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 
 class Vditor extends VditorMethod {
 

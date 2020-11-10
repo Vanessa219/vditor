@@ -60,7 +60,7 @@ const bindCommentEvent = (cmtElement) => {
   })
   cmtElement.querySelector('button').addEventListener('click', () => {
     window.vditor.removeCommentIds([id])
-    removeComment(cmtElement, id);
+    removeComment(cmtElement, id)
   })
 
   cmtElement.addEventListener('mouseover', () => {
@@ -123,9 +123,10 @@ ${text}<br>
 }
 
 window.vditor = new Vditor('vditor', {
-  _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
-  // _lutePath: 'src/js/lute/lute.min.js',
+  // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
+  _lutePath: 'src/js/lute/lute.min.js',
   toolbar,
+  cdn: "http://localhost:9000",
   mode: 'wysiwyg',
   height: window.innerHeight + 100,
   outline: true,
@@ -136,6 +137,7 @@ window.vditor = new Vditor('vditor', {
     markdown: {
       toc: true,
       mark: true,
+      footnotes: true,
     },
   },
   comment: {
@@ -165,7 +167,8 @@ ${text}<br>
     },
     remove (ids) {
       ids.forEach((id) => {
-        removeComment(document.querySelector(`#comments div[data-id="${id}"]`), id);
+        removeComment(document.querySelector(`#comments div[data-id="${id}"]`),
+          id)
       })
     },
   },

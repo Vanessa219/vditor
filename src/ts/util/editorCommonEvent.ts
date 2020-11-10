@@ -6,7 +6,6 @@ import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload";
-import {getCursorPosition} from "./selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
@@ -14,6 +13,7 @@ import {getEventName, isCtrl} from "./compatibility";
 import {getSelectText} from "./getSelectText";
 import {hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
+import {getCursorPosition} from "./selection";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
