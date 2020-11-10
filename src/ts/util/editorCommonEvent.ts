@@ -213,10 +213,13 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             setTimeout(() => { // 鼠标放开后 range 没有即时更新
                 const selectText = getSelectText(vditor[vditor.currentMode].element);
                 if (selectText.trim()) {
-                    if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable &&
-                        !hasClosestByAttribute(event.target, "data-type", "footnotes-block") &&
-                        !hasClosestByAttribute(event.target, "data-type", "link-ref-defs-block")) {
-                        vditor.wysiwyg.showComment();
+                    if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
+                        if (!hasClosestByAttribute(event.target, "data-type", "footnotes-block") &&
+                            !hasClosestByAttribute(event.target, "data-type", "link-ref-defs-block")) {
+                            vditor.wysiwyg.showComment();
+                        } else {
+                            vditor.wysiwyg.hideComment();
+                        }
                     }
                     if (vditor.options.select) {
                         vditor.options.select(selectText);

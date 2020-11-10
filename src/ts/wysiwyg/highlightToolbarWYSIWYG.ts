@@ -629,7 +629,6 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     vditor.wysiwyg.popover.style.left =
         Math.min(targetElement.offsetLeft, vditor.wysiwyg.element.clientWidth - vditor.wysiwyg.popover.clientWidth) + "px";
     vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
-
 };
 
 export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) => {

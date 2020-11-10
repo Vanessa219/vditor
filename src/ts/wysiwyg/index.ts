@@ -187,7 +187,9 @@ class WYSIWYG {
             if (vditor.options.toolbarConfig.pin && vditor.toolbar.element.getBoundingClientRect().top === 0) {
                 max = window.scrollY - vditor.element.offsetTop + max;
             }
-            this.popover.style.top = Math.max(max, Math.min(top, this.element.clientHeight - 21)) + "px";
+            const topPx  = Math.max(max, Math.min(top, this.element.clientHeight - 21)) + "px";
+            this.popover.style.top = topPx;
+            this.selectPopover.style.top = topPx;
         });
 
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
