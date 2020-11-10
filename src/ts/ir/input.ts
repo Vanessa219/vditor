@@ -187,7 +187,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
     //  linkref 合并及添加
     let firstLinkRefDefElement: HTMLElement;
     const allLinkRefDefsElement = vditor.ir.element.querySelectorAll("[data-type='link-ref-defs-block']");
-    allLinkRefDefsElement.forEach((item:HTMLElement, index) => {
+    allLinkRefDefsElement.forEach((item: HTMLElement, index) => {
         if (index === 0) {
             firstLinkRefDefElement = item;
         } else {
