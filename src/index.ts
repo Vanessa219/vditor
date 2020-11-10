@@ -375,14 +375,22 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode !== "wysiwyg") {
             return;
         }
-        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+        const hlItem = (item: Element) => {
             item.classList.remove("vditor-comment--hover");
             ids.forEach((id) => {
                 if (item.getAttribute("data-cmtids").indexOf(id) > -1) {
                     item.classList.add("vditor-comment--hover");
                 }
             });
+        }
+        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+            hlItem(item);
         });
+        if (this.vditor.preview.element.style.display !== "none") {
+            this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                hlItem(item);
+            });
+        }
     }
 
     /** 取消评论高亮 */
@@ -390,13 +398,21 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode !== "wysiwyg") {
             return;
         }
-        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+        const unHlItem = (item: Element) => {
             ids.forEach((id) => {
                 if (item.getAttribute("data-cmtids").indexOf(id) > -1) {
                     item.classList.remove("vditor-comment--hover");
                 }
             });
+        }
+        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+            unHlItem(item)
         });
+        if (this.vditor.preview.element.style.display !== "none") {
+            this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                unHlItem(item);
+            });
+        }
     }
 
     /** 删除评论 */
@@ -404,22 +420,31 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode !== "wysiwyg") {
             return;
         }
-        removeIds.forEach((removeId) => {
-            this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-                const ids = item.getAttribute("data-cmtids").split(" ");
-                ids.find((id, index) => {
-                    if (id === removeId) {
-                        ids.splice(index, 1);
-                        return true;
-                    }
-                });
-                if (ids.length === 0) {
-                    item.outerHTML = item.innerHTML;
-                    getEditorRange(this.vditor.element).collapse(true);
-                } else {
-                    item.setAttribute("data-cmtids", ids.join(" "));
+
+        const removeItem = (item: Element, removeId: string) => {
+            const ids = item.getAttribute("data-cmtids").split(" ");
+            ids.find((id, index) => {
+                if (id === removeId) {
+                    ids.splice(index, 1);
+                    return true;
                 }
             });
+            if (ids.length === 0) {
+                item.outerHTML = item.innerHTML;
+                getEditorRange(this.vditor.element).collapse(true);
+            } else {
+                item.setAttribute("data-cmtids", ids.join(" "));
+            }
+        }
+        removeIds.forEach((removeId) => {
+            this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                removeItem(item, removeId)
+            });
+            if (this.vditor.preview.element.style.display !== "none") {
+                this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                    removeItem(item, removeId)
+                });
+            }
         });
     }
 }
