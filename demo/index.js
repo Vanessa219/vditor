@@ -60,7 +60,7 @@ const bindCommentEvent = (cmtElement) => {
   })
   cmtElement.querySelector('button').addEventListener('click', () => {
     window.vditor.removeCommentIds([id])
-    cmtElement.remove()
+    removeComment(cmtElement, id);
   })
 
   cmtElement.addEventListener('mouseover', () => {
@@ -70,6 +70,24 @@ const bindCommentEvent = (cmtElement) => {
   cmtElement.addEventListener('mouseout', () => {
     window.vditor.unHlCommentIds([id])
   })
+}
+
+const removeComment = (cmtElement, id) => {
+  cmtElement.remove()
+
+  let cmts = localStorage.getItem('cmts')
+  if (!cmts) {
+    return
+  } else {
+    cmts = JSON.parse(cmts)
+  }
+  cmts.find((item, index) => {
+    if (item.id === id) {
+      cmts.splice(index, 1)
+      return true
+    }
+  })
+  localStorage.setItem('cmts', JSON.stringify(cmts))
 }
 
 const renderComments = (ids) => {
@@ -144,6 +162,11 @@ ${text}<br>
       }
       cmts.push({id, text})
       localStorage.setItem('cmts', JSON.stringify(cmts))
+    },
+    remove (ids) {
+      ids.forEach((id) => {
+        removeComment(document.querySelector(`#comments div[data-id="${id}"]`), id);
+      })
     },
   },
   after () {

@@ -6,7 +6,7 @@ import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {uploadFiles} from "../upload";
-import {getCursorPosition} from "../util/selection";
+import {getCursorPosition} from "./selection";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
@@ -91,6 +91,16 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if ((vditor.options.hint.extend.length > 1 || vditor.toolbar.elements.emoji) &&
             vditor.hint.select(event, vditor)) {
             return;
+        }
+
+        // 获取 comment
+        if (event.key === "Backspace" && vditor.options.comment.enable && vditor.currentMode === "wysiwyg") {
+            vditor.wysiwyg.commentIds = [];
+            vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                vditor.wysiwyg.commentIds =
+                    vditor.wysiwyg.commentIds.concat(item.getAttribute("data-cmtids").split(" "));
+            });
+            vditor.wysiwyg.commentIds = Array.from(new Set(vditor.wysiwyg.commentIds));
         }
 
         if (vditor.currentMode === "sv") {

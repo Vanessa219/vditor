@@ -622,6 +622,7 @@ interface IVditor {
         hlToolbarTimeoutId: number,
         preventInput: boolean,
         composingLock: boolean,
+        commentIds: string[]
         showComment(): void,
         hideComment(): void,
     };

@@ -37,6 +37,7 @@ class WYSIWYG {
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
     public composingLock = false;
+    public commentIds: [];
 
     constructor(vditor: IVditor) {
         const divElement = document.createElement("div");
