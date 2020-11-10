@@ -97,7 +97,7 @@ class WYSIWYG {
 
     public showComment() {
         const position = getCursorPosition(this.element);
-        this.selectPopover.setAttribute("style", `left:${position.left}px;display:block;top:${Math.max(-8, position.top - 21 - this.element.scrollTop)}px`);
+        this.selectPopover.setAttribute("style", `left:${position.left}px;display:block;top:${Math.max(-8, position.top - 21)}px`);
     }
 
     public hideComment() {

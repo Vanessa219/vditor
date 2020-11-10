@@ -11,7 +11,7 @@ import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {getEventName, isCtrl} from "./compatibility";
 import {getSelectText} from "./getSelectText";
-import {hasClosestByMatchTag} from "./hasClosest";
+import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition} from "./selection";
 
@@ -208,12 +208,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    editorElement.addEventListener("selectstart", (event: Event) => {
+    editorElement.addEventListener("selectstart", (event: Event & { target: HTMLElement }) => {
         editorElement.onmouseup = () => {
             setTimeout(() => { // 鼠标放开后 range 没有即时更新
                 const selectText = getSelectText(vditor[vditor.currentMode].element);
                 if (selectText.trim()) {
-                    if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
+                    if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable &&
+                        !hasClosestByAttribute(event.target, "data-type", "footnotes-block") &&
+                        !hasClosestByAttribute(event.target, "data-type", "link-ref-defs-block")) {
                         vditor.wysiwyg.showComment();
                     }
                     if (vditor.options.select) {
