@@ -1199,7 +1199,11 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         Md2VditorIRDOM?: ILuteRender,
         Md2VditorSVDOM?: ILuteRender,
     } = {};
-    const renderLinkDest: ILuteRenderCallback = (node) => {
+    const renderLinkDest: ILuteRenderCallback = (node, entering) => {
+        if (!entering) {
+            return ["", Lute.WalkContinue];
+        }
+
         const src = node.TokensStr();
         if (node.__internal_object__.Parent.Type === 34 && src && src.indexOf("file://") === -1 &&
             vditor.options.upload.linkToImgUrl) {
@@ -1254,11 +1258,11 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             xhr.send(JSON.stringify({url: src}));
         }
         if (vditor.currentMode === "ir") {
-            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`, Lute.WalkStop];
+            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${src}</span>`, Lute.WalkContinue];
         } else if (vditor.currentMode === "wysiwyg") {
-            return ["", Lute.WalkStop];
+            return ["", Lute.WalkContinue];
         } else {
-            return [`<span class="vditor-sv__marker--link">${src}</span>`, Lute.WalkStop];
+            return [`<span class="vditor-sv__marker--link">${src}</span>`, Lute.WalkContinue];
         }
     };
 
