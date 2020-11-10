@@ -34,6 +34,7 @@ import {getCursorPosition, getEditorRange} from "./ts/util/selection";
 import {WYSIWYG} from "./ts/wysiwyg";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 
 class Vditor extends VditorMethod {
 
@@ -382,7 +383,7 @@ class Vditor extends VditorMethod {
                     item.classList.add("vditor-comment--hover");
                 }
             });
-        }
+        };
         this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
             hlItem(item);
         });
@@ -404,9 +405,9 @@ class Vditor extends VditorMethod {
                     item.classList.remove("vditor-comment--hover");
                 }
             });
-        }
+        };
         this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-            unHlItem(item)
+            unHlItem(item);
         });
         if (this.vditor.preview.element.style.display !== "none") {
             this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
@@ -435,16 +436,21 @@ class Vditor extends VditorMethod {
             } else {
                 item.setAttribute("data-cmtids", ids.join(" "));
             }
-        }
+        };
         removeIds.forEach((removeId) => {
             this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-                removeItem(item, removeId)
+                removeItem(item, removeId);
             });
             if (this.vditor.preview.element.style.display !== "none") {
                 this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
-                    removeItem(item, removeId)
+                    removeItem(item, removeId);
                 });
             }
+        });
+        afterRenderEvent(this.vditor, {
+            enableAddUndoStack: true,
+            enableHint: false,
+            enableInput: false,
         });
     }
 }

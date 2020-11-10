@@ -87,7 +87,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         if (commentElement) {
             let ids = commentElement.getAttribute("data-cmtids").split(" ");
             if (ids.length > 1 && commentElement.nextSibling.isSameNode(commentElement.nextElementSibling)) {
-                const nextIds = commentElement.nextElementSibling.getAttribute("data-cmtids").split(" ")
+                const nextIds = commentElement.nextElementSibling.getAttribute("data-cmtids").split(" ");
                 ids.find((id) => {
                     if (nextIds.includes(id)) {
                         ids = [id];

@@ -214,7 +214,7 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         vditor.wysiwyg.hideComment();
                     }
                 }
-            })
+            });
         };
     });
 };

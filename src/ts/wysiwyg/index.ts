@@ -84,6 +84,11 @@ class WYSIWYG {
                     }
                 });
                 range.insertNode(contents);
+                afterRenderEvent(vditor, {
+                    enableAddUndoStack: true,
+                    enableHint: false,
+                    enableInput: false,
+                });
                 this.hideComment();
             };
         }
