@@ -129,35 +129,6 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         } else {
             blockElement.outerHTML = html;
 
-            let firstLinkRefDefElement: Element;
-            const allLinkRefDefsElement = vditor.ir.element.querySelectorAll("[data-type='link-ref-defs-block']");
-            allLinkRefDefsElement.forEach((item, index) => {
-                if (index === 0) {
-                    firstLinkRefDefElement = item;
-                } else {
-                    firstLinkRefDefElement.insertAdjacentHTML("beforeend", item.innerHTML);
-                    item.remove();
-                }
-            });
-            if (allLinkRefDefsElement.length > 0) {
-                vditor.ir.element.insertAdjacentElement("beforeend", allLinkRefDefsElement[0]);
-            }
-
-            // 脚注合并后添加的末尾
-            let firstFootnoteElement: Element;
-            const allFootnoteElement = vditor.wysiwyg.element.querySelectorAll("[data-type='footnotes-block']");
-            allFootnoteElement.forEach((item, index) => {
-                if (index === 0) {
-                    firstFootnoteElement = item;
-                } else {
-                    firstFootnoteElement.insertAdjacentHTML("beforeend", item.innerHTML);
-                    item.remove();
-                }
-            });
-            if (allFootnoteElement.length > 0) {
-                vditor.ir.element.insertAdjacentElement("beforeend", allFootnoteElement[0]);
-            }
-
             if (footnoteElement) {
                 // 更新正文中的 tip
                 const footnoteItemElement = hasTopClosestByTag(vditor.wysiwyg.element.querySelector("wbr"), "LI");
@@ -169,6 +140,35 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
                     }
                 }
             }
+        }
+
+        let firstLinkRefDefElement: Element;
+        const allLinkRefDefsElement = vditor.wysiwyg.element.querySelectorAll("[data-type='link-ref-defs-block']");
+        allLinkRefDefsElement.forEach((item, index) => {
+            if (index === 0) {
+                firstLinkRefDefElement = item;
+            } else {
+                firstLinkRefDefElement.insertAdjacentHTML("beforeend", item.innerHTML);
+                item.remove();
+            }
+        });
+        if (allLinkRefDefsElement.length > 0) {
+            vditor.wysiwyg.element.insertAdjacentElement("beforeend", allLinkRefDefsElement[0]);
+        }
+
+        // 脚注合并后添加的末尾
+        let firstFootnoteElement: Element;
+        const allFootnoteElement = vditor.wysiwyg.element.querySelectorAll("[data-type='footnotes-block']");
+        allFootnoteElement.forEach((item, index) => {
+            if (index === 0) {
+                firstFootnoteElement = item;
+            } else {
+                firstFootnoteElement.insertAdjacentHTML("beforeend", item.innerHTML);
+                item.remove();
+            }
+        });
+        if (allFootnoteElement.length > 0) {
+            vditor.wysiwyg.element.insertAdjacentElement("beforeend", allFootnoteElement[0]);
         }
 
         if (hasClosestByHeadings(blockElement) || html.startsWith("<h") || event?.inputType === "deleteContentBackward"

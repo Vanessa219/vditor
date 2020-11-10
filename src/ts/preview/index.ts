@@ -182,7 +182,10 @@ export class Preview {
             vditor.tip.hide();
             vditor.preview.element.removeAttribute("data-type");
         }
-        vditor.preview.element.querySelector(".vditor-comment--focus").classList.remove("vditor-comment--focus");
+        const cmtFocusElement = vditor.preview.element.querySelector(".vditor-comment--focus");
+        if (cmtFocusElement) {
+            cmtFocusElement.classList.remove("vditor-comment--focus");
+        }
         codeRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.lang);
         highlightRender(vditor.options.preview.hljs, vditor.preview.element.lastElementChild as HTMLElement,
             vditor.options.cdn);

@@ -362,7 +362,7 @@ class Vditor extends VditorMethod {
     /** 获取评论 ID */
     public getCommentIds() {
         if (this.vditor.currentMode !== "wysiwyg") {
-            return;
+            return [];
         }
         let ids: string[] = [];
         this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {

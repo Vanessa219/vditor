@@ -128,35 +128,61 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             html = blockElement.previousElementSibling.textContent + html;
             blockElement.previousElementSibling.remove();
         }
+
         // 添加链接引用
-        const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
-        if (allLinkRefDefsElement && !blockElement.isEqualNode(allLinkRefDefsElement.parentElement)) {
-            html += allLinkRefDefsElement.parentElement.textContent;
-            allLinkRefDefsElement.parentElement.remove();
-        }
+        vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item, index) => {
+            if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
+                html += "\n" + item.parentElement.textContent;
+                item.parentElement.remove();
+            }
+        });
+
         // 添加脚注
-        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
-        if (allFootnoteElement && !blockElement.isEqualNode(allFootnoteElement.parentElement)) {
-            html += allFootnoteElement.parentElement.textContent;
-            allFootnoteElement.parentElement.remove();
-        }
+        vditor.sv.element.querySelectorAll("[data-type='footnotes-link']").forEach((item, index) => {
+            if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
+                html += "\n" + item.parentElement.textContent;
+                item.parentElement.remove();
+            }
+        });
     }
     html = processSpinVditorSVDOM(html, vditor);
     if (isSVElement) {
         blockElement.innerHTML = html;
     } else {
         blockElement.outerHTML = html;
-
-        const allLinkRefDefsElement = vditor.sv.element.querySelector("[data-type='link-ref-defs-block']");
-        if (allLinkRefDefsElement) {
-            vditor.sv.element.insertAdjacentElement("beforeend", allLinkRefDefsElement.parentElement);
-        }
-
-        const allFootnoteElement = vditor.sv.element.querySelector("[data-type='footnotes-link']");
-        if (allFootnoteElement) {
-            vditor.sv.element.insertAdjacentElement("beforeend", allFootnoteElement.parentElement);
-        }
     }
+
+    let firstLinkRefDefElement: Element;
+    const allLinkRefDefsElement = vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']");
+    allLinkRefDefsElement.forEach((item, index) => {
+        if (index === 0) {
+            firstLinkRefDefElement = item.parentElement;
+        } else {
+            firstLinkRefDefElement.lastElementChild.remove();
+            firstLinkRefDefElement.insertAdjacentHTML("beforeend", `${item.parentElement.innerHTML}`);
+            item.parentElement.remove();
+        }
+    });
+    if (allLinkRefDefsElement.length > 0) {
+        vditor.sv.element.insertAdjacentElement("beforeend", firstLinkRefDefElement);
+    }
+
+    // 脚注合并后添加的末尾
+    let firstFootnoteElement: Element;
+    const allFootnoteElement = vditor.sv.element.querySelectorAll("[data-type='footnotes-link']");
+    allFootnoteElement.forEach((item, index) => {
+        if (index === 0) {
+            firstFootnoteElement = item.parentElement;
+        } else {
+            firstFootnoteElement.lastElementChild.remove();
+            firstFootnoteElement.insertAdjacentHTML("beforeend", `${item.parentElement.innerHTML}`);
+            item.parentElement.remove();
+        }
+    });
+    if (allFootnoteElement.length > 0) {
+        vditor.sv.element.insertAdjacentElement("beforeend", firstFootnoteElement);
+    }
+
     setRangeByWbr(vditor.sv.element, range);
 
     scrollCenter(vditor);
