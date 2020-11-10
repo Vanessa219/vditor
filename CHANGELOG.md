@@ -81,6 +81,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
+### v3.6.2 / 2020-11-xx
+
+
 ### v3.6.1 / 2020-11-10
 
 * [807](https://github.com/Vanessa219/vditor/issues/807) 脚注和链接引用改进 `改进功能`
@@ -88,9 +91,6 @@
 * [808](https://github.com/Vanessa219/vditor/issues/808) options.preview.actions 添加的自定义 tooltip `改进功能`
 * [802](https://github.com/Vanessa219/vditor/issues/802) 粘贴后需滚动到粘贴内容的末尾 `改进功能`
 * [806](https://github.com/Vanessa219/vditor/pull/806) 修复201不算成功的问题  `改进功能`
-
-### v3.6.0 / 2020-11-10
-
 * [786](https://github.com/Vanessa219/vditor/issues/786) 数学公式块预览开关 `引入特性`
 * [800](https://github.com/Vanessa219/vditor/issues/800) WG 模式代码块预览开关问题 `修复缺陷`
 * [801](https://github.com/Vanessa219/vditor/issues/801) 编辑器拖拽问题 `修复缺陷`
