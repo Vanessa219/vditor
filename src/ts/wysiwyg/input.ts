@@ -194,6 +194,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
 
         if (event && (event.inputType === "deleteContentBackward" || event.inputType === "deleteContentForward")) {
             vditor.wysiwyg.triggerRemoveComment(vditor);
+            vditor.options.comment.adjustTop(vditor.wysiwyg.getComments(vditor, true));
         }
     }
 

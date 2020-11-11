@@ -116,6 +116,9 @@ window.vditor = new Vditor('vditor', {
   placeholder: 'Hello, Vditor!',
   comment: {
     enable: true,
+    adjustTop(commentsData) {
+      matchCommentsTop(commentsData)
+    },
     add (id, text, commentsData) {
       commentsData.find((item, index) => {
         if (item.id === id) {

@@ -83,6 +83,7 @@
 
 ### v3.6.2 / 2020-11-xx
 
+* [810](https://github.com/Vanessa219/vditor/issues/810) 所见即所得模式划词评论功能改进 `修复缺陷`
 
 ### v3.6.1 / 2020-11-10
 
@@ -106,8 +107,10 @@
      ```
      comment?: {
          enable: boolean
-         add?(id: string, text: string): void
+         add?(id: string, text: string, commentsData: ICommentsData[]): void
          remove?(ids: string[]): void;
+         scroll?(top: number): void;
+         adjustTop?(commentsData: ICommentsData[]): void;
      };
      ```
 

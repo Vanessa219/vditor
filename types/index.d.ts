@@ -514,6 +514,7 @@ interface IOptions {
         add?(id: string, text: string, commentsData: ICommentsData[]): void
         remove?(ids: string[]): void;
         scroll?(top: number): void;
+        adjustTop?(commentsData: ICommentsData[]): void;
     };
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
