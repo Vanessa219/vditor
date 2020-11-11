@@ -48,6 +48,14 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             item.removeAttribute("style");
         });
 
+        // 移除空评论
+        blockElement.querySelectorAll(".vditor-comment").forEach((item) => {
+            if (item.textContent.trim() === "") {
+                item.classList.remove("vditor-comment", "vditor-comment--focus");
+                item.removeAttribute("data-cmtids");
+            }
+        });
+
         let html = "";
         if (blockElement.getAttribute("data-type") === "link-ref-defs-block" || isToC(blockElement.innerText)) {
             // 修改链接引用或 ToC
