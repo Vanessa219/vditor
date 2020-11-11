@@ -364,7 +364,7 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode !== "wysiwyg") {
             return [];
         }
-        return this.vditor.wysiwyg.getComments(this.vditor);
+        return this.vditor.wysiwyg.getComments(this.vditor, true);
     }
 
     /** 高亮评论 */

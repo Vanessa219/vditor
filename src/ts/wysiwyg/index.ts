@@ -70,7 +70,6 @@ class WYSIWYG {
             this.selectPopover.querySelector("button").onclick = () => {
                 const id = Lute.NewNodeID();
                 const range = getSelection().getRangeAt(0);
-                vditor.options.comment.add(id, range.toString());
                 const contents = range.cloneContents();
                 range.deleteContents();
                 contents.childNodes.forEach((item: HTMLElement) => {
@@ -85,6 +84,7 @@ class WYSIWYG {
                     }
                 });
                 range.insertNode(contents);
+                vditor.options.comment.add(id, range.toString(), this.getComments(vditor, true));
                 afterRenderEvent(vditor, {
                     enableAddUndoStack: true,
                     enableHint: false,
@@ -95,7 +95,7 @@ class WYSIWYG {
         }
     }
 
-    public getComments(vditor: IVditor) {
+    public getComments(vditor: IVditor, getData = false) {
         if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
             this.commentIds = [];
             this.element.querySelectorAll(".vditor-comment").forEach((item) => {
@@ -103,7 +103,17 @@ class WYSIWYG {
                     this.commentIds.concat(item.getAttribute("data-cmtids").split(" "));
             });
             this.commentIds = Array.from(new Set(this.commentIds));
-            return this.commentIds;
+
+            const comments: ICommentsData[] = [];
+            if (getData) {
+                this.commentIds.forEach((id) => {
+                    comments.push({
+                        id,
+                        top: (this.element.querySelector(`.vditor-comment[data-cmtids="${id}"]`) as HTMLElement).offsetTop,
+                    });
+                });
+                return comments;
+            }
         } else {
             return [];
         }
@@ -208,6 +218,7 @@ class WYSIWYG {
 
         this.element.addEventListener("scroll", () => {
             hidePanel(vditor, ["hint"]);
+            vditor.options.comment.scroll(vditor.wysiwyg.element.scrollTop);
             if (this.popover.style.display !== "block") {
                 return;
             }

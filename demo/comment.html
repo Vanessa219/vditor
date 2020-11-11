@@ -51,7 +51,11 @@
         }
 
         #vditor {
-            margin: 0 20px 20px;
+            margin: 0 20px 0 20px;
+        }
+
+        #comments > div {
+            position: absolute;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vconsole@3.3.4/dist/vconsole.min.js"></script>
@@ -67,9 +71,9 @@
         Light Mode
     </button>
 </div>
-<div style="display: flex">
+<div style="display: flex;height: 360px">
     <div id="vditor" style="flex: 1"></div>
-    <div id="comments" style="width: 300px"></div>
+    <div id="comments" style="width: 300px;overflow: auto;margin-top: 36px;position: relative"></div>
 </div>
 </body>
 </html>

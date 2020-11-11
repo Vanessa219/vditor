@@ -511,8 +511,9 @@ interface IOptions {
     /** 评论 */
     comment?: {
         enable: boolean
-        add?(id: string, text: string): void
+        add?(id: string, text: string, commentsData: ICommentsData[]): void
         remove?(ids: string[]): void;
+        scroll?(top: number): void;
     };
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
@@ -623,7 +624,7 @@ interface IVditor {
         preventInput: boolean,
         composingLock: boolean,
         commentIds: string[]
-        getComments(vditor: IVditor): string[],
+        getComments(vditor: IVditor, getData?: boolean): ICommentsData[],
         triggerRemoveComment(vditor: IVditor): void,
         showComment(): void,
         hideComment(): void,
@@ -642,4 +643,9 @@ interface IVditor {
         composingLock: boolean,
         preventInput: boolean,
     };
+}
+
+interface ICommentsData {
+    id: string
+    top: number
 }
