@@ -188,7 +188,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             && vditor.options.comment.enable && vditor.wysiwyg.commentIds.length > 0) {
             let commentIds: string[] = [];
             vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-                commentIds.concat(item.getAttribute("data-cmtids").split(" "));
+                commentIds = commentIds.concat(item.getAttribute("data-cmtids").split(" "));
             });
             commentIds = Array.from(new Set(commentIds));
 

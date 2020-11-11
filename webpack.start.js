@@ -23,6 +23,7 @@ module.exports = {
     'index.js': './demo/index.js',
     'render.js': './demo/render.js',
     'jest-puppeteer.js': './demo/jest-puppeteer.js',
+    'comment.js': './demo/comment.js',
   },
   resolve: {
     extensions: ['.js', '.ts', '.png', '.scss'],
@@ -110,6 +111,11 @@ module.exports = {
       chunks: ['jest-puppeteer.js'],
       filename: './jest-puppeteer.html',
       template: './demo/jest-puppeteer.html',
+    }),
+    new HtmlWebpackPlugin({
+      chunks: ['comment.js'],
+      filename: './comment.html',
+      template: './demo/comment.html',
     }),
     new webpack.DefinePlugin({
       VDITOR_VERSION: JSON.stringify(pkg.version),
