@@ -1,61 +1,13 @@
 import Vditor from '../src/index'
 import '../src/assets/scss/index.scss'
 
-// new VConsole()
-
-let toolbar
-if (window.innerWidth < 768) {
-  toolbar = [
-    'emoji',
-    'headings',
-    'bold',
-    'italic',
-    'strike',
-    'link',
-    '|',
-    'list',
-    'ordered-list',
-    'check',
-    'outdent',
-    'indent',
-    '|',
-    'quote',
-    'line',
-    'code',
-    'inline-code',
-    'insert-before',
-    'insert-after',
-    '|',
-    'upload',
-    'record',
-    'table',
-    '|',
-    'undo',
-    'redo',
-    '|',
-    'edit-mode',
-    'content-theme',
-    'code-theme',
-    'export',
-    {
-      name: 'more',
-      toolbar: [
-        'fullscreen',
-        'both',
-        'preview',
-        'info',
-        'help',
-      ],
-    }]
-}
-
 const bindCommentEvent = (cmtElement) => {
   const inputElement = cmtElement.querySelector('input')
   const id = cmtElement.getAttribute('data-id')
   inputElement.addEventListener('blur', () => {
     if (inputElement.value.trim() === '') {
       window.vditor.removeCommentIds([id])
-      cmtElement.remove()
+      removeComment(cmtElement, id)
     }
   })
   cmtElement.querySelector('button').addEventListener('click', () => {
@@ -125,7 +77,6 @@ ${text}<br>
 window.vditor = new Vditor('vditor', {
   // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
   _lutePath: 'src/js/lute/lute.min.js',
-  toolbar,
   mode: 'wysiwyg',
   height: window.innerHeight + 100,
   outline: true,

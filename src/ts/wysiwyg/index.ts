@@ -37,7 +37,7 @@ class WYSIWYG {
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
     public composingLock = false;
-    public commentIds: [];
+    public commentIds: string[] = [];
 
     constructor(vditor: IVditor) {
         const divElement = document.createElement("div");
@@ -92,6 +92,35 @@ class WYSIWYG {
                 });
                 this.hideComment();
             };
+        }
+    }
+
+    public getComments(vditor: IVditor) {
+        if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
+            this.commentIds = [];
+            this.element.querySelectorAll(".vditor-comment").forEach((item) => {
+                this.commentIds =
+                    this.commentIds.concat(item.getAttribute("data-cmtids").split(" "));
+            });
+            this.commentIds = Array.from(new Set(this.commentIds));
+            return this.commentIds;
+        } else {
+            return [];
+        }
+    }
+
+    public triggerRemoveComment(vditor: IVditor) {
+        const difference = (a: string[], b: string[]) => {
+            const s = new Set(b);
+            return a.filter((x) => !s.has(x));
+        };
+        if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable && vditor.wysiwyg.commentIds.length > 0) {
+            const oldIds = JSON.parse(JSON.stringify(this.commentIds));
+            this.getComments(vditor);
+            const removedIds = difference(oldIds, this.commentIds);
+            if (removedIds.length > 0) {
+                vditor.options.comment.remove(removedIds);
+            }
         }
     }
 
@@ -187,7 +216,7 @@ class WYSIWYG {
             if (vditor.options.toolbarConfig.pin && vditor.toolbar.element.getBoundingClientRect().top === 0) {
                 max = window.scrollY - vditor.element.offsetTop + max;
             }
-            const topPx  = Math.max(max, Math.min(top, this.element.clientHeight - 21)) + "px";
+            const topPx = Math.max(max, Math.min(top, this.element.clientHeight - 21)) + "px";
             this.popover.style.top = topPx;
             this.selectPopover.style.top = topPx;
         });

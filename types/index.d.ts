@@ -623,6 +623,8 @@ interface IVditor {
         preventInput: boolean,
         composingLock: boolean,
         commentIds: string[]
+        getComments(vditor: IVditor): string[],
+        triggerRemoveComment(vditor: IVditor): void,
         showComment(): void,
         hideComment(): void,
     };

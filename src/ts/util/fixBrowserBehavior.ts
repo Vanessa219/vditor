@@ -1280,6 +1280,8 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
         textHTML = doc.body.innerHTML;
     }
 
+    vditor.wysiwyg.getComments(vditor);
+
     // process code
     const code = processPasteCode(textHTML, textPlain, vditor.currentMode);
     const codeElement = vditor.currentMode === "sv" ?
@@ -1371,6 +1373,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
                 processCodeRender(item, vditor);
             });
     }
+    vditor.wysiwyg.triggerRemoveComment(vditor);
     execAfterRender(vditor);
     scrollCenter(vditor);
 };

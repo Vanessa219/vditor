@@ -364,11 +364,7 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode !== "wysiwyg") {
             return [];
         }
-        let ids: string[] = [];
-        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-            ids = ids.concat(item.getAttribute("data-cmtids").split(" "));
-        });
-        return Array.from(new Set(ids));
+        return this.vditor.wysiwyg.getComments(this.vditor);
     }
 
     /** 高亮评论 */

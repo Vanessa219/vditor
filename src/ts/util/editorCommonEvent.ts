@@ -66,6 +66,10 @@ export const cutEvent =
     (vditor: IVditor, editorElement: HTMLElement, copy: (event: ClipboardEvent, vditor: IVditor) => void) => {
         editorElement.addEventListener("cut", (event: ClipboardEvent) => {
             copy(event, vditor);
+            // 获取 comment
+            if (vditor.options.comment.enable && vditor.currentMode === "wysiwyg") {
+                vditor.wysiwyg.getComments(vditor);
+            }
             document.execCommand("delete");
         });
     };
@@ -94,13 +98,9 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // 获取 comment
-        if (event.key === "Backspace" && vditor.options.comment.enable && vditor.currentMode === "wysiwyg") {
-            vditor.wysiwyg.commentIds = [];
-            vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-                vditor.wysiwyg.commentIds =
-                    vditor.wysiwyg.commentIds.concat(item.getAttribute("data-cmtids").split(" "));
-            });
-            vditor.wysiwyg.commentIds = Array.from(new Set(vditor.wysiwyg.commentIds));
+        if (vditor.options.comment.enable && vditor.currentMode === "wysiwyg" &&
+            (event.key === "Backspace" || matchHotKey("⌘-X", event))) {
+            vditor.wysiwyg.getComments(vditor);
         }
 
         if (vditor.currentMode === "sv") {

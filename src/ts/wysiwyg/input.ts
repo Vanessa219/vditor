@@ -184,22 +184,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
                 processCodeRender(item, vditor);
             });
 
-        if (event && (event.inputType === "deleteContentBackward" || event.inputType === "deleteContentForward")
-            && vditor.options.comment.enable && vditor.wysiwyg.commentIds.length > 0) {
-            let commentIds: string[] = [];
-            vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-                commentIds = commentIds.concat(item.getAttribute("data-cmtids").split(" "));
-            });
-            commentIds = Array.from(new Set(commentIds));
-
-            const difference = (a: string[], b: string[]) => {
-                const s = new Set(b);
-                return a.filter((x) => !s.has(x));
-            };
-            const removedIds = difference(vditor.wysiwyg.commentIds, commentIds);
-            if (removedIds.length > 0) {
-                vditor.options.comment.remove(removedIds);
-            }
+        if (event && (event.inputType === "deleteContentBackward" || event.inputType === "deleteContentForward")) {
+            vditor.wysiwyg.triggerRemoveComment(vditor);
         }
     }
 
