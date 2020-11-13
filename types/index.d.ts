@@ -647,6 +647,6 @@ interface IVditor {
 }
 
 interface ICommentsData {
-    id: string
-    top: number
+    id: string;
+    top: number;
 }

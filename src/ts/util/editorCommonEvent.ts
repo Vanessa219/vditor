@@ -76,7 +76,7 @@ export const cutEvent =
 
 export const scrollCenter = (vditor: IVditor) => {
     if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
-        vditor.options.comment.adjustTop(vditor.wysiwyg.getComments(vditor, true))
+        vditor.options.comment.adjustTop(vditor.wysiwyg.getComments(vditor, true));
     }
     if (!vditor.options.typewriterMode) {
         return;
