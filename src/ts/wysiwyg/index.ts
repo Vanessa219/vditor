@@ -218,7 +218,9 @@ class WYSIWYG {
 
         this.element.addEventListener("scroll", () => {
             hidePanel(vditor, ["hint"]);
-            vditor.options.comment.scroll(vditor.wysiwyg.element.scrollTop);
+            if (vditor.options.comment && vditor.options.comment.enable && vditor.options.comment.scroll) {
+                vditor.options.comment.scroll(vditor.wysiwyg.element.scrollTop);
+            }
             if (this.popover.style.display !== "block") {
                 return;
             }

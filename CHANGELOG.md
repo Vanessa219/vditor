@@ -83,6 +83,8 @@
 
 ### v3.6.3 / 2020-11-xx
 
+* [812](https://github.com/Vanessa219/vditor/issues/812) 粘贴时减少抖动优化 `改进功能`
+
 ### v3.6.2 / 2020-11-13
 
 * [810](https://github.com/Vanessa219/vditor/issues/810) 所见即所得模式划词评论功能改进 `修复缺陷`

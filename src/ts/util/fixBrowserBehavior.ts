@@ -1283,6 +1283,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     vditor.wysiwyg.getComments(vditor);
 
     // process code
+    const height = vditor[vditor.currentMode].element.scrollHeight;
     const code = processPasteCode(textHTML, textPlain, vditor.currentMode);
     const codeElement = vditor.currentMode === "sv" ?
         hasClosestByAttribute(event.target, "data-type", "code-block") :
@@ -1375,5 +1376,8 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     }
     vditor.wysiwyg.triggerRemoveComment(vditor);
     execAfterRender(vditor);
-    scrollCenter(vditor);
+    if (vditor[vditor.currentMode].element.scrollHeight - height >
+        vditor[vditor.currentMode].element.clientHeight / 2) {
+        scrollCenter(vditor);
+    }
 };
