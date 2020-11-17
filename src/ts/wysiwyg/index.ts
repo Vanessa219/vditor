@@ -329,7 +329,7 @@ class WYSIWYG {
             if (headingElement && headingElement.textContent === "") {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150
                 renderToc(vditor);
-                return;
+                headingElement.remove();
             }
 
             if ((startSpace && blockElement.getAttribute("data-type") !== "code-block")
