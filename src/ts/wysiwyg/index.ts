@@ -107,18 +107,22 @@ class WYSIWYG {
                         }
                     }
                 });
-                if (blockStartElement) {
-                    const startElement = hasClosestBlock(rangeClone.startContainer);
-                    if (startElement) {
+                const startElement = hasClosestBlock(rangeClone.startContainer);
+                if (startElement) {
+                    if (blockStartElement) {
                         startElement.insertAdjacentHTML("beforeend", blockStartElement.innerHTML);
                         blockStartElement.remove();
+                    } else if (startElement.textContent.trim().replace(Constants.ZWSP, "") === "") {
+                        startElement.remove()
                     }
                 }
-                if (blockEndElement) {
-                    const endElement = hasClosestBlock(rangeClone.endContainer);
-                    if (endElement) {
+                const endElement = hasClosestBlock(rangeClone.endContainer);
+                if (endElement) {
+                    if (blockEndElement) {
                         endElement.insertAdjacentHTML("afterbegin", blockEndElement.innerHTML);
                         blockEndElement.remove();
+                    } else if (endElement.textContent.trim().replace(Constants.ZWSP, "") === "") {
+                        endElement.remove()
                     }
                 }
                 range.insertNode(contents);
