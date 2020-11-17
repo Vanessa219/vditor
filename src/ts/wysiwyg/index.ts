@@ -73,14 +73,20 @@ class WYSIWYG {
                 const contents = range.cloneContents();
                 range.deleteContents();
                 contents.childNodes.forEach((item: HTMLElement) => {
+                    let wrap = false
                     if (item.nodeType === 3) {
+                        wrap = true
+                    } else if (!item.classList.contains("vditor-comment")) {
+                        wrap = true
+                    } else if (item.classList.contains("vditor-comment")) {
+                        item.setAttribute("data-cmtids", item.getAttribute("data-cmtids") + " " + id);
+                    }
+                    if (wrap) {
                         const commentElement = document.createElement("span");
                         commentElement.classList.add("vditor-comment");
                         commentElement.setAttribute("data-cmtids", id);
                         item.parentNode.insertBefore(commentElement, item);
                         commentElement.appendChild(item);
-                    } else if (item.classList.contains("vditor-comment")) {
-                        item.setAttribute("data-cmtids", item.getAttribute("data-cmtids") + " " + id);
                     }
                 });
                 range.insertNode(contents);

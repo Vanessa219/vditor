@@ -272,6 +272,10 @@
     &--hover {
       background-color: rgb(250, 241, 209);
       border-bottom: 2px solid rgb(255, 198, 10);
+
+      .vditor-comment {
+        border-bottom: 2px solid rgb(255, 198, 10);
+      }
     }
   }
 
