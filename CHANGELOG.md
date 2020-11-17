@@ -83,6 +83,7 @@
 
 ### v3.6.3 / 2020-11-xx
 
+* [814](https://github.com/Vanessa219/vditor/issues/814) 划词评论纯文本以外的其他元素处理 `修复缺陷`
 * [812](https://github.com/Vanessa219/vditor/issues/812) 粘贴时减少抖动优化 `改进功能`
 
 ### v3.6.2 / 2020-11-13

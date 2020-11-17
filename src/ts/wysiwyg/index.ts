@@ -70,25 +70,57 @@ class WYSIWYG {
             this.selectPopover.querySelector("button").onclick = () => {
                 const id = Lute.NewNodeID();
                 const range = getSelection().getRangeAt(0);
-                const contents = range.cloneContents();
-                range.deleteContents();
-                contents.childNodes.forEach((item: HTMLElement) => {
-                    let wrap = false
+                const rangeClone = range.cloneRange();
+                const contents = range.extractContents();
+                let blockStartElement: HTMLElement;
+                let blockEndElement: HTMLElement;
+                contents.childNodes.forEach((item: HTMLElement, index: number) => {
+                    let wrap = false;
                     if (item.nodeType === 3) {
-                        wrap = true
+                        wrap = true;
                     } else if (!item.classList.contains("vditor-comment")) {
-                        wrap = true
+                        wrap = true;
                     } else if (item.classList.contains("vditor-comment")) {
                         item.setAttribute("data-cmtids", item.getAttribute("data-cmtids") + " " + id);
                     }
                     if (wrap) {
-                        const commentElement = document.createElement("span");
-                        commentElement.classList.add("vditor-comment");
-                        commentElement.setAttribute("data-cmtids", id);
-                        item.parentNode.insertBefore(commentElement, item);
-                        commentElement.appendChild(item);
+                        if (item.nodeType !== 3 && item.getAttribute("data-block") === "0"
+                            && index === 0 && rangeClone.startOffset > 0) {
+                            item.innerHTML =
+                                `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
+                            blockStartElement = item;
+                        } else if (item.nodeType !== 3 && item.getAttribute("data-block") === "0"
+                            && index === contents.childNodes.length - 1
+                            && rangeClone.endOffset < rangeClone.endContainer.textContent.length) {
+                            item.innerHTML =
+                                `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
+                            blockEndElement = item;
+                        } else if (item.nodeType !== 3 && item.getAttribute("data-block") === "0") {
+                            item.innerHTML =
+                                `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
+                        } else {
+                            const commentElement = document.createElement("span");
+                            commentElement.classList.add("vditor-comment");
+                            commentElement.setAttribute("data-cmtids", id);
+                            item.parentNode.insertBefore(commentElement, item);
+                            commentElement.appendChild(item);
+                        }
                     }
                 });
+                if (blockStartElement) {
+                    const startElement = hasClosestBlock(rangeClone.startContainer);
+                    if (startElement) {
+                        startElement.insertAdjacentHTML("beforeend", blockStartElement.innerHTML);
+                        blockStartElement.remove();
+                    }
+                }
+                if (blockEndElement) {
+                    const endElement = hasClosestBlock(rangeClone.endContainer);
+                    if (endElement) {
+                        endElement.insertAdjacentHTML("afterbegin", blockEndElement.innerHTML);
+                        blockEndElement.remove();
+                    }
+                }
                 range.insertNode(contents);
                 vditor.options.comment.add(id, range.toString(), this.getComments(vditor, true));
                 afterRenderEvent(vditor, {
@@ -115,7 +147,8 @@ class WYSIWYG {
                 this.commentIds.forEach((id) => {
                     comments.push({
                         id,
-                        top: (this.element.querySelector(`.vditor-comment[data-cmtids="${id}"]`) as HTMLElement).offsetTop,
+                        top:
+                        (this.element.querySelector(`.vditor-comment[data-cmtids="${id}"]`) as HTMLElement).offsetTop,
                     });
                 });
                 return comments;
