@@ -74,8 +74,8 @@ class WYSIWYG {
                 const contents = range.extractContents();
                 let blockStartElement: HTMLElement;
                 let blockEndElement: HTMLElement;
-                let removeStart = false
-                let removeEnd = false
+                let removeStart = false;
+                let removeEnd = false;
                 contents.childNodes.forEach((item: HTMLElement, index: number) => {
                     let wrap = false;
                     if (item.nodeType === 3) {
@@ -99,11 +99,11 @@ class WYSIWYG {
                             blockEndElement = item;
                         } else if (item.nodeType !== 3 && item.getAttribute("data-block") === "0") {
                            if (index === 0) {
-                               removeStart = true
-                           } else if (index === contents.childNodes.length - 1){
-                               removeEnd = true
+                               removeStart = true;
+                           } else if (index === contents.childNodes.length - 1) {
+                               removeEnd = true;
                            }
-                            item.innerHTML =
+                           item.innerHTML =
                                 `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
                         } else {
                             const commentElement = document.createElement("span");
