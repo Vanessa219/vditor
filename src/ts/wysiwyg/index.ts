@@ -74,6 +74,8 @@ class WYSIWYG {
                 const contents = range.extractContents();
                 let blockStartElement: HTMLElement;
                 let blockEndElement: HTMLElement;
+                let removeStart = false
+                let removeEnd = false
                 contents.childNodes.forEach((item: HTMLElement, index: number) => {
                     let wrap = false;
                     if (item.nodeType === 3) {
@@ -96,6 +98,11 @@ class WYSIWYG {
                                 `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
                             blockEndElement = item;
                         } else if (item.nodeType !== 3 && item.getAttribute("data-block") === "0") {
+                           if (index === 0) {
+                               removeStart = true
+                           } else if (index === contents.childNodes.length - 1){
+                               removeEnd = true
+                           }
                             item.innerHTML =
                                 `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
                         } else {
@@ -112,8 +119,8 @@ class WYSIWYG {
                     if (blockStartElement) {
                         startElement.insertAdjacentHTML("beforeend", blockStartElement.innerHTML);
                         blockStartElement.remove();
-                    } else if (startElement.textContent.trim().replace(Constants.ZWSP, "") === "") {
-                        startElement.remove()
+                    } else if (startElement.textContent.trim().replace(Constants.ZWSP, "") === "" && removeStart) {
+                        startElement.remove();
                     }
                 }
                 const endElement = hasClosestBlock(rangeClone.endContainer);
@@ -121,8 +128,8 @@ class WYSIWYG {
                     if (blockEndElement) {
                         endElement.insertAdjacentHTML("afterbegin", blockEndElement.innerHTML);
                         blockEndElement.remove();
-                    } else if (endElement.textContent.trim().replace(Constants.ZWSP, "") === "") {
-                        endElement.remove()
+                    } else if (endElement.textContent.trim().replace(Constants.ZWSP, "") === "" && removeEnd) {
+                        endElement.remove();
                     }
                 }
                 range.insertNode(contents);
