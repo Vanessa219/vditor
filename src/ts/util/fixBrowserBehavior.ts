@@ -1377,7 +1377,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
     vditor.wysiwyg.triggerRemoveComment(vditor);
     execAfterRender(vditor);
     if (vditor[vditor.currentMode].element.scrollHeight - height >
-        vditor[vditor.currentMode].element.clientHeight / 2) {
+        Math.min(vditor[vditor.currentMode].element.clientHeight, window.innerHeight) / 2) {
         scrollCenter(vditor);
     }
 };
