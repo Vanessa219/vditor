@@ -148,6 +148,25 @@ const vditor = new Vditor(id, {options...})
 <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>
 ```
 
+* 如果你使用传统方式开发，示例代码如下
+```html
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
+<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script>
+<div id="vditor"></div><!--这个div是编辑器要渲染的容器-->
+<div id="inpost"></div><!--这个容器等下会显示用户输入的内容，是通过input方法callback函数回调去更新的-->
+<script type="text/javascript">
+//初始化Vditor编辑器
+new Vditor('vditor', {
+  height: 360,
+  cache: {enable: false},
+  value: '可选模式：sv, ir, wysiwyg',
+  input (md) { //这是回调函数，当用户输入时触发
+    document.getElementById("inpost").innerText = '用户进行了输入，Markdown 内容为：\n' + md
+});
+</script>
+```
+
 ### 示例代码
 
 * [官方示例](https://b3log.org/vditor/demo/index.html) / [示例源码](https://github.com/Vanessa219/b3log-index/tree/master/src/vditor)
