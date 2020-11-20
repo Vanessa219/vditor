@@ -83,6 +83,7 @@
 
 ### v3.6.4 / 2020-11-xx
 
+* [761](https://github.com/Vanessa219/vditor/issues/761) 列表项批量缩进和取消缩进 `改进功能`
 * [819](https://github.com/Vanessa219/vditor/issues/819) 粘贴后滚动到粘贴内容末尾 bug `修复缺陷`
 
 ### v3.6.3 / 2020-11-19

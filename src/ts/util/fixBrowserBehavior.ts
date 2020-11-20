@@ -240,19 +240,37 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
 };
 
 export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range) => {
-    if (liElement && liElement.previousElementSibling) {
+    const previousElement = liElement.previousElementSibling;
+    if (liElement && previousElement) {
+        const liElements: HTMLElement[] = [liElement];
+        Array.from(range.cloneContents().children).forEach((item, index) => {
+            if (item.nodeType !== 3 && liElement && item.textContent.trim() !== ""
+                && liElement.getAttribute("data-node-id") === item.getAttribute("data-node-id")) {
+                if (index !== 0) {
+                    liElements.push(liElement);
+                }
+                liElement = liElement.nextElementSibling as HTMLElement;
+            }
+        });
+
         vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
             wbr.remove();
         });
         range.insertNode(document.createElement("wbr"));
-        const liParentElement = liElement.parentElement;
-        let marker = liElement.getAttribute("data-marker");
-        if (marker.length !== 1) {
-            marker = `1${marker.slice(-1)}`;
-        }
-        liElement.previousElementSibling.insertAdjacentHTML("beforeend",
-            `<${liParentElement.tagName} data-block="0"><li data-marker="${marker}">${liElement.innerHTML}</li></${liParentElement.tagName}>`);
-        liElement.remove();
+        const liParentElement = previousElement.parentElement;
+
+        let liHTML = "";
+        liElements.forEach((item: HTMLElement) => {
+            let marker = item.getAttribute("data-marker");
+            if (marker.length !== 1) {
+                marker = `1${marker.slice(-1)}`;
+            }
+            liHTML += `<li data-node-id="${item.getAttribute("data-node-id")}" data-marker="${marker}">${item.innerHTML}</li>`;
+            item.remove();
+        });
+        previousElement.insertAdjacentHTML("beforeend",
+            `<${liParentElement.tagName} data-block="0">${liHTML}</${liParentElement.tagName}>`);
+
 
         if (vditor.currentMode === "wysiwyg") {
             liParentElement.outerHTML = vditor.lute.SpinVditorDOM(liParentElement.outerHTML);
@@ -288,7 +306,16 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
 
         const liParentElement = liElement.parentElement;
         const liParentAfterElement = liParentElement.cloneNode() as HTMLElement;
-
+        const liElements: HTMLElement[] = [liElement];
+        Array.from(range.cloneContents().children).forEach((item, index) => {
+            if (item.nodeType !== 3 && liElement && item.textContent.trim() !== "" &&
+                liElement.getAttribute("data-node-id") === item.getAttribute("data-node-id")) {
+                if (index !== 0) {
+                    liElements.push(liElement);
+                }
+                liElement = liElement.nextElementSibling as HTMLElement;
+            }
+        });
         let isMatch = false;
         let afterHTML = "";
         liParentElement.querySelectorAll("li").forEach((item) => {
@@ -300,15 +327,20 @@ export const listOutdent = (vditor: IVditor, liElement: HTMLElement, range: Rang
                     item.remove();
                 }
             }
-            if (item.isSameNode(liElement)) {
+            if (item.isSameNode(liElements[liElements.length - 1])) {
                 isMatch = true;
             }
         });
-        liParentLiElement.insertAdjacentElement("afterend", liElement);
+
+        liElements.reverse().forEach((item) => {
+            liParentLiElement.insertAdjacentElement("afterend", item);
+        });
+
         if (afterHTML) {
             liParentAfterElement.innerHTML = afterHTML;
-            liElement.insertAdjacentElement("beforeend", liParentAfterElement);
+            liElements[0].insertAdjacentElement("beforeend", liParentAfterElement);
         }
+
         if (vditor.currentMode === "wysiwyg") {
             topListElement.outerHTML = vditor.lute.SpinVditorDOM(topListElement.outerHTML);
         } else {
@@ -489,7 +521,7 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
                 isFirst = true;
             }
 
-            if (isFirst) {
+            if (isFirst || range.toString() !== "") {
                 if (event.shiftKey) {
                     listOutdent(vditor, liElement, range, liElement.parentElement);
                 } else {
