@@ -84,9 +84,8 @@
     --code-background-color: rgba(0, 0, 0, 0.03);
 }
 
-.vditor-reset pre code:not(.hljs):not(.highlight-chroma), .vditor-reset .language-abc {
-    background-color: rgba(0, 0, 0, 0.02);
-    font-size: 14px;
-    border: 1px solid #f0f0f0;
-    border-radius: 2px;
+.vditor-reset .language-abc svg,
+.vditor-reset .language-abc path {
+    fill: currentColor;
+    color: rgb(62, 62, 62);
 }

@@ -68,8 +68,10 @@
     --code-background-color: rgba(66, 133, 244, .36);
 }
 
-.vditor-reset pre code:not(.hljs):not(.highlight-chroma), .vditor-reset .language-abc {
-    background-color: rgba(120, 146, 190, .55)
+.vditor-reset .language-abc svg,
+.vditor-reset .language-abc path {
+    fill: currentColor;
+    color: #d1d5da;
 }
 
 .vditor-reset kbd {

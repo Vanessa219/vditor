@@ -132,15 +132,10 @@
     border-radius: 2px;
 }
 
-.vditor-reset pre code:not(.hljs):not(.highlight-chroma), .vditor-reset .language-abc {
-    margin: 0;
-    padding: 16px 32px;
-    overflow: auto;
+.vditor-reset .language-abc svg,
+.vditor-reset .language-abc path {
+    fill: currentColor;
     color: rgba(0, 0, 0, .85);
-    font-size: 13px;
-    direction: ltr;
-    text-align: left;
-    background: #f6f8fa;
 }
 
 .vditor-reset strong,
