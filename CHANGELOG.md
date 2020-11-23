@@ -86,7 +86,7 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.6.5 / 2020-11-23
+### v3.6.6 / 2020-11-23
 
 * [824](https://github.com/Vanessa219/vditor/issues/824) 流程图大小可自适应 & 居中 `引入特性`
 * [822](https://github.com/Vanessa219/vditor/issues/822) 流程图、甘特图、时序图、图表、脑图、五线谱、添加暗黑模式 `引入特性`
