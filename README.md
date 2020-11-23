@@ -526,11 +526,11 @@ options?: IPreviewOptions {
 
 |   | 说明 |
 | - | - |
-| mermaidRender(element: HTMLElement, cdn = options.cdn) | 流程图/时序图/甘特图 |
+| mermaidRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | 流程图/时序图/甘特图 |
 | flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart 渲染 |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
-| chartRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 图表渲染 |
-| mindmapRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 脑图渲染 |
+| chartRender(element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme) | 图表渲染 |
+| mindmapRender(element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme) | 脑图渲染 |
 | abcRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 五线谱渲染 |
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |

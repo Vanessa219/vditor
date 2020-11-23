@@ -81,16 +81,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.6.4 / 2020-11-xx
+### v3.6.4 / 2020-11-23
 
 * [824](https://github.com/Vanessa219/vditor/issues/824) 流程图大小可自适应 & 居中 `引入特性`
 * [822](https://github.com/Vanessa219/vditor/issues/822) 流程图、甘特图、时序图、图表、脑图、五线谱、添加暗黑模式 `引入特性`
 * [823](https://github.com/Vanessa219/vditor/issues/823) 数学公式块去除背景 `改进功能`
 * [761](https://github.com/Vanessa219/vditor/issues/761) 列表项批量缩进和取消缩进 `改进功能`
 * [819](https://github.com/Vanessa219/vditor/issues/819) 粘贴后滚动到粘贴内容末尾 bug `修复缺陷`
-
-### v3.6.3 / 2020-11-19
-
 * [815](https://github.com/Vanessa219/vditor/issues/815) wysiwyg sv 表格切换会多内容 `修复缺陷`
 * [814](https://github.com/Vanessa219/vditor/issues/814) 划词评论纯文本以外的其他元素处理 `修复缺陷`
 * [812](https://github.com/Vanessa219/vditor/issues/812) 粘贴时减少抖动优化 `改进功能`
