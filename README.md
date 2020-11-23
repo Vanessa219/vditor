@@ -200,12 +200,12 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
 | lang | 多语言：en_US, ja_JP, ko_KR, zh_CN | 'zh_CN' |
-| input(value: string, previewElement?: HTMLElement): void | 输入后触发  | - |
-| focus(value: string): void | 聚焦后触发 | - |
-| blur(value: string): void | 失焦后触发 | - |
-| esc(value: string): void | <kbd>esc</kbd> 按下后触发 | - |
-| ctrlEnter(value: string): void | <kbd>⌘/ctrl+enter</kbd> 按下后触发 | - |
-| select(value: string): void | 编辑器中选中文字后触发 | - |
+| input(value: string, previewElement?: HTMLElement) | 输入后触发  | - |
+| focus(value: string) | 聚焦后触发 | - |
+| blur(value: string) | 失焦后触发 | - |
+| esc(value: string) | <kbd>esc</kbd> 按下后触发 | - |
+| ctrlEnter(value: string) | <kbd>⌘/ctrl+enter</kbd> 按下后触发 | - |
+| select(value: string) | 编辑器中选中文字后触发 | - |
 | tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
 | typewriterMode | 是否启用打字机模式 | false |
 | cdn | 配置自建 CDN 地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
@@ -246,7 +246,7 @@ new Vditor('vditor', {
 | hotkey | 快捷键，格式为<kbd>⌘/ctrl-key</kbd> 或 <kbd>⌘/ctrl-⇧/shift-key</kbd> | - |
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
-| click(): void | 自定义按钮点击时触发的事件 | - |
+| click() | 自定义按钮点击时触发的事件 | - |
 | className | 样式名 | '' |
 | toolbar?: Array<options.toolbar> | 子菜单 | - |
 
@@ -273,6 +273,18 @@ new Vditor('vditor', {
 | id | 缓存 key，第一个参数为元素且启用缓存时**必填** | - |
 | after(html: string): string | 缓存后的回调 | - |
 
+#### options.comment
+
+⚠️：仅支持 wysiwyg 模式
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| enable | 是否启用评论模式 | false |
+| add(id: string, text: string, commentsData: ICommentsData[]) | 添加评论回调 | - |
+| remove(ids: string[]) | 删除评论回调 | - |
+| scroll(top: number) | 滚动回调 | - |
+| adjustTop(commentsData: ICommentsData[]) | 文档修改时，适配评论高度 | - |
+
 #### options.preview
 
 |   | 说明 | 默认值 |
@@ -281,7 +293,7 @@ new Vditor('vditor', {
 | maxWidth | 预览区域最大宽度 | 800 |
 | mode | 显示模式：both, editor | 'both' |
 | url | md 解析请求 | - |
-| parse(element: HTMLElement): void | 预览回调 | - |
+| parse(element: HTMLElement) | 预览回调 | - |
 | transform(html: string): string | 渲染之前回调 | - |
 
 #### options.preview.hljs
@@ -335,8 +347,9 @@ new Vditor('vditor', {
 | - | - | - |
 | key | 按钮唯一标识，不能为空 | - |
 | text | 按钮文字 | - |
+| tooltip | 提示 | - |
 | className | 按钮类名 | - |
-| click(key: string) => void | 按钮点击回调事件 | - |
+| click(key: string) | 按钮点击回调事件 | - |
 
 #### options.hint
 
@@ -423,10 +436,10 @@ if (xhr.status === 200) {
 | url | 上传 url | '' |
 | max | 上传文件最大 Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | 剪切板中包含图片地址时，使用此 url 重新上传 | '' |
-| linkToImgCallback(responseText: string): void | 图片地址上传回调 | - |
+| linkToImgCallback(responseText: string) | 图片地址上传回调 | - |
 | linkToImgFormat(responseText: string): string | 对图片地址上传的返回值进行格式化 | - |
-| success(editor: HTMLPreElement, msg: string): void | 上传成功回调 | - |
-| error(msg: string): void | 上传失败回调 | - |
+| success(editor: HTMLPreElement, msg: string) | 上传成功回调 | - |
+| error(msg: string) | 上传失败回调 | - |
 | token | CORS 上传验证，头为 X-Upload-Token | - |
 | withCredentials | 跨站点访问控制 | false |
 | headers | 请求头设置 | - |
@@ -447,7 +460,7 @@ if (xhr.status === 200) {
 | - | - | - |
 | enable | 是否支持大小拖拽 | false |
 | position | 拖拽栏位置：top, bottom | 'bottom' |
-| after(height: number): void | 拖拽结束的回调 | - |
+| after(height: number) | 拖拽结束的回调 | - |
 
 #### options.classes
 
@@ -482,7 +495,11 @@ if (xhr.status === 200) {
 | setPreviewMode(mode: "both" \| "editor") | 设置预览模式 |
 | setTheme(theme: "dark" \| "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | 设置主题、内容主题及代码块风格 |
 | getCurrentMode(): string | 获取编辑器当前编辑模式 |
-| destroy() |销毁编辑器|
+| destroy() | 销毁编辑器 |
+| getCommentIds(): {id: string, top: number}[] | 获取所有评论 |
+| hlCommentIds(ids: string[]) | 高亮评论 |
+| unHlCommentIds(ids: string[]) | 取消评论高亮 |
+| removeCommentIds(removeIds: string[]) | 删除评论 |
 
 #### static methods
 
@@ -514,7 +531,7 @@ options?: IPreviewOptions {
  math?: IMath; // 数学公式渲染配置
  cdn?: string; // 自建 CDN 地址
  transform?(html: string): string; // 在渲染前进行的回调方法
- after?(): void; // 渲染完成后的回调
+ after?(); // 渲染完成后的回调
  lazyLoadImage?: string; // 设置为 Loading 图片地址后将启用图片的懒加载
  markdown?: options.preview.markdown;
  theme?: options.preview.theme;

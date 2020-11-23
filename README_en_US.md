@@ -250,6 +250,18 @@ new Vditor('vditor', {
 | id | Cache key, the first parameter is an element and when caching is enabled **required** | - |
 | after | cache callback (markdown: string): void | - |
 
+#### options.comment
+
+⚠️: Only supports wysiwyg mode
+
+|   | Explanation | Default |
+| - | - | - |
+| enable | Whether to enable comment mode | false |
+| add(id: string, text: string, commentsData: ICommentsData[]): void | Add comment callback | - |
+| remove(ids: string[]): void | delete comment callback | - |
+| scroll(top: number): void | Scroll callback | - |
+| adjustTop(commentsData: ICommentsData[]): void | Adapt the comment height | - |
+
 #### options.preview
 
 |   | Explanation | Default |
@@ -310,6 +322,7 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 |   | Explanation | Default |
 | - | - | - |
 | key | Custom action ID, not Empty. | - |
+| tooltip | Tooltip | - |
 | text | Button Text | - |
 | className | Button Class | - |
 | click: (key: string) => void; | Click Event | - |
@@ -437,6 +450,10 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | Set theme |
 | getCurrentMode(): string | Get the editor's current editing mode |
 | destroy() | Destroy the vditor |
+| getCommentIds(): {id: string, top: number}[] | Get all comments |
+| hlCommentIds(ids: string[]) | Highlight comment by Ids |
+| unHlCommentIds(ids: string[]) | Cancel highlight comment by Ids |
+| removeCommentIds(removeIds: string[]) | Remove comment by Ids |
 
 #### static methods
 
@@ -479,10 +496,10 @@ options?: IPreviewOptions {
 
 |   | Explanation |
 | - | - |
-| mermaidRender(element: HTMLElement, cdn = options.cdn) | flowchart/sequence diagram/gantt diagram rendering |
-| mermaidRender(element: HTMLElement, cdn = options.cdn) | flowchart.js rendering |
+| mermaidRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | flowchart/sequence diagram/gantt diagram rendering |
+| flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart.js rendering |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | Add a copy button for the code block in element |
-| chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Chart rendering |
+| chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn, theme = options.theme) | Chart rendering |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Stave rendering |
 | outlineRender(contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) | Outline rendering |
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
@@ -495,7 +512,7 @@ options?: IPreviewOptions {
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 | setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
 | setContentTheme (contentTheme: string, path: string)  | update content theme |
-| mindmapRender (element: (HTMLElement \| Document) = document, cdn = options.cdn)  | Render mind map |
+| mindmapRender (element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme)  | Render mind map |
 
 ## 🏗 Developer Guide
 
