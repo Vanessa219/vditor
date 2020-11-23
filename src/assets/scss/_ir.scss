@@ -35,6 +35,7 @@
       display: inline-block;
       height: 0;
       transition: $transition;
+
       .language-mermaid {
         text-align: left;
       }
@@ -86,9 +87,8 @@
           color: var(--ir-heading-color);
         }
 
-        &--pre code {
+        &--pre {
           color: var(--textarea-text-color);
-          background-color: var(--code-background-color) !important;
           height: auto;
         }
       }

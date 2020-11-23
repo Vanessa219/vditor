@@ -124,7 +124,6 @@
 .vditor-reset code:not(.hljs):not(.highlight-chroma) {
     background: #f2f4f5;
     color: rgba(0, 0, 0, .65);
-    --code-background-color: #f2f4f5;
 }
 
 .vditor-reset pre {

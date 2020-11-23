@@ -57,7 +57,6 @@
 
 .vditor-reset code:not(.hljs):not(.highlight-chroma) {
     background-color: rgba(27, 31, 35, .05);
-    --code-background-color: rgba(27, 31, 35, .05);
 }
 
 .vditor-reset kbd {

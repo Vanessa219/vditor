@@ -81,7 +81,6 @@
 .vditor-reset code:not(.hljs):not(.highlight-chroma) {
     background-color: rgba(0, 0, 0, 0.03);
     color: #333;
-    --code-background-color: rgba(0, 0, 0, 0.03);
 }
 
 .vditor-reset .language-abc svg,
