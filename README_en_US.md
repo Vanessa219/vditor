@@ -177,12 +177,12 @@ Can be filled with element `id` or element itself` HTMLElement`
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
 | lang | i18n: en_US, ja_JP, ko_KR, zh_CN | 'zh_CN' |
-| input | Trigger after input (value: string, previewElement?: HTMLElement): void | - |
-| focus | Trigger after focusing (value: string): void | - |
-| blur | Trigger after out of focus (value: string): void | - |
-| esc | Trigger after pressing <kbd>esc</kbd> (value: string): void | - |
-| ctrlEnter | Trigger after pressing <kbd>⌘/ctrl+enter</kbd> (value: string): void | - |
-| select | Triggered after selecting text in the editor (value: string): void | - |
+| input | Trigger after input (value: string, previewElement?: HTMLElement) | - |
+| focus | Trigger after focusing (value: string) | - |
+| blur | Trigger after out of focus (value: string) | - |
+| esc | Trigger after pressing <kbd>esc</kbd> (value: string) | - |
+| ctrlEnter | Trigger after pressing <kbd>⌘/ctrl+enter</kbd> (value: string) | - |
+| select | Triggered after selecting text in the editor (value: string) | - |
 | tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
 | typewriterMode | Whether to enable typewriter mode | false |
 | cdn | Configure self-built CDN address | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
@@ -223,7 +223,7 @@ new Vditor('vditor', {
 | hotkey | Shortcut keys, support <kbd>⌘/ctrl-key</kbd> or <kbd>⌘/ctrl-⇧/shift-key</kbd> format configuration | - |
 | suffix | Insert the suffix in the editor | - |
 | prefix | Insert the prefix in the editor | - |
-| click | Custom event triggered when button is clicked (): void | - |
+| click | Custom event triggered when button is clicked () | - |
 | className | Style name | '' |
 | toolbar?: Array<options.toolbar> | sub menu | - |
 
@@ -248,7 +248,7 @@ new Vditor('vditor', {
 | - | - | - |
 | enable | Whether to use localStorage for caching | true |
 | id | Cache key, the first parameter is an element and when caching is enabled **required** | - |
-| after | cache callback (markdown: string): void | - |
+| after | cache callback (markdown: string) | - |
 
 #### options.comment
 
@@ -257,10 +257,10 @@ new Vditor('vditor', {
 |   | Explanation | Default |
 | - | - | - |
 | enable | Whether to enable comment mode | false |
-| add(id: string, text: string, commentsData: ICommentsData[]): void | Add comment callback | - |
-| remove(ids: string[]): void | delete comment callback | - |
-| scroll(top: number): void | Scroll callback | - |
-| adjustTop(commentsData: ICommentsData[]): void | Adapt the comment height | - |
+| add(id: string, text: string, commentsData: ICommentsData[]) | Add comment callback | - |
+| remove(ids: string[]) | delete comment callback | - |
+| scroll(top: number) | Scroll callback | - |
+| adjustTop(commentsData: ICommentsData[]) | Adapt the comment height | - |
 
 #### options.preview
 
@@ -270,7 +270,7 @@ new Vditor('vditor', {
 | maxWidth | Preview area maximum width | 800 |
 | mode | Display mode: both, editor | 'both' |
 | url | md parsing request | - |
-| parse | Preview callback (element: HTMLElement): void | - |
+| parse | Preview callback (element: HTMLElement) | - |
 | transform | Callback before rendering (html: string): string | - |
 
 #### options.preview.theme
@@ -325,7 +325,7 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | tooltip | Tooltip | - |
 | text | Button Text | - |
 | className | Button Class | - |
-| click: (key: string) => void; | Click Event | - |
+| click(key: string) | Click Event | - |
 
 #### options.hint
 
@@ -392,8 +392,8 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | linkToImgUrl | When the clipboard contains the image address, use this url to re-upload | '' |
 | linkToImgCallback | Callback when uploading picture address | - |
 | linkToImgFormat | Transform the data returned by the server to meet the built-in data structure (responseText: string): string | - |
-| success | Upload success callback (editor: HTMLPreElement, msg: string): void | - |
-| error | Upload failure callback (msg: string): void | - |
+| success | Upload success callback (editor: HTMLPreElement, msg: string) | - |
+| error | Upload failure callback (msg: string) | - |
 | token | CORS upload verification, header is X-Upload-Token | - |
 | withCredentials | Cross-site access control | false |
 | headers | Request header settings | - |
@@ -414,7 +414,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | - | - | - |
 | enable | Whether to support size drag | false |
 | position | Drag column position:top, bottom | 'bottom' |
-| after | Callback when dragging ends (height: number): void | - |
+| after | Callback when dragging ends (height: number) | - |
 
 #### options.classes
 
@@ -484,7 +484,7 @@ options?: IPreviewOptions {
  };
  math?: IMath; // Math formula rendering configuration
  transform?(html: string): string; // Callback method before rendering
- after?(): void; // Callback method after rendering
+ after?(); // Callback method after rendering
  cdn?: string; // Self-built CDN address
  lazyLoadImage?: string; // use "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" to lazy load image
  markdown?: options.preview.markdown;
