@@ -72,6 +72,10 @@
     min-height: 27px;
   }
 
+  &__pre .language-mermaid {
+    text-align: left;
+  }
+
   & > .vditor-reset > h1:before,
   & > .vditor-reset > h2:before,
   & > .vditor-reset > h3:before,

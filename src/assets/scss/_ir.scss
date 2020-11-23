@@ -35,6 +35,9 @@
       display: inline-block;
       height: 0;
       transition: $transition;
+      .language-mermaid {
+        text-align: left;
+      }
     }
 
     &--hidden {

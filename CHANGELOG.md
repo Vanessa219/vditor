@@ -83,6 +83,7 @@
 
 ### v3.6.4 / 2020-11-xx
 
+* [824](https://github.com/Vanessa219/vditor/issues/824) 流程图大小可自适应 & 居中 `引入特性`
 * [822](https://github.com/Vanessa219/vditor/issues/822) 流程图、甘特图、时序图、图表、脑图、五线谱、添加暗黑模式 `引入特性`
 * [823](https://github.com/Vanessa219/vditor/issues/823) 数学公式块去除背景 `改进功能`
 * [761](https://github.com/Vanessa219/vditor/issues/761) 列表项批量缩进和取消缩进 `改进功能`
@@ -120,6 +121,8 @@
          adjustTop?(commentsData: ICommentsData[]): void;
      };
      ```
+  * 3.6.4
+    * `mermaidRender` 添加 `theme` 参数 
 
 ### v3.5.5 / 2020-10-12
 

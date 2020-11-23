@@ -88,7 +88,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         cdn: mergedOptions.cdn,
         math: mergedOptions.math,
     });
-    mermaidRender(previewElement, mergedOptions.cdn);
+    mermaidRender(previewElement, mergedOptions.cdn, mergedOptions.options.theme);
     flowchartRender(previewElement, mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn);

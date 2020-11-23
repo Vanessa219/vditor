@@ -271,7 +271,6 @@ export const listIndent = (vditor: IVditor, liElement: HTMLElement, range: Range
         previousElement.insertAdjacentHTML("beforeend",
             `<${liParentElement.tagName} data-block="0">${liHTML}</${liParentElement.tagName}>`);
 
-
         if (vditor.currentMode === "wysiwyg") {
             liParentElement.outerHTML = vditor.lute.SpinVditorDOM(liParentElement.outerHTML);
         } else {
