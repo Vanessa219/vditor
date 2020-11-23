@@ -178,13 +178,13 @@ class Undo {
             item.innerHTML = item.parentElement.previousElementSibling.firstElementChild.innerHTML;
             item.removeAttribute("_echarts_instance_");
             item.removeAttribute("data-processed");
-            chartRender(item.parentElement, vditor.options.cdn);
+            chartRender(item.parentElement, vditor.options.cdn, vditor.options.theme);
         });
         vditor.ir.element.querySelectorAll(".vditor-ir__preview .language-mindmap").forEach((item: HTMLElement) => {
             item.innerHTML = item.parentElement.previousElementSibling.firstElementChild.innerHTML;
             item.removeAttribute("_echarts_instance_");
             item.removeAttribute("data-processed");
-            mindmapRender(item.parentElement, vditor.options.cdn);
+            mindmapRender(item.parentElement, vditor.options.cdn, vditor.options.theme);
         });
 
         if (this[vditor.currentMode].undoStack.length > 1) {

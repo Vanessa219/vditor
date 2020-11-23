@@ -2,10 +2,10 @@ import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare const echarts: {
-    init(element: HTMLElement): IEChart;
+    init(element: HTMLElement, theme?: string): IEChart;
 };
 
-export const chartRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
+export const chartRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
     const echartsElements = element.querySelectorAll(".language-echarts");
     if (echartsElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
@@ -24,7 +24,7 @@ export const chartRender = (element: (HTMLElement | Document) = document, cdn = 
                         return;
                     }
                     const option = JSON.parse(text);
-                    echarts.init(e).setOption(option);
+                    echarts.init(e, theme === "dark" ? "dark" : undefined).setOption(option);
                     e.setAttribute("data-processed", "true");
                 } catch (error) {
                     e.className = "vditor-reset--error";

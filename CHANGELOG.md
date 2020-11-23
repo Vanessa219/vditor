@@ -123,6 +123,8 @@
      ```
   * 3.6.4
     * `mermaidRender` 添加 `theme` 参数 
+    * `mindmapRender` 添加 `theme` 参数 
+    * `chartRender` 添加 `theme` 参数 
 
 ### v3.5.5 / 2020-10-12
 

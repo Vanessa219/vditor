@@ -91,8 +91,8 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     mermaidRender(previewElement, mergedOptions.cdn, mergedOptions.options.theme);
     flowchartRender(previewElement, mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
-    chartRender(previewElement, mergedOptions.cdn);
-    mindmapRender(previewElement, mergedOptions.cdn);
+    chartRender(previewElement, mergedOptions.cdn, mergedOptions.options.theme);
+    mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.options.theme);
     abcRender(previewElement, mergedOptions.cdn);
     mediaRender(previewElement);
     if (mergedOptions.speech.enable) {

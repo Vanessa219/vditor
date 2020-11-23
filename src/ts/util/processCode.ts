@@ -71,9 +71,9 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     } else if (language === "flowchart") {
         flowchartRender(previewPanel, vditor.options.cdn);
     } else if (language === "echarts") {
-        chartRender(previewPanel, vditor.options.cdn);
+        chartRender(previewPanel, vditor.options.cdn, vditor.options.theme);
     } else if (language === "mindmap") {
-        mindmapRender(previewPanel, vditor.options.cdn);
+        mindmapRender(previewPanel, vditor.options.cdn, vditor.options.theme);
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);
     } else if (language === "math") {

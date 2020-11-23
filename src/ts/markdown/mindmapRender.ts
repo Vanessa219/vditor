@@ -2,10 +2,10 @@ import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
 declare const echarts: {
-    init(element: HTMLElement): IEChart;
+    init(element: HTMLElement, theme?: string): IEChart;
 };
 
-export const mindmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
+export const mindmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
     const mindmapElements = element.querySelectorAll(".language-mindmap");
     if (mindmapElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
@@ -22,7 +22,7 @@ export const mindmapRender = (element: (HTMLElement | Document) = document, cdn 
                     if (e.getAttribute("data-processed") === "true") {
                         return;
                     }
-                    const option = {
+                    echarts.init(e, theme === "dark" ? "dark" : undefined).setOption({
                         series: [
                             {
                                 data: [JSON.parse(decodeURIComponent(text))],
@@ -61,8 +61,7 @@ export const mindmapRender = (element: (HTMLElement | Document) = document, cdn 
                             trigger: "item",
                             triggerOn: "mousemove",
                         },
-                    };
-                    echarts.init(e).setOption(option);
+                    });
                     e.setAttribute("data-processed", "true");
                 } catch (error) {
                     e.className = "vditor-reset--error";
