@@ -115,7 +115,11 @@ export const mermaidRender = (element: HTMLElement, cdn = Constants.CDN, theme: 
         }
         mermaid.initialize(config);
         mermaidElements.forEach((item) => {
+            if (item.getAttribute("data-processed") === "true") {
+                return;
+            }
             mermaid.init(undefined, item);
+            item.setAttribute("data-processed", "true");
         });
     });
 };
