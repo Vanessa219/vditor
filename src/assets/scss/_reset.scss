@@ -211,6 +211,17 @@
       }
     }
 
+    .language-math,
+    .language-echarts,
+    .language-mindmap,
+    .language-mermaid,
+    .language-abc,
+    .language-flowchart,
+    .language-graphviz {
+      margin-bottom: 16px;
+    }
+
+
     .language-math mjx-container:focus {
       outline: none;
       cursor: context-menu;
@@ -222,7 +233,8 @@
       height: 420px;
     }
 
-    .language-mermaid {
+    .language-mermaid,
+    .language-flowchart {
       text-align: center;
     }
 

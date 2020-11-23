@@ -36,7 +36,8 @@
       height: 0;
       transition: $transition;
 
-      .language-mermaid {
+      .language-mermaid,
+      .language-flowchart {
         text-align: left;
       }
     }

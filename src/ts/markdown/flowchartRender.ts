@@ -12,7 +12,7 @@ export const flowchartRender = (element: HTMLElement, cdn = Constants.CDN) => {
     }
     addScript(`${cdn}/dist/js/flowchart.js/flowchart.min.js`, "vditorFlowchartScript").then(() => {
         flowchartElements.forEach((item: HTMLElement) => {
-            const flowchartObj = flowchart.parse(item.innerText);
+            const flowchartObj = flowchart.parse(item.textContent);
             item.innerHTML = "";
             flowchartObj.drawSVG(item);
         });

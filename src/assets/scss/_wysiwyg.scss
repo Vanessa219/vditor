@@ -71,7 +71,8 @@
     min-height: 27px;
   }
 
-  &__pre .language-mermaid {
+  &__pre .language-mermaid,
+  &__pre .language-flowchart{
     text-align: left;
   }
 
