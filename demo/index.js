@@ -50,9 +50,8 @@ if (window.innerWidth < 768) {
 }
 
 window.vditor = new Vditor('vditor', {
-  _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
-  // _lutePath: 'src/js/lute/lute.min.js',
-  cdn: 'http://localhost:9000',
+  // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
+  _lutePath: 'src/js/lute/lute.min.js',
   toolbar,
   mode: 'wysiwyg',
   height: window.innerHeight + 100,
@@ -60,16 +59,11 @@ window.vditor = new Vditor('vditor', {
   debugger: true,
   typewriterMode: true,
   placeholder: 'Hello, Vditor!',
-  theme: 'dark',
   preview: {
     markdown: {
       toc: true,
       mark: true,
       footnotes: true,
-    },
-    theme: {
-      current: 'dark',
-      path: 'http://localhost:9000/src/css/content-theme',
     },
     math: {
       engine: 'MathJax',
