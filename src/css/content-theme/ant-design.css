@@ -137,6 +137,10 @@
     color: rgba(0, 0, 0, .85);
 }
 
+.vditor-reset .language-graphviz polygon {
+    fill: transparent;
+}
+
 .vditor-reset strong,
 .vditor-reset b {
     font-weight: 500;

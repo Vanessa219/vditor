@@ -190,6 +190,7 @@
 
     pre {
       margin: 1em 0;
+
       & > code {
         margin: 0;
         font-size: 85%;
@@ -225,14 +226,8 @@
       text-align: center;
     }
 
-    .language-graphviz {
-      polygon {
-        fill: transparent;
-      }
-
-      parsererror {
-        overflow: auto;
-      }
+    .language-graphviz parsererror {
+      overflow: auto;
     }
 
     kbd {

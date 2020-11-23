@@ -73,6 +73,10 @@
     color: #d1d5da;
 }
 
+.language-graphviz polygon {
+    fill: rgba(66, 133, 244, .36);
+}
+
 .vditor-reset kbd {
     color: #d1d5da;
     background-color: #2f363d;
