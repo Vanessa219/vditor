@@ -209,7 +209,7 @@ export class Preview {
                 item.style.display = "initial";
             });
         } else {
-            copyElement.querySelectorAll(".vditor-math").forEach((item: HTMLElement) => {
+            copyElement.querySelectorAll(".language-math").forEach((item: HTMLElement) => {
                 item.outerHTML = `<img class="Formula-image" data-eeimg="true" src="//www.zhihu.com/equation?tex=" alt="${item.getAttribute("data-math")}\\" style="display: block; margin: 0 auto; max-width: 100%;">`;
             });
         }

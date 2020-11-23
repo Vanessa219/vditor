@@ -35,7 +35,7 @@ export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN) => {
                     e.innerHTML = result.outerHTML;
                 }).catch((error) => {
                     e.innerHTML = `graphviz render error: <br>${error}`;
-                    e.className = "vditor-math vditor-reset--error";
+                    e.className = "vditor-reset--error";
                 });
             } catch (e) {
                 console.error("graphviz error", e);

@@ -17,7 +17,7 @@ declare global {
 }
 
 export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?: IMath }) => {
-    const mathElements = element.querySelectorAll(".vditor-math");
+    const mathElements = element.querySelectorAll(".language-math");
 
     if (mathElements.length === 0) {
         return;
@@ -54,13 +54,13 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                     });
                 } catch (e) {
                     mathElement.innerHTML = e.message;
-                    mathElement.className = "vditor-math vditor-reset--error";
+                    mathElement.className = "vditor-reset--error";
                 }
 
                 mathElement.addEventListener("copy", (event: ClipboardEvent) => {
                     event.stopPropagation();
                     event.preventDefault();
-                    const vditorMathElement = (event.currentTarget as HTMLElement).closest(".vditor-math");
+                    const vditorMathElement = (event.currentTarget as HTMLElement).closest(".language-math");
                     event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
                     event.clipboardData.setData("text/plain",
                         vditorMathElement.getAttribute("data-math"));
@@ -102,7 +102,7 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                     const errorTextElement = mathElement.querySelector('[data-mml-node="merror"]');
                     if (errorTextElement && errorTextElement.textContent.trim() !== "") {
                         mathElement.innerHTML = errorTextElement.textContent.trim();
-                        mathElement.className = "vditor-math vditor-reset--error";
+                        mathElement.className = "vditor-reset--error";
                     }
                 });
             });
