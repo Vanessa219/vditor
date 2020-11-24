@@ -57,6 +57,9 @@
 
       code {
         height: auto;
+        color: var(--textarea-text-color);
+        height: auto;
+        text-align: left;
       }
     }
 
@@ -69,11 +72,6 @@
     cursor: pointer;
     white-space: initial;
     min-height: 27px;
-  }
-
-  &__pre .language-mermaid,
-  &__pre .language-flowchart{
-    text-align: left;
   }
 
   & > .vditor-reset > h1:before,

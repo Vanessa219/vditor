@@ -35,11 +35,6 @@
       display: inline-block;
       height: 0;
       transition: $transition;
-
-      .language-mermaid,
-      .language-flowchart {
-        text-align: left;
-      }
     }
 
     &--hidden {
@@ -88,9 +83,10 @@
           color: var(--ir-heading-color);
         }
 
-        &--pre {
+        &--pre code {
           color: var(--textarea-text-color);
           height: auto;
+          text-align: left;
         }
       }
 
