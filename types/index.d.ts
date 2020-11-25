@@ -409,6 +409,7 @@ interface IPreviewActionCustom {
 }
 
 interface IPreviewOptions {
+    mode: "dark" | "light";
     customEmoji?: IObject;
     lang?: (keyof II18n);
     lazyLoadImage?: string;

@@ -86,6 +86,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
+### v3.7.0 / 2020-11-xx
+
+* [828](https://github.com/Vanessa219/vditor/issues/828) 为 Vditor.preview 添加 mode 设置 `修复缺陷`
+* 文档修改
+  * 3.7.0
+    * `preview` 静态方法添加 `mode` 配置
+
 ### v3.6.6 / 2020-11-23
 
 * [824](https://github.com/Vanessa219/vditor/issues/824) 流程图大小可自适应 & 居中 `引入特性`

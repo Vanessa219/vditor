@@ -28,6 +28,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         lang: "zh_CN",
         markdown: Constants.MARKDOWN_OPTIONS,
         math: Constants.MATH_OPTIONS,
+        mode: "light",
         speech: {
             enable: false,
         },
@@ -71,7 +72,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
 };
 
 export const previewRender = async (previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) => {
-    const mergedOptions = mergeOptions(options);
+    const mergedOptions: IPreviewOptions = mergeOptions(options);
     let html = await md2html(markdown, mergedOptions);
     if (mergedOptions.transform) {
         html = mergedOptions.transform(html);
@@ -88,11 +89,11 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         cdn: mergedOptions.cdn,
         math: mergedOptions.math,
     });
-    mermaidRender(previewElement, mergedOptions.cdn, mergedOptions.options.theme);
+    mermaidRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     flowchartRender(previewElement, mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
-    chartRender(previewElement, mergedOptions.cdn, mergedOptions.options.theme);
-    mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.options.theme);
+    chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
+    mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     abcRender(previewElement, mergedOptions.cdn);
     mediaRender(previewElement);
     if (mergedOptions.speech.enable) {
