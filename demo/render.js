@@ -39,8 +39,7 @@ const render = (fileName) => {
               const id = Lute.GetHeadingID(node)
               if (entering) {
                 return [
-                  `<h${node.__internal_object__.HeadingLevel} id="${id}" class="vditor__heading">
-<span class="prefix"></span><span>`,
+                  `<h${node.__internal_object__.HeadingLevel} id="${id}" class="vditor__heading"><span class="prefix"></span><span>`,
                   Lute.WalkContinue]
               } else {
                 return [

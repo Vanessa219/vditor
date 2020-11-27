@@ -78,26 +78,30 @@
         }
 
         #outline.dark {
-            --border-color: #141414;
+            --border-color: #d1d5da;
             --color: #a6aab0;
             --hover-color: #fff;
             --hover-background-color: #444d56;
         }
 
-        .vditor-outline__item {
-            border-left: 1px solid transparent;
-            color: var(--color) !important;
+        #outline ul {
+            list-style: none !important;
+            padding-left: 1em;
+            margin: 0;
         }
 
-        .vditor-outline__item--current {
-            border-left: 1px solid #4285f4;
-            color: var(--hover-color) !important;
-            background-color: var(--hover-background-color);
+        #outline li > span {
+            display: block;
+            padding: 5px 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--color);
         }
 
-        .vditor-outline__item:hover {
-            color: var(--hover-color) !important;
-            background-color: var(--hover-background-color) !important;
+        #outline li > span:hover {
+            color: var(--hover-color);
         }
 
         .vditor-reset ul[data-style="*"] {
