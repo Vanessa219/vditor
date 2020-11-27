@@ -572,7 +572,7 @@ interface IVditor {
     };
     outline: {
         element: HTMLElement,
-        render(vditor: IVditor): void,
+        render(vditor: IVditor): string,
         toggle(vditor: IVditor, show?: boolean): void,
     };
     toolbar?: {

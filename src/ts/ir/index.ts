@@ -19,6 +19,7 @@ import {expandMarker} from "./expandMarker";
 import {highlightToolbarIR} from "./highlightToolbarIR";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
+import {clickToc} from "../util/toc";
 
 class IR {
     public element: HTMLPreElement;
@@ -162,7 +163,7 @@ class IR {
                     expandMarker(getEditorRange(this.element), vditor);
                 });
             }
-
+            clickToc(event, vditor);
             highlightToolbarIR(vditor);
         });
 

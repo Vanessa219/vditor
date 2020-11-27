@@ -1,27 +1,13 @@
 import {mathRender} from "../markdown/mathRender";
 import {hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
-import {hasClosestByHeadings} from "./hasClosestByHeadings";
 import {getSelectPosition} from "./selection";
 import {execAfterRender, insertAfterBlock, insertBeforeBlock} from "./fixBrowserBehavior";
 
 export const renderToc = (vditor: IVditor) => {
     const editorElement = vditor[vditor.currentMode].element;
-    let tocHTML = "";
-    Array.from(editorElement.children).forEach((item: HTMLElement) => {
-        if (hasClosestByHeadings(item)) {
-            tocHTML += item.outerHTML;
-        }
-    });
+    let tocHTML = vditor.outline.render(vditor);
     if (tocHTML === "") {
         tocHTML = "[ToC]";
-    } else {
-        const tempElement = document.createElement("div");
-        if (vditor.currentMode === "wysiwyg") {
-            tempElement.innerHTML = vditor.lute.SpinVditorDOM("<p>[ToC]</p>" + tocHTML);
-        } else if (vditor.currentMode === "ir") {
-            tempElement.innerHTML = vditor.lute.SpinVditorIRDOM("<p>[ToC]</p>" + tocHTML);
-        }
-        tocHTML = tempElement.firstElementChild.innerHTML;
     }
     editorElement.querySelectorAll('[data-type="toc-block"]').forEach((item: HTMLElement) => {
         item.innerHTML = tocHTML;

@@ -18,6 +18,7 @@ import {
     removeCurrentToolbar,
     showToolbar, toggleSubMenu,
 } from "./setToolbar";
+import {renderToc} from "../util/toc";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
@@ -122,9 +123,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor[vditor.currentMode].element.focus();
         highlightToolbar(vditor);
     }
-    if (typeof event === "string") {
-        vditor.outline.render(vditor);
-    }
+    renderToc(vditor);
     setTypewriterPosition(vditor);
 
     if (vditor.toolbar.elements["edit-mode"]) {

@@ -131,6 +131,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             vditor.wysiwyg.popover.innerHTML = "";
             genClose(tocElement, vditor);
             setPopoverPosition(vditor, tocElement);
+            return;
         }
 
         // quote popover

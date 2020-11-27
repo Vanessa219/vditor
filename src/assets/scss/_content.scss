@@ -236,7 +236,14 @@
       display: none;
     }
 
-    &__item {
+    ul {
+      list-style: none !important;
+      padding-left: 1em;
+      margin: 0;
+    }
+
+    li > span {
+      display: block;
       padding: 5px 10px;
       cursor: pointer;
       white-space: nowrap;
@@ -246,7 +253,6 @@
 
       &:hover {
         color: var(--toolbar-icon-hover-color);
-        background-color: var(--toolbar-background-color);
       }
     }
 
