@@ -1,4 +1,3 @@
-import {isToC, renderToc} from "../util/fixBrowserBehavior";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute, hasTopClosestByTag,
@@ -7,6 +6,7 @@ import {hasClosestByHeadings, hasClosestByTag} from "../util/hasClosestByHeading
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr} from "../util/selection";
+import {renderToc} from "../util/toc";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
 
@@ -64,8 +64,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         });
 
         let html = "";
-        if (blockElement.getAttribute("data-type") === "link-ref-defs-block" || isToC(blockElement.innerText)) {
-            // 修改链接引用或 ToC
+        if (blockElement.getAttribute("data-type") === "link-ref-defs-block") {
+            // 修改链接引用
             blockElement = vditor.wysiwyg.element;
         }
 

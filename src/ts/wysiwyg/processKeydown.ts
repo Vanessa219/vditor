@@ -24,6 +24,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {nextIsCode} from "./inlineTag";
 import {removeHeading, setHeading} from "./setHeading";
 import {showCode} from "./showCode";
+import {keydownToc} from "../util/toc";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // Chrome firefox 触发 compositionend 机制不一致 https://github.com/Vanessa219/vditor/issues/188
@@ -51,7 +52,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
-        && !isCtrl(event) && event.key !== "Escape") {
+        && !isCtrl(event) && event.key !== "Escape" && event.key !== "Delete") {
         return false;
     }
 
@@ -336,6 +337,12 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             range.setStartAfter(nextElement);
         }
     }
+
+    if (blockElement && keydownToc(blockElement, vditor, event, range)) {
+        event.preventDefault();
+        return true;
+    }
+
     return false;
 };
 

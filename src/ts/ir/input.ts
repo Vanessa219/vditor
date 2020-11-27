@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {isHeadingMD, isHrMD, renderToc} from "../util/fixBrowserBehavior";
+import {isHeadingMD, isHrMD} from "../util/fixBrowserBehavior";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
@@ -9,6 +9,7 @@ import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
+import {renderToc} from "../util/toc";
 import {processAfterRender} from "./process";
 
 export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?: InputEvent) => {

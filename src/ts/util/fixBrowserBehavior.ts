@@ -4,7 +4,6 @@ import {processAfterRender} from "../ir/process";
 import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
 import {uploadFiles} from "../upload";
 import {setHeaders} from "../upload/setHeaders";
-import {processCodeRender, processPasteCode} from "../util/processCode";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {input} from "../wysiwyg/input";
 import {isCtrl, isFirefox} from "./compatibility";
@@ -17,9 +16,9 @@ import {
     hasClosestByMatchTag,
 } from "./hasClosest";
 import {getLastNode} from "./hasClosest";
-import {hasClosestByHeadings} from "./hasClosestByHeadings";
 import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
+import {processCodeRender, processPasteCode} from "./processCode";
 import {
     getEditorRange,
     getSelectPosition,
@@ -428,32 +427,6 @@ export const isHeadingMD = (text: string) => {
         return true;
     }
     return false;
-};
-
-export const isToC = (text: string) => {
-    return text.trim().toLowerCase() === "[toc]";
-};
-
-export const renderToc = (vditor: IVditor) => {
-    const editorElement = vditor[vditor.currentMode].element;
-    vditor.outline.render(vditor);
-    const tocElement = editorElement.querySelector('[data-type="toc-block"]');
-    if (!tocElement) {
-        return;
-    }
-    let tocHTML = "";
-    Array.from(editorElement.children).forEach((item: HTMLElement) => {
-        if (hasClosestByHeadings(item)) {
-            const headingNo = parseInt(item.tagName.substring(1), 10);
-            const space = new Array((headingNo - 1) * 2).fill("&emsp;").join("");
-            if (vditor.currentMode === "ir") {
-                tocHTML += `${space}<span data-type="toc-h">${item.textContent.substring(headingNo + 1).trim()}</span><br>`;
-            } else {
-                tocHTML += `${space}<span data-type="toc-h">${item.textContent.trim()}</span><br>`;
-            }
-        }
-    });
-    tocElement.innerHTML = tocHTML || "[ToC]";
 };
 
 export const execAfterRender = (vditor: IVditor, options = {

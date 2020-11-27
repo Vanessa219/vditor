@@ -11,7 +11,7 @@ import {
     scrollCenter,
     selectEvent,
 } from "../util/editorCommonEvent";
-import {isHeadingMD, isHrMD, paste, renderToc} from "../util/fixBrowserBehavior";
+import {isHeadingMD, isHrMD, paste} from "../util/fixBrowserBehavior";
 import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
@@ -23,6 +23,7 @@ import {
     getSelectPosition,
     setRangeByWbr,
 } from "../util/selection";
+import {clickToc, renderToc} from "../util/toc";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genImagePopover, genLinkRefPopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
@@ -433,6 +434,8 @@ class WYSIWYG {
             if (previewElement) {
                 showCode(previewElement, vditor);
             }
+
+            clickToc(event, vditor);
         });
 
         this.element.addEventListener("keyup", (event: KeyboardEvent & { target: HTMLElement }) => {

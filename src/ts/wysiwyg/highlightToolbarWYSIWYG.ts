@@ -126,15 +126,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         }
 
         // toc popover
-        let tocElement = hasClosestByClassName(typeElement, "vditor-toc") as HTMLElement;
-        if (!tocElement) {
-            const blockElement = hasClosestByAttribute(typeElement, "data-block", "0");
-            if (blockElement) {
-                if (blockElement.previousElementSibling?.classList.contains("vditor-toc")) {
-                    tocElement = blockElement.previousElementSibling as HTMLElement;
-                }
-            }
-        }
+        const tocElement = hasClosestByClassName(typeElement, "vditor-toc") as HTMLElement;
         if (tocElement) {
             vditor.wysiwyg.popover.innerHTML = "";
             genClose(tocElement, vditor);

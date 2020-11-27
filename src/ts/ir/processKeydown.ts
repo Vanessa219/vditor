@@ -23,6 +23,7 @@ import {matchHotKey} from "../util/hotKey";
 import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
 import {expandMarker} from "./expandMarker";
 import {processAfterRender, processHeading} from "./process";
+import {keydownToc} from "../util/toc";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;
@@ -49,7 +50,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     // 仅处理以下快捷键操作
     if (event.key !== "Enter" && event.key !== "Tab" && event.key !== "Backspace" && event.key.indexOf("Arrow") === -1
-        && !isCtrl(event) && event.key !== "Escape") {
+        && !isCtrl(event) && event.key !== "Escape" && event.key !== "Delete") {
         return false;
     }
 
@@ -81,13 +82,6 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // blockquote
     if (fixBlockquote(vditor, range, event, pElement)) {
         return true;
-    }
-    // toc 前无元素，插入空块
-    if (pElement && pElement.previousElementSibling &&
-        pElement.previousElementSibling.classList.contains("vditor-toc")) {
-        if (insertBeforeBlock(vditor, event, range, pElement, pElement.previousElementSibling as HTMLElement)) {
-            return true;
-        }
     }
     // 代码块
     const preRenderElement = hasClosestByClassName(startContainer, "vditor-ir__marker--pre");
@@ -235,5 +229,9 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
     fixCursorDownInlineMath(range, event.key);
 
+    if (blockElement && keydownToc(blockElement, vditor, event, range)) {
+        event.preventDefault();
+        return true;
+    }
     return false;
 };

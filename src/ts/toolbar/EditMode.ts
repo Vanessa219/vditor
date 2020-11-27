@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {i18n} from "../i18n";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {mathRender} from "../markdown/mathRender";
 import {processAfterRender as processSVAfterRender, processSpinVditorSVDOM} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
@@ -63,6 +64,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach((item: HTMLElement) => {
             processCodeRender(item, vditor);
         });
+        vditor.ir.element.querySelectorAll(".vditor-toc").forEach((item: HTMLElement) => {
+            mathRender(item, {
+                cdn: vditor.options.cdn,
+                math: vditor.options.preview.math,
+            });
+        });
     } else if (type === "wysiwyg") {
         hideToolbar(vditor.toolbar.elements, ["both"]);
         showToolbar(vditor.toolbar.elements, ["outdent", "indent", "outline", "insert-before", "insert-after"]);
@@ -78,6 +85,12 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             enableHint: false,
             enableInput: false,
         });
+        vditor.wysiwyg.element.querySelectorAll(".vditor-toc").forEach((item: HTMLElement) => {
+            mathRender(item, {
+                cdn: vditor.options.cdn,
+                math: vditor.options.preview.math,
+            });
+        });
         vditor.wysiwyg.popover.style.display = "none";
     } else if (type === "sv") {
         showToolbar(vditor.toolbar.elements, ["both"]);
@@ -90,7 +103,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             vditor.sv.element.style.display = "block";
         }
         vditor.currentMode = "sv";
-        let svHTML =  processSpinVditorSVDOM(markdownText, vditor);
+        let svHTML = processSpinVditorSVDOM(markdownText, vditor);
         if (svHTML === "<div data-block='0'></div>") {
             // https://github.com/Vanessa219/vditor/issues/654 SV 模式 Placeholder 显示问题
             svHTML = "";

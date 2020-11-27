@@ -495,5 +495,15 @@
 
   &-toc {
     margin-bottom: 16px;
+    user-select: text;
+    color: $blurColor;
+
+    ul {
+      list-style: none !important;
+    }
+
+    span {
+      cursor: pointer;
+    }
   }
 }
