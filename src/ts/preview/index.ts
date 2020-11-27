@@ -13,6 +13,7 @@ import {mindmapRender} from "../markdown/mindmapRender";
 import {getEventName} from "../util/compatibility";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {setSelectionFocus} from "../util/selection";
+import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 
 export class Preview {
     public element: HTMLElement;
@@ -36,6 +37,16 @@ export class Preview {
             this.copyToX(vditor, tempElement);
             event.preventDefault();
         });
+        previewElement.addEventListener("click", (event: MouseEvent & { target: HTMLElement }) => {
+            const spanElement = hasClosestByMatchTag(event.target, "SPAN");
+            if (spanElement && hasClosestByClassName(spanElement, "vditor-toc")) {
+                const headingElement = previewElement.querySelector("#" + spanElement.getAttribute("data-target-id")) as HTMLElement;
+                if (headingElement) {
+                    this.element.scrollTop = headingElement.offsetTop;
+                }
+                return;
+            }
+        })
 
         const actions = vditor.options.preview.actions;
         const actionElement = document.createElement("div");
@@ -189,10 +200,6 @@ export class Preview {
         codeRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.lang);
         highlightRender(vditor.options.preview.hljs, vditor.preview.element.lastElementChild as HTMLElement,
             vditor.options.cdn);
-        mathRender(vditor.preview.element.lastElementChild as HTMLElement, {
-            cdn: vditor.options.cdn,
-            math: vditor.options.preview.math,
-        });
         mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
         flowchartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
@@ -200,6 +207,23 @@ export class Preview {
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
         abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
+        // toc render
+        const editorElement = vditor.preview.element;
+        let tocHTML = vditor.outline.render(vditor);
+        if (tocHTML === "") {
+            tocHTML = "[ToC]";
+        }
+        editorElement.querySelectorAll('[data-type="toc-block"]').forEach((item: HTMLElement) => {
+            item.innerHTML = tocHTML;
+            mathRender(item, {
+                cdn: vditor.options.cdn,
+                math: vditor.options.preview.math,
+            });
+        });
+        mathRender(vditor.preview.element.lastElementChild as HTMLElement, {
+            cdn: vditor.options.cdn,
+            math: vditor.options.preview.math,
+        });
     }
 
     private copyToX(vditor: IVditor, copyElement: HTMLElement, type = "mp-wechat") {

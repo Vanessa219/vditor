@@ -3,42 +3,68 @@ import {mathRender} from "./mathRender";
 
 export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) => {
     let tocHTML = "";
-    const ids: string[] = []
+    const ids: string[] = [];
     Array.from(contentElement.children).forEach((item: HTMLElement, index: number) => {
         if (hasClosestByHeadings(item)) {
-            const lastIndex = item.id.lastIndexOf("_");
-            item.id = item.id.substring(0, lastIndex === -1 ? undefined : lastIndex) + "_" + index;
+            if (vditor) {
+                const lastIndex = item.id.lastIndexOf("_");
+                item.id = item.id.substring(0, lastIndex === -1 ? undefined : lastIndex) + "_" + index;
+            }
             ids.push(item.id);
             tocHTML += item.outerHTML.replace("<wbr>", "");
         }
     });
-    if (tocHTML !== "") {
-        const tempElement = document.createElement("div");
-        if (vditor) {
-            if (vditor.currentMode === "wysiwyg") {
-                tempElement.innerHTML = vditor.lute.SpinVditorDOM("<p>[ToC]</p>" + tocHTML);
-            } else if (vditor.currentMode === "ir") {
-                tempElement.innerHTML = vditor.lute.SpinVditorIRDOM("<p>[ToC]</p>" + tocHTML);
-            }
+    if (tocHTML === "") {
+        return ""
+    }
+    const tempElement = document.createElement("div");
+    if (vditor) {
+        if (vditor.currentMode === "wysiwyg" && !vditor.preview.element.contains(contentElement)) {
+            tempElement.innerHTML = vditor.lute.SpinVditorDOM("<p>[ToC]</p>" + tocHTML);
+        } else if (vditor.currentMode === "ir" && !vditor.preview.element.contains(contentElement)) {
+            tempElement.innerHTML = vditor.lute.SpinVditorIRDOM("<p>[ToC]</p>" + tocHTML);
         } else {
-            const lute = Lute.New();
-            lute.SetToC(true);
-            tempElement.innerHTML = lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
+            tempElement.innerHTML = vditor.lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
         }
-        tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]").forEach((item, index) => {
-            item.setAttribute("data-target-id", ids[index]);
+    } else {
+        const lute = Lute.New();
+        lute.SetToC(true);
+        tempElement.innerHTML = lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
+    }
+    tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]").forEach((item, index) => {
+        if (item.nextElementSibling && item.nextElementSibling.tagName === "UL") {
+            item.insertAdjacentHTML("afterbegin", "<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg>")
+        } else {
+            item.insertAdjacentHTML("afterbegin", "<svg class='vditor-outline__action'></svg>")
+        }
+        item.setAttribute("data-target-id", ids[index]);
+    });
+    tocHTML = tempElement.firstElementChild.innerHTML;
+    targetElement.innerHTML = tocHTML;
+    if (vditor) {
+        mathRender(targetElement as HTMLElement, {
+            cdn: vditor.options.cdn,
+            math: vditor.options.preview.math,
         });
-        tocHTML = tempElement.firstElementChild.innerHTML;
-        targetElement.innerHTML = tocHTML;
-        if (vditor) {
-            mathRender(targetElement as HTMLElement, {
-                cdn: vditor.options.cdn,
-                math: vditor.options.preview.math,
-            });
-        }
-        targetElement.querySelectorAll("li > span").forEach((item) => {
-            item.addEventListener("click", (event: Event & { target: HTMLElement }) => {
-                const idElement = document.getElementById(item.getAttribute("data-target-id"));
+    }
+    targetElement.firstElementChild.addEventListener("click", (event: Event) => {
+        let target = event.target as HTMLElement;
+        while (target && !target.isEqualNode(targetElement)) {
+            if (target.classList.contains("vditor-outline__action")) {
+                if (target.classList.contains("vditor-outline__action--close")) {
+                    target.classList.remove("vditor-outline__action--close");
+                    target.parentElement.nextElementSibling.setAttribute("style", "display:block");
+                } else {
+                    target.classList.add("vditor-outline__action--close");
+                    target.parentElement.nextElementSibling.setAttribute("style", "display:none");
+                }
+                event.preventDefault();
+                event.stopPropagation();
+                break;
+            } else if (target.getAttribute("data-target-id")) {
+                event.preventDefault();
+                event.stopPropagation();
+                const idElement = document.getElementById(target.getAttribute("data-target-id"));
                 if (!idElement) {
                     return;
                 }
@@ -62,8 +88,10 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                 } else {
                     window.scrollTo(window.scrollX, idElement.offsetTop);
                 }
-            });
-        });
-    }
+                break;
+            }
+            target = target.parentElement;
+        }
+    });
     return tocHTML;
 };

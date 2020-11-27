@@ -224,43 +224,4 @@
       }
     }
   }
-
-  &-outline {
-    width: 250px;
-    border-right: 1px solid var(--border-color);
-    background-color: var(--panel-background-color);
-    display: none;
-    overflow: auto;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    ul {
-      list-style: none !important;
-      padding-left: 1em;
-      margin: 0;
-    }
-
-    li > span {
-      display: block;
-      padding: 5px 10px;
-      cursor: pointer;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: var(--textarea-text-color);
-
-      &:hover {
-        color: var(--toolbar-icon-hover-color);
-      }
-    }
-
-    &__title {
-      border-bottom: 1px dashed var(--border-color);
-      padding: 5px 10px;
-      color: var(--toolbar-icon-color);
-      font-size: 12px;
-    }
-  }
 }

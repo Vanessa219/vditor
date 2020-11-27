@@ -4,6 +4,9 @@ import {getSelectPosition} from "./selection";
 import {execAfterRender, insertAfterBlock, insertBeforeBlock} from "./fixBrowserBehavior";
 
 export const renderToc = (vditor: IVditor) => {
+    if (vditor.currentMode === "sv") {
+        return;
+    }
     const editorElement = vditor[vditor.currentMode].element;
     let tocHTML = vditor.outline.render(vditor);
     if (tocHTML === "") {
@@ -19,7 +22,6 @@ export const renderToc = (vditor: IVditor) => {
 };
 
 export const clickToc = (event: MouseEvent & { target: HTMLElement }, vditor: IVditor) => {
-    // TOC 点击
     const spanElement = hasClosestByMatchTag(event.target, "SPAN");
     if (spanElement && hasClosestByClassName(spanElement, "vditor-toc")) {
         const headingElement = vditor[vditor.currentMode].element.querySelector("#" + spanElement.getAttribute("data-target-id")) as HTMLElement;

@@ -16,6 +16,7 @@ import {mermaidRender} from "./mermaidRender";
 import {mindmapRender} from "./mindmapRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
+import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 
 const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption: IPreviewOptions = {
@@ -111,4 +112,14 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.icon) {
         addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
     }
+    previewElement.addEventListener("click", (event: MouseEvent & { target: HTMLElement }) => {
+        const spanElement = hasClosestByMatchTag(event.target, "SPAN");
+        if (spanElement && hasClosestByClassName(spanElement, "vditor-toc")) {
+            const headingElement = previewElement.querySelector("#" + spanElement.getAttribute("data-target-id")) as HTMLElement;
+            if (headingElement) {
+                window.scrollTo(window.scrollX, headingElement.offsetTop);
+            }
+            return;
+        }
+    })
 };

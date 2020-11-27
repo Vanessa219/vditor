@@ -71,37 +71,18 @@
             overflow: auto;
             font-size: 12px;
             border-left: 1px solid var(--border-color);
+            border-right: 0;
             --border-color: #eee;
-            --color: #616161;
-            --hover-color: #4285f4;
+            --toolbar-icon-hover-color: #4285f4;
+            --textarea-text-color: #616161;
             --hover-background-color: #f6f8fa;
         }
 
         #outline.dark {
             --border-color: #d1d5da;
-            --color: #a6aab0;
-            --hover-color: #fff;
+            --toolbar-icon-hover-color: #fff;
+            --textarea-text-color: #a6aab0;
             --hover-background-color: #444d56;
-        }
-
-        #outline ul {
-            list-style: none !important;
-            padding-left: 1em;
-            margin: 0;
-        }
-
-        #outline li > span {
-            display: block;
-            padding: 5px 10px;
-            cursor: pointer;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: var(--color);
-        }
-
-        #outline li > span:hover {
-            color: var(--hover-color);
         }
 
         .vditor-reset ul[data-style="*"] {
@@ -179,6 +160,6 @@
 <div id="previewWrap">
     <div id="preview" class="preview"></div>
 </div>
-<div id="outline"></div>
+<div id="outline" class="vditor-outline"></div>
 </body>
 </html>
