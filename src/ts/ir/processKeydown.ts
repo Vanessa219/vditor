@@ -21,9 +21,9 @@ import {
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {matchHotKey} from "../util/hotKey";
 import {getEditorRange, getSelectPosition, setSelectionFocus} from "../util/selection";
+import {keydownToc} from "../util/toc";
 import {expandMarker} from "./expandMarker";
 import {processAfterRender, processHeading} from "./process";
-import {keydownToc} from "../util/toc";
 
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     vditor.ir.composingLock = event.isComposing;

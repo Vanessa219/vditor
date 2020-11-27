@@ -8,6 +8,7 @@ import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
+import {renderToc} from "../util/toc";
 import {renderDomByMd} from "../wysiwyg/renderDomByMd";
 import {MenuItem} from "./MenuItem";
 import {
@@ -18,7 +19,6 @@ import {
     removeCurrentToolbar,
     showToolbar, toggleSubMenu,
 } from "./setToolbar";
-import {renderToc} from "../util/toc";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;

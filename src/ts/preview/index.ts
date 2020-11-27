@@ -11,9 +11,9 @@ import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {getEventName} from "../util/compatibility";
+import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {setSelectionFocus} from "../util/selection";
-import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 
 export class Preview {
     public element: HTMLElement;
@@ -40,13 +40,14 @@ export class Preview {
         previewElement.addEventListener("click", (event: MouseEvent & { target: HTMLElement }) => {
             const spanElement = hasClosestByMatchTag(event.target, "SPAN");
             if (spanElement && hasClosestByClassName(spanElement, "vditor-toc")) {
-                const headingElement = previewElement.querySelector("#" + spanElement.getAttribute("data-target-id")) as HTMLElement;
+                const headingElement =
+                    previewElement.querySelector("#" + spanElement.getAttribute("data-target-id")) as HTMLElement;
                 if (headingElement) {
                     this.element.scrollTop = headingElement.offsetTop;
                 }
                 return;
             }
-        })
+        });
 
         const actions = vditor.options.preview.actions;
         const actionElement = document.createElement("div");

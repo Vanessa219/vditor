@@ -1,7 +1,7 @@
 import {mathRender} from "../markdown/mathRender";
+import {execAfterRender, insertAfterBlock, insertBeforeBlock} from "./fixBrowserBehavior";
 import {hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
 import {getSelectPosition} from "./selection";
-import {execAfterRender, insertAfterBlock, insertBeforeBlock} from "./fixBrowserBehavior";
 
 export const renderToc = (vditor: IVditor) => {
     if (vditor.currentMode === "sv") {
@@ -47,7 +47,8 @@ export const keydownToc = (blockElement: HTMLElement, vditor: IVditor, event: Ke
     // toc 前无元素，插入空块
     if (blockElement.previousElementSibling &&
         blockElement.previousElementSibling.classList.contains("vditor-toc")) {
-        if (event.key === "Backspace" && getSelectPosition(blockElement, vditor[vditor.currentMode].element, range).start === 0) {
+        if (event.key === "Backspace" &&
+            getSelectPosition(blockElement, vditor[vditor.currentMode].element, range).start === 0) {
             blockElement.previousElementSibling.remove();
             execAfterRender(vditor);
             return true;
@@ -60,7 +61,8 @@ export const keydownToc = (blockElement: HTMLElement, vditor: IVditor, event: Ke
     if (blockElement.nextElementSibling &&
         blockElement.nextElementSibling.classList.contains("vditor-toc")) {
         if (event.key === "Delete" &&
-            getSelectPosition(blockElement, vditor[vditor.currentMode].element, range).start >= blockElement.textContent.trimRight().length) {
+            getSelectPosition(blockElement, vditor[vditor.currentMode].element, range).start
+            >= blockElement.textContent.trimRight().length) {
             blockElement.nextElementSibling.remove();
             execAfterRender(vditor);
             return true;
@@ -78,4 +80,4 @@ export const keydownToc = (blockElement: HTMLElement, vditor: IVditor, event: Ke
             return true;
         }
     }
-}
+};

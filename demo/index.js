@@ -119,6 +119,9 @@ window.vditor = new Vditor('vditor', {
     token: 'test',
     url: '/api/upload/editor',
     linkToImgUrl: '/api/upload/fetch',
+    handler (files) {
+      console.log(files)
+    },
     filename (name) {
       return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
         replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').

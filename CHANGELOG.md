@@ -88,7 +88,7 @@
 
 ### v3.7.0 / 2020-11-xx
 
-* [497](https://github.com/Vanessa219/vditor/issues/497) 大纲折叠 `改进功能`
+* [479](https://github.com/Vanessa219/vditor/issues/479) 大纲折叠 `改进功能`
 * [830](https://github.com/Vanessa219/vditor/issues/830) ToC 优化 `改进功能`
 * [828](https://github.com/Vanessa219/vditor/issues/828) 为 Vditor.preview 添加 mode 设置 `修复缺陷`
 * 文档修改
