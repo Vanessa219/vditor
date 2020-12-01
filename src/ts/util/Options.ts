@@ -130,6 +130,9 @@ export class Options {
             } else {
                 this.options.toolbar = this.mergeToolbar(this.defaultOptions.toolbar);
             }
+            if (this.options.beforeDefaultToolbar) {
+                this.options.toolbar = this.mergeToolbar(this.options.beforeDefaultToolbar).concat(this.options.toolbar as IMenuItem[]);
+            }
             if (this.options.preview?.theme?.list) {
                 this.defaultOptions.preview.theme.list = this.options.preview.theme.list;
             }

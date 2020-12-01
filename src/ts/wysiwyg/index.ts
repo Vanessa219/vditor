@@ -5,7 +5,7 @@ import {isCtrl, isFirefox} from "../util/compatibility";
 import {
     blurEvent,
     copyEvent, cutEvent,
-    dropEvent,
+    dropEvent,onInputEvent,
     focusEvent,
     hotkeyEvent,
     scrollCenter,
@@ -59,6 +59,7 @@ class WYSIWYG {
 
         this.bindEvent(vditor);
 
+        onInputEvent(vditor, this.element);
         focusEvent(vditor, this.element);
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);

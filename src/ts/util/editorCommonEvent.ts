@@ -24,6 +24,14 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     });
 };
 
+export const onInputEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("input", () => {
+        if (vditor.options.onInput) {
+            vditor.options.onInput();
+        }
+    });
+};
+
 export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("blur", (event) => {
         if (vditor.currentMode === "ir") {

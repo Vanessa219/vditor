@@ -6,6 +6,7 @@ import {
     dropEvent,
     focusEvent,
     hotkeyEvent,
+    onInputEvent,
     scrollCenter,
     selectEvent,
 } from "../util/editorCommonEvent";
@@ -39,6 +40,7 @@ class IR {
 
         this.bindEvent(vditor);
 
+        onInputEvent(vditor, this.element);
         focusEvent(vditor, this.element);
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);

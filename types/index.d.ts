@@ -484,6 +484,7 @@ interface IOptions {
     lang?: (keyof II18n);
     /** @link https://ld246.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
+    beforeDefaultToolbar?: Array<string | IMenuItem>;
     /** @link https://ld246.com/article/1549638745630#options-resize */
     resize?: IResize;
     /** @link https://ld246.com/article/1549638745630#options-counter */
@@ -540,6 +541,8 @@ interface IOptions {
 
     /** 聚焦后触发  */
     focus?(value: string): void;
+
+    onInput?(): void;
 
     /** 失焦后触发 */
     blur?(value: string): void;
