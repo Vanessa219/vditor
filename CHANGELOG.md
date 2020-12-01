@@ -86,7 +86,7 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.0 / 2020-11-xx
+### v3.7.0 / 2020-12-01
 
 * [479](https://github.com/Vanessa219/vditor/issues/479) 大纲折叠 `改进功能`
 * [830](https://github.com/Vanessa219/vditor/issues/830) ToC 优化 `改进功能`
