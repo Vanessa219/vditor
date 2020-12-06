@@ -86,19 +86,14 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.1 / 2020-12-0x
+### v3.7.2 / 2020-12-0x
+    
+### v3.7.1 / 2020-12-06
 
 * [742](https://github.com/Vanessa219/vditor/issues/742) IR 模式块引用换行问题 `修复缺陷`
 * [759](https://github.com/Vanessa219/vditor/issues/759) 添加数字统计回调函数 `引入特性`
 * [835](https://github.com/Vanessa219/vditor/issues/835) 历史性能优化 `改进功能`
 * [837](https://github.com/Vanessa219/vditor/issues/837) 历史记录添加时间间隔配置 `引入特性`
-* 文档修改
-  * 3.7.1
-    * 添加 `options.undoDelay` 配置
-    * 添加 `options.counter.after` 回调方法
-    
-### v3.7.0 / 2020-12-01
-
 * [479](https://github.com/Vanessa219/vditor/issues/479) 大纲折叠 `改进功能`
 * [830](https://github.com/Vanessa219/vditor/issues/830) ToC 优化 `改进功能`
 * [828](https://github.com/Vanessa219/vditor/issues/828) 为 Vditor.preview 添加 mode 设置 `修复缺陷`
@@ -106,6 +101,9 @@
   * 3.7.0
     * `preview` 静态方法添加 `mode` 配置
     * 大纲 DOM 结构和 class 变更
+  * 3.7.1
+    * 添加 `options.undoDelay` 配置
+    * 添加 `options.counter.after` 回调方法
 
 ### v3.6.6 / 2020-11-23
 
