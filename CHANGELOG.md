@@ -88,6 +88,7 @@
 
 ### v3.7.1 / 2020-12-0x
 
+* [742](https://github.com/Vanessa219/vditor/issues/742) IR 模式块引用换行问题 `修复缺陷`
 * [759](https://github.com/Vanessa219/vditor/issues/759) 添加数字统计回调函数 `引入特性`
 * [835](https://github.com/Vanessa219/vditor/issues/835) 历史性能优化 `改进功能`
 * [837](https://github.com/Vanessa219/vditor/issues/837) 历史记录添加时间间隔配置 `引入特性`

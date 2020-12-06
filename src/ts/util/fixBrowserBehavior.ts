@@ -1008,6 +1008,13 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
             event.preventDefault();
             return true;
         }
+
+        if (insertAfterBlock(vditor, event, range, blockquoteElement, blockquoteElement)) {
+            return true;
+        }
+        if (insertBeforeBlock(vditor, event, range, blockquoteElement, blockquoteElement)) {
+            return true;
+        }
     }
     return false;
 };
