@@ -86,6 +86,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
+### v3.7.1 / 2020-12-0x
+
+* [837](https://github.com/Vanessa219/vditor/issues/837) 历史记录添加时间间隔配置 `引入特性`
+* 文档修改
+  * 3.7.1
+    * 添加 `options.undoDelay` 配置
+    
 ### v3.7.0 / 2020-12-01
 
 * [479](https://github.com/Vanessa219/vditor/issues/479) 大纲折叠 `改进功能`

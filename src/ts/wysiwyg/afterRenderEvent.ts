@@ -37,5 +37,5 @@ export const afterRenderEvent = (vditor: IVditor, options = {
         if (options.enableAddUndoStack) {
             vditor.undo.addToUndoStack(vditor);
         }
-    }, 800);
+    }, vditor.options.undoDelay);
 };

@@ -105,6 +105,7 @@ export class Options {
             pin: false,
         },
         typewriterMode: false,
+        undoDelay: 800,
         upload: {
             extraData: {},
             fieldName: "file[]",

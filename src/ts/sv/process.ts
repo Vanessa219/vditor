@@ -132,7 +132,7 @@ export const processAfterRender = (vditor: IVditor, options = {
         if (options.enableAddUndoStack && !vditor.sv.composingLock) {
             vditor.undo.addToUndoStack(vditor);
         }
-    }, 800);
+    }, vditor.options.undoDelay);
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {
