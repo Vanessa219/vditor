@@ -1,6 +1,4 @@
 import DiffMatchPatch, {diff_match_patch, patch_obj} from "diff-match-patch";
-import {chartRender} from "../markdown/chartRender";
-import {mindmapRender} from "../markdown/mindmapRender";
 import {disableToolbar, enableToolbar, hidePanel} from "../toolbar/setToolbar";
 import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
@@ -174,17 +172,8 @@ class Undo {
         });
         highlightToolbar(vditor);
 
-        vditor.ir.element.querySelectorAll(".vditor-ir__preview .language-echarts").forEach((item: HTMLElement) => {
-            item.innerHTML = item.parentElement.previousElementSibling.firstElementChild.innerHTML;
-            item.removeAttribute("_echarts_instance_");
-            item.removeAttribute("data-processed");
-            chartRender(item.parentElement, vditor.options.cdn, vditor.options.theme);
-        });
-        vditor.ir.element.querySelectorAll(".vditor-ir__preview .language-mindmap").forEach((item: HTMLElement) => {
-            item.innerHTML = item.parentElement.previousElementSibling.firstElementChild.innerHTML;
-            item.removeAttribute("_echarts_instance_");
-            item.removeAttribute("data-processed");
-            mindmapRender(item.parentElement, vditor.options.cdn, vditor.options.theme);
+        vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`).forEach((item: HTMLElement) => {
+            processCodeRender(item, vditor);
         });
 
         if (this[vditor.currentMode].undoStack.length > 1) {
@@ -232,6 +221,22 @@ class Undo {
                 range.insertNode(wbrElement);
             }
         }
+        // 移除数学公式、echart 渲染 https://github.com/siyuan-note/siyuan/issues/537
+        const cloneElement = vditor.ir.element.cloneNode(true) as HTMLElement;
+        cloneElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='1']`).forEach((item: HTMLElement) => {
+            if (item.firstElementChild.classList.contains("language-echarts") ||
+                item.firstElementChild.classList.contains("language-mindmap")) {
+                item.firstElementChild.removeAttribute("_echarts_instance_");
+                item.firstElementChild.removeAttribute("data-processed");
+                item.firstElementChild.innerHTML = item.previousElementSibling.firstElementChild.innerHTML;
+                item.setAttribute("data-render", "2");
+            }
+            if (item.firstElementChild.classList.contains("language-math")) {
+                item.setAttribute("data-render", "2");
+                item.firstElementChild.textContent = item.firstElementChild.getAttribute("data-math");
+                item.firstElementChild.removeAttribute("data-math");
+            }
+        });
         const text = vditor[vditor.currentMode].element.innerHTML;
         vditor[vditor.currentMode].element.querySelectorAll(".vditor-wbr").forEach((item) => {
             item.remove();

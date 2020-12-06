@@ -66,7 +66,7 @@ window.vditor = new Vditor('vditor', {
       footnotes: true,
     },
     math: {
-      engine: 'MathJax',
+      engine: 'KaTeX',
     },
   },
   toolbarConfig: {

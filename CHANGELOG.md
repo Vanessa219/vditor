@@ -88,6 +88,7 @@
 
 ### v3.7.1 / 2020-12-0x
 
+* [835](https://github.com/Vanessa219/vditor/issues/835) 历史性能优化 `改进功能`
 * [837](https://github.com/Vanessa219/vditor/issues/837) 历史记录添加时间间隔配置 `引入特性`
 * 文档修改
   * 3.7.1
