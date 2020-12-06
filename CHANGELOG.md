@@ -88,6 +88,8 @@
 
 ### v3.7.2 / 2020-12-0x
     
+* [673](https://github.com/Vanessa219/vditor/issues/673) 复制粘贴 Excel 内容转换为表格问题 `修复缺陷`
+
 ### v3.7.1 / 2020-12-06
 
 * [742](https://github.com/Vanessa219/vditor/issues/742) IR 模式块引用换行问题 `修复缺陷`
