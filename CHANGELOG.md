@@ -88,11 +88,13 @@
 
 ### v3.7.1 / 2020-12-0x
 
+* [759](https://github.com/Vanessa219/vditor/issues/759) 添加数字统计回调函数 `引入特性`
 * [835](https://github.com/Vanessa219/vditor/issues/835) 历史性能优化 `改进功能`
 * [837](https://github.com/Vanessa219/vditor/issues/837) 历史记录添加时间间隔配置 `引入特性`
 * 文档修改
   * 3.7.1
     * 添加 `options.undoDelay` 配置
+    * 添加 `options.counter.after` 回调方法
     
 ### v3.7.0 / 2020-12-01
 

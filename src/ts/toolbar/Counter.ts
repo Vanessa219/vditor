@@ -29,5 +29,12 @@ export class Counter {
             this.element.innerHTML = `${length}`;
         }
         this.element.setAttribute("aria-label", vditor.options.counter.type);
+        if (vditor.options.counter.after) {
+            vditor.options.counter.after(length, {
+                enable: vditor.options.counter.enable,
+                max: vditor.options.counter.max,
+                type: vditor.options.counter.type,
+            });
+        }
     }
 }

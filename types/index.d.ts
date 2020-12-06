@@ -493,6 +493,11 @@ interface IOptions {
         enable: boolean;
         max?: number;
         type?: "markdown" | "text";
+        after?(length: number, counter: {
+            enable: boolean;
+            max?: number;
+            type?: "markdown" | "text"
+        }): void
     };
     /** @link https://ld246.com/article/1549638745630#options-cache */
     cache?: {
