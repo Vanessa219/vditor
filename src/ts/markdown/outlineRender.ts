@@ -32,7 +32,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         lute.SetToC(true);
         tempElement.innerHTML = lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
     }
-    const headingsElement = tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]")
+    const headingsElement = tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]");
     headingsElement.forEach((item, index) => {
         if (item.nextElementSibling && item.nextElementSibling.tagName === "UL") {
             item.insertAdjacentHTML("afterbegin", "<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg>");
