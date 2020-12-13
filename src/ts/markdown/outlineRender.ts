@@ -20,6 +20,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     }
     const tempElement = document.createElement("div");
     if (vditor) {
+        vditor.lute.SetToC(true);
         if (vditor.currentMode === "wysiwyg" && !vditor.preview.element.contains(contentElement)) {
             tempElement.innerHTML = vditor.lute.SpinVditorDOM("<p>[ToC]</p>" + tocHTML);
         } else if (vditor.currentMode === "ir" && !vditor.preview.element.contains(contentElement)) {
@@ -27,6 +28,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         } else {
             tempElement.innerHTML = vditor.lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
         }
+        vditor.lute.SetToC(vditor.options.preview.markdown.toc);
     } else {
         const lute = Lute.New();
         lute.SetToC(true);
