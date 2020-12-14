@@ -86,14 +86,13 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.2 / 2020-12-0x
+### v3.7.3 / 2020-12-xx
     
+### v3.7.2 / 2020-12-14
+
 * [840](https://github.com/Vanessa219/vditor/issues/840) 关于移动端图片点击需求 `引入特性`
 * [842](https://github.com/Vanessa219/vditor/issues/842) 大纲无法展示 `修复缺陷`
 * [673](https://github.com/Vanessa219/vditor/issues/673) 复制粘贴 Excel 内容转换为表格问题 `修复缺陷`
-
-### v3.7.1 / 2020-12-06
-
 * [742](https://github.com/Vanessa219/vditor/issues/742) IR 模式块引用换行问题 `修复缺陷`
 * [759](https://github.com/Vanessa219/vditor/issues/759) 添加数字统计回调函数 `引入特性`
 * [835](https://github.com/Vanessa219/vditor/issues/835) 历史性能优化 `改进功能`
@@ -108,6 +107,8 @@
   * 3.7.1
     * 添加 `options.undoDelay` 配置
     * 添加 `options.counter.after` 回调方法
+  * 3.7.2
+    * 添加 `previewImg` 静态方法
 
 ### v3.6.6 / 2020-11-23
 

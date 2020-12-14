@@ -12,10 +12,13 @@ import {mindmapRender} from "./ts/markdown/mindmapRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
+import { previewImage } from "./ts/preview/image";
 import { setCodeTheme } from "./ts/ui/setCodeTheme";
 import {setContentTheme} from "./ts/ui/setContentTheme";
 class Vditor {
 
+    /** 点击图片放大 */
+    public static previewImage = previewImage;
     /** 为 element 中的代码块添加复制按钮 */
     public static codeRender = codeRender;
     /** 对 graphviz 进行渲染 */

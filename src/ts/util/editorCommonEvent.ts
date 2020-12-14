@@ -1,6 +1,7 @@
 import {processHeading} from "../ir/process";
 import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {previewImage} from "../preview/image";
 import {processHeading as processHeadingSV} from "../sv/process";
 import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
@@ -14,7 +15,6 @@ import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition} from "./selection";
-import {previewImage} from "../preview/image";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -26,7 +26,7 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const dblclickEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    editorElement.addEventListener("dblclick",(event: MouseEvent & { target: HTMLElement }) => {
+    editorElement.addEventListener("dblclick", (event: MouseEvent & { target: HTMLElement }) => {
         if (event.target.tagName === "IMG") {
             previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
         }
