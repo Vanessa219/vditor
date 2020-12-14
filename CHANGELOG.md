@@ -88,6 +88,7 @@
 
 ### v3.7.2 / 2020-12-0x
     
+* [840](https://github.com/Vanessa219/vditor/issues/840) 关于移动端图片点击需求 `引入特性`
 * [842](https://github.com/Vanessa219/vditor/issues/842) 大纲无法展示 `修复缺陷`
 * [673](https://github.com/Vanessa219/vditor/issues/673) 复制粘贴 Excel 内容转换为表格问题 `修复缺陷`
 

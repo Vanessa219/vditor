@@ -14,6 +14,7 @@ import {getEventName} from "../util/compatibility";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {setSelectionFocus} from "../util/selection";
+import { previewImage } from "./image";
 
 export class Preview {
     public element: HTMLElement;
@@ -46,6 +47,9 @@ export class Preview {
                     this.element.scrollTop = headingElement.offsetTop;
                 }
                 return;
+            }
+            if (event.target.tagName === "IMG") {
+                previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
             }
         });
 

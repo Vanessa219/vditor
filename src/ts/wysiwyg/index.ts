@@ -4,7 +4,7 @@ import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {
     blurEvent,
-    copyEvent, cutEvent,
+    copyEvent, cutEvent, dblclickEvent,
     dropEvent,
     focusEvent,
     hotkeyEvent,
@@ -60,6 +60,7 @@ class WYSIWYG {
         this.bindEvent(vditor);
 
         focusEvent(vditor, this.element);
+        dblclickEvent(vditor, this.element);
         blurEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
         selectEvent(vditor, this.element);

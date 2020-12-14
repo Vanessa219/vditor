@@ -14,6 +14,7 @@ import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition} from "./selection";
+import {previewImage} from "../preview/image";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -21,6 +22,14 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             vditor.options.focus(getMarkdown(vditor));
         }
         hidePanel(vditor, ["subToolbar"]);
+    });
+};
+
+export const dblclickEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("dblclick",(event: MouseEvent & { target: HTMLElement }) => {
+        if (event.target.tagName === "IMG") {
+            previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
+        }
     });
 };
 
