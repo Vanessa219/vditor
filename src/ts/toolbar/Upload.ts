@@ -1,7 +1,7 @@
 import {Constants} from "../constants";
 import {uploadFiles} from "../upload";
-import {MenuItem} from "./MenuItem";
 import {getEventName} from "../util/compatibility";
+import {MenuItem} from "./MenuItem";
 
 export class Upload extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {

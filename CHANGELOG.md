@@ -86,7 +86,10 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.3 / 2020-12-xx
+### v3.7.4 / 2020-12-xx
+
+
+### v3.7.3 / 2020-12-18
 
 * [848](https://github.com/Vanessa219/vditor/issues/848) 即时渲染模式下FireFox浏览器光标问题 `修复缺陷`
 * [847](https://github.com/Vanessa219/vditor/issues/847) 即时渲染状态下 Firefox 删除线出错 `修复缺陷`
@@ -94,12 +97,6 @@
 * [849](https://github.com/Vanessa219/vditor/issues/849) 固定工具栏模式下点击全屏打开后导航栏位置异常 `修复缺陷`
 * [855](https://github.com/Vanessa219/vditor/issues/855) 添加全屏 z-index 设置 `引入特性`
 * [850](https://github.com/Vanessa219/vditor/issues/850) 工具栏大纲按钮点击后焦点并未回到内容区 `改进功能`
-* 文档修改
-  * 3.7.3
-    * 添加 `options.fullscreen.index`
-
-### v3.7.2 / 2020-12-14
-
 * [840](https://github.com/Vanessa219/vditor/issues/840) 关于移动端图片点击需求 `引入特性`
 * [842](https://github.com/Vanessa219/vditor/issues/842) 大纲无法展示 `修复缺陷`
 * [673](https://github.com/Vanessa219/vditor/issues/673) 复制粘贴 Excel 内容转换为表格问题 `修复缺陷`
@@ -119,6 +116,8 @@
     * 添加 `options.counter.after` 回调方法
   * 3.7.2
     * 添加 `previewImg` 静态方法
+  * 3.7.3
+    * 添加 `options.fullscreen.index`
 
 ### v3.6.6 / 2020-11-23
 
