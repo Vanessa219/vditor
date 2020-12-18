@@ -143,7 +143,7 @@ const vditor = new Vditor(id, {options...})
 ```html
 <!-- ⚠️Please specify the version number in the production environment, such as https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
-<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script>
 ```
 
 ### Demo code
