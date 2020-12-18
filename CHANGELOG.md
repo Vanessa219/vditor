@@ -88,6 +88,8 @@
 
 ### v3.7.3 / 2020-12-xx
 
+* [848](https://github.com/Vanessa219/vditor/issues/848) 即时渲染模式下FireFox浏览器光标问题 `修复缺陷`
+* [847](https://github.com/Vanessa219/vditor/issues/847) 即时渲染状态下 Firefox 删除线出错 `修复缺陷`
 * [858](https://github.com/Vanessa219/vditor/issues/858) 预览模式下应禁用工具栏上传按钮 `修复缺陷`
 * [849](https://github.com/Vanessa219/vditor/issues/849) 固定工具栏模式下点击全屏打开后导航栏位置异常 `修复缺陷`
 * [855](https://github.com/Vanessa219/vditor/issues/855) 添加全屏 z-index 设置 `引入特性`

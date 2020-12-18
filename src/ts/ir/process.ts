@@ -185,21 +185,25 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;
             } else {
-                html = `${prefix}${range.toString()}<wbr>${suffix}`;
+                if (commandName === "code" || commandName === "table") {
+                    html = `${prefix}${range.toString()}<wbr>${suffix}`;
+                } else {
+                    html = `${prefix}${range.toString()}${suffix}<wbr>`;
+                }
+                range.deleteContents();
             }
             if (commandName === "table" || commandName === "code") {
-                html = "\n" + html;
-                actionBtn.classList.add("vditor-menu--disabled");
-            } else {
-                actionBtn.classList.add("vditor-menu--current");
+                html = "\n" + html + "\n\n";
             }
-            document.execCommand("insertHTML", false, html);
+
+            const spanElement = document.createElement("span");
+            spanElement.innerHTML = html;
+            range.insertNode(spanElement);
+            input(vditor, range);
+
             if (commandName === "table") {
                 range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
                 setSelectionFocus(range);
-            }
-            if (commandName !== "code" && commandName !== "inline-code") {
-                useHighlight = false;
             }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);
