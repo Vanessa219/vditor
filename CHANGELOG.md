@@ -87,7 +87,9 @@
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
 ### v3.7.3 / 2020-12-xx
-    
+
+* [850](https://github.com/Vanessa219/vditor/issues/850) 工具栏大纲按钮点击后焦点并未回到内容区 `改进功能`
+
 ### v3.7.2 / 2020-12-14
 
 * [840](https://github.com/Vanessa219/vditor/issues/840) 关于移动端图片点击需求 `引入特性`
