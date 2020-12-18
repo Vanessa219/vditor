@@ -88,7 +88,11 @@
 
 ### v3.7.3 / 2020-12-xx
 
+* [855](https://github.com/Vanessa219/vditor/issues/855) 添加全屏 z-index 设置 `引入特性`
 * [850](https://github.com/Vanessa219/vditor/issues/850) 工具栏大纲按钮点击后焦点并未回到内容区 `改进功能`
+* 文档修改
+  * 3.7.3
+    * 添加 `options.fullscreen.index`
 
 ### v3.7.2 / 2020-12-14
 

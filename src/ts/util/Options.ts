@@ -20,6 +20,9 @@ export class Options {
             type: "markdown",
         },
         debugger: false,
+        fullscreen: {
+            index: 90,
+        },
         height: "auto",
         hint: {
             delay: 200,

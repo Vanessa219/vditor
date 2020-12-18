@@ -484,6 +484,10 @@ interface IOptions {
     placeholder?: string;
     /** 多语言。默认值: 'zh_CN' */
     lang?: (keyof II18n);
+    /** @link https://ld246.com/article/1549638745630#options-fullscreen */
+    fullscreen?: {
+        index: number;
+    };
     /** @link https://ld246.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
     /** @link https://ld246.com/article/1549638745630#options-resize */

@@ -15,6 +15,7 @@ export class Fullscreen extends MenuItem {
                 if (!menuItem.level) {
                     this.innerHTML = menuItem.icon;
                 }
+                vditor.element.style.zIndex = "";
                 vditor.element.classList.remove("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;
@@ -29,6 +30,7 @@ export class Fullscreen extends MenuItem {
                 if (!menuItem.level) {
                     this.innerHTML = '<svg><use xlink:href="#vditor-icon-contract"></use></svg>';
                 }
+                vditor.element.style.zIndex = vditor.options.fullscreen.index.toString();
                 vditor.element.classList.add("vditor--fullscreen");
                 Object.keys(vditor.toolbar.elements).forEach((key) => {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;
