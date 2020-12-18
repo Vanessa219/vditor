@@ -88,6 +88,7 @@
 
 ### v3.7.3 / 2020-12-xx
 
+* [849](https://github.com/Vanessa219/vditor/issues/849) 固定工具栏模式下点击全屏打开后导航栏位置异常 `修复缺陷`
 * [855](https://github.com/Vanessa219/vditor/issues/855) 添加全屏 z-index 设置 `引入特性`
 * [850](https://github.com/Vanessa219/vditor/issues/850) 工具栏大纲按钮点击后焦点并未回到内容区 `改进功能`
 * 文档修改
