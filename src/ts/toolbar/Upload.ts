@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
-import {uploadFiles} from "../upload/index";
+import {uploadFiles} from "../upload";
 import {MenuItem} from "./MenuItem";
+import {getEventName} from "../util/compatibility";
 
 export class Upload extends MenuItem {
     constructor(vditor: IVditor, menuItem: IMenuItem) {
@@ -17,9 +18,18 @@ export class Upload extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor) {
+        this.element.children[0].addEventListener(getEventName(), (event) => {
+            if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+                event.stopPropagation();
+                event.preventDefault();
+                return;
+            }
+        });
         this.element.querySelector("input").addEventListener("change",
             (event: InputEvent & { target: HTMLInputElement }) => {
                 if (this.element.firstElementChild.classList.contains(Constants.CLASS_MENU_DISABLED)) {
+                    event.stopPropagation();
+                    event.preventDefault();
                     return;
                 }
                 if (event.target.files.length === 0) {

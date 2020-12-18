@@ -9,11 +9,11 @@ export const previewImage = (oldImgElement: HTMLImageElement, lang: keyof II18n 
         <svg><use xlink:href="#vditor-icon-redo"></use></svg>
         ${i18n[lang].spin}
       </span>
-      <span class="vditor-img__btn"  onclick="this.parentElement.parentElement.outerHTML = '';document.body.style.overflow = 'visible'">
+      <span class="vditor-img__btn"  onclick="this.parentElement.parentElement.outerHTML = '';document.body.style.overflow = ''">
         X &nbsp;${i18n[lang].close}
       </span>
     </div>
-    <div class="vditor-img__img" onclick="this.parentElement.outerHTML = '';document.body.style.overflow = 'visible'">
+    <div class="vditor-img__img" onclick="this.parentElement.outerHTML = '';document.body.style.overflow = ''">
       <img style="width: ${oldImgElement.width}px;height:${oldImgElement.height}px;transform: translate3d(${oldImgRect.left}px, ${oldImgRect.top - height}px, 0)" src="${oldImgElement.getAttribute("src")}">
     </div>
 </div>`);
