@@ -88,6 +88,7 @@
 
 ### v3.7.4 / 2020-12-xx
 
+* [868](https://github.com/Vanessa219/vditor/issues/868) 将 Markdown 引擎选项拆分为解析选项和渲染选项 `改进功能`
 * [869](https://github.com/Vanessa219/vditor/issues/869) 移除 options.preview.markdown. chinesePunct 配置 `开发重构`
 * 文档修改
   * 3.7.4

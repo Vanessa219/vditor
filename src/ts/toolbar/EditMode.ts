@@ -52,6 +52,10 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.wysiwyg.element.parentElement.style.display = "none";
         vditor.ir.element.parentElement.style.display = "block";
 
+        vditor.lute.SetVditorIR(true);
+        vditor.lute.SetVditorWYSIWYG(false);
+        vditor.lute.SetVditorSV(false);
+
         vditor.currentMode = "ir";
         vditor.ir.element.innerHTML = vditor.lute.Md2VditorIRDOM(markdownText);
         processAfterRender(vditor, {
@@ -78,6 +82,10 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.wysiwyg.element.parentElement.style.display = "block";
         vditor.ir.element.parentElement.style.display = "none";
 
+        vditor.lute.SetVditorIR(false);
+        vditor.lute.SetVditorWYSIWYG(true);
+        vditor.lute.SetVditorSV(false);
+
         vditor.currentMode = "wysiwyg";
 
         setPadding(vditor);
@@ -103,6 +111,11 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         } else if (vditor.options.preview.mode === "editor") {
             vditor.sv.element.style.display = "block";
         }
+
+        vditor.lute.SetVditorIR(false);
+        vditor.lute.SetVditorWYSIWYG(false);
+        vditor.lute.SetVditorSV(true);
+
         vditor.currentMode = "sv";
         let svHTML = processSpinVditorSVDOM(markdownText, vditor);
         if (svHTML === "<div data-block='0'></div>") {
