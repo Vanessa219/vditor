@@ -88,6 +88,10 @@
 
 ### v3.7.4 / 2020-12-xx
 
+* [869](https://github.com/Vanessa219/vditor/issues/869) 移除 options.preview.markdown. chinesePunct 配置 `开发重构`
+* 文档修改
+  * 3.7.4
+    * 移除`options.preview.markdown.chinesePunct` 配置
 
 ### v3.7.3 / 2020-12-18
 

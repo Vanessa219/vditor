@@ -310,7 +310,6 @@ new Vditor('vditor', {
 | - | - | - |
 | autoSpace | 自动空格 | false |
 | fixTermTypo | 自动矫正术语 | false |
-| chinesePunct | 自动矫正标点 | false |
 | toc | 插入目录 | false |
 | footnotes | 脚注 | true |
 | codeBlockPreview | wysiwyg 和 ir 模式下是否对代码块进行渲染 | true |

@@ -104,7 +104,6 @@ class Vditor extends VditorMethod {
             .then(() => {
                 this.vditor.lute = setLute({
                     autoSpace: this.vditor.options.preview.markdown.autoSpace,
-                    chinesePunct: this.vditor.options.preview.markdown.chinesePunct,
                     codeBlockPreview: this.vditor.options.preview.markdown.codeBlockPreview,
                     emojiSite: this.vditor.options.hint.emojiPath,
                     emojis: this.vditor.options.hint.emoji,

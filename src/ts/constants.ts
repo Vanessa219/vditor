@@ -24,7 +24,6 @@ export abstract class Constants {
     public static readonly CDN = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
     public static readonly MARKDOWN_OPTIONS = {
         autoSpace: false,
-        chinesePunct: false,
         codeBlockPreview: true,
         fixTermTypo: false,
         footnotes: true,

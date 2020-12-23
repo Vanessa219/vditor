@@ -295,7 +295,6 @@ new Vditor('vditor', {
 | - | - | - |
 | autoSpace | Autospace | false |
 | fixTermTypo | Automatically correct terminology | false |
-| chinesePunct | Automatic punctuation correction | false |
 | toc | Insert Table of Contents | false |
 | footnotes | Footnotes | true |
 | codeBlockPreview | Whether to render code blocks in wysiwyg and ir modes | true |

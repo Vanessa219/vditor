@@ -152,8 +152,6 @@ declare class Lute {
 
     public SetAutoSpace(enable: boolean): void;
 
-    public SetChinesePunct(enable: boolean): void;
-
     public SetFixTermTypo(enable: boolean): void;
 
     public SetEmojiSite(emojiSite: string): void;
@@ -343,8 +341,6 @@ interface IMarkdownConfig {
     paragraphBeginningSpace?: boolean;
     /** 自动矫正术语。默认值: false */
     fixTermTypo?: boolean;
-    /** 自动矫正标点。默认值: false */
-    chinesePunct?: boolean;
     /** 插入目录。默认值: false */
     toc?: boolean;
     /** 脚注。默认值: true */
