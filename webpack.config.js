@@ -119,6 +119,7 @@ module.exports = [
       libraryTarget: 'umd',
       library: 'Vditor',
       libraryExport: 'default',
+	  globalObject: 'this',
     },
     entry: {
       'index.min': './src/index.ts',
