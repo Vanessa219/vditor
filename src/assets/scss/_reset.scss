@@ -542,13 +542,16 @@
       align-items: center;
       padding: 5px 10px;
       cursor: pointer;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       color: var(--textarea-text-color);
 
       &:hover {
         color: var(--toolbar-icon-hover-color);
+      }
+
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -565,6 +568,7 @@
       width: 10px;
       fill: currentColor;
       margin-right: 5px;
+      flex-shrink: 0;
 
       &--close {
         transform: rotate(-90deg);
