@@ -86,18 +86,14 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.4 / 2020-12-xx
+### v3.7.5 / 2020-12-xx
+
+### v3.7.4 / 2020-12-26
 
 * [871](https://github.com/Vanessa219/vditor/issues/871) 大纲标题过长需显示省略号 `改进功能`
 * [866](https://github.com/Vanessa219/vditor/issues/866) 预览配置开启自动空格后,链接中有中文,无法正常解析 `改进功能`
 * [868](https://github.com/Vanessa219/vditor/issues/868) 将 Markdown 引擎选项拆分为解析选项和渲染选项 `改进功能`
 * [869](https://github.com/Vanessa219/vditor/issues/869) 移除 options.preview.markdown. chinesePunct 配置 `开发重构`
-* 文档修改
-  * 3.7.4
-    * 移除`options.preview.markdown.chinesePunct` 配置
-
-### v3.7.3 / 2020-12-18
-
 * [848](https://github.com/Vanessa219/vditor/issues/848) 即时渲染模式下FireFox浏览器光标问题 `修复缺陷`
 * [847](https://github.com/Vanessa219/vditor/issues/847) 即时渲染状态下 Firefox 删除线出错 `修复缺陷`
 * [858](https://github.com/Vanessa219/vditor/issues/858) 预览模式下应禁用工具栏上传按钮 `修复缺陷`
@@ -125,6 +121,8 @@
     * 添加 `previewImg` 静态方法
   * 3.7.3
     * 添加 `options.fullscreen.index`
+  * 3.7.4
+    * 移除`options.preview.markdown.chinesePunct` 配置
 
 ### v3.6.6 / 2020-11-23
 
