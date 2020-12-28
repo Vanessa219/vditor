@@ -88,6 +88,8 @@
 
 ### v3.7.5 / 2020-12-xx
 
+* [872](https://github.com/Vanessa219/vditor/issues/872) vditor.options.upload.file 支持 await `改进功能`
+
 ### v3.7.4 / 2020-12-26
 
 * [871](https://github.com/Vanessa219/vditor/issues/871) 大纲标题过长需显示省略号 `改进功能`

@@ -1196,7 +1196,7 @@ export const fixFirefoxArrowUpTable = (event: KeyboardEvent, blockElement: false
     return false;
 };
 
-export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLElement }, callback: {
+export const paste = async (vditor: IVditor, event: ClipboardEvent & { target: HTMLElement }, callback: {
     pasteCode(code: string): void,
 }) => {
     event.stopPropagation();
@@ -1346,7 +1346,7 @@ export const paste = (vditor: IVditor, event: ClipboardEvent & { target: HTMLEle
             }
             vditor.outline.render(vditor);
         } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
-            uploadFiles(vditor, event.clipboardData.files);
+            await uploadFiles(vditor, event.clipboardData.files);
         } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
             if (vditor.currentMode === "ir") {
                 renderers.Md2VditorIRDOM = {renderLinkDest};
