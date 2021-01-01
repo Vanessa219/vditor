@@ -20,7 +20,7 @@ export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN) => {
                 return;
             }
 
-            if (e.getAttribute("data-processed") === "true") {
+            if (e.getAttribute("data-processed") === "true" || e.textContent.trim() === "") {
                 return;
             }
 
