@@ -146,7 +146,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.toolbar.elements["edit-mode"].querySelector(`button[data-mode="${vditor.currentMode}"]`).classList.add("vditor-menu--current");
     }
 
-    vditor.outline.toggle(vditor, vditor.currentMode !== "sv" && vditor.options.outline);
+    vditor.outline.toggle(vditor, vditor.currentMode !== "sv" && vditor.options.outline.enable);
 };
 
 export class EditMode extends MenuItem {

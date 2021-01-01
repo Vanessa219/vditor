@@ -523,6 +523,11 @@
     display: none;
     overflow: auto;
 
+    &--right {
+      border-right: 0;
+      border-left: 1px solid var(--border-color);
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }

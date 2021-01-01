@@ -55,7 +55,10 @@ window.vditor = new Vditor('vditor', {
   toolbar,
   mode: 'wysiwyg',
   height: window.innerHeight + 100,
-  outline: true,
+  outline: {
+    enable: true,
+    position: "right"
+  },
   debugger: true,
   typewriterMode: true,
   placeholder: 'Hello, Vditor!',

@@ -542,9 +542,11 @@ interface IOptions {
     cdn?: string;
     /** tab 键操作字符串，支持 \t 及任意字符串 */
     tab?: string;
-    /** 是否展现大纲。默认值：'false' */
-    outline?: boolean;
-
+    /** @link https://ld246.com/article/1549638745630#options-outline */
+    outline?: {
+        enable: boolean,
+        position: "left" | "right",
+    };
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
 

@@ -88,9 +88,13 @@
 
 ### v3.7.5 / 2020-12-xx
 
+* [875](https://github.com/Vanessa219/vditor/issues/875) 增加大纲位置配置 `引入特性`
 * [873](https://github.com/Vanessa219/vditor/issues/873) graphviz，mermaid 在为空时不应出现错误提示 `改进功能`
 * [872](https://github.com/Vanessa219/vditor/issues/872) vditor.options.upload.file 支持 await `改进功能`
-
+* 文档修改
+  * 3.7.5
+    * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }` 
+  
 ### v3.7.4 / 2020-12-26
 
 * [871](https://github.com/Vanessa219/vditor/issues/871) 大纲标题过长需显示省略号 `改进功能`

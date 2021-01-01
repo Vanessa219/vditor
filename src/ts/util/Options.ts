@@ -42,7 +42,10 @@ export class Options {
         icon: "ant",
         lang: "zh_CN",
         mode: "ir",
-        outline: false,
+        outline: {
+            enable: false,
+            position: "left",
+        },
         placeholder: "",
         preview: {
             actions: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"],

@@ -32,7 +32,9 @@ export const initUI = (vditor: IVditor) => {
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";
 
-    contentElement.appendChild(vditor.outline.element);
+    if (vditor.options.outline.position === "left") {
+        contentElement.appendChild(vditor.outline.element);
+    }
 
     contentElement.appendChild(vditor.wysiwyg.element.parentElement);
 
@@ -44,6 +46,11 @@ export const initUI = (vditor: IVditor) => {
 
     if (vditor.toolbar.elements.devtools) {
         contentElement.appendChild(vditor.devtools.element);
+    }
+
+    if (vditor.options.outline.position === "right") {
+        vditor.outline.element.classList.add("vditor-outline--right");
+        contentElement.appendChild(vditor.outline.element);
     }
 
     if (vditor.upload) {
@@ -110,7 +117,7 @@ export const setPadding = (vditor: IVditor) => {
     if (vditor.preview.element.style.display !== "block" || vditor.currentMode === "sv") {
         vditor.toolbar.element.style.paddingLeft = Math.max(5,
             parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) +
-            vditor.outline.element.offsetWidth) + "px";
+            (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0)) + "px";
     }
 };
 
