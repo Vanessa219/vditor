@@ -88,6 +88,7 @@
 
 ### v3.7.5 / 2020-12-xx
 
+* [878](https://github.com/Vanessa219/vditor/issues/878) 移除列表标记符中文优化 `改进功能`
 * [875](https://github.com/Vanessa219/vditor/issues/875) 增加大纲位置配置 `引入特性`
 * [873](https://github.com/Vanessa219/vditor/issues/873) graphviz，mermaid 在为空时不应出现错误提示 `改进功能`
 * [872](https://github.com/Vanessa219/vditor/issues/872) vditor.options.upload.file 支持 await `改进功能`
