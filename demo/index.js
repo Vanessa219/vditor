@@ -57,7 +57,7 @@ window.vditor = new Vditor('vditor', {
   height: window.innerHeight + 100,
   outline: {
     enable: true,
-    position: "right"
+    position: 'right',
   },
   debugger: true,
   typewriterMode: true,

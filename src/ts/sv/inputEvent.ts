@@ -60,7 +60,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             const mathBlockMarkerElement =
                 hasClosestByAttribute(startContainer, "data-type", "math-block-open-marker");
             if (mathBlockMarkerElement) {
-                const mathBlockCloseElement = mathBlockMarkerElement.nextElementSibling.nextElementSibling
+                const mathBlockCloseElement = mathBlockMarkerElement.nextElementSibling.nextElementSibling;
                 if (mathBlockCloseElement && mathBlockCloseElement.getAttribute("data-type") === "math-block-close-marker") {
                     mathBlockCloseElement.remove();
                     processAfterRender(vditor);

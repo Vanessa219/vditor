@@ -86,8 +86,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.5 / 2020-12-xx
-
+### v3.7.6 / 2021-01-xx
+  
+### v3.7.5 / 2021-01-06
 * [884](https://github.com/Vanessa219/vditor/issues/884) 工具栏自定义按钮禁用 `改进功能`
 * [877](https://github.com/Vanessa219/vditor/issues/877) 数学公式输入删除生成节点 `修复缺陷`
 * [882](https://github.com/Vanessa219/vditor/issues/882) 改进 HTML 转换 Markdown 时加粗、斜体等空格的处理 `改进功能`
@@ -95,13 +96,6 @@
 * [875](https://github.com/Vanessa219/vditor/issues/875) 增加大纲位置配置 `引入特性`
 * [873](https://github.com/Vanessa219/vditor/issues/873) graphviz，mermaid 在为空时不应出现错误提示 `改进功能`
 * [872](https://github.com/Vanessa219/vditor/issues/872) vditor.options.upload.file 支持 await `改进功能`
-* 文档修改
-  * 3.7.5
-    * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }` 
-    * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
-  
-### v3.7.4 / 2020-12-26
-
 * [871](https://github.com/Vanessa219/vditor/issues/871) 大纲标题过长需显示省略号 `改进功能`
 * [866](https://github.com/Vanessa219/vditor/issues/866) 预览配置开启自动空格后,链接中有中文,无法正常解析 `改进功能`
 * [868](https://github.com/Vanessa219/vditor/issues/868) 将 Markdown 引擎选项拆分为解析选项和渲染选项 `改进功能`
@@ -135,6 +129,9 @@
     * 添加 `options.fullscreen.index`
   * 3.7.4
     * 移除`options.preview.markdown.chinesePunct` 配置
+  * 3.7.5
+    * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }`
+    * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
 
 ### v3.6.6 / 2020-11-23
 
