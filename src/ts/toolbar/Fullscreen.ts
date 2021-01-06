@@ -50,7 +50,7 @@ export class Fullscreen extends MenuItem {
             }
 
             if (menuItem.click) {
-                menuItem.click(vditor.element.classList.contains("vditor--fullscreen"));
+                menuItem.click(event, vditor);
             }
 
             setPadding(vditor);

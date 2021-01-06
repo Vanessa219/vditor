@@ -316,7 +316,7 @@ interface IMenuItem {
     level?: number;
 
     /** 自定义按钮点击时触发的事件 */
-    click?(status?: boolean): void;
+    click?(event: Event, vditor: IVditor): void;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-preview-hljs */
@@ -547,6 +547,7 @@ interface IOptions {
         enable: boolean,
         position: "left" | "right",
     };
+
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
 
