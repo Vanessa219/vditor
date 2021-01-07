@@ -10,6 +10,7 @@ import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {mindmapRender} from "../markdown/mindmapRender";
+import {plantumlRender} from "../markdown/plantumlRender";
 import {getEventName} from "../util/compatibility";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
@@ -214,6 +215,7 @@ export class Preview {
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
+        plantumlRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
         abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
         // toc render

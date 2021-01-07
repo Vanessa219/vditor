@@ -223,6 +223,21 @@ $$
 - 快捷键
 ```
 
+### plantuml
+
+```plantuml
+@startuml component
+actor client
+node app
+database db
+
+db -> app
+app -> client
+@enduml
+```
+
+更多图形参考[https://plantuml.com/zh/](https://plantuml.com/zh/)
+
 ### 流程图
 
 ```mermaid
