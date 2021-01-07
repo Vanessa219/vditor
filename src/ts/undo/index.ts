@@ -227,6 +227,7 @@ class Undo {
         cloneElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='1']`)
             .forEach((item: HTMLElement) => {
                 if (item.firstElementChild.classList.contains("language-echarts") ||
+                item.firstElementChild.classList.contains("language-plantuml") ||
                     item.firstElementChild.classList.contains("language-mindmap")) {
                     item.firstElementChild.removeAttribute("_echarts_instance_");
                     item.firstElementChild.removeAttribute("data-processed");

@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Vanessa219/vditor/blob/master/README_en_US.md">English</a> &nbsp;|&nbsp; <a href="https://b3log.org/vditor/demo/index.html">Demo</a>
+<a href="https://github.com/Vanessa219/vditor/blob/master/README_en_US.md">English</a>  |  <a href="https://b3log.org/vditor/demo/index.html">Demo</a>
 </p>
 
 ## 💡 简介
@@ -54,7 +54,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 ## ✨  特性
 
 * 支持三种编辑模式：所见即所得（wysiwyg）、即时渲染（ir）、分屏预览（sv）
-* 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://ld246.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染
+* 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://ld246.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染、[plantuml](https://plantuml.com)UML图
 * 内置安全过滤、导出、图片懒加载、任务列表、多平台预览、多主题切换、复制到微信公众号/知乎功能
 * 实现 CommonMark 和 GFM 规范，可对 Markdown 进行格式化和语法树查看，并支持[10+项](https://ld246.com/article/1549638745630#options-preview-markdown)配置
 * 工具栏包含 36+ 项操作，除支持扩展外还可对每一项中的[快捷键](https://ld246.com/article/1582778815353)、提示、提示位置、图标、点击事件、类名、子工具栏进行自定义
@@ -192,6 +192,7 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 
 #### options
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | after | 编辑器异步渲染完成后的回调方法 | - |
@@ -200,7 +201,7 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
 | lang | 多语言：en_US, ja_JP, ko_KR, zh_CN | 'zh_CN' |
-| input(value: string, previewElement?: HTMLElement) | 输入后触发  | - |
+| input(value: string, previewElement?: HTMLElement) | 输入后触发 | - |
 | focus(value: string) | 聚焦后触发 | - |
 | blur(value: string) | 失焦后触发 | - |
 | esc(value: string) | <kbd>esc</kbd> 按下后触发 | - |
@@ -237,6 +238,7 @@ new Vditor('vditor', {
 })
 ```
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | name | 唯一标示 | - |
@@ -252,12 +254,14 @@ new Vditor('vditor', {
 
 #### options.toolbarConfig
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | hide | 是否隐藏工具栏 | false |
 | pin | 是否固定工具栏 | false |
 
 #### options.counter
+
 
 |   | 说明 | 默认值 |
 | - | - | - |
@@ -266,6 +270,7 @@ new Vditor('vditor', {
 | type | 统计类型：md，text | 'md' |
 
 #### options.cache
+
 
 |   | 说明 | 默认值 |
 | - | - | - |
@@ -277,6 +282,7 @@ new Vditor('vditor', {
 
 ⚠️：仅支持 wysiwyg 模式
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否启用评论模式 | false |
@@ -286,6 +292,7 @@ new Vditor('vditor', {
 | adjustTop(commentsData: ICommentsData[]) | 文档修改时，适配评论高度 | - |
 
 #### options.preview
+
 
 |   | 说明 | 默认值 |
 | - | - | - |
@@ -298,6 +305,7 @@ new Vditor('vditor', {
 
 #### options.preview.hljs
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否启用代码高亮 | true |
@@ -305,6 +313,7 @@ new Vditor('vditor', {
 | lineNumber | 是否启用行号 | false |
 
 #### options.preview.markdown
+
 
 |   | 说明 | 默认值 |
 | - | - | - |
@@ -323,6 +332,7 @@ new Vditor('vditor', {
 
 #### options.preview.theme
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | current | 当前主题 | "light" |
@@ -330,6 +340,7 @@ new Vditor('vditor', {
 | path | 主题样式地址 | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme` |
 
 #### options.preview.math
+
 
 |   | 说明 | 默认值 |
 | - | - | - |
@@ -342,6 +353,7 @@ new Vditor('vditor', {
 默认值为 ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]。
 可从默认值中挑选进行配置，也可使用以下字段进行自定制开发。
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | key | 按钮唯一标识，不能为空 | - |
@@ -351,6 +363,7 @@ new Vditor('vditor', {
 | click(key: string) | 按钮点击回调事件 | - |
 
 #### options.hint
+
 
 |   | 说明 | 默认值 |
 | - | - | - |
@@ -430,6 +443,7 @@ if (xhr.status === 200) {
 }
 ```
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | url | 上传 url | '' |
@@ -444,16 +458,17 @@ if (xhr.status === 200) {
 | headers | 请求头设置 | - |
 | filename(name: string): string | 文件名安全处理 | name => name.replace(/\W/g, '') |
 | accept | 文件上传类型，同[input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
-| validate(files: File[]) => string \| boolean | 校验，成功时返回 true 否则返回错误信息 | - |
-| handler(files: File[]) => string \| null | 自定义上传，当发生错误时返回错误信息 | - |
+| validate(files: File[]) => string\| boolean | 校验，成功时返回 true 否则返回错误信息 | - |
+| handler(files: File[]) => string\| null | 自定义上传，当发生错误时返回错误信息 | - |
 | format(files: File[], responseText: string): string | 对服务端返回的数据进行转换，以满足内置的数据结构 | - |
 | file(files: File[]): File[] | 将上传的文件处理后再返回 | - |
 | setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |
-| extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数 | - |
+| extraData: { [key: string]: string\| Blob } | 为 FormData 添加额外的参数 | - |
 | multiple | 上传文件是否为多个 | true |
 | fieldName | 上传字段名称 | 'file[]' |
 
 #### options.resize
+
 
 |   | 说明 | 默认值 |
 | - | - | - |
@@ -463,11 +478,13 @@ if (xhr.status === 200) {
 
 #### options.classes
 
+
 |   | 说明 | 默认值 |
 | - | - | - |
 | preview | 预览元素上的 className | '' |
 
 #### methods
+
 
 |   | 说明 |
 | - | - |
@@ -480,7 +497,7 @@ if (xhr.status === 200) {
 | enable() | 解除编辑器禁用 |
 | getSelection(): string | 返回选中的字符串 |
 | setValue(markdown: string, clearStack = false) | 设置编辑器内容且选中清空历史栈 |
-| clearStack() | 清空撤销和重做记录栈|
+| clearStack() | 清空撤销和重做记录栈 |
 | renderPreview(value?: string) | 设置预览区域内容 |
 | getCursorPosition():{top: number, left: number} | 获取焦点位置 |
 | deleteValue() | 删除选中内容 |
@@ -491,8 +508,8 @@ if (xhr.status === 200) {
 | enableCache() | 启用缓存 |
 | html2md(value: string) | HTML 转 md |
 | tip(text: string, time: number) | 消息提示。time 为 0 将一直显示 |
-| setPreviewMode(mode: "both" \| "editor") | 设置预览模式 |
-| setTheme(theme: "dark" \| "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | 设置主题、内容主题及代码块风格 |
+| setPreviewMode(mode: "both"\| "editor") | 设置预览模式 |
+| setTheme(theme: "dark"\| "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) | 设置主题、内容主题及代码块风格 |
 | getCurrentMode(): string | 获取编辑器当前编辑模式 |
 | destroy() | 销毁编辑器 |
 | getCommentIds(): {id: string, top: number}[] | 获取所有评论 |
@@ -540,23 +557,24 @@ options?: IPreviewOptions {
 
 * ⚠️ `method.min.js`  和 `index.min.js` 不可同时引入
 
+
 |   | 说明 |
 | - | - |
 | mermaidRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | 流程图/时序图/甘特图 |
 | flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart 渲染 |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
-| chartRender(element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme) | 图表渲染 |
-| mindmapRender(element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme) | 脑图渲染 |
-| abcRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 五线谱渲染 |
+| chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn, theme = options.theme) | 图表渲染 |
+| mindmapRender(element: (HTMLElement\| Document) = document, cdn = options.cdn, theme = options.theme) | 脑图渲染 |
+| abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | 五线谱渲染 |
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
-| highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
+| highlightRender(hljsOption?: IHljs, element?: HTMLElement\| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
 | mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频、嵌入的 iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
 | outlineRender(contentElement: HTMLElement, targetElement: Element) | 对大纲进行渲染 |
-| lazyLoadImageRender(element: (HTMLElement \| Document) = document) | 对启用懒加载的图片进行渲染 |
+| lazyLoadImageRender(element: (HTMLElement\| Document) = document) | 对启用懒加载的图片进行渲染 |
 | setCodeTheme(codeTheme: string, cdn = options.cdn) | 设置代码主题，codeTheme 参见 options.preview.hljs.style |
 | setContentTheme(contentTheme: string, path: string) | 设置内容主题，contentTheme 参见 options.preview.theme.list |
 
