@@ -15,6 +15,7 @@ import {mathRender} from "./mathRender";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 import {mindmapRender} from "./mindmapRender";
+import {plantumlRender} from "./plantumlRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
 
@@ -94,6 +95,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     graphvizRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
+    plantumlRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     abcRender(previewElement, mergedOptions.cdn);
     mediaRender(previewElement);
     if (mergedOptions.speech.enable) {
