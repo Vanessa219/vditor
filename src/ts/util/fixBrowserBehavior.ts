@@ -148,7 +148,7 @@ export const insertAfterBlock = (vditor: IVditor, event: KeyboardEvent, range: R
 export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: Range, element: HTMLElement,
                                   blockElement: HTMLElement) => {
     const position = getSelectPosition(element, vditor[vditor.currentMode].element, range);
-    if ((event.key === "ArrowUp" && element.textContent.substr(position.start).indexOf("\n") === -1) ||
+    if ((event.key === "ArrowUp" && element.textContent.substr(0, position.start).indexOf("\n") === -1) ||
         ((event.key === "ArrowLeft" || (event.key === "Backspace" && range.toString() === "")) &&
             position.start === 0)) {
         const previousElement = blockElement.previousElementSibling;
