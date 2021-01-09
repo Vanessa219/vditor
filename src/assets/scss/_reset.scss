@@ -549,6 +549,11 @@
       cursor: pointer;
       color: var(--textarea-text-color);
 
+      svg {
+        height: 10px;
+        width: 10px;
+      }
+
       &:hover {
         color: var(--toolbar-icon-hover-color);
       }
@@ -569,8 +574,6 @@
 
     &__action {
       transition: $transition;
-      height: 10px;
-      width: 10px;
       fill: currentColor;
       margin-right: 5px;
       flex-shrink: 0;

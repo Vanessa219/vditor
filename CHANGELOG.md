@@ -87,8 +87,11 @@
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
 ### v3.7.6 / 2021-01-xx
-  
+
+* [888](https://github.com/Vanessa219/vditor/issues/888) 大纲点击错误 `修复缺陷`
+
 ### v3.7.5 / 2021-01-06
+
 * [884](https://github.com/Vanessa219/vditor/issues/884) 工具栏自定义按钮禁用 `改进功能`
 * [877](https://github.com/Vanessa219/vditor/issues/877) 数学公式输入删除生成节点 `修复缺陷`
 * [882](https://github.com/Vanessa219/vditor/issues/882) 改进 HTML 转换 Markdown 时加粗、斜体等空格的处理 `改进功能`

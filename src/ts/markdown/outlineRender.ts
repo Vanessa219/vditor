@@ -39,7 +39,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         if (item.nextElementSibling && item.nextElementSibling.tagName === "UL") {
             item.innerHTML = `<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg><span>${item.innerHTML}</span>`;
         } else {
-            item.innerHTML = `<svg class='vditor-outline__action'></svg><span>${item.innerHTML}</span>`;
+            item.innerHTML = `<svg></svg><span>${item.innerHTML}</span>`;
         }
         item.setAttribute("data-target-id", ids[index]);
     });
