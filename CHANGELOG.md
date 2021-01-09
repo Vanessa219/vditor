@@ -86,7 +86,7 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.6 / 2021-01-xx
+### v3.7.6 / 2021-01-09
 
 * [888](https://github.com/Vanessa219/vditor/issues/888) 大纲点击错误 `修复缺陷`
 
@@ -127,7 +127,7 @@
     * 添加 `options.undoDelay` 配置
     * 添加 `options.counter.after` 回调方法
   * 3.7.2
-    * 添加 `previewImg` 静态方法
+    * 添加 `previewImage` 静态方法
   * 3.7.3
     * 添加 `options.fullscreen.index`
   * 3.7.4

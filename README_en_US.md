@@ -171,6 +171,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
+| undoDelay | Undo interval | - |
 | after | Callback method after editor asynchronous rendering is completed | - |
 | height | Total editor height | 'auto' |
 | minHeight | Editing area minimum height | - |
@@ -191,7 +192,6 @@ Can be filled with element `id` or element itself` HTMLElement`
 | value | Editor initialization value | '' |
 | theme | Theme: classic, dark | 'classic' |
 | icon | icon theme: ant, material | 'ant' |
-| outline | show outline | false |
 
 #### options.toolbar
 
@@ -223,7 +223,7 @@ new Vditor('vditor', {
 | hotkey | Shortcut keys, support <kbd>⌘/ctrl-key</kbd> or <kbd>⌘/ctrl-⇧/shift-key</kbd> format configuration | - |
 | suffix | Insert the suffix in the editor | - |
 | prefix | Insert the prefix in the editor | - |
-| click | Custom event triggered when button is clicked () | - |
+| click(event: Event, vditor: IVditor) | Custom event triggered when button is clicked | - |
 | className | Style name | '' |
 | toolbar?: Array<options.toolbar> | sub menu | - |
 
@@ -239,8 +239,9 @@ new Vditor('vditor', {
 |   | Explanation | Default |
 | - | - | - |
 | enable | Whether to use counter | false |
+| after(length: number, counter: options.counter): void | After count callback | - |
 | max | max counter | - |
-| type | counter type: md, text | 'md' |
+| type | counter type: 'markdown', 'text' | 'markdown' |
 
 #### options.cache
 
@@ -412,7 +413,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 |   | Explanation | Default |
 | - | - | - |
 | enable | Whether to support size drag | false |
-| position | Drag column position:top, bottom | 'bottom' |
+| position | Drag column position: 'top', 'bottom' | 'bottom' |
 | after | Callback when dragging ends (height: number) | - |
 
 #### options.classes
@@ -420,6 +421,19 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 |   | Explanation | Default |
 | - | - | - |
 | preview | Preview on the element className | '' |
+
+#### options.fullscreen
+
+|   | Explanation | Default |
+| - | - | - |
+| index | fullscreen index | 90 |
+
+#### options.outline
+
+|   | Explanation | Default |
+| - | - | - |
+| enable | Initialize whether to show outline | false |
+| position | Outline location: 'left', 'right' | 'left' |
 
 #### methods
 
@@ -472,22 +486,23 @@ VditorPreview.mermaidRender(document)
 ```ts
 previewElement: HTMLDivElement,   // Use this element for rendering
 markdown: string,  // The original markdown to be rendered
-options?: IPreviewOptions {  
- anchor?: number;  // 0: no render, 1: render left, 2: render right
- customEmoji?: { [key: string]: string };    // Custom emoji, default is {}
- lang?: (keyof II18nLang);    // Language, default is 'zh_CN'  
- emojiPath?: string;    // Emoji picture path 
- hljs?: IHljs; // Refer to options.preview.hljs 
- speech?: {  // Read the selected content
-  enable?: boolean,
- };
- math?: IMath; // Math formula rendering configuration
- transform?(html: string): string; // Callback method before rendering
- after?(); // Callback method after rendering
- cdn?: string; // Self-built CDN address
- lazyLoadImage?: string; // use "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" to lazy load image
- markdown?: options.preview.markdown;
- renderers?: ILuteRender; // Custom rendering method https://ld246.com/article/1588412297062
+options?: IPreviewOptions {
+  mode: "dark" | "light";
+  anchor?: number;  // 0: no render, 1: render left, 2: render right
+  customEmoji?: { [key: string]: string };    // Custom emoji, default is {}
+  lang?: (keyof II18nLang);    // Language, default is 'zh_CN'  
+  emojiPath?: string;    // Emoji picture path 
+  hljs?: IHljs; // Refer to options.preview.hljs 
+  speech?: {  // Read the selected content
+    enable?: boolean,
+  };
+  math?: IMath; // Math formula rendering configuration
+  transform?(html: string): string; // Callback method before rendering
+  after?(); // Callback method after rendering
+  cdn?: string; // Self-built CDN address
+  lazyLoadImage?: string; // use "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" to lazy load image
+  markdown?: options.preview.markdown;
+  renderers?: ILuteRender; // Custom rendering method https://ld246.com/article/1588412297062
 }
 ```
 
@@ -495,6 +510,7 @@ options?: IPreviewOptions {
 
 |   | Explanation |
 | - | - |
+| previewImage(oldImgElement: HTMLImageElement, lang: keyof II18n = "zh_CN", theme = "classic") | Click on the image to preview |
 | mermaidRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | flowchart/sequence diagram/gantt diagram rendering |
 | flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart.js rendering |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | Add a copy button for the code block in element |

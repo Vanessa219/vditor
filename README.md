@@ -194,6 +194,7 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 
 |   | 说明 | 默认值 |
 | - | - | - |
+| undoDelay | 历史记录间隔 | - |
 | after | 编辑器异步渲染完成后的回调方法 | - |
 | height | 编辑器总高度 | 'auto' |
 | minHeight | 编辑区域最小高度 | - |
@@ -214,7 +215,6 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | value | 编辑器初始化值 | '' |
 | theme | 主题：classic, dark | 'classic' |
 | icon | 图标风格：ant, material | 'ant' |
-| outline | 是否展现大纲 | false |
 
 #### options.toolbar
 
@@ -246,7 +246,7 @@ new Vditor('vditor', {
 | hotkey | 快捷键，格式为<kbd>⌘/ctrl-key</kbd> 或 <kbd>⌘/ctrl-⇧/shift-key</kbd> | - |
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
-| click() | 自定义按钮点击时触发的事件 | - |
+| click(event: Event, vditor: IVditor) | 自定义按钮点击时触发的事件 | - |
 | className | 样式名 | '' |
 | toolbar?: Array<options.toolbar> | 子菜单 | - |
 
@@ -262,8 +262,9 @@ new Vditor('vditor', {
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否启用计数器 | false |
+| after(length: number, counter: options.counter): void | 字数统计回调 | - |
 | max | 允许输入的最大值 | - |
-| type | 统计类型：md，text | 'md' |
+| type | 统计类型：'markdown', 'text' | 'markdown' |
 
 #### options.cache
 
@@ -458,7 +459,7 @@ if (xhr.status === 200) {
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否支持大小拖拽 | false |
-| position | 拖拽栏位置：top, bottom | 'bottom' |
+| position | 拖拽栏位置：'top', 'bottom' | 'bottom' |
 | after(height: number) | 拖拽结束的回调 | - |
 
 #### options.classes
@@ -466,6 +467,19 @@ if (xhr.status === 200) {
 |   | 说明 | 默认值 |
 | - | - | - |
 | preview | 预览元素上的 className | '' |
+
+#### options.fullscreen
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| index | 全屏层级 | 90 |
+
+#### options.outline
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| enable | 初始化是否展现大纲 | false |
+| position | 大纲位置：'left', 'right' | 'left' |
 
 #### methods
 
@@ -518,23 +532,24 @@ VditorPreview.mermaidRender(document)
 ```ts
 previewElement: HTMLDivElement,   // 使用该元素进行渲染
 markdown: string,  // 需要渲染的 markdown 原文
-options?: IPreviewOptions {  
- anchor?: number;  // 为标题添加锚点 0：不渲染；1：渲染于标题前；2：渲染于标题后，默认 0
- customEmoji?: { [key: string]: string };    // 自定义 emoji，默认为 {}  
- lang?: (keyof II18nLang);    // 语言，默认为 'zh_CN'  
- emojiPath?: string;    // 表情图片路径 
- hljs?: IHljs; // 参见 options.preview.hljs 
- speech?: {  // 对选中后的内容进行阅读
-  enable?: boolean,
- };
- math?: IMath; // 数学公式渲染配置
- cdn?: string; // 自建 CDN 地址
- transform?(html: string): string; // 在渲染前进行的回调方法
- after?(); // 渲染完成后的回调
- lazyLoadImage?: string; // 设置为 Loading 图片地址后将启用图片的懒加载
- markdown?: options.preview.markdown;
- theme?: options.preview.theme;
- renderers?: ILuteRender; // 自定义渲染 https://ld246.com/article/1588412297062
+options?: IPreviewOptions {
+  mode: "dark" | "light";
+  anchor?: number;  // 为标题添加锚点 0：不渲染；1：渲染于标题前；2：渲染于标题后，默认 0
+  customEmoji?: { [key: string]: string };    // 自定义 emoji，默认为 {}  
+  lang?: (keyof II18nLang);    // 语言，默认为 'zh_CN'  
+  emojiPath?: string;    // 表情图片路径 
+  hljs?: IHljs; // 参见 options.preview.hljs 
+  speech?: {  // 对选中后的内容进行阅读
+    enable?: boolean,
+  };
+  math?: IMath; // 数学公式渲染配置
+  cdn?: string; // 自建 CDN 地址
+  transform?(html: string): string; // 在渲染前进行的回调方法
+  after?(); // 渲染完成后的回调
+  lazyLoadImage?: string; // 设置为 Loading 图片地址后将启用图片的懒加载
+  markdown?: options.preview.markdown;
+  theme?: options.preview.theme;
+  renderers?: ILuteRender; // 自定义渲染 https://ld246.com/article/1588412297062
 }
 ```
 
@@ -542,6 +557,7 @@ options?: IPreviewOptions {
 
 |   | 说明 |
 | - | - |
+| previewImage(oldImgElement: HTMLImageElement, lang: keyof II18n = "zh_CN", theme = "classic") | 点击图片预览 |
 | mermaidRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | 流程图/时序图/甘特图 |
 | flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart 渲染 |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
