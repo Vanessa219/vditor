@@ -242,7 +242,7 @@ new Vditor('vditor', {
 | name | 唯一标示 | - |
 | icon | svg 图标 | - |
 | tip | 提示 | - |
-| tipPosition | 提示位置：ne, nw | - |
+| tipPosition | 提示位置：'n', 'ne', 'nw', 's', 'se', 'sw', 'w', 'e' | - |
 | hotkey | 快捷键，格式为<kbd>⌘/ctrl-key</kbd> 或 <kbd>⌘/ctrl-⇧/shift-key</kbd> | - |
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
@@ -262,7 +262,7 @@ new Vditor('vditor', {
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否启用计数器 | false |
-| after(length: number, counter: options.counter): void | 字数统计回调 | - |
+| tipPosition(length: number, counter: options.counter): void | 字数统计回调 | - |
 | max | 允许输入的最大值 | - |
 | type | 统计类型：'markdown', 'text' | 'markdown' |
 

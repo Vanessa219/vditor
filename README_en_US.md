@@ -219,7 +219,7 @@ new Vditor('vditor', {
 | name | Unique label | - |
 | icon | svg icon | - |
 | tip | Prompt | - |
-| tipPosition | Prompt location: ne, nw | - |
+| tipPosition | Prompt location: 'n', 'ne', 'nw', 's', 'se', 'sw', 'w', 'e' | - |
 | hotkey | Shortcut keys, support <kbd>⌘/ctrl-key</kbd> or <kbd>⌘/ctrl-⇧/shift-key</kbd> format configuration | - |
 | suffix | Insert the suffix in the editor | - |
 | prefix | Insert the prefix in the editor | - |
