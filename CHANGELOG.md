@@ -88,6 +88,7 @@
 
 ### v3.7.6 / 2021-01-09
 
+* [659](https://github.com/Vanessa219/vditor/issues/659) IR 模式复制粘贴 <kbd> 问题 `修复缺陷`
 * [888](https://github.com/Vanessa219/vditor/issues/888) 大纲点击错误 `修复缺陷`
 
 ### v3.7.5 / 2021-01-06
