@@ -265,7 +265,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
                 && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
                 && blockElement.previousElementSibling.getAttribute("data-block") === "0") {
                 const rangeStart = getSelectPosition(blockElement, vditor.wysiwyg.element, range).start;
-                if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
+                if ((rangeStart === 0 && range.startOffset === 0) || // https://github.com/Vanessa219/vditor/issues/894
+                    (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                     // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
                     showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor, false);
                     if (blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {

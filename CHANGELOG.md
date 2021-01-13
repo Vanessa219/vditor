@@ -88,6 +88,7 @@
 
 ### v3.7.6 / 2021-01-09
 
+* [894](https://github.com/Vanessa219/vditor/issues/894) 代码块下紧跟一张图片，使用回退键删除图片时光标跑到代码块里，图片不能删除 `修复缺陷`
 * [659](https://github.com/Vanessa219/vditor/issues/659) IR 模式复制粘贴 <kbd> 问题 `修复缺陷`
 * [888](https://github.com/Vanessa219/vditor/issues/888) 大纲点击错误 `修复缺陷`
 
