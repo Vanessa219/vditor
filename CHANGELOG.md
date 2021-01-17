@@ -86,16 +86,16 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.6 / 2021-01-09
+### v3.7.7 / 2021-01-xx
 
+### v3.7.6 / 2021-01-17
+
+* [900](https://github.com/Vanessa219/vditor/issues/900) img标签图片无法显示 `修复缺陷`
 * [901](https://github.com/Vanessa219/vditor/issues/901) 预览区域代码点击复制无效 `修复缺陷`
 * [890](https://github.com/Vanessa219/vditor/issues/890) Can not delete the special tag(Wysiwyg mode) `修复缺陷`
 * [894](https://github.com/Vanessa219/vditor/issues/894) 代码块下紧跟一张图片，使用回退键删除图片时光标跑到代码块里，图片不能删除 `修复缺陷`
 * [659](https://github.com/Vanessa219/vditor/issues/659) IR 模式复制粘贴 <kbd> 问题 `修复缺陷`
 * [888](https://github.com/Vanessa219/vditor/issues/888) 大纲点击错误 `修复缺陷`
-
-### v3.7.5 / 2021-01-06
-
 * [884](https://github.com/Vanessa219/vditor/issues/884) 工具栏自定义按钮禁用 `改进功能`
 * [877](https://github.com/Vanessa219/vditor/issues/877) 数学公式输入删除生成节点 `修复缺陷`
 * [882](https://github.com/Vanessa219/vditor/issues/882) 改进 HTML 转换 Markdown 时加粗、斜体等空格的处理 `改进功能`
