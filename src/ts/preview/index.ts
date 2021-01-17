@@ -14,7 +14,7 @@ import {getEventName} from "../util/compatibility";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {setSelectionFocus} from "../util/selection";
-import { previewImage } from "./image";
+import {previewImage} from "./image";
 
 export class Preview {
     public element: HTMLElement;
@@ -30,7 +30,11 @@ export class Preview {
             previewElement.classList.add(vditor.options.classes.preview);
         }
         previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
-        previewElement.addEventListener("copy", (event) => {
+        previewElement.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
+            if (event.target.tagName === "TEXTAREA") {
+                // https://github.com/Vanessa219/vditor/issues/901
+                return;
+            }
             const tempElement = document.createElement("div");
             tempElement.className = "vditor-reset";
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
