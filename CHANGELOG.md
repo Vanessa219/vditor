@@ -2,6 +2,16 @@
 
 ### 升级
 
+* 3.7
+  * `preview` 静态方法添加 `mode` 配置
+  * 大纲 DOM 结构和 class 变更
+  * 添加 `options.undoDelay` 配置
+  * 添加 `options.counter.after` 回调方法
+  * 添加 `previewImage` 静态方法
+  * 添加 `options.fullscreen.index`
+  * 移除`options.preview.markdown.chinesePunct` 配置
+  * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }`
+  * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
 * 3.6
  * `options.preview.actions` 添加 `tooltip` 
  * `mermaidRender` 添加 `theme` 参数 
