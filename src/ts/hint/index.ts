@@ -76,7 +76,8 @@ export class Hint {
 
         const editorElement = vditor[vditor.currentMode].element;
         const textareaPosition = getCursorPosition(editorElement);
-        const x = textareaPosition.left + vditor.outline.element.offsetWidth;
+        const x = textareaPosition.left +
+            (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0);
         const y = textareaPosition.top;
         let hintsHTML = "";
 
@@ -164,7 +165,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
             insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
             range.insertNode(document.createTextNode(" "));
         } else {
-            range.insertNode(document.createTextNode(value));
+            insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
         }
         range.collapse(false);
         setSelectionFocus(range);

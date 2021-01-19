@@ -88,6 +88,8 @@
 
 ### v3.7.7 / 2021-01-xx
 
+* [902](https://github.com/Vanessa219/vditor/issues/902) hint 内容为 md 时，需进行渲染 `改进功能`
+
 ### v3.7.6 / 2021-01-17
 
 * [900](https://github.com/Vanessa219/vditor/issues/900) img标签图片无法显示 `修复缺陷`
