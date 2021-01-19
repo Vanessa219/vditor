@@ -86,12 +86,12 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.7 / 2021-01-xx
+### v3.8.0 / 2021-01-xx
 
+### v3.7.7 / 2021-01-19
+
+* [903](https://github.com/Vanessa219/vditor/issues/903) 使用 setValue 后第一次输入无法撤销 `修复缺陷`
 * [902](https://github.com/Vanessa219/vditor/issues/902) hint 内容为 md 时，需进行渲染 `改进功能`
-
-### v3.7.6 / 2021-01-17
-
 * [900](https://github.com/Vanessa219/vditor/issues/900) img标签图片无法显示 `修复缺陷`
 * [901](https://github.com/Vanessa219/vditor/issues/901) 预览区域代码点击复制无效 `修复缺陷`
 * [890](https://github.com/Vanessa219/vditor/issues/890) Can not delete the special tag(Wysiwyg mode) `修复缺陷`
