@@ -241,7 +241,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面，li & p 使用浏览器默认
     if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter" &&
         startContainer.parentElement.tagName !== "LI" && startContainer.parentElement.tagName !== "P") {
-        if (["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
+        if (["STRONG", "STRIKE", "S", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
             // 行内元素软换行需继续 https://github.com/Vanessa219/vditor/issues/170
             range.insertNode(document.createTextNode("\n" + Constants.ZWSP));
         } else {
@@ -283,7 +283,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (range.toString() === "" && startContainer.nodeType === 3 &&
                 startContainer.textContent.charAt(rangeStartOffset - 2) === "\n" &&
                 startContainer.textContent.charAt(rangeStartOffset - 1) !== Constants.ZWSP
-                && ["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
+                && ["STRONG", "STRIKE", "S", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
                 // 保持行内元素软换行需继续的一致性
                 startContainer.textContent = startContainer.textContent.substring(0, rangeStartOffset - 1) +
                     Constants.ZWSP;
