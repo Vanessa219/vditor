@@ -98,6 +98,9 @@
 
 ### v3.8.0 / 2021-01-xx
 
+* [909](https://github.com/Vanessa219/vditor/issues/909) toc 和大纲中数学公式显示问题修复 `修复缺陷`
+* [908](https://github.com/Vanessa219/vditor/issues/908) 粘贴不了 MS Office Excel 内容的问题 `修复缺陷`
+
 ### v3.7.7 / 2021-01-19
 
 * [903](https://github.com/Vanessa219/vditor/issues/903) 使用 setValue 后第一次输入无法撤销 `修复缺陷`

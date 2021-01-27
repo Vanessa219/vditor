@@ -514,6 +514,11 @@
     span {
       cursor: pointer;
     }
+
+    li > span > svg {
+      width: 0;
+      height: 0;
+    }
   }
 
   &-outline {
@@ -549,7 +554,7 @@
       cursor: pointer;
       color: var(--textarea-text-color);
 
-      svg {
+      & > svg {
         height: 10px;
         width: 10px;
       }
@@ -558,7 +563,7 @@
         color: var(--toolbar-icon-hover-color);
       }
 
-      span {
+      & > span {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
