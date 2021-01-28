@@ -98,6 +98,7 @@
 
 ### v3.8.0 / 2021-01-xx
 
+* [907](https://github.com/Vanessa219/vditor/issues/907) mathjax 在method.min.js 中preview 显示错误 `修复缺陷`
 * [909](https://github.com/Vanessa219/vditor/issues/909) toc 和大纲中数学公式显示问题修复 `修复缺陷`
 * [908](https://github.com/Vanessa219/vditor/issues/908) 粘贴不了 MS Office Excel 内容的问题 `修复缺陷`
 

@@ -58,7 +58,7 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                     });
                 } catch (e) {
                     mathElement.innerHTML = e.message;
-                    mathElement.className = "vditor-reset--error";
+                    mathElement.className = "language-math vditor-reset--error";
                 }
 
                 mathElement.addEventListener("copy", (event: ClipboardEvent) => {
@@ -88,6 +88,9 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
             window.MathJax = {
                 loader: {
                     paths: {mathjax: `${options.cdn}/dist/js/mathjax`},
+                },
+                startup: {
+                    typeset: false,
                 },
                 tex: {
                     macros: options.math.macros,
