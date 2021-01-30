@@ -215,7 +215,7 @@ export class Preview {
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
-        plantumlRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
+        plantumlRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
         // toc render

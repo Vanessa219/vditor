@@ -100,12 +100,12 @@ class WYSIWYG {
                                 `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
                             blockEndElement = item;
                         } else if (item.nodeType !== 3 && item.getAttribute("data-block") === "0") {
-                           if (index === 0) {
-                               removeStart = true;
-                           } else if (index === contents.childNodes.length - 1) {
-                               removeEnd = true;
-                           }
-                           item.innerHTML =
+                            if (index === 0) {
+                                removeStart = true;
+                            } else if (index === contents.childNodes.length - 1) {
+                                removeEnd = true;
+                            }
+                            item.innerHTML =
                                 `<span class="vditor-comment" data-cmtids="${id}">${item.innerHTML}</span>`;
                         } else {
                             const commentElement = document.createElement("span");
@@ -400,7 +400,9 @@ class WYSIWYG {
                 return;
             }
 
-            if (event.target.tagName === "IMG") {
+            if (event.target.tagName === "IMG" &&
+                // plantuml 图片渲染不进行提示
+                !event.target.parentElement.classList.contains("vditor-wysiwyg__preview")) {
                 if (event.target.getAttribute("data-type") === "link-ref") {
                     genLinkRefPopover(vditor, event.target);
                 } else {
