@@ -98,6 +98,7 @@
 
 ### v3.8.0 / 2021-01-xx
 
+* [910](https://github.com/Vanessa219/vditor/issues/910) 编辑列表内容时出现的问题 `改进功能`
 * [913](https://github.com/Vanessa219/vditor/pull/913) 支持plantuml `引入特性`
 * [907](https://github.com/Vanessa219/vditor/issues/907) mathjax 在method.min.js 中preview 显示错误 `修复缺陷`
 * [909](https://github.com/Vanessa219/vditor/issues/909) toc 和大纲中数学公式显示问题修复 `修复缺陷`
@@ -105,6 +106,7 @@
 * 文档修改
   * 3.8.0
     * 添加 plantumlRender 方法
+    * options.input 移除 previewElement 参数
   
 ### v3.7.7 / 2021-01-19
 
