@@ -96,7 +96,11 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.8.0 / 2021-01-xx
+### v3.8.1 / 2021-02-xx
+
+* [917](https://github.com/Vanessa219/vditor/issues/917) intsertValue无法一次添加多行markdown内容 `修复缺陷`
+
+### v3.8.0 / 2021-02-01
 
 * [910](https://github.com/Vanessa219/vditor/issues/910) 编辑列表内容时出现的问题 `改进功能`
 * [913](https://github.com/Vanessa219/vditor/pull/913) 支持plantuml `引入特性`

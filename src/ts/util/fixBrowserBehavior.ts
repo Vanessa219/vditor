@@ -461,6 +461,23 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
             return true;
         }
 
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+            !liElement.previousElementSibling && range.toString() === "" &&
+            getSelectPosition(liElement, vditor[vditor.currentMode].element, range).start === 0) {
+            // 光标位于点和第一个字符中间时，无法删除 li 元素
+            if (liElement.nextElementSibling) {
+                liElement.parentElement.insertAdjacentHTML("beforebegin",
+                    `<p data-block="0"><wbr>${liElement.innerHTML}</p>`);
+                liElement.remove();
+            } else {
+                liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
+            }
+            setRangeByWbr(vditor[vditor.currentMode].element, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
         // 空列表删除后与上一级段落对齐
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
             liElement.textContent.trim().replace(Constants.ZWSP, "") === "" &&
