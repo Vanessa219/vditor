@@ -115,9 +115,9 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // 获取 comment
+        // 重置 comment
         if (vditor.options.comment.enable && vditor.currentMode === "wysiwyg" &&
-            (event.key === "Backspace" || matchHotKey("⌘-X", event))) {
+            (event.key === "Backspace" || matchHotKey("⌘X", event))) {
             vditor.wysiwyg.getComments(vditor);
         }
 
@@ -135,21 +135,21 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
         }
 
-        if (vditor.options.ctrlEnter && matchHotKey("⌘-Enter", event)) {
+        if (vditor.options.ctrlEnter && matchHotKey("⌘Enter", event)) {
             vditor.options.ctrlEnter(getMarkdown(vditor));
             event.preventDefault();
             return;
         }
 
         // undo
-        if (matchHotKey("⌘-Z", event) && !vditor.toolbar.elements.undo) {
+        if (matchHotKey("⌘Z", event) && !vditor.toolbar.elements.undo) {
             vditor.undo.undo(vditor);
             event.preventDefault();
             return;
         }
 
         // redo
-        if (matchHotKey("⌘-Y", event) && !vditor.toolbar.elements.redo) {
+        if (matchHotKey("⌘Y", event) && !vditor.toolbar.elements.redo) {
             vditor.undo.redo(vditor);
             event.preventDefault();
             return;

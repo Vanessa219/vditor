@@ -618,7 +618,7 @@ export const fixMarkdown = (event: KeyboardEvent, vditor: IVditor, pElement: HTM
 export const insertRow = (vditor: IVditor, range: Range, cellElement: HTMLElement) => {
     let rowHTML = "";
     for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
-        rowHTML += `<td>${m === 0 ? " <wbr>" : " "}</td>`;
+        rowHTML += `<td align="${cellElement.parentElement.children[m].getAttribute("align")}"> </td>`;
     }
     if (cellElement.tagName === "TH") {
         cellElement.parentElement.parentElement.insertAdjacentHTML("afterend",
@@ -626,30 +626,50 @@ export const insertRow = (vditor: IVditor, range: Range, cellElement: HTMLElemen
     } else {
         cellElement.parentElement.insertAdjacentHTML("afterend", `<tr>${rowHTML}</tr>`);
     }
-
-    setRangeByWbr(vditor[vditor.currentMode].element, range);
     execAfterRender(vditor);
-    scrollCenter(vditor);
 };
 
-export const insertColumn = (vditor: IVditor, tableElement: HTMLTableElement, cellElement: HTMLElement) => {
-    let index = 0;
-    let previousElement = cellElement.previousElementSibling;
-    while (previousElement) {
-        index++;
-        previousElement = previousElement.previousElementSibling;
-    }
-    for (let i = 0; i < tableElement.rows.length; i++) {
-        if (i === 0) {
-            tableElement.rows[i].cells[index].insertAdjacentHTML("afterend", "<th> </th>");
+export const insertRowAbove = (vditor: IVditor, range: Range, cellElement: HTMLElement) => {
+    let rowHTML = "";
+    for (let m = 0; m < cellElement.parentElement.childElementCount; m++) {
+        if (cellElement.tagName === "TH") {
+            rowHTML += `<th align="${cellElement.parentElement.children[m].getAttribute("align")}"> </th>`;
         } else {
-            tableElement.rows[i].cells[index].insertAdjacentHTML("afterend", "<td> </td>");
+            rowHTML += `<td align="${cellElement.parentElement.children[m].getAttribute("align")}"> </td>`;
         }
     }
+    if (cellElement.tagName === "TH") {
+        cellElement.parentElement.parentElement.insertAdjacentHTML("beforebegin", `<thead><tr>${rowHTML}</tr></thead>`);
 
+        range.insertNode(document.createElement("wbr"));
+        const theadHTML = cellElement.parentElement.innerHTML.replace(/<th>/g, "<td>").replace(/<\/th>/g, "</td>");
+        cellElement.parentElement.parentElement.nextElementSibling.insertAdjacentHTML("afterbegin", theadHTML);
+
+        cellElement.parentElement.parentElement.remove();
+        setRangeByWbr(vditor.ir.element, range);
+    } else {
+        cellElement.parentElement.insertAdjacentHTML("beforebegin", `<tr>${rowHTML}</tr>`);
+    }
     execAfterRender(vditor);
 };
 
+export const insertColumn =
+    (vditor: IVditor, tableElement: HTMLTableElement, cellElement: HTMLElement, type: InsertPosition = "afterend") => {
+        let index = 0;
+        let previousElement = cellElement.previousElementSibling;
+        while (previousElement) {
+            index++;
+            previousElement = previousElement.previousElementSibling;
+        }
+        for (let i = 0; i < tableElement.rows.length; i++) {
+            if (i === 0) {
+                tableElement.rows[i].cells[index].insertAdjacentHTML(type, "<th> </th>");
+            } else {
+                tableElement.rows[i].cells[index].insertAdjacentHTML(type, "<td> </td>");
+            }
+        }
+        execAfterRender(vditor);
+    };
 export const deleteRow = (vditor: IVditor, range: Range, cellElement: HTMLElement) => {
     if (cellElement.tagName === "TD") {
         const tbodyElement = cellElement.parentElement.parentElement;
@@ -836,37 +856,50 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             event.preventDefault();
             return true;
         }
+        // 上方新添加一行
+        if (matchHotKey("⌥=", event)) {
+            insertRowAbove(vditor, range, cellElement);
+            event.preventDefault();
+            return true;
+        }
 
         // 下方新添加一行 https://github.com/Vanessa219/vditor/issues/46
-        if (matchHotKey("⌘-=", event)) {
+        if (matchHotKey("⌘=", event)) {
             insertRow(vditor, range, cellElement);
             event.preventDefault();
             return true;
         }
 
+        // 左方新添加一列
+        if (matchHotKey("⌥⌘=", event)) {
+            insertColumn(vditor, tableElement, cellElement, "beforebegin");
+            event.preventDefault();
+            return true;
+        }
+
         // 后方新添加一列
-        if (matchHotKey("⌘-⇧-=", event)) {
+        if (matchHotKey("⇧⌘=", event)) {
             insertColumn(vditor, tableElement, cellElement);
             event.preventDefault();
             return true;
         }
 
         // 删除当前行
-        if (matchHotKey("⌘--", event)) {
+        if (matchHotKey("⌘-", event)) {
             deleteRow(vditor, range, cellElement);
             event.preventDefault();
             return true;
         }
 
         // 删除当前列
-        if (matchHotKey("⌘-⇧--", event)) {
+        if (matchHotKey("⇧⌘-", event)) {
             deleteColumn(vditor, range, tableElement, cellElement);
             event.preventDefault();
             return true;
         }
 
         // 剧左
-        if (matchHotKey("⌘-⇧-L", event)) {
+        if (matchHotKey("⇧⌘L", event)) {
             if (vditor.currentMode === "ir") {
                 setTableAlign(tableElement, "left");
                 execAfterRender(vditor);
@@ -883,7 +916,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
         }
 
         // 剧中
-        if (matchHotKey("⌘-⇧-C", event)) {
+        if (matchHotKey("⇧⌘C", event)) {
             if (vditor.currentMode === "ir") {
                 setTableAlign(tableElement, "center");
                 execAfterRender(vditor);
@@ -899,7 +932,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             }
         }
         // 剧右
-        if (matchHotKey("⌘-⇧-R", event)) {
+        if (matchHotKey("⇧⌘R", event)) {
             if (vditor.currentMode === "ir") {
                 setTableAlign(tableElement, "right");
                 execAfterRender(vditor);
@@ -920,7 +953,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
 
 export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderElement: HTMLElement, range: Range) => {
     // 行级代码块中 command + a，近对当前代码块进行全选
-    if (codeRenderElement.tagName === "PRE" && matchHotKey("⌘-A", event)) {
+    if (codeRenderElement.tagName === "PRE" && matchHotKey("⌘A", event)) {
         range.selectNodeContents(codeRenderElement.firstElementChild);
         event.preventDefault();
         return true;
@@ -1013,7 +1046,7 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
             }
         }
         const blockElement = hasClosestBlock(startContainer);
-        if (vditor.currentMode === "wysiwyg" && blockElement && matchHotKey("⌘-⇧-:", event)) {
+        if (vditor.currentMode === "wysiwyg" && blockElement && matchHotKey("⇧⌘:", event)) {
             // 插入 blockquote
             range.insertNode(document.createElement("wbr"));
             blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;
@@ -1037,7 +1070,7 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
     const startContainer = range.startContainer;
     const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
     if (taskItemElement) {
-        if (matchHotKey("⌘-⇧-J", event)) {
+        if (matchHotKey("⇧⌘J", event)) {
             // ctrl + shift: toggle checked
             const inputElement = taskItemElement.firstElementChild as HTMLInputElement;
             if (inputElement.checked) {

@@ -102,7 +102,10 @@
 * [920](https://github.com/Vanessa219/vditor/issues/920) ” 无法输入 `修复缺陷`
 * [919](https://github.com/Vanessa219/vditor/issues/919) 支持外部文本内容拖拽进入编辑器 `改进功能`
 * [917](https://github.com/Vanessa219/vditor/issues/917) intsertValue无法一次添加多行markdown内容 `修复缺陷`
-
+* 文档修改
+  * 3.8.1
+    * 添加表格增加向上插入行和向左插入列的快捷键
+  
 ### v3.8.0 / 2021-02-01
 
 * [910](https://github.com/Vanessa219/vditor/issues/910) 编辑列表内容时出现的问题 `改进功能`

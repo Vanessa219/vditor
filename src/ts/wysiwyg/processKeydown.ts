@@ -162,7 +162,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // enter++: 标题变大
-        if (matchHotKey("⌘-=", event)) {
+        if (matchHotKey("⌘=", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) - 1;
             if (index > 0) {
                 setHeading(vditor, `h${index}`);
@@ -173,7 +173,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // enter++: 标题变小
-        if (matchHotKey("⌘--", event)) {
+        if (matchHotKey("⌘-", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) + 1;
             if (index < 7) {
                 setHeading(vditor, `h${index}`);
@@ -215,7 +215,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 对有子工具栏的块上移
-    if (matchHotKey("⌘-⇧-U", event)) {
+    if (matchHotKey("⇧⌘U", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="up"]');
         if (itemElement) {
             itemElement.click();
@@ -225,7 +225,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 对有子工具栏的块下移
-    if (matchHotKey("⌘-⇧-D", event)) {
+    if (matchHotKey("⇧⌘D", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="down"]');
         if (itemElement) {
             itemElement.click();
@@ -349,7 +349,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
 export const removeBlockElement = (vditor: IVditor, event: KeyboardEvent) => {
     // 删除有子工具栏的块
-    if (matchHotKey("⌘-⇧-X", event)) {
+    if (matchHotKey("⇧⌘X", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
         if (itemElement) {
             itemElement.click();
