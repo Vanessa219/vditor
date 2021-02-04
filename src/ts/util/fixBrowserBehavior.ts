@@ -857,7 +857,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
             return true;
         }
         // 上方新添加一行
-        if (matchHotKey("⌥=", event)) {
+        if (matchHotKey("⇧⌘F", event)) {
             insertRowAbove(vditor, range, cellElement);
             event.preventDefault();
             return true;
@@ -871,7 +871,7 @@ export const fixTable = (vditor: IVditor, event: KeyboardEvent, range: Range) =>
         }
 
         // 左方新添加一列
-        if (matchHotKey("⌥⌘=", event)) {
+        if (matchHotKey("⇧⌘G", event)) {
             insertColumn(vditor, tableElement, cellElement, "beforebegin");
             event.preventDefault();
             return true;
@@ -1046,7 +1046,7 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
             }
         }
         const blockElement = hasClosestBlock(startContainer);
-        if (vditor.currentMode === "wysiwyg" && blockElement && matchHotKey("⇧⌘:", event)) {
+        if (vditor.currentMode === "wysiwyg" && blockElement && matchHotKey("⇧⌘;", event)) {
             // 插入 blockquote
             range.insertNode(document.createElement("wbr"));
             blockElement.outerHTML = `<blockquote data-block="0">${blockElement.outerHTML}</blockquote>`;

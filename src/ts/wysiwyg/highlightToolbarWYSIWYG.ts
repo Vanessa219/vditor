@@ -302,7 +302,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             const insertRowBElement = document.createElement("button");
             insertRowBElement.setAttribute("type", "button");
             insertRowBElement.setAttribute("aria-label", i18n[vditor.options.lang].insertRowAbove +
-                "<" + updateHotkeyTip("⌥=") + ">");
+                "<" + updateHotkeyTip("⇧⌘F") + ">");
             insertRowBElement.setAttribute("data-type", "insertRow");
             insertRowBElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-rowb"></use></svg>';
             insertRowBElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
@@ -334,7 +334,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             const insertColumnBElement = document.createElement("button");
             insertColumnBElement.setAttribute("type", "button");
             insertColumnBElement.setAttribute("aria-label", i18n[vditor.options.lang].insertColumnLeft +
-                "<" + updateHotkeyTip("⌥⌘=") + ">");
+                "<" + updateHotkeyTip("⇧⌘G") + ">");
             insertColumnBElement.setAttribute("data-type", "insertColumn");
             insertColumnBElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-columnb"></use></svg>';
             insertColumnBElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
