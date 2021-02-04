@@ -96,19 +96,16 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.8.1 / 2021-02-xx
+### v3.8.2 / 2021-02-xx
 
+### v3.8.1 / 2021-02-04
+
+* [921](https://github.com/Vanessa219/vditor/issues/921) MS Word 表格粘贴问题 `修复缺陷`
+* [922](https://github.com/Vanessa219/vditor/issues/922) MS Excel 粘贴带图表格问题 `修复缺陷`
 * [904](https://github.com/Vanessa219/vditor/issues/904) wysiwyg 和 ir 模式表格增加向上插入行和向左插入列 `改进功能`
 * [920](https://github.com/Vanessa219/vditor/issues/920) ” 无法输入 `修复缺陷`
 * [919](https://github.com/Vanessa219/vditor/issues/919) 支持外部文本内容拖拽进入编辑器 `改进功能`
 * [917](https://github.com/Vanessa219/vditor/issues/917) intsertValue无法一次添加多行markdown内容 `修复缺陷`
-* 文档修改
-  * 3.8.1
-    * 添加表格增加向上插入行 ⇧⌘F 和向左插入列 ⇧⌘G 的快捷键
-    * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥[] / ⌥⌘[] / ⇧Tab / []
-  
-### v3.8.0 / 2021-02-01
-
 * [910](https://github.com/Vanessa219/vditor/issues/910) 编辑列表内容时出现的问题 `改进功能`
 * [913](https://github.com/Vanessa219/vditor/pull/913) 支持plantuml `引入特性`
 * [907](https://github.com/Vanessa219/vditor/issues/907) mathjax 在method.min.js 中preview 显示错误 `修复缺陷`
@@ -118,6 +115,9 @@
   * 3.8.0
     * 添加 plantumlRender 方法
     * options.input 移除 previewElement 参数
+  * 3.8.1
+    * 添加表格增加向上插入行 ⇧⌘F 和向左插入列 ⇧⌘G 的快捷键
+    * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥⌘[]
   
 ### v3.7.7 / 2021-01-19
 

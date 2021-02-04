@@ -5,7 +5,7 @@ declare const plantumlEncoder: {
     encode(options: string): string,
 };
 
-export const plantumlRender = (element: HTMLElement, cdn = Constants.CDN) => {
+export const plantumlRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
     const plantumlElements = element.querySelectorAll(".language-plantuml");
     if (plantumlElements.length === 0) {
         return;

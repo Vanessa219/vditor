@@ -203,7 +203,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 new Vditor('vditor', {
   toolbar: [
     {
-      hotkey: '⌘-⇧-S',
+      hotkey: '⇧⌘S',
       name: 'sponsor',
       tipPosition: 's',
       tip: '成为赞助者',
@@ -220,7 +220,7 @@ new Vditor('vditor', {
 | icon | svg icon | - |
 | tip | Prompt | - |
 | tipPosition | Prompt location: 'n', 'ne', 'nw', 's', 'se', 'sw', 'w', 'e' | - |
-| hotkey | Shortcut keys, support <kbd>⌘/ctrl-key</kbd> or <kbd>⌘/ctrl-⇧/shift-key</kbd> format configuration | - |
+| hotkey | Shortcut keys, support 为<kbd>⇧⌘</kbd>/<kbd>⌘</kbd>/<kbd>⌥⌘</kbd> format configuration | - |
 | suffix | Insert the suffix in the editor | - |
 | prefix | Insert the prefix in the editor | - |
 | click(event: Event, vditor: IVditor) | Custom event triggered when button is clicked | - |
@@ -515,6 +515,7 @@ options?: IPreviewOptions {
 | flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart.js rendering |
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | Add a copy button for the code block in element |
 | chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn, theme = options.theme) | Chart rendering |
+| plantumlRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | plantuml rendering |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Stave rendering |
 | outlineRender(contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) | Outline rendering |
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |

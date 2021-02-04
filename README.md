@@ -226,7 +226,7 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 new Vditor('vditor', {
   toolbar: [
     {
-      hotkey: '⌘-⇧-S',
+      hotkey: '⇧⌘S',
       name: 'sponsor',
       tipPosition: 's',
       tip: '成为赞助者',
@@ -243,7 +243,7 @@ new Vditor('vditor', {
 | icon | svg 图标 | - |
 | tip | 提示 | - |
 | tipPosition | 提示位置：'n', 'ne', 'nw', 's', 'se', 'sw', 'w', 'e' | - |
-| hotkey | 快捷键，格式为<kbd>⌘/ctrl-key</kbd> 或 <kbd>⌘/ctrl-⇧/shift-key</kbd> | - |
+| hotkey | 快捷键，格式为<kbd>⇧⌘</kbd>/<kbd>⌘</kbd>/<kbd>⌥⌘</kbd>| - |
 | suffix | 插入编辑器中的后缀 | - |
 | prefix | 插入编辑器中的前缀 | - |
 | click(event: Event, vditor: IVditor) | 自定义按钮点击时触发的事件 | - |
@@ -563,6 +563,7 @@ options?: IPreviewOptions {
 | codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | 为 element 中的代码块添加复制按钮 |
 | chartRender(element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme) | 图表渲染 |
 | mindmapRender(element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme) | 脑图渲染 |
+| plantumlRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | plantuml 渲染 |
 | abcRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 五线谱渲染 |
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
