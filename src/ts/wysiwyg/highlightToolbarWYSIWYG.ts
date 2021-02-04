@@ -12,7 +12,7 @@ import {
     insertColumn,
     insertRow,
     insertRowAbove,
-    setTableAlign
+    setTableAlign,
 } from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
@@ -517,7 +517,8 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 const codeElement = blockRenderElement.firstElementChild.firstElementChild;
 
                 language.className = "vditor-input";
-                language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥Enter") + ">");
+                language.setAttribute("placeholder",
+                    i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥Enter") + ">");
                 language.value = codeElement.className.indexOf("language-") > -1 ?
                     codeElement.className.split("-")[1].split(" ")[0] : "";
                 language.oninput = () => {

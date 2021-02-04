@@ -1,3 +1,4 @@
+import {Constants} from "../constants";
 import {processHeading} from "../ir/process";
 import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {getMarkdown} from "../markdown/getMarkdown";
@@ -10,12 +11,11 @@ import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {getEventName, isCtrl} from "./compatibility";
+import {execAfterRender, paste} from "./fixBrowserBehavior";
 import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition} from "./selection";
-import {execAfterRender, paste} from "./fixBrowserBehavior";
-import {Constants} from "../constants";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
