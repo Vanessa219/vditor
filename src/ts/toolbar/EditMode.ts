@@ -157,9 +157,9 @@ export class EditMode extends MenuItem {
 
         const panelElement = document.createElement("div");
         panelElement.className = `vditor-hint${menuItem.level === 2 ? "" : " vditor-panel--arrow"}`;
-        panelElement.innerHTML = `<button data-mode="wysiwyg">${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌘-⌥-7")}></button>
-<button data-mode="ir">${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌘-⌥-8")}></button>
-<button data-mode="sv">${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌘-⌥-9")}></button>`;
+        panelElement.innerHTML = `<button data-mode="wysiwyg">${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌥⌘7")}></button>
+<button data-mode="ir">${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌥⌘8")}></button>
+<button data-mode="sv">${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌥⌘9")}></button>`;
 
         this.element.appendChild(panelElement);
 

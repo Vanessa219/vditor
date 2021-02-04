@@ -160,7 +160,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const headingElement = hasClosestByHeadings(startContainer);
     if (headingElement) {
         // enter++: 标题变大
-        if (matchHotKey("⌘-=", event)) {
+        if (matchHotKey("⌘=", event)) {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
             if (headingMarkerElement && headingMarkerElement.textContent.trim().length > 1) {
                 processHeading(vditor, headingMarkerElement.textContent.substr(1));
@@ -170,7 +170,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // enter++: 标题变小
-        if (matchHotKey("⌘--", event)) {
+        if (matchHotKey("⌘-", event)) {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
             if (headingMarkerElement && headingMarkerElement.textContent.trim().length < 6) {
                 processHeading(vditor, headingMarkerElement.textContent.trim() + "# ");

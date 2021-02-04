@@ -98,6 +98,7 @@
 
 ### v3.8.1 / 2021-02-xx
 
+* [904](https://github.com/Vanessa219/vditor/issues/904) wysiwyg 和 ir 模式表格增加向上插入行和向左插入列 `改进功能`
 * [920](https://github.com/Vanessa219/vditor/issues/920) ” 无法输入 `修复缺陷`
 * [919](https://github.com/Vanessa219/vditor/issues/919) 支持外部文本内容拖拽进入编辑器 `改进功能`
 * [917](https://github.com/Vanessa219/vditor/issues/917) intsertValue无法一次添加多行markdown内容 `修复缺陷`
