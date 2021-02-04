@@ -93,7 +93,7 @@ class IR {
                 this.preventInput = false;
                 return;
             }
-            if (this.composingLock) {
+            if (this.composingLock ||  event.data === "‘" || event.data === "“" || event.data === "《") {
                 return;
             }
             input(vditor, getSelection().getRangeAt(0).cloneRange(), false, event);

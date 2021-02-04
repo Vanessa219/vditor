@@ -331,7 +331,7 @@ class WYSIWYG {
                 this.preventInput = false;
                 return;
             }
-            if (this.composingLock) {
+            if (this.composingLock ||  event.data === "‘" || event.data === "“" || event.data === "《") {
                 return;
             }
             const range = getSelection().getRangeAt(0);

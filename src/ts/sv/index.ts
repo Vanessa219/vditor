@@ -85,7 +85,7 @@ class Editor {
                 // https://github.com/Vanessa219/vditor/issues/801 编辑器内容拖拽问题
                 return;
             }
-            if (this.composingLock) {
+            if (this.composingLock ||  event.data === "‘" || event.data === "“" || event.data === "《") {
                 return;
             }
             if (this.preventInput) {
