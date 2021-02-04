@@ -1210,13 +1210,25 @@ export const fixFirefoxArrowUpTable = (event: KeyboardEvent, blockElement: false
     return false;
 };
 
-export const paste = async (vditor: IVditor, event: ClipboardEvent & { target: HTMLElement }, callback: {
+export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent) & { target: HTMLElement }, callback: {
     pasteCode(code: string): void,
 }) => {
     event.stopPropagation();
     event.preventDefault();
-    let textHTML = event.clipboardData.getData("text/html");
-    let textPlain = event.clipboardData.getData("text/plain");
+    let textHTML;
+    let textPlain;
+    let files;
+    if ("clipboardData" in event) {
+        textHTML = event.clipboardData.getData("text/html");
+        textPlain = event.clipboardData.getData("text/plain");
+        files = event.clipboardData.files;
+    } else {
+        textHTML = event.dataTransfer.getData("text/html");
+        textPlain = event.dataTransfer.getData("text/plain");
+        if (event.dataTransfer.types[0] === "Files") {
+            files = event.dataTransfer.items;
+        }
+    }
     const renderers: {
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
@@ -1359,9 +1371,9 @@ export const paste = async (vditor: IVditor, event: ClipboardEvent & { target: H
                 processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
             vditor.outline.render(vditor);
-        } else if (event.clipboardData.files.length > 0 && vditor.options.upload.url) {
-            await uploadFiles(vditor, event.clipboardData.files);
-        } else if (textPlain.trim() !== "" && event.clipboardData.files.length === 0) {
+        } else if (files.length > 0 && vditor.options.upload.url) {
+            await uploadFiles(vditor, files);
+        } else if (textPlain.trim() !== "" && files.length === 0) {
             if (vditor.currentMode === "ir") {
                 renderers.Md2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});

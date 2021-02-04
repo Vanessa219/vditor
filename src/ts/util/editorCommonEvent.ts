@@ -6,7 +6,6 @@ import {processHeading as processHeadingSV} from "../sv/process";
 import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
-import {uploadFiles} from "../upload";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
@@ -15,6 +14,8 @@ import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition} from "./selection";
+import {execAfterRender, paste} from "./fixBrowserBehavior";
+import {Constants} from "../constants";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -51,19 +52,24 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    if (vditor.options.upload.url || vditor.options.upload.handler) {
-        editorElement.addEventListener("drop",
-            (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                if (event.dataTransfer.types[0] !== "Files") {
-                    return;
-                }
-                const files = event.dataTransfer.items;
-                if (files.length > 0) {
-                    uploadFiles(vditor, files);
-                }
-                event.preventDefault();
-            });
-    }
+    editorElement.addEventListener("dragstart", (event) => {
+        // 选中编辑器中的文字进行拖拽
+        event.dataTransfer.setData(Constants.DROP_EDITOR, Constants.DROP_EDITOR);
+    });
+    editorElement.addEventListener("drop",
+        (event: ClipboardEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
+            if (event.dataTransfer.getData(Constants.DROP_EDITOR)) {
+                // 编辑器内选中文字拖拽
+                execAfterRender(vditor);
+            } else if (event.dataTransfer.types[0] === "Files" || event.dataTransfer.types.includes("text/html")) {
+                // 外部文件拖入编辑器中或者编辑器内选中文字拖拽
+                paste(vditor, event, {
+                    pasteCode: (code: string) => {
+                        document.execCommand("insertHTML", false, code);
+                    },
+                });
+            }
+        });
 };
 
 export const copyEvent =
