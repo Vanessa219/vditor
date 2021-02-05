@@ -87,6 +87,9 @@ export class Preview {
             }
         }
         actionElement.innerHTML = actionHtml.join("");
+        if (actions.length === 0) {
+            actionElement.style.display = "none";
+        }
         this.element.appendChild(actionElement);
         this.element.appendChild(previewElement);
 

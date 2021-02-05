@@ -98,6 +98,8 @@
 
 ### v3.8.2 / 2021-02-xx
 
+* [923](https://github.com/Vanessa219/vditor/issues/923) 隐藏预览操作栏 `改进功能`
+
 ### v3.8.1 / 2021-02-04
 
 * [921](https://github.com/Vanessa219/vditor/issues/921) MS Word 表格粘贴问题 `修复缺陷`
