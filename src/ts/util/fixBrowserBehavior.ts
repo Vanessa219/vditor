@@ -993,10 +993,12 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
         range.insertNode(document.createTextNode("\n"));
         range.collapse(false);
         setSelectionFocus(range);
-        if (vditor.currentMode === "wysiwyg") {
-            input(vditor, range);
-        } else {
-            IRInput(vditor, range);
+        if (!isFirefox()) {
+            if (vditor.currentMode === "wysiwyg") {
+                input(vditor, range);
+            } else {
+                IRInput(vditor, range);
+            }
         }
         scrollCenter(vditor);
         event.preventDefault();
