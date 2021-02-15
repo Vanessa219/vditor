@@ -39,7 +39,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.undo.recordFirstPosition(vditor, event);
     }
 
-    const range = getEditorRange(vditor.wysiwyg.element);
+    const range = getEditorRange(vditor);
     const startContainer = range.startContainer;
 
     if (!fixGSKeyBackspace(event, vditor, startContainer)) {

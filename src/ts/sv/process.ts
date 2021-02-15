@@ -8,7 +8,7 @@ import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {inputEvent} from "./inputEvent";
 
 export const processPaste = (vditor: IVditor, text: string) => {
-    const range = getEditorRange(vditor.sv.element);
+    const range = getEditorRange(vditor);
     range.extractContents();
     range.insertNode(document.createTextNode(Lute.Caret));
     range.insertNode(document.createTextNode(text));
@@ -136,7 +136,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {
-    const range = getEditorRange(vditor.sv.element);
+    const range = getEditorRange(vditor);
     const headingElement = hasClosestByTag(range.startContainer, "SPAN");
     if (headingElement && headingElement.textContent.trim() !== "") {
         value = "\n" + value;
@@ -146,7 +146,7 @@ export const processHeading = (vditor: IVditor, value: string) => {
 };
 
 export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: string, suffix: string) => {
-    const range = getEditorRange(vditor.sv.element);
+    const range = getEditorRange(vditor);
     const commandName = actionBtn.getAttribute("data-type");
     // 添加
     if (vditor.sv.element.childNodes.length === 0) {

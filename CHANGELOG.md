@@ -98,6 +98,7 @@
 
 ### v3.8.2 / 2021-02-xx
 
+* [720](https://github.com/Vanessa219/vditor/issues/720) 在光标位置插入内容的问题 `改进功能`
 * [751](https://github.com/Vanessa219/vditor/issues/751) firefox 代码块中 enter 键换行问题 `修复缺陷`
 * [923](https://github.com/Vanessa219/vditor/issues/923) 隐藏预览操作栏 `改进功能`
 

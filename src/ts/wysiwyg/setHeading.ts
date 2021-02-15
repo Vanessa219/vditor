@@ -3,7 +3,7 @@ import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {renderToc} from "../util/toc";
 
 export const setHeading = (vditor: IVditor, tagName: string) => {
-    const range = getEditorRange(vditor.wysiwyg.element);
+    const range = getEditorRange(vditor);
     let blockElement = hasClosestBlock(range.startContainer);
     if (!blockElement) {
         blockElement = range.startContainer.childNodes[range.startOffset] as HTMLElement;

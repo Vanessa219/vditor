@@ -13,6 +13,7 @@ import {getSelectText} from "../util/getSelectText";
 import {inputEvent} from "./inputEvent";
 
 class Editor {
+    public range: Range;
     public element: HTMLPreElement;
     public composingLock: boolean = false;
     public processTimeoutId: number;

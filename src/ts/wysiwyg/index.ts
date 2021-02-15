@@ -31,6 +31,7 @@ import {input} from "./input";
 import {showCode} from "./showCode";
 
 class WYSIWYG {
+    public range: Range;
     public element: HTMLPreElement;
     public popover: HTMLDivElement;
     public selectPopover: HTMLDivElement;
@@ -289,7 +290,7 @@ class WYSIWYG {
         this.element.addEventListener("paste", (event: ClipboardEvent & { target: HTMLElement }) => {
             paste(vditor, event, {
                 pasteCode: (code: string) => {
-                    const range = getEditorRange(this.element);
+                    const range = getEditorRange(vditor);
                     const node = document.createElement("template");
                     node.innerHTML = code;
                     range.insertNode(node.content.cloneNode(true));
@@ -411,7 +412,7 @@ class WYSIWYG {
                 return;
             }
 
-            const range = getEditorRange(this.element);
+            const range = getEditorRange(vditor);
             if (event.target.isEqualNode(this.element) && this.element.lastElementChild && range.collapsed) {
                 const lastRect = this.element.lastElementChild.getBoundingClientRect();
                 if (event.y > lastRect.top + lastRect.height) {
@@ -432,7 +433,7 @@ class WYSIWYG {
             // 点击后光标落于预览区，需展开代码块
             let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview");
             if (!previewElement) {
-                previewElement = hasClosestByClassName(getEditorRange(this.element).startContainer, "vditor-wysiwyg__preview");
+                previewElement = hasClosestByClassName(getEditorRange(vditor).startContainer, "vditor-wysiwyg__preview");
             }
             if (previewElement) {
                 showCode(previewElement, vditor);
@@ -458,7 +459,7 @@ class WYSIWYG {
                 // 为空时显示 placeholder
                 vditor.wysiwyg.element.innerHTML = "";
             }
-            const range = getEditorRange(this.element);
+            const range = getEditorRange(vditor);
             if (event.key === "Backspace") {
                 // firefox headings https://github.com/Vanessa219/vditor/issues/211
                 if (isFirefox() && range.startContainer.textContent === "\n" && range.startOffset === 1) {

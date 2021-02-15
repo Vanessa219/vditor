@@ -14,7 +14,7 @@ export class Outdent extends MenuItem {
                 vditor.currentMode === "sv") {
                 return;
             }
-            const range = getEditorRange(vditor[vditor.currentMode].element);
+            const range = getEditorRange(vditor);
             const liElement = hasClosestByMatchTag(range.startContainer, "LI");
             if (liElement) {
                 listOutdent(vditor, liElement, range, liElement.parentElement);

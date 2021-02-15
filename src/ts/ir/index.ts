@@ -22,6 +22,7 @@ import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
 
 class IR {
+    public range: Range;
     public element: HTMLPreElement;
     public processTimeoutId: number;
     public hlToolbarTimeoutId: number;
@@ -111,7 +112,7 @@ class IR {
                 return;
             }
 
-            const range = getEditorRange(this.element);
+            const range = getEditorRange(vditor);
 
             // 点击后光标落于预览区
             let previewElement = hasClosestByClassName(event.target, "vditor-ir__preview");
@@ -161,7 +162,7 @@ class IR {
             } else {
                 // https://github.com/Vanessa219/vditor/pull/681 当点击选中区域时 eventTarget 与 range 不一致，需延迟等待 range 发生变化
                 setTimeout(() => {
-                    expandMarker(getEditorRange(this.element), vditor);
+                    expandMarker(getEditorRange(vditor), vditor);
                 });
             }
             clickToc(event, vditor);
@@ -185,7 +186,7 @@ class IR {
                 vditor.ir.element.innerHTML = "";
                 return;
             }
-            const range = getEditorRange(this.element);
+            const range = getEditorRange(vditor);
             if (event.key === "Backspace") {
                 // firefox headings https://github.com/Vanessa219/vditor/issues/211
                 if (isFirefox() && range.startContainer.textContent === "\n" && range.startOffset === 1) {

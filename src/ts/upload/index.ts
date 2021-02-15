@@ -183,7 +183,7 @@ const uploadFiles =
         }
         const editorElement = getElement(vditor);
 
-        vditor.upload.range = getEditorRange(editorElement);
+        vditor.upload.range = getEditorRange(vditor);
 
         const validateResult = validateFile(vditor, fileList);
         if (validateResult.length === 0) {

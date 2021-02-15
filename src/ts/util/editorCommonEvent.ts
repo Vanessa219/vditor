@@ -15,7 +15,7 @@ import {execAfterRender, paste} from "./fixBrowserBehavior";
 import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
-import {getCursorPosition} from "./selection";
+import {getCursorPosition, getEditorRange} from "./selection";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -45,6 +45,7 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             !vditor.wysiwyg.selectPopover.contains(event.relatedTarget as HTMLElement)) {
             vditor.wysiwyg.hideComment();
         }
+        vditor[vditor.currentMode].range = getEditorRange(vditor);
         if (vditor.options.blur) {
             vditor.options.blur(getMarkdown(vditor));
         }

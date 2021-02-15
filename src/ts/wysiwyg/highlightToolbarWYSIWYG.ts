@@ -699,7 +699,7 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) 
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input1);
+        linkHotkey(vditor, linkRefElement, event, input1);
     };
 
     const input1Wrap = document.createElement("span");
@@ -717,7 +717,7 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) 
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
+        linkHotkey(vditor, linkRefElement, event, input);
     };
 
     genClose(linkRefElement, vditor);
@@ -781,7 +781,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
     close.innerHTML = '<svg><use xlink:href="#vditor-icon-trashcan"></use></svg>';
     close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     close.onclick = () => {
-        const range = getEditorRange(vditor.wysiwyg.element);
+        const range = getEditorRange(vditor);
         range.setStartAfter(element);
         setSelectionFocus(range);
         element.remove();
@@ -791,7 +791,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 };
 
-const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEvent,
+const linkHotkey = (vditor: IVditor, element: HTMLElement, event: KeyboardEvent,
                     nextInputElement: HTMLInputElement) => {
     if (event.isComposing) {
         return;
@@ -803,7 +803,7 @@ const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEv
         return;
     }
     if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
-        const range = getEditorRange(editor);
+        const range = getEditorRange(vditor);
         // firefox 不会打断 link https://github.com/Vanessa219/vditor/issues/193
         element.insertAdjacentHTML("afterend", Constants.ZWSP);
         range.setStartAfter(element.nextSibling);
@@ -843,7 +843,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, aElement, event, input1);
+        linkHotkey(vditor, aElement, event, input1);
     };
 
     const input1Wrap = document.createElement("span");
@@ -861,7 +861,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, aElement, event, input2);
+        linkHotkey(vditor, aElement, event, input2);
     };
 
     const input2Wrap = document.createElement("span");
@@ -880,7 +880,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, aElement, event, input);
+        linkHotkey(vditor, aElement, event, input);
     };
 
     genClose(aElement, vditor);

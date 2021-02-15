@@ -277,7 +277,7 @@ class Vditor extends VditorMethod {
 
     /** 在焦点处插入内容，并默认进行 Markdown 渲染 */
     public insertValue(value: string, render = true) {
-        const range = getEditorRange(this.vditor[this.vditor.currentMode].element);
+        const range = getEditorRange(this.vditor);
         range.collapse(true);
         const tmpElement = document.createElement("template");
         tmpElement.innerHTML = value;
@@ -426,7 +426,7 @@ class Vditor extends VditorMethod {
             });
             if (ids.length === 0) {
                 item.outerHTML = item.innerHTML;
-                getEditorRange(this.vditor.element).collapse(true);
+                getEditorRange(this.vditor).collapse(true);
             } else {
                 item.setAttribute("data-cmtids", ids.join(" "));
             }

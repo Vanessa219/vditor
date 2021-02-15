@@ -2,13 +2,17 @@ import {Constants} from "../constants";
 import {isChrome} from "./compatibility";
 import {hasClosestBlock, hasClosestByClassName} from "./hasClosest";
 
-export const getEditorRange = (element: HTMLElement) => {
+export const getEditorRange = (vditor: IVditor) => {
     let range: Range;
+    const element = vditor[vditor.currentMode].element;
     if (getSelection().rangeCount > 0) {
         range = getSelection().getRangeAt(0);
         if (element.isEqualNode(range.startContainer) || element.contains(range.startContainer)) {
             return range;
         }
+    }
+    if (vditor[vditor.currentMode].range) {
+        return vditor[vditor.currentMode].range;
     }
     element.focus();
     range = element.ownerDocument.createRange();
@@ -244,7 +248,7 @@ export const insertHTML = (html: string, vditor: IVditor) => {
     const pasteElement = document.createElement("div");
     pasteElement.innerHTML = html;
 
-    const range = getEditorRange(vditor[vditor.currentMode].element);
+    const range = getEditorRange(vditor);
     if (range.toString() !== "") {
         vditor[vditor.currentMode].preventInput = true;
         document.execCommand("delete", false, "");

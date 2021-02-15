@@ -73,7 +73,7 @@ export const fixCursorDownInlineMath = (range: Range, key: string) => {
 };
 
 export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
-    const range = getEditorRange(vditor[vditor.currentMode].element);
+    const range = getEditorRange(vditor);
     const blockElement = hasClosestBlock(range.startContainer);
     if (blockElement) {
         blockElement.insertAdjacentHTML(position, `<p data-block="0">${Constants.ZWSP}<wbr>\n</p>`);
@@ -1426,10 +1426,10 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         }
     }
     if (vditor.currentMode !== "sv") {
-        const blockElement = hasClosestBlock(getEditorRange(vditor[vditor.currentMode].element).startContainer);
+        const blockElement = hasClosestBlock(getEditorRange(vditor).startContainer);
         if (blockElement) {
             // https://github.com/Vanessa219/vditor/issues/591
-            const range = getEditorRange(vditor[vditor.currentMode].element);
+            const range = getEditorRange(vditor);
             vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
                 wbr.remove();
             });

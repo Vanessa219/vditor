@@ -634,6 +634,7 @@ interface IVditor {
         resetIcon(vditor: IVditor): void,
     };
     wysiwyg?: {
+        range: Range,
         element: HTMLPreElement,
         selectPopover: HTMLDivElement,
         popover: HTMLDivElement,
@@ -648,6 +649,7 @@ interface IVditor {
         hideComment(): void,
     };
     ir?: {
+        range: Range,
         element: HTMLPreElement,
         composingLock: boolean,
         preventInput: boolean,
@@ -655,6 +657,7 @@ interface IVditor {
         hlToolbarTimeoutId: number,
     };
     sv?: {
+        range: Range,
         element: HTMLPreElement,
         processTimeoutId: number,
         hlToolbarTimeoutId: number,
