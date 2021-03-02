@@ -96,15 +96,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.8.2 / 2021-02-xx
+### v3.8.3 / 2021-02-xx
 
+### v3.8.2 / 2021-03-01
+
+* [938](https://github.com/Vanessa219/vditor/issues/938) 大纲缺少样式 `修复缺陷`
 * [928](https://github.com/Vanessa219/vditor/issues/928) Mathjax 资源缺失及添加 license `修复缺陷`
 * [720](https://github.com/Vanessa219/vditor/issues/720) 在光标位置插入内容的问题 `改进功能`
 * [751](https://github.com/Vanessa219/vditor/issues/751) firefox 代码块中 enter 键换行问题 `修复缺陷`
 * [923](https://github.com/Vanessa219/vditor/issues/923) 隐藏预览操作栏 `改进功能`
-
-### v3.8.1 / 2021-02-04
-
 * [921](https://github.com/Vanessa219/vditor/issues/921) MS Word 表格粘贴问题 `修复缺陷`
 * [922](https://github.com/Vanessa219/vditor/issues/922) MS Excel 粘贴带图表格问题 `修复缺陷`
 * [904](https://github.com/Vanessa219/vditor/issues/904) wysiwyg 和 ir 模式表格增加向上插入行和向左插入列 `改进功能`

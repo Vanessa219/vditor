@@ -30,6 +30,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         }
         vditor.lute.SetToC(vditor.options.preview.markdown.toc);
     } else {
+        targetElement.classList.add("vditor-outline");
         const lute = Lute.New();
         lute.SetToC(true);
         tempElement.innerHTML = lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
