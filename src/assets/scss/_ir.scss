@@ -20,6 +20,10 @@
       padding: 0 !important;
     }
 
+    &:not(.vditor-ir__node--expand)[data-type="a"] {
+      cursor: pointer;
+    }
+
     &[data-type="link-ref"],
     &[data-type="footnotes-ref"] {
       color: $blurColor;

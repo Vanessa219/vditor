@@ -98,6 +98,8 @@
 
 ### v3.8.3 / 2021-02-xx
 
+* [926](https://github.com/Vanessa219/vditor/issues/926) 即时渲染和所见即所得模式支持点击链接 `引入特性`
+
 ### v3.8.2 / 2021-03-01
 
 * [938](https://github.com/Vanessa219/vditor/issues/938) 大纲缺少样式 `修复缺陷`
