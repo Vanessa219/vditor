@@ -263,7 +263,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (blockElement) {
             if (blockElement.previousElementSibling
                 && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
-                && blockElement.previousElementSibling.getAttribute("data-block") === "0") {
+                && blockElement.previousElementSibling.getAttribute("data-block") === "0"
+                // https://github.com/Vanessa219/vditor/issues/946
+                && blockElement.tagName !== "UL" && blockElement.tagName !== "OL"
+            ) {
                 const rangeStart = getSelectPosition(blockElement, vditor.wysiwyg.element, range).start;
                 if ((rangeStart === 0 && range.startOffset === 0) || // https://github.com/Vanessa219/vditor/issues/894
                     (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
