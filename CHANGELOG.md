@@ -99,7 +99,7 @@
 ### v3.8.3 / 2021-02-xx
 
 * [949](https://github.com/Vanessa219/vditor/issues/949) lute.Md2HTML 3.7.5 后解析无 id 属性 `修复缺陷` TODO
-* [936](https://github.com/Vanessa219/vditor/issues/936) not changed to the link `改进功能` TODO
+* [936](https://github.com/Vanessa219/vditor/issues/936) Auto link `.app` domain suffix `改进功能`
 * [926](https://github.com/Vanessa219/vditor/issues/926) 即时渲染和所见即所得模式支持点击链接 `引入特性`
 
 ### v3.8.2 / 2021-03-01

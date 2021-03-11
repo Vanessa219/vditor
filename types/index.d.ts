@@ -130,6 +130,8 @@ declare class Lute {
 
     public SetChineseParagraphBeginningSpace(enable: boolean): void;
 
+    public SetHeadingID(enable: boolean): void;
+
     public SetRenderListStyle(enable: boolean): void;
 
     public SetLinkBase(url: string): void;

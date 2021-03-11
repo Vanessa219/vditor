@@ -68,6 +68,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
                 },
             });
         }
+        lute.SetHeadingID(true);
         return lute.Md2HTML(mdText);
     });
 };
