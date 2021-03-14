@@ -96,16 +96,15 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.8.3 / 2021-02-xx
+### v3.8.4
+
+### v3.8.3 / 2021-03-14
 
 * [953](https://github.com/Vanessa219/vditor/issues/953) 标题删除需保留空行 `改进功能`
 * [946](https://github.com/Vanessa219/vditor/issues/946) Improve delete behavior in the list item after the code block `修复缺陷`
 * [949](https://github.com/Vanessa219/vditor/issues/949) lute.Md2HTML 3.7.5 后解析无 id 属性 `修复缺陷`
 * [936](https://github.com/Vanessa219/vditor/issues/936) Auto link `.app` domain suffix `改进功能`
 * [926](https://github.com/Vanessa219/vditor/issues/926) 即时渲染和所见即所得模式支持点击链接 `引入特性`
-
-### v3.8.2 / 2021-03-01
-
 * [938](https://github.com/Vanessa219/vditor/issues/938) 大纲缺少样式 `修复缺陷`
 * [928](https://github.com/Vanessa219/vditor/issues/928) Mathjax 资源缺失及添加 license `修复缺陷`
 * [720](https://github.com/Vanessa219/vditor/issues/720) 在光标位置插入内容的问题 `改进功能`
