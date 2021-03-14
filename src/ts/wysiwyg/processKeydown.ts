@@ -184,8 +184,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
-            && headingElement.textContent === "") {
-            // 空标题删除
+            && headingElement.textContent.length === 1) {
+            // 删除后变为空
             removeHeading(vditor);
         }
     }
