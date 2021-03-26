@@ -98,6 +98,12 @@
 
 ### v3.8.4
 
+* [955](https://github.com/Vanessa219/vditor/issues/955) 为 hint 内容添加是否进行 md 转换的设置 `改进功能`
+* [956](https://github.com/Vanessa219/vditor/issues/956) 改进 plantuml 解析问题 `修复缺陷`
+* 文档修改
+  * 3.8.4
+    * 添加 hint.parse 配置
+
 ### v3.8.3 / 2021-03-14
 
 * [953](https://github.com/Vanessa219/vditor/issues/953) 标题删除需保留空行 `改进功能`

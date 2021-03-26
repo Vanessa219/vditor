@@ -161,11 +161,20 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
 
         range.setStart(range.startContainer, this.lastIndex);
         range.deleteContents();
-        if (this.splitChar === ":" && value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
-            insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
-            range.insertNode(document.createTextNode(" "));
+
+        if (vditor.options.hint.parse) {
+            if (vditor.currentMode === "sv") {
+                insertHTML(vditor.lute.SpinVditorSVDOM(value), vditor);
+            } else if (vditor.currentMode === "wysiwyg") {
+                insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
+            } else {
+                insertHTML(vditor.lute.SpinVditorIRDOM(value), vditor);
+            }
         } else {
-            insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
+            insertHTML(value, vditor);
+        }
+        if (this.splitChar === ":" && value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
+            range.insertNode(document.createTextNode(" "));
         }
         range.collapse(false);
         setSelectionFocus(range);

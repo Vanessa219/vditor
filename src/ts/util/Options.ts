@@ -38,6 +38,7 @@ export class Options {
             },
             emojiPath: `${Constants.CDN}/dist/images/emoji`,
             extend: [],
+            parse: true,
         },
         icon: "ant",
         lang: "zh_CN",

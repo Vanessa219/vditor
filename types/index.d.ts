@@ -448,6 +448,8 @@ interface IHintExtend {
 
 /** @link https://ld246.com/article/1549638745630#options-hint */
 interface IHint {
+    /** 提示内容是否进行 md 解析 */
+    parse?: boolean;
     /** 常用表情提示 HTML */
     emojiTail?: string;
     /** 提示 debounce 毫秒间隔。默认值: 200 */

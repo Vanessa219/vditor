@@ -87,6 +87,7 @@ window.vditor = new Vditor('vditor', {
       'sd': '💔',
       'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
     },
+    parse: false,
     extend: [
       {
         key: '@',
