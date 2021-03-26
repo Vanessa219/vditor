@@ -331,6 +331,7 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 
 |   | Explanation | Default |
 | - | - | - |
+| parse | Whether to perform md parsing | true |
 | delay | Tip debounce millisecond interval | 200 |
 | emoji | The default emoji can be selected from [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go), or can be customized | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | Common emoji | - |

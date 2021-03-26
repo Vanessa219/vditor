@@ -355,6 +355,7 @@ new Vditor('vditor', {
 
 |   | 说明 | 默认值 |
 | - | - | - |
+| parse | 是否进行 md 解析 | true |
 | delay | 提示 debounce 毫秒间隔 | 200 |
 | emoji | 默认表情，可从[lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go) 中选取，也可自定义 | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | 常用表情提示 | - |
