@@ -16,17 +16,12 @@ export const plantumlRender = (element: (HTMLElement | Document) = document, cdn
                 e.parentElement.classList.contains("vditor-ir__marker--pre")) {
                 return;
             }
-            const text = e.innerText.trim();
+            const text = e.textContent.trim();
             if (!text) {
                 return;
             }
             try {
-                const encoded = plantumlEncoder.encode(text);
-                const imageElement = document.createElement("img");
-                imageElement.setAttribute("loading", "lazy");
-                imageElement.setAttribute("src", "http://www.plantuml.com/plantuml/svg/~1" + encoded);
-                e.parentNode.insertBefore(imageElement, e);
-                e.remove();
+                e.innerHTML = `<img src="http://www.plantuml.com/plantuml/svg/~1${plantumlEncoder.encode(text)}">`;
             } catch (error) {
                 e.className = "vditor-reset--error";
                 e.innerHTML = `plantuml render error: <br>${error}`;
