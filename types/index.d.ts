@@ -227,6 +227,7 @@ interface II18n {
     en_US: IObject;
     ja_JP: IObject;
     ko_KR: IObject;
+    ru_RU: IObject;
     zh_CN: IObject;
 }
 
