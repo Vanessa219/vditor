@@ -36,7 +36,7 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                 return;
             }
 
-            if (block.classList.contains("language-mermaid") || block.classList.contains("language-flowchat") ||
+            if (block.classList.contains("language-mermaid") || block.classList.contains("language-flowchart") ||
                 block.classList.contains("language-echarts") || block.classList.contains("language-mindmap") ||
                 block.classList.contains("language-plantuml") ||
                 block.classList.contains("language-abc") || block.classList.contains("language-graphviz") ||
