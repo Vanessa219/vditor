@@ -20,6 +20,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     }
     const tempElement = document.createElement("div");
     if (vditor) {
+        vditor.lute.SetToC(true);
         if (vditor.currentMode === "wysiwyg" && !vditor.preview.element.contains(contentElement)) {
             tempElement.innerHTML = vditor.lute.SpinVditorDOM("<p>[ToC]</p>" + tocHTML);
         } else if (vditor.currentMode === "ir" && !vditor.preview.element.contains(contentElement)) {
@@ -27,7 +28,9 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         } else {
             tempElement.innerHTML = vditor.lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
         }
+        vditor.lute.SetToC(vditor.options.preview.markdown.toc);
     } else {
+        targetElement.classList.add("vditor-outline");
         const lute = Lute.New();
         lute.SetToC(true);
         tempElement.innerHTML = lute.HTML2VditorDOM("<p>[ToC]</p>" + tocHTML);
@@ -35,9 +38,9 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     const headingsElement = tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]");
     headingsElement.forEach((item, index) => {
         if (item.nextElementSibling && item.nextElementSibling.tagName === "UL") {
-            item.insertAdjacentHTML("afterbegin", "<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg>");
+            item.innerHTML = `<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg><span>${item.innerHTML}</span>`;
         } else {
-            item.insertAdjacentHTML("afterbegin", "<svg class='vditor-outline__action'></svg>");
+            item.innerHTML = `<svg></svg><span>${item.innerHTML}</span>`;
         }
         item.setAttribute("data-target-id", ids[index]);
     });

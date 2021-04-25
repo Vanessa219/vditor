@@ -39,7 +39,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.undo.recordFirstPosition(vditor, event);
     }
 
-    const range = getEditorRange(vditor.wysiwyg.element);
+    const range = getEditorRange(vditor);
     const startContainer = range.startContainer;
 
     if (!fixGSKeyBackspace(event, vditor, startContainer)) {
@@ -162,7 +162,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // enter++: 标题变大
-        if (matchHotKey("⌘-=", event)) {
+        if (matchHotKey("⌘=", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) - 1;
             if (index > 0) {
                 setHeading(vditor, `h${index}`);
@@ -173,7 +173,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // enter++: 标题变小
-        if (matchHotKey("⌘--", event)) {
+        if (matchHotKey("⌘-", event)) {
             const index = parseInt((headingElement as HTMLElement).tagName.substr(1), 10) + 1;
             if (index < 7) {
                 setHeading(vditor, `h${index}`);
@@ -184,8 +184,8 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey
-            && headingElement.textContent === "") {
-            // 空标题删除
+            && headingElement.textContent.length === 1) {
+            // 删除后变为空
             removeHeading(vditor);
         }
     }
@@ -215,7 +215,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 对有子工具栏的块上移
-    if (matchHotKey("⌘-⇧-U", event)) {
+    if (matchHotKey("⇧⌘U", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="up"]');
         if (itemElement) {
             itemElement.click();
@@ -225,7 +225,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     }
 
     // 对有子工具栏的块下移
-    if (matchHotKey("⌘-⇧-D", event)) {
+    if (matchHotKey("⇧⌘D", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="down"]');
         if (itemElement) {
             itemElement.click();
@@ -241,7 +241,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // shift+enter：软换行，但 table/hr/heading 处理、cell 内换行、block render 换行处理单独写在上面，li & p 使用浏览器默认
     if (!isCtrl(event) && event.shiftKey && !event.altKey && event.key === "Enter" &&
         startContainer.parentElement.tagName !== "LI" && startContainer.parentElement.tagName !== "P") {
-        if (["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
+        if (["STRONG", "STRIKE", "S", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
             // 行内元素软换行需继续 https://github.com/Vanessa219/vditor/issues/170
             range.insertNode(document.createTextNode("\n" + Constants.ZWSP));
         } else {
@@ -263,9 +263,13 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         if (blockElement) {
             if (blockElement.previousElementSibling
                 && blockElement.previousElementSibling.classList.contains("vditor-wysiwyg__block")
-                && blockElement.previousElementSibling.getAttribute("data-block") === "0") {
+                && blockElement.previousElementSibling.getAttribute("data-block") === "0"
+                // https://github.com/Vanessa219/vditor/issues/946
+                && blockElement.tagName !== "UL" && blockElement.tagName !== "OL"
+            ) {
                 const rangeStart = getSelectPosition(blockElement, vditor.wysiwyg.element, range).start;
-                if (rangeStart === 0 || (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
+                if ((rangeStart === 0 && range.startOffset === 0) || // https://github.com/Vanessa219/vditor/issues/894
+                    (rangeStart === 1 && blockElement.innerText.startsWith(Constants.ZWSP))) {
                     // 当前块删除后光标落于代码渲染块上，当前块会被删除，因此需要阻止事件，不能和 keyup 中的代码块处理合并
                     showCode(blockElement.previousElementSibling.lastElementChild as HTMLElement, vditor, false);
                     if (blockElement.innerHTML.trim().replace(Constants.ZWSP, "") === "") {
@@ -282,7 +286,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             if (range.toString() === "" && startContainer.nodeType === 3 &&
                 startContainer.textContent.charAt(rangeStartOffset - 2) === "\n" &&
                 startContainer.textContent.charAt(rangeStartOffset - 1) !== Constants.ZWSP
-                && ["STRONG", "S", "STRONG", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
+                && ["STRONG", "STRIKE", "S", "I", "EM", "B"].includes(startContainer.parentElement.tagName)) {
                 // 保持行内元素软换行需继续的一致性
                 startContainer.textContent = startContainer.textContent.substring(0, rangeStartOffset - 1) +
                     Constants.ZWSP;
@@ -348,7 +352,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
 export const removeBlockElement = (vditor: IVditor, event: KeyboardEvent) => {
     // 删除有子工具栏的块
-    if (matchHotKey("⌘-⇧-X", event)) {
+    if (matchHotKey("⇧⌘X", event)) {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
         if (itemElement) {
             itemElement.click();

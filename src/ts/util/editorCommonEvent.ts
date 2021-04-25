@@ -1,19 +1,21 @@
+import {Constants} from "../constants";
 import {processHeading} from "../ir/process";
 import {processKeydown as irProcessKeydown} from "../ir/processKeydown";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {previewImage} from "../preview/image";
 import {processHeading as processHeadingSV} from "../sv/process";
 import {processKeydown as mdProcessKeydown} from "../sv/processKeydown";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
-import {uploadFiles} from "../upload";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {getEventName, isCtrl} from "./compatibility";
+import {execAfterRender, paste} from "./fixBrowserBehavior";
 import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
-import {getCursorPosition} from "./selection";
+import {getCursorPosition, getEditorRange} from "./selection";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -21,6 +23,14 @@ export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             vditor.options.focus(getMarkdown(vditor));
         }
         hidePanel(vditor, ["subToolbar"]);
+    });
+};
+
+export const dblclickEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("dblclick", (event: MouseEvent & { target: HTMLElement }) => {
+        if (event.target.tagName === "IMG") {
+            previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
+        }
     });
 };
 
@@ -35,6 +45,7 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             !vditor.wysiwyg.selectPopover.contains(event.relatedTarget as HTMLElement)) {
             vditor.wysiwyg.hideComment();
         }
+        vditor[vditor.currentMode].range = getEditorRange(vditor);
         if (vditor.options.blur) {
             vditor.options.blur(getMarkdown(vditor));
         }
@@ -42,19 +53,24 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 };
 
 export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
-    if (vditor.options.upload.url || vditor.options.upload.handler) {
-        editorElement.addEventListener("drop",
-            (event: CustomEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
-                if (event.dataTransfer.types[0] !== "Files") {
-                    return;
-                }
-                const files = event.dataTransfer.items;
-                if (files.length > 0) {
-                    uploadFiles(vditor, files);
-                }
-                event.preventDefault();
-            });
-    }
+    editorElement.addEventListener("dragstart", (event) => {
+        // 选中编辑器中的文字进行拖拽
+        event.dataTransfer.setData(Constants.DROP_EDITOR, Constants.DROP_EDITOR);
+    });
+    editorElement.addEventListener("drop",
+        (event: ClipboardEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
+            if (event.dataTransfer.getData(Constants.DROP_EDITOR)) {
+                // 编辑器内选中文字拖拽
+                execAfterRender(vditor);
+            } else if (event.dataTransfer.types[0] === "Files" || event.dataTransfer.types.includes("text/html")) {
+                // 外部文件拖入编辑器中或者编辑器内选中文字拖拽
+                paste(vditor, event, {
+                    pasteCode: (code: string) => {
+                        document.execCommand("insertHTML", false, code);
+                    },
+                });
+            }
+        });
 };
 
 export const copyEvent =
@@ -100,9 +116,9 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // 获取 comment
+        // 重置 comment
         if (vditor.options.comment.enable && vditor.currentMode === "wysiwyg" &&
-            (event.key === "Backspace" || matchHotKey("⌘-X", event))) {
+            (event.key === "Backspace" || matchHotKey("⌘X", event))) {
             vditor.wysiwyg.getComments(vditor);
         }
 
@@ -120,21 +136,21 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             }
         }
 
-        if (vditor.options.ctrlEnter && matchHotKey("⌘-Enter", event)) {
+        if (vditor.options.ctrlEnter && matchHotKey("⌘Enter", event)) {
             vditor.options.ctrlEnter(getMarkdown(vditor));
             event.preventDefault();
             return;
         }
 
         // undo
-        if (matchHotKey("⌘-Z", event) && !vditor.toolbar.elements.undo) {
+        if (matchHotKey("⌘Z", event) && !vditor.toolbar.elements.undo) {
             vditor.undo.undo(vditor);
             event.preventDefault();
             return;
         }
 
         // redo
-        if (matchHotKey("⌘-Y", event) && !vditor.toolbar.elements.redo) {
+        if (matchHotKey("⌘Y", event) && !vditor.toolbar.elements.redo) {
             vditor.undo.redo(vditor);
             event.preventDefault();
             return;

@@ -43,7 +43,7 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
             element.addEventListener(getEventName(), (event: Event) => {
                 event.preventDefault();
                 const value = element.getAttribute("data-value");
-                const range = getEditorRange(vditor[vditor.currentMode].element);
+                const range = getEditorRange(vditor);
                 let html = value;
                 if (vditor.currentMode === "wysiwyg") {
                     html = vditor.lute.SpinVditorDOM(value);

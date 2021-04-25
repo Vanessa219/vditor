@@ -10,12 +10,16 @@ import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
 import {mindmapRender} from "./ts/markdown/mindmapRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
+import {plantumlRender} from "./ts/markdown/plantumlRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
+import { previewImage } from "./ts/preview/image";
 import { setCodeTheme } from "./ts/ui/setCodeTheme";
 import {setContentTheme} from "./ts/ui/setContentTheme";
 class Vditor {
 
+    /** 点击图片放大 */
+    public static previewImage = previewImage;
     /** 为 element 中的代码块添加复制按钮 */
     public static codeRender = codeRender;
     /** 对 graphviz 进行渲染 */
@@ -34,6 +38,8 @@ class Vditor {
     public static abcRender = abcRender;
     /** 脑图渲染 */
     public static mindmapRender = mindmapRender;
+    /** plantuml渲染 */
+    public static plantumlRender = plantumlRender;
     /** 大纲渲染 */
     public static outlineRender = outlineRender;
     /** 为[特定链接](https://github.com/Vanessa219/vditor/issues/7)分别渲染为视频、音频、嵌入的 iframe */

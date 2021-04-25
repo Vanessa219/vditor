@@ -56,6 +56,18 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
                     }
                 }
             }
+            // https://github.com/Vanessa219/vditor/issues/877 数学公式输入删除生成节点
+            const mathBlockMarkerElement =
+                hasClosestByAttribute(startContainer, "data-type", "math-block-open-marker");
+            if (mathBlockMarkerElement) {
+                const mathBlockCloseElement = mathBlockMarkerElement.nextElementSibling.nextElementSibling;
+                if (mathBlockCloseElement && mathBlockCloseElement.getAttribute("data-type") === "math-block-close-marker") {
+                    mathBlockCloseElement.remove();
+                    processAfterRender(vditor);
+                }
+                return;
+            }
+
             blockElement.querySelectorAll('[data-type="code-block-open-marker"]').forEach((item: HTMLElement) => {
                 if (item.textContent.length === 1) {
                     item.remove();

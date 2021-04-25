@@ -85,7 +85,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
     if (vditor.wysiwyg.element.querySelector("wbr")) {
         vditor.wysiwyg.element.querySelector("wbr").remove();
     }
-    const range = getEditorRange(vditor.wysiwyg.element);
+    const range = getEditorRange(vditor);
 
     let commandName = actionBtn.getAttribute("data-type");
 

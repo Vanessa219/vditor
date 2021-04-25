@@ -15,7 +15,7 @@ export class Indent extends MenuItem {
                 vditor.currentMode === "sv") {
                 return;
             }
-            const range = getEditorRange(vditor[vditor.currentMode].element);
+            const range = getEditorRange(vditor);
             const liElement = hasClosestByMatchTag(range.startContainer, "LI");
             if (liElement) {
                 listIndent(vditor, liElement, range);

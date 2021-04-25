@@ -6,6 +6,7 @@ export {_VDITOR_VERSION as VDITOR_VERSION};
 
 export abstract class Constants {
     public static readonly ZWSP: string = "\u200b";
+    public static readonly DROP_EDITOR: string = "application/editor";
     public static readonly MOBILE_WIDTH: number = 520;
     public static readonly CLASS_MENU_DISABLED: string = "vditor-menu--disabled";
     public static readonly EDIT_TOOLBARS: string[] = ["emoji", "headings", "bold", "italic", "strike", "link", "list",
@@ -16,7 +17,7 @@ export abstract class Constants {
         "monokailight", "murphy", "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments",
         "rainbow_dash", "rrt", "solarized-dark", "solarized-dark256", "solarized-light", "swapoff", "tango", "trac",
         "vim", "vs", "xcode", "ant-design"];
-    public static readonly CODE_LANGUAGES: string[] = ["mermaid", "echarts", "mindmap", "abc", "graphviz", "flowchart", "apache",
+    public static readonly CODE_LANGUAGES: string[] = ["mermaid", "echarts", "mindmap", "plantuml", "abc", "graphviz", "flowchart", "apache",
         "bash", "cs", "cpp", "css", "coffeescript", "diff", "xml", "http", "ini", "json", "java", "javascript", "js",
         "makefile", "markdown", "nginx", "objectivec", "php", "perl", "properties", "python", "ruby", "sql", "shell",
         "dart", "erb", "go", "gradle", "julia", "kotlin", "less", "lua", "matlab", "rust", "scss", "typescript", "ts",
@@ -24,7 +25,6 @@ export abstract class Constants {
     public static readonly CDN = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
     public static readonly MARKDOWN_OPTIONS = {
         autoSpace: false,
-        chinesePunct: false,
         codeBlockPreview: true,
         fixTermTypo: false,
         footnotes: true,

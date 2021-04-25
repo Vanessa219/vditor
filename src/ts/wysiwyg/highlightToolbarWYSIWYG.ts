@@ -6,7 +6,14 @@ import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
 import {isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
-import {deleteColumn, deleteRow, insertColumn, insertRow, setTableAlign} from "../util/fixBrowserBehavior";
+import {
+    deleteColumn,
+    deleteRow,
+    insertColumn,
+    insertRow,
+    insertRowAbove,
+    setTableAlign,
+} from "../util/fixBrowserBehavior";
 import {
     hasClosestByAttribute,
     hasClosestByClassName,
@@ -243,7 +250,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             const left = document.createElement("button");
             left.setAttribute("type", "button");
             left.setAttribute("aria-label", i18n[vditor.options.lang].alignLeft +
-                "<" + updateHotkeyTip("⌘-⇧-L") + ">");
+                "<" + updateHotkeyTip("⇧⌘L") + ">");
             left.setAttribute("data-type", "left");
             left.innerHTML = '<svg><use xlink:href="#vditor-icon-align-left"></use></svg>';
             left.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
@@ -255,7 +262,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             const center = document.createElement("button");
             center.setAttribute("type", "button");
             center.setAttribute("aria-label", i18n[vditor.options.lang].alignCenter +
-                "<" + updateHotkeyTip("⌘-⇧-C") + ">");
+                "<" + updateHotkeyTip("⇧⌘C") + ">");
             center.setAttribute("data-type", "center");
             center.innerHTML = '<svg><use xlink:href="#vditor-icon-align-center"></use></svg>';
             center.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
@@ -267,7 +274,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             const right = document.createElement("button");
             right.setAttribute("type", "button");
             right.setAttribute("aria-label", i18n[vditor.options.lang].alignRight +
-                "<" + updateHotkeyTip("⌘-⇧-R") + ">");
+                "<" + updateHotkeyTip("⇧⌘R") + ">");
             right.setAttribute("data-type", "right");
             right.innerHTML = '<svg><use xlink:href="#vditor-icon-align-right"></use></svg>';
             right.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n" +
@@ -278,8 +285,8 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
 
             const insertRowElement = document.createElement("button");
             insertRowElement.setAttribute("type", "button");
-            insertRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-row"] +
-                "<" + updateHotkeyTip("⌘-=") + ">");
+            insertRowElement.setAttribute("aria-label", i18n[vditor.options.lang].insertRowBelow +
+                "<" + updateHotkeyTip("⌘=") + ">");
             insertRowElement.setAttribute("data-type", "insertRow");
             insertRowElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-row"></use></svg>';
             insertRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
@@ -292,10 +299,26 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 }
             };
 
+            const insertRowBElement = document.createElement("button");
+            insertRowBElement.setAttribute("type", "button");
+            insertRowBElement.setAttribute("aria-label", i18n[vditor.options.lang].insertRowAbove +
+                "<" + updateHotkeyTip("⇧⌘F") + ">");
+            insertRowBElement.setAttribute("data-type", "insertRow");
+            insertRowBElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-rowb"></use></svg>';
+            insertRowBElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            insertRowBElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    insertRowAbove(vditor, range, cellElement);
+                }
+            };
+
             const insertColumnElement = document.createElement("button");
             insertColumnElement.setAttribute("type", "button");
-            insertColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["insert-column"] +
-                "<" + updateHotkeyTip("⌘-⇧-=") + ">");
+            insertColumnElement.setAttribute("aria-label", i18n[vditor.options.lang].insertColumnRight +
+                "<" + updateHotkeyTip("⇧⌘=") + ">");
             insertColumnElement.setAttribute("data-type", "insertColumn");
             insertColumnElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-column"></use></svg>';
             insertColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
@@ -308,10 +331,26 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 }
             };
 
+            const insertColumnBElement = document.createElement("button");
+            insertColumnBElement.setAttribute("type", "button");
+            insertColumnBElement.setAttribute("aria-label", i18n[vditor.options.lang].insertColumnLeft +
+                "<" + updateHotkeyTip("⇧⌘G") + ">");
+            insertColumnBElement.setAttribute("data-type", "insertColumn");
+            insertColumnBElement.innerHTML = '<svg><use xlink:href="#vditor-icon-insert-columnb"></use></svg>';
+            insertColumnBElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
+            insertColumnBElement.onclick = () => {
+                const startContainer = getSelection().getRangeAt(0).startContainer;
+                const cellElement = hasClosestByMatchTag(startContainer, "TD") ||
+                    hasClosestByMatchTag(startContainer, "TH");
+                if (cellElement) {
+                    insertColumn(vditor, tableElement, cellElement, "beforebegin");
+                }
+            };
+
             const deleteRowElement = document.createElement("button");
             deleteRowElement.setAttribute("type", "button");
             deleteRowElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-row"] +
-                "<" + updateHotkeyTip("⌘--") + ">");
+                "<" + updateHotkeyTip("⌘-") + ">");
             deleteRowElement.setAttribute("data-type", "deleteRow");
             deleteRowElement.innerHTML = '<svg><use xlink:href="#vditor-icon-delete-row"></use></svg>';
             deleteRowElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
@@ -327,7 +366,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             const deleteColumnElement = document.createElement("button");
             deleteColumnElement.setAttribute("type", "button");
             deleteColumnElement.setAttribute("aria-label", i18n[vditor.options.lang]["delete-column"] +
-                "<" + updateHotkeyTip("⌘-⇧--") + ">");
+                "<" + updateHotkeyTip("⇧⌘-") + ">");
             deleteColumnElement.setAttribute("data-type", "deleteColumn");
             deleteColumnElement.innerHTML = '<svg><use xlink:href="#vditor-icon-delete-column"></use></svg>';
             deleteColumnElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
@@ -402,7 +441,9 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", left);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", center);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", right);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertRowBElement);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertRowElement);
+            vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertColumnBElement);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", insertColumnElement);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", deleteRowElement);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", deleteColumnElement);
@@ -425,12 +466,12 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
 
             const inputWrap = document.createElement("span");
             inputWrap.setAttribute("aria-label", i18n[vditor.options.lang].footnoteRef +
-                "<" + updateHotkeyTip("⌥-Enter") + ">");
+                "<" + updateHotkeyTip("⌥Enter") + ">");
             inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
             const input = document.createElement("input");
             inputWrap.appendChild(input);
             input.className = "vditor-input";
-            input.setAttribute("placeholder", i18n[vditor.options.lang].footnoteRef + "<" + updateHotkeyTip("⌥-Enter") + ">");
+            input.setAttribute("placeholder", i18n[vditor.options.lang].footnoteRef + "<" + updateHotkeyTip("⌥Enter") + ">");
             input.style.width = "120px";
             input.value = footnotesRefElement.getAttribute("data-footnotes-label");
             input.oninput = () => {
@@ -468,7 +509,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             if (blockRenderElement.getAttribute("data-type") === "code-block") {
                 const languageWrap = document.createElement("span");
                 languageWrap.setAttribute("aria-label", i18n[vditor.options.lang].language +
-                    "<" + updateHotkeyTip("⌥-Enter") + ">");
+                    "<" + updateHotkeyTip("⌥Enter") + ">");
                 languageWrap.className = "vditor-tooltipped vditor-tooltipped__n";
                 const language = document.createElement("input");
                 languageWrap.appendChild(language);
@@ -476,7 +517,8 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 const codeElement = blockRenderElement.firstElementChild.firstElementChild;
 
                 language.className = "vditor-input";
-                language.setAttribute("placeholder", i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥-Enter") + ">");
+                language.setAttribute("placeholder",
+                    i18n[vditor.options.lang].language + "<" + updateHotkeyTip("⌥Enter") + ">");
                 language.value = codeElement.className.indexOf("language-") > -1 ?
                     codeElement.className.split("-")[1].split(" ")[0] : "";
                 language.oninput = () => {
@@ -546,12 +588,12 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             vditor.wysiwyg.popover.innerHTML = "";
 
             const inputWrap = document.createElement("span");
-            inputWrap.setAttribute("aria-label", "ID" + "<" + updateHotkeyTip("⌥-Enter") + ">");
+            inputWrap.setAttribute("aria-label", "ID" + "<" + updateHotkeyTip("⌥Enter") + ">");
             inputWrap.className = "vditor-tooltipped vditor-tooltipped__n";
             const input = document.createElement("input");
             inputWrap.appendChild(input);
             input.className = "vditor-input";
-            input.setAttribute("placeholder", "ID" + "<" + updateHotkeyTip("⌥-Enter") + ">");
+            input.setAttribute("placeholder", "ID" + "<" + updateHotkeyTip("⌥Enter") + ">");
             input.style.width = "120px";
             input.value = headingElement.getAttribute("data-id") || "";
             input.oninput = () => {
@@ -657,7 +699,7 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) 
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input1);
+        linkHotkey(vditor, linkRefElement, event, input1);
     };
 
     const input1Wrap = document.createElement("span");
@@ -675,7 +717,7 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) 
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, linkRefElement, event, input);
+        linkHotkey(vditor, linkRefElement, event, input);
     };
 
     genClose(linkRefElement, vditor);
@@ -693,7 +735,7 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
     upElement.setAttribute("type", "button");
     upElement.setAttribute("data-type", "up");
     upElement.setAttribute("aria-label", i18n[vditor.options.lang].up +
-        "<" + updateHotkeyTip("⌘-⇧-U") + ">");
+        "<" + updateHotkeyTip("⇧⌘U") + ">");
     upElement.innerHTML = '<svg><use xlink:href="#vditor-icon-up"></use></svg>';
     upElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     upElement.onclick = () => {
@@ -716,7 +758,7 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
     downElement.setAttribute("type", "button");
     downElement.setAttribute("data-type", "down");
     downElement.setAttribute("aria-label", i18n[vditor.options.lang].down +
-        "<" + updateHotkeyTip("⌘-⇧-D") + ">");
+        "<" + updateHotkeyTip("⇧⌘D") + ">");
     downElement.innerHTML = '<svg><use xlink:href="#vditor-icon-down"></use></svg>';
     downElement.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     downElement.onclick = () => {
@@ -735,11 +777,11 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
     close.setAttribute("type", "button");
     close.setAttribute("data-type", "remove");
     close.setAttribute("aria-label", i18n[vditor.options.lang].remove +
-        "<" + updateHotkeyTip("⌘-⇧-X") + ">");
+        "<" + updateHotkeyTip("⇧⌘X") + ">");
     close.innerHTML = '<svg><use xlink:href="#vditor-icon-trashcan"></use></svg>';
     close.className = "vditor-icon vditor-tooltipped vditor-tooltipped__n";
     close.onclick = () => {
-        const range = getEditorRange(vditor.wysiwyg.element);
+        const range = getEditorRange(vditor);
         range.setStartAfter(element);
         setSelectionFocus(range);
         element.remove();
@@ -749,7 +791,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 };
 
-const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEvent,
+const linkHotkey = (vditor: IVditor, element: HTMLElement, event: KeyboardEvent,
                     nextInputElement: HTMLInputElement) => {
     if (event.isComposing) {
         return;
@@ -761,7 +803,7 @@ const linkHotkey = (editor: HTMLElement, element: HTMLElement, event: KeyboardEv
         return;
     }
     if (!isCtrl(event) && !event.shiftKey && event.altKey && event.key === "Enter") {
-        const range = getEditorRange(editor);
+        const range = getEditorRange(vditor);
         // firefox 不会打断 link https://github.com/Vanessa219/vditor/issues/193
         element.insertAdjacentHTML("afterend", Constants.ZWSP);
         range.setStartAfter(element.nextSibling);
@@ -801,7 +843,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, aElement, event, input1);
+        linkHotkey(vditor, aElement, event, input1);
     };
 
     const input1Wrap = document.createElement("span");
@@ -819,7 +861,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, aElement, event, input2);
+        linkHotkey(vditor, aElement, event, input2);
     };
 
     const input2Wrap = document.createElement("span");
@@ -838,7 +880,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (removeBlockElement(vditor, event)) {
             return;
         }
-        linkHotkey(vditor.wysiwyg.element, aElement, event, input);
+        linkHotkey(vditor, aElement, event, input);
     };
 
     genClose(aElement, vditor);

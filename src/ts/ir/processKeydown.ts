@@ -37,7 +37,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         vditor.undo.recordFirstPosition(vditor, event);
     }
 
-    const range = getEditorRange(vditor.ir.element);
+    const range = getEditorRange(vditor);
     const startContainer = range.startContainer;
 
     if (!fixGSKeyBackspace(event, vditor, startContainer)) {
@@ -160,7 +160,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const headingElement = hasClosestByHeadings(startContainer);
     if (headingElement) {
         // enter++: 标题变大
-        if (matchHotKey("⌘-=", event)) {
+        if (matchHotKey("⌘=", event)) {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
             if (headingMarkerElement && headingMarkerElement.textContent.trim().length > 1) {
                 processHeading(vditor, headingMarkerElement.textContent.substr(1));
@@ -170,7 +170,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         // enter++: 标题变小
-        if (matchHotKey("⌘--", event)) {
+        if (matchHotKey("⌘-", event)) {
             const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
             if (headingMarkerElement && headingMarkerElement.textContent.trim().length < 6) {
                 processHeading(vditor, headingMarkerElement.textContent.trim() + "# ");
@@ -186,6 +186,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
 
         if (blockElement && blockElement.previousElementSibling
+            && blockElement.tagName !== "UL" && blockElement.tagName !== "OL"
             && (blockElement.previousElementSibling.getAttribute("data-type") === "code-block" ||
                 blockElement.previousElementSibling.getAttribute("data-type") === "math-block")) {
             const rangeStart = getSelectPosition(blockElement, vditor.ir.element, range).start;

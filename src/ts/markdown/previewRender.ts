@@ -15,6 +15,7 @@ import {mathRender} from "./mathRender";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
 import {mindmapRender} from "./mindmapRender";
+import {plantumlRender} from "./plantumlRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
 
@@ -43,7 +44,6 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
     return addScript(`${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript").then(() => {
         const lute = setLute({
             autoSpace: mergedOptions.markdown.autoSpace,
-            chinesePunct: mergedOptions.markdown.chinesePunct,
             codeBlockPreview: mergedOptions.markdown.codeBlockPreview,
             emojiSite: mergedOptions.emojiPath,
             emojis: mergedOptions.customEmoji,
@@ -68,6 +68,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
                 },
             });
         }
+        lute.SetHeadingID(true);
         return lute.Md2HTML(mdText);
     });
 };
@@ -95,6 +96,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     graphvizRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
+    plantumlRender(previewElement, mergedOptions.cdn);
     abcRender(previewElement, mergedOptions.cdn);
     mediaRender(previewElement);
     if (mergedOptions.speech.enable) {

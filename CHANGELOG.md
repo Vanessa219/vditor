@@ -2,6 +2,16 @@
 
 ### 升级
 
+* 3.7
+  * `preview` 静态方法添加 `mode` 配置
+  * 大纲 DOM 结构和 class 变更
+  * 添加 `options.undoDelay` 配置
+  * 添加 `options.counter.after` 回调方法
+  * 添加 `previewImage` 静态方法
+  * 添加 `options.fullscreen.index`
+  * 移除`options.preview.markdown.chinesePunct` 配置
+  * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }`
+  * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
 * 3.6
  * `options.preview.actions` 添加 `tooltip` 
  * `mermaidRender` 添加 `theme` 参数 
@@ -86,12 +96,76 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.7.2 / 2020-12-0x
-    
+### v3.8.4 / 2021-03-26
+
+* [970](https://github.com/Vanessa219/vditor/pull/970) added ru_RU lang `引入特性`
+* [955](https://github.com/Vanessa219/vditor/issues/955) 为 hint 内容添加是否进行 md 转换的设置 `改进功能`
+* [956](https://github.com/Vanessa219/vditor/issues/956) 改进 plantuml 解析问题 `修复缺陷`
+* 文档修改
+  * 3.8.4
+    * 添加 hint.parse 配置
+
+### v3.8.3 / 2021-03-14
+
+* [953](https://github.com/Vanessa219/vditor/issues/953) 标题删除需保留空行 `改进功能`
+* [946](https://github.com/Vanessa219/vditor/issues/946) Improve delete behavior in the list item after the code block `修复缺陷`
+* [949](https://github.com/Vanessa219/vditor/issues/949) lute.Md2HTML 3.7.5 后解析无 id 属性 `修复缺陷`
+* [936](https://github.com/Vanessa219/vditor/issues/936) Auto link `.app` domain suffix `改进功能`
+* [926](https://github.com/Vanessa219/vditor/issues/926) 即时渲染和所见即所得模式支持点击链接 `引入特性`
+* [938](https://github.com/Vanessa219/vditor/issues/938) 大纲缺少样式 `修复缺陷`
+* [928](https://github.com/Vanessa219/vditor/issues/928) Mathjax 资源缺失及添加 license `修复缺陷`
+* [720](https://github.com/Vanessa219/vditor/issues/720) 在光标位置插入内容的问题 `改进功能`
+* [751](https://github.com/Vanessa219/vditor/issues/751) firefox 代码块中 enter 键换行问题 `修复缺陷`
+* [923](https://github.com/Vanessa219/vditor/issues/923) 隐藏预览操作栏 `改进功能`
+* [921](https://github.com/Vanessa219/vditor/issues/921) MS Word 表格粘贴问题 `修复缺陷`
+* [922](https://github.com/Vanessa219/vditor/issues/922) MS Excel 粘贴带图表格问题 `修复缺陷`
+* [904](https://github.com/Vanessa219/vditor/issues/904) wysiwyg 和 ir 模式表格增加向上插入行和向左插入列 `改进功能`
+* [920](https://github.com/Vanessa219/vditor/issues/920) ” 无法输入 `修复缺陷`
+* [919](https://github.com/Vanessa219/vditor/issues/919) 支持外部文本内容拖拽进入编辑器 `改进功能`
+* [917](https://github.com/Vanessa219/vditor/issues/917) intsertValue无法一次添加多行markdown内容 `修复缺陷`
+* [910](https://github.com/Vanessa219/vditor/issues/910) 编辑列表内容时出现的问题 `改进功能`
+* [913](https://github.com/Vanessa219/vditor/pull/913) 支持plantuml `引入特性`
+* [907](https://github.com/Vanessa219/vditor/issues/907) mathjax 在method.min.js 中preview 显示错误 `修复缺陷`
+* [909](https://github.com/Vanessa219/vditor/issues/909) toc 和大纲中数学公式显示问题修复 `修复缺陷`
+* [908](https://github.com/Vanessa219/vditor/issues/908) 粘贴不了 MS Office Excel 内容的问题 `修复缺陷`
+* 文档修改
+  * 3.8.0
+    * 添加 plantumlRender 方法
+    * options.input 移除 previewElement 参数
+  * 3.8.1
+    * 添加表格增加向上插入行 ⇧⌘F 和向左插入列 ⇧⌘G 的快捷键
+    * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥⌘[]
+  
+### v3.7.7 / 2021-01-19
+
+* [903](https://github.com/Vanessa219/vditor/issues/903) 使用 setValue 后第一次输入无法撤销 `修复缺陷`
+* [902](https://github.com/Vanessa219/vditor/issues/902) hint 内容为 md 时，需进行渲染 `改进功能`
+* [900](https://github.com/Vanessa219/vditor/issues/900) img标签图片无法显示 `修复缺陷`
+* [901](https://github.com/Vanessa219/vditor/issues/901) 预览区域代码点击复制无效 `修复缺陷`
+* [890](https://github.com/Vanessa219/vditor/issues/890) Can not delete the special tag(Wysiwyg mode) `修复缺陷`
+* [894](https://github.com/Vanessa219/vditor/issues/894) 代码块下紧跟一张图片，使用回退键删除图片时光标跑到代码块里，图片不能删除 `修复缺陷`
+* [659](https://github.com/Vanessa219/vditor/issues/659) IR 模式复制粘贴 <kbd> 问题 `修复缺陷`
+* [888](https://github.com/Vanessa219/vditor/issues/888) 大纲点击错误 `修复缺陷`
+* [884](https://github.com/Vanessa219/vditor/issues/884) 工具栏自定义按钮禁用 `改进功能`
+* [877](https://github.com/Vanessa219/vditor/issues/877) 数学公式输入删除生成节点 `修复缺陷`
+* [882](https://github.com/Vanessa219/vditor/issues/882) 改进 HTML 转换 Markdown 时加粗、斜体等空格的处理 `改进功能`
+* [878](https://github.com/Vanessa219/vditor/issues/878) 移除列表标记符中文优化 `改进功能`
+* [875](https://github.com/Vanessa219/vditor/issues/875) 增加大纲位置配置 `引入特性`
+* [873](https://github.com/Vanessa219/vditor/issues/873) graphviz，mermaid 在为空时不应出现错误提示 `改进功能`
+* [872](https://github.com/Vanessa219/vditor/issues/872) vditor.options.upload.file 支持 await `改进功能`
+* [871](https://github.com/Vanessa219/vditor/issues/871) 大纲标题过长需显示省略号 `改进功能`
+* [866](https://github.com/Vanessa219/vditor/issues/866) 预览配置开启自动空格后,链接中有中文,无法正常解析 `改进功能`
+* [868](https://github.com/Vanessa219/vditor/issues/868) 将 Markdown 引擎选项拆分为解析选项和渲染选项 `改进功能`
+* [869](https://github.com/Vanessa219/vditor/issues/869) 移除 options.preview.markdown. chinesePunct 配置 `开发重构`
+* [848](https://github.com/Vanessa219/vditor/issues/848) 即时渲染模式下FireFox浏览器光标问题 `修复缺陷`
+* [847](https://github.com/Vanessa219/vditor/issues/847) 即时渲染状态下 Firefox 删除线出错 `修复缺陷`
+* [858](https://github.com/Vanessa219/vditor/issues/858) 预览模式下应禁用工具栏上传按钮 `修复缺陷`
+* [849](https://github.com/Vanessa219/vditor/issues/849) 固定工具栏模式下点击全屏打开后导航栏位置异常 `修复缺陷`
+* [855](https://github.com/Vanessa219/vditor/issues/855) 添加全屏 z-index 设置 `引入特性`
+* [850](https://github.com/Vanessa219/vditor/issues/850) 工具栏大纲按钮点击后焦点并未回到内容区 `改进功能`
+* [840](https://github.com/Vanessa219/vditor/issues/840) 关于移动端图片点击需求 `引入特性`
+* [842](https://github.com/Vanessa219/vditor/issues/842) 大纲无法展示 `修复缺陷`
 * [673](https://github.com/Vanessa219/vditor/issues/673) 复制粘贴 Excel 内容转换为表格问题 `修复缺陷`
-
-### v3.7.1 / 2020-12-06
-
 * [742](https://github.com/Vanessa219/vditor/issues/742) IR 模式块引用换行问题 `修复缺陷`
 * [759](https://github.com/Vanessa219/vditor/issues/759) 添加数字统计回调函数 `引入特性`
 * [835](https://github.com/Vanessa219/vditor/issues/835) 历史性能优化 `改进功能`
@@ -106,6 +180,15 @@
   * 3.7.1
     * 添加 `options.undoDelay` 配置
     * 添加 `options.counter.after` 回调方法
+  * 3.7.2
+    * 添加 `previewImage` 静态方法
+  * 3.7.3
+    * 添加 `options.fullscreen.index`
+  * 3.7.4
+    * 移除`options.preview.markdown.chinesePunct` 配置
+  * 3.7.5
+    * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }`
+    * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
 
 ### v3.6.6 / 2020-11-23
 

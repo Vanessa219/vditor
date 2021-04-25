@@ -13,6 +13,7 @@ import {getSelectText} from "../util/getSelectText";
 import {inputEvent} from "./inputEvent";
 
 class Editor {
+    public range: Range;
     public element: HTMLPreElement;
     public composingLock: boolean = false;
     public processTimeoutId: number;
@@ -85,7 +86,7 @@ class Editor {
                 // https://github.com/Vanessa219/vditor/issues/801 编辑器内容拖拽问题
                 return;
             }
-            if (this.composingLock) {
+            if (this.composingLock ||  event.data === "‘" || event.data === "“" || event.data === "《") {
                 return;
             }
             if (this.preventInput) {

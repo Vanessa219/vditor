@@ -14,8 +14,8 @@ export class Outline extends MenuItem {
             if (btnElement.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
-            vditor.options.outline = !this.element.firstElementChild.classList.contains("vditor-menu--current");
-            vditor.outline.toggle(vditor, vditor.options.outline);
+            vditor.options.outline.enable = !this.element.firstElementChild.classList.contains("vditor-menu--current");
+            vditor.outline.toggle(vditor, vditor.options.outline.enable);
         });
     }
 }

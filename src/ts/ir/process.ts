@@ -10,13 +10,13 @@ import {input} from "./input";
 
 export const processHint = (vditor: IVditor) => {
     vditor.hint.render(vditor);
-    const startContainer = getEditorRange(vditor.ir.element).startContainer;
+    const startContainer = getEditorRange(vditor).startContainer;
     // 代码块语言提示
     const preBeforeElement = hasClosestByAttribute(startContainer, "data-type", "code-block-info");
     if (preBeforeElement) {
         if (preBeforeElement.textContent.replace(Constants.ZWSP, "") === "" && vditor.hint.recentLanguage) {
             preBeforeElement.textContent = Constants.ZWSP + vditor.hint.recentLanguage;
-            const range = getEditorRange(vditor.ir.element);
+            const range = getEditorRange(vditor);
             range.selectNodeContents(preBeforeElement);
         } else {
             const matchLangData: IHintData[] = [];
@@ -77,7 +77,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 };
 
 export const processHeading = (vditor: IVditor, value: string) => {
-    const range = getEditorRange(vditor.ir.element);
+    const range = getEditorRange(vditor);
     const headingElement = hasClosestBlock(range.startContainer) || range.startContainer as HTMLElement;
     if (headingElement) {
         const headingMarkerElement = headingElement.querySelector(".vditor-ir__marker--heading");
@@ -106,7 +106,7 @@ const removeInline = (range: Range, vditor: IVditor, type: string) => {
 };
 
 export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: string, suffix: string) => {
-    const range = getEditorRange(vditor.ir.element);
+    const range = getEditorRange(vditor);
     const commandName = actionBtn.getAttribute("data-type");
     let typeElement = range.startContainer as HTMLElement;
     if (typeElement.nodeType === 3) {
@@ -185,21 +185,25 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;
             } else {
-                html = `${prefix}${range.toString()}<wbr>${suffix}`;
+                if (commandName === "code" || commandName === "table") {
+                    html = `${prefix}${range.toString()}<wbr>${suffix}`;
+                } else {
+                    html = `${prefix}${range.toString()}${suffix}<wbr>`;
+                }
+                range.deleteContents();
             }
             if (commandName === "table" || commandName === "code") {
-                html = "\n" + html;
-                actionBtn.classList.add("vditor-menu--disabled");
-            } else {
-                actionBtn.classList.add("vditor-menu--current");
+                html = "\n" + html + "\n\n";
             }
-            document.execCommand("insertHTML", false, html);
+
+            const spanElement = document.createElement("span");
+            spanElement.innerHTML = html;
+            range.insertNode(spanElement);
+            input(vditor, range);
+
             if (commandName === "table") {
                 range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);
                 setSelectionFocus(range);
-            }
-            if (commandName !== "code" && commandName !== "inline-code") {
-                useHighlight = false;
             }
         } else if (commandName === "check" || commandName === "list" || commandName === "ordered-list") {
             listToggle(vditor, range, commandName, false);

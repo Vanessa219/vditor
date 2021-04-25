@@ -147,6 +147,10 @@
     white-space: initial;
   }
 
+  a {
+    cursor: pointer;
+  }
+
   span[data-type="backslash"] > span {
     display: none;
     color: var(--second-color);

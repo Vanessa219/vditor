@@ -7,7 +7,6 @@ export const setLute = (options: ILuteOptions) => {
     lute.SetAutoSpace(options.autoSpace);
     lute.SetToC(options.toc);
     lute.SetFootnotes(options.footnotes);
-    lute.SetChinesePunct(options.chinesePunct);
     lute.SetFixTermTypo(options.fixTermTypo);
     lute.SetVditorCodeBlockPreview(options.codeBlockPreview);
     lute.SetVditorMathBlockPreview(options.mathBlockPreview);

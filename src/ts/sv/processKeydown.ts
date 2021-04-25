@@ -21,7 +21,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         && !isCtrl(event) && event.key !== "Escape") {
         return false;
     }
-    const range = getEditorRange(vditor.sv.element);
+    const range = getEditorRange(vditor);
     let startContainer = range.startContainer;
     if (range.startContainer.nodeType !== 3 && (range.startContainer as HTMLElement).tagName === "DIV") {
         startContainer = range.startContainer.childNodes[range.startOffset - 1];

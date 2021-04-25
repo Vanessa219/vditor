@@ -214,6 +214,7 @@
     .language-math,
     .language-echarts,
     .language-mindmap,
+    .language-plantuml,
     .language-mermaid,
     .language-abc,
     .language-flowchart,
@@ -514,6 +515,11 @@
     span {
       cursor: pointer;
     }
+
+    li > span > svg {
+      width: 0;
+      height: 0;
+    }
   }
 
   &-outline {
@@ -522,6 +528,11 @@
     background-color: var(--panel-background-color);
     display: none;
     overflow: auto;
+
+    &--right {
+      border-right: 0;
+      border-left: 1px solid var(--border-color);
+    }
 
     &::-webkit-scrollbar {
       display: none;
@@ -542,13 +553,21 @@
       align-items: center;
       padding: 5px 10px;
       cursor: pointer;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       color: var(--textarea-text-color);
+
+      & > svg {
+        height: 10px;
+        width: 10px;
+      }
 
       &:hover {
         color: var(--toolbar-icon-hover-color);
+      }
+
+      & > span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -561,10 +580,9 @@
 
     &__action {
       transition: $transition;
-      height: 10px;
-      width: 10px;
       fill: currentColor;
       margin-right: 5px;
+      flex-shrink: 0;
 
       &--close {
         transform: rotate(-90deg);

@@ -10,10 +10,12 @@ import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {mindmapRender} from "../markdown/mindmapRender";
+import {plantumlRender} from "../markdown/plantumlRender";
 import {getEventName} from "../util/compatibility";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {setSelectionFocus} from "../util/selection";
+import {previewImage} from "./image";
 
 export class Preview {
     public element: HTMLElement;
@@ -29,7 +31,11 @@ export class Preview {
             previewElement.classList.add(vditor.options.classes.preview);
         }
         previewElement.style.maxWidth = vditor.options.preview.maxWidth + "px";
-        previewElement.addEventListener("copy", (event) => {
+        previewElement.addEventListener("copy", (event: ClipboardEvent & { target: HTMLElement }) => {
+            if (event.target.tagName === "TEXTAREA") {
+                // https://github.com/Vanessa219/vditor/issues/901
+                return;
+            }
             const tempElement = document.createElement("div");
             tempElement.className = "vditor-reset";
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
@@ -46,6 +52,9 @@ export class Preview {
                     this.element.scrollTop = headingElement.offsetTop;
                 }
                 return;
+            }
+            if (event.target.tagName === "IMG") {
+                previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
             }
         });
 
@@ -78,6 +87,9 @@ export class Preview {
             }
         }
         actionElement.innerHTML = actionHtml.join("");
+        if (actions.length === 0) {
+            actionElement.style.display = "none";
+        }
         this.element.appendChild(actionElement);
         this.element.appendChild(previewElement);
 
@@ -206,6 +218,7 @@ export class Preview {
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
         mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
+        plantumlRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
         // toc render
