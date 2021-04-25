@@ -216,6 +216,9 @@ declare class Lute {
 
     // 粘贴是 md 转换为 sv
     public Md2VditorSVDOM(text: string): string;
+
+    // 将markdown转化为JSON结构输出 https://github.com/88250/lute/issues/120
+    public RenderJSON(markdown: string): string;
 }
 
 declare const webkitAudioContext: {

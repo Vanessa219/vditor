@@ -237,7 +237,6 @@ class Vditor extends VditorMethod {
     public enableCache() {
         if (!this.vditor.options.cache.id) {
             throw new Error("need options.cache.id, see https://ld246.com/article/1549638745630#options");
-            return;
         }
         this.vditor.options.cache.enable = true;
     }
@@ -245,6 +244,11 @@ class Vditor extends VditorMethod {
     /** HTML 转 md */
     public html2md(value: string) {
         return this.vditor.lute.HTML2Md(value);
+    }
+
+    /** markdown转JSON输出 */
+    public exportJSON(value: string) {
+        return this.vditor.lute.RenderJSON(value);
     }
 
     /** 获取 HTML */
