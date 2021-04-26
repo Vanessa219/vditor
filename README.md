@@ -447,7 +447,7 @@ if (xhr.status === 200) {
 | filename(name: string): string | 文件名安全处理 | name => name.replace(/\W/g, '') |
 | accept | 文件上传类型，同[input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
 | validate(files: File[]) => string \| boolean | 校验，成功时返回 true 否则返回错误信息 | - |
-| handler(files: File[]) => string \| null | 自定义上传，当发生错误时返回错误信息 | - |
+| handler(files: File[]) => string \| null | 自定义上传，当发生错误时返回错误信息, 需要设置url参数 | - |
 | format(files: File[], responseText: string): string | 对服务端返回的数据进行转换，以满足内置的数据结构 | - |
 | file(files: File[]): File[] | 将上传的文件处理后再返回 | - |
 | setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |
