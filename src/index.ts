@@ -67,11 +67,12 @@ class Vditor extends VditorMethod {
         const mergedOptions = getOptions.merge();
 
         // 支持自定义国际化
+
         if (
+            !!mergedOptions.lang &&
             !["en_US", "ja_JP", "ko_KR", "ru_RU", "zh_CN"].includes(
                 mergedOptions.lang
-            ) &&
-            !mergedOptions.i18n
+            )
         ) {
             throw new Error(
                 "options.lang error, see https://ld246.com/article/1549638745630#options"
@@ -86,9 +87,9 @@ class Vditor extends VditorMethod {
             options: mergedOptions,
             originalInnerHTML: id.innerHTML,
             outline: new Outline(
-                !!mergedOptions.i18n
-                    ? mergedOptions.i18n.outline
-                    : i18n[mergedOptions.lang].outline
+                !!mergedOptions.lang
+                    ? i18n[mergedOptions.lang].outline
+                    : mergedOptions.i18n.outline
             ),
             tip: new Tip(),
         };

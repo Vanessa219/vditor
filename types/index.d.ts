@@ -501,6 +501,7 @@ interface IPreviewOptions {
     mode: "dark" | "light";
     customEmoji?: IObject;
     lang?: (keyof II18n);
+    i18n?: ITips;
     lazyLoadImage?: string;
     emojiPath?: string;
     hljs?: IHljs;
@@ -575,7 +576,7 @@ interface IOptions {
     placeholder?: string;
     /** 多语言。默认值: 'zh_CN' */
     lang?: (keyof II18n);
-    /** 国际化, 自定义语言。优先级高于lang */
+    /** 国际化, 自定义语言。优先级低于lang */
     i18n?: ITips;
     /** @link https://ld246.com/article/1549638745630#options-fullscreen */
     fullscreen?: {

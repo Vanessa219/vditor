@@ -13,7 +13,7 @@ export const download = (vditor: IVditor, content: string, filename: string) => 
         aElement.click();
         aElement.remove();
     } else {
-        vditor.tip.show(i18n[vditor.options.lang].downloadTip, 0);
+        vditor.tip.show(!!vditor.options.lang ? i18n[vditor.options.lang].downloadTip : vditor.options.i18n.downloadTip, 0);
     }
 };
 
@@ -23,7 +23,7 @@ export const exportMarkdown = (vditor: IVditor) => {
 };
 
 export const exportPDF = (vditor: IVditor) => {
-    vditor.tip.show(i18n[vditor.options.lang].generate, 3800);
+    vditor.tip.show(!!vditor.options.lang ? i18n[vditor.options.lang].generate : vditor.options.i18n.generate, 3800);
     const iframe = document.querySelector("iframe");
     iframe.contentDocument.open();
     iframe.contentDocument.write(`<link rel="stylesheet" href="${vditor.options.cdn}/dist/index.css"/>
@@ -61,7 +61,7 @@ export const exportHTML = (vditor: IVditor) => {
 <script>
     const previewElement = document.getElementById('preview')
     Vditor.setContentTheme('${vditor.options.preview.theme.current}', '${vditor.options.preview.theme.path}');
-    Vditor.codeRender(previewElement, '${vditor.options.lang}');
+    Vditor.codeRender(previewElement, '${vditor.options}', '${vditor.options.lang}');
     Vditor.highlightRender(${JSON.stringify(vditor.options.preview.hljs)}, previewElement, '${vditor.options.cdn}');
     Vditor.mathRender(previewElement, {
         cdn: '${vditor.options.cdn}',

@@ -54,7 +54,7 @@ export class Preview {
                 return;
             }
             if (event.target.tagName === "IMG") {
-                previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
+                previewImage(event.target as HTMLImageElement, vditor.options, vditor.options.lang, vditor.options.theme);
             }
         });
 
@@ -199,8 +199,17 @@ export class Preview {
         const time = (new Date().getTime() - startTime);
         if ((new Date().getTime() - startTime) > 2600) {
             // https://github.com/b3log/vditor/issues/67
-            vditor.tip.show(i18n[vditor.options.lang].performanceTip.replace("${x}",
-                time.toString()));
+            vditor.tip.show(
+                !!vditor.options.lang
+                    ? i18n[vditor.options.lang].performanceTip.replace(
+                          "${x}",
+                          time.toString()
+                      )
+                    : vditor.options.i18n.performanceTip.replace(
+                          "${x}",
+                          time.toString()
+                      )
+            );
             vditor.preview.element.setAttribute("data-type", "renderPerformance");
         } else if (vditor.preview.element.getAttribute("data-type") === "renderPerformance") {
             vditor.tip.hide();
@@ -210,7 +219,7 @@ export class Preview {
         if (cmtFocusElement) {
             cmtFocusElement.classList.remove("vditor-comment--focus");
         }
-        codeRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.lang);
+        codeRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options, vditor.options.lang);
         highlightRender(vditor.options.preview.hljs, vditor.preview.element.lastElementChild as HTMLElement,
             vditor.options.cdn);
         mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);

@@ -6,6 +6,8 @@ declare global {
     }
 }
 export const speechRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") => {
+    // 做一个中文语音兜底
+    lang = !!lang ? lang : "zh_CN"
     if (typeof speechSynthesis === "undefined" || typeof SpeechSynthesisUtterance === "undefined") {
         return;
     }
