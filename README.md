@@ -434,7 +434,7 @@ if (xhr.status === 200) {
 
 |   | 说明 | 默认值 |
 | - | - | - |
-| url | 上传 url | '' |
+| url | 上传 url，为空则不会触发上传相关事件 | '' |
 | max | 上传文件最大 Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | 剪切板中包含图片地址时，使用此 url 重新上传 | '' |
 | linkToImgCallback(responseText: string) | 图片地址上传回调 | - |
@@ -447,7 +447,7 @@ if (xhr.status === 200) {
 | filename(name: string): string | 文件名安全处理 | name => name.replace(/\W/g, '') |
 | accept | 文件上传类型，同[input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
 | validate(files: File[]) => string \| boolean | 校验，成功时返回 true 否则返回错误信息 | - |
-| handler(files: File[]) => string \| null | 自定义上传，当发生错误时返回错误信息, 需要设置url参数 | - |
+| handler(files: File[]) => string \| null | 自定义上传，当发生错误时返回错误信息 | - |
 | format(files: File[], responseText: string): string | 对服务端返回的数据进行转换，以满足内置的数据结构 | - |
 | file(files: File[]): File[] | 将上传的文件处理后再返回 | - |
 | setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |

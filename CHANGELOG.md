@@ -98,6 +98,8 @@
 
 ### v3.8.4 / 2021-03-26
 
+* [980](https://github.com/Vanessa219/vditor/pull/980) 流程图不应渲染代码高亮  `修复缺陷`
+* [987](https://github.com/Vanessa219/vditor/pull/987) 完善 upload 必填项说明 `文档相关`
 * [970](https://github.com/Vanessa219/vditor/pull/970) added ru_RU lang `引入特性`
 * [955](https://github.com/Vanessa219/vditor/issues/955) 为 hint 内容添加是否进行 md 转换的设置 `改进功能`
 * [956](https://github.com/Vanessa219/vditor/issues/956) 改进 plantuml 解析问题 `修复缺陷`
