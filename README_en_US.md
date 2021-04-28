@@ -11,9 +11,9 @@ Easy-to-use Markdown editor, born to adapt to different application scenarios
 <a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square&color=97ca00"></a><br>
 <a title="jsdelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor"><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"/></a>
 <a title="Hits" target="_blank" href="https://github.com/88250/hits"><img src="https://hits.b3log.org/Vanessa219/vditor.svg"></a> <br><br>
-<a title="GitHub Watchers" target="_blank" href="https://github.com/Vanessa219/vditor/watchers"><img src="https://img.shields.io/github/watchers/Vanessa219/vditor.svg?label=Watchers&style=social"></a>  
-<a title="GitHub Stars" target="_blank" href="https://github.com/Vanessa219/vditor/stargazers"><img src="https://img.shields.io/github/stars/Vanessa219/vditor.svg?label=Stars&style=social"></a>  
-<a title="GitHub Forks" target="_blank" href="https://github.com/Vanessa219/vditor/network/members"><img src="https://img.shields.io/github/forks/Vanessa219/vditor.svg?label=Forks&style=social"></a>  
+<a title="GitHub Watchers" target="_blank" href="https://github.com/Vanessa219/vditor/watchers"><img src="https://img.shields.io/github/watchers/Vanessa219/vditor.svg?label=Watchers&style=social"></a>
+<a title="GitHub Stars" target="_blank" href="https://github.com/Vanessa219/vditor/stargazers"><img src="https://img.shields.io/github/stars/Vanessa219/vditor.svg?label=Stars&style=social"></a>
+<a title="GitHub Forks" target="_blank" href="https://github.com/Vanessa219/vditor/network/members"><img src="https://img.shields.io/github/forks/Vanessa219/vditor.svg?label=Forks&style=social"></a>
 <a title="Author GitHub Followers" target="_blank" href="https://github.com/vanessa219"><img src="https://img.shields.io/github/followers/vanessa219.svg?label=Followers&style=social"></a>
 </p>
 
@@ -178,6 +178,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
 | lang | i18n: en_US, ja_JP, ko_KR, ru_RU, zh_CN | 'zh_CN' |
+| i18n | custom language package(Effective when `lang === ""`), The type definition [ITips](#options.i18n) | [i18n['zh_CN']](https://github.com/Vanessa219/vditor/blob/master/src/ts/i18n/index.ts#L318) |
 | input | Trigger after input (value: string) | - |
 | focus | Trigger after focusing (value: string) | - |
 | blur | Trigger after out of focus (value: string) | - |
@@ -197,7 +198,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 * Toolbar, you can use name for shorthand: `toolbar: ['emoji', 'br', 'bold', '|', 'line']`. See default [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
 * name can be enumerated as: `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code`, `insert-after`, `insert-before`, `code-theme`, `content-theme`, `export`, `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `fullscreen` , `outline` , `devtools` , `info` , `help` , `br`
-* When `name` is not in the enumeration, you can add a custom button in the following format: 
+* When `name` is not in the enumeration, you can add a custom button in the following format:
 
 ```js
 new Vditor('vditor', {
@@ -354,35 +355,35 @@ interface IHintExtend {
 * The data structure of the file upload is as follows. When the data structure returned by the backend is inconsistent, you can use `format` for conversion.
 
 ```js
-// POST data  
-xhr.send(formData);  // formData = FormData.append("file[]", File)  
-// return data  
-{  
- "msg": "",  
- "code": 0,  
- "data": {  
- "errFiles": ['filename', 'filename2'],  
- "succMap": {  
-   "filename3": "filepath3",  
-   "filename3": "filepath3"  
-   }  
- }  
+// POST data
+xhr.send(formData);  // formData = FormData.append("file[]", File)
+// return data
+{
+ "msg": "",
+ "code": 0,
+ "data": {
+ "errFiles": ['filename', 'filename2'],
+ "succMap": {
+   "filename3": "filepath3",
+   "filename3": "filepath3"
+   }
+ }
 }
 ```
 
 * In order to prevent the off-site pictures from being invalid, `linkToImgUrl` can transfer the off-site picture addresses in the clipboard to the server for saving and processing. The data structure is as follows:
 
 ```js
-// POST data  
+// POST data
 xhr.send(JSON.stringify({url: src})); // src is the address of the image outside the station
-// return data  
-{  
- msg: '',  
- code: 0,  
- data : {  
-   originalURL: '',  
-   url: ''  
- }  
+// return data
+{
+ msg: '',
+ code: 0,
+ data : {
+   originalURL: '',
+   url: ''
+ }
 }
 ```
 
@@ -436,6 +437,90 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | enable | Initialize whether to show outline | false |
 | position | Outline location: 'left', 'right' | 'left' |
 
+#### options.i18n
+
+```ts
+interface ITips {
+  alignCenter: string
+  alignLeft: string
+  alignRight: string
+  alternateText: string
+  bold: string
+  both: string
+  check: string
+  close: string
+  code: string
+  "code-theme": string
+  column: string
+  comment: string
+  confirm: string
+  "content-theme": string
+  copied: string
+  copy: string
+  "delete-column": string
+  "delete-row": string
+  devtools: string
+  down: string
+  downloadTip: string
+  edit: string
+  "edit-mode": string
+  emoji: string
+  export: string
+  fileTypeError: string
+  footnoteRef: string
+  fullscreen: string
+  generate: string
+  headings: string
+  help: string
+  imageURL: string
+  indent: string
+  info: string
+  "inline-code": string
+  "insert-after": string
+  "insert-before": string
+  insertColumnLeft: string
+  insertColumnRight: string
+  insertRowAbove: string
+  insertRowBelow: string
+  instantRendering: string
+  italic: string
+  language: string
+  line: string
+  link: string
+  linkRef: string
+  list: string
+  more: string
+  nameEmpty: string
+  "ordered-list": string
+  outdent: string
+  outline: string
+  over: string
+  performanceTip: string
+  preview: string
+  quote: string
+  record: string
+  "record-tip": string
+  recording: string
+  redo: string
+  remove: string
+  row: string
+  spin: string
+  splitView: string
+  strike: string
+  table: string
+  textIsNotEmpty: string
+  title: string
+  tooltipText: string
+  undo: string
+  up: string
+  update: string
+  upload: string
+  uploadError: string
+  uploading: string
+  wysiwyg: string
+}
+```
+
 #### methods
 
 |   | Explanation |
@@ -468,6 +553,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | hlCommentIds(ids: string[]) | Highlight comment by Ids |
 | unHlCommentIds(ids: string[]) | Cancel highlight comment by Ids |
 | removeCommentIds(removeIds: string[]) | Remove comment by Ids |
+| exportJSON(value: string) | export markdown as Syntax Tree |
 
 #### static methods
 
@@ -478,7 +564,7 @@ Vditor.mermaidRender(document)
 ```
 
 ```js
-import VditorPreview from 'vditor/dist/method.min'  
+import VditorPreview from 'vditor/dist/method.min'
 VditorPreview.mermaidRender(document)
 ```
 
@@ -491,11 +577,13 @@ options?: IPreviewOptions {
   mode: "dark" | "light";
   anchor?: number;  // 0: no render, 1: render left, 2: render right
   customEmoji?: { [key: string]: string };    // Custom emoji, default is {}
-  lang?: (keyof II18nLang);    // Language, default is 'zh_CN'  
-  emojiPath?: string;    // Emoji picture path 
-  hljs?: IHljs; // Refer to options.preview.hljs 
+  lang?: (keyof II18nLang);    // Language, default is 'zh_CN'
+  i18n?: ITips;   // custom language package, default is i18n['zh_CN']
+  emojiPath?: string;    // Emoji picture path
+  hljs?: IHljs; // Refer to options.preview.hljs
   speech?: {  // Read the selected content
     enable?: boolean,
+    lang?: string  // speech language, default is 'zh_CN'
   };
   math?: IMath; // Math formula rendering configuration
   transform?(html: string): string; // Callback method before rendering
@@ -524,12 +612,14 @@ options?: IPreviewOptions {
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | Highlight the code block in element |
 | mediaRender(element: HTMLElement) | Rendering as [specific link](https://ld246.com/article/1589813914768) as video, audio, embedded iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
-| speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
+| speechRender(element: HTMLElement, speechLang?: string, lang?: (keyof II18n)) | Read the selected text |
 | graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 | setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
 | setContentTheme (contentTheme: string, path: string)  | update content theme |
 | mindmapRender (element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme)  | Render mind map |
+
+> Tip: Function `speechRender(element, speechLang, lang)`, When `!!lang === true`, `speechLang` is not effective!
 
 ## 🏗 Developer Guide
 
