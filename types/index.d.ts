@@ -229,6 +229,7 @@ interface II18n {
     ko_KR: IObject;
     ru_RU: IObject;
     zh_CN: IObject;
+    zh_TW: IObject;
 }
 
 interface IClasses {
