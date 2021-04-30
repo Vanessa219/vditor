@@ -96,8 +96,9 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.8.4 / 2021-03-26
+### v3.8.4 / 2021-05-xx
 
+* [993](https://github.com/Vanessa219/vditor/pull/993) 加入繁體中文 `引入特性`
 * [980](https://github.com/Vanessa219/vditor/pull/980) 流程图不应渲染代码高亮  `修复缺陷`
 * [987](https://github.com/Vanessa219/vditor/pull/987) 完善 upload 必填项说明 `文档相关`
 * [970](https://github.com/Vanessa219/vditor/pull/970) added ru_RU lang `引入特性`
