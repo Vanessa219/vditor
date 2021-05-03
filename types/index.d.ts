@@ -308,12 +308,12 @@ interface ITips {
 }
 
 interface II18n {
-    en_US: IObject;
-    ja_JP: IObject;
-    ko_KR: IObject;
-    ru_RU: IObject;
-    zh_CN: IObject;
-    zh_TW: IObject;
+    en_US: ITips;
+    ja_JP: ITips;
+    ko_KR: ITips;
+    ru_RU: ITips;
+    zh_CN: ITips;
+    zh_TW: ITips;
 }
 
 interface IClasses {
