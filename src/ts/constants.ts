@@ -18,10 +18,14 @@ export abstract class Constants {
         "rainbow_dash", "rrt", "solarized-dark", "solarized-dark256", "solarized-light", "swapoff", "tango", "trac",
         "vim", "vs", "xcode", "ant-design"];
     public static readonly CODE_LANGUAGES: string[] = ["mermaid", "echarts", "mindmap", "plantuml", "abc", "graphviz", "flowchart", "apache",
-        "bash", "cs", "cpp", "css", "coffeescript", "diff", "xml", "http", "ini", "json", "java", "javascript", "js",
-        "makefile", "markdown", "nginx", "objectivec", "php", "perl", "properties", "python", "ruby", "sql", "shell",
-        "dart", "erb", "go", "gradle", "julia", "kotlin", "less", "lua", "matlab", "rust", "scss", "typescript", "ts",
-        "yaml"];
+        "js", "ts", "html",
+        // common
+        "properties", "apache", "bash", "c", "csharp", "cpp", "css", "coffeescript", "diff", "go", "xml", "http",
+        "json", "java", "javascript", "kotlin", "less", "lua", "makefile", "markdown", "nginx", "objectivec", "php",
+        "php-template", "perl", "plaintext", "python", "python-repl", "r", "ruby", "rust", "scss", "sql", "shell",
+        "swift", "ini", "typescript", "vbnet", "yaml",
+        "ada", "clojure", "dart", "erb", "fortran", "gradle", "haskell", "julia", "julia-repl", "lisp", "matlab",
+        "pgsql", "powershell", "sql_more", "stata", "cmake", "mathematica"];
     public static readonly CDN = `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}`;
     public static readonly MARKDOWN_OPTIONS = {
         autoSpace: false,

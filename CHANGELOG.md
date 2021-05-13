@@ -96,20 +96,17 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.8.4 / 2021-05-xx
+### v3.8.5 / 2021-06-xx
 
+### v3.8.4 / 2021-05-13
+
+* [1000](https://github.com/Vanessa219/vditor/issues/1000) 升级 hljs 并添加更多的语言支持 `改进功能`
 * [993](https://github.com/Vanessa219/vditor/pull/993) 加入繁體中文 `引入特性`
 * [980](https://github.com/Vanessa219/vditor/pull/980) 流程图不应渲染代码高亮  `修复缺陷`
 * [987](https://github.com/Vanessa219/vditor/pull/987) 完善 upload 必填项说明 `文档相关`
 * [970](https://github.com/Vanessa219/vditor/pull/970) added ru_RU lang `引入特性`
 * [955](https://github.com/Vanessa219/vditor/issues/955) 为 hint 内容添加是否进行 md 转换的设置 `改进功能`
 * [956](https://github.com/Vanessa219/vditor/issues/956) 改进 plantuml 解析问题 `修复缺陷`
-* 文档修改
-  * 3.8.4
-    * 添加 hint.parse 配置
-
-### v3.8.3 / 2021-03-14
-
 * [953](https://github.com/Vanessa219/vditor/issues/953) 标题删除需保留空行 `改进功能`
 * [946](https://github.com/Vanessa219/vditor/issues/946) Improve delete behavior in the list item after the code block `修复缺陷`
 * [949](https://github.com/Vanessa219/vditor/issues/949) lute.Md2HTML 3.7.5 后解析无 id 属性 `修复缺陷`
@@ -138,6 +135,8 @@
   * 3.8.1
     * 添加表格增加向上插入行 ⇧⌘F 和向左插入列 ⇧⌘G 的快捷键
     * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥⌘[]
+  * 3.8.4
+    * 添加 hint.parse 配置
   
 ### v3.7.7 / 2021-01-19
 
