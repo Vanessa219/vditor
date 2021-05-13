@@ -4,27 +4,22 @@
     "noImplicitAny": true,
     "module": "esnext",
     "target": "es5",
-    "noUnusedLocals": true,
     "lib": [
       "dom",
       "ESNext"
     ],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
     "typeRoots": [
       "./node_modules/@types"
     ],
     "types": [
-      "./types",
-      "node",
-      "jest"
+      "./types"
     ],
-    "declaration": true
+    "declaration": true,
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
   ]
 }

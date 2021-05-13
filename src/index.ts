@@ -1,9 +1,10 @@
+import "./assets/scss/index.scss";
 import VditorMethod from "./method";
 import {Constants, VDITOR_VERSION} from "./ts/constants";
-import {DevTools} from "./ts/devtools";
+import {DevTools} from "./ts/devtools/index";
 import {Hint} from "./ts/hint/index";
-import {i18n} from "./ts/i18n";
-import {IR} from "./ts/ir";
+import {i18n} from "./ts/i18n/index";
+import {IR} from "./ts/ir/index";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
