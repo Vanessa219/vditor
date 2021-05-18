@@ -6,12 +6,11 @@
  */
 
 const path = require('path')
-const fs = require('fs')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const WebpackOnBuildPlugin = require('on-build-webpack')
+const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const BundleAnalyzerPlugin = require(
   'webpack-bundle-analyzer').BundleAnalyzerPlugin
 const pkg = require('./package.json')
@@ -43,73 +42,8 @@ SOFTWARE.
   entryOnly: true,
 })
 
-const rimraf = require('rimraf')
-
-rimraf.sync('./dist', {}, () => {
-  console.log('rm dist')
-})
-
 module.exports = [
   {
-    mode: 'production',
-    entry: {
-      'index': './src/assets/scss/index.scss',
-    },
-    resolve: {
-      extensions: ['.scss'],
-    },
-    module: {
-      rules: [
-        {
-          test: /\.scss$/,
-          include: [path.resolve(__dirname, 'src/assets')],
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader', // translates CSS into CommonJS
-              options: {
-                url: false,
-              },
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: () => [
-                  require('autoprefixer')({grid: true, remove: false}),
-                ],
-              },
-            },
-            {
-              loader: 'sass-loader', // compiles Sass to CSS
-            },
-          ],
-        },
-      ],
-    },
-    optimization: {
-      minimizer: [
-        new OptimizeCSSAssetsPlugin({}),
-      ],
-    },
-    plugins: [
-      banner,
-      new MiniCssExtractPlugin({
-        filename: '[name].css',
-      }),
-      new WebpackOnBuildPlugin(() => {
-        fs.unlinkSync('./dist/index.js')
-      }),
-      new CopyPlugin({
-        patterns: [
-          {from: 'src/css', to: 'css'},
-          {from: 'src/images', to: 'images'},
-          {from: 'src/js', to: 'js'},
-          {from: 'types', to: 'types'},
-        ],
-      }),
-    ],
-  }, {
     mode: 'production',
     output: {
       filename: '[name].js',
@@ -119,14 +53,14 @@ module.exports = [
       libraryTarget: 'umd',
       library: 'Vditor',
       libraryExport: 'default',
-	  globalObject: 'this',
+      globalObject: 'this',
     },
     entry: {
       'index.min': './src/index.ts',
       'method.min': './src/method.ts',
     },
     resolve: {
-      extensions: ['.js', '.ts', 'png'],
+      extensions: ['.ts', '.js', '.scss', 'png'],
     },
     module: {
       rules: [
@@ -167,25 +101,67 @@ module.exports = [
           test: /\.ts$/,
           use: 'ts-loader',
         },
+        {
+          test: /\.scss$/,
+          include: [path.resolve(__dirname, 'src/assets')],
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader', // translates CSS into CommonJS
+              options: {
+                url: false,
+              },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    ['autoprefixer', {grid: true, remove: false}],
+                  ],
+                },
+              },
+            },
+            {
+              loader: 'sass-loader', // compiles Sass to CSS
+            },
+          ],
+        },
       ],
     },
     plugins: [
       // new BundleAnalyzerPlugin(),
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: [
+          path.join(__dirname, 'dist')],
+      }),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
       }),
+      new MiniCssExtractPlugin({
+        filename: 'index.css',
+      }),
       banner,
+      new CopyPlugin({
+        patterns: [
+          {from: 'src/css', to: 'css'},
+          {from: 'src/images', to: 'images'},
+          {from: 'src/js', to: 'js'},
+        ],
+      }),
     ],
-    // optimization: {
-    //   namedModules: true,
-    //   namedChunks: true,
-    //   splitChunks: {
-    //     cacheGroups: {
-    //       default: false,
-    //       vendors: {
-    //         test: /null/,
-    //       },
-    //     },
-    //   },
-    // },
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          include: /\/src\/ts/,
+          terserOptions: {
+            format: {
+              comments: false,
+            },
+          },
+          extractComments: false,
+        }),
+      ],
+    },
   }]
