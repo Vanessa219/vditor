@@ -3,7 +3,7 @@ import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 
 declare const hljs: {
-    highlightBlock(element: Element): void;
+    highlightElement(element: Element): void;
 };
 
 export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Document = document,
@@ -43,7 +43,7 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                 block.classList.contains("language-math")) {
                 return;
             }
-            hljs.highlightBlock(block);
+            hljs.highlightElement(block);
 
             if (!hljsOption.lineNumber) {
                 return;
