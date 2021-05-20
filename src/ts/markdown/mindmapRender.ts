@@ -1,3 +1,4 @@
+import {mindmapRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
@@ -6,7 +7,7 @@ declare const echarts: {
 };
 
 export const mindmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
-    const mindmapElements = element.querySelectorAll(".language-mindmap");
+    const mindmapElements = mindmapRenderAdapter.getMathElements(element);
     if (mindmapElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
             mindmapElements.forEach((e: HTMLDivElement) => {
@@ -14,7 +15,7 @@ export const mindmapRender = (element: (HTMLElement | Document) = document, cdn 
                     e.parentElement.classList.contains("vditor-ir__marker--pre")) {
                     return;
                 }
-                const text = e.getAttribute("data-code");
+                const text = mindmapRenderAdapter.getCode(e);
                 if (!text) {
                     return;
                 }

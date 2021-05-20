@@ -1,3 +1,4 @@
+import {flowchartRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
@@ -6,7 +7,7 @@ declare const flowchart: {
 };
 
 export const flowchartRender = (element: HTMLElement, cdn = Constants.CDN) => {
-    const flowchartElements = element.querySelectorAll(".language-flowchart");
+    const flowchartElements = flowchartRenderAdapter.getMathElements(element);
     if (flowchartElements.length === 0) {
         return;
     }
@@ -15,7 +16,7 @@ export const flowchartRender = (element: HTMLElement, cdn = Constants.CDN) => {
             if (item.getAttribute("data-processed") === "true") {
                 return;
             }
-            const flowchartObj = flowchart.parse(item.textContent);
+            const flowchartObj = flowchart.parse(flowchartRenderAdapter.getCode(item));
             item.innerHTML = "";
             flowchartObj.drawSVG(item);
             item.setAttribute("data-processed", "true");

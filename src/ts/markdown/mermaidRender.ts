@@ -1,3 +1,4 @@
+import {mermaidRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
@@ -7,7 +8,7 @@ declare const mermaid: {
 };
 
 export const mermaidRender = (element: HTMLElement, cdn = Constants.CDN, theme: string) => {
-    const mermaidElements = element.querySelectorAll(".language-mermaid");
+    const mermaidElements = mermaidRenderAdapter.getMathElements(element);
     if (mermaidElements.length === 0) {
         return;
     }
@@ -115,7 +116,8 @@ export const mermaidRender = (element: HTMLElement, cdn = Constants.CDN, theme: 
         }
         mermaid.initialize(config);
         mermaidElements.forEach((item) => {
-            if (item.getAttribute("data-processed") === "true" || item.textContent.trim() === "") {
+            const code = mermaidRenderAdapter.getCode(item);
+            if (item.getAttribute("data-processed") === "true" || code.trim() === "") {
                 return;
             }
             mermaid.init(undefined, item);

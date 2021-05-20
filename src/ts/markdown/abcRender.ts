@@ -1,3 +1,4 @@
+import {abcRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 
@@ -6,7 +7,7 @@ declare const ABCJS: {
 };
 
 export const abcRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
-    const abcElements = element.querySelectorAll(".language-abc");
+    const abcElements = abcRenderAdapter.getMathElements(element);
     if (abcElements.length > 0) {
         addScript(`${cdn}/dist/js/abcjs/abcjs_basic.min.js`, "vditorAbcjsScript").then(() => {
             abcElements.forEach((item: HTMLDivElement) => {
@@ -17,7 +18,7 @@ export const abcRender = (element: (HTMLElement | Document) = document, cdn = Co
                 if (item.getAttribute("data-processed") === "true") {
                     return;
                 }
-                ABCJS.renderAbc(item, item.textContent.trim());
+                ABCJS.renderAbc(item, abcRenderAdapter.getCode(item).trim());
                 item.style.overflowX = "auto";
                 item.setAttribute("data-processed", "true");
             });

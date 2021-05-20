@@ -1,4 +1,5 @@
 import VditorMethod from "./method";
+import * as adapter from "./ts/adapter";
 import {Constants, VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools";
 import {Hint} from "./ts/hint/index";
@@ -37,6 +38,7 @@ import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 
 class Vditor extends VditorMethod {
+    public static adapter = adapter;
 
     public readonly version: string;
     public vditor: IVditor;
