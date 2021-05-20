@@ -1,5 +1,4 @@
 import { Constants } from "../constants";
-import { i18n } from "../i18n";
 import { merge } from "./merge";
 
 export class Options {
@@ -30,12 +29,12 @@ export class Options {
             emoji: {
                 "+1": "👍",
                 "-1": "👎",
-                confused: "😕",
-                eyes: "👀️",
-                heart: "❤️",
-                rocket: "🚀️",
-                smile: "😄",
-                tada: "🎉️",
+                "confused": "😕",
+                "eyes": "👀️",
+                "heart": "❤️",
+                "rocket": "🚀️",
+                "smile": "😄",
+                "tada": "🎉️",
             },
             emojiPath: `${Constants.CDN}/dist/images/emoji`,
             extend: [],
@@ -43,7 +42,6 @@ export class Options {
         },
         icon: "ant",
         lang: "zh_CN",
-        i18n: i18n["zh_CN"],
         mode: "ir",
         outline: {
             enable: false,
@@ -139,9 +137,7 @@ export class Options {
             if (this.options.toolbar) {
                 this.options.toolbar = this.mergeToolbar(this.options.toolbar);
             } else {
-                this.options.toolbar = this.mergeToolbar(
-                    this.defaultOptions.toolbar
-                );
+                this.options.toolbar = this.mergeToolbar(this.defaultOptions.toolbar);
             }
             if (this.options.preview?.theme?.list) {
                 this.defaultOptions.preview.theme.list = this.options.preview.theme.list;
@@ -158,7 +154,7 @@ export class Options {
 
         if (mergedOptions.cache.enable && !mergedOptions.cache.id) {
             throw new Error(
-                "need options.cache.id, see https://ld246.com/article/1549638745630#options"
+                "need options.cache.id, see https://ld246.com/article/1549638745630#options",
             );
         }
 
@@ -420,11 +416,7 @@ export class Options {
                     typeof menuItem === "object" &&
                     defaultMenuItem.name === menuItem.name
                 ) {
-                    currentMenuItem = Object.assign(
-                        {},
-                        defaultMenuItem,
-                        menuItem
-                    );
+                    currentMenuItem = Object.assign({}, defaultMenuItem, menuItem,);
                 }
             });
             if (menuItem.toolbar) {

@@ -1,5 +1,3 @@
-import {i18n} from "../i18n";
-
 export const previewImage = (oldImgElement: HTMLImageElement, options: IOptions , lang: keyof II18n = "zh_CN", theme = "classic") => {
     const oldImgRect = oldImgElement.getBoundingClientRect();
     const height = 36;
@@ -7,10 +5,10 @@ export const previewImage = (oldImgElement: HTMLImageElement, options: IOptions 
     <div class="vditor-img__bar">
       <span class="vditor-img__btn" data-deg="0">
         <svg><use xlink:href="#vditor-icon-redo"></use></svg>
-        ${!!lang ? i18n[lang].spin : options.i18n.spin}
+        ${window.VditorI18n.spin}
       </span>
       <span class="vditor-img__btn"  onclick="this.parentElement.parentElement.outerHTML = '';document.body.style.overflow = ''">
-        X &nbsp;${!!lang ? i18n[lang].close : options.i18n.close}
+        X &nbsp;${window.VditorI18n.close}
       </span>
     </div>
     <div class="vditor-img__img" onclick="this.parentElement.outerHTML = '';document.body.style.overflow = ''">

@@ -3,7 +3,6 @@ import VditorMethod from "./method";
 import {Constants, VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools/index";
 import {Hint} from "./ts/hint/index";
-import {i18n} from "./ts/i18n/index";
 import {IR} from "./ts/ir/index";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
@@ -32,8 +31,8 @@ import {getSelectText} from "./ts/util/getSelectText";
 import {Options} from "./ts/util/Options";
 import {processCodeRender} from "./ts/util/processCode";
 import {getCursorPosition, getEditorRange} from "./ts/util/selection";
-import {WYSIWYG} from "./ts/wysiwyg/index";
 import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
+import {WYSIWYG} from "./ts/wysiwyg/index";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 
@@ -57,7 +56,7 @@ class Vditor extends VditorMethod {
                     },
                 };
             } else if (!options.cache) {
-                options.cache = { id: `vditor${id}` };
+                options.cache = {id: `vditor${id}`};
             } else if (!options.cache.id) {
                 options.cache.id = `vditor${id}`;
             }
@@ -68,93 +67,20 @@ class Vditor extends VditorMethod {
         const mergedOptions = getOptions.merge();
 
         // 支持自定义国际化
-
-        if (
-            !!mergedOptions.lang &&
-            !["en_US", "ja_JP", "ko_KR", "ru_RU", "zh_CN"].includes(
-                mergedOptions.lang
-            )
-        ) {
-            throw new Error(
-                "options.lang error, see https://ld246.com/article/1549638745630#options"
-            );
-        }
-
-        this.vditor = {
-            currentMode: mergedOptions.mode,
-            element: id,
-            hint: new Hint(mergedOptions.hint.extend),
-            lute: undefined,
-            options: mergedOptions,
-            originalInnerHTML: id.innerHTML,
-            outline: new Outline(
-                !!mergedOptions.lang
-                    ? i18n[mergedOptions.lang].outline
-                    : mergedOptions.i18n.outline
-            ),
-            tip: new Tip(),
-        };
-
-        this.vditor.sv = new Editor(this.vditor);
-        this.vditor.undo = new Undo();
-        this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-        this.vditor.ir = new IR(this.vditor);
-        this.vditor.toolbar = new Toolbar(this.vditor);
-
-        if (mergedOptions.resize.enable) {
-            this.vditor.resize = new Resize(this.vditor);
-        }
-
-        if (this.vditor.toolbar.elements.devtools) {
-            this.vditor.devtools = new DevTools();
-        }
-
-        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
-            this.vditor.upload = new Upload();
-        }
-
-        addScript(
-            options._lutePath ||
-                `${mergedOptions.cdn}/dist/js/lute/lute.min.js`,
-            "vditorLuteScript"
-        ).then(() => {
-            this.vditor.lute = setLute({
-                autoSpace: this.vditor.options.preview.markdown.autoSpace,
-                codeBlockPreview: this.vditor.options.preview.markdown
-                    .codeBlockPreview,
-                emojiSite: this.vditor.options.hint.emojiPath,
-                emojis: this.vditor.options.hint.emoji,
-                fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
-                footnotes: this.vditor.options.preview.markdown.footnotes,
-                headingAnchor: false,
-                inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
-                linkBase: this.vditor.options.preview.markdown.linkBase,
-                linkPrefix: this.vditor.options.preview.markdown.linkPrefix,
-                listStyle: this.vditor.options.preview.markdown.listStyle,
-                mark: this.vditor.options.preview.markdown.mark,
-                mathBlockPreview: this.vditor.options.preview.markdown
-                    .mathBlockPreview,
-                paragraphBeginningSpace: this.vditor.options.preview.markdown
-                    .paragraphBeginningSpace,
-                sanitize: this.vditor.options.preview.markdown.sanitize,
-                toc: this.vditor.options.preview.markdown.toc,
-            });
-
-            this.vditor.preview = new Preview(this.vditor);
-
-            initUI(this.vditor);
-
-            if (mergedOptions.after) {
-                mergedOptions.after();
-            }
-            if (mergedOptions.icon) {
-                // 防止初始化 2 个编辑器时加载 2 次
-                addScriptSync(
-                    `${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`,
-                    "vditorIconScript"
+        if (!mergedOptions.i18n) {
+            if (!["en_US", "ja_JP", "ko_KR", "ru_RU", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
+                throw new Error(
+                    "options.lang error, see https://ld246.com/article/1549638745630#options",
                 );
+            } else {
+                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, "vditorI18nScript").then(() => {
+                    this.init(id as HTMLElement, mergedOptions);
+                });
             }
-        });
+        } else {
+            window.VditorI18n = mergedOptions.i18n
+            this.init(id, mergedOptions)
+        }
     }
 
     /** 设置主题 */
@@ -162,16 +88,13 @@ class Vditor extends VditorMethod {
         theme: "dark" | "classic",
         contentTheme?: string,
         codeTheme?: string,
-        contentThemePath?: string
+        contentThemePath?: string,
     ) {
         this.vditor.options.theme = theme;
         setTheme(this.vditor);
         if (contentTheme) {
             this.vditor.options.preview.theme.current = contentTheme;
-            setContentTheme(
-                contentTheme,
-                contentThemePath || this.vditor.options.preview.theme.path
-            );
+            setContentTheme(contentTheme, contentThemePath || this.vditor.options.preview.theme.path,);
         }
         if (codeTheme) {
             this.vditor.options.preview.hljs.style = codeTheme;
@@ -216,16 +139,11 @@ class Vditor extends VditorMethod {
         hidePanel(this.vditor, ["subToolbar", "hint", "popover"]);
         disableToolbar(
             this.vditor.toolbar.elements,
-            Constants.EDIT_TOOLBARS.concat([
-                "undo",
-                "redo",
-                "fullscreen",
-                "edit-mode",
-            ])
+            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode",]),
         );
         this.vditor[this.vditor.currentMode].element.setAttribute(
             "contenteditable",
-            "false"
+            "false",
         );
     }
 
@@ -233,18 +151,10 @@ class Vditor extends VditorMethod {
     public enable() {
         enableToolbar(
             this.vditor.toolbar.elements,
-            Constants.EDIT_TOOLBARS.concat([
-                "undo",
-                "redo",
-                "fullscreen",
-                "edit-mode",
-            ])
+            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode",]),
         );
         this.vditor.undo.resetIcon(this.vditor);
-        this.vditor[this.vditor.currentMode].element.setAttribute(
-            "contenteditable",
-            "true"
-        );
+        this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true",);
     }
 
     /** 返回选中的字符串 */
@@ -287,7 +197,7 @@ class Vditor extends VditorMethod {
     public enableCache() {
         if (!this.vditor.options.cache.id) {
             throw new Error(
-                "need options.cache.id, see https://ld246.com/article/1549638745630#options"
+                "need options.cache.id, see https://ld246.com/article/1549638745630#options",
             );
         }
         this.vditor.options.cache.enable = true;
@@ -359,9 +269,7 @@ class Vditor extends VditorMethod {
     /** 设置编辑器内容 */
     public setValue(markdown: string, clearStack = false) {
         if (this.vditor.currentMode === "sv") {
-            this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(
-                markdown
-            );
+            this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown,);
             processSVAfterRender(this.vditor, {
                 enableAddUndoStack: true,
                 enableHint: false,
@@ -374,9 +282,7 @@ class Vditor extends VditorMethod {
                 enableInput: false,
             });
         } else {
-            this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(
-                markdown
-            );
+            this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown,);
             this.vditor.ir.element
                 .querySelectorAll(".vditor-ir__preview[data-render='2']")
                 .forEach((item: HTMLElement) => {
@@ -518,6 +424,80 @@ class Vditor extends VditorMethod {
             enableAddUndoStack: true,
             enableHint: false,
             enableInput: false,
+        });
+    }
+
+    private init(id: HTMLElement, mergedOptions: IOptions) {
+        this.vditor = {
+            currentMode: mergedOptions.mode,
+            element: id,
+            hint: new Hint(mergedOptions.hint.extend),
+            lute: undefined,
+            options: mergedOptions,
+            originalInnerHTML: id.innerHTML,
+            outline: new Outline(window.VditorI18n.outline),
+            tip: new Tip(),
+        };
+
+        this.vditor.sv = new Editor(this.vditor);
+        this.vditor.undo = new Undo();
+        this.vditor.wysiwyg = new WYSIWYG(this.vditor);
+        this.vditor.ir = new IR(this.vditor);
+        this.vditor.toolbar = new Toolbar(this.vditor);
+
+        if (mergedOptions.resize.enable) {
+            this.vditor.resize = new Resize(this.vditor);
+        }
+
+        if (this.vditor.toolbar.elements.devtools) {
+            this.vditor.devtools = new DevTools();
+        }
+
+        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
+            this.vditor.upload = new Upload();
+        }
+
+        addScript(
+            mergedOptions._lutePath ||
+            `${mergedOptions.cdn}/dist/js/lute/lute.min.js`,
+            "vditorLuteScript",
+        ).then(() => {
+            this.vditor.lute = setLute({
+                autoSpace: this.vditor.options.preview.markdown.autoSpace,
+                codeBlockPreview: this.vditor.options.preview.markdown
+                    .codeBlockPreview,
+                emojiSite: this.vditor.options.hint.emojiPath,
+                emojis: this.vditor.options.hint.emoji,
+                fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
+                footnotes: this.vditor.options.preview.markdown.footnotes,
+                headingAnchor: false,
+                inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
+                linkBase: this.vditor.options.preview.markdown.linkBase,
+                linkPrefix: this.vditor.options.preview.markdown.linkPrefix,
+                listStyle: this.vditor.options.preview.markdown.listStyle,
+                mark: this.vditor.options.preview.markdown.mark,
+                mathBlockPreview: this.vditor.options.preview.markdown
+                    .mathBlockPreview,
+                paragraphBeginningSpace: this.vditor.options.preview.markdown
+                    .paragraphBeginningSpace,
+                sanitize: this.vditor.options.preview.markdown.sanitize,
+                toc: this.vditor.options.preview.markdown.toc,
+            });
+
+            this.vditor.preview = new Preview(this.vditor);
+
+            initUI(this.vditor);
+
+            if (mergedOptions.after) {
+                mergedOptions.after();
+            }
+            if (mergedOptions.icon) {
+                // 防止初始化 2 个编辑器时加载 2 次
+                addScriptSync(
+                    `${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`,
+                    "vditorIconScript",
+                );
+            }
         });
     }
 }

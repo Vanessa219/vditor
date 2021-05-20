@@ -1,4 +1,3 @@
-import {i18n} from "../i18n/index";
 import {getEditorRange, setSelectionFocus} from "../util/selection";
 import {getElement} from "./getElement";
 import {setHeaders} from "./setHeaders";
@@ -28,12 +27,12 @@ const validateFile = (vditor: IVditor, files: File[]) => {
         let validate = true;
 
         if (!file.name) {
-            errorTip += `<li>${!!lang ? i18n[lang].nameEmpty : options.i18n.nameEmpty}</li>`;
+            errorTip += `<li>${window.VditorI18n.nameEmpty}</li>`;
             validate = false;
         }
 
         if (file.size > vditor.options.upload.max) {
-            errorTip += `<li>${file.name} ${!!lang ? i18n[lang].over : options.i18n.over} ${vditor.options.upload.max / 1024 / 1024}M</li>`;
+            errorTip += `<li>${file.name} ${window.VditorI18n.over} ${vditor.options.upload.max / 1024 / 1024}M</li>`;
             validate = false;
         }
 
@@ -57,14 +56,14 @@ const validateFile = (vditor: IVditor, files: File[]) => {
             });
 
             if (!isAccept) {
-                errorTip += `<li>${file.name} ${!!lang ? i18n[lang].fileTypeError : options.i18n.fileTypeError}</li>`;
+                errorTip += `<li>${file.name} ${window.VditorI18n.fileTypeError}</li>`;
                 validate = false;
             }
         }
 
         if (validate) {
             uploadFileList.push(file);
-            uploadingStr += `<li>${filename} ${!!lang ? i18n[lang].uploading : options.i18n.uploading}</li>`;
+            uploadingStr += `<li>${filename} ${window.VditorI18n.uploading}</li>`;
         }
     }
 
@@ -88,11 +87,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         response.data.errFiles.forEach((data: string) => {
             const lastIndex = data.lastIndexOf(".");
             const filename = vditor.options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
-            errorTip += `<li>${filename} ${
-                !!vditor.options.lang
-                    ? i18n[vditor.options.lang].uploadError
-                    : vditor.options.i18n.uploadError
-            }</li>`;
+            errorTip += `<li>${filename} ${window.VditorI18n.uploadError}</li>`;
         });
         errorTip += "</ul>";
     }

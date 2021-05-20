@@ -2,6 +2,10 @@ declare module "*.svg";
 
 declare module "*.png";
 
+interface Window {
+    VditorI18n: ITips
+}
+
 interface IObject {
     [key: string]: string;
 }
@@ -227,84 +231,84 @@ declare const webkitAudioContext: {
 };
 
 interface ITips {
-    [index: string]: string
-    alignCenter: string
-    alignLeft: string
-    alignRight: string
-    alternateText: string
-    bold: string
-    both: string
-    check: string
-    close: string
-    code: string
-    "code-theme": string
-    column: string
-    comment: string
-    confirm: string
-    "content-theme": string
-    copied: string
-    copy: string
-    "delete-column": string
-    "delete-row": string
-    devtools: string
-    down: string
-    downloadTip: string
-    edit: string
-    "edit-mode": string
-    emoji: string
-    export: string
-    fileTypeError: string
-    footnoteRef: string
-    fullscreen: string
-    generate: string
-    headings: string
-    help: string
-    imageURL: string
-    indent: string
-    info: string
-    "inline-code": string
-    "insert-after": string
-    "insert-before": string
-    insertColumnLeft: string
-    insertColumnRight: string
-    insertRowAbove: string
-    insertRowBelow: string
-    instantRendering: string
-    italic: string
-    language: string
-    line: string
-    link: string
-    linkRef: string
-    list: string
-    more: string
-    nameEmpty: string
-    "ordered-list": string
-    outdent: string
-    outline: string
-    over: string
-    performanceTip: string
-    preview: string
-    quote: string
-    record: string
-    "record-tip": string
-    recording: string
-    redo: string
-    remove: string
-    row: string
-    spin: string
-    splitView: string
-    strike: string
-    table: string
-    textIsNotEmpty: string
-    title: string
-    tooltipText: string
-    undo: string
-    up: string
-    update: string
-    upload: string
-    uploadError: string
-    uploading: string
-    wysiwyg: string
+    [index: string]: string;
+    alignCenter: string;
+    alignLeft: string;
+    alignRight: string;
+    alternateText: string;
+    bold: string;
+    both: string;
+    check: string;
+    close: string;
+    code: string;
+    "code-theme": string;
+    column: string;
+    comment: string;
+    confirm: string;
+    "content-theme": string;
+    copied: string;
+    copy: string;
+    "delete-column": string;
+    "delete-row": string;
+    devtools: string;
+    down: string;
+    downloadTip: string;
+    edit: string;
+    "edit-mode": string;
+    emoji: string;
+    export: string;
+    fileTypeError: string;
+    footnoteRef: string;
+    fullscreen: string;
+    generate: string;
+    headings: string;
+    help: string;
+    imageURL: string;
+    indent: string;
+    info: string;
+    "inline-code": string;
+    "insert-after": string;
+    "insert-before": string;
+    insertColumnLeft: string;
+    insertColumnRight: string;
+    insertRowAbove: string;
+    insertRowBelow: string;
+    instantRendering: string;
+    italic: string;
+    language: string;
+    line: string;
+    link: string;
+    linkRef: string;
+    list: string;
+    more: string;
+    nameEmpty: string;
+    "ordered-list": string;
+    outdent: string;
+    outline: string;
+    over: string;
+    performanceTip: string;
+    preview: string;
+    quote: string;
+    record: string;
+    "record-tip": string;
+    recording: string;
+    redo: string;
+    remove: string;
+    row: string;
+    spin: string;
+    splitView: string;
+    strike: string;
+    table: string;
+    textIsNotEmpty: string;
+    title: string;
+    tooltipText: string;
+    undo: string;
+    up: string;
+    update: string;
+    upload: string;
+    uploadError: string;
+    uploading: string;
+    wysiwyg: string;
 }
 
 interface II18n {
@@ -508,7 +512,6 @@ interface IPreviewOptions {
     hljs?: IHljs;
     speech?: {
         enable?: boolean,
-        lang?: string
     };
     anchor?: number; // 0: no render, 1: render left, 2: render right
     math?: IMath;

@@ -1,4 +1,3 @@
-import {i18n} from "../i18n";
 import {getHTML} from "../markdown/getHTML";
 import {getMarkdown} from "../markdown/getMarkdown";
 
@@ -13,7 +12,7 @@ export const download = (vditor: IVditor, content: string, filename: string) => 
         aElement.click();
         aElement.remove();
     } else {
-        vditor.tip.show(!!vditor.options.lang ? i18n[vditor.options.lang].downloadTip : vditor.options.i18n.downloadTip, 0);
+        vditor.tip.show(window.VditorI18n.downloadTip, 0);
     }
 };
 
@@ -23,7 +22,7 @@ export const exportMarkdown = (vditor: IVditor) => {
 };
 
 export const exportPDF = (vditor: IVditor) => {
-    vditor.tip.show(!!vditor.options.lang ? i18n[vditor.options.lang].generate : vditor.options.i18n.generate, 3800);
+    vditor.tip.show(window.VditorI18n.generate, 3800);
     const iframe = document.querySelector("iframe");
     iframe.contentDocument.open();
     iframe.contentDocument.write(`<link rel="stylesheet" href="${vditor.options.cdn}/dist/index.css"/>
