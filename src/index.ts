@@ -208,7 +208,7 @@ class Vditor extends VditorMethod {
         return this.vditor.lute.HTML2Md(value);
     }
 
-    /** markdown转JSON输出 */
+    /** markdown 转 JSON 输出 */
     public exportJSON(value: string) {
         return this.vditor.lute.RenderJSON(value);
     }
@@ -493,10 +493,7 @@ class Vditor extends VditorMethod {
             }
             if (mergedOptions.icon) {
                 // 防止初始化 2 个编辑器时加载 2 次
-                addScriptSync(
-                    `${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`,
-                    "vditorIconScript",
-                );
+                addScriptSync(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
             }
         });
     }

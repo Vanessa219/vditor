@@ -1,4 +1,4 @@
-export const previewImage = (oldImgElement: HTMLImageElement, options: IOptions , lang: keyof II18n = "zh_CN", theme = "classic") => {
+export const previewImage = (oldImgElement: HTMLImageElement, lang: keyof II18n = "zh_CN", theme = "classic") => {
     const oldImgRect = oldImgElement.getBoundingClientRect();
     const height = 36;
     document.body.insertAdjacentHTML("beforeend", `<div class="vditor vditor-img${theme === "dark" ? " vditor--dark" : ""}">

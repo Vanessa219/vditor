@@ -98,9 +98,14 @@
 
 ### v3.8.5 / 2021-06-xx
 
+* [1011](https://github.com/Vanessa219/vditor/issues/1011) 支持导出 JSON `引入特性`
 * [1010](https://github.com/Vanessa219/vditor/issues/1010) 多语言分离 `改进功能`
 * [1008](https://github.com/Vanessa219/vditor/pull/1008) 自定义多语言 `引入特性`
-
+* 文档修改
+  * codeRender 方法中移除 lang 参数
+  * 为 options 添加 i18n 语言自定义参数
+  * 添加 exportJSON 方法
+  
 ### v3.8.4 / 2021-05-13
 
 * [1000](https://github.com/Vanessa219/vditor/issues/1000) 升级 hljs 并添加更多的语言支持 `改进功能`
