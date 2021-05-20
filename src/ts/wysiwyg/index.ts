@@ -1,5 +1,4 @@
 import {Constants} from "../constants";
-import {i18n} from "../i18n";
 import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {
@@ -49,7 +48,7 @@ class WYSIWYG {
  contenteditable="true" spellcheck="false"></pre>
 <div class="vditor-panel vditor-panel--none"></div>
 <div class="vditor-panel vditor-panel--none">
-    <button type="button" aria-label="${i18n[vditor.options.lang].comment}" class="vditor-icon vditor-tooltipped vditor-tooltipped__n">
+    <button type="button" aria-label="${window.VditorI18n.comment}" class="vditor-icon vditor-tooltipped vditor-tooltipped__n">
         <svg><use xlink:href="#vditor-icon-comment"></use></svg>
     </button>
 </div>`;

@@ -96,16 +96,16 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
 * All GFM syntax: Tables, Task list items, Strikethrough, Autolinks, XSS filtering
 * Common Markdown extended syntax: Footnotes, ToC, Custom Heading ID
 * Chart syntax
-   * Flow chart, sequence diagram, Gantt chart, supported by Mermaid
-   * Graphviz
-   * Line chart, pie chart, brain chart, etc., supported by ECharts
+  * Flow chart, sequence diagram, Gantt chart, supported by Mermaid
+  * Graphviz
+  * Line chart, pie chart, brain chart, etc., supported by ECharts
 * Stave: supported by abc.js
 * Math formulas: Math formula blocks, row-level math formulas, supported by MathJax and KaTeX
 * YAML Front Matter
 * Chinese context optimization
-   * Insert space between Chinese and Western
-   * Terminology spelling correction
-   * Chinese followed by English comma period and other punctuation are replaced with Chinese corresponding punctuation
+  * Insert space between Chinese and Western
+  * Terminology spelling correction
+  * Chinese followed by English comma period and other punctuation are replaced with Chinese corresponding punctuation
 
 Most of the above features can be enabled or disabled through the switch configuration, developers can choose to match according to their own application scenarios.
 
@@ -197,7 +197,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 * Toolbar, you can use name for shorthand: `toolbar: ['emoji', 'br', 'bold', '|', 'line']`. See default [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
 * name can be enumerated as: `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code`, `insert-after`, `insert-before`, `code-theme`, `content-theme`, `export`, `undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `fullscreen` , `outline` , `devtools` , `info` , `help` , `br`
-* When `name` is not in the enumeration, you can add a custom button in the following format: 
+* When `name` is not in the enumeration, you can add a custom button in the following format:
 
 ```js
 new Vditor('vditor', {

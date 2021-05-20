@@ -1,5 +1,4 @@
 import {Constants} from "../constants";
-import {i18n} from "../i18n/index";
 import {processToolbar} from "../ir/process";
 import {processToolbar as processToolbarSV} from "../sv/process";
 import {getEventName} from "../util/compatibility";
@@ -19,8 +18,7 @@ export class MenuItem {
         if (menuItem.level === 2) {
             hotkey = menuItem.hotkey ? ` &lt;${updateHotkeyTip(menuItem.hotkey)}&gt;` : "";
         }
-        const tip = menuItem.tip ?
-            menuItem.tip + hotkey : i18n[vditor.options.lang][menuItem.name] + hotkey;
+        const tip = menuItem.tip ? menuItem.tip + hotkey : `${window.VditorI18n[menuItem.name]}${hotkey}`;
         const tagName = menuItem.name === "upload" ? "div" : "button";
         if (menuItem.level === 2) {
             this.element.innerHTML = `<${tagName} data-type="${menuItem.name}">${tip}</${tagName}>`;

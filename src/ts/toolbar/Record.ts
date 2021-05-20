@@ -1,5 +1,4 @@
 import {Constants} from "../constants";
-import {i18n} from "../i18n/index";
 import {uploadFiles} from "../upload/index";
 import {getEventName} from "../util/compatibility";
 import {RecordMedia} from "../util/RecordMedia";
@@ -34,11 +33,11 @@ export class Record extends MenuItem {
                         mediaRecorder.cloneChannelData(left, right);
                     };
                     mediaRecorder.startRecordingNewWavFile();
-                    vditor.tip.show(i18n[vditor.options.lang].recording);
+                    vditor.tip.show(window.VditorI18n.recording);
                     editorElement.setAttribute("contenteditable", "false");
                     this.element.children[0].classList.add("vditor-menu--current");
                 }).catch(() => {
-                    vditor.tip.show(i18n[vditor.options.lang]["record-tip"]);
+                    vditor.tip.show(window.VditorI18n["record-tip"]);
                 });
                 return;
             }
@@ -51,7 +50,7 @@ export class Record extends MenuItem {
                 uploadFiles(vditor, [file]);
                 this.element.children[0].classList.remove("vditor-menu--current");
             } else {
-                vditor.tip.show(i18n[vditor.options.lang].recording);
+                vditor.tip.show(window.VditorI18n.recording);
                 editorElement.setAttribute("contenteditable", "false");
                 mediaRecorder.startRecordingNewWavFile();
                 this.element.children[0].classList.add("vditor-menu--current");

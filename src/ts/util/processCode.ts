@@ -83,7 +83,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     } else {
         highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
-        codeRender(previewPanel, vditor.options.lang);
+        codeRender(previewPanel);
     }
 
     previewPanel.setAttribute("data-render", "1");

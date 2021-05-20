@@ -1,5 +1,4 @@
 import {Constants} from "../constants";
-import {i18n} from "../i18n";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {mathRender} from "../markdown/mathRender";
@@ -157,9 +156,9 @@ export class EditMode extends MenuItem {
 
         const panelElement = document.createElement("div");
         panelElement.className = `vditor-hint${menuItem.level === 2 ? "" : " vditor-panel--arrow"}`;
-        panelElement.innerHTML = `<button data-mode="wysiwyg">${i18n[vditor.options.lang].wysiwyg} &lt;${updateHotkeyTip("⌥⌘7")}></button>
-<button data-mode="ir">${i18n[vditor.options.lang].instantRendering} &lt;${updateHotkeyTip("⌥⌘8")}></button>
-<button data-mode="sv">${i18n[vditor.options.lang].splitView} &lt;${updateHotkeyTip("⌥⌘9")}></button>`;
+        panelElement.innerHTML = `<button data-mode="wysiwyg">${window.VditorI18n.wysiwyg} &lt;${updateHotkeyTip("⌥⌘7")}></button>
+<button data-mode="ir">${window.VditorI18n.instantRendering} &lt;${updateHotkeyTip("⌥⌘8")}></button>
+<button data-mode="sv">${window.VditorI18n.splitView} &lt;${updateHotkeyTip("⌥⌘9")}></button>`;
 
         this.element.appendChild(panelElement);
 

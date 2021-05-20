@@ -4,20 +4,19 @@ import * as adapter from "./ts/adapter";
 import {Constants, VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools/index";
 import {Hint} from "./ts/hint/index";
-import {i18n} from "./ts/i18n/index";
 import {IR} from "./ts/ir/index";
 import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
 import {setLute} from "./ts/markdown/setLute";
-import {Outline} from "./ts/outline";
+import {Outline} from "./ts/outline/index";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Editor} from "./ts/sv/index";
 import {inputEvent} from "./ts/sv/inputEvent";
 import {processAfterRender as processSVAfterRender} from "./ts/sv/process";
-import {Tip} from "./ts/tip";
+import {Tip} from "./ts/tip/index";
 import {Toolbar} from "./ts/toolbar/index";
 import {disableToolbar, hidePanel} from "./ts/toolbar/setToolbar";
 import {enableToolbar} from "./ts/toolbar/setToolbar";
@@ -26,21 +25,19 @@ import {setCodeTheme} from "./ts/ui/setCodeTheme";
 import {setContentTheme} from "./ts/ui/setContentTheme";
 import {setPreviewMode} from "./ts/ui/setPreviewMode";
 import {setTheme} from "./ts/ui/setTheme";
-import {Undo} from "./ts/undo";
+import {Undo} from "./ts/undo/index";
 import {Upload} from "./ts/upload/index";
 import {addScript, addScriptSync} from "./ts/util/addScript";
 import {getSelectText} from "./ts/util/getSelectText";
 import {Options} from "./ts/util/Options";
 import {processCodeRender} from "./ts/util/processCode";
 import {getCursorPosition, getEditorRange} from "./ts/util/selection";
-import {WYSIWYG} from "./ts/wysiwyg";
 import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
+import {WYSIWYG} from "./ts/wysiwyg/index";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 
 class Vditor extends VditorMethod {
-    public static adapter = adapter;
-
     public readonly version: string;
     public vditor: IVditor;
 
@@ -70,76 +67,30 @@ class Vditor extends VditorMethod {
         const getOptions = new Options(options);
         const mergedOptions = getOptions.merge();
 
-        if (!["en_US", "ja_JP", "ko_KR", "ru_RU", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
-            throw new Error("options.lang error, see https://ld246.com/article/1549638745630#options");
-        }
-
-        this.vditor = {
-            currentMode: mergedOptions.mode,
-            element: id,
-            hint: new Hint(mergedOptions.hint.extend),
-            lute: undefined,
-            options: mergedOptions,
-            originalInnerHTML: id.innerHTML,
-            outline: new Outline(i18n[mergedOptions.lang].outline),
-            tip: new Tip(),
-        };
-
-        this.vditor.sv = new Editor(this.vditor);
-        this.vditor.undo = new Undo();
-        this.vditor.wysiwyg = new WYSIWYG(this.vditor);
-        this.vditor.ir = new IR(this.vditor);
-        this.vditor.toolbar = new Toolbar(this.vditor);
-
-        if (mergedOptions.resize.enable) {
-            this.vditor.resize = new Resize(this.vditor);
-        }
-
-        if (this.vditor.toolbar.elements.devtools) {
-            this.vditor.devtools = new DevTools();
-        }
-
-        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
-            this.vditor.upload = new Upload();
-        }
-
-        addScript(options._lutePath || `${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript")
-            .then(() => {
-                this.vditor.lute = setLute({
-                    autoSpace: this.vditor.options.preview.markdown.autoSpace,
-                    codeBlockPreview: this.vditor.options.preview.markdown.codeBlockPreview,
-                    emojiSite: this.vditor.options.hint.emojiPath,
-                    emojis: this.vditor.options.hint.emoji,
-                    fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
-                    footnotes: this.vditor.options.preview.markdown.footnotes,
-                    headingAnchor: false,
-                    inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
-                    linkBase: this.vditor.options.preview.markdown.linkBase,
-                    linkPrefix: this.vditor.options.preview.markdown.linkPrefix,
-                    listStyle: this.vditor.options.preview.markdown.listStyle,
-                    mark: this.vditor.options.preview.markdown.mark,
-                    mathBlockPreview: this.vditor.options.preview.markdown.mathBlockPreview,
-                    paragraphBeginningSpace: this.vditor.options.preview.markdown.paragraphBeginningSpace,
-                    sanitize: this.vditor.options.preview.markdown.sanitize,
-                    toc: this.vditor.options.preview.markdown.toc,
+        // 支持自定义国际化
+        if (!mergedOptions.i18n) {
+            if (!["en_US", "ja_JP", "ko_KR", "ru_RU", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
+                throw new Error(
+                    "options.lang error, see https://ld246.com/article/1549638745630#options",
+                );
+            } else {
+                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, "vditorI18nScript").then(() => {
+                    this.init(id as HTMLElement, mergedOptions);
                 });
-
-                this.vditor.preview = new Preview(this.vditor);
-
-                initUI(this.vditor);
-
-                if (mergedOptions.after) {
-                    mergedOptions.after();
-                }
-                if (mergedOptions.icon) {
-                    // 防止初始化 2 个编辑器时加载 2 次
-                    addScriptSync(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
-                }
-            });
+            }
+        } else {
+            window.VditorI18n = mergedOptions.i18n;
+            this.init(id, mergedOptions);
+        }
     }
 
     /** 设置主题 */
-    public setTheme(theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string) {
+    public setTheme(
+        theme: "dark" | "classic",
+        contentTheme?: string,
+        codeTheme?: string,
+        contentThemePath?: string,
+    ) {
         this.vditor.options.theme = theme;
         setTheme(this.vditor);
         if (contentTheme) {
@@ -187,15 +138,22 @@ class Vditor extends VditorMethod {
     /** 禁用编辑器 */
     public disabled() {
         hidePanel(this.vditor, ["subToolbar", "hint", "popover"]);
-        disableToolbar(this.vditor.toolbar.elements, Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen",
-            "edit-mode"]));
-        this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "false");
+        disableToolbar(
+            this.vditor.toolbar.elements,
+            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode"]),
+        );
+        this.vditor[this.vditor.currentMode].element.setAttribute(
+            "contenteditable",
+            "false",
+        );
     }
 
     /** 解除编辑器禁用 */
     public enable() {
-        enableToolbar(this.vditor.toolbar.elements, Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen",
-            "edit-mode"]));
+        enableToolbar(
+            this.vditor.toolbar.elements,
+            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode"]),
+        );
         this.vditor.undo.resetIcon(this.vditor);
         this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
     }
@@ -239,8 +197,9 @@ class Vditor extends VditorMethod {
     /** 启用缓存 */
     public enableCache() {
         if (!this.vditor.options.cache.id) {
-            throw new Error("need options.cache.id, see https://ld246.com/article/1549638745630#options");
-            return;
+            throw new Error(
+                "need options.cache.id, see https://ld246.com/article/1549638745630#options",
+            );
         }
         this.vditor.options.cache.enable = true;
     }
@@ -248,6 +207,11 @@ class Vditor extends VditorMethod {
     /** HTML 转 md */
     public html2md(value: string) {
         return this.vditor.lute.HTML2Md(value);
+    }
+
+    /** markdown 转 JSON 输出 */
+    public exportJSON(value: string) {
+        return this.vditor.lute.RenderJSON(value);
     }
 
     /** 获取 HTML */
@@ -320,8 +284,9 @@ class Vditor extends VditorMethod {
             });
         } else {
             this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
-            this.vditor.ir.element.querySelectorAll(".vditor-ir__preview[data-render='2']").forEach(
-                (item: HTMLElement) => {
+            this.vditor.ir.element
+                .querySelectorAll(".vditor-ir__preview[data-render='2']")
+                .forEach((item: HTMLElement) => {
                     processCodeRender(item, this.vditor);
                 });
             processAfterRender(this.vditor, {
@@ -381,13 +346,17 @@ class Vditor extends VditorMethod {
                 }
             });
         };
-        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-            hlItem(item);
-        });
-        if (this.vditor.preview.element.style.display !== "none") {
-            this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
+        this.vditor.wysiwyg.element
+            .querySelectorAll(".vditor-comment")
+            .forEach((item) => {
                 hlItem(item);
             });
+        if (this.vditor.preview.element.style.display !== "none") {
+            this.vditor.preview.element
+                .querySelectorAll(".vditor-comment")
+                .forEach((item) => {
+                    hlItem(item);
+                });
         }
     }
 
@@ -403,13 +372,17 @@ class Vditor extends VditorMethod {
                 }
             });
         };
-        this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-            unHlItem(item);
-        });
-        if (this.vditor.preview.element.style.display !== "none") {
-            this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
+        this.vditor.wysiwyg.element
+            .querySelectorAll(".vditor-comment")
+            .forEach((item) => {
                 unHlItem(item);
             });
+        if (this.vditor.preview.element.style.display !== "none") {
+            this.vditor.preview.element
+                .querySelectorAll(".vditor-comment")
+                .forEach((item) => {
+                    unHlItem(item);
+                });
         }
     }
 
@@ -435,19 +408,94 @@ class Vditor extends VditorMethod {
             }
         };
         removeIds.forEach((removeId) => {
-            this.vditor.wysiwyg.element.querySelectorAll(".vditor-comment").forEach((item) => {
-                removeItem(item, removeId);
-            });
-            if (this.vditor.preview.element.style.display !== "none") {
-                this.vditor.preview.element.querySelectorAll(".vditor-comment").forEach((item) => {
+            this.vditor.wysiwyg.element
+                .querySelectorAll(".vditor-comment")
+                .forEach((item) => {
                     removeItem(item, removeId);
                 });
+            if (this.vditor.preview.element.style.display !== "none") {
+                this.vditor.preview.element
+                    .querySelectorAll(".vditor-comment")
+                    .forEach((item) => {
+                        removeItem(item, removeId);
+                    });
             }
         });
         afterRenderEvent(this.vditor, {
             enableAddUndoStack: true,
             enableHint: false,
             enableInput: false,
+        });
+    }
+
+    private init(id: HTMLElement, mergedOptions: IOptions) {
+        this.vditor = {
+            currentMode: mergedOptions.mode,
+            element: id,
+            hint: new Hint(mergedOptions.hint.extend),
+            lute: undefined,
+            options: mergedOptions,
+            originalInnerHTML: id.innerHTML,
+            outline: new Outline(window.VditorI18n.outline),
+            tip: new Tip(),
+        };
+
+        this.vditor.sv = new Editor(this.vditor);
+        this.vditor.undo = new Undo();
+        this.vditor.wysiwyg = new WYSIWYG(this.vditor);
+        this.vditor.ir = new IR(this.vditor);
+        this.vditor.toolbar = new Toolbar(this.vditor);
+
+        if (mergedOptions.resize.enable) {
+            this.vditor.resize = new Resize(this.vditor);
+        }
+
+        if (this.vditor.toolbar.elements.devtools) {
+            this.vditor.devtools = new DevTools();
+        }
+
+        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
+            this.vditor.upload = new Upload();
+        }
+
+        addScript(
+            mergedOptions._lutePath ||
+            `${mergedOptions.cdn}/dist/js/lute/lute.min.js`,
+            "vditorLuteScript",
+        ).then(() => {
+            this.vditor.lute = setLute({
+                autoSpace: this.vditor.options.preview.markdown.autoSpace,
+                codeBlockPreview: this.vditor.options.preview.markdown
+                    .codeBlockPreview,
+                emojiSite: this.vditor.options.hint.emojiPath,
+                emojis: this.vditor.options.hint.emoji,
+                fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
+                footnotes: this.vditor.options.preview.markdown.footnotes,
+                headingAnchor: false,
+                inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
+                linkBase: this.vditor.options.preview.markdown.linkBase,
+                linkPrefix: this.vditor.options.preview.markdown.linkPrefix,
+                listStyle: this.vditor.options.preview.markdown.listStyle,
+                mark: this.vditor.options.preview.markdown.mark,
+                mathBlockPreview: this.vditor.options.preview.markdown
+                    .mathBlockPreview,
+                paragraphBeginningSpace: this.vditor.options.preview.markdown
+                    .paragraphBeginningSpace,
+                sanitize: this.vditor.options.preview.markdown.sanitize,
+                toc: this.vditor.options.preview.markdown.toc,
+            });
+
+            this.vditor.preview = new Preview(this.vditor);
+
+            initUI(this.vditor);
+
+            if (mergedOptions.after) {
+                mergedOptions.after();
+            }
+            if (mergedOptions.icon) {
+                // 防止初始化 2 个编辑器时加载 2 次
+                addScriptSync(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+            }
         });
     }
 }

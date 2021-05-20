@@ -52,6 +52,7 @@ if (window.innerWidth < 768) {
 window.vditor = new Vditor('vditor', {
   // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
   _lutePath: 'src/js/lute/lute.min.js',
+  cdn: "http://localhost:9000",
   toolbar,
   mode: 'wysiwyg',
   height: window.innerHeight + 100,
