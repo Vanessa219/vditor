@@ -1,6 +1,6 @@
-import {mermaidRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
+import {mermaidRenderAdapter} from "./adapterRender";
 
 declare const mermaid: {
     initialize(options: any): void,
@@ -8,7 +8,7 @@ declare const mermaid: {
 };
 
 export const mermaidRender = (element: HTMLElement, cdn = Constants.CDN, theme: string) => {
-    const mermaidElements = mermaidRenderAdapter.getMathElements(element);
+    const mermaidElements = mermaidRenderAdapter.getElements(element);
     if (mermaidElements.length === 0) {
         return;
     }

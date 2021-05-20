@@ -1,13 +1,13 @@
-import {flowchartRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
+import {flowchartRenderAdapter} from "./adapterRender";
 
 declare const flowchart: {
     parse(text: string): { drawSVG: (type: HTMLElement) => void };
 };
 
 export const flowchartRender = (element: HTMLElement, cdn = Constants.CDN) => {
-    const flowchartElements = flowchartRenderAdapter.getMathElements(element);
+    const flowchartElements = flowchartRenderAdapter.getElements(element);
     if (flowchartElements.length === 0) {
         return;
     }

@@ -1,8 +1,8 @@
-import {mathRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript, addScriptSync} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
+import {mathRenderAdapter} from "./adapterRender";
 
 declare const katex: {
     renderToString(math: string, option: {
@@ -18,7 +18,7 @@ declare global {
 }
 
 export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?: IMath }) => {
-    const mathElements = mathRenderAdapter.getMathElements(element);
+    const mathElements = mathRenderAdapter.getElements(element);
 
     if (mathElements.length === 0) {
         return;

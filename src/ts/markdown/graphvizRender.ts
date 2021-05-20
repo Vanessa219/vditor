@@ -1,6 +1,6 @@
-import {graphvizRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
+import {graphvizRenderAdapter} from "./adapterRender";
 
 declare class Viz {
     public renderSVGElement: (code: string) => Promise<any>;
@@ -9,7 +9,7 @@ declare class Viz {
 }
 
 export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN) => {
-    const graphvizElements = graphvizRenderAdapter.getMathElements(element);
+    const graphvizElements = graphvizRenderAdapter.getElements(element);
 
     if (graphvizElements.length === 0) {
         return;

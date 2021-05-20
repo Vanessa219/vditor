@@ -98,6 +98,7 @@
 
 ### v3.8.5 / 2021-06-xx
 
+* [1009](https://github.com/Vanessa219/vditor/pull/1009/) 对于 markdown 目录下的渲染方法新增 适配模块 `引入特性`
 * [1011](https://github.com/Vanessa219/vditor/issues/1011) 支持导出 JSON `引入特性`
 * [1010](https://github.com/Vanessa219/vditor/issues/1010) 多语言分离 `改进功能`
 * [1008](https://github.com/Vanessa219/vditor/pull/1008) 自定义多语言 `引入特性`

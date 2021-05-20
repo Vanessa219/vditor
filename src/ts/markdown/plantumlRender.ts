@@ -1,13 +1,13 @@
-import {plantumlRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
+import {plantumlRenderAdapter} from "./adapterRender";
 
 declare const plantumlEncoder: {
     encode(options: string): string,
 };
 
 export const plantumlRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
-    const plantumlElements = plantumlRenderAdapter.getMathElements(element);
+    const plantumlElements = plantumlRenderAdapter.getElements(element);
     if (plantumlElements.length === 0) {
         return;
     }

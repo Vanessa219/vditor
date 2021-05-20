@@ -1,6 +1,5 @@
 import "./assets/scss/index.scss";
 import VditorMethod from "./method";
-import * as adapter from "./ts/adapter";
 import {Constants, VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools/index";
 import {Hint} from "./ts/hint/index";

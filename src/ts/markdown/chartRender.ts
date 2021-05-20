@@ -1,13 +1,13 @@
-import {chartRenderAdapter} from "../adapter";
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
+import {chartRenderAdapter} from "./adapterRender";
 
 declare const echarts: {
     init(element: HTMLElement, theme?: string): IEChart;
 };
 
 export const chartRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
-    const echartsElements = chartRenderAdapter.getMathElements(element);
+    const echartsElements = chartRenderAdapter.getElements(element);
     if (echartsElements.length > 0) {
         addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
             echartsElements.forEach((e: HTMLDivElement) => {

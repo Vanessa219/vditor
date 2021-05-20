@@ -1,4 +1,5 @@
 import {abcRender} from "./ts/markdown/abcRender";
+import * as adapterRender from "./ts/markdown/adapterRender";
 import {chartRender} from "./ts/markdown/chartRender";
 import {codeRender} from "./ts/markdown/codeRender";
 import {flowchartRender} from "./ts/markdown/flowchartRender";
@@ -13,11 +14,14 @@ import {outlineRender} from "./ts/markdown/outlineRender";
 import {plantumlRender} from "./ts/markdown/plantumlRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
-import { previewImage } from "./ts/preview/image";
-import { setCodeTheme } from "./ts/ui/setCodeTheme";
+import {previewImage} from "./ts/preview/image";
+import {setCodeTheme} from "./ts/ui/setCodeTheme";
 import {setContentTheme} from "./ts/ui/setContentTheme";
+
 class Vditor {
 
+    /** 点击图片放大 */
+    public static adapterRender = adapterRender;
     /** 点击图片放大 */
     public static previewImage = previewImage;
     /** 为 element 中的代码块添加复制按钮 */
