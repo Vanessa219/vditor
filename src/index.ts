@@ -78,8 +78,8 @@ class Vditor extends VditorMethod {
                 });
             }
         } else {
-            window.VditorI18n = mergedOptions.i18n
-            this.init(id, mergedOptions)
+            window.VditorI18n = mergedOptions.i18n;
+            this.init(id, mergedOptions);
         }
     }
 
@@ -94,7 +94,7 @@ class Vditor extends VditorMethod {
         setTheme(this.vditor);
         if (contentTheme) {
             this.vditor.options.preview.theme.current = contentTheme;
-            setContentTheme(contentTheme, contentThemePath || this.vditor.options.preview.theme.path,);
+            setContentTheme(contentTheme, contentThemePath || this.vditor.options.preview.theme.path);
         }
         if (codeTheme) {
             this.vditor.options.preview.hljs.style = codeTheme;
@@ -139,7 +139,7 @@ class Vditor extends VditorMethod {
         hidePanel(this.vditor, ["subToolbar", "hint", "popover"]);
         disableToolbar(
             this.vditor.toolbar.elements,
-            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode",]),
+            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode"]),
         );
         this.vditor[this.vditor.currentMode].element.setAttribute(
             "contenteditable",
@@ -151,10 +151,10 @@ class Vditor extends VditorMethod {
     public enable() {
         enableToolbar(
             this.vditor.toolbar.elements,
-            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode",]),
+            Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode"]),
         );
         this.vditor.undo.resetIcon(this.vditor);
-        this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true",);
+        this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
     }
 
     /** 返回选中的字符串 */
@@ -269,7 +269,7 @@ class Vditor extends VditorMethod {
     /** 设置编辑器内容 */
     public setValue(markdown: string, clearStack = false) {
         if (this.vditor.currentMode === "sv") {
-            this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown,);
+            this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown);
             processSVAfterRender(this.vditor, {
                 enableAddUndoStack: true,
                 enableHint: false,
@@ -282,7 +282,7 @@ class Vditor extends VditorMethod {
                 enableInput: false,
             });
         } else {
-            this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown,);
+            this.vditor.ir.element.innerHTML = this.vditor.lute.Md2VditorIRDOM(markdown);
             this.vditor.ir.element
                 .querySelectorAll(".vditor-ir__preview[data-render='2']")
                 .forEach((item: HTMLElement) => {

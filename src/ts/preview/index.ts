@@ -53,7 +53,8 @@ export class Preview {
                 return;
             }
             if (event.target.tagName === "IMG") {
-                previewImage(event.target as HTMLImageElement, vditor.options, vditor.options.lang, vditor.options.theme);
+                previewImage(event.target as HTMLImageElement, vditor.options, vditor.options.lang,
+                    vditor.options.theme);
             }
         });
 

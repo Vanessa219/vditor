@@ -3,7 +3,7 @@ declare module "*.svg";
 declare module "*.png";
 
 interface Window {
-    VditorI18n: ITips
+    VditorI18n: ITips;
 }
 
 interface IObject {

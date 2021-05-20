@@ -87,7 +87,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.anchor === 1) {
         previewElement.classList.add("vditor-reset--anchor");
     }
-    codeRender(previewElement, mergedOptions, mergedOptions.lang);
+    codeRender(previewElement);
     highlightRender(mergedOptions.hljs, previewElement, mergedOptions.cdn);
     mathRender(previewElement, {
         cdn: mergedOptions.cdn,

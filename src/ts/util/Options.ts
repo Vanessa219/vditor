@@ -416,7 +416,7 @@ export class Options {
                     typeof menuItem === "object" &&
                     defaultMenuItem.name === menuItem.name
                 ) {
-                    currentMenuItem = Object.assign({}, defaultMenuItem, menuItem,);
+                    currentMenuItem = Object.assign({}, defaultMenuItem, menuItem);
                 }
             });
             if (menuItem.toolbar) {
