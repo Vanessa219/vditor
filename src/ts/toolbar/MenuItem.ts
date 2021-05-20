@@ -20,7 +20,7 @@ export class MenuItem {
             hotkey = menuItem.hotkey ? ` &lt;${updateHotkeyTip(menuItem.hotkey)}&gt;` : "";
         }
         const tip = menuItem.tip ?
-            menuItem.tip + hotkey : i18n[vditor.options.lang][menuItem.name] + hotkey;
+            menuItem.tip + hotkey : `${!!vditor.options.lang ? i18n[vditor.options.lang][menuItem.name] : vditor.options.i18n[menuItem.name]}${hotkey}`;
         const tagName = menuItem.name === "upload" ? "div" : "button";
         if (menuItem.level === 2) {
             this.element.innerHTML = `<${tagName} data-type="${menuItem.name}">${tip}</${tagName}>`;

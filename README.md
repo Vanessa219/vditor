@@ -11,9 +11,9 @@
 <a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square&color=97ca00"></a><br>
 <a title="jsdelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor"><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"/></a>
 <a title="Hits" target="_blank" href="https://github.com/88250/hits"><img src="https://hits.b3log.org/Vanessa219/vditor.svg"></a> <br><br>
-<a title="GitHub Watchers" target="_blank" href="https://github.com/Vanessa219/vditor/watchers"><img src="https://img.shields.io/github/watchers/Vanessa219/vditor.svg?label=Watchers&style=social"></a>  
-<a title="GitHub Stars" target="_blank" href="https://github.com/Vanessa219/vditor/stargazers"><img src="https://img.shields.io/github/stars/Vanessa219/vditor.svg?label=Stars&style=social"></a>  
-<a title="GitHub Forks" target="_blank" href="https://github.com/Vanessa219/vditor/network/members"><img src="https://img.shields.io/github/forks/Vanessa219/vditor.svg?label=Forks&style=social"></a>  
+<a title="GitHub Watchers" target="_blank" href="https://github.com/Vanessa219/vditor/watchers"><img src="https://img.shields.io/github/watchers/Vanessa219/vditor.svg?label=Watchers&style=social"></a>
+<a title="GitHub Stars" target="_blank" href="https://github.com/Vanessa219/vditor/stargazers"><img src="https://img.shields.io/github/stars/Vanessa219/vditor.svg?label=Stars&style=social"></a>
+<a title="GitHub Forks" target="_blank" href="https://github.com/Vanessa219/vditor/network/members"><img src="https://img.shields.io/github/forks/Vanessa219/vditor.svg?label=Forks&style=social"></a>
 <a title="Author GitHub Followers" target="_blank" href="https://github.com/vanessa219"><img src="https://img.shields.io/github/followers/vanessa219.svg?label=Followers&style=social"></a>
 </p>
 
@@ -200,7 +200,8 @@ Markdown 输出的 HTML 所展现的外观。内置 light，dark，wechat 3 套�
 | minHeight | 编辑区域最小高度 | - |
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
-| lang | 多语言：en_US, ja_JP, ko_KR, ru_RU, zh_CN, zh_TW | 'zh_CN' |
+| lang | 多语言：en_US, ja_JP, ko_KR, ru_RU, zh_CN | 'zh_CN' |
+| i18n | 自定义语言包实现国际化(当 `lang === ""`时, 生效), 类型定义参考[ITips](#options.i18n) | [i18n['zh_CN']](https://github.com/Vanessa219/vditor/blob/master/src/ts/i18n/index.ts#L318) |
 | input(value: string) | 输入后触发  | - |
 | focus(value: string) | 聚焦后触发 | - |
 | blur(value: string) | 失焦后触发 | - |
@@ -378,35 +379,35 @@ interface IHintExtend {
 * 文件上传的数据结构如下。后端返回的数据结构不一致时，可使用 `format` 进行转换。
 
 ```js
-// POST data  
-xhr.send(formData);  // formData = FormData.append("file[]", File)  
-// return data  
-{  
- "msg": "",  
- "code": 0,  
- "data": {  
- "errFiles": ['filename', 'filename2'],  
- "succMap": {  
-   "filename3": "filepath3",  
-   "filename3": "filepath3"  
-   }  
- }  
+// POST data
+xhr.send(formData);  // formData = FormData.append("file[]", File)
+// return data
+{
+ "msg": "",
+ "code": 0,
+ "data": {
+ "errFiles": ['filename', 'filename2'],
+ "succMap": {
+   "filename3": "filepath3",
+   "filename3": "filepath3"
+   }
+ }
 }
 ```
 
 * 为了防止站外图片失效， `linkToImgUrl` 可将剪贴板中的站外图片地址传到服务器端进行保存处理，其数据结构如下：
 
 ```js
-// POST data  
-xhr.send(JSON.stringify({url: src})); // src 为站外图片地址  
-// return data  
-{  
- msg: '',  
- code: 0,  
- data : {  
-   originalURL: '',  
-   url: ''  
- }  
+// POST data
+xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
+// return data
+{
+ msg: '',
+ code: 0,
+ data : {
+   originalURL: '',
+   url: ''
+ }
 }
 ```
 
@@ -482,6 +483,90 @@ if (xhr.status === 200) {
 | enable | 初始化是否展现大纲 | false |
 | position | 大纲位置：'left', 'right' | 'left' |
 
+#### options.i18n
+
+```ts
+interface ITips {
+  alignCenter: string
+  alignLeft: string
+  alignRight: string
+  alternateText: string
+  bold: string
+  both: string
+  check: string
+  close: string
+  code: string
+  "code-theme": string
+  column: string
+  comment: string
+  confirm: string
+  "content-theme": string
+  copied: string
+  copy: string
+  "delete-column": string
+  "delete-row": string
+  devtools: string
+  down: string
+  downloadTip: string
+  edit: string
+  "edit-mode": string
+  emoji: string
+  export: string
+  fileTypeError: string
+  footnoteRef: string
+  fullscreen: string
+  generate: string
+  headings: string
+  help: string
+  imageURL: string
+  indent: string
+  info: string
+  "inline-code": string
+  "insert-after": string
+  "insert-before": string
+  insertColumnLeft: string
+  insertColumnRight: string
+  insertRowAbove: string
+  insertRowBelow: string
+  instantRendering: string
+  italic: string
+  language: string
+  line: string
+  link: string
+  linkRef: string
+  list: string
+  more: string
+  nameEmpty: string
+  "ordered-list": string
+  outdent: string
+  outline: string
+  over: string
+  performanceTip: string
+  preview: string
+  quote: string
+  record: string
+  "record-tip": string
+  recording: string
+  redo: string
+  remove: string
+  row: string
+  spin: string
+  splitView: string
+  strike: string
+  table: string
+  textIsNotEmpty: string
+  title: string
+  tooltipText: string
+  undo: string
+  up: string
+  update: string
+  upload: string
+  uploadError: string
+  uploading: string
+  wysiwyg: string
+}
+```
+
 #### methods
 
 |   | 说明 |
@@ -514,6 +599,7 @@ if (xhr.status === 200) {
 | hlCommentIds(ids: string[]) | 高亮评论 |
 | unHlCommentIds(ids: string[]) | 取消评论高亮 |
 | removeCommentIds(removeIds: string[]) | 删除评论 |
+| exportJSON(value: string) | 获取markdown导出为JSON格式的语法树 |
 
 #### static methods
 
@@ -524,7 +610,7 @@ Vditor.mermaidRender(document)
 ```
 
 ```js
-import VditorPreview from 'vditor/dist/method.min'  
+import VditorPreview from 'vditor/dist/method.min'
 VditorPreview.mermaidRender(document)
 ```
 
@@ -536,12 +622,14 @@ markdown: string,  // 需要渲染的 markdown 原文
 options?: IPreviewOptions {
   mode: "dark" | "light";
   anchor?: number;  // 为标题添加锚点 0：不渲染；1：渲染于标题前；2：渲染于标题后，默认 0
-  customEmoji?: { [key: string]: string };    // 自定义 emoji，默认为 {}  
-  lang?: (keyof II18nLang);    // 语言，默认为 'zh_CN'  
-  emojiPath?: string;    // 表情图片路径 
-  hljs?: IHljs; // 参见 options.preview.hljs 
+  customEmoji?: { [key: string]: string };    // 自定义 emoji，默认为 {}
+  lang?: (keyof II18nLang);    // 语言，默认为 'zh_CN'
+  i18n?: ITips;  // 自定义国际化, 默认为 'i18n['zh_CN']'
+  emojiPath?: string;    // 表情图片路径
+  hljs?: IHljs; // 参见 options.preview.hljs
   speech?: {  // 对选中后的内容进行阅读
     enable?: boolean,
+    lang?: string  // 语言类型, 默认等于 lang
   };
   math?: IMath; // 数学公式渲染配置
   cdn?: string; // 自建 CDN 地址
@@ -571,12 +659,14 @@ options?: IPreviewOptions {
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
 | mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频、嵌入的 iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
-| speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
+| speechRender(element: HTMLElement, speechLang?: string, lang?: (keyof II18n)) | 对选中的文字进行阅读 |
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
 | outlineRender(contentElement: HTMLElement, targetElement: Element) | 对大纲进行渲染 |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | 对启用懒加载的图片进行渲染 |
 | setCodeTheme(codeTheme: string, cdn = options.cdn) | 设置代码主题，codeTheme 参见 options.preview.hljs.style |
 | setContentTheme(contentTheme: string, path: string) | 设置内容主题，contentTheme 参见 options.preview.theme.list |
+
+> Tip: `speechRender(element, speechLang, lang)` 函数当 `!!lang === true`时, `speechLang`的值不生效
 
 ## 🏗 开发文档
 

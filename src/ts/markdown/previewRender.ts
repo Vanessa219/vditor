@@ -1,4 +1,5 @@
 import {Constants} from "../constants";
+import { i18n } from "../i18n";
 import {setContentTheme} from "../ui/setContentTheme";
 import {addScript} from "../util/addScript";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
@@ -24,15 +25,19 @@ const mergeOptions = (options?: IPreviewOptions) => {
         anchor: 0,
         cdn: Constants.CDN,
         customEmoji: {},
-        emojiPath: `${(options && options.emojiPath) || Constants.CDN}/dist/images/emoji`,
+        emojiPath: `${
+            (options && options.emojiPath) || Constants.CDN
+        }/dist/images/emoji`,
         hljs: Constants.HLJS_OPTIONS,
         icon: "ant",
         lang: "zh_CN",
+        i18n: i18n["zh_CN"],
         markdown: Constants.MARKDOWN_OPTIONS,
         math: Constants.MATH_OPTIONS,
         mode: "light",
         speech: {
             enable: false,
+            lang: "zh_CN"
         },
         theme: Constants.THEME_OPTIONS,
     };
@@ -85,7 +90,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     if (mergedOptions.anchor === 1) {
         previewElement.classList.add("vditor-reset--anchor");
     }
-    codeRender(previewElement, mergedOptions.lang);
+    codeRender(previewElement, mergedOptions, mergedOptions.lang);
     highlightRender(mergedOptions.hljs, previewElement, mergedOptions.cdn);
     mathRender(previewElement, {
         cdn: mergedOptions.cdn,
@@ -100,7 +105,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     abcRender(previewElement, mergedOptions.cdn);
     mediaRender(previewElement);
     if (mergedOptions.speech.enable) {
-        speechRender(previewElement, mergedOptions.lang);
+        speechRender(previewElement, mergedOptions.speech.lang, mergedOptions.lang);
     }
     if (mergedOptions.anchor !== 0) {
         anchorRender(mergedOptions.anchor);

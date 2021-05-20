@@ -20,19 +20,20 @@ const validateFile = (vditor: IVditor, files: File[]) => {
     const uploadFileList = [];
     let errorTip = "";
     let uploadingStr = "";
-    const lang: keyof II18n = vditor.options.lang;
+    const lang: keyof II18n | "" = vditor.options.lang;
+    const options: IOptions = vditor.options;
 
     for (let iMax = files.length, i = 0; i < iMax; i++) {
         const file = files[i];
         let validate = true;
 
         if (!file.name) {
-            errorTip += `<li>${i18n[lang].nameEmpty}</li>`;
+            errorTip += `<li>${!!lang ? i18n[lang].nameEmpty : options.i18n.nameEmpty}</li>`;
             validate = false;
         }
 
         if (file.size > vditor.options.upload.max) {
-            errorTip += `<li>${file.name} ${i18n[lang].over} ${vditor.options.upload.max / 1024 / 1024}M</li>`;
+            errorTip += `<li>${file.name} ${!!lang ? i18n[lang].over : options.i18n.over} ${vditor.options.upload.max / 1024 / 1024}M</li>`;
             validate = false;
         }
 
@@ -56,14 +57,14 @@ const validateFile = (vditor: IVditor, files: File[]) => {
             });
 
             if (!isAccept) {
-                errorTip += `<li>${file.name} ${i18n[lang].fileTypeError}</li>`;
+                errorTip += `<li>${file.name} ${!!lang ? i18n[lang].fileTypeError : options.i18n.fileTypeError}</li>`;
                 validate = false;
             }
         }
 
         if (validate) {
             uploadFileList.push(file);
-            uploadingStr += `<li>${filename} ${i18n[lang].uploading}</li>`;
+            uploadingStr += `<li>${filename} ${!!lang ? i18n[lang].uploading : options.i18n.uploading}</li>`;
         }
     }
 
@@ -87,7 +88,11 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         response.data.errFiles.forEach((data: string) => {
             const lastIndex = data.lastIndexOf(".");
             const filename = vditor.options.upload.filename(data.substr(0, lastIndex)) + data.substr(lastIndex);
-            errorTip += `<li>${filename} ${i18n[vditor.options.lang].uploadError}</li>`;
+            errorTip += `<li>${filename} ${
+                !!vditor.options.lang
+                    ? i18n[vditor.options.lang].uploadError
+                    : vditor.options.i18n.uploadError
+            }</li>`;
         });
         errorTip += "</ul>";
     }
