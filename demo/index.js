@@ -131,4 +131,11 @@ window.vditor = new Vditor('vditor', {
         replace('/\\s/g', '')
     },
   },
+  title: {
+    enable: true
+  },
+  after () {
+    vditor.setTitleValue('测试标题')
+    console.log(vditor.getTitleValue())
+  },
 })

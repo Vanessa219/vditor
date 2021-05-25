@@ -589,4 +589,12 @@
       }
     }
   }
+  &-title { 
+    padding: 10px 173.5px;
+    &__input {
+      font-size: 32px;
+      border: none;
+      outline:none;
+    }
+  }
 }

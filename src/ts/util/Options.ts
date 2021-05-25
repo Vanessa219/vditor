@@ -126,6 +126,9 @@ export class Options {
         },
         value: "",
         width: "auto",
+        title: {
+          enable: false
+        }
     };
 
     constructor(options: IOptions) {

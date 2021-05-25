@@ -29,6 +29,10 @@ export const initUI = (vditor: IVditor) => {
 
     vditor.element.appendChild(vditor.toolbar.element);
 
+    if (vditor.options.title.enable) {
+      vditor.element.appendChild(vditor.title.element);
+    }
+
     const contentElement = document.createElement("div");
     contentElement.className = "vditor-content";
 

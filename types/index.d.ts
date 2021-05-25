@@ -644,6 +644,10 @@ interface IOptions {
         enable: boolean,
         position: "left" | "right",
     };
+    /** 文档标题。 */
+    title?: {
+      enable: boolean,
+    };
 
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
@@ -761,6 +765,9 @@ interface IVditor {
         composingLock: boolean,
         preventInput: boolean,
     };
+    title?: {
+        element: HTMLElement,
+    }
 }
 
 interface ICommentsData {

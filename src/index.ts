@@ -35,6 +35,7 @@ import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {WYSIWYG} from "./ts/wysiwyg/index";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {Title} from "./ts/title/index";
 
 class Vditor extends VditorMethod {
     public readonly version: string;
@@ -427,6 +428,18 @@ class Vditor extends VditorMethod {
         });
     }
 
+    /** 设置 标题 内容 */
+    public setTitleValue(content:string) {
+      this.vditor.title.element.innerHTML = `<input class="vditor-title__input" type="text" value=${content}> </input>`;
+    }
+    
+    /** 获取 标题 内容 */
+    public getTitleValue() {
+      let titleHTML = this.vditor.title.element.innerHTML
+      return(titleHTML.substring(54,titleHTML.length-3))
+      
+    }
+
     private init(id: HTMLElement, mergedOptions: IOptions) {
         this.vditor = {
             currentMode: mergedOptions.mode,
@@ -455,6 +468,10 @@ class Vditor extends VditorMethod {
 
         if (mergedOptions.upload.url || mergedOptions.upload.handler) {
             this.vditor.upload = new Upload();
+        }
+        
+        if (mergedOptions.title.enable) {
+          this.vditor.title = new Title();
         }
 
         addScript(
