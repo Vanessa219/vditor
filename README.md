@@ -11,9 +11,9 @@
 <a title="Downloads" target="_blank" href="https://www.npmjs.com/package/vditor"><img src="https://img.shields.io/npm/dt/vditor.svg?style=flat-square&color=97ca00"></a><br>
 <a title="jsdelivr" target="_blank" href="https://www.jsdelivr.com/package/npm/vditor"><img src="https://data.jsdelivr.com/v1/package/npm/vditor/badge"/></a>
 <a title="Hits" target="_blank" href="https://github.com/88250/hits"><img src="https://hits.b3log.org/Vanessa219/vditor.svg"></a> <br><br>
-<a title="GitHub Watchers" target="_blank" href="https://github.com/Vanessa219/vditor/watchers"><img src="https://img.shields.io/github/watchers/Vanessa219/vditor.svg?label=Watchers&style=social"></a>  
-<a title="GitHub Stars" target="_blank" href="https://github.com/Vanessa219/vditor/stargazers"><img src="https://img.shields.io/github/stars/Vanessa219/vditor.svg?label=Stars&style=social"></a>  
-<a title="GitHub Forks" target="_blank" href="https://github.com/Vanessa219/vditor/network/members"><img src="https://img.shields.io/github/forks/Vanessa219/vditor.svg?label=Forks&style=social"></a>  
+<a title="GitHub Watchers" target="_blank" href="https://github.com/Vanessa219/vditor/watchers"><img src="https://img.shields.io/github/watchers/Vanessa219/vditor.svg?label=Watchers&style=social"></a>
+<a title="GitHub Stars" target="_blank" href="https://github.com/Vanessa219/vditor/stargazers"><img src="https://img.shields.io/github/stars/Vanessa219/vditor.svg?label=Stars&style=social"></a>
+<a title="GitHub Forks" target="_blank" href="https://github.com/Vanessa219/vditor/network/members"><img src="https://img.shields.io/github/forks/Vanessa219/vditor.svg?label=Forks&style=social"></a>
 <a title="Author GitHub Followers" target="_blank" href="https://github.com/vanessa219"><img src="https://img.shields.io/github/followers/vanessa219.svg?label=Followers&style=social"></a>
 </p>
 
@@ -23,7 +23,7 @@
 
 ## 💡 简介
 
-[Vditor](https://b3log.org/vditor) 是一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。它使用 TypeScript 实现，支持原生 JavaScript、Vue、React、Angular，提供[桌面版](https://b3log.org/siyuan)。
+[Vditor](https://b3log.org/vditor) 是一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。它使用 TypeScript 实现，支持原生 JavaScript、Vue、React、Angular、Svelte，提供[桌面版](https://b3log.org/siyuan)。
 
 欢迎到 [Vditor 官方讨论区](https://ld246.com/tag/vditor)了解更多。同时也欢迎关注 B3log 开源社区微信公众号 `B3log开源`：
 
@@ -153,6 +153,7 @@ const vditor = new Vditor(id, {options...})
 * [官方示例](https://b3log.org/vditor/demo/index.html) / [示例源码](https://github.com/Vanessa219/b3log-index/tree/master/src/vditor)
 * [CommonJS Editor](https://github.com/Vanessa219/vditor/blob/master/demo/index.js)
 * [CommonJS Render](https://github.com/Vanessa219/vditor/blob/master/demo/render.js)
+* [在Svelte中使用](https://github.com/HerbertHe/svelte-vditor-demo)
 
 ### 主题
 
@@ -378,35 +379,35 @@ interface IHintExtend {
 * 文件上传的数据结构如下。后端返回的数据结构不一致时，可使用 `format` 进行转换。
 
 ```js
-// POST data  
-xhr.send(formData);  // formData = FormData.append("file[]", File)  
-// return data  
-{  
- "msg": "",  
- "code": 0,  
- "data": {  
- "errFiles": ['filename', 'filename2'],  
- "succMap": {  
-   "filename3": "filepath3",  
-   "filename3": "filepath3"  
-   }  
- }  
+// POST data
+xhr.send(formData);  // formData = FormData.append("file[]", File)
+// return data
+{
+ "msg": "",
+ "code": 0,
+ "data": {
+ "errFiles": ['filename', 'filename2'],
+ "succMap": {
+   "filename3": "filepath3",
+   "filename3": "filepath3"
+   }
+ }
 }
 ```
 
 * 为了防止站外图片失效， `linkToImgUrl` 可将剪贴板中的站外图片地址传到服务器端进行保存处理，其数据结构如下：
 
 ```js
-// POST data  
-xhr.send(JSON.stringify({url: src})); // src 为站外图片地址  
-// return data  
-{  
- msg: '',  
- code: 0,  
- data : {  
-   originalURL: '',  
-   url: ''  
- }  
+// POST data
+xhr.send(JSON.stringify({url: src})); // src 为站外图片地址
+// return data
+{
+ msg: '',
+ code: 0,
+ data : {
+   originalURL: '',
+   url: ''
+ }
 }
 ```
 
@@ -524,7 +525,7 @@ Vditor.mermaidRender(document)
 ```
 
 ```js
-import VditorPreview from 'vditor/dist/method.min'  
+import VditorPreview from 'vditor/dist/method.min'
 VditorPreview.mermaidRender(document)
 ```
 
@@ -536,10 +537,10 @@ markdown: string,  // 需要渲染的 markdown 原文
 options?: IPreviewOptions {
   mode: "dark" | "light";
   anchor?: number;  // 为标题添加锚点 0：不渲染；1：渲染于标题前；2：渲染于标题后，默认 0
-  customEmoji?: { [key: string]: string };    // 自定义 emoji，默认为 {}  
-  lang?: (keyof II18nLang);    // 语言，默认为 'zh_CN'  
-  emojiPath?: string;    // 表情图片路径 
-  hljs?: IHljs; // 参见 options.preview.hljs 
+  customEmoji?: { [key: string]: string };    // 自定义 emoji，默认为 {}
+  lang?: (keyof II18nLang);    // 语言，默认为 'zh_CN'
+  emojiPath?: string;    // 表情图片路径
+  hljs?: IHljs; // 参见 options.preview.hljs
   speech?: {  // 对选中后的内容进行阅读
     enable?: boolean,
   };
