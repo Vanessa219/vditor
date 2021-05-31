@@ -51,7 +51,7 @@ window.VditorI18n = {
   "nameEmpty": "文件名不能為空",
   "ordered-list": "有序列表",
   "outdent": "列表反向縮排",
-  "outline": "大綱",
+  "outline": "懸浮目錄",
   "over": "超過",
   "performanceTip": "即時預覽需 ${x}ms，可點擊編輯 & 預覽按鈕進行關閉",
   "preview": "預覽",
