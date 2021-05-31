@@ -13,7 +13,11 @@ export class Title {
     this.element.innerHTML = `<input class="vditor-title__input" type="text" value=${content}> </input>`;
     this.value = content
     this.element.addEventListener("input", (event: InputEvent) => {
-      this.value = event.target.value
+      if (event.data) {
+        this.value =  this.value += event.data
+      } else {
+        this.value =  this.value.substr(0, this.value.length - 1)
+      }
     })
   }
 
