@@ -430,14 +430,14 @@ class Vditor extends VditorMethod {
 
     /** 设置 标题 内容 */
     public setTitleValue(content:string) {
-      this.vditor.title.element.innerHTML = `<input class="vditor-title__input" type="text" value=${content}> </input>`;
+      if (this.vditor.title) {
+          this.vditor.title.setValue(content);
+      }
     }
     
     /** 获取 标题 内容 */
     public getTitleValue() {
-      let titleHTML = this.vditor.title.element.innerHTML
-      return(titleHTML.substring(54,titleHTML.length-3))
-      
+      return  this.vditor.title.getValue();
     }
 
     private init(id: HTMLElement, mergedOptions: IOptions) {

@@ -125,10 +125,7 @@ export class Options {
             withCredentials: false,
         },
         value: "",
-        width: "auto",
-        title: {
-          enable: false
-        }
+        width: "auto"
     };
 
     constructor(options: IOptions) {

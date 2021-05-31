@@ -590,9 +590,11 @@
     }
   }
   &-title { 
-    padding: 10px 173.5px;
+    padding: 10px 35px;
+    background-color: #fff;
+    width:100%;
     &__input {
-      font-size: 32px;
+      font-size: 28px;
       border: none;
       outline:none;
     }
