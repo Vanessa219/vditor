@@ -1,7 +1,7 @@
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {mathRender} from "./mathRender";
 
-export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) => {
+export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor, scrollElement?: HTMLElement) => {
     let tocHTML = "";
     const ids: string[] = [];
     Array.from(contentElement.children).forEach((item: HTMLElement, index: number) => {
@@ -95,7 +95,11 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                         }
                     }
                 } else {
-                    window.scrollTo(window.scrollX, idElement.offsetTop);
+                    if (scrollElement) {
+                        scrollElement.scrollTo(window.scrollX, idElement.offsetTop - scrollElement.offsetTop);
+                    } else {
+                        window.scrollTo(window.scrollX, idElement.offsetTop);
+                    }
                 }
                 break;
             }
