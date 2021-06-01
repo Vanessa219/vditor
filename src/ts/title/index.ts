@@ -1,28 +1,24 @@
 
 export class Title {
   public element: HTMLElement;
-  public value: string;
+  private input: HTMLInputElement;
 
   constructor() {
       this.element = document.createElement("div");
       this.element.className = "vditor-title";
-      this.value = ''
+
+      this.input = document.createElement("input");
+      this.input.className = "vditor-title__input";
+      this.input.type = "text";
+      this.element.appendChild(this.input)
   }
    
   public setValue(content: string) { 
-    this.element.innerHTML = `<input class="vditor-title__input" type="text" value=${content}> </input>`;
-    this.value = content
-    this.element.addEventListener("input", (event: InputEvent) => {
-      if (event.data) {
-        this.value =  this.value += event.data
-      } else {
-        this.value =  this.value.substr(0, this.value.length - 1)
-      }
-    })
+    this.input.value = content
   }
 
   public getValue() { 
-    return this.value
+    return this.input.value
   }
 
 }
