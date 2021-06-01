@@ -263,7 +263,7 @@ new Vditor('vditor', {
 |   | 说明 | 默认值 |
 | - | - | - |
 | enable | 是否启用计数器 | false |
-| tipPosition(length: number, counter: options.counter): void | 字数统计回调 | - |
+| after(length: number, counter: options.counter): void | 字数统计回调 | - |
 | max | 允许输入的最大值 | - |
 | type | 统计类型：'markdown', 'text' | 'markdown' |
 
