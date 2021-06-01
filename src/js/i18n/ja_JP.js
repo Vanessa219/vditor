@@ -51,7 +51,7 @@ window.VditorI18n = {
   "nameEmpty": "名前が入力されていません。",
   "ordered-list": "順序のあるリスト",
   "outdent": "ぶら下げインデント",
-  "outline": "概要",
+  "outline": "フローティングディレクトリ",
   "over": "オーバー",
   "performanceTip": "リアルタイムプレビューには、${x}msが必要でエディター/プレビューボタンをクリックして閉じる事が出来ます。",
   "preview": "プレビュー",

@@ -647,6 +647,8 @@ interface IOptions {
     /** 文档标题。 */
     title?: {
       enable: boolean,
+      setValue(content: string): void,
+      getValue(): void
     };
 
     /** 编辑器异步渲染完成后的回调方法 */
@@ -767,6 +769,8 @@ interface IVditor {
     };
     title?: {
         element: HTMLElement,
+        setValue(content: string): void
+        getValue(): void
     }
 }
 
