@@ -587,6 +587,8 @@ interface IOptions {
     fullscreen?: {
         index: number;
     };
+    /** 是否隐藏块的操作（上移、下移、删除、修改 ID） */
+    hideBlockPopover?: boolean,
     /** @link https://ld246.com/article/1549638745630#options-toolbar */
     toolbar?: Array<string | IMenuItem>;
     /** @link https://ld246.com/article/1549638745630#options-resize */

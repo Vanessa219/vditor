@@ -138,4 +138,5 @@ window.vditor = new Vditor('vditor', {
     vditor.setTitleValue('测试标题')
     console.log(vditor.getTitleValue())
   },
+  hideBlockPopover: true
 })
