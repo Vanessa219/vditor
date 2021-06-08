@@ -38,9 +38,9 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     const headingsElement = tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]");
     headingsElement.forEach((item, index) => {
         if (item.nextElementSibling && item.nextElementSibling.tagName === "UL") {
-            item.innerHTML = `<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg><span>${item.innerHTML}</span>`;
+            item.innerHTML = `<span class='vditor-outline__action'></span><span class='vditor-outline__item'>${item.innerHTML}</span>`;
         } else {
-            item.innerHTML = `<svg></svg><span>${item.innerHTML}</span>`;
+            item.innerHTML = `<span class='vditor-outline__item'>${item.innerHTML}</span>`;
         }
         item.setAttribute("data-target-id", ids[index]);
     });
@@ -106,5 +106,22 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
             target = target.parentElement;
         }
     });
+    // 目录加上 active
+    const handleScrollEvent = () => {
+        const offsetTop = scrollElement && scrollElement.offsetTop || 0;
+        const scrollY = scrollElement ? scrollElement.scrollTop : window.scrollY;
+        const totalHeight = scrollY + 30 + offsetTop;
+        const navs = document.querySelectorAll('.vditor-outline__item'); // 大纲
+        const titles: NodeListOf<HTMLElement> = document.querySelectorAll('.vditor__heading'); // 内容
+        for(let i = 0; i < titles.length; i++){
+                if(titles[i].offsetTop <= totalHeight && titles[i+1] && titles[i+1].offsetTop > totalHeight){
+                    navs[i] && navs[i].classList.add("active");
+                } else {
+                    navs[i].classList.remove("active");
+                }
+        }
+    };
+    (scrollElement || window).addEventListener('scroll', handleScrollEvent);
+
     return tocHTML;
 };
