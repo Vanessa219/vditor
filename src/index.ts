@@ -36,6 +36,8 @@ import {WYSIWYG} from "./ts/wysiwyg/index";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {Title} from "./ts/title/index";
+import {FullscreenToggle} from "./ts/fullscreenToggle/index";
+import {setEditMode} from "./ts/toolbar/EditMode";
 
 class Vditor extends VditorMethod {
     public readonly version: string;
@@ -440,6 +442,23 @@ class Vditor extends VditorMethod {
       return  this.vditor.title.getValue();
     }
 
+    /** 全屏 开关 */
+    public toggleFullscreen() {
+      if (this.vditor.toolbar) {
+        new FullscreenToggle().fullscreenToggle(this.vditor)
+      }
+    }
+
+    /** 设置 模式 */
+    public changeEditMode(type:string) {
+      setEditMode(this.vditor, type, event);
+    }
+
+    /** 设置 大纲 显示隐藏 */
+    public outlineToggle(show:boolean) {
+        this.vditor.outline.toggle(this.vditor, show);
+    }
+
     private init(id: HTMLElement, mergedOptions: IOptions) {
         this.vditor = {
             currentMode: mergedOptions.mode,
@@ -471,7 +490,7 @@ class Vditor extends VditorMethod {
         }
         
         if (mergedOptions.title.enable) {
-          this.vditor.title = new Title();
+          this.vditor.title = new Title(this.vditor);
         }
 
         addScript(

@@ -175,12 +175,12 @@ export class EditMode extends MenuItem {
             event.stopPropagation();
         });
 
-        // panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
-        //     // ir
-        //     setEditMode(vditor, "ir", event);
-        //     event.preventDefault();
-        //     event.stopPropagation();
-        // });
+        panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
+            // ir
+            setEditMode(vditor, "ir", event);
+            event.preventDefault();
+            event.stopPropagation();
+        });
 
         panelElement.children.item(1).addEventListener(getEventName(), (event: Event) => {
             // markdown
