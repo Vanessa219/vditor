@@ -697,7 +697,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             blockRenderElement = undefined;
         }
 
-        if (headingElement) {
+        if (headingElement && !vditor.options.hideBlockPopover) {
             vditor.wysiwyg.popover.innerHTML = "";
 
             const inputWrap = document.createElement("span");
@@ -860,6 +860,9 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) 
 };
 
 const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
+    if(vditor.options.hideBlockPopover) {
+        return;
+    }
     const previousElement = element.previousElementSibling;
     if (
         !previousElement ||
@@ -886,6 +889,9 @@ const genUp = (range: Range, element: HTMLElement, vditor: IVditor) => {
 };
 
 const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
+    if(vditor.options.hideBlockPopover) {
+        return;
+    }
     const nextElement = element.nextElementSibling;
     if (
         !nextElement ||
@@ -914,6 +920,9 @@ const genDown = (range: Range, element: HTMLElement, vditor: IVditor) => {
 };
 
 const genClose = (element: HTMLElement, vditor: IVditor) => {
+    if(vditor.options.hideBlockPopover) {
+        return;
+    }
     const close = document.createElement("button");
     close.setAttribute("type", "button");
     close.setAttribute("data-type", "remove");
