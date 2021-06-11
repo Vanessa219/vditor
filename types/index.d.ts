@@ -673,6 +673,9 @@ interface IOptions {
 
     /** 编辑器中选中文字后触发 */
     select?(value: string): void;
+
+     /** 标题输入后触发 */
+    titleInput?(value: string, previewElement?: HTMLElement): void;
 }
 
 interface IEChart {
@@ -774,6 +777,7 @@ interface IVditor {
         setValue(content: string): void
         getValue(): void
     }
+
 }
 
 interface ICommentsData {
