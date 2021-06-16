@@ -38,6 +38,7 @@ import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {Title} from "./ts/title/index";
 import {FullscreenToggle} from "./ts/fullscreenToggle/index";
 import {setEditMode} from "./ts/toolbar/EditMode";
+import {setPadding} from "./ts/ui/initUI";
 
 class Vditor extends VditorMethod {
     public readonly version: string;
@@ -457,6 +458,11 @@ class Vditor extends VditorMethod {
     /** 设置 大纲 显示隐藏 */
     public outlineToggle(show:boolean) {
         this.vditor.outline.toggle(this.vditor, show);
+    }
+
+    /** 重新计算padding值 */
+    public setPadding() {
+        setPadding(this.vditor)
     }
 
     private init(id: HTMLElement, mergedOptions: IOptions) {

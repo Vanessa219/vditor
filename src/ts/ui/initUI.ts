@@ -118,13 +118,20 @@ export const setPadding = (vditor: IVditor) => {
         vditor.ir.element.style.padding = `10px ${Math.max(minPadding, padding)}px`;
     }
 
-    if (vditor.preview.element.style.display !== "block" || vditor.currentMode === "sv") {
+    if (vditor.preview.element.style.display !== "block") {
       const positionStyle = Math.max(5,
         parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) +
         (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0)) + "px";
         vditor.toolbar.element.style.paddingLeft =  vditor.title.element.style.paddingLeft = positionStyle;
        
     }
+
+    if (vditor.currentMode === "sv") {
+        const padding = (vditor.sv.element.parentElement.clientWidth
+          - vditor.options.preview.maxWidth) / 2;
+          vditor.sv.element.style.padding = `10px ${Math.max(minPadding, padding)}px`;
+    }
+
 };
 
 export const setTypewriterPosition = (vditor: IVditor) => {
