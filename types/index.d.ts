@@ -485,6 +485,8 @@ interface IPreview {
 
     /** 渲染之前回调 */
     transform?(html: string): string;
+
+    scrollElement?: HTMLElement;
 }
 
 type IPreviewAction = "desktop" | "tablet" | "mobile" | "mp-wechat" | "zhihu";

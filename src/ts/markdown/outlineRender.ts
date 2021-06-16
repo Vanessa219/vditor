@@ -88,7 +88,9 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                         if (vditor.element.offsetTop < window.scrollY) {
                             window.scrollTo(window.scrollX, vditor.element.offsetTop);
                         }
-                        if (vditor.preview.element.contains(contentElement)) {
+                        if (scrollElement) {
+                            scrollElement.scrollTop = idElement.offsetTop;
+                        } else if (vditor.preview.element.contains(contentElement)) {
                             contentElement.parentElement.scrollTop = idElement.offsetTop;
                         } else {
                             contentElement.scrollTop = idElement.offsetTop;
@@ -112,9 +114,21 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
         const scrollY = scrollElement ? scrollElement.scrollTop : window.scrollY;
         const totalHeight = scrollY + 30 + offsetTop;
         const navs = document.querySelectorAll('.vditor-outline__item'); // 大纲
-        const titles: NodeListOf<HTMLElement> = document.querySelectorAll('.vditor__heading'); // 内容
-        for(let i = 0; i < titles.length; i++){
-                if(titles[i].offsetTop <= totalHeight && titles[i+1] && titles[i+1].offsetTop > totalHeight){
+        let titles: NodeListOf<HTMLElement> = document.querySelectorAll('.vditor-anchor'); // 内容
+        if (!titles.length) {
+            titles = document.querySelectorAll('[data-marker="#"]');
+        }
+        for(let i = 0; i < titles.length; i++) {
+                let offsetTop = 0;
+                let nextOffsetTop = 0;
+                if (titles[i].classList.contains('.vditor-anchor')) {
+                    offsetTop = titles[i].parentElement.offsetTop;
+                    nextOffsetTop = titles[i + 1] && titles[i + 1].parentElement.offsetTop;
+                } else {
+                    offsetTop = titles[i].offsetTop;
+                    nextOffsetTop = titles[i + 1] && titles[i + 1].offsetTop;
+                }
+                if(offsetTop <= totalHeight && nextOffsetTop > totalHeight){
                     navs[i] && navs[i].classList.add("active");
                 } else {
                     navs[i].classList.remove("active");

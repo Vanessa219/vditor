@@ -17,9 +17,9 @@ export class Outline {
         let html = "";
         if (vditor.preview.element.style.display === "block") {
             html = outlineRender(vditor.preview.element.lastElementChild as HTMLElement,
-                this.element.lastElementChild, vditor);
+                this.element.lastElementChild, vditor, vditor.options.preview.scrollElement);
         } else {
-            html = outlineRender(vditor[vditor.currentMode].element, this.element.lastElementChild, vditor);
+            html = outlineRender(vditor[vditor.currentMode].element, this.element.lastElementChild, vditor, vditor.options.preview.scrollElement);
         }
         return html;
     }
