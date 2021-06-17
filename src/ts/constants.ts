@@ -17,7 +17,7 @@ export abstract class Constants {
         "monokailight", "murphy", "native", "paraiso-dark", "paraiso-light", "pastie", "perldoc", "pygments",
         "rainbow_dash", "rrt", "solarized-dark", "solarized-dark256", "solarized-light", "swapoff", "tango", "trac",
         "vim", "vs", "xcode", "ant-design"];
-    public static readonly CODE_LANGUAGES: string[] = ["mermaid", "echarts", "mindmap", "plantuml", "abc", "graphviz", "flowchart", "apache",
+    public static readonly CODE_LANGUAGES: string[] = [ "apache",
         "js", "ts", "html",
         // common
         "properties", "apache", "bash", "c", "csharp", "cpp", "css", "coffeescript", "diff", "go", "xml", "http",
