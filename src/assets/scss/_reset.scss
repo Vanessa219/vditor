@@ -604,13 +604,18 @@
     }
   }
   &-title { 
+    display: flex;
     padding: 10px 35px;
     background-color: #fff;
     width:100%;
     &__input {
-      font-size: 28px;
+      font-size: 32px;
+      font-weight: 600;
       border: none;
       outline:none;
+      resize:none;
+      width: 70%;
+      min-height: 40px;
     }
   }
 }

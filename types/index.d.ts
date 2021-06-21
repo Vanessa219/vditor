@@ -651,7 +651,7 @@ interface IOptions {
     /** 文档标题。 */
     title?: {
       enable: boolean,
-      setValue(content: string): void,
+      setValue(content: string, maxLength:number): void,
       getValue(): void
     };
 
@@ -776,7 +776,7 @@ interface IVditor {
     };
     title?: {
         element: HTMLElement,
-        setValue(content: string): void
+        setValue(content: string,maxLength:number): void
         getValue(): void
     }
 
