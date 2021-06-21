@@ -2,39 +2,45 @@ import {disableToolbar, enableToolbar} from "../toolbar/setToolbar";
 import {Constants} from "../constants";
 export class Title {
   public element: HTMLElement;
-  private input: HTMLInputElement;
+  private textarea: HTMLTextAreaElement;
 
   constructor(vditor:IVditor) {
       this.element = document.createElement("div");
       this.element.className = "vditor-title";
-
-      this.input = document.createElement("input");
-      this.input.className = "vditor-title__input";
-      this.input.type = "text";
-      this.element.appendChild(this.input)
-
+    
+      this.textarea = document.createElement("textarea");
+      this.textarea.className = "vditor-title__input";
+      this.element.appendChild(this.textarea);
+      this.textarea.rows =1
+      this.textarea.addEventListener("input", function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+      });
       this.element.addEventListener("input", (event: InputEvent) => {
         if (typeof vditor.options.titleInput === "function") {
-          vditor.options.titleInput(this.input.value)
+          vditor.options.titleInput(this.textarea.value)
         }
       })
 
-      this.input.addEventListener("focus", () => {
+      this.textarea.addEventListener("focus", () => {
         disableToolbar(vditor.toolbar.elements,Constants.EDIT_TOOLBARS)
       });
 
-      this.input.addEventListener("blur", () => {
+      this.textarea.addEventListener("blur", () => {
         enableToolbar(vditor.toolbar.elements,Constants.EDIT_TOOLBARS)
       });
-
   }
    
-  public setValue(content: string) { 
-    this.input.value = content
+  public setValue(content: string, maxLength:number) { 
+    this.textarea.value = content;
+    this.textarea.value = content;
+    this.textarea.maxLength = maxLength ? maxLength : 100;
+    this.textarea.style.height = 'auto';
+    this.textarea.style.height = (this.textarea.scrollHeight) + 'px';
   }
 
   public getValue() { 
-    return this.input.value
+    return this.textarea.value
   }
 
 }

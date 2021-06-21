@@ -130,6 +130,7 @@ export const setPadding = (vditor: IVditor) => {
         const padding = (vditor.sv.element.parentElement.clientWidth
           - vditor.options.preview.maxWidth) / 2;
           vditor.sv.element.style.padding = `10px ${Math.max(minPadding, padding)}px`;
+          // vditor.title.setHeight()
     }
 
 };

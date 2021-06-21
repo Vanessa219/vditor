@@ -432,9 +432,9 @@ class Vditor extends VditorMethod {
     }
 
     /** 设置 标题 内容 */
-    public setTitleValue(content:string) {
+    public setTitleValue(content:string, maxLength:number) {
       if (this.vditor.title) {
-          this.vditor.title.setValue(content);
+          this.vditor.title.setValue(content,maxLength);
       }
     }
     
