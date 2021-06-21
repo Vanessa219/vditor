@@ -12,6 +12,7 @@ export class Title {
       this.textarea.className = "vditor-title__input";
       this.element.appendChild(this.textarea);
       this.textarea.rows =1
+      this.textarea.autofocus = true
       this.textarea.addEventListener("input", function() {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px';
