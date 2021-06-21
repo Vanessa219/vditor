@@ -1,5 +1,6 @@
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {mathRender} from "./mathRender";
+import { scrollTo }  from "../util/scrollTo"
 
 export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor, scrollElement?: HTMLElement) => {
     let tocHTML = "";
@@ -89,16 +90,16 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                             window.scrollTo(window.scrollX, vditor.element.offsetTop);
                         }
                         if (scrollElement) {
-                            scrollElement.scrollTop = idElement.offsetTop;
+                            scrollTo(scrollElement, idElement.offsetTop, 200);
                         } else if (vditor.preview.element.contains(contentElement)) {
-                            contentElement.parentElement.scrollTop = idElement.offsetTop;
+                            scrollTo(contentElement.parentElement, idElement.offsetTop, 200);
                         } else {
-                            contentElement.scrollTop = idElement.offsetTop;
+                            scrollTo(contentElement, idElement.offsetTop, 200);
                         }
                     }
                 } else {
                     if (scrollElement) {
-                        scrollElement.scrollTo(window.scrollX, idElement.offsetTop - scrollElement.offsetTop);
+                        scrollTo(scrollElement, idElement.offsetTop - scrollElement.offsetTop, 200);
                     } else {
                         window.scrollTo(window.scrollX, idElement.offsetTop);
                     }
