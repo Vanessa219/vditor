@@ -23,6 +23,12 @@ export class Title {
         }
       })
 
+      this.textarea.addEventListener("keydown", (e) => {
+        if (e.keyCode === 13) {
+          e.preventDefault();
+        }
+      })
+
       this.textarea.addEventListener("focus", () => {
         disableToolbar(vditor.toolbar.elements,Constants.EDIT_TOOLBARS)
       });
