@@ -38,10 +38,17 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     }
     const headingsElement = tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]");
     headingsElement.forEach((item, index) => {
+        let parents = [];
+        for (let parent = item && item.parentElement; parent; parent = parent.parentElement) {
+            if (parent.matches('ul')) {
+                parents.push(parent);
+            }
+        }
         if (item.nextElementSibling && item.nextElementSibling.tagName === "UL") {
-            item.innerHTML = `<span class='vditor-outline__action'></span><span class='vditor-outline__item'>${item.innerHTML}</span>`;
-        } else {
-            item.innerHTML = `<span class='vditor-outline__item'>${item.innerHTML}</span>`;
+            item.innerHTML = `<span class='vditor-outline__action'></span><span class='vditor-outline__item space-${parents.length}'>` + item.innerHTML + "</span>";
+        }
+        else {
+            item.innerHTML = `<span class='vditor-outline__item space-${parents.length}'>` + item.innerHTML + "</span>";
         }
         item.setAttribute("data-target-id", ids[index]);
     });
@@ -129,7 +136,7 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                     offsetTop = titles[i].offsetTop;
                     nextOffsetTop = titles[i + 1] && titles[i + 1].offsetTop;
                 }
-                if(offsetTop <= totalHeight && nextOffsetTop > totalHeight){
+                if((offsetTop <= totalHeight && nextOffsetTop > totalHeight) || (offsetTop <= totalHeight && !titles[i + 1])){
                     navs[i] && navs[i].classList.add("active");
                 } else {
                     navs[i].classList.remove("active");
