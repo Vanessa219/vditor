@@ -98,6 +98,7 @@
 
 ### v3.8.5 / 2021-06-xx
 
+* [957](https://github.com/Vanessa219/vditor/issues/957) 支持表格横向滚动 `引入特性`
 * [1038](https://github.com/Vanessa219/vditor/issues/1038) 图片使用 pointer 样式 `改进功能`
 * [1034](https://github.com/Vanessa219/vditor/pull/1034) Support Vue and Angular `改进功能`
 * [1016](https://github.com/Vanessa219/vditor/pull/1016) Support Svelte `文档相关`

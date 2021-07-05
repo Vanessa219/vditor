@@ -155,6 +155,9 @@
       margin-bottom: 16px;
       overflow: auto;
       border-spacing: 0;
+      display: block;
+      word-break: keep-all;
+      width: 100%;
 
       tr {
         background-color: #fafbfc;
@@ -166,6 +169,14 @@
         padding: 6px 13px;
         border: 1px solid #dfe2e5;
         word-break: normal;
+        white-space: nowrap;
+
+        &:first-child::after {
+          content: "";
+          display: inline-block;
+          vertical-align: top;
+          min-height: 24px;
+        }
       }
 
       th {
