@@ -15,12 +15,12 @@ export class Headings extends MenuItem {
 
         const panelElement = document.createElement("div");
         panelElement.className = "vditor-hint vditor-panel--arrow";
-        panelElement.innerHTML = `<button data-tag="h1" data-value="# ">Heading 1 ${updateHotkeyTip("&lt;⌥⌘1>")}</button>
-<button data-tag="h2" data-value="## ">Heading 2 &lt;${updateHotkeyTip("⌥⌘2")}></button>
-<button data-tag="h3" data-value="### ">Heading 3 &lt;${updateHotkeyTip("⌥⌘3")}></button>
-<button data-tag="h4" data-value="#### ">Heading 4 &lt;${updateHotkeyTip("⌥⌘4")}></button>
-<button data-tag="h5" data-value="##### ">Heading 5 &lt;${updateHotkeyTip("⌥⌘5")}></button>
-<button data-tag="h6" data-value="###### ">Heading 6 &lt;${updateHotkeyTip("⌥⌘6")}></button>`;
+        panelElement.innerHTML = `<button data-tag="h1" data-value="# ">${window.VditorI18n.heading1} ${updateHotkeyTip("&lt;⌥⌘1>")}</button>
+<button data-tag="h2" data-value="## ">${window.VditorI18n.heading2} &lt;${updateHotkeyTip("⌥⌘2")}></button>
+<button data-tag="h3" data-value="### ">${window.VditorI18n.heading3} &lt;${updateHotkeyTip("⌥⌘3")}></button>
+<button data-tag="h4" data-value="#### ">${window.VditorI18n.heading4} &lt;${updateHotkeyTip("⌥⌘4")}></button>
+<button data-tag="h5" data-value="##### ">${window.VditorI18n.heading5} &lt;${updateHotkeyTip("⌥⌘5")}></button>
+<button data-tag="h6" data-value="###### ">${window.VditorI18n.heading6} &lt;${updateHotkeyTip("⌥⌘6")}></button>`;
 
         this.element.appendChild(panelElement);
 
