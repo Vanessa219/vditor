@@ -98,6 +98,7 @@
 
 ### v3.8.5 / 2021-06-xx
 
+* [1038](https://github.com/Vanessa219/vditor/issues/1038) 图片使用 pointer 样式 `改进功能`
 * [1034](https://github.com/Vanessa219/vditor/pull/1034) Support Vue and Angular `改进功能`
 * [1016](https://github.com/Vanessa219/vditor/pull/1016) Support Svelte `文档相关`
 * [1009](https://github.com/Vanessa219/vditor/pull/1009/) 对于 markdown 目录下的渲染方法新增 适配模块 `引入特性`
