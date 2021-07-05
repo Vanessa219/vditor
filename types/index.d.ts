@@ -649,7 +649,7 @@ interface IOptions {
     after?(): void;
 
     /** 输入后触发 */
-    input?(value: string, previewElement?: HTMLElement): void;
+    input?(value: string): void;
 
     /** 聚焦后触发  */
     focus?(value: string): void;
