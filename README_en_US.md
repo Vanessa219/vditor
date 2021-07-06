@@ -172,13 +172,14 @@ Can be filled with element `id` or element itself` HTMLElement`
 
 |   | Explanation | Default |
 | - | - | - |
+| i18n | I18n, more details see ITips | - |
 | undoDelay | Undo interval | - |
 | after | Callback method after editor asynchronous rendering is completed | - |
 | height | Total editor height | 'auto' |
 | minHeight | Editing area minimum height | - |
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
-| lang | i18n: en_US, ja_JP, ko_KR, ru_RU, zh_CN, zh_TW | 'zh_CN' |
+| lang | I18n type: en_US, ja_JP, ko_KR, ru_RU, zh_CN, zh_TW | 'zh_CN' |
 | input | Trigger after input (value: string) | - |
 | focus | Trigger after focusing (value: string) | - |
 | blur | Trigger after out of focus (value: string) | - |
@@ -441,6 +442,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 |   | Explanation |
 | - | - |
+| exportJSON(markdown: string) | Get JSON by markdown |
 | getValue() | Get editor content |
 | getHTML() | Get preview area content |
 | insertValue(value: string, render = true) | Insert content at the focus and markdown rendering by default |
@@ -515,7 +517,7 @@ options?: IPreviewOptions {
 | previewImage(oldImgElement: HTMLImageElement, lang: keyof II18n = "zh_CN", theme = "classic") | Click on the image to preview |
 | mermaidRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | flowchart/sequence diagram/gantt diagram rendering |
 | flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart.js rendering |
-| codeRender(element: HTMLElement, lang: (keyof II18nLang) = "zh_CN") | Add a copy button for the code block in element |
+| codeRender(element: HTMLElement) | Add a copy button for the code block in element |
 | chartRender(element: (HTMLElement\| Document) = document, cdn = options.cdn, theme = options.theme) | Chart rendering |
 | plantumlRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | plantuml rendering |
 | abcRender(element: (HTMLElement\| Document) = document, cdn = options.cdn) | Stave rendering |

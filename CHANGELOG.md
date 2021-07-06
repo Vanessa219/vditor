@@ -96,7 +96,7 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 * [346](https://github.com/Vanessa219/vditor/issues/346) 内容主题推荐（长期有效） `改进功能`
 
-### v3.8.5 / 2021-06-xx
+### v3.8.5 / 2021-07-06
 
 * [974](https://github.com/Vanessa219/vditor/issues/974) wysiwyg/ir模式下 列表 + 文本 + 空格 + 链接 会导致文本和链接之间的空格丢失 `修复缺陷`
 * [1029](https://github.com/Vanessa219/vditor/issues/1029) 公式内小于号大于号等没有转义 `修复缺陷`
