@@ -98,7 +98,7 @@
 
 ### v3.8.5 / 2021-07-06
 
-* [974](https://github.com/Vanessa219/vditor/issues/974) wysiwyg/ir模式下 列表 + 文本 + 空格 + 链接 会导致文本和链接之间的空格丢失 `修复缺陷`
+* [974](https://github.com/Vanessa219/vditor/issues/974) 所见即所得模式下行级元素间的空格会被删除 `修复缺陷`
 * [1029](https://github.com/Vanessa219/vditor/issues/1029) 公式内小于号大于号等没有转义 `修复缺陷`
 * [1036](https://github.com/Vanessa219/vditor/issues/1036) 标题设置没有配置多语言 `改进功能`
 * [957](https://github.com/Vanessa219/vditor/issues/957) 支持表格横向滚动 `引入特性`
