@@ -95,6 +95,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.8.6 / 2021-07-xx
+
+* [1047](https://github.com/Vanessa219/vditor/issues/1047) 列表换行问题 `修复缺陷`
+
 ### v3.8.5 / 2021-07-06
 
 * [974](https://github.com/Vanessa219/vditor/issues/974) 所见即所得模式下行级元素间的空格会被删除 `修复缺陷`

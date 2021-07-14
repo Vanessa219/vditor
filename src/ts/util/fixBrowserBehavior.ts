@@ -228,9 +228,13 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
                 let element;
                 if (type === "list") {
                     element = document.createElement("ul");
+                    element.setAttribute("data-marker", "*");
                 } else {
                     element = document.createElement("ol");
+                    element.setAttribute("data-marker", "1.");
                 }
+                element.setAttribute("data-block", "0");
+                element.setAttribute("data-tight", itemElement.parentElement.getAttribute("data-tight"));
                 element.innerHTML = itemElement.parentElement.innerHTML;
                 itemElement.parentElement.parentNode.replaceChild(element, itemElement.parentElement);
             }
