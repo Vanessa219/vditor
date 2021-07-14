@@ -2,7 +2,7 @@ import {Constants} from "../constants";
 import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
 import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
-import {uploadFiles} from "../upload";
+import {uploadFiles} from "../upload/index";
 import {setHeaders} from "../upload/setHeaders";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {input} from "../wysiwyg/input";
