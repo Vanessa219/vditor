@@ -130,7 +130,9 @@ module.exports = {
     }),
   ],
   devServer: {
-    contentBase: path.join(__dirname, '.'),
+    static: {
+      directory: path.join(__dirname, '.'),
+    },
     port: 9000,
     host: '0.0.0.0',
     proxy: {

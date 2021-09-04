@@ -34,7 +34,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
     "mini-css-extract-plugin": "^0.8.2",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "postcss-loader": "^5.2.0",
     "puppeteer": "^1.20.0",
     "sass-loader": "^10.2.0",
@@ -47,7 +47,7 @@
     "webpack": "^5.37.0",
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^4.7.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.1.0"
   },
   "license": "MIT",
   "repository": "git://github.com/Vanessa219/vditor.git",

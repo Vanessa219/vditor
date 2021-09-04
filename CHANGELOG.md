@@ -97,6 +97,7 @@
 
 ### v3.8.6 / 2021-08-xx
 
+* [1074](https://github.com/Vanessa219/vditor/issues/1074) 升级 webpack-dev-server & node-sass `开发重构`
 * [1063](https://github.com/Vanessa219/vditor/issues/1063) 所见即所得模式链接引用语法中链接文本包含行级嵌套的问题 `修复缺陷`
 * [1047](https://github.com/Vanessa219/vditor/issues/1047) 列表换行问题 `修复缺陷`
 
