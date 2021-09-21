@@ -118,6 +118,8 @@ declare class Lute {
 
     public static NewNodeID(): string;
 
+    public static Sanitize(html: string): string;
+
     private constructor();
 
     public SetJSRenderers(options?: {
@@ -232,6 +234,7 @@ declare const webkitAudioContext: {
 
 interface ITips {
     [index: string]: string;
+
     alignCenter: string;
     alignLeft: string;
     alignRight: string;

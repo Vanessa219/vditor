@@ -1355,7 +1355,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     if (doc.body) {
         textHTML = doc.body.innerHTML;
     }
-
+    textHTML = Lute.Sanitize(textHTML);
     vditor.wysiwyg.getComments(vditor);
 
     // process code
