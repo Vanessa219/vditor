@@ -95,14 +95,15 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.6 / 2021-08-xx
+### v3.8.8 / 2021-10-xx
 
+### v3.8.7 / 2021-09-21
+
+* [1049](https://github.com/Vanessa219/vditor/issues/1049) #后面没有空格也会渲染为标题 `修复缺陷`
+* [1085](https://github.com/Vanessa219/vditor/issues/1085) XSS 漏洞修复 `修复缺陷`
 * [1074](https://github.com/Vanessa219/vditor/issues/1074) 升级 webpack-dev-server & node-sass `开发重构`
 * [1063](https://github.com/Vanessa219/vditor/issues/1063) 所见即所得模式链接引用语法中链接文本包含行级嵌套的问题 `修复缺陷`
 * [1047](https://github.com/Vanessa219/vditor/issues/1047) 列表换行问题 `修复缺陷`
-
-### v3.8.5 / 2021-07-06
-
 * [974](https://github.com/Vanessa219/vditor/issues/974) 所见即所得模式下行级元素间的空格会被删除 `修复缺陷`
 * [1029](https://github.com/Vanessa219/vditor/issues/1029) 公式内小于号大于号等没有转义 `修复缺陷`
 * [1036](https://github.com/Vanessa219/vditor/issues/1036) 标题设置没有配置多语言 `改进功能`
@@ -114,13 +115,6 @@
 * [1011](https://github.com/Vanessa219/vditor/issues/1011) 支持导出 JSON `引入特性`
 * [1010](https://github.com/Vanessa219/vditor/issues/1010) 多语言分离 `改进功能`
 * [1008](https://github.com/Vanessa219/vditor/pull/1008) 自定义多语言 `引入特性`
-* 文档修改
-  * codeRender 方法中移除 lang 参数
-  * 为 options 添加 i18n 语言自定义参数
-  * 添加 exportJSON 方法
-  
-### v3.8.4 / 2021-05-13
-
 * [1000](https://github.com/Vanessa219/vditor/issues/1000) 升级 hljs 并添加更多的语言支持 `改进功能`
 * [993](https://github.com/Vanessa219/vditor/pull/993) 加入繁體中文 `引入特性`
 * [980](https://github.com/Vanessa219/vditor/pull/980) 流程图不应渲染代码高亮  `修复缺陷`
@@ -158,6 +152,10 @@
     * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥⌘[]
   * 3.8.4
     * 添加 hint.parse 配置
+  * 3.8.5
+    * codeRender 方法中移除 lang 参数
+    * 为 options 添加 i18n 语言自定义参数
+    * 添加 exportJSON 方法
   
 ### v3.7.7 / 2021-01-19
 
