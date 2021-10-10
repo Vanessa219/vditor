@@ -141,10 +141,14 @@ export const setTypewriterPosition = (vditor: IVditor) => {
         ((height - vditor.toolbar.element.offsetHeight) / 2) + "px");
 };
 
+let resizeCb = () => {}
+export function UIUnbindListener () {
+    window.removeEventListener("resize", resizeCb)
+}
 const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
     setTypewriterPosition(vditor);
-
-    window.addEventListener("resize", () => {
+    UIUnbindListener()
+    window.addEventListener("resize", resizeCb = () => {
         setPadding(vditor);
         setTypewriterPosition(vditor);
     });

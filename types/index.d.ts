@@ -747,6 +747,7 @@ interface IVditor {
         triggerRemoveComment(vditor: IVditor): void,
         showComment(): void,
         hideComment(): void,
+        unbindListener(): void
     };
     ir?: {
         range: Range,
