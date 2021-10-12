@@ -378,6 +378,7 @@ interface IHintExtend {
 #### options.upload
 
 * 文件上传的数据结构如下。后端返回的数据结构不一致时，可使用 `format` 进行转换。
+* `format` 和 `success` 不能同时定义，否则只会执行 `success`。
 
 ```js
 // POST data

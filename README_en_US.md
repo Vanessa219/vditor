@@ -354,6 +354,7 @@ interface IHintExtend {
 #### options.upload
 
 * The data structure of the file upload is as follows. When the data structure returned by the backend is inconsistent, you can use `format` for conversion.
+* `format` and `success` cannot be defined at the same time, otherwise only `success` will be executed.
 
 ```js
 // POST data
