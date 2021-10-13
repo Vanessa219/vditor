@@ -237,8 +237,14 @@ class WYSIWYG {
         event.clipboardData.setData("text/html", "");
     }
 
+    private scrollListener = () => {};
+    public unbindListener() {
+        window.removeEventListener("scroll", this.scrollListener)
+    }
+
     private bindEvent(vditor: IVditor) {
-        window.addEventListener("scroll", () => {
+        this.unbindListener();
+        window.addEventListener("scroll", this.scrollListener  = () => {
             hidePanel(vditor, ["hint"]);
             if (this.popover.style.display !== "block" || this.selectPopover.style.display !== "block") {
                 return;

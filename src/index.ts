@@ -19,7 +19,7 @@ import {Tip} from "./ts/tip/index";
 import {Toolbar} from "./ts/toolbar/index";
 import {disableToolbar, hidePanel} from "./ts/toolbar/setToolbar";
 import {enableToolbar} from "./ts/toolbar/setToolbar";
-import {initUI} from "./ts/ui/initUI";
+import {initUI, UIUnbindListener} from "./ts/ui/initUI";
 import {setCodeTheme} from "./ts/ui/setCodeTheme";
 import {setContentTheme} from "./ts/ui/setContentTheme";
 import {setPreviewMode} from "./ts/ui/setPreviewMode";
@@ -322,6 +322,9 @@ class Vditor extends VditorMethod {
         this.vditor.element.removeAttribute("style");
         document.getElementById("vditorIconScript").remove();
         this.clearCache();
+
+        UIUnbindListener();
+        this.vditor.wysiwyg.unbindListener();
     }
 
     /** 获取评论 ID */
