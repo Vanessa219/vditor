@@ -97,6 +97,8 @@
 
 ### v3.8.8 / 2021-10-xx
 
+* [1089](https://github.com/Vanessa219/vditor/pull/1089) 解决内存泄漏问题 `开发重构`
+
 ### v3.8.7 / 2021-09-21
 
 * [1049](https://github.com/Vanessa219/vditor/issues/1049) #后面没有空格也会渲染为标题 `修复缺陷`

@@ -39,6 +39,7 @@ class WYSIWYG {
     public preventInput: boolean;
     public composingLock = false;
     public commentIds: string[] = [];
+    private scrollListener: () => void;
 
     constructor(vditor: IVditor) {
         const divElement = document.createElement("div");
@@ -195,6 +196,10 @@ class WYSIWYG {
         this.selectPopover.setAttribute("style", "display:none");
     }
 
+    public unbindListener() {
+        window.removeEventListener("scroll", this.scrollListener);
+    }
+
     private copy(event: ClipboardEvent, vditor: IVditor) {
         const range = getSelection().getRangeAt(0);
         if (range.toString() === "") {
@@ -237,14 +242,9 @@ class WYSIWYG {
         event.clipboardData.setData("text/html", "");
     }
 
-    private scrollListener = () => {};
-    public unbindListener() {
-        window.removeEventListener("scroll", this.scrollListener)
-    }
-
     private bindEvent(vditor: IVditor) {
         this.unbindListener();
-        window.addEventListener("scroll", this.scrollListener  = () => {
+        window.addEventListener("scroll", this.scrollListener = () => {
             hidePanel(vditor, ["hint"]);
             if (this.popover.style.display !== "block" || this.selectPopover.style.display !== "block") {
                 return;
@@ -337,7 +337,7 @@ class WYSIWYG {
                 this.preventInput = false;
                 return;
             }
-            if (this.composingLock ||  event.data === "‘" || event.data === "“" || event.data === "《") {
+            if (this.composingLock || event.data === "‘" || event.data === "“" || event.data === "《") {
                 return;
             }
             const range = getSelection().getRangeAt(0);
