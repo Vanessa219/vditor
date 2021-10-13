@@ -98,6 +98,7 @@
 ### v3.8.8 / 2021-10-xx
 
 * [1089](https://github.com/Vanessa219/vditor/pull/1089) 解决内存泄漏问题 `开发重构`
+* [158](https://github.com/88250/lute/issues/158) Table 紧跟的上一行不是空行时，SpinVditorSVDOM 会将整个表格过滤掉 `修复缺陷`
 
 ### v3.8.7 / 2021-09-21
 
