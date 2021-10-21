@@ -62,7 +62,7 @@ export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (event.dataTransfer.getData(Constants.DROP_EDITOR)) {
                 // 编辑器内选中文字拖拽
                 execAfterRender(vditor);
-            } else if (event.dataTransfer.types[0] === "Files" || event.dataTransfer.types.includes("text/html")) {
+            } else if (event.dataTransfer.types.includes("Files") || event.dataTransfer.types.includes("text/html")) {
                 // 外部文件拖入编辑器中或者编辑器内选中文字拖拽
                 paste(vditor, event, {
                     pasteCode: (code: string) => {

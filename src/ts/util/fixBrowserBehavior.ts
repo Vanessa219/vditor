@@ -1264,7 +1264,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     } else {
         textHTML = event.dataTransfer.getData("text/html");
         textPlain = event.dataTransfer.getData("text/plain");
-        if (event.dataTransfer.types[0] === "Files") {
+        if (event.dataTransfer.types.includes("Files")) {
             files = event.dataTransfer.items;
         }
     }
@@ -1410,7 +1410,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
             vditor.outline.render(vditor);
-        } else if (files.length > 0 && vditor.options.upload.url) {
+        } else if (files.length > 0 && (vditor.options.upload.url||vditor.options.upload.handler)) {
             await uploadFiles(vditor, files);
         } else if (textPlain.trim() !== "" && files.length === 0) {
             if (vditor.currentMode === "ir") {
