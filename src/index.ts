@@ -73,7 +73,7 @@ class Vditor extends VditorMethod {
                     "options.lang error, see https://ld246.com/article/1549638745630#options",
                 );
             } else {
-                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, "vditorI18nScript").then(() => {
+                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, "vditorI18nScript"+"_"+mergedOptions.lang).then(() => {
                     this.init(id as HTMLElement, mergedOptions);
                 });
             }
