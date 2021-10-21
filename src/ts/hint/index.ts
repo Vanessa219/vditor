@@ -59,8 +59,8 @@ export class Hint {
                 vditor.options.hint.extend.forEach((item) => {
                     if (item.key === this.splitChar) {
                         clearTimeout(this.timeId);
-                        this.timeId = window.setTimeout(() => {
-                            this.genHTML(item.hint(key), key, vditor);
+                        this.timeId = window.setTimeout(async () => {
+                            this.genHTML(await item.hint(key), key, vditor);
                         }, vditor.options.hint.delay);
                     }
                 });
