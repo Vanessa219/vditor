@@ -537,7 +537,7 @@ interface IHintData {
 interface IHintExtend {
     key: string;
 
-    hint?(value: string): IHintData[];
+    hint?(value: string): IHintData[] | Promise<IHintData[]>;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-hint */
