@@ -365,13 +365,15 @@ new Vditor('vditor', {
 | extend: IHintExtend[] | 对 @/话题等关键字自动补全的扩展 | [] |
 
 ```ts
+interface IHintData {
+  html: string;
+  value: string;
+}
+
 interface IHintExtend {
     key: string;
 
-    hint?(value: string): Array<{
-        html: string;
-        value: string;
-    }>;
+    hint?(value: string): IHintData[] | Promise<IHintData[]>;
 }
 ```
 

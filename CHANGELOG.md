@@ -97,6 +97,7 @@
 
 ### v3.8.8 / 2021-10-xx
 
+* [1097](https://github.com/Vanessa219/vditor/pull/1097) options.hint.extend[].hint 支持异步 `改进功能`
 * [1101](https://github.com/Vanessa219/vditor/pull/1101) 支持 options.upload.handler 异步 `改进功能`
 * [1089](https://github.com/Vanessa219/vditor/pull/1089) 解决内存泄漏问题 `开发重构`
 * [158](https://github.com/88250/lute/issues/158) Table 紧跟的上一行不是空行时，SpinVditorSVDOM 会将整个表格过滤掉 `修复缺陷`

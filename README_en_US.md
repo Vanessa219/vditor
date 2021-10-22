@@ -341,13 +341,15 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | extend: IHintExtend[] | @/# and other keyword auto-completion expansion | [] |
 
 ```ts
-interface IHintExtend {
-    key: string;
+interface IHintData {
+  html: string;
+  value: string;
+}
 
-    hint?(value: string): Array<{
-        html: string;
-        value: string;
-    }>;
+interface IHintExtend {
+  key: string;
+
+  hint?(value: string): IHintData[] | Promise<IHintData[]>;
 }
 ```
 
