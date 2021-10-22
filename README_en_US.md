@@ -403,9 +403,9 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | filename | Sanitizing file names (name: string): string \| name => name.replace(/\W/g, '') |
 | accept | File upload type, same as [input accept](https://www.w3schools.com/tags/att_input_accept.asp) | - |
 | validate | Check, return true if successful, otherwise return error message (files: File[]) => string \| boolean | - |
-| handler | Custom upload, return error message when an error occurs (files: File[]) => string \| null | - |
+| handler(files: File[]) => string \| null \| Promise<string> \| Promise<null> | Custom upload, return error message when an error occurs | - |
 | format | Transform the data returned by the server to meet the built-in data structure (files: File[], responseText: string): string | - |
-| file | Process the uploaded file before returning (files: File[]): File[] | - |
+| file(files: File[]): File[] \| Promise<File[]> | Process the uploaded file before return. | - |
 | setHeaders | Use the return value to set the header before uploading (): { [key: string]: string } | - |
 | extraData | Append data to FormData { [key: string]: string | Blob } | - |
 | multiple | Allow multiple file uploads | true |
