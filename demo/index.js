@@ -2,6 +2,7 @@ import Vditor from '../src/index'
 import '../src/assets/scss/index.scss'
 
 // new VConsole()
+
 let toolbar
 if (window.innerWidth < 768) {
   toolbar = [
@@ -47,14 +48,13 @@ if (window.innerWidth < 768) {
       ],
     }]
 }
-let lang = 'zh_CN'
-function init(){
+const initVditor = (language) => {
   window.vditor = new Vditor('vditor', {
     // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
     _lutePath: 'src/js/lute/lute.min.js',
     cdn: "http://localhost:9000",
     toolbar,
-    lang: lang,
+    lang: language,
     mode: 'wysiwyg',
     height: window.innerHeight + 100,
     outline: {
@@ -134,9 +134,8 @@ function init(){
     },
   })
 }
-init()
-window.setLang = (l) => {
+initVditor("zh_CN");
+window.setLang = (language) => {
   window.vditor.destroy()
-  lang = l
-  init()
+  initVditor(language)
 }

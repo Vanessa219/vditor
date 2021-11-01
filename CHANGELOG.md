@@ -95,8 +95,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.8 / 2021-10-xx
+### v3.8.8 / 2021-11-xx
 
+* [1103](https://github.com/Vanessa219/vditor/pull/1103) 支持多语言切换 `改进功能`
+* [1105](https://github.com/Vanessa219/vditor/pull/1105) 兼容 Firefox 中的代码语言选择 `修复缺陷`
 * [1098](https://github.com/Vanessa219/vditor/pull/1098) 兼容 Firefox 中的文件拖拽 `修复缺陷`
 * [1097](https://github.com/Vanessa219/vditor/pull/1097) options.hint.extend[].hint 支持异步 `改进功能`
 * [1101](https://github.com/Vanessa219/vditor/pull/1101) 支持 options.upload.handler 异步 `改进功能`

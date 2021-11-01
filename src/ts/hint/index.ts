@@ -151,7 +151,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         if (vditor.currentMode === "wysiwyg" && range.startContainer.nodeType !== 3 ) {
             const startContainer = range.startContainer as HTMLElement;
             let inputElement: HTMLInputElement;
-            if(startContainer.classList.contains("vditor-input")) {
+            if (startContainer.classList.contains("vditor-input")) {
                 inputElement = startContainer as HTMLInputElement;
             } else {
                 inputElement = startContainer.firstElementChild as HTMLInputElement;
