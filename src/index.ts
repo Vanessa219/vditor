@@ -73,7 +73,14 @@ class Vditor extends VditorMethod {
                     "options.lang error, see https://ld246.com/article/1549638745630#options",
                 );
             } else {
-                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, "vditorI18nScript").then(() => {
+                const i18nScriptPrefix = "vditorI18nScript"
+                const i18nScriptID = i18nScriptPrefix + "_" + mergedOptions.lang
+                document.querySelectorAll(`head script[id^="${i18nScriptPrefix}"]`).forEach(el=>{
+                    if(el.id !== i18nScriptID){
+                        document.head.removeChild(el)
+                    }
+                })
+                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID).then(() => {
                     this.init(id as HTMLElement, mergedOptions);
                 });
             }
@@ -82,7 +89,7 @@ class Vditor extends VditorMethod {
             this.init(id, mergedOptions);
         }
     }
-
+    
     /** 设置主题 */
     public setTheme(
         theme: "dark" | "classic",
