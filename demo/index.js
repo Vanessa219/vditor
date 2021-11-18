@@ -52,7 +52,7 @@ const initVditor = (language) => {
   window.vditor = new Vditor('vditor', {
     // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
     _lutePath: 'src/js/lute/lute.min.js',
-    cdn: "http://localhost:9000",
+    cdn: 'http://localhost:9000',
     toolbar,
     lang: language,
     mode: 'wysiwyg',
@@ -134,7 +134,7 @@ const initVditor = (language) => {
     },
   })
 }
-initVditor("zh_CN");
+initVditor('zh_CN')
 window.setLang = (language) => {
   window.vditor.destroy()
   initVditor(language)
