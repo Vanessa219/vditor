@@ -119,6 +119,11 @@ export const setPadding = (vditor: IVditor) => {
             parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) +
             (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0)) + "px";
     }
+    if (vditor.preview.element.style.display === "block" && vditor.currentMode !== "sv"){
+        const padding = (vditor.preview.element.parentElement.clientWidth
+            - vditor.options.preview.maxWidth) / 2;
+        vditor.toolbar.element.style.paddingLeft = Math.max(minPadding, padding) + "px";
+    }
 };
 
 export const setTypewriterPosition = (vditor: IVditor) => {
