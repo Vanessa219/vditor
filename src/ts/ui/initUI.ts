@@ -73,7 +73,7 @@ export const initUI = (vditor: IVditor) => {
             '<iframe style="width: 100%;height: 0;border: 0"></iframe>');
     }
 
-    setEditMode(vditor, vditor.options.mode, afterRender(vditor, contentElement));
+    setEditMode(vditor, vditor.options.mode, afterRender(vditor));
 
     document.execCommand("DefaultParagraphSeparator", false, "p");
 
@@ -141,10 +141,16 @@ export const setTypewriterPosition = (vditor: IVditor) => {
         ((height - vditor.toolbar.element.offsetHeight) / 2) + "px");
 };
 
-const afterRender = (vditor: IVditor, contentElement: HTMLElement) => {
-    setTypewriterPosition(vditor);
+let resizeCb: () => void;
 
-    window.addEventListener("resize", () => {
+export function UIUnbindListener() {
+    window.removeEventListener("resize", resizeCb);
+}
+
+const afterRender = (vditor: IVditor) => {
+    setTypewriterPosition(vditor);
+    UIUnbindListener();
+    window.addEventListener("resize", resizeCb = () => {
         setPadding(vditor);
         setTypewriterPosition(vditor);
     });

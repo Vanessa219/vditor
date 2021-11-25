@@ -90,7 +90,14 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
                 "options.lang error, see https://ld246.com/article/1549638745630#options",
             );
         } else {
-            addScriptSync(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, "vditorI18nScript");
+            const i18nScriptPrefix = "vditorI18nScript";
+            const i18nScriptID = i18nScriptPrefix + mergedOptions.lang;
+            document.querySelectorAll(`head script[id^="${i18nScriptPrefix}"]`).forEach((el) => {
+                if (el.id !== i18nScriptID) {
+                    document.head.removeChild(el);
+                }
+            });
+            addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID);
         }
     } else {
         window.VditorI18n = mergedOptions.i18n;

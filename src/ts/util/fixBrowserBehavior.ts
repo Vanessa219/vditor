@@ -977,7 +977,7 @@ export const fixCodeBlock = (vditor: IVditor, event: KeyboardEvent, codeRenderEl
     if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey) {
         const codePosition = getSelectPosition(codeRenderElement, vditor[vditor.currentMode].element, range);
         if ((codePosition.start === 0 ||
-            (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
+                (codePosition.start === 1 && codeRenderElement.innerText === "\n")) // 空代码块，光标在 \n 后
             && range.toString() === "") {
             codeRenderElement.parentElement.outerHTML =
                 `<p data-block="0"><wbr>${codeRenderElement.firstElementChild.innerHTML}</p>`;
@@ -1093,7 +1093,7 @@ export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => 
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey && range.toString() === ""
             && range.startOffset === 1
             && ((startContainer.nodeType === 3 && startContainer.previousSibling &&
-                (startContainer.previousSibling as HTMLElement).tagName === "INPUT")
+                    (startContainer.previousSibling as HTMLElement).tagName === "INPUT")
                 || startContainer.nodeType !== 3)) {
             const previousElement = taskItemElement.previousElementSibling;
             taskItemElement.querySelector("input").remove();
@@ -1264,7 +1264,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     } else {
         textHTML = event.dataTransfer.getData("text/html");
         textPlain = event.dataTransfer.getData("text/plain");
-        if (event.dataTransfer.types[0] === "Files") {
+        if (event.dataTransfer.types.includes("Files")) {
             files = event.dataTransfer.items;
         }
     }
@@ -1355,7 +1355,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     if (doc.body) {
         textHTML = doc.body.innerHTML;
     }
-
+    textHTML = Lute.Sanitize(textHTML);
     vditor.wysiwyg.getComments(vditor);
 
     // process code
@@ -1410,7 +1410,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
             vditor.outline.render(vditor);
-        } else if (files.length > 0 && vditor.options.upload.url) {
+        } else if (files.length > 0 && (vditor.options.upload.url || vditor.options.upload.handler)) {
             await uploadFiles(vditor, files);
         } else if (textPlain.trim() !== "" && files.length === 0) {
             if (vditor.currentMode === "ir") {

@@ -62,7 +62,15 @@
     </button> &nbsp; &nbsp;
     <button onclick="window.vditor.setTheme('light', 'light', 'github');document.querySelector('body').style.backgroundColor=''">
         Light Mode
-    </button>
+    </button> &nbsp; &nbsp;
+    <select autocomplete="off" onchange="setLang(this.value)">
+        <option selected="selected" value="zh_CN">zh_CN</option>
+        <option value="zh_TW">zh_TW</option>
+        <option value="en_US">en_US</option>
+        <option value="ru_RU">ru_RU</option>
+        <option value="ja_JP">ja_JP</option>
+        <option value="ko_KR">ko_KR</option>
+    </select>
 </div>
 <div id="vditor">
 <h1>Vditor</h1>

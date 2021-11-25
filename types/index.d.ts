@@ -118,6 +118,8 @@ declare class Lute {
 
     public static NewNodeID(): string;
 
+    public static Sanitize(html: string): string;
+
     private constructor();
 
     public SetJSRenderers(options?: {
@@ -232,6 +234,7 @@ declare const webkitAudioContext: {
 
 interface ITips {
     [index: string]: string;
+
     alignCenter: string;
     alignLeft: string;
     alignRight: string;
@@ -369,7 +372,7 @@ interface IUpload {
     validate?(files: File[]): string | boolean;
 
     /** 自定义上传，当发生错误时返回错误信息 */
-    handler?(files: File[]): string | null;
+    handler?(files: File[]): string | null | Promise<string> | Promise<null>;
 
     /** 对服务端返回的数据进行转换，以满足内置的数据结构 */
     format?(files: File[], responseText: string): string;
@@ -378,7 +381,7 @@ interface IUpload {
     linkToImgFormat?(responseText: string): string;
 
     /** 将上传的文件处理后再返回  */
-    file?(files: File[]): File[];
+    file?(files: File[]): File[] | Promise<File[]>;
 
     /** 图片地址上传后的回调  */
     linkToImgCallback?(responseText: string): void;
@@ -534,7 +537,7 @@ interface IHintData {
 interface IHintExtend {
     key: string;
 
-    hint?(value: string): IHintData[];
+    hint?(value: string): IHintData[] | Promise<IHintData[]>;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-hint */
@@ -744,6 +747,7 @@ interface IVditor {
         triggerRemoveComment(vditor: IVditor): void,
         showComment(): void,
         hideComment(): void,
+        unbindListener(): void,
     };
     ir?: {
         range: Range,

@@ -59,8 +59,8 @@ export class Hint {
                 vditor.options.hint.extend.forEach((item) => {
                     if (item.key === this.splitChar) {
                         clearTimeout(this.timeId);
-                        this.timeId = window.setTimeout(() => {
-                            this.genHTML(item.hint(key), key, vditor);
+                        this.timeId = window.setTimeout(async () => {
+                            this.genHTML(await item.hint(key), key, vditor);
                         }, vditor.options.hint.delay);
                     }
                 });
@@ -148,15 +148,22 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 return;
             }
         }
-        if (vditor.currentMode === "wysiwyg" && range.startContainer.nodeType !== 3 &&
-            (range.startContainer as HTMLElement).firstElementChild.classList.contains("vditor-input")) {
-            const inputElement = (range.startContainer as HTMLElement).firstElementChild as HTMLInputElement;
-            inputElement.value = value.trimRight();
-            range.selectNodeContents(inputElement);
-            range.collapse(false);
-            inputElement.dispatchEvent(new CustomEvent("input"));
-            this.recentLanguage = value.trimRight();
-            return;
+        if (vditor.currentMode === "wysiwyg" && range.startContainer.nodeType !== 3 ) {
+            const startContainer = range.startContainer as HTMLElement;
+            let inputElement: HTMLInputElement;
+            if (startContainer.classList.contains("vditor-input")) {
+                inputElement = startContainer as HTMLInputElement;
+            } else {
+                inputElement = startContainer.firstElementChild as HTMLInputElement;
+            }
+            if (inputElement && inputElement.classList.contains("vditor-input")) {
+                inputElement.value = value.trimRight();
+                range.selectNodeContents(inputElement);
+                range.collapse(false);
+                inputElement.dispatchEvent(new CustomEvent("input"));
+                this.recentLanguage = value.trimRight();
+                return;
+            }
         }
 
         range.setStart(range.startContainer, this.lastIndex);

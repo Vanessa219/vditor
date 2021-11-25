@@ -19,7 +19,7 @@ import {Tip} from "./ts/tip/index";
 import {Toolbar} from "./ts/toolbar/index";
 import {disableToolbar, hidePanel} from "./ts/toolbar/setToolbar";
 import {enableToolbar} from "./ts/toolbar/setToolbar";
-import {initUI} from "./ts/ui/initUI";
+import {initUI, UIUnbindListener} from "./ts/ui/initUI";
 import {setCodeTheme} from "./ts/ui/setCodeTheme";
 import {setContentTheme} from "./ts/ui/setContentTheme";
 import {setPreviewMode} from "./ts/ui/setPreviewMode";
@@ -73,7 +73,14 @@ class Vditor extends VditorMethod {
                     "options.lang error, see https://ld246.com/article/1549638745630#options",
                 );
             } else {
-                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, "vditorI18nScript").then(() => {
+                const i18nScriptPrefix = "vditorI18nScript";
+                const i18nScriptID = i18nScriptPrefix + mergedOptions.lang;
+                document.querySelectorAll(`head script[id^="${i18nScriptPrefix}"]`).forEach((el) => {
+                    if (el.id !== i18nScriptID) {
+                        document.head.removeChild(el);
+                    }
+                });
+                addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID).then(() => {
                     this.init(id as HTMLElement, mergedOptions);
                 });
             }
@@ -322,6 +329,9 @@ class Vditor extends VditorMethod {
         this.vditor.element.removeAttribute("style");
         document.getElementById("vditorIconScript").remove();
         this.clearCache();
+
+        UIUnbindListener();
+        this.vditor.wysiwyg.unbindListener();
     }
 
     /** 获取评论 ID */

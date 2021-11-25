@@ -24,7 +24,7 @@ window.VditorI18n = {
   'edit-mode': '切换编辑模式',
   'emoji': '表情',
   'export': '导出',
-  'fileTypeError': '文件类型不允许上传',
+  'fileTypeError': '文件类型不允许上传，请压缩后再试',
   'footnoteRef': '脚注标识',
   'fullscreen': '全屏切换',
   'generate': '生成中',
