@@ -97,6 +97,7 @@
 
 ### v3.8.8 / 2021-11-xx
 
+* [1121](https://github.com/Vanessa219/vditor/pull/1121) WYSIWYG 下，Enter 也可以切换到代码输入框中 `改进功能`
 * [1103](https://github.com/Vanessa219/vditor/pull/1103) 支持多语言切换 `改进功能`
 * [1105](https://github.com/Vanessa219/vditor/pull/1105) 兼容 Firefox 中的代码语言选择 `修复缺陷`
 * [1098](https://github.com/Vanessa219/vditor/pull/1098) 兼容 Firefox 中的文件拖拽 `修复缺陷`
