@@ -657,7 +657,15 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                         range.collapse(true);
                         setSelectionFocus(range);
                     }
-                    vditor.hint.select(event, vditor);
+                    // 选择语言后自动回到聚焦到代码输入框
+                    if(
+                        vditor.hint.select(event, vditor) &&
+                        event.key === "Enter"
+                    ) {
+                        range.setStart(codeElement.firstChild, 0);
+                        range.collapse(true);
+                        setSelectionFocus(range);
+                    }
                 };
                 language.onkeyup = (event: KeyboardEvent) => {
                     if (
