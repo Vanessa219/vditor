@@ -10,6 +10,7 @@ import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {plantumlRender} from "../markdown/plantumlRender";
+import { hidePanel } from "../toolbar/setToolbar";
 import {getEventName} from "../util/compatibility";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
@@ -23,7 +24,9 @@ export class Preview {
     constructor(vditor: IVditor) {
         this.element = document.createElement("div");
         this.element.className = `vditor-preview`;
-
+        this.element.addEventListener('click', () => {
+            hidePanel(vditor, ["subToolbar"]);
+        })
         const previewElement = document.createElement("div");
         previewElement.className = "vditor-reset";
         if (vditor.options.classes.preview) {
