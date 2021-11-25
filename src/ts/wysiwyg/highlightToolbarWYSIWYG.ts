@@ -647,17 +647,18 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                         event.preventDefault();
                         return;
                     }
+                    vditor.hint.select(event, vditor);
                     if (
                         !isCtrl(event) &&
                         !event.shiftKey &&
-                        event.altKey &&
                         event.key === "Enter"
                     ) {
                         range.setStart(codeElement.firstChild, 0);
                         range.collapse(true);
                         setSelectionFocus(range);
+                        event.preventDefault();
+                        event.stopPropagation();
                     }
-                    vditor.hint.select(event, vditor);
                 };
                 language.onkeyup = (event: KeyboardEvent) => {
                     if (
