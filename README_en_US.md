@@ -23,7 +23,7 @@ Easy-to-use Markdown editor, born to adapt to different application scenarios
 
 ## 💡 Introduction
 
-[Vditor](https://b3log.org/vditor) is a browser-side Markdown editor, implemented using TypeScript. Support native JavaScript, Vue, React, Angular and Svelte, provide [desktop](https://b3log.org/siyuan).
+[Vditor](https://b3log.org/vditor) is a browser-side Markdown editor, Support WYSIWYG, instant rendering (similar to Typora) and split-screen preview mode. It is implemented using TypeScript and supports native JavaScript and frameworks such as Vue, React, Angular, and Svelte..
 
 Welcome to [Vditor Official Site](https://b3log.org/vditor) to learn more.
 
@@ -113,7 +113,6 @@ Most of the above features can be enabled or disabled through the switch configu
 
 * [Sym](https://github.com/88250/symphony) A modern community (forum/BBS/SNS/blog) platform implemented in Java
 * [Solo](https://github.com/88250/solo) & [Pipe](https://github.com/88250/pipe) B3log distributed community blog end node, welcome to join the next generation community network
-* [SiYuan](https://b3log.org/siyuan) A Markdown Block-Reference and Bidirectional-Link note-taking application
 * [Arya](https://github.com/nicejade/markdown-online-editor) Based on Vue, Vditor, built online Markdown editor
 * [More cases](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
 
