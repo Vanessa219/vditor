@@ -19,7 +19,7 @@ import {plantumlRender} from "./plantumlRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
 
-const mergeOptions = (options?: IPreviewOptions) => {
+const mergeOptions = (options?: IPreviewOptions):IPreviewOptions => {
     const defaultOption: IPreviewOptions = {
         anchor: 0,
         cdn: Constants.CDN,
@@ -44,11 +44,14 @@ const mergeOptions = (options?: IPreviewOptions) => {
 export const md2html = (mdText: string, options?: IPreviewOptions) => {
     const mergedOptions = mergeOptions(options);
     return addScript(`${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript").then(() => {
+        const emojis: IObject = mergedOptions.customEmoji instanceof Array 
+                        ? Object.assign({}, ...mergedOptions.customEmoji) 
+                        : mergedOptions.customEmoji
         const lute = setLute({
             autoSpace: mergedOptions.markdown.autoSpace,
             codeBlockPreview: mergedOptions.markdown.codeBlockPreview,
             emojiSite: mergedOptions.emojiPath,
-            emojis: mergedOptions.customEmoji,
+            emojis: emojis,
             fixTermTypo: mergedOptions.markdown.fixTermTypo,
             footnotes: mergedOptions.markdown.footnotes,
             headingAnchor: mergedOptions.anchor !== 0,

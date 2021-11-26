@@ -507,7 +507,7 @@ interface IPreviewActionCustom {
 
 interface IPreviewOptions {
     mode: "dark" | "light";
-    customEmoji?: IObject;
+    customEmoji?: IObject | Array<IObject>;
     lang?: (keyof II18n);
     i18n?: ITips;
     lazyLoadImage?: string;
@@ -549,7 +549,7 @@ interface IHint {
     /** 提示 debounce 毫秒间隔。默认值: 200 */
     delay?: number;
     /** 默认表情，可从 [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go#L32) 中选取，也可自定义 */
-    emoji?: IObject;
+    emoji?: IObject | Array<IObject>;
     /** 表情图片地址。默认值: 'https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji' */
     emojiPath?: string;
     extend?: IHintExtend[];

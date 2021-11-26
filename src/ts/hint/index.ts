@@ -39,21 +39,24 @@ export class Hint {
             if (this.splitChar === ":") {
                 const emojiHint = key === "" ? vditor.options.hint.emoji : vditor.lute.GetEmojis();
                 const matchEmojiData: IHintData[] = [];
-                Object.keys(emojiHint).forEach((keyName) => {
-                    if (keyName.indexOf(key.toLowerCase()) === 0) {
-                        if (emojiHint[keyName].indexOf(".") > -1) {
-                            matchEmojiData.push({
-                                html: `<img src="${emojiHint[keyName]}" title=":${keyName}:"/> :${keyName}:`,
-                                value: `:${keyName}:`,
-                            });
-                        } else {
-                            matchEmojiData.push({
-                                html: `<span class="vditor-hint__emoji">${emojiHint[keyName]}</span>${keyName}`,
-                                value: emojiHint[keyName],
-                            });
+                const emojiHintGroup = emojiHint instanceof Array ? emojiHint : [emojiHint];
+                emojiHintGroup.forEach(emoji=>{
+                    Object.keys(emoji).forEach((keyName) => {
+                        if (keyName.indexOf(key.toLowerCase()) === 0) {
+                            if (emoji[keyName].indexOf(".") > -1) {
+                                matchEmojiData.push({
+                                    html: `<img src="${emoji[keyName]}" title=":${keyName}:"/> :${keyName}:`,
+                                    value: `:${keyName}:`,
+                                });
+                            } else {
+                                matchEmojiData.push({
+                                    html: `<span class="vditor-hint__emoji">${emoji[keyName]}</span>${keyName}`,
+                                    value: emoji[keyName],
+                                });
+                            }
                         }
-                    }
-                });
+                    });
+                })
                 this.genHTML(matchEmojiData, key, vditor);
             } else {
                 vditor.options.hint.extend.forEach((item) => {

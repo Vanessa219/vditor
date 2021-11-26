@@ -466,7 +466,9 @@ class Vditor extends VditorMethod {
         if (mergedOptions.upload.url || mergedOptions.upload.handler) {
             this.vditor.upload = new Upload();
         }
-
+        let emojis: IObject = this.vditor.options.hint.emoji instanceof Array 
+                    ? Object.assign({}, ...this.vditor.options.hint.emoji) 
+                    : this.vditor.options.hint.emoji
         addScript(
             mergedOptions._lutePath ||
             `${mergedOptions.cdn}/dist/js/lute/lute.min.js`,
@@ -477,7 +479,7 @@ class Vditor extends VditorMethod {
                 codeBlockPreview: this.vditor.options.preview.markdown
                     .codeBlockPreview,
                 emojiSite: this.vditor.options.hint.emojiPath,
-                emojis: this.vditor.options.hint.emoji,
+                emojis: emojis,
                 fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
                 footnotes: this.vditor.options.preview.markdown.footnotes,
                 headingAnchor: false,

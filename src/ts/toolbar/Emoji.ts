@@ -13,16 +13,19 @@ export class Emoji extends MenuItem {
         panelElement.className = "vditor-panel vditor-panel--arrow";
 
         let commonEmojiHTML = "";
-        Object.keys(vditor.options.hint.emoji).forEach((key) => {
-            const emojiValue = vditor.options.hint.emoji[key];
-            if (emojiValue.indexOf(".") > -1) {
-                commonEmojiHTML += `<button data-value=":${key}: " data-key=":${key}:"><img
-data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${emojiValue}"/></button>`;
-            } else {
-                commonEmojiHTML += `<button data-value="${emojiValue} "
- data-key="${key}"><span class="vditor-emojis__icon">${emojiValue}</span></button>`;
-            }
-        });
+        const emojiGroup = vditor.options.hint.emoji instanceof Array ? vditor.options.hint.emoji : [vditor.options.hint.emoji]
+        emojiGroup.forEach(emoji=>{
+            Object.keys(emoji).forEach((key) => {
+                const emojiValue = emoji[key];
+                if (emojiValue.indexOf(".") > -1) {
+                    commonEmojiHTML += `<button data-value=":${key}: " data-key=":${key}:"><img
+    data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${emojiValue}"/></button>`;
+                } else {
+                    commonEmojiHTML += `<button data-value="${emojiValue} "
+    data-key="${key}"><span class="vditor-emojis__icon">${emojiValue}</span></button>`;
+                }
+            });
+        })
 
         const tailHTML = `<div class="vditor-emojis__tail">
     <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail || ""}</span>
