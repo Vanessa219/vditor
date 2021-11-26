@@ -97,6 +97,7 @@
 
 ### v3.8.8 / 2021-11-xx
 
+* [1123](https://github.com/Vanessa219/vditor/pull/1123) 预览模式下，工具栏不自动隐藏 `改进功能`
 * [1124](https://github.com/Vanessa219/vditor/pull/1124) 在焦点更改后，代码选择列表不自动隐藏 `改进功能`
 * [1121](https://github.com/Vanessa219/vditor/pull/1121) WYSIWYG 下，Enter 也可以切换到代码输入框中 `改进功能`
 * [1103](https://github.com/Vanessa219/vditor/pull/1103) 支持多语言切换 `改进功能`

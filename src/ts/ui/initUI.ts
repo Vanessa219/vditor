@@ -3,6 +3,7 @@ import {setEditMode} from "../toolbar/EditMode";
 import {accessLocalStorage} from "../util/compatibility";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
+import {hidePanel} from "../toolbar/setToolbar";
 
 declare global {
     interface Window {
@@ -66,6 +67,10 @@ export const initUI = (vditor: IVditor) => {
     contentElement.appendChild(vditor.tip.element);
 
     vditor.element.appendChild(contentElement);
+
+    contentElement.addEventListener("click", () => {
+        hidePanel(vditor, ["subToolbar"]);
+    });
 
     if (vditor.toolbar.elements.export) {
         // for export pdf
