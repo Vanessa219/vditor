@@ -1,9 +1,9 @@
 import {Constants} from "../constants";
 import {setEditMode} from "../toolbar/EditMode";
+import {hidePanel} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
-import {hidePanel} from "../toolbar/setToolbar";
 
 declare global {
     interface Window {
