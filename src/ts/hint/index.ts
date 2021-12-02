@@ -160,7 +160,9 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
                 inputElement.value = value.trimRight();
                 range.selectNodeContents(inputElement);
                 range.collapse(false);
-                inputElement.dispatchEvent(new CustomEvent("input"));
+                // {detail: 1}用于标识这个自定义事件是在编程语言选择后触发的
+                // 用于在鼠标选择语言后，自动聚焦到代码输入框
+                inputElement.dispatchEvent(new CustomEvent("input", {detail: 1}));
                 this.recentLanguage = value.trimRight();
                 return;
             }

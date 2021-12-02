@@ -618,7 +618,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                     codeElement.className.indexOf("language-") > -1
                         ? codeElement.className.split("-")[1].split(" ")[0]
                         : "";
-                language.oninput = () => {
+                language.oninput = (e:InputEvent) => {
                     if (language.value.trim() !== "") {
                         codeElement.className = `language-${language.value}`;
                     } else {
@@ -631,6 +631,13 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                         processCodeRender(blockRenderElement.lastElementChild as HTMLElement, vditor);
                     }
                     afterRenderEvent(vditor);
+                    // 当鼠标点选语言时，触发自定义input事件
+                    if(e.detail === 1){
+                        // 选择语言后，输入焦点切换到代码输入框
+                        range.setStart(codeElement.firstChild, 0);
+                        range.collapse(true);
+                        setSelectionFocus(range);
+                    }
                 };
                 language.onkeydown = (event: KeyboardEvent) => {
                     if (event.isComposing) {
