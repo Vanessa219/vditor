@@ -119,9 +119,12 @@ export const setPadding = (vditor: IVditor) => {
         vditor.ir.element.style.padding = `10px ${Math.max(minPadding, padding)}px`;
     }
 
-    if (vditor.preview.element.style.display !== "block" || vditor.currentMode === "sv") {
+    if (vditor.preview.element.style.display !== "block") {
         vditor.toolbar.element.style.paddingLeft = Math.max(5,
             parseInt(vditor[vditor.currentMode].element.style.paddingLeft || "0", 10) +
+            (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0)) + "px";
+    } else {
+        vditor.toolbar.element.style.paddingLeft = (5 +
             (vditor.options.outline.position === "left" ? vditor.outline.element.offsetWidth : 0)) + "px";
     }
 };
