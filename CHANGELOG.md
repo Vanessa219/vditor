@@ -95,7 +95,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.8 / 2021-11-xx
+### v3.8.9 / 2022-01-xx
+
+### v3.8.8 / 2021-12-05
 
 * [1129](https://github.com/Vanessa219/vditor/pull/1129) WYSIWYG 下，点击语言后光标切换到代码输入框中 `改进功能`
 * [1122](https://github.com/Vanessa219/vditor/pull/1122) 预览中退出全屏后，工具栏布局错误 `修复缺陷`
