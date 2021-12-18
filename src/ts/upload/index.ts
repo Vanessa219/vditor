@@ -108,7 +108,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         if (type.indexOf(".wav") === 0 || type.indexOf(".mp3") === 0 || type.indexOf(".ogg") === 0) {
             if (vditor.currentMode === "wysiwyg") {
                 succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block"
- data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre>`;
+ data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre>\n`;
             } else if (vditor.currentMode === "ir") {
                 succFileText += `<audio controls="controls" src="${path}"></audio>\n`;
             } else {
@@ -123,13 +123,13 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
             || type.indexOf(".svg") === 0
             || type.indexOf(".webp") === 0) {
             if (vditor.currentMode === "wysiwyg") {
-                succFileText += `<img alt="${filename}" src="${path}">`;
+                succFileText += `<img alt="${filename}" src="${path}">\n`;
             } else {
                 succFileText += `![${filename}](${path})\n`;
             }
         } else {
             if (vditor.currentMode === "wysiwyg") {
-                succFileText += `<a href="${path}">${filename}</a>`;
+                succFileText += `<a href="${path}">${filename}</a>\n`;
             } else {
                 succFileText += `[${filename}](${path})\n`;
             }
