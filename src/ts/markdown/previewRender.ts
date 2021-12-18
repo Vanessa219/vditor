@@ -97,7 +97,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
                     document.head.removeChild(el);
                 }
             });
-            addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID);
+            await addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID);
         }
     } else {
         window.VditorI18n = mergedOptions.i18n;
