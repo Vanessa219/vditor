@@ -103,6 +103,10 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         window.VditorI18n = mergedOptions.i18n;
     }
 
+    if (mergedOptions.icon) {
+        await addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+    }
+
     setContentTheme(mergedOptions.theme.current, mergedOptions.theme.path);
     if (mergedOptions.anchor === 1) {
         previewElement.classList.add("vditor-reset--anchor");
@@ -132,9 +136,6 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     if (mergedOptions.lazyLoadImage) {
         lazyLoadImageRender(previewElement);
-    }
-    if (mergedOptions.icon) {
-        addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
     }
     previewElement.addEventListener("click", (event: MouseEvent & { target: HTMLElement }) => {
         const spanElement = hasClosestByMatchTag(event.target, "SPAN");

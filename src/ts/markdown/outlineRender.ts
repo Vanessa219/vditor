@@ -38,7 +38,11 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     const headingsElement = tempElement.firstElementChild.querySelectorAll("li > span[data-target-id]");
     headingsElement.forEach((item, index) => {
         if (item.nextElementSibling && item.nextElementSibling.tagName === "UL") {
-            item.innerHTML = `<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg><span>${item.innerHTML}</span>`;
+            let iconHTML = "<svg class='vditor-outline__action'><use xlink:href='#vditor-icon-down'></use></svg>";
+            if (!document.getElementById("vditorIconScript")) {
+                iconHTML = '<svg class="vditor-outline__action" viewBox="0 0 32 32"><path d="M3.76 6.12l12.24 12.213 12.24-12.213 3.76 3.76-16 16-16-16 3.76-3.76z"></path></svg>';
+            }
+            item.innerHTML = `${iconHTML}<span>${item.innerHTML}</span>`;
         } else {
             item.innerHTML = `<svg></svg><span>${item.innerHTML}</span>`;
         }

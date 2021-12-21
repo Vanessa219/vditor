@@ -9,8 +9,12 @@ export const speechRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") 
     if (typeof speechSynthesis === "undefined" || typeof SpeechSynthesisUtterance === "undefined") {
         return;
     }
-    const playSVG = '<svg><use xlink:href="#vditor-icon-play"></use></svg>';
-    const pauseSVG = '<svg><use xlink:href="#vditor-icon-pause"></use></svg>';
+    let playSVG = '<svg><use xlink:href="#vditor-icon-play"></use></svg>';
+    let pauseSVG = '<svg><use xlink:href="#vditor-icon-pause"></use></svg>';
+    if (!document.getElementById("vditorIconScript")) {
+        playSVG = '<svg viewBox="0 0 32 32"><path d="M3.436 0l25.128 16-25.128 16v-32z"></path></svg>';
+        pauseSVG = '<svg viewBox="0 0 32 32"><path d="M20.617 0h9.128v32h-9.128v-32zM2.255 32v-32h9.128v32h-9.128z"></path></svg>';
+    }
     let speechDom: HTMLDivElement = document.querySelector(".vditor-speech");
     if (!speechDom) {
         speechDom = document.createElement("div");
