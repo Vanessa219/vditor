@@ -40,10 +40,10 @@ export const codeRender = (element: HTMLElement) => {
 
         const divElement = document.createElement("div");
         divElement.className = "vditor-copy";
-        divElement.innerHTML = `<span aria-label="${window.VditorI18n?.copy || "Copy"}"
-onmouseover="this.setAttribute('aria-label', '${window.VditorI18n?.copy || "Copy"}')"
+        divElement.innerHTML = `<span aria-label="${window.VditorI18n?.copy || "复制"}"
+onmouseover="this.setAttribute('aria-label', '${window.VditorI18n?.copy || "复制"}')"
 class="vditor-tooltipped vditor-tooltipped__w"
-onclick="this.previousElementSibling.select();document.execCommand('copy');this.setAttribute('aria-label', '${window.VditorI18n?.copy || "Copied"}')">${iconHTML}</span>`;
+onclick="this.previousElementSibling.select();document.execCommand('copy');this.setAttribute('aria-label', '${window.VditorI18n?.copy || "已复制"}')">${iconHTML}</span>`;
         const textarea = document.createElement("textarea");
         textarea.value = code160to32(codeText);
         divElement.insertAdjacentElement("afterbegin", textarea);

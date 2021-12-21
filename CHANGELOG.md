@@ -95,9 +95,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.10 / 2022-01-xx
+### v3.8.11 / 2022-01-xx
 
-### v3.8.9 / 2021-12-21
+### v3.8.10 / 2021-12-21
 
 * [1134](https://github.com/Vanessa219/vditor/issues/1134) 渲染时代码块复制图标报错 `修复缺陷`
 * [1129](https://github.com/Vanessa219/vditor/pull/1129) WYSIWYG 下，点击语言后光标切换到代码输入框中 `改进功能`
