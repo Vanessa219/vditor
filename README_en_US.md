@@ -153,7 +153,7 @@ const vditor = new Vditor(id, {options...})
 
 ### Themes
 
-* Support two sets of black and white themes: classic/dark
+* Support four sets of black and white themes: and-design, classic, dark, wechat
 * Use the scss/css developed by yourself to fully customize the style after referring to the existing style
 * Theme colors can be customized by modifying variables in [index.scss](https://github.com/Vanessa219/vditor/blob/master/src/assets/scss/index.scss)
 * Adding `class="vditor-reset"` (classic theme) or `class="vditor-reset vditor-reset--dark"` (black theme) attribute on the content display element can display the content more friendly
@@ -279,7 +279,7 @@ new Vditor('vditor', {
 |   | Explanation | Default |
 | - | - | - |
 | current | current Markdown Theme | "light" |
-| list | Choose Markdown Theme List | { dark: "Dark", light: "Light", wechat: "WeChat" } |
+| list | Choose Markdown Theme List | { "ant-design": "Ant Design", dark: "Dark", light: "Light", wechat: "WeChat" } |
 | path | CSS Path | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme` |
 
 #### options.preview.hljs
