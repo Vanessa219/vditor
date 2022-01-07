@@ -972,8 +972,6 @@ const linkHotkey = (
 };
 
 export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
-    const lang: keyof II18n | "" = vditor.options.lang;
-    const options: IOptions = vditor.options;
     vditor.wysiwyg.popover.innerHTML = "";
 
     const updateA = () => {
@@ -982,6 +980,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         }
         aElement.setAttribute("href", input1.value);
         aElement.setAttribute("title", input2.value);
+        afterRenderEvent(vditor);
     };
 
     aElement.querySelectorAll("[data-marker]").forEach((item: HTMLElement) => {
