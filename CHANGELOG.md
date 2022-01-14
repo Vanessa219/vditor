@@ -97,6 +97,7 @@
 
 ### v3.8.11 / 2022-01-xx
 
+* [1153](https://github.com/Vanessa219/vditor/issues/1153) vditor 的生产代码未经 minify `改进功能`
 * [1004](https://github.com/Vanessa219/vditor/issues/1004) options.input无法监听点击toolbar link的输入内容 `改进功能`
 
 ### v3.8.10 / 2021-12-21
