@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma { background-color: #ffffff }
+/* Background */ .highlight-bg { background-color: #ffffff }
+/* PreWrapper */ .highlight-chroma { background-color: #ffffff; }
 /* Error */ .highlight-chroma .highlight-err { color: #ff0000; background-color: #ffaaaa }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #e5e5e5 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #e5e5e5 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #0000aa }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #0000aa }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #0000aa }
@@ -63,74 +65,3 @@
 /* GenericTraceback */ .highlight-chroma .highlight-gt { color: #aa0000 }
 /* GenericUnderline */ .highlight-chroma .highlight-gl { text-decoration: underline }
 /* TextWhitespace */ .highlight-chroma .highlight-w { color: #bbbbbb }
-
-/* Base16 Atelier Heath Light - Theme */
-/* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/heath) */
-/* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) */
-
-/* Atelier-Heath Comment */
-.hljs-comment,
-.hljs-quote {
-    color: #776977;
-}
-
-/* Atelier-Heath Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-attribute,
-.hljs-tag,
-.hljs-name,
-.hljs-regexp,
-.hljs-link,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class {
-    color: #ca402b;
-}
-
-/* Atelier-Heath Orange */
-.hljs-number,
-.hljs-meta,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params {
-    color: #a65926;
-}
-
-/* Atelier-Heath Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet {
-    color: #918b3b;
-}
-
-/* Atelier-Heath Blue */
-.hljs-title,
-.hljs-section {
-    color: #516aec;
-}
-
-/* Atelier-Heath Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-    color: #7b59c0;
-}
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    background: #f7f3f7;
-    color: #695d69;
-    padding: 0.5em;
-}
-
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-strong {
-    font-weight: bold;
-}
-

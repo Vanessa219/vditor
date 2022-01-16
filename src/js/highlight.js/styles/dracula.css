@@ -1,9 +1,11 @@
-/* Background */ .highlight-chroma { color: #f8f8f2; background-color: #282a36 }
+/* Background */ .highlight-bg { color: #f8f8f2; background-color: #282a36 }
+/* PreWrapper */ .highlight-chroma { color: #f8f8f2; background-color: #282a36; }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #3d3f4a }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #3d3f4a }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #ff79c6 }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #ff79c6 }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #8be9fd; font-style: italic }
@@ -51,89 +53,10 @@
 /* CommentSpecial */ .highlight-chroma .highlight-cs { color: #6272a4 }
 /* CommentPreproc */ .highlight-chroma .highlight-cp { color: #ff79c6 }
 /* CommentPreprocFile */ .highlight-chroma .highlight-cpf { color: #ff79c6 }
-/* GenericDeleted */ .highlight-chroma .highlight-gd { color: #8b080b }
+/* GenericDeleted */ .highlight-chroma .highlight-gd { color: #ff5555 }
 /* GenericEmph */ .highlight-chroma .highlight-ge { text-decoration: underline }
 /* GenericHeading */ .highlight-chroma .highlight-gh { font-weight: bold }
-/* GenericInserted */ .highlight-chroma .highlight-gi { font-weight: bold }
+/* GenericInserted */ .highlight-chroma .highlight-gi { color: #50fa7b; font-weight: bold }
 /* GenericOutput */ .highlight-chroma .highlight-go { color: #44475a }
 /* GenericSubheading */ .highlight-chroma .highlight-gu { font-weight: bold }
 /* GenericUnderline */ .highlight-chroma .highlight-gl { text-decoration: underline }
-
-/*
-
-Darcula color scheme from the JetBrains family of IDEs
-
-*/
-
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #2b2b2b;
-}
-
-.hljs {
-    color: #bababa;
-}
-
-.hljs-strong,
-.hljs-emphasis {
-    color: #a8a8a2;
-}
-
-.hljs-bullet,
-.hljs-quote,
-.hljs-link,
-.hljs-number,
-.hljs-regexp,
-.hljs-literal {
-    color: #6896ba;
-}
-
-.hljs-code,
-.hljs-selector-class {
-    color: #a6e22e;
-}
-
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-section,
-.hljs-attribute,
-.hljs-name,
-.hljs-variable {
-    color: #cb7832;
-}
-
-.hljs-params {
-    color: #b9b9b9;
-}
-
-.hljs-string {
-    color: #6a8759;
-}
-
-.hljs-subst,
-.hljs-type,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-symbol,
-.hljs-selector-id,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-template-tag,
-.hljs-template-variable,
-.hljs-addition {
-    color: #e0c46c;
-}
-
-.hljs-comment,
-.hljs-deletion,
-.hljs-meta {
-    color: #7f7f7f;
-}
-

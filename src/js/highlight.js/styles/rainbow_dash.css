@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma { color: #4d4d4d; background-color: #ffffff }
+/* Background */ .highlight-bg { color: #4d4d4d; background-color: #ffffff }
+/* PreWrapper */ .highlight-chroma { color: #4d4d4d; background-color: #ffffff; }
 /* Error */ .highlight-chroma .highlight-err { color: #ffffff; background-color: #cc0000 }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #e5e5e5 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #e5e5e5 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #2c5dcd; font-weight: bold }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #2c5dcd; font-weight: bold }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #2c5dcd; font-weight: bold }
@@ -63,101 +65,3 @@
 /* GenericTraceback */ .highlight-chroma .highlight-gt { color: #c5060b }
 /* GenericUnderline */ .highlight-chroma .highlight-gl { text-decoration: underline }
 /* TextWhitespace */ .highlight-chroma .highlight-w { color: #cbcbcb }
-
-/*
-
-Intellij Idea-like styling (c) Vasily Polovnyov <vast@whiteants.net>
-
-*/
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    color: #000;
-    background: #fff;
-}
-
-.hljs-subst,
-.hljs-title {
-    font-weight: normal;
-    color: #000;
-}
-
-.hljs-comment,
-.hljs-quote {
-    color: #808080;
-    font-style: italic;
-}
-
-.hljs-meta {
-    color: #808000;
-}
-
-.hljs-tag {
-    background: #efefef;
-}
-
-.hljs-section,
-.hljs-name,
-.hljs-literal,
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-type,
-.hljs-selector-id,
-.hljs-selector-class {
-    font-weight: bold;
-    color: #000080;
-}
-
-.hljs-attribute,
-.hljs-number,
-.hljs-regexp,
-.hljs-link {
-    font-weight: bold;
-    color: #0000ff;
-}
-
-.hljs-number,
-.hljs-regexp,
-.hljs-link {
-    font-weight: normal;
-}
-
-.hljs-string {
-    color: #008000;
-    font-weight: bold;
-}
-
-.hljs-symbol,
-.hljs-bullet,
-.hljs-formula {
-    color: #000;
-    background: #d0eded;
-    font-style: italic;
-}
-
-.hljs-doctag {
-    text-decoration: underline;
-}
-
-.hljs-variable,
-.hljs-template-variable {
-    color: #660e7a;
-}
-
-.hljs-addition {
-    background: #baeeba;
-}
-
-.hljs-deletion {
-    background: #ffc8bd;
-}
-
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-strong {
-    font-weight: bold;
-}

@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma { background-color: #eeeedd }
+/* Background */ .highlight-bg { background-color: #eeeedd }
+/* PreWrapper */ .highlight-chroma { background-color: #eeeedd; }
 /* Error */ .highlight-chroma .highlight-err { color: #a61717; background-color: #e3d2d2 }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #d6d6c6 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #d6d6c6 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #8b008b; font-weight: bold }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #8b008b; font-weight: bold }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #8b008b; font-weight: bold }
@@ -63,78 +65,3 @@
 /* GenericTraceback */ .highlight-chroma .highlight-gt { color: #aa0000 }
 /* GenericUnderline */ .highlight-chroma .highlight-gl { text-decoration: underline }
 /* TextWhitespace */ .highlight-chroma .highlight-w { color: #bbbbbb }
-
-/*
-Name:     Kimbie (light)
-Author:   Jan T. Sott
-License:  Creative Commons Attribution-ShareAlike 4.0 Unported License
-URL:      https://github.com/idleberg/Kimbie-highlight.js
-*/
-
-/* Kimbie Comment */
-.hljs-comment,
-.hljs-quote {
-    color: #a57a4c;
-}
-
-/* Kimbie Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-meta {
-    color: #dc3958;
-}
-
-/* Kimbie Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-deletion,
-.hljs-link {
-    color: #f79a32;
-}
-
-/* Kimbie Yellow */
-.hljs-title,
-.hljs-section,
-.hljs-attribute {
-    color: #f06431;
-}
-
-/* Kimbie Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-    color: #889b4a;
-}
-
-/* Kimbie Purple */
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-function {
-    color: #98676a;
-}
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    background: #fbebd4;
-    color: #84613d;
-    padding: 0.5em;
-}
-
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-strong {
-    font-weight: bold;
-}

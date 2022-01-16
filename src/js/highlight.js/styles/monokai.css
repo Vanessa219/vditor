@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma { color: #f8f8f2; background-color: #272822 }
+/* Background */ .highlight-bg { color: #f8f8f2; background-color: #272822 }
+/* PreWrapper */ .highlight-chroma { color: #f8f8f2; background-color: #272822; }
 /* Error */ .highlight-chroma .highlight-err { color: #960050; background-color: #1e0010 }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #3c3d38 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #3c3d38 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #66d9ef }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #66d9ef }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #66d9ef }
@@ -57,75 +59,3 @@
 /* GenericInserted */ .highlight-chroma .highlight-gi { color: #a6e22e }
 /* GenericStrong */ .highlight-chroma .highlight-gs { font-weight: bold }
 /* GenericSubheading */ .highlight-chroma .highlight-gu { color: #75715e }
-
-/*
-Monokai style - ported by Luigi Maselli - http://grigio.org
-*/
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #272822; color: #ddd;
-}
-
-.hljs-tag,
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-literal,
-.hljs-strong,
-.hljs-name {
-    color: #f92672;
-}
-
-.hljs-code {
-    color: #66d9ef;
-}
-
-.hljs-class .hljs-title {
-    color: white;
-}
-
-.hljs-attribute,
-.hljs-symbol,
-.hljs-regexp,
-.hljs-link {
-    color: #bf79db;
-}
-
-.hljs-string,
-.hljs-bullet,
-.hljs-subst,
-.hljs-title,
-.hljs-section,
-.hljs-emphasis,
-.hljs-type,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-addition,
-.hljs-variable,
-.hljs-template-tag,
-.hljs-template-variable {
-    color: #a6e22e;
-}
-
-.hljs-comment,
-.hljs-quote,
-.hljs-deletion,
-.hljs-meta {
-    color: #75715e;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-literal,
-.hljs-doctag,
-.hljs-title,
-.hljs-section,
-.hljs-type,
-.hljs-selector-id {
-    font-weight: bold;
-}
-

@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma { background-color: #ffffff }
+/* Background */ .highlight-bg { background-color: #ffffff }
+/* PreWrapper */ .highlight-chroma { background-color: #ffffff; }
 /* Error */ .highlight-chroma .highlight-err { color: #a61717 }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #e5e5e5 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #e5e5e5 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #728e00 }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #00979d }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #728e00 }
@@ -63,93 +65,3 @@
 /* CommentSpecial */ .highlight-chroma .highlight-cs { color: #95a5a6 }
 /* CommentPreproc */ .highlight-chroma .highlight-cp { color: #728e00 }
 /* CommentPreprocFile */ .highlight-chroma .highlight-cpf { color: #728e00 }
-
-/*
-
-Arduino® Light Theme - Stefania Mellai <s.mellai@arduino.cc>
-
-*/
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #FFFFFF;
-}
-
-.hljs,
-.hljs-subst {
-    color: #434f54;
-}
-
-.hljs-keyword,
-.hljs-attribute,
-.hljs-selector-tag,
-.hljs-doctag,
-.hljs-name {
-    color: #00979D;
-}
-
-.hljs-built_in,
-.hljs-literal,
-.hljs-bullet,
-.hljs-code,
-.hljs-addition {
-    color: #D35400;
-}
-
-.hljs-regexp,
-.hljs-symbol,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-link,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-    color: #00979D;
-}
-
-.hljs-type,
-.hljs-string,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-quote,
-.hljs-template-tag,
-.hljs-deletion {
-    color: #005C5F;
-}
-
-.hljs-title,
-.hljs-section {
-    color: #880000;
-    font-weight: bold;
-}
-
-.hljs-comment {
-    color: rgba(149,165,166,.8);
-}
-
-.hljs-meta-keyword {
-    color: #728E00;
-}
-
-.hljs-meta {
-    color: #728E00;
-    color: #434f54;
-}
-
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-strong {
-    font-weight: bold;
-}
-
-.hljs-function {
-    color: #728E00;
-}
-
-.hljs-number {
-    color: #8A7B52;
-}
-

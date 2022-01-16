@@ -1,9 +1,11 @@
-/* Background */ .highlight-chroma { background-color: #ffffff }
+/* Background */ .highlight-bg { background-color: #ffffff }
+/* PreWrapper */ .highlight-chroma { background-color: #ffffff; }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #e5e5e5 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #e5e5e5 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #0000ff }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #0000ff }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #0000ff }
@@ -35,88 +37,3 @@
 /* CommentSpecial */ .highlight-chroma .highlight-cs { color: #ff0000; font-style: italic }
 /* CommentPreproc */ .highlight-chroma .highlight-cp { color: #ff0000; font-style: italic }
 /* CommentPreprocFile */ .highlight-chroma .highlight-cpf { color: #ff0000; font-style: italic }
-
-/*
-
-Qt Creator light color scheme
-
-*/
-
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #ffffff;
-}
-
-.hljs,
-.hljs-subst,
-.hljs-tag,
-.hljs-title {
-    color: #000000;
-}
-
-.hljs-strong,
-.hljs-emphasis {
-    color: #000000;
-}
-
-.hljs-bullet,
-.hljs-quote,
-.hljs-number,
-.hljs-regexp,
-.hljs-literal {
-    color: #000080;
-}
-
-.hljs-code
-.hljs-selector-class {
-    color: #800080;
-}
-
-.hljs-emphasis,
-.hljs-stronge,
-.hljs-type {
-    font-style: italic;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-function,
-.hljs-section,
-.hljs-symbol,
-.hljs-name {
-    color: #808000;
-}
-
-.hljs-attribute {
-    color: #800000;
-}
-
-.hljs-variable,
-.hljs-params,
-.hljs-class .hljs-title {
-    color: #0055AF;
-}
-
-.hljs-string,
-.hljs-selector-id,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-type,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-template-tag,
-.hljs-template-variable,
-.hljs-addition,
-.hljs-link {
-    color: #008000;
-}
-
-.hljs-comment,
-.hljs-meta,
-.hljs-deletion {
-    color: #008000;
-}
-

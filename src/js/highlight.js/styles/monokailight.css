@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma { color: #272822; background-color: #fafafa }
+/* Background */ .highlight-bg { color: #272822; background-color: #fafafa }
+/* PreWrapper */ .highlight-chroma { color: #272822; background-color: #fafafa; }
 /* Error */ .highlight-chroma .highlight-err { color: #960050; background-color: #1e0010 }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #e1e1e1 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #e1e1e1 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #00a8c8 }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #00a8c8 }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #00a8c8 }
@@ -68,112 +70,3 @@
 /* CommentPreprocFile */ .highlight-chroma .highlight-cpf { color: #75715e }
 /* GenericEmph */ .highlight-chroma .highlight-ge { font-style: italic }
 /* GenericStrong */ .highlight-chroma .highlight-gs { font-weight: bold }
-
-/*
-
-Gruvbox style (light) (c) Pavel Pertsev (original style at https://github.com/morhetz/gruvbox)
-
-*/
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #fbf1c7;
-}
-
-.hljs,
-.hljs-subst {
-    color: #3c3836;
-}
-
-/* Gruvbox Red */
-.hljs-deletion,
-.hljs-formula,
-.hljs-keyword,
-.hljs-link,
-.hljs-selector-tag {
-    color: #9d0006;
-}
-
-/* Gruvbox Blue */
-.hljs-built_in,
-.hljs-emphasis,
-.hljs-name,
-.hljs-quote,
-.hljs-strong,
-.hljs-title,
-.hljs-variable {
-    color: #076678;
-}
-
-/* Gruvbox Yellow */
-.hljs-attr,
-.hljs-params,
-.hljs-template-tag,
-.hljs-type {
-    color: #b57614;
-}
-
-/* Gruvbox Purple */
-.hljs-builtin-name,
-.hljs-doctag,
-.hljs-literal,
-.hljs-number {
-    color: #8f3f71;
-}
-
-/* Gruvbox Orange */
-.hljs-code,
-.hljs-meta,
-.hljs-regexp,
-.hljs-selector-id,
-.hljs-template-variable {
-    color: #af3a03;
-}
-
-/* Gruvbox Green */
-.hljs-addition,
-.hljs-meta-string,
-.hljs-section,
-.hljs-selector-attr,
-.hljs-selector-class,
-.hljs-string,
-.hljs-symbol {
-    color: #79740e;
-}
-
-/* Gruvbox Aqua */
-.hljs-attribute,
-.hljs-bullet,
-.hljs-class,
-.hljs-function,
-.hljs-function .hljs-keyword,
-.hljs-meta-keyword,
-.hljs-selector-pseudo,
-.hljs-tag {
-    color: #427b58;
-}
-
-/* Gruvbox Gray */
-.hljs-comment {
-    color: #928374;
-}
-
-/* Gruvbox Purple */
-.hljs-link_label,
-.hljs-literal,
-.hljs-number {
-    color: #8f3f71;
-}
-
-.hljs-comment,
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-section,
-.hljs-strong,
-.hljs-tag {
-    font-weight: bold;
-}

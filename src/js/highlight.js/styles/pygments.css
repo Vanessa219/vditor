@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma {  }
+/* Background */ .highlight-bg {  }
+/* PreWrapper */ .highlight-chroma { ; }
 /* Error */ .highlight-chroma .highlight-err {  }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #e5e5e5 }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #e5e5e5 }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #008000; font-weight: bold }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #008000; font-weight: bold }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #008000; font-weight: bold }
@@ -66,93 +68,3 @@
 /* GenericTraceback */ .highlight-chroma .highlight-gt { color: #0044dd }
 /* GenericUnderline */ .highlight-chroma .highlight-gl { text-decoration: underline }
 /* TextWhitespace */ .highlight-chroma .highlight-w { color: #bbbbbb }
-
-/*
-Description: Foundation 4 docs style for highlight.js
-Author: Dan Allen <dan.j.allen@gmail.com>
-Website: http://foundation.zurb.com/docs/
-Version: 1.0
-Date: 2013-04-02
-*/
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #eee; color: black;
-}
-
-.hljs-link,
-.hljs-emphasis,
-.hljs-attribute,
-.hljs-addition {
-    color: #070;
-}
-
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-strong,
-.hljs-string,
-.hljs-deletion {
-    color: #d14;
-}
-
-.hljs-strong {
-    font-weight: bold;
-}
-
-.hljs-quote,
-.hljs-comment {
-    color: #998;
-    font-style: italic;
-}
-
-.hljs-section,
-.hljs-title {
-    color: #900;
-}
-
-.hljs-class .hljs-title,
-.hljs-type {
-    color: #458;
-}
-
-.hljs-variable,
-.hljs-template-variable {
-    color: #336699;
-}
-
-.hljs-bullet {
-    color: #997700;
-}
-
-.hljs-meta {
-    color: #3344bb;
-}
-
-.hljs-code,
-.hljs-number,
-.hljs-literal,
-.hljs-keyword,
-.hljs-selector-tag {
-    color: #099;
-}
-
-.hljs-regexp {
-    background-color: #fff0ff;
-    color: #880088;
-}
-
-.hljs-symbol {
-    color: #990073;
-}
-
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class {
-    color: #007700;
-}
-

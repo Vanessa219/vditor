@@ -1,10 +1,12 @@
-/* Background */ .highlight-chroma { background-color: #f0f3f3 }
+/* Background */ .highlight-bg { background-color: #f0f3f3 }
+/* PreWrapper */ .highlight-chroma { background-color: #f0f3f3; }
 /* Error */ .highlight-chroma .highlight-err { color: #aa0000; background-color: #ffaaaa }
 /* LineTableTD */ .highlight-chroma .highlight-lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-/* LineHighlight */ .highlight-chroma .highlight-hl { display: block; width: 100%;background-color: #d8dada }
-/* LineNumbersTable */ .highlight-chroma .highlight-lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-/* LineNumbers */ .highlight-chroma .highlight-ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineTable */ .highlight-chroma .highlight-lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .highlight-chroma .highlight-hl { background-color: #d8dada }
+/* LineNumbersTable */ .highlight-chroma .highlight-lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .highlight-chroma .highlight-ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .highlight-chroma .highlight-line { display: flex; }
 /* Keyword */ .highlight-chroma .highlight-k { color: #006699; font-weight: bold }
 /* KeywordConstant */ .highlight-chroma .highlight-kc { color: #006699; font-weight: bold }
 /* KeywordDeclaration */ .highlight-chroma .highlight-kd { color: #006699; font-weight: bold }
@@ -66,73 +68,3 @@
 /* GenericTraceback */ .highlight-chroma .highlight-gt { color: #99cc66 }
 /* GenericUnderline */ .highlight-chroma .highlight-gl { text-decoration: underline }
 /* TextWhitespace */ .highlight-chroma .highlight-w { color: #bbbbbb }
-
-/* Base16 Atelier Sulphurpool Light - Theme */
-/* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/sulphurpool) */
-/* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) */
-
-/* Atelier-Sulphurpool Comment */
-.hljs-comment,
-.hljs-quote {
-    color: #6b7394;
-}
-
-/* Atelier-Sulphurpool Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-attribute,
-.hljs-tag,
-.hljs-name,
-.hljs-regexp,
-.hljs-link,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class {
-    color: #c94922;
-}
-
-/* Atelier-Sulphurpool Orange */
-.hljs-number,
-.hljs-meta,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params {
-    color: #c76b29;
-}
-
-/* Atelier-Sulphurpool Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet {
-    color: #ac9739;
-}
-
-/* Atelier-Sulphurpool Blue */
-.hljs-title,
-.hljs-section {
-    color: #3d8fd1;
-}
-
-/* Atelier-Sulphurpool Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-    color: #6679cc;
-}
-
-.hljs {
-    display: block;
-    overflow-x: auto;
-    background: #f5f7ff;
-    color: #5e6687;
-    padding: 0.5em;
-}
-
-.hljs-emphasis {
-    font-style: italic;
-}
-
-.hljs-strong {
-    font-weight: bold;
-}
