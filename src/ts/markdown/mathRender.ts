@@ -41,7 +41,8 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
 
     if (options.math.engine === "KaTeX") {
         addStyle(`${options.cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
-        addScript(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript").then(() => {
+        addScriptSync(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript");
+        addScript(`${options.cdn}/dist/js/katex/mhchem.min.js`, "vditorKatexChemScript").then(() => {
             mathElements.forEach((mathElement) => {
                 if (mathElement.parentElement.classList.contains("vditor-wysiwyg__pre") ||
                     mathElement.parentElement.classList.contains("vditor-ir__marker--pre")) {
