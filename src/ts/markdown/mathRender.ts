@@ -41,35 +41,36 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
 
     if (options.math.engine === "KaTeX") {
         addStyle(`${options.cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
-        addScriptSync(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript");
-        addScript(`${options.cdn}/dist/js/katex/mhchem.min.js`, "vditorKatexChemScript").then(() => {
-            mathElements.forEach((mathElement) => {
-                if (mathElement.parentElement.classList.contains("vditor-wysiwyg__pre") ||
-                    mathElement.parentElement.classList.contains("vditor-ir__marker--pre")) {
-                    return;
-                }
-                if (mathElement.getAttribute("data-math")) {
-                    return;
-                }
-                const math = code160to32(mathRenderAdapter.getCode(mathElement));
-                mathElement.setAttribute("data-math", math);
-                try {
-                    mathElement.innerHTML = katex.renderToString(math, {
-                        displayMode: mathElement.tagName === "DIV",
-                        output: "html",
-                    });
-                } catch (e) {
-                    mathElement.innerHTML = e.message;
-                    mathElement.className = "language-math vditor-reset--error";
-                }
+        addScript(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript").then(() => {
+            addScript(`${options.cdn}/dist/js/katex/mhchem.min.js`, "vditorKatexChemScript").then(() => {
+                mathElements.forEach((mathElement) => {
+                    if (mathElement.parentElement.classList.contains("vditor-wysiwyg__pre") ||
+                        mathElement.parentElement.classList.contains("vditor-ir__marker--pre")) {
+                        return;
+                    }
+                    if (mathElement.getAttribute("data-math")) {
+                        return;
+                    }
+                    const math = code160to32(mathRenderAdapter.getCode(mathElement));
+                    mathElement.setAttribute("data-math", math);
+                    try {
+                        mathElement.innerHTML = katex.renderToString(math, {
+                            displayMode: mathElement.tagName === "DIV",
+                            output: "html",
+                        });
+                    } catch (e) {
+                        mathElement.innerHTML = e.message;
+                        mathElement.className = "language-math vditor-reset--error";
+                    }
 
-                mathElement.addEventListener("copy", (event: ClipboardEvent) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    const vditorMathElement = (event.currentTarget as HTMLElement).closest(".language-math");
-                    event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
-                    event.clipboardData.setData("text/plain",
-                        vditorMathElement.getAttribute("data-math"));
+                    mathElement.addEventListener("copy", (event: ClipboardEvent) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        const vditorMathElement = (event.currentTarget as HTMLElement).closest(".language-math");
+                        event.clipboardData.setData("text/html", vditorMathElement.innerHTML);
+                        event.clipboardData.setData("text/plain",
+                            vditorMathElement.getAttribute("data-math"));
+                    });
                 });
             });
         });
@@ -89,7 +90,7 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
         if (!window.MathJax) {
             window.MathJax = {
                 loader: {
-                    paths: { mathjax: `${options.cdn}/dist/js/mathjax` },
+                    paths: {mathjax: `${options.cdn}/dist/js/mathjax`},
                 },
                 startup: {
                     typeset: false,
