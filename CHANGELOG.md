@@ -97,6 +97,8 @@
 
 ### v3.8.11 / 2022-01-xx
 
+* [1156](https://github.com/Vanessa219/vditor/issues/1156) 所见即所得行级 HTML 解析错误 `修复缺陷`
+* [1133](https://github.com/Vanessa219/vditor/issues/1133) SVG 事件导致的 XSS 漏洞 `修复缺陷`
 * [1158](https://github.com/Vanessa219/vditor/pull/1158) Add mhchem support to KaTex `引入特性`
 * [1153](https://github.com/Vanessa219/vditor/issues/1153) vditor 的生产代码未经 minify `改进功能`
 * [1004](https://github.com/Vanessa219/vditor/issues/1004) options.input无法监听点击toolbar link的输入内容 `改进功能`
