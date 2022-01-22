@@ -95,7 +95,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.11 / 2022-01-xx
+### v3.8.12 / 2022-02
+
+### v3.8.11 / 2022-01-22
 
 * [1156](https://github.com/Vanessa219/vditor/issues/1156) 所见即所得行级 HTML 解析错误 `修复缺陷`
 * [1133](https://github.com/Vanessa219/vditor/issues/1133) SVG 事件导致的 XSS 漏洞 `修复缺陷`
