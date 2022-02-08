@@ -1,5 +1,6 @@
 import "./assets/scss/index.scss";
 import VditorMethod from "./method";
+import { IVditorPlugin, Use } from "./ts/chain/use/index";
 import {Constants, VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools/index";
 import {Hint} from "./ts/hint/index";
@@ -506,6 +507,11 @@ class Vditor extends VditorMethod {
                 addScriptSync(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
             }
         });
+    }
+
+    // TODO 启用插件
+    public Use(plugins: Array<IVditorPlugin> | IVditorPlugin) {
+        Use(this.vditor, plugins)
     }
 }
 
