@@ -15,7 +15,7 @@ import {inputEvent} from "./inputEvent";
 class Editor {
     public range: Range;
     public element: HTMLPreElement;
-    public composingLock: boolean = false;
+    public composingLock = false;
     public processTimeoutId: number;
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;

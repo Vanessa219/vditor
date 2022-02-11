@@ -26,7 +26,7 @@ class IR {
     public element: HTMLPreElement;
     public processTimeoutId: number;
     public hlToolbarTimeoutId: number;
-    public composingLock: boolean = false;
+    public composingLock = false;
     public preventInput: boolean;
 
     constructor(vditor: IVditor) {

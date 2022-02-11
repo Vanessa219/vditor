@@ -54,7 +54,7 @@ export function UsePlugins(
 
         // 注册样式表
         if (!!styles && styles.size !== 0) {
-            for (let id in styles) {
+            for (const id in styles) {
                 const url = styles.get(id)
                 if (!!url && !!id) {
                     addStyle(url, `${plugins.id}-style-${id}`)
@@ -68,7 +68,7 @@ export function UsePlugins(
 
         // 注册自定义渲染器
         if (!!renderers && renderers.size !== 0) {
-            for (let render in renderers) {
+            for (const render in renderers) {
                 // TODO 在此覆盖 Vditor 的默认渲染器
             }
         }

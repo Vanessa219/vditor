@@ -74,7 +74,7 @@ module.exports = [
       ],
     },
     resolve: {
-      extensions: [".ts", ".js", ".scss", "png"],
+      extensions: [".ts", ".js", ".less", "png"],
     },
     module: {
       rules: [
@@ -133,7 +133,7 @@ module.exports = [
               },
             },
             {
-              loader: "less-loader", // compiles Sass to CSS
+              loader: "less-loader", // compiles Less to CSS
             },
           ],
         },

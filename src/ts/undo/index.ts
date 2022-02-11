@@ -131,7 +131,7 @@ class Undo {
         }
     }
 
-    private renderDiff(state: DiffMatchPatch.patch_obj[], vditor: IVditor, isRedo: boolean = false) {
+    private renderDiff(state: DiffMatchPatch.patch_obj[], vditor: IVditor, isRedo = false) {
         let text;
         if (isRedo) {
             const redoPatchList = this.dmp.patch_deepCopy(state).reverse();

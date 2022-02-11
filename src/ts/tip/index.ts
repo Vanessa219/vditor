@@ -6,7 +6,7 @@ export class Tip {
         this.element.className = "vditor-tip";
     }
 
-    public show(text: string, time: number = 6000) {
+    public show(text: string, time = 6000) {
         this.element.className = "vditor-tip vditor-tip--show";
 
         if (time === 0) {

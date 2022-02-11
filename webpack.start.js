@@ -25,12 +25,12 @@ module.exports = {
     'comment.js': './demo/comment.js',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.png', '.scss'],
+    extensions: ['.js', '.ts', '.png', '.less'],
   },
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.less$/,
         include: [path.resolve(__dirname, 'src')],
         use: [
           {
@@ -53,7 +53,7 @@ module.exports = {
             },
           },
           {
-            loader: 'sass-loader', // compiles Sass to CSS
+            loader: 'less-loader', // compiles Less to CSS
           },
         ],
       },
