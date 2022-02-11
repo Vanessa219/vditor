@@ -31,7 +31,7 @@ export interface IVditorPlugin {
  * 统一插件化开发
  * 灵感来源于 Vdok: https://github.com/HerbertHe/vdok/blob/main/packages/shared/src/renderers.ts
  */
-export function Use(
+export function UsePlugins(
     vditor: IVditor,
     plugins: Array<IVditorPlugin> | IVditorPlugin
 ) {
