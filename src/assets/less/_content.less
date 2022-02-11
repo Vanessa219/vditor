@@ -26,7 +26,7 @@
     border: 1px solid var(--border-color);
     border-radius: 3px;
     box-sizing: border-box;
-    font-family: $font-family-base;
+    font-family: @font-family-base;
 
     .vditor-copy {
         z-index: auto;
@@ -134,8 +134,8 @@
         margin: 8px 3px 0 0;
 
         &--error {
-            color: $errorColor;
-            background-color: rgba($errorColor, 0.1);
+            color: @errorColor;
+            background-color: rgba(@errorColor, 0.1);
         }
     }
 
@@ -160,7 +160,7 @@
         & > div {
             height: 3px;
             background-color: var(--resize-background-color);
-            transition: $transition;
+            transition: @transition;
         }
 
         &:hover,
@@ -191,8 +191,8 @@
         height: 3px;
         left: 0;
         top: -2px;
-        transition: $transition;
-        background-color: $blurColor;
+        transition: @transition;
+        background-color: @blurColor;
     }
 
     &-tip {
@@ -231,7 +231,7 @@
             }
 
             a {
-                color: $blurColor;
+                color: @blurColor;
             }
         }
 

@@ -5,18 +5,18 @@
  * @version 0.2.0.1, Jan 4, 2020
  */
 
-const path = require('path')
-const webpack = require('webpack')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
-const BundleAnalyzerPlugin = require(
-  'webpack-bundle-analyzer').BundleAnalyzerPlugin
-const pkg = require('./package.json')
+const path = require("path")
+const webpack = require("webpack")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+const pkg = require("./package.json")
 const banner = new webpack.BannerPlugin({
   banner: `Vditor v${pkg.version} - A markdown editor written in TypeScript.
-  
+
 MIT License
 
 Copyright (c) 2018-present B3log 开源, b3log.org
@@ -44,26 +44,26 @@ SOFTWARE.
 
 module.exports = [
   {
-    mode: 'production',
+    mode: "production",
     output: {
-      filename: '[name].js',
-      path: path.resolve(__dirname, 'dist'),
+      filename: "[name].js",
+      path: path.resolve(__dirname, "dist"),
       // chunkFilename: '[name].bundle.js',
       // publicPath: `${pkg.cdn}/vditor@${pkg.version}/dist/`,
-      libraryTarget: 'umd',
-      library: 'Vditor',
-      libraryExport: 'default',
-      globalObject: 'this',
+      libraryTarget: "umd",
+      library: "Vditor",
+      libraryExport: "default",
+      globalObject: "this",
     },
     entry: {
-      'index.min': './src/index.ts',
-      'method.min': './src/method.ts',
+      "index.min": "./src/index.ts",
+      "method.min": "./src/method.ts",
     },
     optimization: {
       minimize: true,
       minimizer: [
         new TerserPlugin({
-          include: ['index.min.js', 'method.min.js'],
+          include: ["index.min.js", "method.min.js"],
           terserOptions: {
             format: {
               comments: false,
@@ -74,35 +74,33 @@ module.exports = [
       ],
     },
     resolve: {
-      extensions: ['.ts', '.js', '.scss', 'png'],
+      extensions: [".ts", ".js", ".scss", "png"],
     },
     module: {
       rules: [
         {
           test: /\.png$/,
-          include: [path.resolve(__dirname, './src/assets/images')],
-          use: [
-            'file-loader',
-          ],
+          include: [path.resolve(__dirname, "./src/assets/images")],
+          use: ["file-loader"],
         },
         {
           test: /\.js$/,
-          exclude: '/node_modules/',
+          exclude: "/node_modules/",
           use: {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
               presets: [
                 [
-                  '@babel/env',
+                  "@babel/env",
                   {
                     targets: {
                       browsers: [
-                        'last 2 Chrome major versions',
-                        'last 2 Firefox major versions',
-                        'last 2 Safari major versions',
-                        'last 2 Edge major versions',
-                        'last 2 iOS major versions',
-                        'last 2 ChromeAndroid major versions',
+                        "last 2 Chrome major versions",
+                        "last 2 Firefox major versions",
+                        "last 2 Safari major versions",
+                        "last 2 Edge major versions",
+                        "last 2 iOS major versions",
+                        "last 2 ChromeAndroid major versions",
                       ],
                     },
                   },
@@ -113,31 +111,29 @@ module.exports = [
         },
         {
           test: /\.ts$/,
-          use: 'ts-loader',
+          use: "ts-loader",
         },
         {
-          test: /\.scss$/,
-          include: [path.resolve(__dirname, 'src/assets')],
+          test: /\.less$/,
+          include: [path.resolve(__dirname, "src/assets")],
           use: [
             MiniCssExtractPlugin.loader,
             {
-              loader: 'css-loader', // translates CSS into CommonJS
+              loader: "css-loader", // translates CSS into CommonJS
               options: {
                 url: false,
               },
             },
             {
-              loader: 'postcss-loader',
+              loader: "postcss-loader",
               options: {
                 postcssOptions: {
-                  plugins: [
-                    ['autoprefixer', {grid: true, remove: false}],
-                  ],
+                  plugins: [["autoprefixer", { grid: true, remove: false }]],
                 },
               },
             },
             {
-              loader: 'sass-loader', // compiles Sass to CSS
+              loader: "less-loader", // compiles Sass to CSS
             },
           ],
         },
@@ -146,23 +142,23 @@ module.exports = [
     plugins: [
       // new BundleAnalyzerPlugin(),
       new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [
-          path.join(__dirname, 'dist')],
+        cleanOnceBeforeBuildPatterns: [path.join(__dirname, "dist")],
       }),
       new webpack.DefinePlugin({
         VDITOR_VERSION: JSON.stringify(pkg.version),
       }),
       new MiniCssExtractPlugin({
-        filename: 'index.css',
+        filename: "index.css",
       }),
       banner,
       new CopyPlugin({
         patterns: [
-          {from: 'src/css', to: 'css'},
-          {from: 'src/images', to: 'images'},
-          {from: 'src/js', to: 'js'},
-          {from: 'types', to: 'types'},
+          { from: "src/css", to: "css" },
+          { from: "src/images", to: "images" },
+          { from: "src/js", to: "js" },
+          { from: "types", to: "types" },
         ],
       }),
     ],
-  }]
+  },
+]
