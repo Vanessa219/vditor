@@ -526,12 +526,20 @@ class Vditor extends VditorMethod {
     })
   }
 
-  // TODO 使用插件
-  public use(plugins: Array<IVditorPlugin> | IVditorPlugin) {
+  /**
+   * 使用插件
+   * @param plugins 使用的插件
+   */
+  // TODO
+  public use(plugins: Array<IVditorPlugin> | IVditorPlugin): IVditor {
     UsePlugins(this.vditor, plugins)
+    return this.vditor
   }
 
-  // TODO 触发渲染
+  /**
+   * Vditor 渲染到 DOM
+   * @param id 挂载元素
+   */
   public render(id: string | HTMLElement) {
     if (typeof id === "string") {
       //  挂载至DOM选择器渲染
