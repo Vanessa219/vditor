@@ -1,5 +1,5 @@
 import Vditor from '../src/index'
-import '../src/assets/scss/index.scss'
+import '../src/assets/less/index.less'
 
 const bindCommentEvent = (cmtElement) => {
   const inputElement = cmtElement.querySelector('input')
@@ -66,7 +66,7 @@ const renderComments = (ids) => {
     cmtElement.innerHTML = `<div>
 ${text}<br>
 <button>删除</button><br>
-<input> 
+<input>
 </div>`
     cmtElement.value = text
     document.getElementById('comments').
@@ -107,7 +107,7 @@ const matchCommentsTop = (commentsData) => {
   document.getElementById('comments').scrollTop = window.vditor.vditor.wysiwyg.element.scrollTop
 }
 
-window.vditor = new Vditor('vditor', {
+window.vditor = new Vditor({
   // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
   _lutePath: 'src/js/lute/lute.min.js',
   mode: 'wysiwyg',
@@ -127,7 +127,7 @@ window.vditor = new Vditor('vditor', {
           cmtElement.innerHTML = `<div>
 ${text}<br>
 <button>删除</button><br>
-<input> 
+<input>
 </div>`
           cmtElement.value = text
           if (index === 0) {
@@ -168,4 +168,4 @@ ${text}<br>
   after () {
     renderComments(window.vditor.getCommentIds())
   },
-})
+}).render("vditor")

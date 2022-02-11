@@ -1,7 +1,7 @@
 import Vditor from '../src/index'
-import '../src/assets/scss/index.scss'
+import '../src/assets/less/index.less'
 
-window.vditorTest = new Vditor('vditorTest', {
+window.vditorTest = new Vditor({
   tab: '\t',
   cache: false,
   height: 200,
@@ -109,7 +109,7 @@ window.vditorTest = new Vditor('vditorTest', {
       },
     },
   ],
-})
+}).render("vditorTest")
 
 const LazyLoadImage = () => {
   const loadImg = (it) => {

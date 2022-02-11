@@ -1,5 +1,5 @@
 import Vditor from '../src/index'
-import '../src/assets/scss/index.scss'
+import '../src/assets/less/index.less'
 
 // new VConsole()
 
@@ -49,7 +49,7 @@ if (window.innerWidth < 768) {
     }]
 }
 const initVditor = (language) => {
-  window.vditor = new Vditor('vditor', {
+  window.vditor = new Vditor({
     // _lutePath: `http://192.168.0.107:9090/lute.min.js?${new Date().getTime()}`,
     _lutePath: 'src/js/lute/lute.min.js',
     cdn: 'http://localhost:9000',
@@ -132,7 +132,7 @@ const initVditor = (language) => {
           replace('/\\s/g', '')
       },
     },
-  })
+  }).render("vditor")
 }
 initVditor('zh_CN')
 window.setLang = (language) => {

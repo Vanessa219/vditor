@@ -1,5 +1,5 @@
 import Vditor from '../src/method'
-import '../src/assets/scss/index.scss'
+import '../src/assets/less/index.less'
 
 const outlineElement = document.getElementById('outline')
 const previewElement = document.getElementById('preview')
