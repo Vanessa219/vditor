@@ -39,10 +39,11 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
     }
 
     public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
-        panelElement.querySelectorAll(".vditor-emojis button").forEach((element: HTMLElement) => {
-            element.addEventListener(getEventName(), (event: Event) => {
+        panelElement.querySelector(".vditor-emojis").addEventListener(getEventName(), (event: Event) => {
+            if ((event.target as HTMLElement).tagName === 'SPAN') {
                 event.preventDefault();
-                const value = element.getAttribute("data-value");
+                const buttonElement: HTMLElement[] = (event as any).path || (event.composedPath && event.composedPath())
+                const value = buttonElement[1].getAttribute("data-value");
                 const range = getEditorRange(vditor);
                 let html = value;
                 if (vditor.currentMode === "wysiwyg") {
@@ -63,13 +64,14 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 setSelectionFocus(range);
                 panelElement.style.display = "none";
                 execAfterRender(vditor);
-            });
-            element.addEventListener("mouseover", (event: Event) => {
-                if ((event.target as HTMLElement).tagName === "BUTTON") {
-                    panelElement.querySelector(".vditor-emojis__tip").innerHTML =
-                        (event.target as HTMLElement).getAttribute("data-key");
-                }
-            });
-        });
+            }
+        })
+        panelElement.querySelector(".vditor-emojis").addEventListener('mouseover', (event: Event) => {
+            if ((event.target as HTMLElement).tagName === 'BUTTON') {
+                panelElement.querySelector(".vditor-emojis__tip").innerHTML =
+                    (event.target as HTMLElement).getAttribute("data-key");
+            }
+        })
+
     }
 }
