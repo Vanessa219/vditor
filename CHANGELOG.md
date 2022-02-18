@@ -97,6 +97,8 @@
 
 ### v3.8.12 / 2022-02
 
+* [1177](https://github.com/Vanessa219/vditor/pull/1177) 优化 Emoji 绑定事件 `修复缺陷`
+
 ### v3.8.11 / 2022-01-22
 
 * [1156](https://github.com/Vanessa219/vditor/issues/1156) 所见即所得行级 HTML 解析错误 `修复缺陷`

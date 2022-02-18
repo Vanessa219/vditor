@@ -1,5 +1,6 @@
 import {getEventName} from "../util/compatibility";
 import {execAfterRender} from "../util/fixBrowserBehavior";
+import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {getEditorRange, insertHTML, setSelectionFocus} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 import {toggleSubMenu} from "./setToolbar";
@@ -23,27 +24,24 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
  data-key="${key}"><span class="vditor-emojis__icon">${emojiValue}</span></button>`;
             }
         });
-
-        const tailHTML = `<div class="vditor-emojis__tail">
+        panelElement.innerHTML = `<div class="vditor-emojis" style="max-height: ${
+            vditor.options.height === "auto" ? "auto" : vditor.options.height as number - 80
+        }px">${commonEmojiHTML}</div><div class="vditor-emojis__tail">
     <span class="vditor-emojis__tip"></span><span>${vditor.options.hint.emojiTail || ""}</span>
 </div>`;
 
-        panelElement.innerHTML = `<div class="vditor-emojis" style="max-height: ${
-            vditor.options.height === "auto" ? "auto" : vditor.options.height as number - 80
-        }px">${commonEmojiHTML}</div>${tailHTML}`;
-
         this.element.appendChild(panelElement);
 
-        toggleSubMenu(vditor, panelElement, this.element.children[0], menuItem.level);
-        this._bindEvent(vditor, panelElement);
+        toggleSubMenu(vditor, panelElement, this.element.firstElementChild, menuItem.level);
+        this.bindEvent(vditor);
     }
 
-    public _bindEvent(vditor: IVditor, panelElement: HTMLElement) {
-        panelElement.querySelector(".vditor-emojis").addEventListener(getEventName(), (event: Event) => {
-            if ((event.target as HTMLElement).tagName === 'SPAN') {
+    private bindEvent(vditor: IVditor) {
+        this.element.lastElementChild.addEventListener(getEventName(), (event: Event & { target: Element }) => {
+            const btnElement = hasClosestByTag(event.target, "BUTTON");
+            if (btnElement) {
                 event.preventDefault();
-                const buttonElement: HTMLElement[] = (event as any).path || (event.composedPath && event.composedPath())
-                const value = buttonElement[1].getAttribute("data-value");
+                const value = btnElement.getAttribute("data-value");
                 const range = getEditorRange(vditor);
                 let html = value;
                 if (vditor.currentMode === "wysiwyg") {
@@ -62,16 +60,15 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 }
                 range.collapse(false);
                 setSelectionFocus(range);
-                panelElement.style.display = "none";
+                (this.element.lastElementChild as HTMLElement).style.display = "none";
                 execAfterRender(vditor);
             }
-        })
-        panelElement.querySelector(".vditor-emojis").addEventListener('mouseover', (event: Event) => {
-            if ((event.target as HTMLElement).tagName === 'BUTTON') {
-                panelElement.querySelector(".vditor-emojis__tip").innerHTML =
-                    (event.target as HTMLElement).getAttribute("data-key");
+        });
+        this.element.lastElementChild.addEventListener("mouseover", (event: Event & { target: Element }) => {
+            const btnElement = hasClosestByTag(event.target, "BUTTON");
+            if (btnElement) {
+                this.element.querySelector(".vditor-emojis__tip").innerHTML = btnElement.getAttribute("data-key");
             }
-        })
-
+        });
     }
 }
