@@ -58,7 +58,7 @@
     "url": "https://github.com/Vanessa219/vditor/issues"
   },
   "scripts": {
-    "lint": "tslint --fix -c tslint.json '{src,types}/**/*.ts'",
+    "lint": "eslint --fix --ext src/**/*.ts types/**/*.ts",
     "test:watch": "jest --watch",
     "test": "jest --coverage",
     "start": "webpack serve --config webpack.start.js",
