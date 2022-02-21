@@ -5,6 +5,7 @@ specifiers:
   '@babel/preset-env': ^7.14.2
   '@types/diff-match-patch': ^1.0.32
   '@types/jest': ^26.0.23
+  '@types/node': ^17.0.19
   '@types/puppeteer': ^2.1.5
   '@typescript-eslint/eslint-plugin': ^5.12.0
   '@typescript-eslint/parser': ^5.12.0
@@ -43,6 +44,7 @@ devDependencies:
   '@babel/preset-env': 7.16.11_@babel+core@7.17.5
   '@types/diff-match-patch': 1.0.32
   '@types/jest': 26.0.24
+  '@types/node': 17.0.19
   '@types/puppeteer': 2.1.6
   '@typescript-eslint/eslint-plugin': 5.12.0_bc34a32450f40d1c233e1d9f1167a70d
   '@typescript-eslint/parser': 5.12.0_eslint@8.9.0+typescript@3.9.10
