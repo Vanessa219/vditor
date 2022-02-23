@@ -6,6 +6,7 @@ import {execAfterRender} from "../util/fixBrowserBehavior";
 import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {renderToc} from "../util/toc";
 
 interface IUndo {
     hasUndo: boolean;
@@ -164,6 +165,8 @@ class Undo {
                 vditor[vditor.currentMode].element, vditor[vditor.currentMode].element.ownerDocument.createRange());
             scrollCenter(vditor);
         }
+
+        renderToc(vditor);
 
         execAfterRender(vditor, {
             enableAddUndoStack: false,
