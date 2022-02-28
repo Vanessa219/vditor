@@ -97,6 +97,7 @@
 
 ### v3.8.12 / 2022-02
 
+* [1184](https://github.com/Vanessa219/vditor/issues/1184) 撤销后大纲不会刷新 `修复缺陷`
 * [1182](https://github.com/Vanessa219/vditor/issues/1182) 撤销后大纲不会刷新 `修复缺陷`
 * [1178](https://github.com/Vanessa219/vditor/issues/1178) 3.8.12 中使用 highlight.js 渲染的代码块无法高亮 `修复缺陷`
 * [1171](https://github.com/Vanessa219/vditor/issues/1171) 代码编辑区域未能按照预期隐藏 `改进功能`
