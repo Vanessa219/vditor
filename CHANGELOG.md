@@ -95,7 +95,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.12 / 2022-02
+### v3.8.13 / 2022-04
+
+### v3.8.12 / 2022-03-03
 
 * [1184](https://github.com/Vanessa219/vditor/issues/1184) 撤销后大纲不会刷新 `修复缺陷`
 * [1182](https://github.com/Vanessa219/vditor/issues/1182) 撤销后大纲不会刷新 `修复缺陷`
