@@ -564,6 +564,8 @@ interface IResize {
 
 /** @link https://ld246.com/article/1549638745630#options */
 interface IOptions {
+    /** RTL */
+    rtl?: boolean;
     /** 历史记录间隔 */
     undoDelay?: number;
     /** 内部调试时使用 */
