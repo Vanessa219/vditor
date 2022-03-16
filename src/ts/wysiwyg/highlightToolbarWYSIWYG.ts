@@ -590,7 +590,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
 
         // block popover: math-inline, math-block, html-block, html-inline, code-block, html-entity
         let blockRenderElement = hasClosestByClassName(typeElement, "vditor-wysiwyg__block") as HTMLElement;
-        const isBlock = blockRenderElement ? blockRenderElement.getAttribute("data-type").indexOf("block") > -1 : false
+        const isBlock = blockRenderElement ? blockRenderElement.getAttribute("data-type").indexOf("block") > -1 : false;
         vditor.wysiwyg.element
             .querySelectorAll(".vditor-wysiwyg__preview")
             .forEach((itemElement) => {
