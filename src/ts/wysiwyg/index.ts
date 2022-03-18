@@ -335,9 +335,11 @@ class WYSIWYG {
             }
             if (this.preventInput) {
                 this.preventInput = false;
+                afterRenderEvent(vditor);
                 return;
             }
             if (this.composingLock || event.data === "‘" || event.data === "“" || event.data === "《") {
+                afterRenderEvent(vditor);
                 return;
             }
             const range = getSelection().getRangeAt(0);

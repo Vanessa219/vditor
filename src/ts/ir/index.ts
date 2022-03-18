@@ -92,6 +92,11 @@ class IR {
             }
             if (this.preventInput) {
                 this.preventInput = false;
+                processAfterRender(vditor, {
+                  enableAddUndoStack: true,
+                  enableHint: true,
+                  enableInput: true,
+                });
                 return;
             }
             if (this.composingLock || event.data === "‘" || event.data === "“" || event.data === "《") {
