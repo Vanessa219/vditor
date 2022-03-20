@@ -13,10 +13,10 @@
   * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }`
   * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
 * 3.6
- * `options.preview.actions` 添加 `tooltip` 
- * `mermaidRender` 添加 `theme` 参数 
- * `mindmapRender` 添加 `theme` 参数 
- * `chartRender` 添加 `theme` 参数 
+ * `options.preview.actions` 添加 `tooltip`
+ * `mermaidRender` 添加 `theme` 参数
+ * `mindmapRender` 添加 `theme` 参数
+ * `chartRender` 添加 `theme` 参数
 * 3.5
   * `mermaidRender` 移除 `className` 参数
 * 3.4
@@ -89,13 +89,16 @@
   * 添加 `typewriterMode` 配置，默认值为 false。1.7 版本用户需要手动开启该功能
 * v1.7
   * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
-  * 移除 `option.editorName` 
-  
+  * 移除 `option.editorName`
+
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
 ### v3.8.13 / 2022-04
+
+* [1178](https://github.com/Vanessa219/vditor/issues/1198) 调用 insertValue 后第一次用户输入没有触发 input 回调函数 `修复缺陷`
+* [1179](https://github.com/Vanessa219/vditor/pull/1179) 更新代码风格工具&包管理工具 `开发重构`
 
 ### v3.8.12 / 2022-03-03
 
@@ -188,7 +191,7 @@
     * codeRender 方法中移除 lang 参数
     * 为 options 添加 i18n 语言自定义参数
     * 添加 exportJSON 方法
-  
+
 ### v3.7.7 / 2021-01-19
 
 * [903](https://github.com/Vanessa219/vditor/issues/903) 使用 setValue 后第一次输入无法撤销 `修复缺陷`
@@ -268,8 +271,8 @@
 * [781](https://github.com/Vanessa219/vditor/issues/781) 增加 `linkPrefix` 用于强制对链接目标地址添加前缀 `引入特性`
 * [780](https://github.com/Vanessa219/vditor/pull/780) linkToImg支持自定义format `引入特性`
 * 文档修改
-  * 3.6.1 
-   * `options.preview.actions` 添加 `tooltip` 
+  * 3.6.1
+   * `options.preview.actions` 添加 `tooltip`
    * 添加 `options.comment` 及 `getCommentIds`, `hlCommentIds`, `unHlCommentIds`, `removeCommentIds` 方法
      ```
      comment?: {
@@ -281,9 +284,9 @@
      };
      ```
   * 3.6.4
-    * `mermaidRender` 添加 `theme` 参数 
-    * `mindmapRender` 添加 `theme` 参数 
-    * `chartRender` 添加 `theme` 参数 
+    * `mermaidRender` 添加 `theme` 参数
+    * `mindmapRender` 添加 `theme` 参数
+    * `chartRender` 添加 `theme` 参数
 
 ### v3.5.5 / 2020-10-12
 
@@ -557,7 +560,7 @@
   * 示例代码地址修改：static-preview.html => preview.html，static.html => b3log.org/vditor/demo/render.html
   * 添加 [Vditor](https://b3log.org/vditor) 官方首页
   * 添加缓存回调 `options.cache.after(markdown:string)`
-  
+
 
 ### v3.1.23 / 2020-05-05
 
@@ -636,7 +639,7 @@
   * `setPreviewMode` 方法移除 `preview`
   * `options.preview` 中 `maxWidth` 默认值改为 800, `mode` 移除 `preview` 选项，`markdonw` 添加 `theme`、`setext` 配置
   * IPreviewOptions 添加 `after`，`lazyLoadImage`, `markdown.theme`, `renderers`, `markdown.paragraphBeginningSpace`，移除 `theme`
-  
+
 ### v3.0.12 / 2020-04-06
 
 * [276](https://github.com/Vanessa219/vditor/issues/276) 当设置编辑器宽度后，模式切换导致样式错误 `修复缺陷`
@@ -901,7 +904,7 @@
 * [168](https://github.com/b3log/vditor/issues/168) highlightRender报错 `invalid`
 * [167](https://github.com/b3log/vditor/issues/167) withCredentials（跨域传递 cookie） `feature`
 * [166](https://github.com/b3log/vditor/issues/166) typewriterMode 为 false 时，preview 区域不会同步滚动 `bug`
-* 文档更新 
+* 文档更新
   * public static mermaidRender(element: HTMLElement, className?: string)
   * hotkey 和 setSelection 方法不支持 wysiwyg
   * setValue 参数改为 markdown

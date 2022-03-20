@@ -11,6 +11,7 @@ import {
 import {paste} from "../util/fixBrowserBehavior";
 import {getSelectText} from "../util/getSelectText";
 import {inputEvent} from "./inputEvent";
+import {processAfterRender} from "./process";
 
 class Editor {
     public range: Range;
@@ -91,6 +92,11 @@ class Editor {
             }
             if (this.preventInput) {
                 this.preventInput = false;
+                processAfterRender(vditor, {
+                  enableAddUndoStack: true,
+                  enableHint: true,
+                  enableInput: true,
+                });
                 return;
             }
             inputEvent(vditor, event);
