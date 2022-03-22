@@ -97,8 +97,8 @@
 
 ### v3.8.13 / 2022-04
 
+* [1197](https://github.com/Vanessa219/vditor/issues/1197) 支持 dir 设置 `引入特性` `开发中`
 * [1176](https://github.com/Vanessa219/vditor/issues/1176) 代码规范 lint 从 Tslint 迁移至 Eslint `开发重构`
-* [1197](https://github.com/Vanessa219/vditor/issues/1197) 支持 dir 设置 `引入特性` 开发中
 * [1178](https://github.com/Vanessa219/vditor/issues/1198) 调用 insertValue 后第一次用户输入没有触发 input 回调函数 `修复缺陷`
 * [1179](https://github.com/Vanessa219/vditor/pull/1179) 更新代码风格工具&包管理工具 `开发重构`
 * 文档修改
