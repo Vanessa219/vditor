@@ -149,7 +149,7 @@ export class Options {
             if (this.options.comment) {
                 this.defaultOptions.comment = this.options.comment;
             }
-            // 支持 RTL
+            // 支持不够完善，我先注释了，后期再打开
             if (this.options.rtl) {
                 this.defaultOptions.rtl = this.options.rtl;
             }
