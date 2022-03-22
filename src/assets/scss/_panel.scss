@@ -131,3 +131,11 @@
     }
   }
 }
+
+.vditor[dir="rtl"] {
+  &-panel {
+    &--arrow:before {
+      right: 5px !important;
+    }
+  }
+}
