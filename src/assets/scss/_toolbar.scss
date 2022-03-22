@@ -1,5 +1,6 @@
 .vditor {
   &-toolbar {
+    display: flex;
     background-color: var(--toolbar-background-color);
     border-bottom: 1px solid var(--border-color);
     padding: 0 5px;

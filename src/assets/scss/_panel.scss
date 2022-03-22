@@ -5,10 +5,21 @@
  * @version 1.0.0.0, Jan 22, 2020
  */
 
+@-webkit-keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 @keyframes scale-in {
   0% {
     opacity: 0;
-    transform: scale(.5);
+    transform: scale(0.5);
   }
   100% {
     opacity: 1;
@@ -26,21 +37,33 @@
     z-index: 3;
     font-size: 14px;
     display: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
     max-width: 320px;
     min-width: 80px;
-    animation-duration: .15s;
+    -webkit-animation-duration: 0.15s;
+    animation-duration: 0.15s;
+    -webkit-animation-name: scale-in;
     animation-name: scale-in;
-    animation-timing-function: cubic-bezier(.2, 0, .13, 1.5);
+    -webkit-animation-timing-function: cubic-bezier(0.2, 0, 0.13, 1.5);
+    animation-timing-function: cubic-bezier(0.2, 0, 0.13, 1.5);
     color: var(--toolbar-icon-color);
 
     &--none {
       padding: 0;
+      -webkit-animation: none;
       animation: none;
       min-width: auto;
       max-width: none;
       white-space: nowrap;
-      opacity: .86;
+      opacity: 0.86;
+    }
+
+    &--arrow {
+      display: none;
+      flex-direction: column;
     }
 
     &--arrow:before {
