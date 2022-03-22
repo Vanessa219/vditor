@@ -14,6 +14,10 @@ declare global {
 export const initUI = (vditor: IVditor) => {
     vditor.element.innerHTML = "";
     vditor.element.classList.add("vditor");
+    // 支持 RTL
+    if (vditor.options.rtl) {
+        vditor.element.setAttribute("dir", "rtl")
+    }
     setTheme(vditor);
     setContentTheme(vditor.options.preview.theme.current, vditor.options.preview.theme.path);
     if (typeof vditor.options.height === "number") {

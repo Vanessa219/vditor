@@ -4,6 +4,7 @@ import { merge } from "./merge";
 export class Options {
     public options: IOptions;
     private defaultOptions: IOptions = {
+        rtl: false,
         after: undefined,
         cache: {
             enable: true,
@@ -147,6 +148,10 @@ export class Options {
             }
             if (this.options.comment) {
                 this.defaultOptions.comment = this.options.comment;
+            }
+            // 支持 RTL
+            if (this.options.rtl) {
+                this.defaultOptions.rtl = this.options.rtl;
             }
         }
 
