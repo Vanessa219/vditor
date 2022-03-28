@@ -66,7 +66,7 @@ export const showToolbar = (toolbar: { [key: string]: HTMLElement }, names: stri
             return;
         }
         if (toolbar[name]) {
-            toolbar[name].style.display = "block";
+            toolbar[name].style.display = "flex";
         }
     });
 };
@@ -102,14 +102,14 @@ export const toggleSubMenu = (vditor: IVditor, panelElement: HTMLElement, action
         vditor.toolbar.element.querySelectorAll(".vditor-hint--current").forEach((item) => {
             item.classList.remove("vditor-hint--current");
         });
-        if (panelElement.style.display === "block") {
+        if (panelElement.style.display === "flex") {
             panelElement.style.display = "none";
         } else {
             hidePanel(vditor, ["subToolbar", "hint", "popover"], actionBtn.parentElement.parentElement);
             if (!actionBtn.classList.contains("vditor-tooltipped")) {
                 actionBtn.classList.add("vditor-hint--current");
             }
-            panelElement.style.display = "block";
+            panelElement.style.display = "flex";
             if (vditor.toolbar.element.getBoundingClientRect().right - actionBtn.getBoundingClientRect().right < 250) {
                 panelElement.classList.add("vditor-panel--left");
             } else {
