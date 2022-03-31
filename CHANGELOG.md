@@ -99,6 +99,7 @@
 
 ### v3.8.13 / 2022-04
 
+* [1206](https://github.com/Vanessa219/vditor/issues/1206) 评论语法解析和行级 HTML 解析冲突 `修复缺陷`
 * [1054](https://github.com/Vanessa219/vditor/issues/1054) disabled 后应禁止粘贴 `修复缺陷`
 * [1162](https://github.com/Vanessa219/vditor/issues/1162) XSS 安全漏洞 `修复缺陷`
 * [1203](https://github.com/Vanessa219/vditor/issues/1203) 支持 solidity, yul 语法 `引入特性`

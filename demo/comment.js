@@ -66,7 +66,7 @@ const renderComments = (ids) => {
     cmtElement.innerHTML = `<div>
 ${text}<br>
 <button>删除</button><br>
-<input> 
+<input>
 </div>`
     cmtElement.value = text
     document.getElementById('comments').
@@ -127,7 +127,7 @@ window.vditor = new Vditor('vditor', {
           cmtElement.innerHTML = `<div>
 ${text}<br>
 <button>删除</button><br>
-<input> 
+<input>
 </div>`
           cmtElement.value = text
           if (index === 0) {
