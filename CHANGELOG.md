@@ -101,6 +101,7 @@
 
 ### v3.8.13 / 2022-04
 
+* [1054](https://github.com/Vanessa219/vditor/issues/1054) disabled 后应禁止粘贴 `修复缺陷`
 * [1162](https://github.com/Vanessa219/vditor/issues/1162) XSS 安全漏洞 `修复缺陷`
 * [1203](https://github.com/Vanessa219/vditor/issues/1203) 支持 solidity, yul 语法 `引入特性`
 * [1176](https://github.com/Vanessa219/vditor/issues/1176) 代码规范 lint 从 Tslint 迁移至 Eslint `开发重构`
