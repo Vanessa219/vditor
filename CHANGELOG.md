@@ -97,7 +97,9 @@
 
 ### v3.8.14 / 2022-05
 
-### v3.8.13 / 2022-04
+* [1207](https://github.com/Vanessa219/vditor/issues/1207) 3.8.13 源码 build 报错 `修复缺陷`
+
+### v3.8.13 / 2022-03-31
 
 * [1206](https://github.com/Vanessa219/vditor/issues/1206) 评论语法解析和行级 HTML 解析冲突 `修复缺陷`
 * [1054](https://github.com/Vanessa219/vditor/issues/1054) disabled 后应禁止粘贴 `修复缺陷`
