@@ -1,4 +1,4 @@
-import "./assets/scss/index.scss";
+import "./assets/less/index.less";
 import VditorMethod from "./method";
 import {Constants, VDITOR_VERSION} from "./ts/constants";
 import {DevTools} from "./ts/devtools/index";
