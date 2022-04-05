@@ -1,5 +1,5 @@
 import Vditor from '../src/index'
-import '../src/assets/scss/index.scss'
+import '../src/assets/less/index.less'
 
 const bindCommentEvent = (cmtElement) => {
   const inputElement = cmtElement.querySelector('input')
