@@ -97,6 +97,7 @@
 
 ### v3.8.14 / 2022-05
 
+* [1209](https://github.com/Vanessa219/vditor/issues/1209) 侧栏大纲内容未转义 `修复缺陷`
 * [1207](https://github.com/Vanessa219/vditor/issues/1207) 3.8.13 源码 build 报错 `修复缺陷`
 
 ### v3.8.13 / 2022-03-31
