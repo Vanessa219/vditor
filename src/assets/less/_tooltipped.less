@@ -4,22 +4,13 @@
  * @author <a href="http://vanessa.b3log.org">Liyuan Li</a>
  * @version 0.1.0.0, Jan 25, 2019
  */
-@-webkit-keyframes tooltip-appear {
-  from {
-    opacity: 0
-  }
-
-  to {
-    opacity: 1
-  }
-}
 @keyframes tooltip-appear {
   from {
-    opacity: 0
+    opacity: 0;
   }
 
   to {
-    opacity: 1
+    opacity: 1;
   }
 }
 
@@ -48,7 +39,7 @@
     background: #3b3e43;
     border-radius: 3px;
     line-height: 16px;
-    opacity: 0
+    opacity: 0;
   }
 
   &::before {
@@ -61,7 +52,7 @@
     pointer-events: none;
     content: "";
     border: 5px solid transparent;
-    opacity: 0
+    opacity: 0;
   }
 
   &--hover::before,
@@ -74,14 +65,10 @@
   &:focus::after {
     display: inline-block;
     text-decoration: none;
-    -webkit-animation-name: tooltip-appear;
-            animation-name: tooltip-appear;
-    -webkit-animation-duration: 0.15s;
-            animation-duration: 0.15s;
-    -webkit-animation-fill-mode: forwards;
-            animation-fill-mode: forwards;
-    -webkit-animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
+    animation-name: tooltip-appear;
+    animation-duration: 0.15s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
   }
 
   &__s::after,
@@ -89,7 +76,7 @@
   &__sw::after {
     top: 100%;
     right: 50%;
-    margin-top: 5px
+    margin-top: 5px;
   }
 
   &__s::before,
@@ -99,17 +86,17 @@
     right: 50%;
     bottom: -5px;
     margin-right: -5px;
-    border-bottom-color: #3b3e43
+    border-bottom-color: #3b3e43;
   }
 
   &__se::after {
     right: auto;
     left: 50%;
-    margin-left: -15px
+    margin-left: -15px;
   }
 
   &__sw::after {
-    margin-right: -15px
+    margin-right: -15px;
   }
 
   &__n::after,
@@ -117,7 +104,7 @@
   &__nw::after {
     right: 50%;
     bottom: 100%;
-    margin-bottom: 5px
+    margin-bottom: 5px;
   }
 
   &__n::before,
@@ -127,22 +114,22 @@
     right: 50%;
     bottom: auto;
     margin-right: -5px;
-    border-top-color: #3b3e43
+    border-top-color: #3b3e43;
   }
 
   &__ne::after {
     right: auto;
     left: 50%;
-    margin-left: -15px
+    margin-left: -15px;
   }
 
   &__nw::after {
-    margin-right: -15px
+    margin-right: -15px;
   }
 
   &__s::after,
   &__n::after {
-    transform: translateX(50%)
+    transform: translateX(50%);
   }
 
   &__w::after {
@@ -164,7 +151,7 @@
     bottom: 50%;
     left: 100%;
     margin-left: 5px;
-    transform: translateY(50%)
+    transform: translateY(50%);
   }
 
   &__e::before {

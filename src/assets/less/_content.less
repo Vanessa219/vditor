@@ -1,14 +1,3 @@
-@-webkit-keyframes slideInDown {
-  from {
-    transform: translate3d(0, -100%, 0);
-    visibility: visible;
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 @keyframes slideInDown {
   from {
     transform: translate3d(0, -100%, 0);
@@ -63,7 +52,6 @@
     &::-webkit-scrollbar {
       display: none;
     }
-
     &__action {
       text-align: center;
       padding: 10px;
@@ -126,9 +114,6 @@
     background-color: var(--count-background-color);
     border-radius: 3px;
     font-size: 12px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     float: right;
     margin: 8px 3px 0 0;
@@ -142,9 +127,6 @@
   &-resize {
     padding: 3px 0;
     cursor: row-resize;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     position: absolute;
     width: 100%;
@@ -199,16 +181,13 @@
     position: absolute;
     font-size: 12px;
     top: 10px;
-    -webkit-animation-duration: 0.15s;
     animation-duration: 0.15s;
-    -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
     left: 50%;
     z-index: 5;
 
     &--show {
       display: block;
-      -webkit-animation-name: slideInDown;
       animation-name: slideInDown;
     }
 
@@ -275,9 +254,6 @@
       align-items: center;
       cursor: pointer;
       margin-left: 24px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
       user-select: none;
       color: var(--toolbar-icon-color);
 
