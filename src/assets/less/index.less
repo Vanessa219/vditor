@@ -1,23 +1,28 @@
-$errorColor: #d23f31 !default;
-$blurColor: #4285f4 !default;
+@errorColor: #d23f31;
+@blurColor: #4285f4;
 
-$font-family-base: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Hiragino Sans GB", "Microsoft Yahei", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !default;
-$font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier, monospace, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols" !default;
+@font-family-base: "Helvetica Neue", "Luxi Sans", "DejaVu Sans",
+  "Hiragino Sans GB", "Microsoft Yahei", sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji",
+  "EmojiSymbols";
+@font-family-code: mononoki, Consolas, "Liberation Mono", Menlo, Courier,
+  monospace, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
+  "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
 
-$transition: all .15s ease-in-out !default;
+@transition: all 0.15s ease-in-out;
 
-$max-width: 520px !default;
+@max-width: 520px;
 
 .vditor {
   --border-color: #d1d5da;
   --second-color: rgba(88, 96, 105, 0.36);
 
   --panel-background-color: #fff;
-  --panel-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  --panel-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 
   --toolbar-background-color: #f6f8fa;
   --toolbar-icon-color: #586069;
-  --toolbar-icon-hover-color: #{$blurColor};
+  --toolbar-icon-hover-color: @blurColor;
   --toolbar-height: 35px;
   --toolbar-divider-margin-top: 8px;
 
@@ -29,7 +34,7 @@ $max-width: 520px !default;
   --resize-hover-icon-color: var(--panel-background-color);
   --resize-hover-background-color: var(--toolbar-icon-hover-color);
 
-  --count-background-color:rgba(27, 31, 35, .05);
+  --count-background-color: rgba(27, 31, 35, 0.05);
   --heading-border-color: #eaecef;
   --blockquote-color: #6a737d;
 
@@ -42,10 +47,10 @@ $max-width: 520px !default;
 
   &--dark {
     --border-color: #141414;
-    --second-color: rgba(185, 185, 185, .36);
+    --second-color: rgba(185, 185, 185, 0.36);
 
     --panel-background-color: #24292e;
-    --panel-shadow: 0 1px 2px rgba(255, 255, 255, .2);
+    --panel-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
 
     --toolbar-background-color: #1d2125;
     --toolbar-icon-color: #b9b9b9;
@@ -57,9 +62,9 @@ $max-width: 520px !default;
     --resize-icon-color: var(--border-color);
     --resize-background-color: var(--second-color);
     --resize-hover-icon-color: var(--toolbar-icon-hover-color);
-    --resize-hover-background-color: rgba(185, 185, 185, .86);
+    --resize-hover-background-color: rgba(185, 185, 185, 0.86);
 
-    --count-background-color:  #{rgba($blurColor, .36)};
+    --count-background-color: rgba(@blurColor, 0.36);
     --heading-border-color: var(--textarea-text-color);
     --blockquote-color: var(--toolbar-icon-color);
 
@@ -72,12 +77,12 @@ $max-width: 520px !default;
   }
 }
 
-@import "tooltipped";
-@import "panel";
-@import "toolbar";
-@import "content";
-@import "hint";
-@import "reset";
-@import "wysiwyg";
-@import "ir";
-@import "sv";
+@import "_tooltipped";
+@import "_panel";
+@import "_toolbar";
+@import "_content";
+@import "_hint";
+@import "_reset";
+@import "_wysiwyg";
+@import "_ir";
+@import "_sv";

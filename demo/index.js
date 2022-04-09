@@ -1,5 +1,5 @@
 import Vditor from '../src/index'
-import '../src/assets/scss/index.scss'
+import '../src/assets/less/index.less'
 
 // new VConsole()
 

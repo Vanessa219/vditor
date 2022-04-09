@@ -16,7 +16,7 @@ const BundleAnalyzerPlugin = require(
 const pkg = require('./package.json')
 const banner = new webpack.BannerPlugin({
   banner: `Vditor v${pkg.version} - A markdown editor written in TypeScript.
-  
+
 MIT License
 
 Copyright (c) 2018-present B3log 开源, b3log.org
@@ -74,7 +74,7 @@ module.exports = [
       ],
     },
     resolve: {
-      extensions: ['.ts', '.js', '.scss', 'png'],
+      extensions: ['.ts', '.js', '.less', 'png'],
     },
     module: {
       rules: [
@@ -116,7 +116,7 @@ module.exports = [
           use: 'ts-loader',
         },
         {
-          test: /\.scss$/,
+          test: /\.less$/,
           include: [path.resolve(__dirname, 'src/assets')],
           use: [
             MiniCssExtractPlugin.loader,
@@ -137,7 +137,7 @@ module.exports = [
               },
             },
             {
-              loader: 'sass-loader', // compiles Sass to CSS
+              loader: 'less-loader', // compiles Less to CSS
             },
           ],
         },

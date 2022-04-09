@@ -26,7 +26,7 @@
 
     &[data-type="link-ref"],
     &[data-type="footnotes-ref"] {
-      color: $blurColor;
+      color: @blurColor;
     }
 
     &[data-type="html-block"] {
@@ -38,7 +38,7 @@
       overflow: hidden;
       display: inline-block;
       height: 0;
-      transition: $transition;
+      transition: @transition;
     }
 
     &--hidden {
@@ -252,13 +252,13 @@
     }
 
     span[data-type="toc-h"] {
-      color: $blurColor;
+      color: @blurColor;
       text-decoration: underline;
     }
   }
 }
 
-@media screen and (max-width: $max-width) {
+@media screen and (max-width: @max-width) {
   .vditor-ir {
     h1:before,
     h2:before,

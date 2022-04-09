@@ -5,7 +5,7 @@
     }
 
     &--error {
-      color: $errorColor;
+      color: @errorColor;
       font-size: 12px;
       display: block;
       line-height: 16px;
@@ -13,7 +13,7 @@
 
     color: #24292e;
     font-variant-ligatures: no-common-ligatures;
-    font-family: $font-family-base;
+    font-family: @font-family-base;
     word-wrap: break-word;
     overflow: auto;
     line-height: 1.5;
@@ -95,7 +95,7 @@
     }
 
     h4 {
-      font-size: 1.25em
+      font-size: 1.25em;
     }
 
     h5 {
@@ -126,11 +126,11 @@
       margin: 0 0 16px 0;
 
       & > :first-child {
-        margin-top: 0
+        margin-top: 0;
       }
 
       & > :last-child {
-        margin-bottom: 0
+        margin-bottom: 0;
       }
     }
 
@@ -193,7 +193,7 @@
       margin: 0;
       font-size: 85%;
       border-radius: 3px;
-      font-family: $font-family-code;
+      font-family: @font-family-code;
       word-break: break-word;
       background-size: 20px 20px;
       white-space: pre-wrap;
@@ -210,7 +210,7 @@
         display: block;
         overflow: auto;
         white-space: pre;
-        font-family: $font-family-code;
+        font-family: @font-family-code;
         background-size: 20px 20px;
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8AgMAAABHkjHhAAAACVBMVEWAgIBaWlo+Pj7rTFvWAAAAA3RSTlMHCAw+VhR4AAAA+klEQVQoz4WSMW7EQAhFPxKWNh2FCx+HkaZI6RRb5DYbyVfIJXLKDCFoMbaTKSw/8ZnPAPjaH2xgZcUNUDADD7D9LtDBCLZ45fbkvo/30K8yeI64pPwl6znd/3n/Oe93P3ho9qeh72btTFzqkz0rsJle8Zr81OLEwZ1dv/713uWqvu2pl+k0fy7MWtj9r/tN5q/02z89qa/L4Dc2LvM93kezPfXlME/O86EbY/V9GB9ePX8G1/6W+/9h1dq/HGfTfzT3j/xNo7522Bfnqe5jO/fvhVthlfk434v3iO9zG/UOphyPeinPl1J8Gtaa7xPTa/Dk+RIs4deMvwGvcGsmsCvJ0AAAAABJRU5ErkJggg==);
         word-break: initial;
@@ -310,7 +310,7 @@
     word-break: break-all;
 
     input {
-      margin: 0 .2em .25em -1.6em;
+      margin: 0 0.2em 0.25em -1.6em;
       font-size: 12px;
       vertical-align: middle;
     }
@@ -423,7 +423,7 @@
 
   &-linkcard {
     margin: 31px auto 16px;
-    transition: $transition;
+    transition: @transition;
     cursor: pointer;
     max-width: 768px;
     padding: 0 10px;
@@ -436,10 +436,10 @@
       display: flex;
       text-decoration: none;
       flex-wrap: wrap-reverse;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 
       &:hover {
-        box-shadow: 0 0 3px rgba(0, 0, 0, .13), 0 3px 6px rgba(0, 0, 0, .26);
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.13), 0 3px 6px rgba(0, 0, 0, 0.26);
         text-decoration: none;
       }
 
@@ -508,7 +508,7 @@
   &-toc {
     margin-bottom: 16px;
     user-select: text;
-    color: $blurColor;
+    color: @blurColor;
 
     .vditor-outline__action {
       display: none;
@@ -590,7 +590,7 @@
     }
 
     &__action {
-      transition: $transition;
+      transition: @transition;
       fill: currentColor;
       margin-right: 5px;
       flex-shrink: 0;

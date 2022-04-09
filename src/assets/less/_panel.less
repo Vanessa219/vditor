@@ -8,7 +8,7 @@
 @keyframes scale-in {
   0% {
     opacity: 0;
-    transform: scale(.5);
+    transform: scale(0.5);
   }
   100% {
     opacity: 1;
@@ -29,9 +29,9 @@
     user-select: none;
     max-width: 320px;
     min-width: 80px;
-    animation-duration: .15s;
+    animation-duration: 0.15s;
     animation-name: scale-in;
-    animation-timing-function: cubic-bezier(.2, 0, .13, 1.5);
+    animation-timing-function: cubic-bezier(0.2, 0, 0.13, 1.5);
     color: var(--toolbar-icon-color);
 
     &--none {
@@ -40,7 +40,7 @@
       min-width: auto;
       max-width: none;
       white-space: nowrap;
-      opacity: .86;
+      opacity: 0.86;
     }
 
     &--arrow:before {

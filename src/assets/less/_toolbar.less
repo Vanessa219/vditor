@@ -12,7 +12,7 @@
     }
 
     &--hide {
-      transition: $transition;
+      transition: @transition;
       height: 5px;
       overflow: hidden;
 
@@ -139,7 +139,7 @@
       padding: 3px;
       box-sizing: border-box;
       font-size: 16px;
-      transition: $transition;
+      transition: @transition;
       border: 0;
       margin: 0;
       background-color: transparent;
@@ -164,7 +164,7 @@
   }
 }
 
-@media screen and (max-width: $max-width) {
+@media screen and (max-width: @max-width) {
   .vditor-toolbar__item {
     padding: 0 12px;
   }
