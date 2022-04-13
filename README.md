@@ -194,7 +194,6 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 |   | 说明 | 默认值 |
 | - | - | - |
 | i18n | 多语言，参见 ITips | - |
-| rtl | 支持 RTL 模式，对阿拉伯等文字进行支持优化 | false |
 | undoDelay | 历史记录间隔 | - |
 | after | 编辑器异步渲染完成后的回调方法 | - |
 | height | 编辑器总高度 | 'auto' |

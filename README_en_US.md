@@ -171,7 +171,6 @@ Can be filled with element `id` or element itself` HTMLElement`
 |   | Explanation | Default |
 | - | - | - |
 | i18n | I18n, more details see ITips | - |
-| rtl | Support RTL layout, optimize for the languages like Arabic | false |
 | undoDelay | Undo interval | - |
 | after | Callback method after editor asynchronous rendering is completed | - |
 | height | Total editor height | 'auto' |
