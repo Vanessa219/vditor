@@ -350,7 +350,7 @@ interface IUpload {
     /** 请求头设置 */
     headers?: IObject;
     /** 额外请求参数 */
-    extraData?: { [key: string]: string | Blob };
+    extraData?(files: File[]): { [key: string]: string | Blob } | Promise<{[key: string]: string | Blob}>;
     /** 是否允许多文件上传。默认值：true */
     multiple?: boolean;
     /** 上传字段名。默认值：file[] */

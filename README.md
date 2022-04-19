@@ -453,7 +453,7 @@ if (xhr.status === 200) {
 | format(files: File[], responseText: string): string | 对服务端返回的数据进行转换，以满足内置的数据结构 | - |
 | file(files: File[]): File[] \| Promise<File[]> | 将上传的文件处理后再返回 | - |
 | setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |
-| extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数 | - |
+| extraData(files: File[]):  { [key: string]: string \| Blob } \| Promise<{ [key: string]: string \|Blob } > | 可异步后端获取额外需要添加的信息后，为 FormData 添加额外的参数 | - |
 | multiple | 上传文件是否为多个 | true |
 | fieldName | 上传字段名称 | 'file[]' |
 

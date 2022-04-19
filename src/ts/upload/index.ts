@@ -195,10 +195,14 @@ const uploadFiles =
 
         const formData = new FormData();
 
-        const extraData = vditor.options.upload.extraData;
-        for (const key of Object.keys(extraData)) {
+      if (vditor.options.upload.extraData) {
+        const extraData = await vditor.options.upload.extraData(fileList);
+        if (typeof extraData === "object" ){
+          for (const key of Object.keys(extraData)) {
             formData.append(key, extraData[key]);
+          }
         }
+      }
 
         for (let i = 0, iMax = validateResult.length; i < iMax; i++) {
             formData.append(vditor.options.upload.fieldName, validateResult[i]);

@@ -131,6 +131,12 @@ const initVditor = (language) => {
           replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
           replace('/\\s/g', '')
       },
+      extraData(files) {
+        let token =  prompt("请输入你额外请求数据:", "123456");  // 模拟等待后端获取
+        return {
+          "token":token
+        }
+      }
     },
   })
 }
