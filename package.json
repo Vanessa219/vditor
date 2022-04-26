@@ -1,7 +1,7 @@
 {
-  "name": "vditor",
+  "name": "pharmkoo-vditor",
   "version": "3.8.13",
-  "description": "♏ 易于使用的 Markdown 编辑器，为适配不同的应用场景而生",
+  "description": "基于vditor 3.8.13修改，extraData动态修改，方便文件直传oss操作",
   "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://b3log.org/vditor",
   "jsdelivr": "dist/index.min.js",
