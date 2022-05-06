@@ -97,6 +97,7 @@
 
 ### v3.8.14 / 2022-05
 
+* [1218](https://github.com/Vanessa219/vditor/issues/1218) 高度设置为 string 时，大纲锚点失效 `修复缺陷`
 * [1215](https://github.com/Vanessa219/vditor/issues/1215) sv 模式 setValue 导致状态错误 `修复缺陷`
 * [1219](https://github.com/Vanessa219/vditor/issues/1219) vditor.destroy 报错 `修复缺陷`
 * [1208](https://github.com/Vanessa219/vditor/pull/1208) Sass -> Less `开发重构`
