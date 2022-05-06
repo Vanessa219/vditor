@@ -99,11 +99,11 @@ export const scrollCenter = (vditor: IVditor) => {
     }
     const editorElement = vditor[vditor.currentMode].element;
     const cursorTop = getCursorPosition(editorElement).top;
-    if (typeof vditor.options.height === "string" && !vditor.element.classList.contains("vditor--fullscreen")) {
+    if (vditor.options.height === "auto" && !vditor.element.classList.contains("vditor--fullscreen")) {
         window.scrollTo(window.scrollX,
             cursorTop + vditor.element.offsetTop + vditor.toolbar.element.offsetHeight - window.innerHeight / 2 + 10);
     }
-    if (typeof vditor.options.height === "number" || vditor.element.classList.contains("vditor--fullscreen")) {
+    if (vditor.options.height !== "auto" || vditor.element.classList.contains("vditor--fullscreen")) {
         editorElement.scrollTop = cursorTop + editorElement.scrollTop - editorElement.clientHeight / 2 + 10;
     }
 };
