@@ -97,6 +97,7 @@
 
 ### v3.8.14 / 2022-05
 
+* [1215](https://github.com/Vanessa219/vditor/issues/1215) sv 模式 setValue 导致状态错误 `修复缺陷`
 * [1219](https://github.com/Vanessa219/vditor/issues/1219) vditor.destroy 报错 `修复缺陷`
 * [1208](https://github.com/Vanessa219/vditor/pull/1208) Sass -> Less `开发重构`
 * [1209](https://github.com/Vanessa219/vditor/issues/1209) 侧栏大纲内容未转义 `修复缺陷`

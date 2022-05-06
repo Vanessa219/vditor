@@ -276,7 +276,7 @@ class Vditor extends VditorMethod {
   /** 设置编辑器内容 */
   public setValue(markdown: string, clearStack = false) {
     if (this.vditor.currentMode === "sv") {
-      this.vditor.sv.element.innerHTML = this.vditor.lute.SpinVditorSVDOM(markdown);
+      this.vditor.sv.element.innerHTML = `<div data-block='0'>${this.vditor.lute.SpinVditorSVDOM(markdown)}</div>`;
       processSVAfterRender(this.vditor, {
         enableAddUndoStack: true,
         enableHint: false,
