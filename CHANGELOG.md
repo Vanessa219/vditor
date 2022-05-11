@@ -95,6 +95,8 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.8.15 / 2022-06
+
 ### v3.8.14 / 2022-05
 
 * [1223](https://github.com/Vanessa219/vditor/issues/1223) 关于有时显示不完整 `修复缺陷`
