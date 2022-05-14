@@ -1260,6 +1260,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
   let textHTML;
   let textPlain;
   let files;
+  let fileReader = new FileReader();
   if ("clipboardData" in event) {
     textHTML = event.clipboardData.getData("text/html");
     textPlain = event.clipboardData.getData("text/plain");
@@ -1415,6 +1416,21 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
       vditor.outline.render(vditor);
     } else if (files.length > 0 && (vditor.options.upload.url || vditor.options.upload.handler)) {
       await uploadFiles(vditor, files);
+    } else if (files.length > 0 && (!vditor.options.upload.url || !vditor.options.upload.handler)) {
+      if ("clipboardData" in event) {
+        files = event.clipboardData.files;
+        fileReader.readAsDataURL(files[0]);
+      } else {
+        if (event.dataTransfer.types.includes("Files")) {
+          files = event.dataTransfer.items;
+          fileReader.readAsDataURL(files[0].getAsFile());
+        }
+      }
+      fileReader.onload = function() {
+        var result = fileReader.result;
+        console.log("This is an image.", result)
+        return ["This is an image.", Lute.WalkContinue];
+      }
     } else if (textPlain.trim() !== "" && files.length === 0) {
       if (vditor.currentMode === "ir") {
         renderers.Md2VditorIRDOM = {renderLinkDest};
