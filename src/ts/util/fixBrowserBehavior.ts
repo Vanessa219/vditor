@@ -1427,9 +1427,13 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         }
       }
       fileReader.onload = function() {
+        // Get the base64 format content of target file.
         var result = fileReader.result;
-        console.log("This is an image.", result)
-        return ["This is an image.", Lute.WalkContinue];
+        //console.log("This is an image.", result);
+        // Image in Markdown:![title](dataurl)
+        // Put it in a newline.
+        var png = "\r![](" + result.toString() + ")\r";
+        insertHTML(vditor.lute.Md2VditorIRDOM(png), vditor);
       }
     } else if (textPlain.trim() !== "" && files.length === 0) {
       if (vditor.currentMode === "ir") {
