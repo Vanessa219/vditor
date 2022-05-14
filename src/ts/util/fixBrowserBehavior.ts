@@ -1260,7 +1260,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
   let textHTML;
   let textPlain;
   let files;
-  let fileReader = new FileReader();
+  
   if ("clipboardData" in event) {
     textHTML = event.clipboardData.getData("text/html");
     textPlain = event.clipboardData.getData("text/plain");
@@ -1417,22 +1417,25 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     } else if (files.length > 0 && (vditor.options.upload.url || vditor.options.upload.handler)) {
       await uploadFiles(vditor, files);
     } else if (files.length > 0 && (!vditor.options.upload.url || !vditor.options.upload.handler)) {
+      var fileReader = new FileReader();
+      var file: File;
       if ("clipboardData" in event) {
         files = event.clipboardData.files;
-        fileReader.readAsDataURL(files[0]);
+        file = files[0];
       } else {
         if (event.dataTransfer.types.includes("Files")) {
           files = event.dataTransfer.items;
-          fileReader.readAsDataURL(files[0].getAsFile());
+          file = files[0].getAsFile();
         }
       }
+      fileReader.readAsDataURL(file);
       fileReader.onload = function() {
         // Get the base64 format content of target file.
         var result = fileReader.result;
         //console.log("This is an image.", result);
-        // Image in Markdown:![title](dataurl)
+        // Image in Markdown:![title or file name](dataurl)
         // Put it in a newline.
-        var png = "\r![](" + result.toString() + ")\r";
+        var png = "\r![" + file.name + "](" + result.toString() + ")\r";
         insertHTML(vditor.lute.Md2VditorIRDOM(png), vditor);
       }
     } else if (textPlain.trim() !== "" && files.length === 0) {
