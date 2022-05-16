@@ -155,6 +155,9 @@ const uploadFiles =
 
         if (vditor.options.upload.handler) {
             const isValidate = await vditor.options.upload.handler(fileList);
+            if (element) {
+                element.value = "";
+            }
             if (typeof isValidate === "string") {
                 vditor.tip.show(isValidate);
                 return;

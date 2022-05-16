@@ -97,6 +97,7 @@
 
 ### v3.8.15 / 2022-06
 
+* [1235](https://github.com/Vanessa219/vditor/issues/1235) 自定义上传无法连续上传相同的图片 `修复缺陷`
 * [1228](https://github.com/Vanessa219/vditor/issues/1228) 使用删除图标删除后，大纲没有自动更新 `修复缺陷`
 * [1230](https://github.com/Vanessa219/vditor/issues/1230) cnd preview path 重复加载问题 `改进功能`
 
