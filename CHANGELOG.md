@@ -97,6 +97,8 @@
 
 ### v3.8.15 / 2022-06
 
+* [1230](https://github.com/Vanessa219/vditor/issues/1230) cnd preview path 重复加载问题 `改进功能`
+
 ### v3.8.14 / 2022-05
 
 * [1223](https://github.com/Vanessa219/vditor/issues/1223) 关于有时显示不完整 `修复缺陷`

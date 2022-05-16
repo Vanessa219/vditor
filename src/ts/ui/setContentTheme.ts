@@ -8,7 +8,7 @@ export const setContentTheme = (contentTheme: string, path: string) => {
     const cssPath = `${path}/${contentTheme}.css`;
     if (!vditorContentTheme) {
         addStyle(cssPath, "vditorContentTheme");
-    } else if (vditorContentTheme.href !== cssPath) {
+    } else if (vditorContentTheme.getAttribute("href") !== cssPath) {
         vditorContentTheme.remove();
         addStyle(cssPath, "vditorContentTheme");
     }
