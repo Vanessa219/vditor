@@ -31,6 +31,7 @@ import {
 } from "../util/selection";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {removeBlockElement} from "./processKeydown";
+import {renderToc} from "../util/toc";
 
 export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -931,6 +932,9 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
         element.remove();
         afterRenderEvent(vditor);
         highlightToolbarWYSIWYG(vditor);
+        if (["H1", "H2", "H3", "H4", "H5" ,"H6"].includes(element.tagName)) {
+            renderToc(vditor);
+        }
     };
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", close);
 };

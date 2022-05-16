@@ -97,6 +97,7 @@
 
 ### v3.8.15 / 2022-06
 
+* [1228](https://github.com/Vanessa219/vditor/issues/1228) 使用删除图标删除后，大纲没有自动更新 `修复缺陷`
 * [1230](https://github.com/Vanessa219/vditor/issues/1230) cnd preview path 重复加载问题 `改进功能`
 
 ### v3.8.14 / 2022-05
