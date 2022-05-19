@@ -131,7 +131,7 @@ npm install vditor --save
 
 ```ts
 import Vditor from 'vditor'
-import "~vditor/src/assets/scss/index"
+import "~vditor/src/assets/less/index"
 
 const vditor = new Vditor(id, {options...})
 ```
@@ -161,7 +161,7 @@ const vditor = new Vditor(id, {options...})
 
 * 编辑器初始化时可通过 `options.theme` 设置内置主题
 * 初始化完成后可通过 `setTheme` 更新编辑器主题
-* 可通过修改 [index.scss](https://github.com/Vanessa219/vditor/blob/master/src/assets/scss/index.scss) 中的变量对主题颜色进行定制
+* 可通过修改 [index.less](https://github.com/Vanessa219/vditor/blob/master/src/assets/less/index.less) 中的变量对主题颜色进行定制
 * 可参考现有结构和类名在原有基础上进行修改
 
 #### 内容主题

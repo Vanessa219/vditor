@@ -129,7 +129,7 @@ npm install vditor --save
 
 ```ts
 import Vditor from 'vditor'
-import "~vditor/src/assets/scss/index" // Or use dark
+import "~vditor/src/assets/less/index" // Or use dark
 
 const vditor = new Vditor(id, {options...})
 ```
@@ -154,8 +154,8 @@ const vditor = new Vditor(id, {options...})
 ### Themes
 
 * Support four sets of black and white themes: and-design, classic, dark, wechat
-* Use the scss/css developed by yourself to fully customize the style after referring to the existing style
-* Theme colors can be customized by modifying variables in [index.scss](https://github.com/Vanessa219/vditor/blob/master/src/assets/scss/index.scss)
+* Use the less/css developed by yourself to fully customize the style after referring to the existing style
+* Theme colors can be customized by modifying variables in [index.less](https://github.com/Vanessa219/vditor/blob/master/src/assets/less/index.less)
 * Adding `class="vditor-reset"` (classic theme) or `class="vditor-reset vditor-reset--dark"` (black theme) attribute on the content display element can display the content more friendly
 
 ### API
