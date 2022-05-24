@@ -27,7 +27,7 @@ window.vditorTest = new Vditor('vditorTest', {
     },
   },
   hint: {
-    emojiPath: 'https://cdn.jsdelivr.net/npm/vditor/dist/images/emoji',
+    emojiPath: 'https://unpkg.com/vditor/dist/images/emoji',
     emojiTail: '<a href="https://ld246.com/settings/function" target="_blank">设置常用表情</a>',
     emoji: {
       '+1': '👍',

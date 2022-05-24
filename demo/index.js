@@ -83,7 +83,7 @@ const initVditor = (language) => {
       type: 'text',
     },
     hint: {
-      emojiPath: 'https://cdn.jsdelivr.net/npm/vditor@1.8.3/dist/images/emoji',
+      emojiPath: 'https://unpkg.com/vditor@1.8.3/dist/images/emoji',
       emojiTail: '<a href="https://ld246.com/settings/function" target="_blank">设置常用表情</a>',
       emoji: {
         'sd': '💔',

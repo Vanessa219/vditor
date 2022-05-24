@@ -12,7 +12,7 @@ export class Info extends MenuItem {
     <em>下一代的 Markdown 编辑器，为未来而构建</em>
 </p>
 <div style="display: flex;margin-bottom: 14px;flex-wrap: wrap;align-items: center">
-    <img src="https://cdn.jsdelivr.net/npm/vditor/src/assets/images/logo.png" style="margin: 0 auto;height: 68px"/>
+    <img src="https://unpkg.com/vditor/dist/images/logo.png" style="margin: 0 auto;height: 68px"/>
     <div>&nbsp;&nbsp;</div>
     <div style="flex: 1;min-width: 250px">
         Vditor 是一款浏览器端的 Markdown 编辑器，支持所见即所得、即时渲染（类似 Typora）和分屏预览模式。
