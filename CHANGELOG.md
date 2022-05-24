@@ -95,8 +95,12 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.15 / 2022-06
+### v3.8.16 / 2022-06
 
+
+### v3.8.15 / 2022-05-24
+
+* [1241](https://github.com/Vanessa219/vditor/issues/1241) 默认 CDN 从 cdn.jsdelivr.net 切换到 unpkg.com `改进功能`
 * [1231](https://github.com/Vanessa219/vditor/pull/1231) 支持使用 Base64 显示图片 `引入特性`
 * [1235](https://github.com/Vanessa219/vditor/issues/1235) 自定义上传无法连续上传相同的图片 `修复缺陷`
 * [1228](https://github.com/Vanessa219/vditor/issues/1228) 使用删除图标删除后，大纲没有自动更新 `修复缺陷`
