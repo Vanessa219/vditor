@@ -140,7 +140,7 @@ describe("Options", () => {
                 emoji: {
                     "+1": "👍",
                 },
-                emojiPath: "https://cdn.jsdelivr.net/npm/vditor@version/dist/images/emoji",
+                emojiPath: "https://unpkg.com/vditor@version/dist/images/emoji",
                 emojiTail: "前往设置",
             },
         });
