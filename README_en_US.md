@@ -139,9 +139,9 @@ const vditor = new Vditor(id, {options...})
 * Insert CSS and js in HTML, you can refer to [demo](https://b3log.org/vditor/demo/index.html)
 
 ```html
-<!-- ⚠️Please specify the version number in the production environment, such as https://cdn.jsdelivr.net/npm/vditor@x.x.x/dist... -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" />
-<script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script>
+<!-- ⚠️Please specify the version number in the production environment, such as https://unpkg.com/vditor@x.x.x/dist... -->
+<link rel="stylesheet" href="https://unpkg.com/vditor/dist/index.css" />
+<script src="https://unpkg.com/vditor/dist/index.min.js"></script>
 ```
 
 ### Demo code
@@ -186,7 +186,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | select | Triggered after selecting text in the editor (value: string) | - |
 | tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
 | typewriterMode | Whether to enable typewriter mode | false |
-| cdn | Configure self-built CDN address | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}` |
+| cdn | Configure self-built CDN address | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
 | mode | Editing mode: sv, ir, wysiwyg | 'ir' |
 | debugger | Whether to display the log | false |
 | value | Editor initialization value | '' |
@@ -280,7 +280,7 @@ new Vditor('vditor', {
 | - | - | - |
 | current | current Markdown Theme | "light" |
 | list | Choose Markdown Theme List | { "ant-design": "Ant Design", dark: "Dark", light: "Light", wechat: "WeChat" } |
-| path | CSS Path | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/css/content-theme` |
+| path | CSS Path | `https://unpkg.com/vditor@${VDITOR_VERSION}/dist/css/content-theme` |
 
 #### options.preview.hljs
 
@@ -335,7 +335,7 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | delay | Tip debounce millisecond interval | 200 |
 | emoji | The default emoji can be selected from [lute/emoji_map](https://github.com/88250/lute/blob/master/parse/emoji_map.go), or can be customized | { '+1': '👍', '-1': '👎', 'heart': '❤️', 'cold_sweat': '😰' } |
 | emojiTail | Common emoji | - |
-| emojiPath | Emoji path | `https://cdn.jsdelivr.net/npm/vditor@${VDITOR_VERSION}/dist/images/emoji` |
+| emojiPath | Emoji path | `https://unpkg.com/vditor@${VDITOR_VERSION}/dist/images/emoji` |
 | extend: IHintExtend[] | @/# and other keyword auto-completion expansion | [] |
 
 ```ts
@@ -474,7 +474,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 #### static methods
 
-* When no editing operation is required, just introduce [`method.min.js`](https://cdn.jsdelivr.net/npm/vditor/dist/) and directly call
+* When no editing operation is required, just introduce [`method.min.js`](https://unpkg.com/vditor/dist/) and directly call
 
 ```js
 Vditor.mermaidRender(document)
@@ -504,7 +504,7 @@ options?: IPreviewOptions {
   transform?(html: string): string; // Callback method before rendering
   after?(); // Callback method after rendering
   cdn?: string; // Self-built CDN address
-  lazyLoadImage?: string; // use "https://cdn.jsdelivr.net/npm/vditor/dist/images/img-loading.svg" to lazy load image
+  lazyLoadImage?: string; // use "https://unpkg.com/vditor/dist/images/img-loading.svg" to lazy load image
   markdown?: options.preview.markdown;
   renderers?: ILuteRender; // Custom rendering method https://ld246.com/article/1588412297062
 }
@@ -553,7 +553,7 @@ options?: IPreviewOptions {
 
 ### CDN switch
 
-Due to the on-demand loading mechanism, the default CDN is [https://cdn.jsdelivr.net/npm/vditor](https://cdn.jsdelivr.net/npm/vditor)@version number
+Due to the on-demand loading mechanism, the default CDN is [https://unpkg.com/vditor](https://unpkg.com/vditor)@version number
 
 If the code is modified or you need to use a self-built CDN, you can follow the steps below:
 
