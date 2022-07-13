@@ -1,7 +1,15 @@
 ## Vditor change log
 
 ### 升级
-
+* 3.8
+  * 添加 plantumlRender 方法
+  * options.input 移除 previewElement 参数
+  * 添加表格增加向上插入行 ⇧⌘F 和向左插入列 ⇧⌘G 的快捷键
+  * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥⌘[]
+  * 添加 hint.parse 配置
+  * codeRender 方法中移除 lang 参数
+  * 为 options 添加 i18n 语言自定义参数
+  * 添加 exportJSON 方法
 * 3.7
   * `preview` 静态方法添加 `mode` 配置
   * 大纲 DOM 结构和 class 变更
@@ -95,9 +103,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.16 / 2022-06
+### v3.8.16 / 2022-07
 
-* [1242](https://github.com/Vanessa219/vditor/issues/1242) 在即时渲染模式下，表格源文件未对齐 `修复缺陷`
+* [1242](https://github.com/Vanessa219/vditor/issues/1242) 在即时渲染模式下表格源文件未对齐 `改进功能`
 
 ### v3.8.15 / 2022-05-24
 
