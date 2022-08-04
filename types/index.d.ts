@@ -114,6 +114,8 @@ declare class Lute {
 
     public static New(): Lute;
 
+    public static EscapeHTMLStr(html:string): string;
+
     public static GetHeadingID(node: ILuteNode): string;
 
     public static NewNodeID(): string;
