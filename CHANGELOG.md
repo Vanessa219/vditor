@@ -103,7 +103,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.16 / 2022-07
+### v3.8.16 / 2022-08
 
 * [1264](https://github.com/Vanessa219/vditor/issues/1264) 链接中，会强制将&reg解析为 ® 字符 `修复缺陷`
 * [1242](https://github.com/Vanessa219/vditor/issues/1242) 在即时渲染模式下表格源文件未对齐 `改进功能`
