@@ -148,21 +148,23 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
             html = blockElement.previousElementSibling.outerHTML + html;
             blockElement.previousElementSibling.remove();
         }
-        // 添加链接引用
-        vditor.ir.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item) => {
-            if (item && !(blockElement as HTMLElement).isEqualNode(item)) {
-                html += item.outerHTML;
-                item.remove();
-            }
-        });
+        if (!blockElement.innerText.startsWith("```")) {
+            // 添加链接引用
+            vditor.ir.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item) => {
+                if (item && !(blockElement as HTMLElement).isEqualNode(item)) {
+                    html += item.outerHTML;
+                    item.remove();
+                }
+            });
 
-        // 添加脚注
-        vditor.ir.element.querySelectorAll("[data-type='footnotes-block']").forEach((item) => {
-            if (item && !(blockElement as HTMLElement).isEqualNode(item)) {
-                html += item.outerHTML;
-                item.remove();
-            }
-        });
+            // 添加脚注
+            vditor.ir.element.querySelectorAll("[data-type='footnotes-block']").forEach((item) => {
+                if (item && !(blockElement as HTMLElement).isEqualNode(item)) {
+                    html += item.outerHTML;
+                    item.remove();
+                }
+            });
+        }
     } else {
         html = blockElement.innerHTML;
     }

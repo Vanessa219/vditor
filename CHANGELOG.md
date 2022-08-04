@@ -105,6 +105,7 @@
 
 ### v3.8.16 / 2022-08
 
+* [1269](https://github.com/Vanessa219/vditor/issues/1269) 代码块自动补全会包含链接引用和脚注 `修复缺陷`
 * [1263](https://github.com/Vanessa219/vditor/issues/1263) 所见即所得和即使渲染只有空格输入时，不会触发 input 事件 `修复缺陷`
 * [1264](https://github.com/Vanessa219/vditor/issues/1264) 链接中，会强制将&reg解析为 ® 字符 `修复缺陷`
 * [1242](https://github.com/Vanessa219/vditor/issues/1242) 在即时渲染模式下表格源文件未对齐 `改进功能`

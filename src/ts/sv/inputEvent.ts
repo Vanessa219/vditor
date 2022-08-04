@@ -140,22 +140,23 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             html = blockElement.previousElementSibling.textContent + html;
             blockElement.previousElementSibling.remove();
         }
+        if (!blockElement.innerText.startsWith("```")) {
+            // 添加链接引用
+            vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item, index) => {
+                if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
+                    html += "\n" + item.parentElement.textContent;
+                    item.parentElement.remove();
+                }
+            });
 
-        // 添加链接引用
-        vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item, index) => {
-            if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
-                html += "\n" + item.parentElement.textContent;
-                item.parentElement.remove();
-            }
-        });
-
-        // 添加脚注
-        vditor.sv.element.querySelectorAll("[data-type='footnotes-link']").forEach((item, index) => {
-            if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
-                html += "\n" + item.parentElement.textContent;
-                item.parentElement.remove();
-            }
-        });
+            // 添加脚注
+            vditor.sv.element.querySelectorAll("[data-type='footnotes-link']").forEach((item, index) => {
+                if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
+                    html += "\n" + item.parentElement.textContent;
+                    item.parentElement.remove();
+                }
+            });
+        }
     }
     html = processSpinVditorSVDOM(html, vditor);
     if (isSVElement) {
