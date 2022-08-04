@@ -11,6 +11,7 @@ import {processCodeRender} from "../util/processCode";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {renderToc} from "../util/toc";
 import {processAfterRender} from "./process";
+import {getMarkdown} from "../markdown/getMarkdown";
 
 export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?: InputEvent) => {
     let blockElement = hasClosestBlock(range.startContainer);
@@ -51,6 +52,9 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
         }
 
         if (startSpace) {
+            if (typeof vditor.options.input === "function") {
+                vditor.options.input(getMarkdown(vditor));
+            }
             return;
         }
         if (endSpace) {
@@ -62,6 +66,9 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
                 if (previousNode && previousNode.nodeType !== 3 && previousNode.classList.contains("vditor-ir__node--expand")) {
                     // FireFox https://github.com/Vanessa219/vditor/issues/239
                     previousNode.classList.remove("vditor-ir__node--expand");
+                }
+                if (typeof vditor.options.input === "function") {
+                    vditor.options.input(getMarkdown(vditor));
                 }
                 return;
             }
