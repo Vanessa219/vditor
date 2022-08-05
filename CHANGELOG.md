@@ -105,6 +105,8 @@
 
 ### v3.8.18 / 2022-09
 
+* [1275](https://github.com/Vanessa219/vditor/issues/1275) XSS 安全漏洞 `修复缺陷`
+
 ### v3.8.17 / 2022-08-04
 
 * [1270](https://github.com/Vanessa219/vditor/issues/1270) 切换编辑模式 SV 脚注缩进丢失 `修复缺陷`
