@@ -105,6 +105,7 @@
 
 ### v3.8.18 / 2022-09
 
+* [1278](https://github.com/Vanessa219/vditor/issues/1278) RenderJSON 导出的 JSON 不正确 `修复缺陷`
 * [1275](https://github.com/Vanessa219/vditor/issues/1275) XSS 安全漏洞 `修复缺陷`
 
 ### v3.8.17 / 2022-08-04
