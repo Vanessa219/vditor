@@ -28,6 +28,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         && event.inputType !== "insertOrderedList"
         && event.inputType !== "formatOutdent"
         && event.inputType !== "formatIndent"
+        && event.inputType !== "deleteContentBackward"
         && event.inputType !== ""   // document.execCommand('unlink', false)
         || !event
     ) {
