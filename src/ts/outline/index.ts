@@ -39,7 +39,8 @@ export class Outline {
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 setSelectionFocus(range);
             } else {
-                vditor[vditor.currentMode].element.focus();
+                // 编辑器不需要获得焦点, 这会导致滚动位置被清空
+                // vditor[vditor.currentMode].element.focus();
             }
         }
         setPadding(vditor);
