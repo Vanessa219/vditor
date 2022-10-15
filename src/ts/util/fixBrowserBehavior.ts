@@ -49,6 +49,10 @@ export const fixCJKPosition = (range: Range, vditor: IVditor, event: KeyboardEve
     const pLiElement = hasClosestByMatchTag(range.startContainer, "P") ||
         hasClosestByMatchTag(range.startContainer, "LI");
     if (pLiElement && getSelectPosition(pLiElement, vditor[vditor.currentMode].element, range).start === 0) {
+
+        // https://github.com/Vanessa219/vditor/issues/1289 WKWebView切换输入法产生六分之一空格，造成光标错位
+        pLiElement.nodeValue = pLiElement.nodeValue.replace(/\u2006/g, '');
+
         const zwspNode = document.createTextNode(Constants.ZWSP);
         range.insertNode(zwspNode);
         range.setStartAfter(zwspNode);
