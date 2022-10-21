@@ -105,6 +105,7 @@
 
 ### v3.8.18 / 2022-09
 
+* [1289](https://github.com/Vanessa219/vditor/issues/1289) 切换输入法后光标错位 `兼容性`
 * [1278](https://github.com/Vanessa219/vditor/issues/1278) RenderJSON 导出的 JSON 不正确 `修复缺陷`
 * [1275](https://github.com/Vanessa219/vditor/issues/1275) XSS 安全漏洞 `修复缺陷`
 
