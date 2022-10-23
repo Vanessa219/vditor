@@ -105,6 +105,7 @@
 
 ### v3.8.18 / 2022-11
 
+* [1312](https://github.com/Vanessa219/vditor/issues/1312) 导出 PDF 图表缺失 `修复缺陷`
 * [1297](https://github.com/Vanessa219/vditor/issues/1297) mermaid 升级到 9.1.7 `改进功能`
 * [1289](https://github.com/Vanessa219/vditor/issues/1289) 切换输入法后光标错位 `兼容性`
 * [1278](https://github.com/Vanessa219/vditor/issues/1278) RenderJSON 导出的 JSON 不正确 `修复缺陷`

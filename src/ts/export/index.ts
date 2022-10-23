@@ -27,7 +27,7 @@ export const exportPDF = (vditor: IVditor) => {
     iframe.contentDocument.open();
     iframe.contentDocument.write(`<link rel="stylesheet" href="${vditor.options.cdn}/dist/index.css"/>
 <script src="${vditor.options.cdn}/dist/method.min.js"></script>
-<div id="preview"></div>
+<div id="preview" style="width: 800px"></div>
 <script>
 window.addEventListener("message", (e) => {
   if(!e.data) {
