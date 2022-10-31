@@ -203,6 +203,13 @@ const uploadFiles =
             formData.append(key, extraData[key]);
         }
 
+        if (vditor.options.upload.ossToken) {
+          const extraData = await vditor.options.upload.ossToken(fileList);
+          for (const key of Object.keys(extraData)) {
+            formData.append(key, extraData[key]);
+          }
+        }
+
         for (let i = 0, iMax = validateResult.length; i < iMax; i++) {
             formData.append(vditor.options.upload.fieldName, validateResult[i]);
         }

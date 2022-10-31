@@ -387,6 +387,9 @@ interface IUpload {
 
     /** 图片地址上传后的回调  */
     linkToImgCallback?(responseText: string): void;
+
+    /**oss云存储前段直传，从后端获取token等额外信息 */
+    ossToken?(files: File[]):  Promise<{[key: string]: string | Blob}>;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-toolbar */
