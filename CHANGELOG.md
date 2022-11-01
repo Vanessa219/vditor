@@ -103,7 +103,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.8.18 / 2022-11
+### v3.9.0 / 2023-01
+
+### v3.8.18 / 2022-11-01
 
 * [1325](https://github.com/Vanessa219/vditor/pull/1325) 日语改进 `文档相关`
 * [1312](https://github.com/Vanessa219/vditor/issues/1312) 导出 PDF 图表缺失 `修复缺陷`
