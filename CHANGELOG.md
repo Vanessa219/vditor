@@ -105,6 +105,8 @@
 
 ### v3.9.0 / 2023-01
 
+* [1335](https://github.com/Vanessa219/vditor/issues/1335) 嵌入 Iframe 时无法导出 PDF `修复缺陷`
+
 ### v3.8.18 / 2022-11-01
 
 * [1325](https://github.com/Vanessa219/vditor/pull/1325) 日语改进 `文档相关`
