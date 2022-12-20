@@ -14,6 +14,7 @@ import {lazyLoadImageRender} from "./lazyLoadImageRender";
 import {mathRender} from "./mathRender";
 import {mediaRender} from "./mediaRender";
 import {mermaidRender} from "./mermaidRender";
+import {markmapRender} from "../markdown/markmapRender";
 import {mindmapRender} from "./mindmapRender";
 import {plantumlRender} from "./plantumlRender";
 import {setLute} from "./setLute";
@@ -118,6 +119,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         math: mergedOptions.math,
     });
     mermaidRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
+    markmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     flowchartRender(previewElement, mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);

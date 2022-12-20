@@ -7,6 +7,10 @@ export const mermaidRenderAdapter = {
     getCode: (el: Element) => el.textContent,
     getElements: (element: HTMLElement) => element.querySelectorAll(".language-mermaid"),
 };
+export const markmapRenderAdapter = {
+    getCode: (el: Element) => el.textContent,
+    getElements: (element: HTMLElement) => element.querySelectorAll(".language-markmap"),
+};
 export const mindmapRenderAdapter = {
     getCode: (el: Element) => el.getAttribute("data-code"),
     getElements: (el: HTMLElement | Document) => el.querySelectorAll(".language-mindmap"),
