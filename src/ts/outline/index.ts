@@ -38,7 +38,7 @@ export class Outline {
             const range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 setSelectionFocus(range);
-            } else {
+            } else if (vditor[vditor.currentMode].element.contains(getSelection().focusNode)) {
                 vditor[vditor.currentMode].element.focus();
             }
         }
