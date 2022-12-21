@@ -8,6 +8,7 @@ import {highlightRender} from "../markdown/highlightRender";
 import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
+import {markmapRender} from "../markdown/markmapRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {plantumlRender} from "../markdown/plantumlRender";
 import {getEventName} from "../util/compatibility";
@@ -211,6 +212,7 @@ export class Preview {
         highlightRender(vditor.options.preview.hljs, vditor.preview.element.lastElementChild as HTMLElement,
             vditor.options.cdn);
         mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
+        markmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
         flowchartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
