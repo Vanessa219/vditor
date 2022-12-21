@@ -105,6 +105,8 @@
 
 ### v3.9.0 / 2023-01
 
+* [1342](https://github.com/Vanessa219/vditor/pull/1342) 初始化后不自动聚焦 `改进功能`
+* [1341](https://github.com/Vanessa219/vditor/pull/1341) 支持 markmap `引入特性`
 * [1335](https://github.com/Vanessa219/vditor/issues/1335) 嵌入 Iframe 时无法导出 PDF `修复缺陷`
 
 ### v3.8.18 / 2022-11-01

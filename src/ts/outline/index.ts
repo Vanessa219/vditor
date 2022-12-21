@@ -24,7 +24,7 @@ export class Outline {
         return html;
     }
 
-    public toggle(vditor: IVditor, show = true) {
+    public toggle(vditor: IVditor, show = true, focus = true) {
         const btnElement = vditor.toolbar.elements.outline?.firstElementChild;
         if (show && window.innerWidth >= Constants.MOBILE_WIDTH) {
             this.element.style.display = "block";
@@ -34,12 +34,10 @@ export class Outline {
             this.element.style.display = "none";
             btnElement?.classList.remove("vditor-menu--current");
         }
-        if (getSelection().rangeCount > 0) {
+        if (focus && getSelection().rangeCount > 0) {
             const range = getSelection().getRangeAt(0);
             if (vditor[vditor.currentMode].element.contains(range.startContainer)) {
                 setSelectionFocus(range);
-            } else if (vditor[vditor.currentMode].element.contains(getSelection().focusNode)) {
-                vditor[vditor.currentMode].element.focus();
             }
         }
         setPadding(vditor);

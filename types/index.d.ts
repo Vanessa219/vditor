@@ -693,7 +693,7 @@ interface IVditor {
     outline: {
         element: HTMLElement,
         render(vditor: IVditor): string,
-        toggle(vditor: IVditor, show?: boolean): void,
+        toggle(vditor: IVditor, show?: boolean, focus?: boolean): void,
     };
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
