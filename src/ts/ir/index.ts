@@ -1,5 +1,5 @@
-import { Constants } from "../constants";
-import { isCtrl, isFirefox } from "../util/compatibility";
+import {Constants} from "../constants";
+import {isCtrl, isFirefox} from "../util/compatibility";
 import {
     blurEvent,
     copyEvent, cutEvent, dblclickEvent,
@@ -9,17 +9,17 @@ import {
     scrollCenter,
     selectEvent,
 } from "../util/editorCommonEvent";
-import { paste } from "../util/fixBrowserBehavior";
-import { hasClosestByAttribute, hasClosestByClassName } from "../util/hasClosest";
+import {paste} from "../util/fixBrowserBehavior";
+import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
 import {
     getEditorRange, setRangeByWbr,
     setSelectionFocus,
 } from "../util/selection";
-import { clickToc } from "../util/toc";
-import { expandMarker } from "./expandMarker";
-import { highlightToolbarIR } from "./highlightToolbarIR";
-import { input } from "./input";
-import { processAfterRender, processHint } from "./process";
+import {clickToc} from "../util/toc";
+import {expandMarker} from "./expandMarker";
+import {highlightToolbarIR} from "./highlightToolbarIR";
+import {input} from "./input";
+import {processAfterRender, processHint} from "./process";
 
 class IR {
     public range: Range;
@@ -93,9 +93,9 @@ class IR {
             if (this.preventInput) {
                 this.preventInput = false;
                 processAfterRender(vditor, {
-                    enableAddUndoStack: true,
-                    enableHint: true,
-                    enableInput: true,
+                  enableAddUndoStack: true,
+                  enableHint: true,
+                  enableInput: true,
                 });
                 return;
             }
@@ -258,4 +258,4 @@ class IR {
     }
 }
 
-export { IR };
+export {IR};
