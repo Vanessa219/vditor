@@ -114,7 +114,7 @@ declare class Lute {
 
     public static New(): Lute;
 
-    public static EscapeHTMLStr(html:string): string;
+    public static EscapeHTMLStr(html: string): string;
 
     public static GetHeadingID(node: ILuteNode): string;
 
@@ -484,6 +484,7 @@ interface IPreview {
     theme?: IPreviewTheme;
     /** @link https://ld246.com/article/1549638745630#options-preview-actions  */
     actions?: Array<IPreviewAction | IPreviewActionCustom>;
+    showImage?: boolean;
 
     /** 预览回调 */
     parse?(element: HTMLElement): void;
@@ -619,6 +620,11 @@ interface IOptions {
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://ld246.com/article/1549638745630#options-preview */
     preview?: IPreview;
+    previewImage?: (img: HTMLImageElement) => void;
+    link?: {
+        open?: boolean;
+        intercept?: (href: string) => void;
+    },
     /** @link https://ld246.com/article/1549638745630#options-hint */
     hint?: IHint;
     /** @link https://ld246.com/article/1549638745630#options-toolbarConfig */
