@@ -623,7 +623,7 @@ interface IOptions {
     previewImage?: (img: HTMLImageElement) => void;
     link?: {
         open?: boolean;
-        intercept?: (href: string) => void;
+        trigger?: (href: string) => void;
     },
     /** @link https://ld246.com/article/1549638745630#options-hint */
     hint?: IHint;

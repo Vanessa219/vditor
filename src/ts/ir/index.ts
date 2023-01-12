@@ -149,8 +149,8 @@ class IR {
             // 打开链接
             const aElement = hasClosestByAttribute(event.target, "data-type", "a");
             if (aElement && (!aElement.classList.contains("vditor-ir__node--expand"))) {
-                if (vditor.options.link && vditor.options.link.intercept) {
-                    vditor.options.link.intercept(aElement.querySelector(":scope > .vditor-ir__marker--link").textContent);
+                if (vditor.options.link && vditor.options.link.trigger) {
+                    vditor.options.link.trigger(aElement.querySelector(":scope > .vditor-ir__marker--link").textContent);
                 }
                 if (vditor.options.link && vditor.options.link.open) {
                     window.open(aElement.querySelector(":scope > .vditor-ir__marker--link").textContent);
