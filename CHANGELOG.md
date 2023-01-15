@@ -105,7 +105,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.0 / 2023-01
+### v3.9.0 / 2023-01-15
 
 * [1345](https://github.com/Vanessa219/vditor/issues/1345) 移除复制代码块末尾的换行 `改进功能`
 * [1348](https://github.com/Vanessa219/vditor/pull/1348) 新增链接和图片处理接口 `引入特性`
