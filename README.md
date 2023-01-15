@@ -360,16 +360,11 @@ previewImage: (img: HTMLImageElement) => void;
 对原图片双击预览的拦截，对图片的扩展操作。
 
 #### options.link
-``` ts
-link?: {
-  open?: boolean;
-  trigger?: (href: string) => void;
-}
-```
+
 |   | 说明 | 默认值 |
 | - | - | - |
-| open | 是否点击打开(window.open)地址 | - |
-| trigger | 地址点击触发 | - |
+| open | 是否打开链接地址 | true |
+| trigger(bom: Element) => void | 点击链接触发事件 | - |
 
 #### options.hint
 

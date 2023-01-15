@@ -425,7 +425,13 @@ class WYSIWYG {
 
             // 打开链接
             if (event.target.tagName === "A") {
-                window.open(event.target.getAttribute("href"));
+                if (vditor.options.link.trigger) {
+                    vditor.options.link.trigger(event.target);
+                } else if (vditor.options.link.open) {
+                    window.open(event.target.getAttribute("href"));
+                }
+                event.preventDefault();
+                return;
             }
 
             const range = getEditorRange(vditor);

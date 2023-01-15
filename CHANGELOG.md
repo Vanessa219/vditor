@@ -1,6 +1,8 @@
 ## Vditor change log
 
 ### 升级
+* 3.9
+  * 添加 option.link 
 * 3.8
   * 添加 plantumlRender 方法
   * options.input 移除 previewElement 参数
@@ -105,6 +107,7 @@
 
 ### v3.9.0 / 2023-01
 
+* [1348](https://github.com/Vanessa219/vditor/pull/1348) 新增链接和图片处理接口 `引入特性`
 * [1342](https://github.com/Vanessa219/vditor/pull/1342) 初始化后不自动聚焦 `改进功能`
 * [1341](https://github.com/Vanessa219/vditor/pull/1341) 支持 markmap `引入特性`
 * [1335](https://github.com/Vanessa219/vditor/issues/1335) 嵌入 Iframe 时无法导出 PDF `修复缺陷`

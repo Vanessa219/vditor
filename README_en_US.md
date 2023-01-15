@@ -327,6 +327,13 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | className | Button Class | - |
 | click(key: string) | Click Event | - |
 
+#### options.link
+
+|   | Explanation | Default |
+| - | - | - |
+| open | Whether to open the link address | true |
+| trigger(bom: Element) => void | Click link trigger event | - |
+
 #### options.hint
 
 |   | Explanation | Default |

@@ -59,6 +59,9 @@ export class Options {
             mode: "both",
             theme: Constants.THEME_OPTIONS,
         },
+        link: {
+            open: true,
+        },
         resize: {
             enable: false,
             position: "bottom",
