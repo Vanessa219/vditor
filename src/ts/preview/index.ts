@@ -52,11 +52,21 @@ export class Preview {
                 }
                 return;
             }
-            if (vditor.options.previewImage) {
-                vditor.options.previewImage(event.target as HTMLImageElement)
+            if (event.target.tagName === "A") {
+                if (vditor.options.link.click) {
+                    vditor.options.link.click(event.target);
+                } else if (vditor.options.link.isOpen) {
+                    window.open(event.target.getAttribute("href"));
+                }
+                event.preventDefault();
+                return;
             }
-            if (vditor.options.preview.showImage) {
-                previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
+            if (event.target.tagName === "IMG") {
+                if (vditor.options.image.preview) {
+                    vditor.options.image.preview(event.target)
+                } else if (vditor.options.image.isPreview) {
+                    previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
+                }
             }
         });
 

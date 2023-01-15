@@ -297,7 +297,6 @@ new Vditor('vditor', {
 | url | md 解析请求 | - |
 | parse(element: HTMLElement) | 预览回调 | - |
 | transform(html: string): string | 渲染之前回调 | - |
-| showImage: boolean | 是否双击图片预览 | _ |
 
 #### options.preview.hljs
 
@@ -353,18 +352,19 @@ new Vditor('vditor', {
 | className | 按钮类名 | - |
 | click(key: string) | 按钮点击回调事件 | - |
 
-#### options.previewImage
-``` ts
-previewImage: (img: HTMLImageElement) => void;
-```
-对原图片双击预览的拦截，对图片的扩展操作。
+#### options.image
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| isPreview | 是否预览图片 | true |
+| preview(bom: Element) => void | 图片预览处理 | - |
 
 #### options.link
 
 |   | 说明 | 默认值 |
 | - | - | - |
-| open | 是否打开链接地址 | true |
-| trigger(bom: Element) => void | 点击链接触发事件 | - |
+| isOpen | 是否打开链接地址 | true |
+| click(bom: Element) => void | 点击链接事件 | - |
 
 #### options.hint
 

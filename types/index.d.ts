@@ -484,7 +484,6 @@ interface IPreview {
     theme?: IPreviewTheme;
     /** @link https://ld246.com/article/1549638745630#options-preview-actions  */
     actions?: Array<IPreviewAction | IPreviewActionCustom>;
-    showImage?: boolean;
 
     /** 预览回调 */
     parse?(element: HTMLElement): void;
@@ -620,10 +619,13 @@ interface IOptions {
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://ld246.com/article/1549638745630#options-preview */
     preview?: IPreview;
-    previewImage?: (img: HTMLImageElement) => void;
     link?: {
-        open?: boolean;
-        trigger?: (bom: Element) => void;
+        isOpen?: boolean;
+        click?: (bom: Element) => void;
+    },
+    image?: {
+        isPreview?: boolean;
+        preview?: (bom: Element) => void;
     },
     /** @link https://ld246.com/article/1549638745630#options-hint */
     hint?: IHint;

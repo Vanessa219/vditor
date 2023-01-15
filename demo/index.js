@@ -55,12 +55,6 @@ const initVditor = (language) => {
     cdn: 'http://localhost:9000',
     toolbar,
     lang: language,
-    link: {
-      open: false,
-      trigger(bom){
-        console.log(bom)
-      }
-    },
     mode: 'wysiwyg',
     height: window.innerHeight + 100,
     outline: {

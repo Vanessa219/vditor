@@ -2,7 +2,7 @@
 
 ### 升级
 * 3.9
-  * 添加 option.link 
+  * 添加 option.link 和 options.image
 * 3.8
   * 添加 plantumlRender 方法
   * options.input 移除 previewElement 参数

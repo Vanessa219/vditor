@@ -327,12 +327,19 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | className | Button Class | - |
 | click(key: string) | Click Event | - |
 
+#### options.image
+
+|   | Explanation | Default |
+| - | - | - |
+| isPreview | Whether to preview the picture | true |
+| preview(bom: Element) => void | Image preview processing | - |
+
 #### options.link
 
 |   | Explanation | Default |
 | - | - | - |
-| open | Whether to open the link address | true |
-| trigger(bom: Element) => void | Click link trigger event | - |
+| isOpen | Whether to open the link address | true |
+| click(bom: Element) => void | Click link event | - |
 
 #### options.hint
 

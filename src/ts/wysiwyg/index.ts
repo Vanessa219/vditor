@@ -425,9 +425,9 @@ class WYSIWYG {
 
             // 打开链接
             if (event.target.tagName === "A") {
-                if (vditor.options.link.trigger) {
-                    vditor.options.link.trigger(event.target);
-                } else if (vditor.options.link.open) {
+                if (vditor.options.link.click) {
+                    vditor.options.link.click(event.target);
+                } else if (vditor.options.link.isOpen) {
                     window.open(event.target.getAttribute("href"));
                 }
                 event.preventDefault();
