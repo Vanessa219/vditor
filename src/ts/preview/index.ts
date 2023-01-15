@@ -52,7 +52,10 @@ export class Preview {
                 }
                 return;
             }
-            if (event.target.tagName === "IMG") {
+            if (vditor.options.previewImage) {
+                vditor.options.previewImage(event.target as HTMLImageElement)
+            }
+            if (vditor.options.preview.showImage) {
                 previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
             }
         });
