@@ -107,6 +107,7 @@
 
 ### v3.9.0 / 2023-01
 
+* [1345](https://github.com/Vanessa219/vditor/issues/1345) 移除复制代码块末尾的换行 `改进功能`
 * [1348](https://github.com/Vanessa219/vditor/pull/1348) 新增链接和图片处理接口 `引入特性`
 * [1342](https://github.com/Vanessa219/vditor/pull/1342) 初始化后不自动聚焦 `改进功能`
 * [1341](https://github.com/Vanessa219/vditor/pull/1341) 支持 markmap `引入特性`
