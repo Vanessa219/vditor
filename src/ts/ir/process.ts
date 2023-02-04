@@ -185,7 +185,9 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;
             } else {
-                if (commandName === "code" || commandName === "table") {
+                if (commandName === "code") {
+                    html = `${prefix}\n${range.toString()}<wbr>${suffix}`;
+                } else if (commandName === "table") {
                     html = `${prefix}${range.toString()}<wbr>${suffix}`;
                 } else {
                     html = `${prefix}${range.toString()}${suffix}<wbr>`;

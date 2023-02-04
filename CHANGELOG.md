@@ -105,6 +105,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.9.1 / 2023-03
+
+* [IR 模式选择内容设置为代码块时异常](https://github.com/Vanessa219/vditor/issues/1354) `修复缺陷`
+
 ### v3.9.0 / 2023-01-15
 
 * [1345](https://github.com/Vanessa219/vditor/issues/1345) 移除复制代码块末尾的换行 `改进功能`
