@@ -107,6 +107,7 @@
 
 ### v3.9.1 / 2023-03
 
+* [连续插入多个列表，控制台会报错](https://github.com/Vanessa219/vditor/issues/1343) `修复缺陷`
 * [IR 模式选择内容设置为代码块时异常](https://github.com/Vanessa219/vditor/issues/1354) `修复缺陷`
 
 ### v3.9.0 / 2023-01-15
