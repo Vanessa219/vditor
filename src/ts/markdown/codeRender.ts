@@ -1,4 +1,5 @@
 import {code160to32} from "../util/code160to32";
+import {Constants} from "../constants";
 
 export const codeRender = (element: HTMLElement) => {
     element.querySelectorAll("pre > code").forEach((e: HTMLElement, index: number) => {
@@ -51,5 +52,7 @@ onclick="this.previousElementSibling.select();document.execCommand('copy');this.
 
         e.before(divElement);
         e.style.maxHeight = (window.outerHeight - 40) + "px";
+        // https://github.com/Vanessa219/vditor/issues/1356
+        e.insertAdjacentHTML("afterend", `<span style="position: absolute">${Constants.ZWSP}</span>`)
     });
 };

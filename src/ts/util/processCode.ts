@@ -64,6 +64,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     }
     const language = previewPanel.firstElementChild.className.replace("language-", "");
     if (!language) {
+        codeRender(previewPanel);
         return;
     }
     if (language === "abc") {
