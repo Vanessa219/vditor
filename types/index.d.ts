@@ -321,6 +321,7 @@ interface II18n {
     ja_JP: ITips;
     ko_KR: ITips;
     ru_RU: ITips;
+    sv_SE: ITips;
     zh_CN: ITips;
     zh_TW: ITips;
 }
