@@ -107,7 +107,8 @@
 
 ### v3.9.1 / 2023-03
 
-* [新增瑞士语 ](https://github.com/Vanessa219/vditor/pull/1359) `引入特性`
+* [新增法语](https://github.com/Vanessa219/vditor/pull/1365) `引入特性`
+* [新增瑞士语](https://github.com/Vanessa219/vditor/pull/1359) `引入特性`
 * [代码块下一行的标题前输入中文时内容会跑到代码块里面](https://github.com/Vanessa219/vditor/issues/1356) `修复缺陷`
 * [连续插入多个列表，控制台报错](https://github.com/Vanessa219/vditor/issues/1343) `修复缺陷`
 * [IR 模式选择内容设置为代码块时异常](https://github.com/Vanessa219/vditor/issues/1354) `修复缺陷`
