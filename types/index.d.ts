@@ -389,6 +389,12 @@ interface IUpload {
 
     /** 图片地址上传后的回调  */
     linkToImgCallback?(responseText: string): void;
+
+    /** 图片地址上传后的自定义处理程序，返回值需在JSON.parse后返回对应的数据结构  */
+    processor?(vditor: IVditor, files: File[], element?: HTMLInputElement): string | undefined | Promise<string | undefined>;
+
+    /** 图片粘贴后的自定义处理程序，返回值需在JSON.parse后返回对应的数据结构  */
+    // linkToImgPocessor?(vditor: IVditor, files: File[], element?: HTMLInputElement): Promise<string | undefined>;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-toolbar */

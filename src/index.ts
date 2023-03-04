@@ -466,7 +466,7 @@ class Vditor extends VditorMethod {
             this.vditor.devtools = new DevTools();
         }
 
-        if (mergedOptions.upload.url || mergedOptions.upload.handler) {
+        if (mergedOptions.upload.url || mergedOptions.upload.handler || mergedOptions.upload.processor) {
             this.vditor.upload = new Upload();
         }
 

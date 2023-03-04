@@ -165,7 +165,7 @@ const uploadFiles =
             return;
         }
 
-        if (!vditor.options.upload.url || !vditor.upload) {
+        if (!vditor.options.upload.processor && (!vditor.options.upload.url || !vditor.upload)) {
             if (element) {
                 element.value = "";
             }
@@ -187,6 +187,14 @@ const uploadFiles =
         const editorElement = getElement(vditor);
 
         vditor.upload.range = getEditorRange(vditor);
+
+        if (vditor.options.upload.processor) {
+            const responseText = await vditor.options.upload.processor(vditor, fileList, element)
+            if (responseText) {
+                genUploadedLabel(responseText, vditor);
+            }
+            return;
+        }
 
         const validateResult = validateFile(vditor, fileList);
         if (validateResult.length === 0) {
