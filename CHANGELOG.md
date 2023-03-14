@@ -105,7 +105,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.1 / 2023-03
+### v3.9.2 / 2023-05
+
+### v3.9.1 / 2023-03-14
 
 * [新增法语](https://github.com/Vanessa219/vditor/pull/1365) `引入特性`
 * [新增瑞士语](https://github.com/Vanessa219/vditor/pull/1359) `引入特性`
