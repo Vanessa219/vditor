@@ -95,7 +95,7 @@ export const speechRender = (element: HTMLElement, lang: keyof II18n = "zh_CN") 
         speechDom.innerHTML = playSVG;
         speechDom.style.display = "block";
         speechDom.style.top = (rect.top + rect.height + document.querySelector("html").scrollTop - 20) + "px";
-        speechDom.style.left = (event.screenX + 2) + "px";
+        speechDom.style.left = (event.clientX + 2) + "px";
         speechDom.setAttribute("data-text", text);
     });
 };

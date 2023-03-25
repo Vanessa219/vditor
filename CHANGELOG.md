@@ -107,6 +107,7 @@
 
 ### v3.9.2 / 2023-05
 
+* [文本选中弹出组件 speech 位置被多屏影响](https://github.com/Vanessa219/vditor/issues/1373) `改进功能`
 * [更新补充 JSDoc](https://github.com/Vanessa219/vditor/pull/1374) `文档相关`
 
 ### v3.9.1 / 2023-03-14
