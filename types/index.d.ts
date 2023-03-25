@@ -114,7 +114,7 @@ declare class Lute {
 
     public static New(): Lute;
 
-    public static EscapeHTMLStr(html:string): string;
+    public static EscapeHTMLStr(html: string): string;
 
     public static GetHeadingID(node: ILuteNode): string;
 
@@ -559,6 +559,36 @@ interface IHint {
     extend?: IHintExtend[];
 }
 
+/** @link https://ld246.com/article/1549638745630#options-toolbarConfig */
+interface IToolbarConfig {
+    /** 是否隐藏工具栏。默认值: false */
+    hide?: boolean;
+    /** 是否固定工具栏。默认值: false */
+    pin?: boolean;
+}
+
+/** @link https://ld246.com/article/1549638745630#options-comment */
+interface IComment {
+    /** 是否启用评论模式。默认值: false */
+    enable: boolean;
+    /** 添加评论回调 */
+    add?(id: string, text: string, commentsData: ICommentsData[]): void;
+    /** 删除评论回调 */
+    remove?(ids: string[]): void;
+    /** 滚动回调 */
+    scroll?(top: number): void;
+    /** 文档修改时，适配评论高度 */
+    adjustTop?(commentsData: ICommentsData[]): void;
+}
+
+/** @link https://ld246.com/article/1549638745630#options-outline */
+interface IOutline {
+    /** 初始化是否展现大纲。默认值: false */
+    enable: boolean;
+    /** 大纲位置：'left', 'right'。默认值: 'left' */
+    position: "left" | "right";
+}
+
 interface IResize {
     position?: string;
     enable?: boolean;
@@ -594,6 +624,7 @@ interface IOptions {
     i18n?: ITips;
     /** @link https://ld246.com/article/1549638745630#options-fullscreen */
     fullscreen?: {
+        /** 全屏层级。默认值: 90 */
         index: number;
     };
     /** @link https://ld246.com/article/1549638745630#options-toolbar */
@@ -602,48 +633,64 @@ interface IOptions {
     resize?: IResize;
     /** @link https://ld246.com/article/1549638745630#options-counter */
     counter?: {
+        /** 是否启用计数器。默认值: false */
         enable: boolean;
+        /** 允许输入的最大值 */
         max?: number;
+        /** 统计类型。默认值: 'markdown' */
         type?: "markdown" | "text";
+        /** 字数统计回调。 */
         after?(length: number, counter: {
+            /** 是否启用计数器。默认值: false */
             enable: boolean;
+            /** 允许输入的最大值 */
             max?: number;
+            /** 统计类型。默认值: 'markdown' */
             type?: "markdown" | "text"
         }): void
     };
     /** @link https://ld246.com/article/1549638745630#options-cache */
     cache?: {
+        /** 缓存 key，第一个参数为元素且启用缓存时必填 */
         id?: string;
+        /** 是否使用 localStorage 进行缓存。默认值: true */
         enable?: boolean;
-        after?(markdown: string): void;
+        /** 缓存后的回调 */
+        after?(html: string): void;
     };
-    /** 编辑模式。默认值: 'wysiwyg' */
+    /** 编辑模式。默认值: 'wysiwyg'
+     * 
+     * wysiwyg: 所见即所得
+     * 
+     * ir: 即时渲染
+     * 
+     * sv: 分屏预览
+     */
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://ld246.com/article/1549638745630#options-preview */
     preview?: IPreview;
+    /** @link https://ld246.com/article/1549638745630#options-link */
     link?: {
+        /** 是否打开链接地址。默认值: true */
         isOpen?: boolean;
+        /** 点击链接事件 */
         click?: (bom: Element) => void;
     },
+    /** @link https://ld246.com/article/1549638745630#options-image */
     image?: {
+        /** 是否预览图片。默认值: true */
         isPreview?: boolean;
+        /** 图片预览处理 */
         preview?: (bom: Element) => void;
     },
     /** @link https://ld246.com/article/1549638745630#options-hint */
     hint?: IHint;
     /** @link https://ld246.com/article/1549638745630#options-toolbarConfig */
-    toolbarConfig?: {
-        hide?: boolean,
-        pin?: boolean,
-    };
-    /** 评论 */
-    comment?: {
-        enable: boolean
-        add?(id: string, text: string, commentsData: ICommentsData[]): void
-        remove?(ids: string[]): void;
-        scroll?(top: number): void;
-        adjustTop?(commentsData: ICommentsData[]): void;
-    };
+    toolbarConfig?: IToolbarConfig;
+    /** 评论
+     * @link https://ld246.com/article/1549638745630#options-comment
+     */
+    comment?: IComment;
     /** 主题。默认值: 'classic' */
     theme?: "classic" | "dark";
     /** 图标。默认值: 'ant' */
@@ -657,10 +704,7 @@ interface IOptions {
     /** tab 键操作字符串，支持 \t 及任意字符串 */
     tab?: string;
     /** @link https://ld246.com/article/1549638745630#options-outline */
-    outline?: {
-        enable: boolean,
-        position: "left" | "right",
-    };
+    outline?: IOutline;
 
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
