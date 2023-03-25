@@ -571,12 +571,16 @@ interface IToolbarConfig {
 interface IComment {
     /** 是否启用评论模式。默认值: false */
     enable: boolean;
+
     /** 添加评论回调 */
     add?(id: string, text: string, commentsData: ICommentsData[]): void;
+
     /** 删除评论回调 */
     remove?(ids: string[]): void;
+
     /** 滚动回调 */
     scroll?(top: number): void;
+
     /** 文档修改时，适配评论高度 */
     adjustTop?(commentsData: ICommentsData[]): void;
 }
@@ -656,14 +660,14 @@ interface IOptions {
         /** 是否使用 localStorage 进行缓存。默认值: true */
         enable?: boolean;
         /** 缓存后的回调 */
-        after?(html: string): void;
+        after?(markdown: string): void;
     };
     /** 编辑模式。默认值: 'wysiwyg'
-     * 
+     *
      * wysiwyg: 所见即所得
-     * 
+     *
      * ir: 即时渲染
-     * 
+     *
      * sv: 分屏预览
      */
     mode?: "wysiwyg" | "sv" | "ir";
