@@ -107,6 +107,7 @@
 
 ### v3.9.2 / 2023-05
 
+* [选中文本后粘贴网址自动生成链接](https://github.com/Vanessa219/vditor/issues/1301) `改进功能`
 * [情景菜单输入框中 Esc/alt+Enter/Enter 可将光标设置到编辑器中](https://github.com/Vanessa219/vditor/issues/1302) `改进功能`
 * [文本选中弹出组件 speech 位置被多屏影响](https://github.com/Vanessa219/vditor/issues/1373) `改进功能`
 * [更新补充 JSDoc](https://github.com/Vanessa219/vditor/pull/1374) `文档相关`
