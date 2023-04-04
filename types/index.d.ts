@@ -180,6 +180,8 @@ declare class Lute {
 
     public GetEmojis(): IObject;
 
+    public IsValidLinkDest(link: string): boolean;
+
     // debugger md
     public RenderEChartsJSON(text: string): string;
 
