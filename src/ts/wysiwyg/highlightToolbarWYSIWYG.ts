@@ -489,7 +489,12 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                     event.preventDefault();
                     return;
                 }
-                removeBlockElement(vditor, event);
+                if (removeBlockElement(vditor, event)) {
+                    return;
+                }
+                if (focusToElement(event, range)) {
+                    return;
+                }
             };
 
             const input2Wrap = document.createElement("span");
@@ -517,7 +522,12 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                     event.preventDefault();
                     return;
                 }
-                removeBlockElement(vditor, event);
+                if (removeBlockElement(vditor, event)) {
+                    return;
+                }
+                if (focusToElement(event, range)) {
+                    return;
+                }
             };
 
             genUp(range, tableElement, vditor);
@@ -541,7 +551,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         // link ref popover
         const linkRefElement = hasClosestByAttribute(typeElement, "data-type", "link-ref");
         if (linkRefElement) {
-            genLinkRefPopover(vditor, linkRefElement);
+            genLinkRefPopover(vditor, linkRefElement, range);
         }
 
         // footnote popover
@@ -569,19 +579,12 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 if (event.isComposing) {
                     return;
                 }
-                if (
-                    !isCtrl(event) &&
-                    !event.shiftKey &&
-                    event.altKey &&
-                    event.key === "Enter"
-                ) {
-                    range.selectNodeContents(footnotesRefElement);
-                    range.collapse(false);
-                    setSelectionFocus(range);
-                    event.preventDefault();
+                if (removeBlockElement(vditor, event)) {
                     return;
                 }
-                removeBlockElement(vditor, event);
+                if (focusToElement(event, range)) {
+                    return;
+                }
             };
 
             genClose(footnotesRefElement, vditor);
@@ -660,17 +663,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                         return;
                     }
                     vditor.hint.select(event, vditor);
-                    if (
-                        !isCtrl(event) &&
-                        !event.shiftKey &&
-                        event.key === "Enter"
-                    ) {
-                        range.setStart(codeElement.firstChild, 0);
-                        range.collapse(true);
-                        setSelectionFocus(range);
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
+                    focusToElement(event, range);
                 };
                 language.onkeyup = (event: KeyboardEvent) => {
                     if (
@@ -720,19 +713,12 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 if (event.isComposing) {
                     return;
                 }
-                if (
-                    !isCtrl(event) &&
-                    !event.shiftKey &&
-                    event.altKey &&
-                    event.key === "Enter"
-                ) {
-                    range.selectNodeContents(headingElement);
-                    range.collapse(false);
-                    setSelectionFocus(range);
-                    event.preventDefault();
+                if (removeBlockElement(vditor, event)) {
                     return;
                 }
-                removeBlockElement(vditor, event);
+                if (focusToElement(event, range)) {
+                    return;
+                }
             };
 
             genUp(range, headingElement, vditor);
@@ -744,7 +730,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
 
         // a popover
         if (aElement) {
-            genAPopover(vditor, aElement);
+            genAPopover(vditor, aElement, range);
         }
 
         if (
@@ -802,9 +788,8 @@ const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     vditor.wysiwyg.popover.setAttribute("data-top", (targetElement.offsetTop - 21).toString());
 };
 
-export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) => {
+export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement, range = getSelection().getRangeAt(0)) => {
     vditor.wysiwyg.popover.innerHTML = "";
-
     const updateLinkRef = () => {
         if (input.value.trim() !== "") {
             if (linkRefElement.tagName === "IMG") {
@@ -836,6 +821,9 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) 
         if (removeBlockElement(vditor, event)) {
             return;
         }
+        if (focusToElement(event, range)) {
+            return;
+        }
         linkHotkey(vditor, linkRefElement, event, input1);
     };
 
@@ -852,6 +840,9 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement) 
     };
     input1.onkeydown = (event) => {
         if (removeBlockElement(vditor, event)) {
+            return;
+        }
+        if (focusToElement(event, range)) {
             return;
         }
         linkHotkey(vditor, linkRefElement, event, input);
@@ -932,7 +923,7 @@ const genClose = (element: HTMLElement, vditor: IVditor) => {
         element.remove();
         afterRenderEvent(vditor);
         highlightToolbarWYSIWYG(vditor);
-        if (["H1", "H2", "H3", "H4", "H5" ,"H6"].includes(element.tagName)) {
+        if (["H1", "H2", "H3", "H4", "H5", "H6"].includes(element.tagName)) {
             renderToc(vditor);
         }
     };
@@ -970,7 +961,7 @@ const linkHotkey = (
     }
 };
 
-export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
+export const genAPopover = (vditor: IVditor, aElement: HTMLElement, range: Range) => {
     vditor.wysiwyg.popover.innerHTML = "";
 
     const updateA = () => {
@@ -1001,6 +992,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
         if (removeBlockElement(vditor, event)) {
             return;
         }
+        if (focusToElement(event, range)) {
+            return;
+        }
         linkHotkey(vditor, aElement, event, input1);
     };
 
@@ -1017,6 +1011,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     };
     input1.onkeydown = (event) => {
         if (removeBlockElement(vditor, event)) {
+            return;
+        }
+        if (focusToElement(event, range)) {
             return;
         }
         linkHotkey(vditor, aElement, event, input2);
@@ -1036,6 +1033,9 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement) => {
     };
     input2.onkeydown = (event) => {
         if (removeBlockElement(vditor, event)) {
+            return;
+        }
+        if (focusToElement(event, range)) {
             return;
         }
         linkHotkey(vditor, aElement, event, input);
@@ -1108,4 +1108,16 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", titleWrap);
 
     setPopoverPosition(vditor, imgElement);
+};
+
+
+const focusToElement = (event: KeyboardEvent, range: Range) => {
+    if ((!isCtrl(event) && !event.shiftKey && event.key === "Enter") || event.key === "Escape") {
+        if (range) {
+            setSelectionFocus(range);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        return true;
+    }
 };

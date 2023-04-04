@@ -216,7 +216,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 range.insertNode(aElement);
                 range.setStart(aElement.firstChild, 1);
                 range.collapse(true);
-                genAPopover(vditor, aElement);
+                genAPopover(vditor, aElement, range);
                 const textInputElement = vditor.wysiwyg.popover.querySelector("input");
                 textInputElement.value = "";
                 textInputElement.focus();
@@ -228,7 +228,7 @@ export const toolbarEvent = (vditor: IVditor, actionBtn: Element, event: Event) 
                 range.surroundContents(node);
                 range.insertNode(node);
                 setSelectionFocus(range);
-                genAPopover(vditor, node);
+                genAPopover(vditor, node, range);
                 const textInputElements = vditor.wysiwyg.popover.querySelectorAll("input");
                 textInputElements[0].value = node.innerText;
                 textInputElements[1].focus();

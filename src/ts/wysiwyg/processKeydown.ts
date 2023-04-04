@@ -356,8 +356,8 @@ export const removeBlockElement = (vditor: IVditor, event: KeyboardEvent) => {
         const itemElement: HTMLElement = vditor.wysiwyg.popover.querySelector('[data-type="remove"]');
         if (itemElement) {
             itemElement.click();
-            event.preventDefault();
-            return true;
         }
+        event.preventDefault();
+        return true;
     }
 };
