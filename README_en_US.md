@@ -286,6 +286,7 @@ new Vditor('vditor', {
 
 |   | Explanation | Default |
 | - | - | - |
+| defaultLang | The language is used by default when no language is specified | '' |
 | enable | Whether to enable code syntax highlighting | true |
 | style | For optional values, see [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
 | lineNumber | Whether to enable line number | false |

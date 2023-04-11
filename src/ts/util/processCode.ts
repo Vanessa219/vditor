@@ -63,10 +63,6 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         return;
     }
     const language = previewPanel.firstElementChild.className.replace("language-", "");
-    if (!language) {
-        codeRender(previewPanel);
-        return;
-    }
     if (language === "abc") {
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {

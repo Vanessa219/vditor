@@ -3,6 +3,7 @@
 ### 升级
 * 3.9
   * 添加 option.link 和 options.image
+  * 添加 hljs.defaultLang
 * 3.8
   * 添加 plantumlRender 方法
   * options.input 移除 previewElement 参数
@@ -105,8 +106,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.2 / 2023-05
+### v3.9.3 / 2023-05
 
+### v3.9.2 / 2023-04-11
+
+* [代码高亮不指定语言时使用 hljs.defaultLang 进行渲染](https://github.com/Vanessa219/vditor/issues/1382) `引入特性`
 * [选中文本后粘贴网址自动生成链接](https://github.com/Vanessa219/vditor/issues/1301) `改进功能`
 * [情景菜单输入框中 Esc/alt+Enter/Enter 可将光标设置到编辑器中](https://github.com/Vanessa219/vditor/issues/1302) `改进功能`
 * [文本选中弹出组件 speech 位置被多屏影响](https://github.com/Vanessa219/vditor/issues/1373) `改进功能`

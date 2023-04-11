@@ -422,6 +422,8 @@ interface IMenuItem {
 
 /** @link https://ld246.com/article/1549638745630#options-preview-hljs */
 interface IHljs {
+    /** 代码块没有指定语言时，使用此值。默认值: "" */
+    defaultLang?: string;
     /** 是否启用行号。默认值: false */
     lineNumber?: boolean;
     /** 代码风格，可选值参见 [Chroma](https://xyproto.github.io/splash/docs/longer/all.html)。 默认值: 'github' */

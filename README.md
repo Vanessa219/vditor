@@ -302,6 +302,7 @@ new Vditor('vditor', {
 
 |   | 说明 | 默认值 |
 | - | - | - |
+| defaultLang | 未指定语言时默认使用该语言 | '' |
 | enable | 是否启用代码高亮 | true |
 | style | 可选值参见[Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
 | lineNumber | 是否启用行号 | false |

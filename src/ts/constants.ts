@@ -47,6 +47,7 @@ export abstract class Constants {
   public static readonly HLJS_OPTIONS = {
     enable: true,
     lineNumber: false,
+    defaultLang: "",
     style: "github",
   };
   public static readonly MATH_OPTIONS: IMath = {
