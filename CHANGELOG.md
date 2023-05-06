@@ -108,6 +108,7 @@
 
 ### v3.9.3 / 2023-05
 
+* [输入内容后立即点击工具栏下拉无反应](https://github.com/Vanessa219/vditor/issues/1391) `改进功能`
 * [XSS 代码注入漏洞](https://github.com/Vanessa219/vditor/issues/1395) `修复缺陷`
 * [支持葡萄牙语](https://github.com/Vanessa219/vditor/pull/1394) `引入特性`
 
