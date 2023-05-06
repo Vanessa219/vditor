@@ -108,6 +108,8 @@
 
 ### v3.9.3 / 2023-05
 
+* [支持葡萄牙语](https://github.com/Vanessa219/vditor/pull/1394) `引入特性`
+
 ### v3.9.2 / 2023-04-11
 
 * [代码高亮不指定语言时使用 hljs.defaultLang 进行渲染](https://github.com/Vanessa219/vditor/issues/1382) `引入特性`
