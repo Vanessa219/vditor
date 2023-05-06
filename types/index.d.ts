@@ -327,6 +327,7 @@ interface II18n {
     sv_SE: ITips;
     zh_CN: ITips;
     zh_TW: ITips;
+    pt_BR: ITips;
 }
 
 interface IClasses {
