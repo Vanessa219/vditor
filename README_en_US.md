@@ -52,7 +52,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 
 * Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
 * Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://ld246.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
-* Built-in security filtering, export, image lazy loading, task list, multi-platform preview, multi-theme switching, copy to WeChat/zhihu function
+* Export, image lazy loading, task list, multi-platform preview, multi-theme switching, copy to WeChat/zhihu function
 * Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://ld246.com/article/1549638745630#options-preview-markdown)
 * The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://ld246.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
 * Extend auto-complete for emoji/@/# and so on
