@@ -108,6 +108,7 @@
 
 ### v3.9.3 / 2023-05
 
+* [XSS 代码注入漏洞](https://github.com/Vanessa219/vditor/issues/1395) `修复缺陷`
 * [支持葡萄牙语](https://github.com/Vanessa219/vditor/pull/1394) `引入特性`
 
 ### v3.9.2 / 2023-04-11
