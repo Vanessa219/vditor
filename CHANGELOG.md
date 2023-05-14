@@ -109,6 +109,8 @@
 
 ### v3.9.3 / 2023-05
 
+* [XSS 代码注入漏洞 - 链接](https://github.com/Vanessa219/vditor/issues/1401) `修复缺陷`
+* [XSS 代码注入漏洞 - iframe](https://github.com/Vanessa219/vditor/issues/1400) `修复缺陷`
 * [添加`keydown`回调](https://github.com/Vanessa219/vditor/issues/1397) `引入特性`
 * [输入内容后立即点击工具栏下拉无反应](https://github.com/Vanessa219/vditor/issues/1391) `改进功能`
 * [XSS 代码注入漏洞](https://github.com/Vanessa219/vditor/issues/1395) `修复缺陷`
