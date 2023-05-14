@@ -205,6 +205,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | input(value: string) | 输入后触发  | - |
 | focus(value: string) | 聚焦后触发 | - |
 | blur(value: string) | 失焦后触发 | - |
+| keydown(event: KeyboardEvent) | 按下后触发 | - |
 | esc(value: string) | <kbd>esc</kbd> 按下后触发 | - |
 | ctrlEnter(value: string) | <kbd>⌘/ctrl+enter</kbd> 按下后触发 | - |
 | select(value: string) | 编辑器中选中文字后触发 | - |

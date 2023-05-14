@@ -181,6 +181,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | input | Trigger after input (value: string) | - |
 | focus | Trigger after focusing (value: string) | - |
 | blur | Trigger after out of focus (value: string) | - |
+| keydown(event: KeyboardEvent) | Trigger after keydown | - |
 | esc | Trigger after pressing <kbd>esc</kbd> (value: string) | - |
 | ctrlEnter | Trigger after pressing <kbd>⌘/ctrl+enter</kbd> (value: string) | - |
 | select | Triggered after selecting text in the editor (value: string) | - |

@@ -727,6 +727,9 @@ interface IOptions {
     /** 失焦后触发 */
     blur?(value: string): void;
 
+    /** 按下键盘触发 */
+    keydown?(event: KeyboardEvent): void;
+
     /** `esc` 按下后触发 */
     esc?(value: string): void;
 
