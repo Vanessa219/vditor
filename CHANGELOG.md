@@ -107,7 +107,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.3 / 2023-05
+### v3.9.4 / 2023-07
+
+### v3.9.3 / 2023-05-23
 
 * [XSS 代码注入漏洞 - 链接](https://github.com/Vanessa219/vditor/issues/1401) `修复缺陷`
 * [XSS 代码注入漏洞 - iframe](https://github.com/Vanessa219/vditor/issues/1400) `修复缺陷`
