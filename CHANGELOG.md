@@ -109,6 +109,9 @@
 
 ### v3.9.4 / 2023-07
 
+* [XSS 代码注入漏洞 - 表单](https://github.com/Vanessa219/vditor/issues/1412) `修复缺陷`
+* [XSS 代码注入漏洞 - meta](https://github.com/Vanessa219/vditor/issues/1411) `修复缺陷`
+
 ### v3.9.3 / 2023-05-23
 
 * [XSS 代码注入漏洞 - 链接](https://github.com/Vanessa219/vditor/issues/1401) `修复缺陷`
