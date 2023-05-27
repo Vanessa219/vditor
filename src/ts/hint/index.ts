@@ -98,7 +98,7 @@ export class Hint {
                     html = html.substr(0, lastIndex) + replaceHtml;
                 }
             }
-            hintsHTML += `<button data-value="${encodeURIComponent(hintData.value)} "
+            hintsHTML += `<button type="button" data-value="${encodeURIComponent(hintData.value)} "
 ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         });
 
