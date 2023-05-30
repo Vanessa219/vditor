@@ -8,6 +8,7 @@ import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
+import { imageRender } from "./ts/markdown/imageRender";
 import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline/index";
 import {Preview} from "./ts/preview/index";
@@ -295,6 +296,7 @@ class Vditor extends VditorMethod {
                 .forEach((item: HTMLElement) => {
                     processCodeRender(item, this.vditor);
                 });
+            imageRender(this.vditor.ir.element)
             processAfterRender(this.vditor, {
                 enableAddUndoStack: true,
                 enableHint: false,

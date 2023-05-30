@@ -1,3 +1,4 @@
+import { imageRender } from "../markdown/imageRender";
 import {processCodeRender} from "../util/processCode";
 import {afterRenderEvent} from "./afterRenderEvent";
 
@@ -13,6 +14,7 @@ export const renderDomByMd = (vditor: IVditor, md: string, options = {
         processCodeRender(item, vditor);
         item.previousElementSibling.setAttribute("style", "display:none");
     });
+    imageRender(editorElement)
 
     afterRenderEvent(vditor, options);
 };

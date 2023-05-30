@@ -15,7 +15,8 @@ import {getEventName} from "../util/compatibility";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {setSelectionFocus} from "../util/selection";
-import {previewImage} from "./image";
+import {previewImage, resizeImage} from "./image";
+import { imageRender } from "../markdown/imageRender";
 
 export class Preview {
     public element: HTMLElement;
@@ -62,6 +63,9 @@ export class Preview {
                 return;
             }
             if (event.target.tagName === "IMG") {
+                if(vditor.options.image.isResize) {
+                    resizeImage(event.target as HTMLImageElement, previewElement as HTMLDivElement, vditor as IVditor)
+                }
                 if (vditor.options.image.preview) {
                     vditor.options.image.preview(event.target)
                 } else if (vditor.options.image.isPreview) {
@@ -233,6 +237,7 @@ export class Preview {
         plantumlRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
+        imageRender(vditor.preview.element.lastElementChild as HTMLElement);
         // toc render
         const editorElement = vditor.preview.element;
         let tocHTML = vditor.outline.render(vditor);

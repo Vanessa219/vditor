@@ -89,6 +89,7 @@
     & > .vditor-reset {
       padding: 10px;
       margin: 0 auto;
+      position: relative;
     }
 
     img:not(.emoji) {
@@ -279,5 +280,17 @@
         max-width: none;
       }
     }
+  }
+
+  div.mce-resizehandle {
+    background-color: #4099ff;
+    border-color: #4099ff;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    height: 10px;
+    position: absolute;
+    width: 10px;
+    z-index: 10000;
   }
 }

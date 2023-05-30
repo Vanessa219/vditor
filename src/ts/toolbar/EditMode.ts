@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
+import { imageRender } from "../markdown/imageRender";
 import {mathRender} from "../markdown/mathRender";
 import {processAfterRender as processSVAfterRender, processSpinVditorSVDOM} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
@@ -57,6 +58,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
 
         vditor.currentMode = "ir";
         vditor.ir.element.innerHTML = vditor.lute.Md2VditorIRDOM(markdownText);
+        imageRender(vditor.ir.element)
         processAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,
