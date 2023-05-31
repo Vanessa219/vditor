@@ -85,7 +85,6 @@ export const resizeImage = (oldImgElement: HTMLImageElement, containerElement:HT
         if(target === oldImgElement || target === cloneImage) {
             return true;
         }
-        console.log(resizehandleElement.indexOf(target), target, resizehandleElement)
         if(resizehandleElement.indexOf(target) === -1) {
             onMouseUp()
             oldImgElement.style.outline = 'none';
