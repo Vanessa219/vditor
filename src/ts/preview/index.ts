@@ -66,13 +66,17 @@ export class Preview {
                 if(vditor.options.image.isResize) {
                     resizeImage(event.target as HTMLImageElement, previewElement as HTMLDivElement, vditor as IVditor)
                 }
+            }
+        });
+        previewElement.addEventListener("dblclick", (event: MouseEvent & { target: HTMLElement }) => {
+            if (event.target.tagName === "IMG") {
                 if (vditor.options.image.preview) {
                     vditor.options.image.preview(event.target)
                 } else if (vditor.options.image.isPreview) {
                     previewImage(event.target as HTMLImageElement, vditor.options.lang, vditor.options.theme);
                 }
             }
-        });
+        })
 
         const actions = vditor.options.preview.actions;
         const actionElement = document.createElement("div");

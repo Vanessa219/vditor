@@ -151,6 +151,7 @@ export const resizeImage = (oldImgElement: HTMLImageElement, containerElement:HT
             oldImgElement.parentElement.removeChild(cloneImage);
             containerElement.style.userSelect = 'auto';
             cloneImage.style.opacity = '1';
+            vditor.options.image.resize(oldImgElement); //图片修改完要通知外部函数
         }
     }
     function getResizeAttribute(element: HTMLImageElement) {

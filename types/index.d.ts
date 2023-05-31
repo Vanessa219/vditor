@@ -693,7 +693,7 @@ interface IOptions {
         preview?: (bom: Element) => void;
         /** 是否重置图片大小 */
         isResize?: boolean;
-        /** 图片重置大小处理 */
+        /** 图片重置完大小事件处理 */
         resize?: (bom: Element) => void;
     },
     /** @link https://ld246.com/article/1549638745630#options-hint */
