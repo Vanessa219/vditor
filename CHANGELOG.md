@@ -109,6 +109,7 @@
 
 ### v3.9.4 / 2023-07
 
+* [修正多语言中英语的错误](https://github.com/Vanessa219/vditor/pull/1416) `文档相关`
 * [IR, SV 模式下输入内容后立即点击工具栏下拉无反应](https://github.com/Vanessa219/vditor/issues/1414) `改进功能`
 * [为 `button` 添加 `type` 属性](https://github.com/Vanessa219/vditor/pull/1410) `开发重构`
 * [XSS 代码注入漏洞 - 表单](https://github.com/Vanessa219/vditor/issues/1412) `修复缺陷`
