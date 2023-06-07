@@ -33,6 +33,8 @@ export class Headings extends MenuItem {
             event.preventDefault();
             // https://github.com/Vanessa219/vditor/issues/1391
             clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
+            clearTimeout(vditor.ir.processTimeoutId);
+            clearTimeout(vditor.sv.processTimeoutId);
             if (actionBtn.classList.contains(Constants.CLASS_MENU_DISABLED)) {
                 return;
             }
