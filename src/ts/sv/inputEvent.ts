@@ -10,6 +10,20 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         startContainer = range.startContainer.childNodes[range.startOffset - 1];
     }
     let blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    const char = event ? event.data : '';
+    const oldSelectContent = vditor.oldSelectContent;
+    const charMaps = ["'", '"', '`', '{'];
+    let charIndex = -1;
+    if((charIndex = charMaps.indexOf(char)) > -1) {
+        let token = charMaps[charIndex];
+        if(token === '`') token = `\``;
+        else if(token === '{') token = `}`;
+        const textNode = document.createTextNode(oldSelectContent ? `${oldSelectContent}${token}` : `${token}`)
+        if(oldSelectContent) {
+            range.deleteContents();
+            range.insertNode(textNode);
+        }
+    }
     // 不调用 lute 解析
     if (blockElement && event && (event.inputType === "deleteContentBackward" || event.data === " ")) {
         // 开始可以输入空格

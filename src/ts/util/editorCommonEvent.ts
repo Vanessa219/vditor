@@ -122,11 +122,13 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             vditor.hint.select(event, vditor)) {
             return;
         }
-
-        // 重置 comment
-        if (vditor.options.comment.enable && vditor.currentMode === "wysiwyg" &&
-            (event.key === "Backspace" || matchHotKey("⌘X", event))) {
-            vditor.wysiwyg.getComments(vditor);
+        //重置选中内容
+        if(event.key === "Backspace" || matchHotKey("⌘X", event)) {
+            vditor.oldSelectContent = '';
+            // 重置 comment
+            if(vditor.options.comment.enable && vditor.currentMode === "wysiwyg" ) {
+                vditor.wysiwyg.getComments(vditor);
+            }
         }
 
         if (vditor.currentMode === "sv") {
@@ -235,7 +237,8 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 
 export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("selectstart", (event: Event & { target: HTMLElement }) => {
-        editorElement.onmouseup = () => {
+        const mouseup = (e: Event)=> {
+            e.stopPropagation(); //阻止冒泡
             setTimeout(() => { // 鼠标放开后 range 没有即时更新
                 const selectText = getSelectText(vditor[vditor.currentMode].element);
                 if (selectText.trim()) {
@@ -255,7 +258,10 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                         vditor.wysiwyg.hideComment();
                     }
                 }
+                vditor.oldSelectContent = selectText.trim();
             });
-        };
+        }
+        editorElement.onmouseup = mouseup
+        document.onmouseup = mouseup
     });
 };

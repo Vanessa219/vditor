@@ -444,6 +444,7 @@ class Vditor extends VditorMethod {
         this.vditor = {
             currentMode: mergedOptions.mode,
             element: id,
+            oldSelectContent: '',
             hint: new Hint(mergedOptions.hint.extend),
             lute: undefined,
             options: mergedOptions,
