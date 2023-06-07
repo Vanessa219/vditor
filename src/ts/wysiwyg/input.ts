@@ -5,7 +5,7 @@ import {
 import { hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
-import {setRangeByWbr} from "../util/selection";
+import {setRangeByWbr, setSelectionParcel} from "../util/selection";
 import {renderToc} from "../util/toc";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {previoueIsEmptyA} from "./inlineTag";
@@ -17,6 +17,8 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
         // 使用顶级块元素，应使用 innerHTML
         blockElement = vditor.wysiwyg.element;
     }
+
+    setSelectionParcel(vditor, range, event);
 
     if (event && event.inputType !== "formatItalic"
         && event.inputType !== "deleteByDrag"
