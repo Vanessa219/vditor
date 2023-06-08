@@ -132,6 +132,11 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if(event.key === 'Backspace' || event.key === "Delete" || matchHotKey("⌘X", event) || matchHotKey("⌘v", event)) {
             vditor.oldSelectContent = '';
         }
+        //如果通过键盘选中内容，获取oldSelectContent
+        const selectText = getSelectText(vditor[vditor.currentMode].element);
+        if(selectText.trim()) {
+            vditor.oldSelectContent = selectText
+        }
 
         if (vditor.currentMode === "sv") {
             if (mdProcessKeydown(vditor, event)) {

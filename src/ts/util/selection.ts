@@ -236,7 +236,7 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
 };
 
 // 设置包裹范围字符
-export const setSelectionParcel = (vditor: IVditor, range: Range, event?: InputEvent) => {
+export const setSelectionParcel = (vditor: IVditor, range: Range, event: InputEvent) => {
     const char = event ? event.data : '';
     const oldSelectContent = vditor.oldSelectContent;
     const charMaps = ["'", '"', '`', '{'];
