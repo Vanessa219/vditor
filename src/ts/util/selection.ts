@@ -249,6 +249,7 @@ export const setSelectionParcel = (vditor: IVditor, range: Range, event?: InputE
         if(oldSelectContent) {
             range.deleteContents();
             range.insertNode(textNode);
+            vditor.oldSelectContent = '';
         }
     }
 }
