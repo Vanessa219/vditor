@@ -122,13 +122,15 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             vditor.hint.select(event, vditor)) {
             return;
         }
-        //重置选中内容
-        if(event.key === "Backspace" || matchHotKey("⌘X", event)) {
+
+        // 重置 comment
+        if((event.key === "Backspace" || matchHotKey("⌘X", event)) &&
+            vditor.options.comment.enable && vditor.currentMode === "wysiwyg") {
+            vditor.wysiwyg.getComments(vditor);
+        }
+         //重置选中内容
+        if(event.key === 'Backspace' || event.key === "Delete" || matchHotKey("⌘X", event) || matchHotKey("⌘v", event)) {
             vditor.oldSelectContent = '';
-            // 重置 comment
-            if(vditor.options.comment.enable && vditor.currentMode === "wysiwyg" ) {
-                vditor.wysiwyg.getComments(vditor);
-            }
         }
 
         if (vditor.currentMode === "sv") {
