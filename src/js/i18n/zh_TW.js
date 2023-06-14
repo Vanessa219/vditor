@@ -70,7 +70,7 @@ window.VditorI18n = {
   'row': '列',
   'spin': '旋轉',
   'splitView': '分割預覽',
-  'strike': '刪除縣',
+  'strike': '刪除線',
   'table': '表格',
   'textIsNotEmpty': '文字（不能為空）',
   'title': '標題',
