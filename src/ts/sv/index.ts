@@ -16,7 +16,7 @@ import {processAfterRender} from "./process";
 class Editor {
     public range: Range;
     public element: HTMLPreElement;
-    public composingLock = false;
+    public composingLock: boolean = false;
     public processTimeoutId: number;
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
