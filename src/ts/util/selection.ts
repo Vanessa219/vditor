@@ -235,25 +235,6 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
     setSelectionFocus(range);
 };
 
-// 设置包裹范围字符
-export const setSelectionParcel = (vditor: IVditor, range: Range, event: InputEvent) => {
-    const char = event ? event.data : '';
-    const oldSelectContent = vditor.oldSelectContent;
-    const charMaps = ["'", '"', '`', '{'];
-    let charIndex = -1;
-    if((charIndex = charMaps.indexOf(char)) > -1) {
-        let token = charMaps[charIndex];
-        if(token === '`') token = `\``;
-        else if(token === '{') token = `}`;
-        const textNode = document.createTextNode(oldSelectContent ? `${oldSelectContent}${token}` : `${token}`)
-        if(oldSelectContent) {
-            range.deleteContents();
-            range.insertNode(textNode);
-            vditor.oldSelectContent = '';
-        }
-    }
-}
-
 export const insertHTML = (html: string, vditor: IVditor) => {
     // 使用 lute 方法会添加 p 元素，只有一个 p 元素的时候进行删除
     const tempElement = document.createElement("div");
