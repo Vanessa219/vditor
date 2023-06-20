@@ -1,6 +1,6 @@
 import {scrollCenter} from "../util/editorCommonEvent";
 import {hasClosestByAttribute} from "../util/hasClosest";
-import {getSelectPosition, setRangeByWbr} from "../util/selection";
+import {getSelectPosition, setRangeByWbr, setSelectionParcel} from "../util/selection";
 import {getSideByType, processAfterRender, processSpinVditorSVDOM} from "./process";
 
 export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
@@ -10,6 +10,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         startContainer = range.startContainer.childNodes[range.startOffset - 1];
     }
     let blockElement = hasClosestByAttribute(startContainer, "data-block", "0");
+    setSelectionParcel(vditor, range, event);
     // 不调用 lute 解析
     if (blockElement && event && (event.inputType === "deleteContentBackward" || event.data === " ")) {
         // 开始可以输入空格

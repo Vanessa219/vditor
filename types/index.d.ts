@@ -754,6 +754,7 @@ interface IVditor {
     element: HTMLElement;
     options: IOptions;
     originalInnerHTML: string;
+    oldSelectContent: string;
     lute: Lute;
     currentMode: "sv" | "wysiwyg" | "ir";
     devtools?: {

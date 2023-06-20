@@ -8,7 +8,7 @@ import {
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
-import {getSelectPosition, setRangeByWbr} from "../util/selection";
+import {getSelectPosition, setRangeByWbr, setSelectionParcel} from "../util/selection";
 import {renderToc} from "../util/toc";
 import {processAfterRender} from "./process";
 import {getMarkdown} from "../markdown/getMarkdown";
@@ -78,6 +78,8 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
     vditor.ir.element.querySelectorAll(".vditor-ir__node--expand").forEach((item) => {
         item.classList.remove("vditor-ir__node--expand");
     });
+
+    setSelectionParcel(vditor, range, event);
 
     if (!blockElement) {
         // 使用顶级块元素，应使用 innerHTML
