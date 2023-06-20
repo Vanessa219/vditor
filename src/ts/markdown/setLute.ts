@@ -16,6 +16,7 @@ export const setLute = (options: ILuteOptions) => {
     lute.SetLinkBase(options.linkBase);
     lute.SetLinkPrefix(options.linkPrefix);
     lute.SetMark(options.mark);
+    lute.SetGFMAutoLink(options.gfmAutoLink);
     if (options.lazyLoadImage) {
         lute.SetImageLazyLoading(options.lazyLoadImage);
     }

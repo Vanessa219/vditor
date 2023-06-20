@@ -154,6 +154,8 @@ declare class Lute {
 
     public SetMark(enable: boolean): void;
 
+    public SetGFMAutoLink(enable: boolean): void;
+
     public SetSanitize(enable: boolean): void;
 
     public SetHeadingAnchor(enable: boolean): void;
@@ -469,6 +471,8 @@ interface IMarkdownConfig {
     listStyle?: boolean;
     /** 支持 mark 标记 */
     mark?: boolean;
+    /** 支持自动链接 */
+    gfmAutoLink?: boolean;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-preview */

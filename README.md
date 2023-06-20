@@ -313,6 +313,7 @@ new Vditor('vditor', {
 |   | 说明 | 默认值 |
 | - | - | - |
 | autoSpace | 自动空格 | false |
+| gfmAutoLink | 自动链接 | true |
 | fixTermTypo | 自动矫正术语 | false |
 | toc | 插入目录 | false |
 | footnotes | 脚注 | true |

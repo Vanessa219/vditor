@@ -297,6 +297,7 @@ new Vditor('vditor', {
 |   | Explanation | Default |
 | - | - | - |
 | autoSpace | Autospace | false |
+| gfmAutoLink | Automatic link | true |
 | fixTermTypo | Automatically correct terminology | false |
 | toc | Insert Table of Contents | false |
 | footnotes | Footnotes | true |
