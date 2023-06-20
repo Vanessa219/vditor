@@ -107,7 +107,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.4 / 2023-07
+### v3.9.5 / 2023-07
+
+### v3.9.4 / 2023-06-20
 
 * [支持自动链接配置 `gfmAutoLink`](https://github.com/Vanessa219/vditor/issues/1422) `引入特性`
 * [订正多语言繁体中的文案错误](https://github.com/Vanessa219/vditor/pull/1421) `文档相关`
