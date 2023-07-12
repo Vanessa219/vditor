@@ -39,7 +39,7 @@ export class Preview {
             tempElement.className = "vditor-reset";
             tempElement.appendChild(getSelection().getRangeAt(0).cloneContents());
 
-            this.copyToX(vditor, tempElement);
+            this.copyToX(vditor, tempElement, "default");
             event.preventDefault();
         });
         previewElement.addEventListener("click", (event: MouseEvent & { target: HTMLElement }) => {
@@ -275,6 +275,7 @@ export class Preview {
         setSelectionFocus(range);
         document.execCommand("copy");
         this.element.lastElementChild.remove();
-        vditor.tip.show(`已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴`);
+        
+        vditor.tip.show(['zhihu', 'mp-wechat'].includes(type)? `已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴`: `已复制到剪切板`);
     }
 }
