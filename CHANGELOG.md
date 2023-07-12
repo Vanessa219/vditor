@@ -109,6 +109,8 @@
 
 ### v3.9.5 / 2023-07
 
+* [改进预览界面复制提示](https://github.com/Vanessa219/vditor/pull/1429) `改进功能`
+
 ### v3.9.4 / 2023-06-20
 
 * [支持自动链接配置 `gfmAutoLink`](https://github.com/Vanessa219/vditor/issues/1422) `引入特性`
