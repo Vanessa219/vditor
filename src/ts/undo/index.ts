@@ -229,15 +229,17 @@ class Undo {
         const cloneElement = vditor.ir.element.cloneNode(true) as HTMLElement;
         cloneElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='1']`)
             .forEach((item: HTMLElement) => {
+                if (!item.firstElementChild) {
+                    return
+                }
                 if (item.firstElementChild.classList.contains("language-echarts") ||
-                item.firstElementChild.classList.contains("language-plantuml") ||
+                    item.firstElementChild.classList.contains("language-plantuml") ||
                     item.firstElementChild.classList.contains("language-mindmap")) {
                     item.firstElementChild.removeAttribute("_echarts_instance_");
                     item.firstElementChild.removeAttribute("data-processed");
                     item.firstElementChild.innerHTML = item.previousElementSibling.firstElementChild.innerHTML;
                     item.setAttribute("data-render", "2");
-                }
-                if (item.firstElementChild.classList.contains("language-math")) {
+                } else if (item.firstElementChild.classList.contains("language-math")) {
                     item.setAttribute("data-render", "2");
                     item.firstElementChild.textContent = item.firstElementChild.getAttribute("data-math");
                     item.firstElementChild.removeAttribute("data-math");
