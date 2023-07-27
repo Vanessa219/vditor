@@ -109,6 +109,7 @@
 
 ### v3.9.5 / 2023-07
 
+* [编辑器全票后双击图片无法放大](https://github.com/Vanessa219/vditor/issues/1437) `修复缺陷`
 * [⬆️ Bump word-wrap from 1.2.3 to 1.2.4](https://github.com/Vanessa219/vditor/pull/1436) `dependencies`
 * [IR 模式下输入 `<!--` 后报错](https://github.com/Vanessa219/vditor/issues/1431) `修复缺陷`
 * [改进预览界面复制提示](https://github.com/Vanessa219/vditor/pull/1429) `改进功能`
