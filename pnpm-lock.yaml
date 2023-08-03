@@ -2396,7 +2396,7 @@ packages:
     dependencies:
       '@babel/core': 7.17.5
       find-cache-dir: 3.3.2
-      loader-utils: 1.4.0
+      loader-utils: 1.4.2
       make-dir: 3.1.0
       schema-utils: 2.7.1
       webpack: 5.69.1(webpack-cli@4.9.2)
@@ -5481,8 +5481,8 @@ packages:
     engines: {node: '>=6.11.5'}
     dev: true
 
-  /loader-utils@1.4.0:
-    resolution: {integrity: sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==}
+  /loader-utils@1.4.2:
+    resolution: {integrity: sha512-I5d00Pd/jwMD2QCduo657+YM/6L3KZu++pmX9VFncxaxvHcru9jx1lBaFft+r4Mt2jK0Yhp41XlRAihzPxHNCg==}
     engines: {node: '>=4.0.0'}
     dependencies:
       big.js: 5.2.2
@@ -7415,7 +7415,7 @@ packages:
     dependencies:
       chalk: 2.4.2
       enhanced-resolve: 4.5.0
-      loader-utils: 1.4.0
+      loader-utils: 1.4.2
       micromatch: 4.0.4
       semver: 6.3.0
       typescript: 3.9.10
