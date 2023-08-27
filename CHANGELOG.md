@@ -2,106 +2,10 @@
 
 ### 升级
 * 3.9
+  * 添加 hljs.langs
   * 添加 option.keydown
   * 添加 option.link 和 options.image
   * 添加 hljs.defaultLang
-* 3.8
-  * 添加 plantumlRender 方法
-  * options.input 移除 previewElement 参数
-  * 添加表格增加向上插入行 ⇧⌘F 和向左插入列 ⇧⌘G 的快捷键
-  * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥⌘[]
-  * 添加 hint.parse 配置
-  * codeRender 方法中移除 lang 参数
-  * 为 options 添加 i18n 语言自定义参数
-  * 添加 exportJSON 方法
-* 3.7
-  * `preview` 静态方法添加 `mode` 配置
-  * 大纲 DOM 结构和 class 变更
-  * 添加 `options.undoDelay` 配置
-  * 添加 `options.counter.after` 回调方法
-  * 添加 `previewImage` 静态方法
-  * 添加 `options.fullscreen.index`
-  * 移除`options.preview.markdown.chinesePunct` 配置
-  * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }`
-  * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
-* 3.6
- * `options.preview.actions` 添加 `tooltip`
- * `mermaidRender` 添加 `theme` 参数
- * `mindmapRender` 添加 `theme` 参数
- * `chartRender` 添加 `theme` 参数
-* 3.5
-  * `mermaidRender` 移除 `className` 参数
-* 3.4
-  * `options.hint.at` => "options.hint.extend: IHintExtend[]"
-* v3.3
-  * options.mode 默认值修改为 `ir`
-  * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
-  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
-  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
-  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
-  * 移除 `setSelection`
-  * 移除 `options.keymap`
-  * 移除 `options.preview.markdown.setext`
-  * 移除工具栏上的格式化功能：`options.toolbar` 中移除 `format` 选项
-* v3.2
-  * IPreviewOptions.anchor 从 `boolean` 类型修改为 `number` 类型
-* v3.1
-  * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "markdown" | "text"; }`
-  * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
-  * `setPreviewMode` 方法中移除 `preview` 选项
-  * `options.preview.mode` 移除 `preview` 选项
-  * 将 `IPreviewOptions` 中的 `theme` 配置移动到 `IPreviewOptions.markdown` 中
-* v3.0
-  * `options.mode` 可选值为：'wysiwyg', 'sv', 'ir'
-  * toolbar 中的 `wysiwyg` 修改为 `edit-mode`
-  * new 支持传入 element
-  * `options.cache` 修改为 `{enable: boolean, id: string}`
-  * `md2html` 方法改为异步
-  * 添加 `options.preview.markdown.codeBlockPreview` 配置
-  * 为 `options.toolbar` 添加 `className` 配置
-  * 添加 `getCurrentMode` 方法
-* v2.2
-  * 移除 `IPreviewOptions` 中的 `className`
-  * `insertValue` 添加 `render` 参数，以便配置是否需要进行 Markdown 处理
-  * 将异步方法变为同步
-  * 引用快捷键修改为 <kbd>Ctrl-;</kbd>
-  * 移除 index-preview.html, index-preview.js 文件
-  * `options.preview.markdown.autoSpace/chinesePunct/fixTermTypo` 默认值设置为 `false`
-* v2.1
-  * 添加 options.upload.file 方法
-  * options.preview 修改，支持 MathJax 配置
-  * 移除 mathRenderByLute 方法
-  * 添加 setTheme 方法，classic.scss -> index.scss
-* v2.0
-  * 默认为 WYSIWYG 模式，可根据需要修改 option.mode 参数
-  * 添加 options.debugger, options.value
-* v1.9
-  * preview 静态方法参数修改为 `(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions)`，其中参数 `IPreviewOptions` 修改为
-    ```ts
-       anchor?: boolean;
-       className?: string;
-       customEmoji?: { [key: string]: string };
-       lang?: (keyof II18nLang);
-       emojiPath?: string;
-       hljs?: {
-          lineNumber?: boolean;
-          style?: string;
-          enable?: boolean;
-       };
-       speech?: {
-           enable?: boolean
-       }
-    ```
-  * highlightRender 参数修改为 `(hljs?: IHljs, element?: HTMLElement | Document)`
-* v1.8
-  * `getHTML` 方法移除参数
-  * `md2html` 静态方法参数修改为 `(mdText: string, options?: IPreviewOptions)`
-  * `mathRender` 参数修改为 `(element: HTMLElement)`
-  * `preview.hljs.style` 默认值修改为 `github`，可选值参见[chroma](https://xyproto.github.io/splash/docs/longer/all.html)
-  * 添加 `typewriterMode` 配置，默认值为 false。1.7 版本用户需要手动开启该功能
-* v1.7
-  * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
-  * 移除 `option.editorName`
 
 ### TODO
 
@@ -157,6 +61,105 @@
 * [1342](https://github.com/Vanessa219/vditor/pull/1342) 初始化后不自动聚焦 `改进功能`
 * [1341](https://github.com/Vanessa219/vditor/pull/1341) 支持 markmap `引入特性`
 * [1335](https://github.com/Vanessa219/vditor/issues/1335) 嵌入 Iframe 时无法导出 PDF `修复缺陷`
+
+### 历史版本升级记录
+* 3.8
+  * 添加 plantumlRender 方法
+  * options.input 移除 previewElement 参数
+  * 添加表格增加向上插入行 ⇧⌘F 和向左插入列 ⇧⌘G 的快捷键
+  * 快捷键配置格式修改为 ⇧⌘[] / ⌘[] / ⌥⌘[]
+  * 添加 hint.parse 配置
+  * codeRender 方法中移除 lang 参数
+  * 为 options 添加 i18n 语言自定义参数
+  * 添加 exportJSON 方法
+* 3.7
+  * `preview` 静态方法添加 `mode` 配置
+  * 大纲 DOM 结构和 class 变更
+  * 添加 `options.undoDelay` 配置
+  * 添加 `options.counter.after` 回调方法
+  * 添加 `previewImage` 静态方法
+  * 添加 `options.fullscreen.index`
+  * 移除`options.preview.markdown.chinesePunct` 配置
+  * `options.outline` 修改为 `{ enable: boolean, position: "left" | "right" }`
+  * `toolbar.click` 参数修改为 `event: Event, vditor: IVditor`
+* 3.6
+  * `options.preview.actions` 添加 `tooltip`
+  * `mermaidRender` 添加 `theme` 参数
+  * `mindmapRender` 添加 `theme` 参数
+  * `chartRender` 添加 `theme` 参数
+* 3.5
+  * `mermaidRender` 移除 `className` 参数
+* 3.4
+  * `options.hint.at` => "options.hint.extend: IHintExtend[]"
+* v3.3
+  * options.mode 默认值修改为 `ir`
+  * `options.markdown.listMarker` 修改为 `options.markdown.listStyle`
+  * `options.preview.markdow.theme` 修改为 `options.preview.theme`
+  * `setContentTheme` 参数修改为 `contentTheme: string, path: string`
+  * `setTheme` 参数修改为 `theme: "dark" | "classic", contentTheme?: string, codeTheme?: string, contentThemePath?: string`
+  * 移除 `setSelection`
+  * 移除 `options.keymap`
+  * 移除 `options.preview.markdown.setext`
+  * 移除工具栏上的格式化功能：`options.toolbar` 中移除 `format` 选项
+* v3.2
+  * IPreviewOptions.anchor 从 `boolean` 类型修改为 `number` 类型
+* v3.1
+  * `options.counter` 修改为 `counter?: { enable: boolean; max?: number; type: "markdown" | "text"; }`
+  * `options.hideToolbar` 修改为 `toolbarConfig: { hide?: boolean, pin?: boolean }`
+  * `setPreviewMode` 方法中移除 `preview` 选项
+  * `options.preview.mode` 移除 `preview` 选项
+  * 将 `IPreviewOptions` 中的 `theme` 配置移动到 `IPreviewOptions.markdown` 中
+* v3.0
+  * `options.mode` 可选值为：'wysiwyg', 'sv', 'ir'
+  * toolbar 中的 `wysiwyg` 修改为 `edit-mode`
+  * new 支持传入 element
+  * `options.cache` 修改为 `{enable: boolean, id: string}`
+  * `md2html` 方法改为异步
+  * 添加 `options.preview.markdown.codeBlockPreview` 配置
+  * 为 `options.toolbar` 添加 `className` 配置
+  * 添加 `getCurrentMode` 方法
+* v2.2
+  * 移除 `IPreviewOptions` 中的 `className`
+  * `insertValue` 添加 `render` 参数，以便配置是否需要进行 Markdown 处理
+  * 将异步方法变为同步
+  * 引用快捷键修改为 <kbd>Ctrl-;</kbd>
+  * 移除 index-preview.html, index-preview.js 文件
+  * `options.preview.markdown.autoSpace/chinesePunct/fixTermTypo` 默认值设置为 `false`
+* v2.1
+  * 添加 options.upload.file 方法
+  * options.preview 修改，支持 MathJax 配置
+  * 移除 mathRenderByLute 方法
+  * 添加 setTheme 方法，classic.scss -> index.scss
+* v2.0
+  * 默认为 WYSIWYG 模式，可根据需要修改 option.mode 参数
+  * 添加 options.debugger, options.value
+* v1.9
+  * preview 静态方法参数修改为 `(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions)`，其中参数 `IPreviewOptions` 修改为
+    ```ts
+        anchor?: boolean;
+        className?: string;
+        customEmoji?: { [key: string]: string };
+        lang?: (keyof II18nLang);
+        emojiPath?: string;
+        hljs?: {
+            lineNumber?: boolean;
+            style?: string;
+            enable?: boolean;
+        };
+        speech?: {
+            enable?: boolean
+        }
+    ```
+  * highlightRender 参数修改为 `(hljs?: IHljs, element?: HTMLElement | Document)`
+* v1.8
+  * `getHTML` 方法移除参数
+  * `md2html` 静态方法参数修改为 `(mdText: string, options?: IPreviewOptions)`
+  * `mathRender` 参数修改为 `(element: HTMLElement)`
+  * `preview.hljs.style` 默认值修改为 `github`，可选值参见[chroma](https://xyproto.github.io/splash/docs/longer/all.html)
+  * 添加 `typewriterMode` 配置，默认值为 false。1.7 版本用户需要手动开启该功能
+* v1.7
+  * `option.preivew.show?: boolean` => `option.preivew.mode?: string`
+  * 移除 `option.editorName`
 
 ### v3.8.18 / 2022-11-01
 
