@@ -291,6 +291,7 @@ new Vditor('vditor', {
 | enable | Whether to enable code syntax highlighting | true |
 | style | For optional values, see [Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
 | lineNumber | Whether to enable line number | false |
+| langs | Custom languages | [CODE_LANGUAGES](https://github.com/Vanessa219/vditor/blob/53ca8f9a0e511b37b5dae7c6b15eb933e9e02ccd/src/ts/constants.ts#L20) |
 
 #### options.preview.markdown
 

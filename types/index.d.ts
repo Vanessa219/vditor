@@ -433,6 +433,8 @@ interface IHljs {
     style?: string;
     /** 是否启用代码高亮。默认值: true */
     enable?: boolean;
+    /** 自定义指定语言: CODE_LANGUAGES */
+    langs?: string[];
 }
 
 /** @link https://ld246.com/article/1549638745630#options-preview-math */
