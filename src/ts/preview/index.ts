@@ -98,9 +98,10 @@ export class Preview {
                     break;
             }
         }
-        actionElement.innerHTML = actionHtml.join("");
         if (actions.length === 0) {
             actionElement.style.display = "none";
+        } else {
+            actionElement.innerHTML = actionHtml.join("");
         }
         this.element.appendChild(actionElement);
         this.element.appendChild(previewElement);
