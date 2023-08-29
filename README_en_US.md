@@ -318,6 +318,7 @@ new Vditor('vditor', {
 | inlineDigit | Whether numbers are allowed after the inline math formula starting with $ | false |
 | macros | Macro definition passed in when rendering with MathJax | {} |
 | engine | Math formula rendering engine: KaTeX, MathJax | 'KaTeX' |
+| mathJaxOptions | Parameters when the math formula rendering engine is MathJax | - |
 
 #### options.preview.actions
 

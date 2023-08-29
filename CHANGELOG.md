@@ -13,7 +13,7 @@
 
 ### v3.9.4 / 2023-09
 
-
+* [MathJax 支持传入其他配置项](https://github.com/Vanessa219/vditor/issues/1453) `引入特性`
 
 ### v3.9.5 / 2023-08-29
 

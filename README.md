@@ -342,6 +342,7 @@ new Vditor('vditor', {
 | inlineDigit | 内联数学公式起始 $ 后是否允许数字 | false |
 | macros | 使用 MathJax 渲染时传入的宏定义 | {} |
 | engine | 数学公式渲染引擎：KaTeX, MathJax | 'KaTeX' |
+| mathJaxOptions | 数学公式渲染引擎为 MathJax 时的参数 | - |
 
 #### options.preview.actions?: Array<IPreviewAction | IPreviewActionCustom>
 

@@ -99,6 +99,8 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                     macros: options.math.macros,
                 },
             };
+            // https://github.com/Vanessa219/vditor/issues/1453
+            Object.assign(window.MathJax, options.math.mathJaxOptions);
         }
         // 循环加载会抛异常
         addScriptSync(`${options.cdn}/dist/js/mathjax/tex-svg-full.js`, "protyleMathJaxScript");
