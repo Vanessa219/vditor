@@ -15,7 +15,7 @@
 
 
 
-### v3.9.5 / 2023-08
+### v3.9.5 / 2023-08-29
 
 * [换行+冒号会被识别为表格](https://github.com/Vanessa219/vditor/issues/1460) `修复缺陷`
 * [自定义代码块语言](https://github.com/Vanessa219/vditor/issues/1459) `引入特性`
