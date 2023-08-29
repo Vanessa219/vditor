@@ -11,6 +11,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.9.4 / 2023-09
+
+
+
 ### v3.9.5 / 2023-08
 
 * [换行+冒号会被识别为表格](https://github.com/Vanessa219/vditor/issues/1460) `修复缺陷`
