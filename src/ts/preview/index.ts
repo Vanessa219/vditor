@@ -1,21 +1,21 @@
-import { abcRender } from "../markdown/abcRender";
-import { chartRender } from "../markdown/chartRender";
-import { codeRender } from "../markdown/codeRender";
-import { flowchartRender } from "../markdown/flowchartRender";
-import { getMarkdown } from "../markdown/getMarkdown";
-import { graphvizRender } from "../markdown/graphvizRender";
-import { highlightRender } from "../markdown/highlightRender";
-import { mathRender } from "../markdown/mathRender";
-import { mediaRender } from "../markdown/mediaRender";
-import { mermaidRender } from "../markdown/mermaidRender";
-import { markmapRender } from "../markdown/markmapRender";
-import { mindmapRender } from "../markdown/mindmapRender";
-import { plantumlRender } from "../markdown/plantumlRender";
-import { getEventName } from "../util/compatibility";
-import { hasClosestByClassName, hasClosestByMatchTag } from "../util/hasClosest";
-import { hasClosestByTag } from "../util/hasClosestByHeadings";
-import { setSelectionFocus } from "../util/selection";
-import { previewImage } from "./image";
+import {abcRender} from "../markdown/abcRender";
+import {chartRender} from "../markdown/chartRender";
+import {codeRender} from "../markdown/codeRender";
+import {flowchartRender} from "../markdown/flowchartRender";
+import {getMarkdown} from "../markdown/getMarkdown";
+import {graphvizRender} from "../markdown/graphvizRender";
+import {highlightRender} from "../markdown/highlightRender";
+import {mathRender} from "../markdown/mathRender";
+import {mediaRender} from "../markdown/mediaRender";
+import {mermaidRender} from "../markdown/mermaidRender";
+import {markmapRender} from "../markdown/markmapRender";
+import {mindmapRender} from "../markdown/mindmapRender";
+import {plantumlRender} from "../markdown/plantumlRender";
+import {getEventName} from "../util/compatibility";
+import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
+import {hasClosestByTag} from "../util/hasClosestByHeadings";
+import {setSelectionFocus} from "../util/selection";
+import {previewImage} from "./image";
 
 export class Preview {
     public element: HTMLElement;
@@ -193,7 +193,7 @@ export class Preview {
                     }
                 };
 
-                xhr.send(JSON.stringify({ markdownText }));
+                xhr.send(JSON.stringify({markdownText}));
             } else {
                 let html = vditor.lute.Md2HTML(markdownText);
                 if (vditor.options.preview.transform) {
@@ -276,7 +276,7 @@ export class Preview {
         setSelectionFocus(range);
         document.execCommand("copy");
         this.element.lastElementChild.remove();
-
-        vditor.tip.show(['zhihu', 'mp-wechat'].includes(type) ? `已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴` : `已复制到剪切板`);
+        
+        vditor.tip.show(['zhihu', 'mp-wechat'].includes(type)? `已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴`: `已复制到剪切板`);
     }
 }
