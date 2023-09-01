@@ -100,6 +100,8 @@ export class Preview {
         }
         if (actions.length === 0) {
             actionElement.style.display = "none";
+            this.element.appendChild(previewElement);
+            previewElement.style.width = "auto";
         } else {
             actionElement.innerHTML = actionHtml.join("");
             this.element.appendChild(actionElement);
