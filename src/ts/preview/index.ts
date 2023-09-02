@@ -98,46 +98,49 @@ export class Preview {
                     break;
             }
         }
-        actionElement.innerHTML = actionHtml.join("");
         if (actions.length === 0) {
             actionElement.style.display = "none";
-        }
-        this.element.appendChild(actionElement);
-        this.element.appendChild(previewElement);
+            this.element.appendChild(previewElement);
+            previewElement.style.width = "auto";
+        } else {
+            actionElement.innerHTML = actionHtml.join("");
+            this.element.appendChild(actionElement);
+            this.element.appendChild(previewElement);
 
-        actionElement.addEventListener(getEventName(), (event) => {
-            const btn = hasClosestByTag(event.target as HTMLElement, "BUTTON");
-            if (!btn) {
-                return;
-            }
-            const type = btn.getAttribute("data-type");
-            const actionCustom = actions.find((w: IPreviewActionCustom) => w?.key === type) as IPreviewActionCustom;
-            if (actionCustom) {
-                actionCustom.click(type);
-                return;
-            }
+            actionElement.addEventListener(getEventName(), (event) => {
+                const btn = hasClosestByTag(event.target as HTMLElement, "BUTTON");
+                if (!btn) {
+                    return;
+                }
+                const type = btn.getAttribute("data-type");
+                const actionCustom = actions.find((w: IPreviewActionCustom) => w?.key === type) as IPreviewActionCustom;
+                if (actionCustom) {
+                    actionCustom.click(type);
+                    return;
+                }
 
-            if (type === "mp-wechat" || type === "zhihu") {
-                this.copyToX(vditor, this.element.lastElementChild.cloneNode(true) as HTMLElement, type);
-                return;
-            }
+                if (type === "mp-wechat" || type === "zhihu") {
+                    this.copyToX(vditor, this.element.lastElementChild.cloneNode(true) as HTMLElement, type);
+                    return;
+                }
 
-            if (type === "desktop") {
-                previewElement.style.width = "auto";
-            } else if (type === "tablet") {
-                previewElement.style.width = "780px";
-            } else {
-                previewElement.style.width = "360px";
-            }
-            if (previewElement.scrollWidth > previewElement.parentElement.clientWidth) {
-                previewElement.style.width = "auto";
-            }
-            this.render(vditor);
-            actionElement.querySelectorAll("button").forEach((item) => {
-                item.classList.remove("vditor-preview__action--current");
+                if (type === "desktop") {
+                    previewElement.style.width = "auto";
+                } else if (type === "tablet") {
+                    previewElement.style.width = "780px";
+                } else {
+                    previewElement.style.width = "360px";
+                }
+                if (previewElement.scrollWidth > previewElement.parentElement.clientWidth) {
+                    previewElement.style.width = "auto";
+                }
+                this.render(vditor);
+                actionElement.querySelectorAll("button").forEach((item) => {
+                    item.classList.remove("vditor-preview__action--current");
+                });
+                btn.classList.add("vditor-preview__action--current");
             });
-            btn.classList.add("vditor-preview__action--current");
-        });
+        }
     }
 
     public render(vditor: IVditor, value?: string) {
