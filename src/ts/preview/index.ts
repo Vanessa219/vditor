@@ -69,8 +69,11 @@ export class Preview {
                 }
             }
         });
-
+        this.element.appendChild(previewElement);
         const actions = vditor.options.preview.actions;
+        if (actions.length === 0) {
+            return;
+        }
         const actionElement = document.createElement("div");
         actionElement.className = "vditor-preview__action";
         const actionHtml: string[] = [];
@@ -98,49 +101,41 @@ export class Preview {
                     break;
             }
         }
-        if (actions.length === 0) {
-            actionElement.style.display = "none";
-            this.element.appendChild(previewElement);
-            previewElement.style.width = "auto";
-        } else {
-            actionElement.innerHTML = actionHtml.join("");
-            this.element.appendChild(actionElement);
-            this.element.appendChild(previewElement);
+        actionElement.innerHTML = actionHtml.join("");
+        this.element.appendChild(actionElement);
+        actionElement.addEventListener(getEventName(), (event) => {
+            const btn = hasClosestByTag(event.target as HTMLElement, "BUTTON");
+            if (!btn) {
+                return;
+            }
+            const type = btn.getAttribute("data-type");
+            const actionCustom = actions.find((w: IPreviewActionCustom) => w?.key === type) as IPreviewActionCustom;
+            if (actionCustom) {
+                actionCustom.click(type);
+                return;
+            }
 
-            actionElement.addEventListener(getEventName(), (event) => {
-                const btn = hasClosestByTag(event.target as HTMLElement, "BUTTON");
-                if (!btn) {
-                    return;
-                }
-                const type = btn.getAttribute("data-type");
-                const actionCustom = actions.find((w: IPreviewActionCustom) => w?.key === type) as IPreviewActionCustom;
-                if (actionCustom) {
-                    actionCustom.click(type);
-                    return;
-                }
+            if (type === "mp-wechat" || type === "zhihu") {
+                this.copyToX(vditor, this.element.lastElementChild.cloneNode(true) as HTMLElement, type);
+                return;
+            }
 
-                if (type === "mp-wechat" || type === "zhihu") {
-                    this.copyToX(vditor, this.element.lastElementChild.cloneNode(true) as HTMLElement, type);
-                    return;
-                }
-
-                if (type === "desktop") {
-                    previewElement.style.width = "auto";
-                } else if (type === "tablet") {
-                    previewElement.style.width = "780px";
-                } else {
-                    previewElement.style.width = "360px";
-                }
-                if (previewElement.scrollWidth > previewElement.parentElement.clientWidth) {
-                    previewElement.style.width = "auto";
-                }
-                this.render(vditor);
-                actionElement.querySelectorAll("button").forEach((item) => {
-                    item.classList.remove("vditor-preview__action--current");
-                });
-                btn.classList.add("vditor-preview__action--current");
+            if (type === "desktop") {
+                previewElement.style.width = "auto";
+            } else if (type === "tablet") {
+                previewElement.style.width = "780px";
+            } else {
+                previewElement.style.width = "360px";
+            }
+            if (previewElement.scrollWidth > previewElement.parentElement.clientWidth) {
+                previewElement.style.width = "auto";
+            }
+            this.render(vditor);
+            actionElement.querySelectorAll("button").forEach((item) => {
+                item.classList.remove("vditor-preview__action--current");
             });
-        }
+            btn.classList.add("vditor-preview__action--current");
+        });
     }
 
     public render(vditor: IVditor, value?: string) {
@@ -278,7 +273,7 @@ export class Preview {
         setSelectionFocus(range);
         document.execCommand("copy");
         this.element.lastElementChild.remove();
-        
-        vditor.tip.show(['zhihu', 'mp-wechat'].includes(type)? `已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴`: `已复制到剪切板`);
+
+        vditor.tip.show(['zhihu', 'mp-wechat'].includes(type) ? `已复制，可到${type === "zhihu" ? "知乎" : "微信公众号平台"}进行粘贴` : `已复制到剪切板`);
     }
 }
