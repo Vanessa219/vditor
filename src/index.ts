@@ -255,6 +255,7 @@ class Vditor extends VditorMethod {
         const tmpElement = document.createElement("template");
         tmpElement.innerHTML = value;
         range.insertNode(tmpElement.content.cloneNode(true));
+        range.collapse(false);
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.preventInput = true;
             if (render) {
