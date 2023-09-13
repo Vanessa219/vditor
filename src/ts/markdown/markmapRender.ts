@@ -37,7 +37,7 @@ export const markmapRender = (element: HTMLElement, cdn = Constants.CDN, theme: 
     if (markmapElements.length === 0) {
         return;
     }
-    addScript(`${cdn}/src/js/markmap/markmap.min.js`, "vditorMermaidScript").then(() => {
+    addScript(`${cdn}/dist/js/markmap/markmap.min.js`, "vditorMermaidScript").then(() => {
         markmapElements.forEach((item) => {
             const code = markmapRenderAdapter.getCode(item);
             if (item.getAttribute("data-processed") === "true" || code.trim() === "") {
@@ -47,7 +47,7 @@ export const markmapRender = (element: HTMLElement, cdn = Constants.CDN, theme: 
             render.className = "language-markmap"
             item.parentNode.appendChild(render)
             init(render,code)
-    
+
             if(item.parentNode.childNodes[0].nodeName == "CODE"){
                 item.parentNode.removeChild(item.parentNode.childNodes[0])
             }
