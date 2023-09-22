@@ -24,10 +24,12 @@ const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption: IPreviewOptions = {
         anchor: 0,
         cdn: Constants.CDN,
+        dist: Constants.DIST,
+        staticPath: Constants.STATIC_PATH,
         customEmoji: {},
         emojiPath: `${
             (options && options.emojiPath) || Constants.CDN
-        }/dist/images/emoji`,
+        }/${Constants.DIST}/${Constants._STATIC_PATH.emoji}`,
         hljs: Constants.HLJS_OPTIONS,
         icon: "ant",
         lang: "zh_CN",
@@ -44,7 +46,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
 
 export const md2html = (mdText: string, options?: IPreviewOptions) => {
     const mergedOptions = mergeOptions(options);
-    return addScript(`${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript").then(() => {
+    return addScript(mergedOptions.staticPath.lute, "vditorLuteScript").then(() => {
         const lute = setLute({
             autoSpace: mergedOptions.markdown.autoSpace,
             gfmAutoLink: mergedOptions.markdown.gfmAutoLink,
@@ -99,14 +101,14 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
                     document.head.removeChild(el);
                 }
             });
-            await addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID);
+            await addScript(`${mergedOptions.staticPath.i18n}/${mergedOptions.lang}.js`, i18nScriptID);
         }
     } else {
         window.VditorI18n = mergedOptions.i18n;
     }
 
     if (mergedOptions.icon) {
-        await addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+        await addScript(`${mergedOptions.staticPath.icons}/${mergedOptions.icon}.js`, "vditorIconScript");
     }
 
     setContentTheme(mergedOptions.theme.current, mergedOptions.theme.path);
@@ -114,19 +116,52 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
         previewElement.classList.add("vditor-reset--anchor");
     }
     codeRender(previewElement);
-    highlightRender(mergedOptions.hljs, previewElement, mergedOptions.cdn);
+    highlightRender(
+        mergedOptions.hljs,
+        previewElement,
+        mergedOptions.staticPath.highlight,
+    );
     mathRender(previewElement, {
-        cdn: mergedOptions.cdn,
+        katex: mergedOptions.staticPath.katex,
+        mathjax: mergedOptions.staticPath.mathjax,
         math: mergedOptions.math,
     });
-    mermaidRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
-    markmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
-    flowchartRender(previewElement, mergedOptions.cdn);
-    graphvizRender(previewElement, mergedOptions.cdn);
-    chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
-    mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
-    plantumlRender(previewElement, mergedOptions.cdn);
-    abcRender(previewElement, mergedOptions.cdn);
+    mermaidRender(
+        previewElement,
+        mergedOptions.staticPath.mermaid,
+        mergedOptions.mode,
+    );
+    markmapRender(
+        previewElement,
+        mergedOptions.staticPath.markmap,
+        mergedOptions.mode,
+    );
+    flowchartRender(
+        previewElement,
+        mergedOptions.staticPath.flowchart,
+    );
+    graphvizRender(
+        previewElement,
+        mergedOptions.staticPath.graphviz,
+    );
+    chartRender(
+        previewElement,
+        mergedOptions.staticPath.echarts,
+        mergedOptions.mode,
+    );
+    mindmapRender(
+        previewElement,
+        mergedOptions.staticPath.echarts,
+        mergedOptions.mode,
+    );
+    plantumlRender(
+        previewElement,
+        mergedOptions.staticPath.plantuml,
+    );
+    abcRender(
+        previewElement,
+        mergedOptions.staticPath.abc,
+    );
     mediaRender(previewElement);
     if (mergedOptions.speech.enable) {
         speechRender(previewElement);

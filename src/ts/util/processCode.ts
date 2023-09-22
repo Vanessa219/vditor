@@ -64,25 +64,33 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     }
     const language = previewPanel.firstElementChild.className.replace("language-", "");
     if (language === "abc") {
-        abcRender(previewPanel, vditor.options.cdn);
+        abcRender(previewPanel, vditor.options.staticPath.abc);
     } else if (language === "mermaid") {
-        mermaidRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        mermaidRender(previewPanel, vditor.options.staticPath.mermaid, vditor.options.theme);
     } else if (language === "markmap") {
-        markmapRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        markmapRender(previewPanel, vditor.options.staticPath.markmap, vditor.options.theme);
     } else if (language === "flowchart") {
-        flowchartRender(previewPanel, vditor.options.cdn);
+        flowchartRender(previewPanel, vditor.options.staticPath.flowchart);
     } else if (language === "echarts") {
-        chartRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        chartRender(previewPanel, vditor.options.staticPath.echarts, vditor.options.theme);
     } else if (language === "mindmap") {
-        mindmapRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        mindmapRender(previewPanel, vditor.options.staticPath.echarts, vditor.options.theme);
     } else if (language === "plantuml") {
-        plantumlRender(previewPanel, vditor.options.cdn);
+        plantumlRender(previewPanel, vditor.options.staticPath.plantuml);
     } else if (language === "graphviz") {
-        graphvizRender(previewPanel, vditor.options.cdn);
+        graphvizRender(previewPanel, vditor.options.staticPath.graphviz);
     } else if (language === "math") {
-        mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
+        mathRender(previewPanel, {
+            katex: vditor.options.staticPath.katex,
+            mathjax: vditor.options.staticPath.mathjax,
+            math: vditor.options.preview.math,
+        });
     } else {
-        highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
+        highlightRender(
+            Object.assign({}, vditor.options.preview.hljs),
+            previewPanel,
+            vditor.options.staticPath.highlight,
+        );
         codeRender(previewPanel);
     }
 

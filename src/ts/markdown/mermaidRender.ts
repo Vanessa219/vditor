@@ -7,12 +7,16 @@ declare const mermaid: {
     init(options: any, element: Element): void,
 };
 
-export const mermaidRender = (element: HTMLElement, cdn = Constants.CDN, theme: string) => {
+export const mermaidRender = (
+    element: HTMLElement,
+    mermaidPath: string = Constants.STATIC_PATH.mermaid,
+    theme: string,
+) => {
     const mermaidElements = mermaidRenderAdapter.getElements(element);
     if (mermaidElements.length === 0) {
         return;
     }
-    addScript(`${cdn}/dist/js/mermaid/mermaid.min.js`, "vditorMermaidScript").then(() => {
+    addScript(mermaidPath, "vditorMermaidScript").then(() => {
         const config: any = {
             securityLevel: "loose", // 升级后无 https://github.com/siyuan-note/siyuan/issues/3587，可使用该选项
             altFontFamily: "sans-serif",

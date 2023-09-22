@@ -6,10 +6,14 @@ declare const echarts: {
     init(element: HTMLElement, theme?: string): IEChart;
 };
 
-export const chartRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
+export const chartRender = (
+    element: (HTMLElement | Document) = document,
+    echartsPath: string = Constants.STATIC_PATH.echarts,
+    theme: string,
+) => {
     const echartsElements = chartRenderAdapter.getElements(element);
     if (echartsElements.length > 0) {
-        addScript(`${cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
+        addScript(echartsPath, "vditorEchartsScript").then(() => {
             echartsElements.forEach((e: HTMLDivElement) => {
                 if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
                     e.parentElement.classList.contains("vditor-ir__marker--pre")) {

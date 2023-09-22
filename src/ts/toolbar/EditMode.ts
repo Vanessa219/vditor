@@ -70,7 +70,8 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         });
         vditor.ir.element.querySelectorAll(".vditor-toc").forEach((item: HTMLElement) => {
             mathRender(item, {
-                cdn: vditor.options.cdn,
+                katex: vditor.options.staticPath.katex,
+                mathjax: vditor.options.staticPath.mathjax,
                 math: vditor.options.preview.math,
             });
         });
@@ -95,7 +96,8 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         });
         vditor.wysiwyg.element.querySelectorAll(".vditor-toc").forEach((item: HTMLElement) => {
             mathRender(item, {
-                cdn: vditor.options.cdn,
+                katex: vditor.options.staticPath.katex,
+                mathjax: vditor.options.staticPath.mathjax,
                 math: vditor.options.preview.math,
             });
         });

@@ -15,7 +15,8 @@ export const renderToc = (vditor: IVditor) => {
     editorElement.querySelectorAll('[data-type="toc-block"]').forEach((item: HTMLElement) => {
         item.innerHTML = tocHTML;
         mathRender(item, {
-            cdn: vditor.options.cdn,
+            katex: vditor.options.staticPath.katex,
+            mathjax: vditor.options.staticPath.mathjax,
             math: vditor.options.preview.math,
         });
     });

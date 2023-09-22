@@ -536,6 +536,8 @@ interface IPreviewOptions {
     anchor?: number; // 0: no render, 1: render left, 2: render right
     math?: IMath;
     cdn?: string;
+    dist?: string;
+    staticPath?: IStaticPath;
     markdown?: IMarkdownConfig;
     renderers?: ILuteRender;
     theme?: IPreviewTheme;
@@ -613,6 +615,112 @@ interface IResize {
     after?(height: number): void;
 }
 
+interface IStaticPath {
+    /** 
+     * 文件
+     * @default `${baseURL}/images/logo.png`
+     */
+    logo?: string;
+
+    /** 
+     * 文件
+     * @default `${baseURL}/method.min.js`
+     */
+    method?: string;
+
+    /** 
+     * 文件
+     * @default `${baseURL}/index.css`
+     */
+    style?: string;
+
+
+    /** 
+     * 目录
+     * @default `${baseURL}/images/emoji`
+     */
+    emoji?: string;
+
+    /** 
+     * 目录
+     * @default `${baseURL}/js/i18n`
+     */
+    i18n?: string;
+
+    /** 
+     * 目录
+     * @default `${baseURL}/js/icons`
+     */
+    icons?: string;
+
+    /** 
+     * 目录
+     * @default `${baseURL}/css/content-theme`
+     */
+    theme?: string;
+
+
+    /** 文件
+     * @default `${baseURL}/js/abcjs/abcjs_basic.js/abcjs/abcjs_basic.min.js`
+     */
+    abc?: string;
+
+    /** 文件
+     * @default `${baseURL}/js/echarts/echarts.min.js`
+     */
+    echarts?: string;
+
+    /** 文件
+     * @default `${baseURL}/js/js/flowchart.js/flowchart.min.js`
+     */
+    flowchart?: string;
+
+    /** 文件
+     * @default `${baseURL}/js/graphviz/viz.js`
+     */
+    graphviz?: string;
+
+    /** 文件
+     * @default `${baseURL}/js/lute/lute.min.js`
+     */
+    lute?: string;
+
+    /** 文件
+     * @default `${baseURL}/js/markmap/markmap.min.js`
+     */
+    markmap?: string;
+
+    /** 文件
+     * @default `${baseURL}/js/mermaid/mermaid.min.js`
+     */
+    mermaid?: string;
+
+    /** 文件
+     * @default `${baseURL}/js/plantuml/plantuml-encoder.min.js`
+     */
+    plantuml?: string;
+
+
+    /** 
+     * 目录
+     * @default `${baseURL}/js/highlight.js`
+     */
+    highlight?: string;
+
+    /** 
+     * 目录
+     * @default `${baseURL}/js/katex`
+     */
+    katex?: string;
+
+    /** 
+     * 目录
+     * @default `${baseURL}/js/mathjax`
+     */
+    mathjax?: string;
+}
+
+
 /** @link https://ld246.com/article/1549638745630#options */
 interface IOptions {
     /** RTL */
@@ -621,6 +729,18 @@ interface IOptions {
     undoDelay?: number;
     /** 内部调试时使用 */
     _lutePath?: string;
+    /**
+     * 自定义静态资源基础路径
+     * @default
+     * `${cdn}/${dist}`
+     * `${cdn}/dist`
+     * `https://unpkg.com/vditor@${VDITOR_VERSION}/dist`
+     */
+    _baseURL?: string,
+    /**
+     * 自定义静态资源路径
+     */
+    _staticPath?: IStaticPath,
     /** 编辑器初始化值。默认值: '' */
     value?: string;
     /** 是否显示日志。默认值: false */
@@ -718,6 +838,11 @@ interface IOptions {
     classes?: IClasses;
     /** 配置自建 CDN 地址。默认值: 'https://unpkg.com/vditor@${VDITOR_VERSION}' */
     cdn?: string;
+    /**
+     * 自定义 dist 目录路径
+     * @default "dist"
+     */
+    dist?: string,
     /** tab 键操作字符串，支持 \t 及任意字符串 */
     tab?: string;
     /** @link https://ld246.com/article/1549638745630#options-outline */
@@ -748,6 +873,11 @@ interface IOptions {
     select?(value: string): void;
 }
 
+interface IMergedOptions extends IOptions {
+    baseURL: string;
+    staticPath: Required<IStaticPath>;
+}
+
 interface IEChart {
     setOption(option: any): void;
 
@@ -756,7 +886,7 @@ interface IEChart {
 
 interface IVditor {
     element: HTMLElement;
-    options: IOptions;
+    options: IMergedOptions;
     originalInnerHTML: string;
     lute: Lute;
     currentMode: "sv" | "wysiwyg" | "ir";

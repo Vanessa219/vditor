@@ -56,7 +56,8 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
     targetElement.innerHTML = tocHTML;
     if (vditor) {
         mathRender(targetElement as HTMLElement, {
-            cdn: vditor.options.cdn,
+            katex: vditor.options.staticPath.katex,
+            mathjax: vditor.options.staticPath.mathjax,
             math: vditor.options.preview.math,
         });
     }

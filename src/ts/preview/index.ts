@@ -220,16 +220,18 @@ export class Preview {
             cmtFocusElement.classList.remove("vditor-comment--focus");
         }
         codeRender(vditor.preview.element.lastElementChild as HTMLElement);
-        highlightRender(vditor.options.preview.hljs, vditor.preview.element.lastElementChild as HTMLElement,
-            vditor.options.cdn);
-        mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
-        markmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
-        flowchartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
-        graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
-        chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
-        mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn, vditor.options.theme);
-        plantumlRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
-        abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.cdn);
+        highlightRender(
+            vditor.options.preview.hljs, vditor.preview.element.lastElementChild as HTMLElement,
+            vditor.options.staticPath.highlight,
+        );
+        mermaidRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.mermaid, vditor.options.theme);
+        markmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.markmap, vditor.options.theme);
+        flowchartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.flowchart);
+        graphvizRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.graphviz);
+        chartRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.echarts, vditor.options.theme);
+        mindmapRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.echarts, vditor.options.theme);
+        plantumlRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.plantuml);
+        abcRender(vditor.preview.element.lastElementChild as HTMLElement, vditor.options.staticPath.abc);
         mediaRender(vditor.preview.element.lastElementChild as HTMLElement);
         // toc render
         const editorElement = vditor.preview.element;
@@ -240,12 +242,14 @@ export class Preview {
         editorElement.querySelectorAll('[data-type="toc-block"]').forEach((item: HTMLElement) => {
             item.innerHTML = tocHTML;
             mathRender(item, {
-                cdn: vditor.options.cdn,
+                katex: vditor.options.staticPath.katex,
+                mathjax: vditor.options.staticPath.mathjax,
                 math: vditor.options.preview.math,
             });
         });
         mathRender(vditor.preview.element.lastElementChild as HTMLElement, {
-            cdn: vditor.options.cdn,
+            katex: vditor.options.staticPath.katex,
+            mathjax: vditor.options.staticPath.mathjax,
             math: vditor.options.preview.math,
         });
     }

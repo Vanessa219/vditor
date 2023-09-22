@@ -1,7 +1,12 @@
 export const setTheme = (vditor: IVditor) => {
-    if (vditor.options.theme === "dark") {
-        vditor.element.classList.add("vditor--dark");
-    } else {
-        vditor.element.classList.remove("vditor--dark");
+    switch (vditor.options.theme) {
+        case "dark":
+            vditor.element.classList.toggle("vditor--dark", true);
+            break;
+
+        case "classic":
+        default:
+            vditor.element.classList.toggle("vditor--dark", false);
+            break;
     }
 };

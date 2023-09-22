@@ -10,6 +10,7 @@ export class Options {
             enable: true,
         },
         cdn: Constants.CDN,
+        dist: Constants.DIST,
         classes: {
             preview: "",
         },
@@ -37,7 +38,7 @@ export class Options {
                 "smile": "😄",
                 "tada": "🎉️",
             },
-            emojiPath: `${Constants.CDN}/dist/images/emoji`,
+            emojiPath: `${Constants.CDN}/${Constants.DIST}/images/emoji`,
             extend: [],
             parse: true,
         },
@@ -139,7 +140,7 @@ export class Options {
         this.options = options;
     }
 
-    public merge(): IOptions {
+    public merge(): IMergedOptions {
         if (this.options) {
             if (this.options.toolbar) {
                 this.options.toolbar = this.mergeToolbar(this.options.toolbar);
@@ -168,6 +169,31 @@ export class Options {
                 "need options.cache.id, see https://ld246.com/article/1549638745630#options",
             );
         }
+
+        mergedOptions.baseURL = mergedOptions._baseURL || `${mergedOptions.cdn}/${mergedOptions.dist}`;
+        mergedOptions.staticPath = merge({
+            logo: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.logo}`,
+            method: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.method}`,
+            style: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.style}`,
+
+            emoji: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.emoji}`,
+            i18n: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.i18n}`,
+            icons: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.icons}`,
+            theme: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.theme}`,
+
+            abc: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.abc}`,
+            echarts: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.echarts}`,
+            flowchart: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.flowchart}`,
+            graphviz: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.graphviz}`,
+            lute: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.lute}`,
+            markmap: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.markmap}`,
+            mermaid: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.mermaid}`,
+            plantuml: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.plantuml}`,
+
+            highlight: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.highlight}`,
+            katex: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.katex}`,
+            mathjax: `${mergedOptions.baseURL}/${Constants._STATIC_PATH.mathjax}`,
+        } as IMergedOptions["staticPath"], mergedOptions._staticPath);
 
         return mergedOptions;
     }
