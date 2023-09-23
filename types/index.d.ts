@@ -481,11 +481,20 @@ interface IMarkdownConfig {
 
 /** @link https://ld246.com/article/1549638745630#options-preview */
 interface IPreview {
-    /** 预览 debounce 毫秒间隔。默认值: 1000 */
+    /** 
+     * 预览 debounce 毫秒间隔
+     * @default 1000
+     */
     delay?: number;
-    /** 预览区域最大宽度。默认值: 768 */
+    /** 
+     * 预览区域最大宽度
+     * @default 800
+     */
     maxWidth?: number;
-    /** 显示模式。默认值: 'both' */
+    /**
+     * 显示模式
+     * @default "both"
+     */
     mode?: "both" | "editor";
     /** md 解析请求 */
     url?: string;
@@ -497,7 +506,10 @@ interface IPreview {
     markdown?: IMarkdownConfig;
     /** @link https://ld246.com/article/1549638745630#options-preview-theme */
     theme?: IPreviewTheme;
-    /** @link https://ld246.com/article/1549638745630#options-preview-actions  */
+    /**
+     * @link https://ld246.com/article/1549638745630#options-preview-actions
+     * @default ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
+     */
     actions?: Array<IPreviewAction | IPreviewActionCustom>;
 
     /** 预览回调 */
@@ -905,6 +917,8 @@ interface IVditor {
     };
     preview?: {
         element: HTMLElement
+        actionElement?: HTMLElement
+        previewElement: HTMLElement
         render(vditor: IVditor, value?: string): void,
     };
     counter?: {

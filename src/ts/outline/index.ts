@@ -16,7 +16,7 @@ export class Outline {
     public render(vditor: IVditor) {
         let html = "";
         if (vditor.preview.element.style.display === "block") {
-            html = outlineRender(vditor.preview.element.lastElementChild as HTMLElement,
+            html = outlineRender(vditor.preview.previewElement as HTMLElement,
                 this.element.lastElementChild, vditor);
         } else {
             html = outlineRender(vditor[vditor.currentMode].element, this.element.lastElementChild, vditor);
