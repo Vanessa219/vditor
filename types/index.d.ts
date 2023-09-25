@@ -775,7 +775,6 @@ interface IVditor {
     };
     preview?: {
         element: HTMLElement,
-        actionElement?: HTMLElement,
         previewElement: HTMLElement,
         render(vditor: IVditor, value?: string): void,
     };

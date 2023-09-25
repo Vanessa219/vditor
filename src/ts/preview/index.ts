@@ -19,7 +19,6 @@ import {previewImage} from "./image";
 
 export class Preview {
     public element: HTMLElement;
-    public actionElement?: HTMLElement;
     public previewElement: HTMLElement;
     private mdTimeoutId: number;
 
@@ -76,8 +75,8 @@ export class Preview {
         if (actions.length === 0) {
             return;
         }
-        this.actionElement = document.createElement("div");
-        this.actionElement.className = "vditor-preview__action";
+        const actionElement = document.createElement("div");
+        actionElement.className = "vditor-preview__action";
         const actionHtml: string[] = [];
         for (let i = 0; i < actions.length; i++) {
             const action = actions[i];
@@ -103,8 +102,8 @@ export class Preview {
                     break;
             }
         }
-        this.actionElement.innerHTML = actionHtml.join("");
-        this.actionElement.addEventListener(getEventName(), (event) => {
+        actionElement.innerHTML = actionHtml.join("");
+        actionElement.addEventListener(getEventName(), (event) => {
             const btn = hasClosestByTag(event.target as HTMLElement, "BUTTON");
             if (!btn) {
                 return;
@@ -132,12 +131,12 @@ export class Preview {
                 this.previewElement.style.width = "auto";
             }
             this.render(vditor);
-            this.actionElement.querySelectorAll("button").forEach((item) => {
+            actionElement.querySelectorAll("button").forEach((item) => {
                 item.classList.remove("vditor-preview__action--current");
             });
             btn.classList.add("vditor-preview__action--current");
         });
-        this.element.insertBefore(this.actionElement, this.previewElement);
+        this.element.insertBefore(actionElement, this.previewElement);
     }
 
     public render(vditor: IVditor, value?: string) {
