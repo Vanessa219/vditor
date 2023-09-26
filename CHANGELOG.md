@@ -2,6 +2,7 @@
 
 ### 升级
 * 3.9
+  * 添加 options.preview.math.mathJaxOptions
   * 添加 hljs.langs
   * 添加 option.keydown
   * 添加 option.link 和 options.image
