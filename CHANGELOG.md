@@ -11,7 +11,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.4 / 2023-09
+### v3.9.7 / 2023-10
+
+### v3.9.6 / 2023-09-26
 
 * [预览页面渲染错误](https://github.com/Vanessa219/vditor/pull/1475/files) `修复缺陷`
 * [markmap 生产环境路径错误](https://github.com/Vanessa219/vditor/issues/1467) `修复缺陷`
