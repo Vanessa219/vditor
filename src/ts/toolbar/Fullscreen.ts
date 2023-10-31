@@ -9,7 +9,7 @@ export class Fullscreen extends MenuItem {
     }
 
     public _bindEvent(vditor: IVditor, menuItem: IMenuItem) {
-        this.element.children[0].addEventListener(getEventName(), function(event) {
+        this.element.children[0].addEventListener(getEventName(), function (event) {
             event.preventDefault();
             if (vditor.element.className.includes("vditor--fullscreen")) {
                 if (!menuItem.level) {
@@ -22,6 +22,11 @@ export class Fullscreen extends MenuItem {
                     const svgElement = vditor.toolbar.elements[key].firstChild as HTMLElement;
                     if (svgElement) {
                         svgElement.className = svgElement.className.replace("__s", "__n");
+                        vditor.options.toolbar.forEach(item => {
+                            if (typeof item !== "string" && item.tipPosition && item.name === svgElement.dataset.type) {
+                                svgElement.className = `vditor-tooltipped vditor-tooltipped__${item.tipPosition}`;
+                            }
+                        })
                     }
                 });
                 if (vditor.counter) {
