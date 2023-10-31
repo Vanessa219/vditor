@@ -14,6 +14,8 @@
 
 ### v3.9.7 / 2023-10
 
+* [tipPosition 设置在取消全屏后失效](https://github.com/Vanessa219/vditor/issues/1491) `修复缺陷`
+
 ### v3.9.6 / 2023-09-26
 
 * [预览页面渲染错误](https://github.com/Vanessa219/vditor/pull/1475/files) `修复缺陷`
