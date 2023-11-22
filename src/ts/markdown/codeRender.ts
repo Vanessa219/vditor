@@ -12,7 +12,7 @@ export const codeRender = (element: HTMLElement) => {
             e.classList.contains("language-plantuml") || e.classList.contains("language-markmap") ||
             e.classList.contains("language-abc") || e.classList.contains("language-graphviz") ||
             e.classList.contains("language-math")) {
-                return false;
+            return false;
         }
 
         if (e.style.maxHeight.indexOf("px") > -1) {
@@ -24,9 +24,8 @@ export const codeRender = (element: HTMLElement) => {
             return false;
         }
         return true;
-    })
-    .map((e) => ({ e, codeText: e.innerText }))
-    .forEach(({ e, codeText }) => {
+    }).forEach((e) => {
+        let codeText = e.innerText;
         if (e.classList.contains("highlight-chroma")) {
             const codeElement = e.cloneNode(true) as HTMLElement;
             codeElement.querySelectorAll(".highlight-ln").forEach((item: HTMLElement) => {

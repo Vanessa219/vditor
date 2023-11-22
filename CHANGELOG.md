@@ -14,6 +14,7 @@
 
 ### v3.9.7 / 2023-10
 
+* [优化代码块复制功能的渲染性能](https://github.com/Vanessa219/vditor/pull/1502) `开发重构`
 * [tipPosition 设置在取消全屏后失效](https://github.com/Vanessa219/vditor/issues/1491) `修复缺陷`
 
 ### v3.9.6 / 2023-09-26
