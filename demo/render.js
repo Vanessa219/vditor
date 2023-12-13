@@ -20,11 +20,14 @@ const render = (fileName) => {
     fetch(`/demo/markdown/${fileName}.md`).then(response => response.text()).then(markdown => {
 
         Vditor.preview(previewElement, markdown, {
+            cdn: 'http://localhost:9000',
             markdown: {
                 toc: true, listStyle: fileName === 'cute-list',
-            }, speech: {
+            },
+            speech: {
                 enable: true,
-            }, anchor: 1, after() {
+            },
+            anchor: 1, after() {
                 if (window.innerWidth <= 768) {
                     return
                 }
@@ -32,7 +35,9 @@ const render = (fileName) => {
                 if (outlineElement.innerText.trim() !== '') {
                     outlineElement.style.display = 'block'
                 }
-            }, lazyLoadImage: 'https://unpkg.com/vditor/dist/images/img-loading.svg', renderers: {
+            },
+            lazyLoadImage: 'https://unpkg.com/vditor/dist/images/img-loading.svg',
+            renderers: {
                 renderHeading: (node, entering) => {
                     const id = Lute.GetHeadingID(node)
                     if (entering) {
