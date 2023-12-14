@@ -12,7 +12,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.7 / 2023-10
+### v3.9.7 / 2023-12-14
 
 * [改进带端口的超链接解析](https://github.com/Vanessa219/vditor/issues/1513) `改进功能`
 * [优化代码块复制功能的渲染性能](https://github.com/Vanessa219/vditor/pull/1502) `开发重构`
