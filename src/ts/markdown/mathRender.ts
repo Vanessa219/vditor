@@ -8,6 +8,7 @@ declare const katex: {
     renderToString(math: string, option: {
         displayMode: boolean;
         output: string;
+        macros: object;
     }): string;
 };
 
@@ -40,9 +41,9 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
     options = Object.assign({}, defaultOptions, options);
 
     if (options.math.engine === "KaTeX") {
-        addStyle(`${options.cdn}/dist/js/katex/katex.min.css`, "vditorKatexStyle");
-        addScript(`${options.cdn}/dist/js/katex/katex.min.js`, "vditorKatexScript").then(() => {
-            addScript(`${options.cdn}/dist/js/katex/mhchem.min.js`, "vditorKatexChemScript").then(() => {
+        addStyle(`${options.cdn}/dist/js/katex/katex.min.css?v=0.16.9`, "vditorKatexStyle");
+        addScript(`${options.cdn}/dist/js/katex/katex.min.js?v=0.16.9`, "vditorKatexScript").then(() => {
+            addScript(`${options.cdn}/dist/js/katex/mhchem.min.js?v=0.16.9`, "vditorKatexChemScript").then(() => {
                 mathElements.forEach((mathElement) => {
                     if (mathElement.parentElement.classList.contains("vditor-wysiwyg__pre") ||
                         mathElement.parentElement.classList.contains("vditor-ir__marker--pre")) {
@@ -57,6 +58,7 @@ export const mathRender = (element: HTMLElement, options?: { cdn?: string, math?
                         mathElement.innerHTML = katex.renderToString(math, {
                             displayMode: mathElement.tagName === "DIV",
                             output: "html",
+                            macros: options.math.macros,
                         });
                     } catch (e) {
                         mathElement.innerHTML = e.message;

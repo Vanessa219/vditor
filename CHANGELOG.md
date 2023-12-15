@@ -14,6 +14,7 @@
 
 ### v3.9.8 / 2023-12
 
+* [KaTeX 渲染支持 macros](https://github.com/Vanessa219/vditor/issues/1519) `引入特性`
 * [简化 CDN 配置](https://github.com/Vanessa219/vditor/issues/1522) `改进功能`
 
 ### v3.9.7 / 2023-12-14
