@@ -12,6 +12,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
+### v3.9.8 / 2023-12
+
+* [简化 CDN 配置](https://github.com/Vanessa219/vditor/issues/1522) `改进功能`
+
 ### v3.9.7 / 2023-12-14
 
 * [改进带端口的超链接解析](https://github.com/Vanessa219/vditor/issues/1513) `改进功能`

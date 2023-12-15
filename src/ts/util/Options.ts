@@ -155,10 +155,15 @@ export class Options {
             if (this.options.comment) {
                 this.defaultOptions.comment = this.options.comment;
             }
-            // 支持不够完善，我先注释了，后期再打开
-            // if (this.options.rtl) {
-            //     this.defaultOptions.rtl = this.options.rtl;
-            // }
+
+            if (this.options.cdn) {
+                if (!this.options.preview?.theme?.path) {
+                    this.defaultOptions.preview.theme.path = `${this.options.cdn}/dist/css/content-theme`
+                }
+                if (!this.options.hint?.emojiPath) {
+                    this.defaultOptions.hint.emojiPath = `${this.options.cdn}/dist/images/emoji`;
+                }
+            }
         }
 
         const mergedOptions = merge(this.defaultOptions, this.options);

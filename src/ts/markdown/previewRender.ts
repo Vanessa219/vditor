@@ -25,9 +25,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         anchor: 0,
         cdn: Constants.CDN,
         customEmoji: {},
-        emojiPath: `${
-            (options && options.emojiPath) || Constants.CDN
-        }/dist/images/emoji`,
+        emojiPath: `${Constants.CDN}/dist/images/emoji`,
         hljs: Constants.HLJS_OPTIONS,
         icon: "ant",
         lang: "zh_CN",
@@ -39,6 +37,14 @@ const mergeOptions = (options?: IPreviewOptions) => {
         },
         theme: Constants.THEME_OPTIONS,
     };
+    if (options.cdn) {
+        if (!options.theme?.path) {
+            defaultOption.theme.path = `${options.cdn}/dist/css/content-theme`
+        }
+        if (!options.emojiPath) {
+            defaultOption.emojiPath = `${options.cdn}/dist/images/emoji`;
+        }
+    }
     return merge(defaultOption, options);
 };
 

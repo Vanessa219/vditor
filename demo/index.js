@@ -52,7 +52,7 @@ const initVditor = (language) => {
     window.vditor = new Vditor('vditor', {
         // _lutePath: `http://192.168.31.194:9090/lute.min.js?${new Date().getTime()}`,
         _lutePath: 'src/js/lute/lute.min.js',
-        // cdn: 'http://localhost:9000',
+        cdn: 'https://cdn.jsdelivr.net/npm/vditor',
         toolbar,
         lang: language,
         mode: 'wysiwyg',
@@ -83,11 +83,11 @@ const initVditor = (language) => {
             type: 'text',
         },
         hint: {
-            emojiPath: 'https://unpkg.com/vditor@1.8.3/dist/images/emoji',
+            emojiPath: 'https://cdn.jsdelivr.net/npm/vditor@1.8.3/dist/images/emoji',
             emojiTail: '<a href="https://ld246.com/settings/function" target="_blank">设置常用表情</a>',
             emoji: {
                 'sd': '💔',
-                'j': 'https://unpkg.com/vditor@1.3.1/dist/images/emoji/j.png',
+                'j': 'https://cdn.jsdelivr.net/npm/vditor@1.3.1/dist/images/emoji/j.png',
             },
             parse: false,
             extend: [
