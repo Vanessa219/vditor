@@ -151,7 +151,8 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
 
             // 添加脚注
             vditor.sv.element.querySelectorAll("[data-type='footnotes-link']").forEach((item, index) => {
-                if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
+                // 加入所有脚注便于渲染引用
+                if (item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
                     html += "\n" + item.parentElement.textContent;
                     item.parentElement.remove();
                 }
@@ -181,20 +182,10 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     }
 
     // 脚注合并后添加的末尾
-    let firstFootnoteElement: Element;
-    const allFootnoteElement = vditor.sv.element.querySelectorAll("[data-type='footnotes-link']");
-    allFootnoteElement.forEach((item, index) => {
-        if (index === 0) {
-            firstFootnoteElement = item.parentElement;
-        } else {
-            firstFootnoteElement.lastElementChild.remove();
-            firstFootnoteElement.insertAdjacentHTML("beforeend", `${item.parentElement.innerHTML}`);
-            item.parentElement.remove();
-        }
-    });
-    if (allFootnoteElement.length > 0) {
-        vditor.sv.element.insertAdjacentElement("beforeend", firstFootnoteElement);
-    }
+    vditor.sv.element.querySelectorAll("[data-type='footnotes-link']")
+        .forEach((item, index) => {
+            vditor.sv.element.insertAdjacentElement("beforeend", item.parentElement)
+        });
 
     setRangeByWbr(vditor.sv.element, range);
 
