@@ -145,7 +145,7 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         let footnotes = ""
 
         vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item, index) => {
-            if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
+            if (item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
                 footnotes += item.parentElement.textContent + "\n";
                 item.parentElement.remove();
             }
@@ -167,20 +167,9 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         blockElement.outerHTML = html;
     }
 
-    let firstLinkRefDefElement: Element;
-    const allLinkRefDefsElement = vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']");
-    allLinkRefDefsElement.forEach((item, index) => {
-        if (index === 0) {
-            firstLinkRefDefElement = item.parentElement;
-        } else {
-            firstLinkRefDefElement.lastElementChild.remove();
-            firstLinkRefDefElement.insertAdjacentHTML("beforeend", `${item.parentElement.innerHTML}`);
-            item.parentElement.remove();
-        }
-    });
-    if (allLinkRefDefsElement.length > 0) {
-        vditor.sv.element.insertAdjacentElement("beforeend", firstLinkRefDefElement);
-    }
+    vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item) => {
+        vditor.sv.element.insertAdjacentElement("beforeend", item.parentElement)
+    })
 
     // 合并脚注
     combineFootnote(vditor.sv.element, (root: HTMLElement) => {
