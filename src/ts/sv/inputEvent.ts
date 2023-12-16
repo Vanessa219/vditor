@@ -2,6 +2,7 @@ import {scrollCenter} from "../util/editorCommonEvent";
 import {hasClosestByAttribute} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {getSideByType, processAfterRender, processSpinVditorSVDOM} from "./process";
+import { combineFootnote } from "../util/combineFootnote"
 
 export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();
@@ -181,11 +182,10 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
         vditor.sv.element.insertAdjacentElement("beforeend", firstLinkRefDefElement);
     }
 
-    // 脚注合并后添加的末尾
-    vditor.sv.element.querySelectorAll("[data-type='footnotes-link']")
-        .forEach((item, index) => {
-            vditor.sv.element.insertAdjacentElement("beforeend", item.parentElement)
-        });
+    // 合并脚注
+    combineFootnote(vditor.sv.element, (root: HTMLElement) => {
+        vditor.sv.element.insertAdjacentElement("beforeend", root)
+    })
 
     setRangeByWbr(vditor.sv.element, range);
 

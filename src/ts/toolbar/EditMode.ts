@@ -18,6 +18,7 @@ import {
     removeCurrentToolbar,
     showToolbar, toggleSubMenu,
 } from "./setToolbar";
+import { combineFootnote } from "../util/combineFootnote"
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
@@ -122,6 +123,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
             svHTML = "";
         }
         vditor.sv.element.innerHTML = svHTML;
+        combineFootnote(vditor.sv.element)
         processSVAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,
