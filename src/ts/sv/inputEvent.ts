@@ -149,14 +149,15 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
                 }
             });
 
-            // 添加脚注
+            // 添加脚注到文章头，便于lute处理
+            let footnotes = ""
             vditor.sv.element.querySelectorAll("[data-type='footnotes-link']").forEach((item, index) => {
-                // 加入所有脚注便于渲染引用
                 if (item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
-                    html += "\n" + item.parentElement.textContent;
+                    footnotes += item.parentElement.textContent + "\n";
                     item.parentElement.remove();
                 }
             });
+            html = footnotes + html;
         }
     }
     html = processSpinVditorSVDOM(html, vditor);
