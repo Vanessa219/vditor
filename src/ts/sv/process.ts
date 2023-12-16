@@ -7,6 +7,42 @@ import {log} from "../util/log";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {inputEvent} from "./inputEvent";
 
+/**
+ * lute解析后处理
+ * @param html lute解析后的文本
+ */
+export const processAfterSpin = (html: string): string => {
+    // 合并块
+    html = "<div data-block='0'>" +
+        html.replace(/<span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span><span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span></g, '<span data-type="newline"><br /><span style="display: none">\n</span></span><span data-type="newline"><br /><span style="display: none">\n</span></span></div><div data-block="0"><') +
+        "</div>";
+    // 解析脚注，合并脚注块
+    const parser = document.createElement("div")
+    parser.innerHTML = html
+    parser.querySelectorAll("[data-type=footnotes-link]").forEach(el => {
+        const root = el.parentElement
+        let footnote = root.nextSibling
+        // 寻找所有该脚注的块
+        while (footnote) {
+            if (footnote.textContent.startsWith("    ")) {
+                // 解析到四个空格，加入到root并继续解析
+                const thisNode = footnote
+                thisNode.childNodes.forEach(node => {
+                    root.append(node.cloneNode(true))
+                })
+                footnote = footnote.nextSibling
+                thisNode.remove()
+            } else {
+                // 非空格停止解析
+                break
+            }
+        }
+    })
+    html = parser.innerHTML
+    parser.remove()
+    return html
+}
+
 export const processPaste = (vditor: IVditor, text: string) => {
     const range = getEditorRange(vditor);
     range.extractContents();
@@ -17,9 +53,7 @@ export const processPaste = (vditor: IVditor, text: string) => {
         blockElement = vditor.sv.element;
     }
     let spinHTML = vditor.lute.SpinVditorSVDOM(blockElement.textContent)
-    spinHTML = "<div data-block='0'>" +
-        spinHTML.replace(/<span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span><span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span></g, '<span data-type="newline"><br /><span style="display: none">\n</span></span><span data-type="newline"><br /><span style="display: none">\n</span></span></div><div data-block="0"><') +
-        "</div>";
+    spinHTML = processAfterSpin(spinHTML)
     if (blockElement.isEqualNode(vditor.sv.element)) {
         blockElement.innerHTML = spinHTML;
     } else {
@@ -51,9 +85,7 @@ export const getSideByType = (spanNode: Node, type: string, isPrevious = true) =
 export const processSpinVditorSVDOM = (html: string, vditor: IVditor) => {
     log("SpinVditorSVDOM", html, "argument", vditor.options.debugger);
     const spinHTML = vditor.lute.SpinVditorSVDOM(html)
-    html = "<div data-block='0'>" +
-        spinHTML.replace(/<span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span><span data-type="newline"><br \/><span style="display: none">\n<\/span><\/span></g, '<span data-type="newline"><br /><span style="display: none">\n</span></span><span data-type="newline"><br /><span style="display: none">\n</span></span></div><div data-block="0"><') +
-        "</div>";
+    html = processAfterSpin(spinHTML)
     log("SpinVditorSVDOM", html, "result", vditor.options.debugger);
     return html;
 };
