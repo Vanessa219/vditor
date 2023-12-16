@@ -141,15 +141,16 @@ export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
             blockElement.previousElementSibling.remove();
         }
         // 添加链接引用
+        let footnotes = ""
+
         vditor.sv.element.querySelectorAll("[data-type='link-ref-defs-block']").forEach((item, index) => {
             if (index === 0 && item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
-                html += "\n" + item.parentElement.textContent;
+                footnotes += item.parentElement.textContent + "\n";
                 item.parentElement.remove();
             }
         });
 
         // 添加脚注到文章头，便于lute处理
-        let footnotes = ""
         vditor.sv.element.querySelectorAll("[data-type='footnotes-link']").forEach((item, index) => {
             if (item && !(blockElement as HTMLElement).isEqualNode(item.parentElement)) {
                 footnotes += item.parentElement.textContent + "\n";
