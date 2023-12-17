@@ -6,6 +6,8 @@ import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {getEditorRange, setRangeByWbr} from "../util/selection";
 import {inputEvent} from "./inputEvent";
+import { combineFootnote } from "../util/combineFootnote"
+
 
 export const processPaste = (vditor: IVditor, text: string) => {
     const range = getEditorRange(vditor);
@@ -25,6 +27,7 @@ export const processPaste = (vditor: IVditor, text: string) => {
     } else {
         blockElement.outerHTML = spinHTML;
     }
+    combineFootnote(vditor.sv.element)
     setRangeByWbr(vditor.sv.element, range);
 
     scrollCenter(vditor);
