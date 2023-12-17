@@ -2,7 +2,7 @@ import {scrollCenter} from "../util/editorCommonEvent";
 import {hasClosestByAttribute} from "../util/hasClosest";
 import {getSelectPosition, setRangeByWbr} from "../util/selection";
 import {getSideByType, processAfterRender, processSpinVditorSVDOM} from "./process";
-import { combineFootnote } from "../util/combineFootnote"
+import {combineFootnote} from "./combineFootnote";
 
 export const inputEvent = (vditor: IVditor, event?: InputEvent) => {
     const range = getSelection().getRangeAt(0).cloneRange();

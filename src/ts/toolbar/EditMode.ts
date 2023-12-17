@@ -18,7 +18,7 @@ import {
     removeCurrentToolbar,
     showToolbar, toggleSubMenu,
 } from "./setToolbar";
-import { combineFootnote } from "../util/combineFootnote"
+import {combineFootnote} from "../sv/combineFootnote";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
