@@ -26,6 +26,9 @@ export const addScript = (path: string, id: string) => {
         scriptElement.async = true;
         // 循环调用时 Chrome 不会重复请求 js
         document.head.appendChild(scriptElement);
+        scriptElement.onerror = (event) => {
+            reject(event);
+        }
         scriptElement.onload = () => {
             if (document.getElementById(id)) {
                 // 循环调用需清除 DOM 中的 script 标签
