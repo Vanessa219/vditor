@@ -12,7 +12,10 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.8 / 2023-12
+### v3.9.9 / 2024-01
+
+
+### v3.9.8 / 2023-12-26
 
 * [多语言加载失败后给出相关提示](https://github.com/Vanessa219/vditor/issues/1531) `改进功能`
 * [导出 PDF 时 CDN 配置不生效](https://github.com/Vanessa219/vditor/pull/1529) `修复缺陷`
