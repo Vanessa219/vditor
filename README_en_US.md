@@ -193,6 +193,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | value | Editor initialization value | '' |
 | theme | Theme: classic, dark | 'classic' |
 | icon | icon theme: ant, material | 'ant' |
+| customRenders: {language: string, render: (element: HTMLElement, vditor: IVditor) => void}[] | Custom render | [] |
 
 #### options.toolbar
 

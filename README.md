@@ -217,6 +217,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | value | 编辑器初始化值 | '' |
 | theme | 主题：classic, dark | 'classic' |
 | icon | 图标风格：ant, material | 'ant' |
+| customRenders: {language: string, render: (element: HTMLElement, vditor: IVditor) => void}[] | 自定义渲染器 | [] |
 
 #### options.toolbar
 

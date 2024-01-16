@@ -82,8 +82,16 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     } else if (language === "math") {
         mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     } else {
-        highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
-        codeRender(previewPanel);
+        const cRender = vditor.options.customRenders.find((item) => {
+            if (item.language === language) {
+                item.render(previewPanel, vditor);
+                return true
+            }
+        })
+        if (!cRender) {
+            highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
+            codeRender(previewPanel);
+        }
     }
 
     previewPanel.setAttribute("data-render", "1");

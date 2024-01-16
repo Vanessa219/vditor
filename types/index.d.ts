@@ -722,7 +722,10 @@ interface IOptions {
     tab?: string;
     /** @link https://ld246.com/article/1549638745630#options-outline */
     outline?: IOutline;
-
+    customRenders?: {
+        language: string,
+        render: (element: HTMLElement, vditor: IVditor) => void
+    }[],
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
 

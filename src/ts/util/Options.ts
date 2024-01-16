@@ -20,6 +20,7 @@ export class Options {
             enable: false,
             type: "markdown",
         },
+        customRenders: [],
         debugger: false,
         fullscreen: {
             index: 90,

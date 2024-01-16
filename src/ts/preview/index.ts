@@ -232,6 +232,9 @@ export class Preview {
         plantumlRender(vditor.preview.previewElement, vditor.options.cdn);
         abcRender(vditor.preview.previewElement, vditor.options.cdn);
         mediaRender(vditor.preview.previewElement);
+        vditor.options.customRenders.forEach((item) => {
+            item.render(vditor.preview.previewElement, vditor);
+        })
         // toc render
         const editorElement = vditor.preview.element;
         let tocHTML = vditor.outline.render(vditor);
