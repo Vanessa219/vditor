@@ -32,6 +32,7 @@ import {
 import {afterRenderEvent} from "./afterRenderEvent";
 import {removeBlockElement} from "./processKeydown";
 import {renderToc} from "../util/toc";
+import {getMarkdown} from "../markdown/getMarkdown";
 
 export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -279,6 +280,9 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                             }
                         }
                     }
+                }
+                if (typeof vditor.options.input === "function") {
+                    vditor.options.input(getMarkdown(vditor));
                 }
             };
 
@@ -574,6 +578,9 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 if (input.value.trim() !== "") {
                     footnotesRefElement.setAttribute("data-footnotes-label", input.value);
                 }
+                if (typeof vditor.options.input === "function") {
+                    vditor.options.input(getMarkdown(vditor));
+                }
             };
             input.onkeydown = (event) => {
                 if (event.isComposing) {
@@ -708,6 +715,9 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             input.value = headingElement.getAttribute("data-id") || "";
             input.oninput = () => {
                 headingElement.setAttribute("data-id", input.value);
+                if (typeof vditor.options.input === "function") {
+                    vditor.options.input(getMarkdown(vditor));
+                }
             };
             input.onkeydown = (event) => {
                 if (event.isComposing) {
@@ -801,6 +811,9 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement, 
         // data-link-label
         if (input1.value.trim() !== "") {
             linkRefElement.setAttribute("data-link-label", input1.value);
+        }
+        if (typeof vditor.options.input === "function") {
+            vditor.options.input(getMarkdown(vditor));
         }
     };
 
@@ -1055,6 +1068,9 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
         imgElement.setAttribute("src", inputElement.value);
         imgElement.setAttribute("alt", alt.value);
         imgElement.setAttribute("title", title.value);
+        if (typeof vditor.options.input === "function") {
+            vditor.options.input(getMarkdown(vditor));
+        }
     };
 
     const inputWrap = document.createElement("span");
