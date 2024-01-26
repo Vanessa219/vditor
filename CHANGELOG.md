@@ -14,7 +14,8 @@
 
 ### v3.9.9 / 2024-01
 
-* [wysiwyg 模式下通过输入框修改元素属性时触发 input ](https://github.com/Vanessa219/vditor/issues/1542) `改进功能`
+* [改进表格中行内数学公式 `|` 的渲染](https://github.com/Vanessa219/vditor/issues/1550) `改进功能`
+* [wysiwyg 模式下通过输入框修改元素属性时触发 input](https://github.com/Vanessa219/vditor/issues/1542) `改进功能`
 * [自定义渲染器支持](https://github.com/Vanessa219/vditor/issues/1540) `引入特性`
 
 ### v3.9.8 / 2023-12-26
