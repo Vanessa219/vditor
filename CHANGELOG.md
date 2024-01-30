@@ -12,7 +12,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.9.9 / 2024-01
+### v3.10.1 / 2024-01
+
+### v3.9.9 / 2024-01-30
 
 * [导出 PDF 时主题错误](https://github.com/Vanessa219/vditor/issues/1549) `修复缺陷`
 * [改进表格中行内数学公式 `|` 的渲染](https://github.com/Vanessa219/vditor/issues/1550) `改进功能`
