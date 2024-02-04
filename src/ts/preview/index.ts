@@ -220,7 +220,7 @@ export class Preview {
         if (cmtFocusElement) {
             cmtFocusElement.classList.remove("vditor-comment--focus");
         }
-        codeRender(vditor.preview.previewElement);
+        codeRender(vditor.preview.previewElement, vditor.options.preview.hljs);
         highlightRender(vditor.options.preview.hljs, vditor.preview.previewElement,
             vditor.options.cdn);
         mermaidRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);

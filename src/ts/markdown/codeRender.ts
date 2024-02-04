@@ -1,7 +1,7 @@
 import {code160to32} from "../util/code160to32";
 import {Constants} from "../constants";
 
-export const codeRender = (element: HTMLElement) => {
+export const codeRender = (element: HTMLElement, option?: IHljs) => {
     Array.from<HTMLElement>(element.querySelectorAll("pre > code")).filter((e, index) => {
         if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
             e.parentElement.classList.contains("vditor-ir__marker--pre")) {
@@ -49,7 +49,9 @@ onclick="this.previousElementSibling.select();document.execCommand('copy');this.
         const textarea = document.createElement("textarea");
         textarea.value = code160to32(codeText);
         divElement.insertAdjacentElement("afterbegin", textarea);
-
+        if (option && option.renderMenu) {
+            option.renderMenu(e, divElement);
+        }
         e.before(divElement);
         e.style.maxHeight = (window.outerHeight - 40) + "px";
         // https://github.com/Vanessa219/vditor/issues/1356

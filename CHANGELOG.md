@@ -7,12 +7,15 @@
   * 添加 option.keydown
   * 添加 option.link 和 options.image
   * 添加 hljs.defaultLang
+  * 添加 hljs.renderMenu
 
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
 ### v3.10.1 / 2024-01
+
+* [添加 options.preview.hljs.renderMenu 方法](https://github.com/Vanessa219/vditor/issues/1553) `引入特性`
 
 ### v3.9.9 / 2024-01-30
 

@@ -90,7 +90,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         })
         if (!cRender) {
             highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
-            codeRender(previewPanel);
+            codeRender(previewPanel, vditor.options.preview.hljs);
         }
     }
 

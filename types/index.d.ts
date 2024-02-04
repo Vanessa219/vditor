@@ -435,6 +435,8 @@ interface IHljs {
     enable?: boolean;
     /** 自定义指定语言: CODE_LANGUAGES */
     langs?: string[];
+    /** 渲染右上角菜单按钮 */
+    renderMenu?(element: HTMLElement, menuElement: HTMLElement): void;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-preview-math */
@@ -726,6 +728,7 @@ interface IOptions {
         language: string,
         render: (element: HTMLElement, vditor: IVditor) => void
     }[],
+
     /** 编辑器异步渲染完成后的回调方法 */
     after?(): void;
 
