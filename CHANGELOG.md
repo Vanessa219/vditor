@@ -15,6 +15,7 @@
 
 ### v3.10.1 / 2024-01
 
+* [WYSIWYG 模式下链接包含粗体无法打开](https://github.com/Vanessa219/vditor/issues/1560) `改进功能`
 * [添加 options.preview.hljs.renderMenu 方法](https://github.com/Vanessa219/vditor/issues/1553) `引入特性`
 
 ### v3.9.9 / 2024-01-30
