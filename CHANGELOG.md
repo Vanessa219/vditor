@@ -15,6 +15,7 @@
 
 ### v3.10.1 / 2024-01
 
+* [⬆️ Bump ip from 1.1.5 to 1.1.9](https://github.com/Vanessa219/vditor/pull/1563) `开发重构`
 * [WYSIWYG 模式下链接包含粗体无法打开](https://github.com/Vanessa219/vditor/issues/1560) `改进功能`
 * [添加 options.preview.hljs.renderMenu 方法](https://github.com/Vanessa219/vditor/issues/1553) `引入特性`
 
