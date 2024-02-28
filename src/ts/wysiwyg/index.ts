@@ -395,6 +395,10 @@ class WYSIWYG {
                 }
                 return;
             }
+            // https://github.com/Vanessa219/vditor/issues/1565
+            if (event.inputType === "insertParagraph" && this.element.innerHTML === '<p><br></p><p><br></p>') {
+                blockElement.previousElementSibling.remove();
+            }
 
             input(vditor, range, event);
         });
