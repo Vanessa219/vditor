@@ -20,6 +20,7 @@ import {expandMarker} from "./expandMarker";
 import {highlightToolbarIR} from "./highlightToolbarIR";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
+import {hidePanel} from "../toolbar/setToolbar";
 
 class IR {
     public range: Range;
@@ -72,6 +73,10 @@ class IR {
                     document.execCommand("insertHTML", false, code);
                 },
             });
+        });
+
+        this.element.addEventListener("scroll", () => {
+            hidePanel(vditor, ["hint"]);
         });
 
         this.element.addEventListener("compositionstart", (event: InputEvent) => {
