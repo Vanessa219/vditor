@@ -266,7 +266,7 @@ class Vditor extends VditorMethod {
                 inputEvent(this.vditor);
             }
         } else if (this.vditor.currentMode === "wysiwyg") {
-            this.vditor.wysiwyg.preventInput = true;
+            // 由于 https://github.com/Vanessa219/vditor/issues/1566 不能使用 this.vditor.wysiwyg.preventInput = true;
             if (render) {
                 input(this.vditor, getSelection().getRangeAt(0));
             }

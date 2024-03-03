@@ -15,6 +15,7 @@
 
 ### v3.10.1 / 2024-01
 
+* [`insertValue` 后无法回车](https://github.com/Vanessa219/vditor/issues/1566) `修复缺陷`
 * [IR 模式滚动时隐藏代码块语言提示](https://github.com/Vanessa219/vditor/issues/1567) `改进功能`
 * [https://github.com/Vanessa219/vditor/issues/1565](https://github.com/Vanessa219/vditor/pull/1563) `开发重构`
 * [⬆️ Bump ip from 1.1.5 to 1.1.9](https://github.com/Vanessa219/vditor/pull/1563) `开发重构`
