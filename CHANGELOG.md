@@ -15,6 +15,8 @@
 
 ### v3.10.2 / 2024-04
 
+* [mermaid 图表渲染自适应](https://github.com/Vanessa219/vditor/issues/1574) `改进功能`
+
 ### v3.10.1 / 2024-03-05
 
 * [`insertValue` 后无法回车](https://github.com/Vanessa219/vditor/issues/1566) `修复缺陷`
