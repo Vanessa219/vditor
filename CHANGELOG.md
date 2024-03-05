@@ -19,7 +19,7 @@
 
 * [`insertValue` 后无法回车](https://github.com/Vanessa219/vditor/issues/1566) `修复缺陷`
 * [IR 模式滚动时隐藏代码块语言提示](https://github.com/Vanessa219/vditor/issues/1567) `改进功能`
-* [https://github.com/Vanessa219/vditor/issues/1565](https://github.com/Vanessa219/vditor/pull/1563) `开发重构`
+* [内容为空时回车禁止光标跳动](https://github.com/Vanessa219/vditor/issues/1565) `开发重构`
 * [⬆️ Bump ip from 1.1.5 to 1.1.9](https://github.com/Vanessa219/vditor/pull/1563) `开发重构`
 * [WYSIWYG 模式下链接包含粗体无法打开](https://github.com/Vanessa219/vditor/issues/1560) `改进功能`
 * [添加 options.preview.hljs.renderMenu 方法](https://github.com/Vanessa219/vditor/issues/1553) `引入特性`
