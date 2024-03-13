@@ -22,7 +22,7 @@ export const plantumlRender = (element: (HTMLElement | Document) = document, cdn
                 return;
             }
             try {
-                e.innerHTML = `<img src="http://www.plantuml.com/plantuml/svg/~1${plantumlEncoder.encode(text)}">`;
+                e.innerHTML = `<object type="image/svg+xml" data="http://www.plantuml.com/plantuml/svg/~1${plantumlEncoder.encode(text)}"/>`;
             } catch (error) {
                 e.className = "vditor-reset--error";
                 e.innerHTML = `plantuml render error: <br>${error}`;
