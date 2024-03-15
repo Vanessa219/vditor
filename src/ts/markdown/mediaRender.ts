@@ -1,3 +1,5 @@
+import {getSearch} from "../util/function";
+
 const videoRender = (element: HTMLElement, url: string) => {
     element.insertAdjacentHTML("afterend", `<video controls="controls" src="${url}"></video>`);
     element.remove();
@@ -46,10 +48,35 @@ const iframeRender = (element: HTMLElement, url: string) => {
             `<iframe class="iframe__video"
  src="https://www.dailymotion.com/embed/video/${dailymotionMatch[2]}"></iframe>`);
         element.remove();
-    } else if (bilibiliMatch && bilibiliMatch[1]) {
+    } else if (url.indexOf("bilibili.com") > -1 && (url.indexOf("bvid=") > -1 || (bilibiliMatch && bilibiliMatch[1]))) {
+        const params: IObject = {
+            bvid:  getSearch("bvid", url) || (bilibiliMatch && bilibiliMatch[1]),
+            page: "1",
+            high_quality: "1",
+            as_wide: "1",
+            allowfullscreen: "true",
+            autoplay: "0"
+        };
+        new URL(url.startsWith("http") ? url : "https:" + url).search.split("&").forEach((item, index) => {
+            if (!item) {
+                return;
+            }
+            if (index === 0) {
+                item = item.substr(1);
+            }
+            const keyValue = item.split("=");
+            params[keyValue[0]] = keyValue[1];
+        });
+        let src = "https://player.bilibili.com/player.html?";
+        const keys = Object.keys(params);
+        keys.forEach((key, index) => {
+            src += `${key}=${params[key]}`;
+            if (index < keys.length - 1) {
+                src += "&";
+            }
+        });
         element.insertAdjacentHTML("afterend",
-            `<iframe class="iframe__video"
- src="//player.bilibili.com/player.html?bvid=${bilibiliMatch[1]}"></iframe>`);
+            `<iframe class="iframe__video" src="${src}"></iframe>`);
         element.remove();
     } else if (tedMatch && tedMatch[1]) {
         element.insertAdjacentHTML("afterend",
