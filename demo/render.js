@@ -20,7 +20,7 @@ const render = (fileName) => {
     fetch(`/demo/markdown/${fileName}.md`).then(response => response.text()).then(markdown => {
 
         Vditor.preview(previewElement, markdown, {
-            cdn: 'https://cdn.jsdelivr.net/npm/vditor',
+            cdn: '',
             markdown: {
                 toc: true, listStyle: fileName === 'cute-list',
             },

@@ -35,6 +35,11 @@ const mergeOptions = (options?: IPreviewOptions) => {
         speech: {
             enable: false,
         },
+        render: {
+            media: {
+                enable: true,
+            }
+        },
         theme: Constants.THEME_OPTIONS,
     };
     if (options.cdn) {
@@ -133,7 +138,9 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     plantumlRender(previewElement, mergedOptions.cdn);
     abcRender(previewElement, mergedOptions.cdn);
-    mediaRender(previewElement);
+    if (mergedOptions.render.media.enable) {
+        mediaRender(previewElement);
+    }
     if (mergedOptions.speech.enable) {
         speechRender(previewElement);
     }

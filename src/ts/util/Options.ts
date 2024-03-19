@@ -59,6 +59,11 @@ export class Options {
             maxWidth: 800,
             mode: "both",
             theme: Constants.THEME_OPTIONS,
+            render: {
+                media: {
+                    enable: true,
+                }
+            }
         },
         link: {
             isOpen: true,
@@ -149,6 +154,9 @@ export class Options {
             }
             if (this.options.preview?.theme?.list) {
                 this.defaultOptions.preview.theme.list = this.options.preview.theme.list;
+            }
+            if (this.options.preview?.render?.media?.enable) {
+                this.defaultOptions.preview.render.media.enable = this.options.preview.render.media.enable;
             }
             if (this.options.hint?.emoji) {
                 this.defaultOptions.hint.emoji = this.options.hint.emoji;

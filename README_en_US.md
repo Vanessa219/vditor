@@ -334,6 +334,12 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 | className | Button Class | - |
 | click(key: string) | Click Event | - |
 
+#### options.preview.render.media
+
+|        | Explanation        | Default  |
+|--------|-----------|------|
+| enable | Whether to enable multimedia render | true |
+
 #### options.image
 
 |   | Explanation | Default |
@@ -527,6 +533,7 @@ options?: IPreviewOptions {
   cdn?: string; // Self-built CDN address
   lazyLoadImage?: string; // use "https://unpkg.com/vditor/dist/images/img-loading.svg" to lazy load image
   markdown?: options.preview.markdown;
+  render?: options.preview.render;
   renderers?: ILuteRender; // Custom rendering method https://ld246.com/article/1588412297062
 }
 ```

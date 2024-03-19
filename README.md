@@ -359,6 +359,12 @@ new Vditor('vditor', {
 | className | 按钮类名 | - |
 | click(key: string) | 按钮点击回调事件 | - |
 
+#### options.preview.render.media
+
+|        | 说明        | 默认值  |
+|--------|-----------|------|
+| enable | 是否启用多媒体渲染 | true |
+
 #### options.image
 
 |   | 说明 | 默认值 |
@@ -575,6 +581,7 @@ options?: IPreviewOptions {
   lazyLoadImage?: string; // 设置为 Loading 图片地址后将启用图片的懒加载
   markdown?: options.preview.markdown;
   theme?: options.preview.theme;
+  render?: options.preview.render;
   renderers?: ILuteRender; // 自定义渲染 https://ld246.com/article/1588412297062
 }
 ```
