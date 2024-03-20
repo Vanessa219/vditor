@@ -435,6 +435,7 @@ interface IHljs {
     enable?: boolean;
     /** 自定义指定语言: CODE_LANGUAGES */
     langs?: string[];
+
     /** 渲染右上角菜单按钮 */
     renderMenu?(element: HTMLElement, menuElement: HTMLElement): void;
 }
@@ -501,12 +502,18 @@ interface IPreview {
     theme?: IPreviewTheme;
     /** @link https://ld246.com/article/1549638745630#options-preview-actions  */
     actions?: Array<IPreviewAction | IPreviewActionCustom>;
-
+    render?: IPreviewRender
     /** 预览回调 */
     parse?(element: HTMLElement): void;
 
     /** 渲染之前回调 */
     transform?(html: string): string;
+}
+
+interface IPreviewRender {
+    media?: {
+        enable?: boolean;
+    }
 }
 
 type IPreviewAction = "desktop" | "tablet" | "mobile" | "mp-wechat" | "zhihu";
@@ -542,6 +549,7 @@ interface IPreviewOptions {
     renderers?: ILuteRender;
     theme?: IPreviewTheme;
     icon?: "ant" | "material" | undefined;
+    render?: IPreviewRender
 
     transform?(html: string): string;
 

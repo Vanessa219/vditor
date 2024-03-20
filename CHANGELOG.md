@@ -8,13 +8,21 @@
   * 添加 option.link 和 options.image
   * 添加 hljs.defaultLang
   * 添加 hljs.renderMenu
+  * 添加 preview.render.media.enable
 
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.2 / 2024-04
+### v3.10.3 / 2024-04
 
+* [添加 `preview.render.media.enable` 参数](https://github.com/Vanessa219/vditor/issues/1583) `引入特性`
+
+### v3.10.2 / 2024-03-19
+
+* [使用 object 内嵌 plantuml 以支持特殊语法](https://github.com/Vanessa219/vditor/pull/1579) `改进功能`
+* [⬆️ Bump follow-redirects from 1.15.4 to 1.15.6](https://github.com/Vanessa219/vditor/pull/1582) `dependencies`
+* [改进 bilibili 视频网站解析](https://github.com/Vanessa219/vditor/issues/1581) `改进功能`
 * [改进松散模式下的列表展现](https://github.com/Vanessa219/vditor/issues/1575) `改进功能`
 * [mermaid 图表渲染自适应](https://github.com/Vanessa219/vditor/issues/1574) `改进功能`
 

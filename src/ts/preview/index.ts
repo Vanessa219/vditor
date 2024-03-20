@@ -231,7 +231,9 @@ export class Preview {
         mindmapRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);
         plantumlRender(vditor.preview.previewElement, vditor.options.cdn);
         abcRender(vditor.preview.previewElement, vditor.options.cdn);
-        mediaRender(vditor.preview.previewElement);
+        if (vditor.options.preview.render.media.enable) {
+            mediaRender(vditor.preview.previewElement);
+        }
         vditor.options.customRenders.forEach((item) => {
             item.render(vditor.preview.previewElement, vditor);
         })
