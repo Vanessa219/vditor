@@ -16,6 +16,8 @@
 
 ### v3.10.3 / 2024-04
 
+* [拼写错误](https://github.com/Vanessa219/vditor/issues/1588) `文档相关`
+* [⬆️ Bump webpack-dev-middleware from 5.3.1 to 5.3.4](https://github.com/Vanessa219/vditor/pull/1590) `dependencies`
 * [添加 `preview.render.media.enable` 参数](https://github.com/Vanessa219/vditor/issues/1583) `引入特性`
 
 ### v3.10.2 / 2024-03-19
