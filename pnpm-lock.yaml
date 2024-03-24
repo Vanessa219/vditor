@@ -4159,8 +4159,8 @@ packages:
       minipass: 3.1.6
     dev: true
 
-  /fs-monkey@1.0.3:
-    resolution: {integrity: sha512-cybjIfiiE+pTWicSCLFHSrXZ6EilF30oh91FDP9S2B051prEa7QWfrVTQm10/dDpswBDXZugPa1Ogu8Yh+HV0Q==}
+  /fs-monkey@1.0.5:
+    resolution: {integrity: sha512-8uMbBjrhzW76TYgEV27Y5E//W2f/lTFmx78P2w19FZSxarhI/798APGQyuGCwmkNxgwGRhrLfvWyLBvNtuOmew==}
     dev: true
 
   /fs.realpath@1.0.0:
@@ -5698,11 +5698,11 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
-  /memfs@3.4.1:
-    resolution: {integrity: sha512-1c9VPVvW5P7I85c35zAdEr1TD5+F11IToIHIlrVIcflfnzPkJa0ZoYEoEdYDP8KgPFoSZ/opDrUsAoZWym3mtw==}
+  /memfs@3.5.3:
+    resolution: {integrity: sha512-UERzLsxzllchadvbPs5aolHh65ISpKpM+ccLbOJ8/vvpBKmAWf+la7dXFy7Mr0ySHbdHrFv5kGFCUHHe6GFEmw==}
     engines: {node: '>= 4.0.0'}
     dependencies:
-      fs-monkey: 1.0.3
+      fs-monkey: 1.0.5
     dev: true
 
   /memory-fs@0.5.0:
@@ -7867,14 +7867,14 @@ packages:
       webpack-merge: 5.8.0
     dev: true
 
-  /webpack-dev-middleware@5.3.1(webpack@5.76.0):
-    resolution: {integrity: sha512-81EujCKkyles2wphtdrnPg/QqegC/AtqNH//mQkBYSMqwFVCQrxM6ktB2O/SPlZy7LqeEfTbV3cZARGQz6umhg==}
+  /webpack-dev-middleware@5.3.4(webpack@5.76.0):
+    resolution: {integrity: sha512-BVdTqhhs+0IfoeAf7EoH5WE+exCmqGerHfDM0IL096Px60Tq2Mn9MAbnaGUe6HiMa41KMCYF19gyzZmBcq/o4Q==}
     engines: {node: '>= 12.13.0'}
     peerDependencies:
       webpack: ^4.0.0 || ^5.0.0
     dependencies:
       colorette: 2.0.16
-      memfs: 3.4.1
+      memfs: 3.5.3
       mime-types: 2.1.34
       range-parser: 1.2.1
       schema-utils: 4.0.0
@@ -7922,7 +7922,7 @@ packages:
       strip-ansi: 7.0.1
       webpack: 5.76.0(webpack-cli@4.9.2)
       webpack-cli: 4.9.2(webpack-bundle-analyzer@3.9.0)(webpack-dev-server@4.7.4)(webpack@5.76.0)
-      webpack-dev-middleware: 5.3.1(webpack@5.76.0)
+      webpack-dev-middleware: 5.3.4(webpack@5.76.0)
       ws: 8.5.0
     transitivePeerDependencies:
       - bufferutil
