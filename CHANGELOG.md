@@ -16,6 +16,7 @@
 
 ### v3.10.3 / 2024-04
 
+* [⬆️ Bump express from 4.17.3 to 4.19.2](https://github.com/Vanessa219/vditor/pull/1594) `dependencies`
 * [id 不存在时给出对应提示](https://github.com/Vanessa219/vditor/issues/1562) `改进功能`
 * [https 下请求 plantuml 会被阻止](https://github.com/Vanessa219/vditor/pull/1586) `改进功能`
 * [拼写错误](https://github.com/Vanessa219/vditor/issues/1588) `文档相关`
