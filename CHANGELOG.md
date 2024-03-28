@@ -16,6 +16,7 @@
 
 ### v3.10.3 / 2024-04
 
+* [id 不存在时给出对应提示](https://github.com/Vanessa219/vditor/issues/1562) `改进功能`
 * [https 下请求 plantuml 会被阻止](https://github.com/Vanessa219/vditor/pull/1586) `改进功能`
 * [拼写错误](https://github.com/Vanessa219/vditor/issues/1588) `文档相关`
 * [⬆️ Bump webpack-dev-middleware from 5.3.1 to 5.3.4](https://github.com/Vanessa219/vditor/pull/1590) `dependencies`

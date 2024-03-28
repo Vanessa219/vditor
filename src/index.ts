@@ -60,6 +60,10 @@ class Vditor extends VditorMethod {
             } else if (!options.cache.id) {
                 options.cache.id = `vditor${id}`;
             }
+            if (!document.getElementById(id)) {
+                this.showErrorTip(`Failed to get element by id: ${id}`);
+                return;
+            }
             id = document.getElementById(id);
         }
 
@@ -83,15 +87,19 @@ class Vditor extends VditorMethod {
                 addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID).then(() => {
                     this.init(id as HTMLElement, mergedOptions);
                 }).catch(error => {
-                    const tip = new Tip();
-                    document.body.appendChild(tip.element);
-                    tip.show(`GET ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js net::ERR_ABORTED 404 (Not Found)`, 0)
+                    this.showErrorTip(`GET ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js net::ERR_ABORTED 404 (Not Found)`);
                 });
             }
         } else {
             window.VditorI18n = mergedOptions.i18n;
             this.init(id, mergedOptions);
         }
+    }
+
+    private showErrorTip(error: string) {
+        const tip = new Tip();
+        document.body.appendChild(tip.element);
+        tip.show(error, 0)
     }
 
     /** 设置主题 */
