@@ -14,7 +14,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.3 / 2024-04
+### v3.10.4 / 2024-04
+
+### v3.10.3 / 2024-04-02
 
 * [⬆️ Bump express from 4.17.3 to 4.19.2](https://github.com/Vanessa219/vditor/pull/1594) `dependencies`
 * [id 不存在时给出对应提示](https://github.com/Vanessa219/vditor/issues/1562) `改进功能`
