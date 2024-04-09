@@ -16,6 +16,8 @@
 
 ### v3.10.4 / 2024-04
 
+* [options.preview.hljs.linenumber 设置为 true 时复制按钮消失](https://github.com/Vanessa219/vditor/issues/1601) `修复缺陷`
+
 ### v3.10.3 / 2024-04-02
 
 * [⬆️ Bump express from 4.17.3 to 4.19.2](https://github.com/Vanessa219/vditor/pull/1594) `dependencies`

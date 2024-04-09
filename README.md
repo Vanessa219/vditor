@@ -309,7 +309,7 @@ new Vditor('vditor', {
 | style | 可选值参见[Chroma](https://xyproto.github.io/splash/docs/longer/all.html) | `github` |
 | lineNumber | 是否启用行号 | false |
 | langs | 自定义指定语言 | [CODE_LANGUAGES](https://github.com/Vanessa219/vditor/blob/53ca8f9a0e511b37b5dae7c6b15eb933e9e02ccd/src/ts/constants.ts#L20) |
-| renderMenu | 渲染菜单按钮 | - |
+| renderMenu(code: HTMLElement, copy: HTMLElement) | 渲染菜单按钮 | - |
 
 #### options.preview.markdown
 
