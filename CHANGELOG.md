@@ -16,6 +16,7 @@
 
 ### v3.10.4 / 2024-04
 
+* [移动端预览模式下点击复制代码不弹起键盘](https://github.com/Vanessa219/vditor/issues/1603) `改进功能`
 * [大纲对不齐](https://github.com/Vanessa219/vditor/issues/1591) `改进功能`
 * [options.preview.hljs.linenumber 设置为 true 时复制按钮消失](https://github.com/Vanessa219/vditor/issues/1601) `修复缺陷`
 
