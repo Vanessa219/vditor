@@ -14,7 +14,7 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
     }
     const vditorHljsStyle = document.getElementById("vditorHljsStyle") as HTMLLinkElement;
     const href = `${cdn}/dist/js/highlight.js/styles/${style}.css`;
-    if (vditorHljsStyle && vditorHljsStyle.href !== href) {
+    if (vditorHljsStyle && vditorHljsStyle.getAttribute('href') !== href) {
         vditorHljsStyle.remove();
     }
     addStyle(`${cdn}/dist/js/highlight.js/styles/${style}.css`, "vditorHljsStyle");
