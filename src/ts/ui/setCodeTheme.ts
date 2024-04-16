@@ -9,7 +9,7 @@ export const setCodeTheme = (codeTheme: string, cdn = Constants.CDN) => {
     const href = `${cdn}/dist/js/highlight.js/styles/${codeTheme}.css`;
     if (!vditorHljsStyle) {
         addStyle(href, "vditorHljsStyle");
-    } else if (vditorHljsStyle.href !== href) {
+    } else if (vditorHljsStyle.getAttribute('href') !== href) {
         vditorHljsStyle.remove();
         addStyle(href, "vditorHljsStyle");
     }
