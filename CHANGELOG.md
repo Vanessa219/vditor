@@ -14,7 +14,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.4 / 2024-04
+### v3.10.5 / 2024-05
+
+### v3.10.4 / 2024-04-16
 
 * [移动端支持划选阅读](https://github.com/Vanessa219/vditor/issues/1611) `改进功能`
 * [改进代码样式外链地址匹配规则](https://github.com/Vanessa219/vditor/pull/1607) `改进功能`
