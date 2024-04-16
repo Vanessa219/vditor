@@ -16,7 +16,8 @@
 
 ### v3.10.4 / 2024-04
 
-* [改进代码样式外链地址匹配规则 ](https://github.com/Vanessa219/vditor/pull/1607) `改进功能`
+* [移动端支持划选阅读](https://github.com/Vanessa219/vditor/issues/1611) `改进功能`
+* [改进代码样式外链地址匹配规则](https://github.com/Vanessa219/vditor/pull/1607) `改进功能`
 * [移动端预览模式下点击复制代码不弹起键盘](https://github.com/Vanessa219/vditor/issues/1603) `改进功能`
 * [大纲对不齐](https://github.com/Vanessa219/vditor/issues/1591) `改进功能`
 * [options.preview.hljs.linenumber 设置为 true 时复制按钮消失](https://github.com/Vanessa219/vditor/issues/1601) `修复缺陷`
