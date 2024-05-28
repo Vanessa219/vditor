@@ -69,6 +69,23 @@ export class Toolbar {
         }
     }
 
+    public updateConfig(vditor: IVditor, options: IToolbarConfig) {
+        vditor.options.toolbarConfig = Object.assign({
+            hide: false,
+            pin: false,
+        }, options);
+        if (vditor.options.toolbarConfig.hide) {
+            this.element.classList.add("vditor-toolbar--hide");
+        } else {
+            this.element.classList.remove("vditor-toolbar--hide");
+        }
+        if (vditor.options.toolbarConfig.pin) {
+            this.element.classList.add("vditor-toolbar--pin");
+        } else {
+            this.element.classList.remove("vditor-toolbar--pin");
+        }
+    }
+
     private genItem(vditor: IVditor, menuItem: IMenuItem, index: number) {
         let menuItemObj;
         switch (menuItem.name) {

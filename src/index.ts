@@ -102,6 +102,10 @@ class Vditor extends VditorMethod {
         tip.show(error, 0)
     }
 
+    public updateToolbarConfig(options: IToolbarConfig) {
+        this.vditor.toolbar.updateConfig(this.vditor, options);
+    }
+
     /** 设置主题 */
     public setTheme(
         theme: "dark" | "classic",

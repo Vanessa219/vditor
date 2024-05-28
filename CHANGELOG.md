@@ -9,12 +9,15 @@
   * 添加 hljs.defaultLang
   * 添加 hljs.renderMenu
   * 添加 preview.render.media.enable
+  * 添加 updateToolbarConfig
 
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
 ### v3.10.5 / 2024-05
+
+* [添加 `updateToolbarConfig` 方法](https://github.com/Vanessa219/vditor/issues/1627) `引入特性`
 
 ### v3.10.4 / 2024-04-16
 

@@ -786,6 +786,7 @@ interface IVditor {
     toolbar?: {
         elements?: { [key: string]: HTMLElement },
         element?: HTMLElement,
+        updateConfig(vditor: IVditor, options: IToolbarConfig): void,
     };
     preview?: {
         element: HTMLElement,

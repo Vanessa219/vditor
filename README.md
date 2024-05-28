@@ -545,6 +545,7 @@ if (xhr.status === 200) {
 | hlCommentIds(ids: string[]) | 高亮评论 |
 | unHlCommentIds(ids: string[]) | 取消评论高亮 |
 | removeCommentIds(removeIds: string[]) | 删除评论 |
+| updateToolbarConfig(config: {hide?: boolean, pin?: boolean}) | 更新工具栏配置 |
 
 #### static methods
 
