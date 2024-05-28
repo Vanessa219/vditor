@@ -95,8 +95,15 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
             }
             // 第一个 marker 后 tab 进行缩进
             if (event.key === "Tab") {
-                listFirstMarkerElement.insertAdjacentHTML("beforebegin",
-                    `<span data-type="padding">${listFirstMarkerElement.textContent.replace(/\S/g, " ")}</span>`);
+                if(event.shiftKey){
+                    if(listFirstMarkerElement.previousElementSibling.getAttribute("data-type") === "padding"){
+                        listFirstMarkerElement.previousElementSibling.remove();
+                    }
+                }
+                else{
+                    listFirstMarkerElement.insertAdjacentHTML("beforebegin",
+                        `<span data-type="padding">${listFirstMarkerElement.textContent.replace(/\S/g, " ")}</span>`);
+                }
                 if (/^\d/.test(listFirstMarkerElement.textContent)) {
                     listFirstMarkerElement.textContent = listFirstMarkerElement.textContent.replace(/^\d{1,}/, "1");
                     range.selectNodeContents(listLastMarkerElement.firstChild);
