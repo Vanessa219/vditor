@@ -15,7 +15,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.5 / 2024-05
+### v3.10.6 / 2024-07
+
+### v3.10.5 / 2024-06-04
 
 * [支持 SV 模式下列表的反向缩进](https://github.com/Vanessa219/vditor/pull/1630) `引入特性`
 * [添加 `updateToolbarConfig` 方法](https://github.com/Vanessa219/vditor/issues/1627) `引入特性`
