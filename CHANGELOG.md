@@ -19,6 +19,7 @@
 
 ### v3.10.5 / 2024-06
 
+* [Bump ws from 6.2.2 to 6.2.3](https://github.com/Vanessa219/vditor/pull/1635) `dependencies`
 * [支持 SV 模式下列表的反向缩进](https://github.com/Vanessa219/vditor/pull/1630) `引入特性`
 * [添加 `updateToolbarConfig` 方法](https://github.com/Vanessa219/vditor/issues/1627) `引入特性`
 
