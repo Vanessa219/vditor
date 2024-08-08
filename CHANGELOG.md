@@ -17,6 +17,7 @@
 
 ### v3.10.6 / 2024-08
 
+* [图标配置为 `material` 时，列表反向缩进与缩进的图标错误](https://github.com/Vanessa219/vditor/issues/1656) `修复缺陷`
 * [提供非混淆版本的产物代码](https://github.com/Vanessa219/vditor/issues/1653) `开发重构`
 
 ### v3.10.5 / 2024-06

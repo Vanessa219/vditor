@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {uploadFiles} from "../upload";
+import {uploadFiles} from "../upload/index";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 
