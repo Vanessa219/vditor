@@ -5,7 +5,7 @@
   "author": "Vanessa <v@b3log.org> (http://vanessa.b3log.org)",
   "homepage": "https://b3log.org/vditor",
   "jsdelivr": "dist/index.min.js",
-  "main": "dist/index.min.js",
+  "main": "dist/index.js",
   "funding": "https://ld246.com/sponsor",
   "files": [
     "dist/*",
