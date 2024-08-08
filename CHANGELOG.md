@@ -15,7 +15,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.6 / 2024-07
+### v3.10.6 / 2024-08
+
+* [提供非混淆版本的产物代码](https://github.com/Vanessa219/vditor/issues/1653) `开发重构`
 
 ### v3.10.5 / 2024-06
 
