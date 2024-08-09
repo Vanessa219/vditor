@@ -16,14 +16,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.6 / 2024-08
+### v3.10.5 / 2024-08
 
 * [添加 `upload.renderLinkDest` 用于扩展粘贴时图片链接的处理](https://github.com/Vanessa219/vditor/issues/1186) `引入特性`
 * [图标配置为 `material` 时，列表反向缩进与缩进的图标错误](https://github.com/Vanessa219/vditor/issues/1656) `修复缺陷`
 * [提供非混淆版本的产物代码](https://github.com/Vanessa219/vditor/issues/1653) `开发重构`
-
-### v3.10.5 / 2024-06
-
 * [Bump ws from 6.2.2 to 6.2.3](https://github.com/Vanessa219/vditor/pull/1635) `dependencies`
 * [支持 SV 模式下列表的反向缩进](https://github.com/Vanessa219/vditor/pull/1630) `引入特性`
 * [添加 `updateToolbarConfig` 方法](https://github.com/Vanessa219/vditor/issues/1627) `引入特性`
