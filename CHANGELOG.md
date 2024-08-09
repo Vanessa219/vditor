@@ -16,7 +16,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.5 / 2024-08
+### v3.10.5 / 2024-08-09
 
 * [添加 `upload.renderLinkDest` 用于扩展粘贴时图片链接的处理](https://github.com/Vanessa219/vditor/issues/1186) `引入特性`
 * [图标配置为 `material` 时，列表反向缩进与缩进的图标错误](https://github.com/Vanessa219/vditor/issues/1656) `修复缺陷`
