@@ -2,6 +2,7 @@
 
 ### 升级
 * 3.9
+  * 添加 insertMD 方法
   * 添加 options.upload.renderLinkDest
   * 添加 options.preview.math.mathJaxOptions
   * 添加 hljs.langs
@@ -15,6 +16,10 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
+
+### v3.10.6 / 2024-08
+
+* [添加 `insertMD` 方法](https://github.com/Vanessa219/vditor/issues/1640) `引入特性`
 
 ### v3.10.5 / 2024-08-09
 
