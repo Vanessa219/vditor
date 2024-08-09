@@ -2,6 +2,7 @@
 
 ### 升级
 * 3.9
+  * 添加 options.upload.renderLinkDest
   * 添加 options.preview.math.mathJaxOptions
   * 添加 hljs.langs
   * 添加 option.keydown
@@ -17,6 +18,7 @@
 
 ### v3.10.6 / 2024-08
 
+* [添加 `upload.renderLinkDest` 用于扩展粘贴时图片链接的处理](https://github.com/Vanessa219/vditor/issues/1186) `引入特性`
 * [图标配置为 `material` 时，列表反向缩进与缩进的图标错误](https://github.com/Vanessa219/vditor/issues/1656) `修复缺陷`
 * [提供非混淆版本的产物代码](https://github.com/Vanessa219/vditor/issues/1653) `开发重构`
 

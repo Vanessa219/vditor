@@ -437,6 +437,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | extraData | Append data to FormData { [key: string]: string | Blob } | - |
 | multiple | Allow multiple file uploads | true |
 | fieldName | The key of field name | file[] |
+| renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number] | Process the image address in the clipboard | '' |
 
 #### options.resize
 

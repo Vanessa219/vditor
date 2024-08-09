@@ -484,6 +484,7 @@ if (xhr.status === 200) {
 | extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数 | - |
 | multiple | 上传文件是否为多个 | true |
 | fieldName | 上传字段名称 | 'file[]' |
+| renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number] | 处理剪贴板中的图片地址 | '' |
 
 #### options.resize
 

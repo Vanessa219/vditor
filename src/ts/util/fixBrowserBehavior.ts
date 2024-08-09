@@ -1290,6 +1290,10 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             return ["", Lute.WalkContinue];
         }
 
+        if (vditor.options.upload.renderLinkDest) {
+            return vditor.options.upload.renderLinkDest(vditor, node, entering);
+        }
+
         const src = node.TokensStr();
         if (node.__internal_object__.Parent.Type === 34 && src && src.indexOf("file://") === -1 &&
             vditor.options.upload.linkToImgUrl) {
@@ -1448,7 +1452,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             }
         } else if (textPlain.trim() !== "" && files.length === 0) {
             const range = getEditorRange(vditor);
-            if (range.toString() !== ""  && vditor.lute.IsValidLinkDest(textPlain)) {
+            if (range.toString() !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
                 textPlain = `[${range.toString()}](${textPlain})`;
             }
             if (vditor.currentMode === "ir") {
