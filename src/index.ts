@@ -36,6 +36,7 @@ import {WYSIWYG} from "./ts/wysiwyg/index";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {execAfterRender} from "./ts/util/fixBrowserBehavior";
+import {accessLocalStorage} from "./ts/util/compatibility";
 
 class Vditor extends VditorMethod {
     public readonly version: string;
@@ -209,7 +210,9 @@ class Vditor extends VditorMethod {
 
     /** 清除缓存 */
     public clearCache() {
-        localStorage.removeItem(this.vditor.options.cache.id);
+        if (this.vditor.options.cache.enable && accessLocalStorage()) {
+            localStorage.removeItem(this.vditor.options.cache.id);
+        }
     }
 
     /** 禁用缓存 */
