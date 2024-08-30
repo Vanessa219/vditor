@@ -92,7 +92,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         }
         // 数学公式上无元素，按上或左将添加新块
         if ((codeRenderElement.getAttribute("data-type") === "math-block"
-            || codeRenderElement.getAttribute("data-type") === "html-block") &&
+                || codeRenderElement.getAttribute("data-type") === "html-block") &&
             insertBeforeBlock(vditor, event, range, codeRenderElement, preRenderElement.parentElement)) {
             return true;
         }
@@ -208,7 +208,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         // 光标位于标题前，marker 后
         if (headingElement) {
             const headingLength = headingElement.firstElementChild.textContent.length;
-            if (getSelectPosition(headingElement, vditor.ir.element).start === headingLength) {
+            if (getSelectPosition(headingElement, vditor.ir.element).start === headingLength && headingLength !== 0) {
                 range.setStart(headingElement.firstElementChild.firstChild, headingLength - 1);
                 range.collapse(true);
                 setSelectionFocus(range);

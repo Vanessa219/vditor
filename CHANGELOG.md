@@ -19,6 +19,7 @@
 
 ### v3.10.6 / 2024-09
 
+* [ir 模式下标题删除报错](https://github.com/Vanessa219/vditor/issues/1666) `修复缺陷`
 * [升级 echarts 至 5.5.1](https://github.com/Vanessa219/vditor/issues/1664) `开发重构`
 * [添加 `insertMD` 方法](https://github.com/Vanessa219/vditor/issues/1640) `引入特性`
 
