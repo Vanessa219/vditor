@@ -20,7 +20,7 @@ export class DevTools {
             return;
         }
 
-        addScript(`${vditor.options.cdn}/dist/js/echarts/echarts.min.js`, "vditorEchartsScript").then(() => {
+        addScript(`${vditor.options.cdn}/dist/js/echarts/echarts.min.js?v=5.5.1`, "vditorEchartsScript").then(() => {
             if (!this.ASTChart) {
                 this.ASTChart = echarts.init(vditor.devtools.element.lastElementChild as HTMLDivElement);
             }

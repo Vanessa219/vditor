@@ -17,8 +17,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.6 / 2024-08
+### v3.10.6 / 2024-09
 
+* [升级 echarts 至 5.5.1](https://github.com/Vanessa219/vditor/issues/1664) `开发重构`
 * [添加 `insertMD` 方法](https://github.com/Vanessa219/vditor/issues/1640) `引入特性`
 
 ### v3.10.5 / 2024-08-09
