@@ -17,7 +17,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.6 / 2024-09
+### v3.10.7 / 2024-10
+
+### v3.10.6 / 2024-09-11
 
 * [支持 echarts 中执行函数](https://github.com/Vanessa219/vditor/issues/1672) `改进功能`
 * [井号后输入空格就渲染标题](https://github.com/Vanessa219/vditor/issues/729) `改进功能`
