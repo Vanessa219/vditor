@@ -19,6 +19,8 @@
 
 ### v3.10.7 / 2024-10
 
+* [撤销后 echart 无法渲染](https://github.com/Vanessa219/vditor/issues/1673) `修复缺陷`
+
 ### v3.10.6 / 2024-09-11
 
 * [支持 echarts 中执行函数](https://github.com/Vanessa219/vditor/issues/1672) `改进功能`

@@ -149,6 +149,10 @@ class Undo {
         this[vditor.currentMode].lastText = text;
         vditor[vditor.currentMode].element.innerHTML = text;
         if (vditor.currentMode !== "sv") {
+            vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview`)
+                .forEach((blockElement: HTMLElement) => {
+                    blockElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.parentElement.outerHTML);
+                });
             vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
                 .forEach((blockElement: HTMLElement) => {
                     processCodeRender(blockElement, vditor);
