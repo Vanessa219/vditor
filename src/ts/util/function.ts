@@ -9,3 +9,7 @@ export const getSearch = (key: string, link = window.location.search) => {
     const urlSearchParams = new URLSearchParams(params.substring(0, hashIndex >= 0 ? hashIndex : undefined));
     return urlSearchParams.get(key);
 };
+
+export const looseJsonParse = (text: string) => {
+    return Function(`"use strict";return (${text})`)();
+};
