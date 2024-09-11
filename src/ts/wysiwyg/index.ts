@@ -380,6 +380,11 @@ class WYSIWYG {
                 }
             }
 
+            // https://github.com/Vanessa219/vditor/issues/729
+            if (endSpace && /^#{1,6} $/.test(blockElement.textContent)) {
+                endSpace = false;
+            }
+
             const headingElement = hasClosestByHeadings(getSelection().getRangeAt(0).startContainer);
             if (headingElement && headingElement.textContent === "") {
                 // heading 为空删除 https://github.com/Vanessa219/vditor/issues/150

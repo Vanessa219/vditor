@@ -57,6 +57,12 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
             }
             return;
         }
+
+        // https://github.com/Vanessa219/vditor/issues/729
+        if (endSpace && /^#{1,6} $/.test(blockElement.textContent)) {
+            endSpace = false;
+        }
+
         if (endSpace) {
             const markerElement = hasClosestByClassName(range.startContainer, "vditor-ir__marker");
             if (markerElement) {

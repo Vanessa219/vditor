@@ -19,6 +19,7 @@
 
 ### v3.10.6 / 2024-09
 
+* [井号后输入空格就渲染标题](https://github.com/Vanessa219/vditor/issues/729) `改进功能`
 * [ir 模式下标题删除报错](https://github.com/Vanessa219/vditor/issues/1666) `修复缺陷`
 * [升级 echarts 至 5.5.1](https://github.com/Vanessa219/vditor/issues/1664) `开发重构`
 * [添加 `insertMD` 方法](https://github.com/Vanessa219/vditor/issues/1640) `引入特性`
