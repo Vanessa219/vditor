@@ -4,6 +4,8 @@ import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {getEditorRange, insertHTML, setSelectionFocus} from "../util/selection";
 import {MenuItem} from "./MenuItem";
 import {toggleSubMenu} from "./setToolbar";
+import {hasClosestBlock} from "../util/hasClosest";
+import {modifyPre} from "../wysiwyg/inlineTag";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;
@@ -57,6 +59,9 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 } else {
                     range.extractContents();
                     range.insertNode(document.createTextNode(value));
+                    if (!hasClosestBlock(range.startContainer)) {
+                        modifyPre(vditor, range);
+                    }
                 }
                 range.collapse(false);
                 setSelectionFocus(range);
