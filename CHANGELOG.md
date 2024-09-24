@@ -19,6 +19,7 @@
 
 ### v3.10.7 / 2024-10
 
+* [内容为空时使用工具栏插入表情错误](https://github.com/Vanessa219/vditor/issues/1662) `修复缺陷`
 * [更新 hljs，支持更多的语言和外观](https://github.com/Vanessa219/vditor/issues/1680) `改进功能`
 * [撤销后 echart 无法渲染](https://github.com/Vanessa219/vditor/issues/1673) `修复缺陷`
 
