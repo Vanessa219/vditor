@@ -684,7 +684,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                     }
                     const matchLangData: IHintData[] = [];
                     const key = language.value.substring(0, language.selectionStart);
-                    (vditor.options.preview.hljs.langs || Constants.CODE_LANGUAGES).forEach((keyName) => {
+                    (vditor.options.preview.hljs.langs ||  Constants.ALIAS_CODE_LANGUAGES.concat((window.hljs?.listLanguages() ?? []).sort())).forEach((keyName) => {
                         if (keyName.indexOf(key.toLowerCase()) > -1) {
                             matchLangData.push({
                                 html: keyName,

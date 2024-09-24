@@ -4,6 +4,18 @@ declare module "*.png";
 
 interface Window {
     VditorI18n: ITips;
+    hljs: {
+        listLanguages(): string[];
+        highlight(text: string, options: {
+            language?: string,
+            ignoreIllegals: boolean
+        }): {
+            value: string
+        };
+        getLanguage(text: string): {
+            name: string
+        };
+    };
 }
 
 interface IObject {
