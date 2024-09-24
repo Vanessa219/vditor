@@ -42,8 +42,11 @@ export abstract class Constants {
         "color-brewer", "docco", "foundation", "github", "googlecode", "gradient-light", "grayscale", "idea", "intellij-light", "isbl-editor-light", "kimbie-light",
         "lightfair", "magula", "mono-blue", "nnfx-light", "panda-syntax-light", "paraiso-light", "purebasic", "qtcreator-light", "routeros", "school-book",
         "stackoverflow-light", "tokyo-night-light", "vs", "xcode", "default"];
-    public static readonly ALIAS_CODE_LANGUAGES: string[] = ["abc", "plantuml", "mermaid", "flowchart", "echarts", "mindmap", "graphviz", "math",
-        "js", "ts", "html", "toml", "c#", "bat", "markmap"
+    public static readonly ALIAS_CODE_LANGUAGES: string[] = [
+        // 自定义
+        "abc", "plantuml", "mermaid", "flowchart", "echarts", "mindmap", "graphviz", "math", "markmap",
+        // 别名
+        "js", "ts", "html", "toml", "c#", "bat"
     ];
     public static readonly CDN = `https://unpkg.com/vditor@${VDITOR_VERSION}`;
     public static readonly MARKDOWN_OPTIONS = {
