@@ -19,6 +19,7 @@
 
 ### v3.10.7 / 2024-10
 
+* [更新 hljs，支持更多的语言和外观](https://github.com/Vanessa219/vditor/issues/1680) `改进功能`
 * [撤销后 echart 无法渲染](https://github.com/Vanessa219/vditor/issues/1673) `修复缺陷`
 
 ### v3.10.6 / 2024-09-11
