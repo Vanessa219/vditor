@@ -38,7 +38,7 @@ class Vditor {
     public static mermaidRender = mermaidRender;
     /** 化学物质结构渲染 */
     public static SMILESRender = SMILESRender;
-    /** 支持markdown的思维导图 */
+    /** 支持 markdown 的思维导图 */
     public static markmapRender = markmapRender;
     /** flowchart.js 渲染 */
     public static flowchartRender = flowchartRender;

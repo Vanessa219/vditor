@@ -114,7 +114,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 * [Sym](https://github.com/88250/symphony) 一款用 Java 实现的现代化社区（论坛/BBS/社交网络/博客）平台
 * [Solo](https://github.com/88250/solo) & [Pipe](https://github.com/88250/pipe) B3log 分布式社区的博客端节点，欢迎加入下一代社区网络
-* [Tditor](https://tditor.com) 基于React、Vditor、Springboot， 一款打造极致文字创作体验的在线Markdown编辑平台
+* [Tditor](https://tditor.com) 基于React、Vditor、Springboot，一款打造极致文字创作体验的在线Markdown编辑平台
 * [Arya](https://github.com/nicejade/markdown-online-editor) 基于 Vue、Vditor，所构建的在线 Markdown 编辑器
 * [更多案例](https://github.com/Vanessa219/vditor/network/dependents?package_id=UGFja2FnZS0zMTY2Mzg4MzE%3D)
 
@@ -222,7 +222,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 #### options.toolbar
 
 * 工具栏，可使用 name 进行简写： `toolbar: ['emoji', 'br', 'bold', '|', 'line']` 。默认值参见 [src/ts/util/Options.ts](https://github.com/Vanessa219/vditor/blob/master/src/ts/util/Options.ts)
-* name 可枚举为： `emoji` , `headings` , `bold` , `italic` , `strike` , `|` , `line` , `quote` , `list` , `ordered-list` , `check` ,`outdent` ,`indent` , `code` , `inline-code` , `insert-after` , `insert-before` ,`undo` , `redo` , `upload` , `link` , `table` , `record` , `edit-mode` , `both` , `preview` , `fullscreen` , `outline` , `code-theme` , `content-theme` , `export`, `devtools` , `info` , `help` , `br`
+* name 可枚举为： `emoji`，`headings`，`bold`，`italic`，`strike`，`|`，`line`，`quote`，`list`，`ordered-list`，`check` ,`outdent` ,`indent`，`code`，`inline-code`，`insert-after`，`insert-before` ,`undo`，`redo`，`upload`，`link`，`table`，`record`，`edit-mode`，`both`，`preview`，`fullscreen`，`outline`，`code-theme`，`content-theme`，`export`, `devtools`，`info`，`help`，`br`
 * 当 `name` 不在枚举中时，可以添加自定义按钮，格式如下：
 
 ```js
@@ -424,7 +424,7 @@ xhr.send(formData);  // formData = FormData.append("file[]", File)
 }
 ```
 
-* 为了防止站外图片失效， `linkToImgUrl` 可将剪贴板中的站外图片地址传到服务器端进行保存处理，其数据结构如下：
+* 为了防止站外图片失效，`linkToImgUrl` 可将剪贴板中的站外图片地址传到服务器端进行保存处理，其数据结构如下：
 
 ```js
 // POST data
@@ -594,6 +594,8 @@ options?: IPreviewOptions {
 | - | - |
 | previewImage(oldImgElement: HTMLImageElement, lang: keyof II18n = "zh_CN", theme = "classic") | 点击图片预览 |
 | mermaidRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | 流程图/时序图/甘特图 |
+| SMILESRender(element: HTMLElement, cdn = options.cdn, theme = options.theme) | 化学物质结构 |
+| markmapRender(element: HTMLElement, cdn = options.cdn) | markdown 思维导图 |
 | flowchartRender(element: HTMLElement, cdn = options.cdn) | flowchart 渲染 |
 | codeRender(element: HTMLElement, option?: IHljs) | 为 element 中的代码块添加复制按钮 |
 | chartRender(element: (HTMLElement \| Document) = document, cdn = options.cdn, theme = options.theme) | 图表渲染 |
@@ -636,7 +638,7 @@ options?: IPreviewOptions {
 如果代码有修改或需要使用自建 CDN 的话，可按以下步骤进行操作：
 
 * 初始化时，需对 `options` 及 `IPreviewOptions` 中的 `cdn`，`emojiPath`, `themes` 进行配置
-* `highlightRender` , `mathRender` , `abcRender` , `chartRender` , `mermaidRender`， `flowchartRender`，`mindmapRender`，`graphvizRender`，`setCodeTheme`，`setContentTheme` 方法中需添加 cdn 参数
+* `highlightRender`，`mathRender`，`abcRender`，`chartRender`，`mermaidRender`，`SMILESRender`，`markmapRender`，`flowchartRender`，`mindmapRender`，`plantumlRender`，`graphvizRender`，`setCodeTheme`，`setContentTheme` 方法中需添加 cdn 参数
 * 将 build 成功的 dist 目录或 [jsDelivr](https://www.jsdelivr.com/package/npm/vditor?path=dist) 中的 dist 目录拷贝至正确的位置
 
 ### 升级
