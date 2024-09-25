@@ -1,15 +1,19 @@
 export const mathRenderAdapter = {
-    getCode: (mathElement: Element) => mathElement.textContent,
-    getElements: (element: HTMLElement) => element.querySelectorAll(".language-math"),
+    getCode: (el: Element) => el.textContent,
+    getElements: (element: HTMLElement| Document) => element.querySelectorAll(".language-math"),
+};
+export const SMILESRenderAdapter = {
+    getCode: (el: Element) => el.textContent,
+    getElements: (element: HTMLElement| Document) => element.querySelectorAll(".language-smiles"),
 };
 export const mermaidRenderAdapter = {
     /** 不仅要返回code，并且需要将 code 设置为 el 的 innerHTML */
     getCode: (el: Element) => el.textContent,
-    getElements: (element: HTMLElement) => element.querySelectorAll(".language-mermaid"),
+    getElements: (element: HTMLElement| Document) => element.querySelectorAll(".language-mermaid"),
 };
 export const markmapRenderAdapter = {
     getCode: (el: Element) => el.textContent,
-    getElements: (element: HTMLElement) => element.querySelectorAll(".language-markmap"),
+    getElements: (element: HTMLElement| Document) => element.querySelectorAll(".language-markmap"),
 };
 export const mindmapRenderAdapter = {
     getCode: (el: Element) => el.getAttribute("data-code"),

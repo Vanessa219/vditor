@@ -11,7 +11,7 @@ export const codeRender = (element: HTMLElement, option?: IHljs) => {
             e.classList.contains("language-echarts") || e.classList.contains("language-mindmap") ||
             e.classList.contains("language-plantuml") || e.classList.contains("language-markmap") ||
             e.classList.contains("language-abc") || e.classList.contains("language-graphviz") ||
-            e.classList.contains("language-math")) {
+            e.classList.contains("language-math") || e.classList.contains("language-smiles")) {
             return false;
         }
 

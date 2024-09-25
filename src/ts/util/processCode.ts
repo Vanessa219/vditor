@@ -9,6 +9,7 @@ import {mermaidRender} from "../markdown/mermaidRender";
 import {markmapRender} from "../markdown/markmapRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {plantumlRender} from "../markdown/plantumlRender";
+import {SMILESRender} from "../markdown/SMILESRender";
 
 export const processPasteCode = (html: string, text: string, type = "sv") => {
     const tempElement = document.createElement("div");
@@ -67,8 +68,10 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {
         mermaidRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+    } else if (language === "smiles") {
+        SMILESRender(previewPanel, vditor.options.cdn, vditor.options.theme);
     } else if (language === "markmap") {
-        markmapRender(previewPanel, vditor.options.cdn, vditor.options.theme);
+        markmapRender(previewPanel, vditor.options.cdn);
     } else if (language === "flowchart") {
         flowchartRender(previewPanel, vditor.options.cdn);
     } else if (language === "echarts") {

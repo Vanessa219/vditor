@@ -9,6 +9,7 @@ import {lazyLoadImageRender} from "./ts/markdown/lazyLoadImageRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mediaRender} from "./ts/markdown/mediaRender";
 import {mermaidRender} from "./ts/markdown/mermaidRender";
+import {SMILESRender} from "./ts/markdown/SMILESRender";
 import {markmapRender} from "./ts/markdown/markmapRender";
 import {mindmapRender} from "./ts/markdown/mindmapRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
@@ -35,6 +36,8 @@ class Vditor {
     public static mathRender = mathRender;
     /** 流程图/时序图/甘特图渲染 */
     public static mermaidRender = mermaidRender;
+    /** 化学物质结构渲染 */
+    public static SMILESRender = SMILESRender;
     /** 支持markdown的思维导图 */
     public static markmapRender = markmapRender;
     /** flowchart.js 渲染 */

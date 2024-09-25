@@ -8,7 +8,7 @@ declare const mermaid: {
     render(id: string, text: string): { svg: string }
 };
 
-export const mermaidRender = (element: HTMLElement, cdn = Constants.CDN, theme: string) => {
+export const mermaidRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
     const mermaidElements = mermaidRenderAdapter.getElements(element);
     if (mermaidElements.length === 0) {
         return;
@@ -44,7 +44,7 @@ export const mermaidRender = (element: HTMLElement, cdn = Constants.CDN, theme: 
             if (item.getAttribute("data-processed") === "true" || code.trim() === "") {
                 return;
             }
-            const id = "mermaid"+genUUID()
+            const id = "mermaid" + genUUID()
             try {
                 const mermaidData = await mermaid.render(id, item.textContent);
                 item.innerHTML = mermaidData.svg;

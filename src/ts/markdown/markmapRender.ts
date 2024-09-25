@@ -32,12 +32,12 @@ const init = (el: HTMLElement,code: string) => {
   }
 
 
-export const markmapRender = (element: HTMLElement, cdn = Constants.CDN, theme: string) => {
+export const markmapRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN) => {
     const markmapElements = markmapRenderAdapter.getElements(element);
     if (markmapElements.length === 0) {
         return;
     }
-    addScript(`${cdn}/dist/js/markmap/markmap.min.js`, "vditorMermaidScript").then(() => {
+    addScript(`${cdn}/dist/js/markmap/markmap.min.js`, "vditorMarkerScript").then(() => {
         markmapElements.forEach((item) => {
             const code = markmapRenderAdapter.getCode(item);
             if (item.getAttribute("data-processed") === "true" || code.trim() === "") {
@@ -53,5 +53,4 @@ export const markmapRender = (element: HTMLElement, cdn = Constants.CDN, theme: 
             }
         });
     });
-
 };
