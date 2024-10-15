@@ -19,7 +19,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.7 / 2024-10
+### v3.10.8 / 2024-11
+
+### v3.10.7 / 2024-10-15
 
 * [支持化学物质结构渲染](https://github.com/Vanessa219/vditor/issues/1158) `引入特性`
 * [内容为空时使用工具栏插入表情错误](https://github.com/Vanessa219/vditor/issues/1662) `修复缺陷`
