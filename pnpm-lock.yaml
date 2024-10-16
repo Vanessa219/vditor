@@ -68,7 +68,7 @@ importers:
         version: 6.2.0(webpack@5.94.0(webpack-cli@4.9.2))
       html-webpack-plugin:
         specifier: ^5.3.1
-        version: 5.5.0(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2))
+        version: 5.5.0(webpack@5.94.0(webpack-cli@4.9.2))
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
@@ -101,7 +101,7 @@ importers:
         version: 1.3.0(webpack@5.94.0(webpack-cli@4.9.2))
       terser-webpack-plugin:
         specifier: ^5.3.0
-        version: 5.3.1(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2))
+        version: 5.3.1(webpack@5.94.0(webpack-cli@4.9.2))
       ts-jest:
         specifier: ^26.5.6
         version: 26.5.6(jest@26.6.3)(typescript@4.9.5)
@@ -4127,10 +4127,6 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
 
-  source-map@0.7.3:
-    resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
-    engines: {node: '>= 8'}
-
   source-map@0.7.4:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
     engines: {node: '>= 8'}
@@ -4304,18 +4300,8 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.10.0:
-    resolution: {integrity: sha512-AMmF99DMfEDiRJfxfY5jj5wNH/bYO09cniSqhfoyxc8sFoYIgkJy86G04UoZU5VjlpnplVu0K6Tx6E9b5+DlHA==}
-    engines: {node: '>=10'}
-    hasBin: true
-    peerDependencies:
-      acorn: ^8.5.0
-    peerDependenciesMeta:
-      acorn:
-        optional: true
-
-  terser@5.34.1:
-    resolution: {integrity: sha512-FsJZ7iZLd/BXkz+4xrRTGJ26o/6VTjQytUk8b8OxkwcD2I+79VPJlz7qss1+zE7h8GNIScFqXcDyJ/KqBYZFVA==}
+  terser@5.35.0:
+    resolution: {integrity: sha512-TmYbQnzVfrx3RQsPoItoPplymixIAtp2R2xlpyVBYmFmvI34IzLhCLj8SimRb/kZXlq4t1gA+vbcTqLQ3+5Q5g==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -7761,7 +7747,7 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  html-minifier-terser@6.1.0(acorn@8.12.1):
+  html-minifier-terser@6.1.0:
     dependencies:
       camel-case: 4.1.2
       clean-css: 5.2.4
@@ -7769,20 +7755,16 @@ snapshots:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.10.0(acorn@8.12.1)
-    transitivePeerDependencies:
-      - acorn
+      terser: 5.35.0
 
-  html-webpack-plugin@5.5.0(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2)):
+  html-webpack-plugin@5.5.0(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
-      html-minifier-terser: 6.1.0(acorn@8.12.1)
+      html-minifier-terser: 6.1.0
       lodash: 4.17.21
       pretty-error: 4.0.0
       tapable: 2.2.1
       webpack: 5.94.0(webpack-cli@4.9.2)
-    transitivePeerDependencies:
-      - acorn
 
   htmlparser2@6.1.0:
     dependencies:
@@ -9587,8 +9569,6 @@ snapshots:
 
   source-map@0.6.1: {}
 
-  source-map@0.7.3: {}
-
   source-map@0.7.4: {}
 
   spdx-correct@3.1.1:
@@ -9751,16 +9731,14 @@ snapshots:
       ansi-escapes: 4.3.2
       supports-hyperlinks: 2.2.0
 
-  terser-webpack-plugin@5.3.1(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2)):
+  terser-webpack-plugin@5.3.1(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.0
       source-map: 0.6.1
-      terser: 5.10.0(acorn@8.12.1)
+      terser: 5.35.0
       webpack: 5.94.0(webpack-cli@4.9.2)
-    transitivePeerDependencies:
-      - acorn
 
   terser-webpack-plugin@5.3.10(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
@@ -9768,18 +9746,10 @@ snapshots:
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      terser: 5.34.1
+      terser: 5.35.0
       webpack: 5.94.0(webpack-cli@4.9.2)
 
-  terser@5.10.0(acorn@8.12.1):
-    dependencies:
-      commander: 2.20.3
-      source-map: 0.7.3
-      source-map-support: 0.5.21
-    optionalDependencies:
-      acorn: 8.12.1
-
-  terser@5.34.1:
+  terser@5.35.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
       acorn: 8.12.1
@@ -9994,7 +9964,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       convert-source-map: 1.8.0
-      source-map: 0.7.3
+      source-map: 0.7.4
 
   validate-npm-package-license@3.0.4:
     dependencies:
