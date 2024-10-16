@@ -1,4 +1,4 @@
-import {exportHTML, exportMarkdown, exportPDF} from "../export";
+import {exportHTML, exportMarkdown, exportPDF} from "../export/index";
 import {getEventName} from "../util/compatibility";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
