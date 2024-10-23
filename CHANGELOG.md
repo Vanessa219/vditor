@@ -21,7 +21,8 @@
 
 ### v3.10.8 / 2024-11
 
-* [改进俄语](https://github.com/Vanessa219/vditor/pull/1702)
+* [行内公式撤销异常](https://github.com/Vanessa219/vditor/issues/1706) `修复缺陷`
+* [改进俄语](https://github.com/Vanessa219/vditor/pull/1702) `文档相关`
 
 ### v3.10.7 / 2024-10-15
 
