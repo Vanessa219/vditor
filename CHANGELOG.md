@@ -21,6 +21,8 @@
 
 ### v3.10.8 / 2024-11
 
+* [改进俄语](https://github.com/Vanessa219/vditor/pull/1702)
+
 ### v3.10.7 / 2024-10-15
 
 * [支持化学物质结构渲染](https://github.com/Vanessa219/vditor/issues/1158) `引入特性`
