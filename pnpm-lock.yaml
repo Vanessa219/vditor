@@ -2610,8 +2610,8 @@ packages:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
 
-  http-proxy-middleware@2.0.3:
-    resolution: {integrity: sha512-1bloEwnrHMnCoO/Gcwbz7eSVvW50KPES01PecpagI+YLNLci4AcuKJrujW4Mc3sBLpFxMSlsLNHS5Nl/lvrTPA==}
+  http-proxy-middleware@2.0.7:
+    resolution: {integrity: sha512-fgVY8AV7qU7z/MmXJ/rxwbrtQH4jBQ9m7kp3llF0liB7glmFeVZFBepQb32T3y8n8k2+AEYuMPCpinYW+/CuRA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/express': ^4.17.13
@@ -7797,7 +7797,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@2.0.3(@types/express@4.17.13):
+  http-proxy-middleware@2.0.7(@types/express@4.17.13):
     dependencies:
       '@types/http-proxy': 1.17.8
       http-proxy: 1.18.1
@@ -10045,7 +10045,7 @@ snapshots:
       express: 4.21.1
       graceful-fs: 4.2.9
       html-entities: 2.3.2
-      http-proxy-middleware: 2.0.3(@types/express@4.17.13)
+      http-proxy-middleware: 2.0.7(@types/express@4.17.13)
       ipaddr.js: 2.0.1
       open: 8.4.0
       p-retry: 4.6.1
