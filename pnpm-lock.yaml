@@ -68,7 +68,7 @@ importers:
         version: 6.2.0(webpack@5.94.0(webpack-cli@4.9.2))
       html-webpack-plugin:
         specifier: ^5.3.1
-        version: 5.5.0(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2))
+        version: 5.5.0(webpack@5.94.0(webpack-cli@4.9.2))
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
@@ -101,7 +101,7 @@ importers:
         version: 1.3.0(webpack@5.94.0(webpack-cli@4.9.2))
       terser-webpack-plugin:
         specifier: ^5.3.0
-        version: 5.3.1(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2))
+        version: 5.3.1(webpack@5.94.0(webpack-cli@4.9.2))
       ts-jest:
         specifier: ^26.5.6
         version: 26.5.6(jest@26.6.3)(typescript@4.9.5)
@@ -2610,8 +2610,8 @@ packages:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
 
-  http-proxy-middleware@2.0.3:
-    resolution: {integrity: sha512-1bloEwnrHMnCoO/Gcwbz7eSVvW50KPES01PecpagI+YLNLci4AcuKJrujW4Mc3sBLpFxMSlsLNHS5Nl/lvrTPA==}
+  http-proxy-middleware@2.0.7:
+    resolution: {integrity: sha512-fgVY8AV7qU7z/MmXJ/rxwbrtQH4jBQ9m7kp3llF0liB7glmFeVZFBepQb32T3y8n8k2+AEYuMPCpinYW+/CuRA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/express': ^4.17.13
@@ -3075,11 +3075,6 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  json5@2.2.0:
-    resolution: {integrity: sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==}
-    engines: {node: '>=6'}
-    hasBin: true
-
   json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
@@ -3146,8 +3141,8 @@ packages:
     resolution: {integrity: sha512-92+huvxMvYlMzMt0iIOukcwYBFpkYJdpl2xsZ7LrlayO7E8SOv+JJUEK17B/dJIHAOLMfh2dZZ/Y18WgmGtYNw==}
     engines: {node: '>=6.11.5'}
 
-  loader-utils@2.0.2:
-    resolution: {integrity: sha512-TM57VeHptv569d/GKh6TAYdzKblwDNiumOdkFnejjD0XwTH87K90w3O7AiJRqdQoXygvi1VQTJTLGhJl7WqA7A==}
+  loader-utils@2.0.4:
+    resolution: {integrity: sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==}
     engines: {node: '>=8.9.0'}
 
   locate-path@5.0.0:
@@ -3287,6 +3282,10 @@ packages:
 
   minipass@3.1.6:
     resolution: {integrity: sha512-rty5kpw9/z8SX9dmxblFA6edItUmwJgMeYDZRrwlIVN27i8gysGbznJwUggw2V/FVqFSDdWy040ZPS811DYAqQ==}
+    engines: {node: '>=8'}
+
+  minipass@5.0.0:
+    resolution: {integrity: sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==}
     engines: {node: '>=8'}
 
   minizlib@2.1.2:
@@ -3969,12 +3968,8 @@ packages:
     resolution: {integrity: sha512-cUdFiCbKoa1mZ6osuJs2uDHrs0k0oprsKveFiiaBKCNq3SYyb5gs2HxhQyDNLCmL51ZZThqi4YNDpCK6GOP1iQ==}
     engines: {node: '>=10'}
 
-  semver@5.7.1:
-    resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
-    hasBin: true
-
-  semver@6.3.0:
-    resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
+  semver@5.7.2:
+    resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
     hasBin: true
 
   semver@6.3.1:
@@ -3983,11 +3978,6 @@ packages:
 
   semver@7.0.0:
     resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
-    hasBin: true
-
-  semver@7.3.5:
-    resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
-    engines: {node: '>=10'}
     hasBin: true
 
   semver@7.6.3:
@@ -4127,10 +4117,6 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
 
-  source-map@0.7.3:
-    resolution: {integrity: sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==}
-    engines: {node: '>= 8'}
-
   source-map@0.7.4:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
     engines: {node: '>= 8'}
@@ -4264,9 +4250,9 @@ packages:
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
-  tar@6.1.11:
-    resolution: {integrity: sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA==}
-    engines: {node: '>= 10'}
+  tar@6.2.1:
+    resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
+    engines: {node: '>=10'}
 
   terminal-link@2.1.1:
     resolution: {integrity: sha512-un0FmiRUQNr5PJqy9kP7c40F5BOfpGlYTrxonDChEZB7pzZxRNp/bt+ymiy9/npwXya9KH99nJ/GXFIiUkYGFQ==}
@@ -4304,18 +4290,8 @@ packages:
       uglify-js:
         optional: true
 
-  terser@5.10.0:
-    resolution: {integrity: sha512-AMmF99DMfEDiRJfxfY5jj5wNH/bYO09cniSqhfoyxc8sFoYIgkJy86G04UoZU5VjlpnplVu0K6Tx6E9b5+DlHA==}
-    engines: {node: '>=10'}
-    hasBin: true
-    peerDependencies:
-      acorn: ^8.5.0
-    peerDependenciesMeta:
-      acorn:
-        optional: true
-
-  terser@5.34.1:
-    resolution: {integrity: sha512-FsJZ7iZLd/BXkz+4xrRTGJ26o/6VTjQytUk8b8OxkwcD2I+79VPJlz7qss1+zE7h8GNIScFqXcDyJ/KqBYZFVA==}
+  terser@5.35.0:
+    resolution: {integrity: sha512-TmYbQnzVfrx3RQsPoItoPplymixIAtp2R2xlpyVBYmFmvI34IzLhCLj8SimRb/kZXlq4t1gA+vbcTqLQ3+5Q5g==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -4847,7 +4823,7 @@ snapshots:
       '@babel/core': 7.25.2
       '@babel/helper-validator-option': 7.16.7
       browserslist: 4.23.3
-      semver: 6.3.0
+      semver: 6.3.1
 
   '@babel/helper-compilation-targets@7.25.2':
     dependencies:
@@ -4886,7 +4862,7 @@ snapshots:
       debug: 4.3.6
       lodash.debounce: 4.0.8
       resolve: 1.22.0
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
 
@@ -5543,7 +5519,7 @@ snapshots:
       babel-plugin-polyfill-corejs3: 0.5.2(@babel/core@7.25.2)
       babel-plugin-polyfill-regenerator: 0.3.1(@babel/core@7.25.2)
       core-js-compat: 3.21.1
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
 
@@ -5886,7 +5862,7 @@ snapshots:
   '@npmcli/fs@1.1.1':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.3.5
+      semver: 7.6.3
 
   '@npmcli/move-file@1.1.2':
     dependencies:
@@ -6126,7 +6102,7 @@ snapshots:
       debug: 4.3.6
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.3.5
+      semver: 7.6.3
       tsutils: 3.21.0(typescript@4.9.5)
     optionalDependencies:
       typescript: 4.9.5
@@ -6483,7 +6459,7 @@ snapshots:
       '@babel/compat-data': 7.17.0
       '@babel/core': 7.25.2
       '@babel/helper-define-polyfill-provider': 0.3.1(@babel/core@7.25.2)
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
 
@@ -6683,7 +6659,7 @@ snapshots:
       promise-inflight: 1.0.1
       rimraf: 3.0.2
       ssri: 8.0.1
-      tar: 6.1.11
+      tar: 6.2.1
       unique-filename: 1.1.1
     transitivePeerDependencies:
       - bluebird
@@ -6891,7 +6867,7 @@ snapshots:
       find-cache-dir: 3.3.2
       glob-parent: 5.1.2
       globby: 11.1.0
-      loader-utils: 2.0.2
+      loader-utils: 2.0.4
       normalize-path: 3.0.0
       p-limit: 3.1.0
       schema-utils: 3.1.1
@@ -6929,7 +6905,7 @@ snapshots:
     dependencies:
       nice-try: 1.0.5
       path-key: 2.0.1
-      semver: 5.7.1
+      semver: 5.7.2
       shebang-command: 1.2.0
       which: 1.3.1
 
@@ -6942,7 +6918,7 @@ snapshots:
   css-loader@5.2.7(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.31)
-      loader-utils: 2.0.2
+      loader-utils: 2.0.4
       postcss: 8.4.31
       postcss-modules-extract-imports: 3.0.0(postcss@8.4.31)
       postcss-modules-local-by-default: 4.0.0(postcss@8.4.31)
@@ -6950,7 +6926,7 @@ snapshots:
       postcss-modules-values: 4.0.0(postcss@8.4.31)
       postcss-value-parser: 4.2.0
       schema-utils: 3.1.1
-      semver: 7.3.5
+      semver: 7.6.3
       webpack: 5.94.0(webpack-cli@4.9.2)
 
   css-select@4.2.1:
@@ -7502,7 +7478,7 @@ snapshots:
 
   file-loader@6.2.0(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
-      loader-utils: 2.0.2
+      loader-utils: 2.0.4
       schema-utils: 3.1.1
       webpack: 5.94.0(webpack-cli@4.9.2)
 
@@ -7761,7 +7737,7 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  html-minifier-terser@6.1.0(acorn@8.12.1):
+  html-minifier-terser@6.1.0:
     dependencies:
       camel-case: 4.1.2
       clean-css: 5.2.4
@@ -7769,20 +7745,16 @@ snapshots:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.10.0(acorn@8.12.1)
-    transitivePeerDependencies:
-      - acorn
+      terser: 5.35.0
 
-  html-webpack-plugin@5.5.0(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2)):
+  html-webpack-plugin@5.5.0(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
-      html-minifier-terser: 6.1.0(acorn@8.12.1)
+      html-minifier-terser: 6.1.0
       lodash: 4.17.21
       pretty-error: 4.0.0
       tapable: 2.2.1
       webpack: 5.94.0(webpack-cli@4.9.2)
-    transitivePeerDependencies:
-      - acorn
 
   htmlparser2@6.1.0:
     dependencies:
@@ -7825,7 +7797,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@2.0.3(@types/express@4.17.13):
+  http-proxy-middleware@2.0.7(@types/express@4.17.13):
     dependencies:
       '@types/http-proxy': 1.17.8
       http-proxy: 1.18.1
@@ -8055,7 +8027,7 @@ snapshots:
       '@babel/core': 7.25.2
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8065,7 +8037,7 @@ snapshots:
       '@babel/parser': 7.17.3
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
 
@@ -8375,7 +8347,7 @@ snapshots:
       jest-resolve: 26.6.2
       natural-compare: 1.4.0
       pretty-format: 26.6.2
-      semver: 7.3.5
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -8492,10 +8464,6 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  json5@2.2.0:
-    dependencies:
-      minimist: 1.2.8
-
   json5@2.2.3: {}
 
   jsonfile@6.1.0:
@@ -8562,11 +8530,11 @@ snapshots:
 
   loader-runner@4.2.0: {}
 
-  loader-utils@2.0.2:
+  loader-utils@2.0.4:
     dependencies:
       big.js: 5.2.2
       emojis-list: 3.0.0
-      json5: 2.2.0
+      json5: 2.2.3
 
   locate-path@5.0.0:
     dependencies:
@@ -8603,12 +8571,12 @@ snapshots:
   make-dir@2.1.0:
     dependencies:
       pify: 4.0.1
-      semver: 5.7.1
+      semver: 5.7.2
     optional: true
 
   make-dir@3.1.0:
     dependencies:
-      semver: 6.3.0
+      semver: 6.3.1
 
   make-error@1.3.6: {}
 
@@ -8702,6 +8670,8 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
+  minipass@5.0.0: {}
+
   minizlib@2.1.2:
     dependencies:
       minipass: 3.1.6
@@ -8785,7 +8755,7 @@ snapshots:
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
-      semver: 7.3.5
+      semver: 7.6.3
       shellwords: 0.1.1
       uuid: 8.3.2
       which: 2.0.2
@@ -8799,7 +8769,7 @@ snapshots:
     dependencies:
       hosted-git-info: 2.8.9
       resolve: 1.22.0
-      semver: 5.7.1
+      semver: 5.7.2
       validate-npm-package-license: 3.0.4
 
   normalize-path@2.1.1:
@@ -9047,7 +9017,7 @@ snapshots:
       cosmiconfig: 7.0.1
       klona: 2.0.5
       postcss: 8.4.31
-      semver: 7.3.5
+      semver: 7.6.3
       webpack: 5.94.0(webpack-cli@4.9.2)
 
   postcss-modules-extract-imports@3.0.0(postcss@8.4.31):
@@ -9395,17 +9365,11 @@ snapshots:
     dependencies:
       node-forge: 1.3.1
 
-  semver@5.7.1: {}
-
-  semver@6.3.0: {}
+  semver@5.7.2: {}
 
   semver@6.3.1: {}
 
   semver@7.0.0: {}
-
-  semver@7.3.5:
-    dependencies:
-      lru-cache: 6.0.0
 
   semver@7.6.3: {}
 
@@ -9587,8 +9551,6 @@ snapshots:
 
   source-map@0.6.1: {}
 
-  source-map@0.7.3: {}
-
   source-map@0.7.4: {}
 
   spdx-correct@3.1.1:
@@ -9696,7 +9658,7 @@ snapshots:
 
   style-loader@1.3.0(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
-      loader-utils: 2.0.2
+      loader-utils: 2.0.4
       schema-utils: 2.7.1
       webpack: 5.94.0(webpack-cli@4.9.2)
 
@@ -9737,11 +9699,11 @@ snapshots:
       fast-fifo: 1.3.2
       streamx: 2.18.0
 
-  tar@6.1.11:
+  tar@6.2.1:
     dependencies:
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      minipass: 3.1.6
+      minipass: 5.0.0
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
@@ -9751,16 +9713,14 @@ snapshots:
       ansi-escapes: 4.3.2
       supports-hyperlinks: 2.2.0
 
-  terser-webpack-plugin@5.3.1(acorn@8.12.1)(webpack@5.94.0(webpack-cli@4.9.2)):
+  terser-webpack-plugin@5.3.1(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.0
       source-map: 0.6.1
-      terser: 5.10.0(acorn@8.12.1)
+      terser: 5.35.0
       webpack: 5.94.0(webpack-cli@4.9.2)
-    transitivePeerDependencies:
-      - acorn
 
   terser-webpack-plugin@5.3.10(webpack@5.94.0(webpack-cli@4.9.2)):
     dependencies:
@@ -9768,18 +9728,10 @@ snapshots:
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      terser: 5.34.1
+      terser: 5.35.0
       webpack: 5.94.0(webpack-cli@4.9.2)
 
-  terser@5.10.0(acorn@8.12.1):
-    dependencies:
-      commander: 2.20.3
-      source-map: 0.7.3
-      source-map-support: 0.5.21
-    optionalDependencies:
-      acorn: 8.12.1
-
-  terser@5.34.1:
+  terser@5.35.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
       acorn: 8.12.1
@@ -9854,11 +9806,11 @@ snapshots:
       fast-json-stable-stringify: 2.1.0
       jest: 26.6.3
       jest-util: 26.6.2
-      json5: 2.2.0
+      json5: 2.2.3
       lodash: 4.17.21
       make-error: 1.3.6
       mkdirp: 1.0.4
-      semver: 7.3.5
+      semver: 7.6.3
       typescript: 4.9.5
       yargs-parser: 20.2.9
 
@@ -9994,7 +9946,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       convert-source-map: 1.8.0
-      source-map: 0.7.3
+      source-map: 0.7.4
 
   validate-npm-package-license@3.0.4:
     dependencies:
@@ -10093,7 +10045,7 @@ snapshots:
       express: 4.21.1
       graceful-fs: 4.2.9
       html-entities: 2.3.2
-      http-proxy-middleware: 2.0.3(@types/express@4.17.13)
+      http-proxy-middleware: 2.0.7(@types/express@4.17.13)
       ipaddr.js: 2.0.1
       open: 8.4.0
       p-retry: 4.6.1
