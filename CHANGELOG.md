@@ -21,6 +21,7 @@
 
 ### v3.10.8 / 2024-11
 
+* [任务列表勾选和取消勾选时保持背景色不变](https://github.com/Vanessa219/vditor/issues/1721) `改进功能`
 * [代码块主题预览失效](https://github.com/Vanessa219/vditor/issues/1722) `修复缺陷`
 * [带 tag 的数学公式会出现滚动条](https://github.com/Vanessa219/vditor/issues/1710) `改进功能`
 * [行内公式撤销异常](https://github.com/Vanessa219/vditor/issues/1706) `修复缺陷`
