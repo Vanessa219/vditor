@@ -21,6 +21,8 @@
 
 ### v3.10.9 / 2025-01
 
+* [设置 defaultLang 之后，指定代码失效](https://github.com/Vanessa219/vditor/issues/1728) `修复缺陷`
+
 ### v3.10.8 / 2024-12-03
 
 * [任务列表勾选和取消勾选时保持背景色不变](https://github.com/Vanessa219/vditor/issues/1721) `改进功能`
