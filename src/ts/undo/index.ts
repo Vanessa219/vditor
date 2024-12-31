@@ -152,7 +152,11 @@ class Undo {
             vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview`)
                 .forEach((blockElement: HTMLElement) => {
                     if (blockElement.parentElement.querySelector(".language-echarts")) {
-                        blockElement.parentElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.parentElement.outerHTML);
+                        if (vditor.currentMode ==="ir") {
+                            blockElement.parentElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.parentElement.outerHTML);
+                        } else {
+                            blockElement.parentElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.parentElement.outerHTML);
+                        }
                     }
                 });
             vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
