@@ -6,7 +6,7 @@ export const setCodeTheme = (codeTheme: string, cdn = Constants.CDN) => {
         codeTheme = "github";
     }
     const vditorHljsStyle = document.getElementById("vditorHljsStyle") as HTMLLinkElement;
-    const href = `${cdn}/dist/js/highlight.js/styles/${codeTheme}.css`;
+    const href = `${cdn}/dist/js/highlight.js/styles/${codeTheme}.min.css`;
     if (!vditorHljsStyle) {
         addStyle(href, "vditorHljsStyle");
     } else if (vditorHljsStyle.getAttribute('href') !== href) {

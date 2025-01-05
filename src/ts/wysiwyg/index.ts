@@ -20,8 +20,8 @@ import {
     getCursorPosition,
     getEditorRange,
     getSelectPosition,
-    setRangeByWbr,
-} from "../util/selection";
+    setRangeByWbr, setSelectionFocus,
+} from "../util/selection"
 import {clickToc, renderToc} from "../util/toc";
 import {afterRenderEvent} from "./afterRenderEvent";
 import {genImagePopover, genLinkRefPopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
@@ -417,6 +417,9 @@ class WYSIWYG {
                     checkElement.removeAttribute("checked");
                 }
                 this.preventInput = true;
+                if (getSelection().rangeCount > 0) {
+                    setSelectionFocus(getSelection().getRangeAt(0));
+                }
                 afterRenderEvent(vditor);
                 return;
             }

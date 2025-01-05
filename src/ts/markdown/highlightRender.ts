@@ -45,7 +45,7 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                     block.classList.add("language-" + hljsOption.defaultLang)
                 }
 
-                let language =  hljsOption.defaultLang || block.className.replace("language-", "");
+                let language = block.className.replace("language-", "");
                 if (!window.hljs.getLanguage(language)) {
                     language = "plaintext";
                 }

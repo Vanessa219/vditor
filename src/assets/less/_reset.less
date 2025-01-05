@@ -43,7 +43,7 @@
             margin-top: 0.25em;
         }
 
-        li  p {
+        li p {
             margin-top: 16px;
         }
 
@@ -239,9 +239,17 @@
             margin-bottom: 16px;
         }
 
-        .language-math mjx-container:focus {
-            outline: none;
-            cursor: context-menu;
+        .language-math {
+            mjx-container:focus {
+                outline: none;
+                cursor: context-menu;
+            }
+
+            .katex-display > .katex > .katex-html > .tag {
+                display: inline-block;
+                font-size: 1.21rem;
+                right: 2px;
+            }
         }
 
         .language-echarts,
