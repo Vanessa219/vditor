@@ -35,7 +35,7 @@ import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {WYSIWYG} from "./ts/wysiwyg/index";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
-import {execAfterRender} from "./ts/util/fixBrowserBehavior";
+import {execAfterRender, insertEmptyBlock} from "./ts/util/fixBrowserBehavior";
 import {accessLocalStorage} from "./ts/util/compatibility";
 
 class Vditor extends VditorMethod {
@@ -351,6 +351,11 @@ class Vditor extends VditorMethod {
         if (clearStack) {
             this.clearStack();
         }
+    }
+
+    /** 空块 */
+    public insertEmptyBlock(position: InsertPosition) {
+        insertEmptyBlock(this.vditor, position);
     }
 
     /** 清空 undo & redo 栈 */
