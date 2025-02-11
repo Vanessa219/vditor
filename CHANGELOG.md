@@ -20,8 +20,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.10.9 / 2025-01
+### v3.11.0 / 2025-03
 
+### v3.10.9 / 2025-02
+
+* [任务列表中的无序列表回车异常](https://github.com/Vanessa219/vditor/issues/1754) `修复缺陷`
 * [添加 `insertEmptyBlock` 方法](https://github.com/Vanessa219/vditor/pull/1745) `开发重构`
 * [撤销后图表会重复](https://github.com/Vanessa219/vditor/issues/1738) `修复缺陷`
 * [设置 defaultLang 之后，指定代码失效](https://github.com/Vanessa219/vditor/issues/1728) `修复缺陷`

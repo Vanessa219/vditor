@@ -1080,8 +1080,8 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
 
 export const fixTask = (vditor: IVditor, range: Range, event: KeyboardEvent) => {
     const startContainer = range.startContainer;
-    const taskItemElement = hasClosestByClassName(startContainer, "vditor-task");
-    if (taskItemElement) {
+    const taskItemElement = hasClosestByMatchTag(startContainer, "li");
+    if (taskItemElement && taskItemElement.classList.contains("vditor-task")) {
         if (matchHotKey("⇧⌘J", event)) {
             // ctrl + shift: toggle checked
             const inputElement = taskItemElement.firstElementChild as HTMLInputElement;
