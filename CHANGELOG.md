@@ -22,7 +22,7 @@
 
 ### v3.11.0 / 2025-03
 
-### v3.10.9 / 2025-02
+### v3.10.9 / 2025-02-11
 
 * [任务列表中的无序列表回车异常](https://github.com/Vanessa219/vditor/issues/1754) `修复缺陷`
 * [添加 `insertEmptyBlock` 方法](https://github.com/Vanessa219/vditor/pull/1745) `开发重构`
