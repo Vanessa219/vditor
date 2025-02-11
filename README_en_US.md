@@ -500,6 +500,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | unHlCommentIds(ids: string[]) | Cancel highlight comment by Ids |
 | removeCommentIds(removeIds: string[]) | Remove comment by Ids |
 | updateToolbarConfig(config: {hide?: boolean, pin?: boolean}) | Update toolbar config |
+| insertEmptyBlock(position: InsertPosition) | Insert empty block |
 
 #### static methods
 

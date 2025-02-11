@@ -547,6 +547,7 @@ if (xhr.status === 200) {
 | unHlCommentIds(ids: string[]) | 取消评论高亮 |
 | removeCommentIds(removeIds: string[]) | 删除评论 |
 | updateToolbarConfig(config: {hide?: boolean, pin?: boolean}) | 更新工具栏配置 |
+| insertEmptyBlock(position: InsertPosition) | 插入空快 |
 
 #### static methods
 
