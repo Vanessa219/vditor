@@ -2,6 +2,7 @@
 
 ### 升级
 * 3.9
+  * 添加 insertEmptyBlock
   * 添加 markmapRender 方法
   * 添加 SMILESRender 方法
   * 添加 insertMD 方法
@@ -21,6 +22,7 @@
 
 ### v3.10.9 / 2025-01
 
+* [添加 `insertEmptyBlock` 方法](https://github.com/Vanessa219/vditor/pull/1745) `开发重构`
 * [撤销后图表会重复](https://github.com/Vanessa219/vditor/issues/1738) `修复缺陷`
 * [设置 defaultLang 之后，指定代码失效](https://github.com/Vanessa219/vditor/issues/1728) `修复缺陷`
 
