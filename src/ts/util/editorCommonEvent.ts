@@ -254,6 +254,9 @@ export const selectEvent = (vditor: IVditor, editorElement: HTMLElement) => {
                     if (vditor.currentMode === "wysiwyg" && vditor.options.comment.enable) {
                         vditor.wysiwyg.hideComment();
                     }
+                    if (typeof vditor.options.unSelect === 'function') {
+                        vditor.options.unSelect();
+                    }
                 }
             });
         };
