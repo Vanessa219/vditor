@@ -45,7 +45,7 @@ export const codeRender = (element: HTMLElement, option?: IHljs) => {
         divElement.innerHTML = `<span aria-label="${window.VditorI18n?.copy || "复制"}"
 onmouseover="this.setAttribute('aria-label', '${window.VditorI18n?.copy || "复制"}')"
 class="vditor-tooltipped vditor-tooltipped__w"
-onclick="this.previousElementSibling.select();document.execCommand('copy');this.setAttribute('aria-label', '${window.VditorI18n?.copied || "已复制"}');this.previousElementSibling.blur()">${iconHTML}</span>`;
+onclick="event.stopPropagation();this.previousElementSibling.select();document.execCommand('copy');this.setAttribute('aria-label', '${window.VditorI18n?.copied || "已复制"}');this.previousElementSibling.blur()">${iconHTML}</span>`;
         const textarea = document.createElement("textarea");
         textarea.value = code160to32(codeText);
         divElement.insertAdjacentElement("afterbegin", textarea);
