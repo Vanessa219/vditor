@@ -1,6 +1,9 @@
 ## Vditor change log
 
 ### 升级
+
+* 3.10
+  * 添加 options.unSelect
 * 3.9
   * 添加 insertEmptyBlock
   * 添加 markmapRender 方法

@@ -775,6 +775,9 @@ interface IOptions {
 
     /** 编辑器中选中文字后触发 */
     select?(value: string): void;
+
+    /** 编辑器中未选中文字后触发 */
+    unSelect?(): void;
 }
 
 interface IEChart {

@@ -178,13 +178,14 @@ Can be filled with element `id` or element itself` HTMLElement`
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
 | lang | I18n type: en_US, fr_FR, pt_BR, ja_JP, ko_KR, ru_RU, sv_SE, zh_CN, zh_TW | 'zh_CN' |
-| input | Trigger after input (value: string) | - |
-| focus | Trigger after focusing (value: string) | - |
-| blur | Trigger after out of focus (value: string) | - |
+| input(value: string) | Trigger after input  | - |
+| focus(value: string) | Trigger after focusing | - |
+| blur(value: string) | Trigger after out of focus | - |
 | keydown(event: KeyboardEvent) | Trigger after keydown | - |
-| esc | Trigger after pressing <kbd>esc</kbd> (value: string) | - |
-| ctrlEnter | Trigger after pressing <kbd>⌘/ctrl+enter</kbd> (value: string) | - |
-| select | Triggered after selecting text in the editor (value: string) | - |
+| esc(value: string) | Trigger after pressing | - |
+| ctrlEnter(value: string) | Trigger after pressing <kbd>⌘/ctrl+enter</kbd> | - |
+| select(value: string) | Triggered after selecting text in the editor | - |
+| unSelect() | Triggered after un selecting text in the editor | - |
 | tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
 | typewriterMode | Whether to enable typewriter mode | false |
 | cdn | Configure self-built CDN address | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
