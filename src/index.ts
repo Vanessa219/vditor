@@ -377,6 +377,7 @@ class Vditor extends VditorMethod {
 
         UIUnbindListener();
         this.vditor.wysiwyg.unbindListener();
+        this.vditor.options.after = undefined;
     }
 
     /** 获取评论 ID */
