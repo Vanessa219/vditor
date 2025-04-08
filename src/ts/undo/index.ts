@@ -152,7 +152,7 @@ class Undo {
             vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview`)
                 .forEach((blockElement: HTMLElement) => {
                     if (blockElement.parentElement.querySelector(".language-echarts")) {
-                        if (vditor.currentMode ==="ir") {
+                        if (vditor.currentMode === "ir") {
                             blockElement.parentElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.parentElement.outerHTML);
                         } else {
                             blockElement.parentElement.outerHTML = vditor.lute.SpinVditorDOM(blockElement.parentElement.outerHTML);
@@ -240,7 +240,7 @@ class Undo {
         cloneElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='1']`)
             .forEach((item: HTMLElement) => {
                 if (!item.firstElementChild) {
-                    return
+                    return;
                 }
                 if (item.firstElementChild.classList.contains("language-echarts") ||
                     item.firstElementChild.classList.contains("language-plantuml") ||

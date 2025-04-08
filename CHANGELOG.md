@@ -23,7 +23,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.11.0 / 2025-03
+### v3.11.0 / 2025-04
 
 * [初始化后立即 `destroy` 不再进行 `after` 的回调](https://github.com/Vanessa219/vditor/issues/1790) `改进功能`
 * [点击复制按钮不展开编辑区域](https://github.com/Vanessa219/vditor/issues/1768) `改进功能`
