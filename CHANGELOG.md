@@ -2,8 +2,9 @@
 
 ### 升级
 
-* 3.10
+* 3.11
   * 添加 options.upload.cancel
+* 3.10
   * 添加 options.unSelect
 * 3.9
   * 添加 insertEmptyBlock
