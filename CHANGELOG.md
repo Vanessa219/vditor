@@ -24,7 +24,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.11.0 / 2025-04
+### v3.11.1 / 2025-05
+
+### v3.11.0 / 2025-04-09
 
 * [添加 `options.upload.cancel` 回调](https://github.com/Vanessa219/vditor/issues/1791) `引入特性`
 * [修复代码行号对不齐](https://github.com/Vanessa219/vditor/issues/1786) `修复缺陷`
