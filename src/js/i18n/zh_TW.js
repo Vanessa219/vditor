@@ -5,6 +5,7 @@ window.VditorI18n = {
   'alternateText': '替代文字',
   'bold': '粗體',
   'both': '編輯 & 預覽',
+  'cancelUpload': '取消上傳',
   'check': '任務列表',
   'close': '關閉',
   'code': '代碼塊',

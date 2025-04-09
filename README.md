@@ -481,6 +481,7 @@ if (xhr.status === 200) {
 | handler(files: File[]) => string \| null \| Promise<string> \| Promise<null> | 自定义上传，当发生错误时返回错误信息 | - |
 | format(files: File[], responseText: string): string | 对服务端返回的数据进行转换，以满足内置的数据结构 | - |
 | file(files: File[]): File[] \| Promise<File[]> | 将上传的文件处理后再返回 | - |
+| cancel(files: File[]): void | 取消正在上传的文件 | - |
 | setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |
 | extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数 | - |
 | multiple | 上传文件是否为多个 | true |

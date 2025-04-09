@@ -5,6 +5,7 @@
   'alternateText': 'Alternativ text',
   'bold': 'Fet',
   'both': 'editera & granska',
+  'cancelUpload': 'Avbryt uppladdning',
   'check': 'Att göra lista',
   'close': 'Stäng',
   'code': 'Kodblock',

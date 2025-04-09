@@ -5,6 +5,7 @@ window.VditorI18n = {
   'alternateText': 'イメージタグ',
   'bold': '太く',
   'both': 'エディター & プレビュー',
+  'cancelUpload': 'アップロードをキャンセル',
   'check': 'チェックリスト',
   'close': '閉じる',
   'code': 'コードブロック挿入',

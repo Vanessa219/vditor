@@ -5,6 +5,7 @@ window.VditorI18n = {
   'alternateText': 'Alternate text',
   'bold': 'Bold',
   'both': 'editor & preview',
+  'cancelUpload': 'Cancel upload',
   'check': 'Task List',
   'close': 'Close',
   'code': 'Code Block',

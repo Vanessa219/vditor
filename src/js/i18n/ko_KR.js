@@ -5,6 +5,7 @@ window.VditorI18n = {
   'alternateText': '이미지 태그',
   'bold': '굵게',
   'both': '에디터 & 미리보기',
+  'cancelUpload': '업로드 취소',
   'check': '체크박스',
   'close': '닫기',
   'code': '코드블럭삽입',

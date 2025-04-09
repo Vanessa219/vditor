@@ -5,6 +5,7 @@ window.VditorI18n = {
   'alternateText': 'Texte de remplacement',
   'bold': 'Gras',
   'both': 'éditeur & prévisualisation',
+  'cancelUpload': 'Annuler le téléchargement',
   'check': 'Liste de tâches',
   'close': 'Fermer',
   'code': 'Bloc de code',

@@ -5,6 +5,7 @@ window.VditorI18n = {
   'alternateText': 'Texto alternativo',
   'bold': 'Negrito',
   'both': 'Editor e visualização',
+  'cancelUpload': 'Cancelar envio',
   'check': 'Lista de tarefas',
   'close': 'Fechar',
   'code': 'Bloco de código',

@@ -3,6 +3,7 @@
 ### 升级
 
 * 3.10
+  * 添加 options.upload.cancel
   * 添加 options.unSelect
 * 3.9
   * 添加 insertEmptyBlock
@@ -25,6 +26,7 @@
 
 ### v3.11.0 / 2025-04
 
+* [添加 `options.upload.cancel` 回调](https://github.com/Vanessa219/vditor/issues/1791) `引入特性`
 * [修复代码行号对不齐](https://github.com/Vanessa219/vditor/issues/1786) `修复缺陷`
 * [mermaid 升级至 11.6.0](https://github.com/Vanessa219/vditor/issues/1140) `开发重构`
 * [初始化后立即 `destroy` 不再进行 `after` 的回调](https://github.com/Vanessa219/vditor/issues/1790) `改进功能`

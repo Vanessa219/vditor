@@ -434,6 +434,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | handler(files: File[]) => string \| null \| Promise<string> \| Promise<null> | Custom upload, return error message when an error occurs | - |
 | format | Transform the data returned by the server to meet the built-in data structure (files: File[], responseText: string): string | - |
 | file(files: File[]): File[] \| Promise<File[]> | Process the uploaded file before return. | - |
+| cancel(files: File[]): void | Cancel uploading a file. | - |
 | setHeaders | Use the return value to set the header before uploading (): { [key: string]: string } | - |
 | extraData | Append data to FormData { [key: string]: string | Blob } | - |
 | multiple | Allow multiple file uploads | true |
