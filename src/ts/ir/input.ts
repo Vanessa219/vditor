@@ -45,7 +45,7 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
         // 检查是否在行首输入了任务列表格式 [] 或 [x] 后按了空格
         const lineStart = blockElement.textContent.substr(0, startOffset).lastIndexOf("\n") + 1;
         const currentLine = blockElement.textContent.substring(lineStart, startOffset);
-        const isTaskListPattern = currentLine === "[] " || currentLine === "[x] " || currentLine === "[X] ";
+        const isTaskListPattern = currentLine === "[] " || currentLine === "[x] " || currentLine === "[X] " || currentLine === "【】 ";
 
         // 结尾可以输入空格
         let endSpace = true;
@@ -58,11 +58,12 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
 
         // 处理任务列表格式
         if (isTaskListPattern || (startSpace && (blockElement.textContent.substring(0, startOffset).trim() === "[]" ||
-                                                blockElement.textContent.substring(0, startOffset).trim() === "[x]" ||
-                                                blockElement.textContent.substring(0, startOffset).trim() === "[X]"))) {
+            blockElement.textContent.substring(0, startOffset).trim() === "[x]" ||
+            blockElement.textContent.substring(0, startOffset).trim() === "[X]" ||
+            blockElement.textContent.substring(0, startOffset).trim() === "【】"))) {
             // 确定是否为已完成的任务
             const taskText = isTaskListPattern ? currentLine : blockElement.textContent.substring(0, startOffset).trim();
-            const taskChecked = taskText === "[x]" || taskText === "[X]";
+            const taskChecked = taskText === "[x]" || taskText === "[X]" || taskText === "【】";
 
             // 创建一个临时范围来选择当前行
             const tempRange = document.createRange();
