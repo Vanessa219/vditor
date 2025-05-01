@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {isHeadingMD, isHrMD} from "../util/fixBrowserBehavior";
+import {isHeadingMD, isHrMD, listToggle} from "../util/fixBrowserBehavior";
 import {
     getTopList,
     hasClosestBlock, hasClosestByAttribute,
@@ -8,7 +8,7 @@ import {
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
 import {log} from "../util/log";
 import {processCodeRender} from "../util/processCode";
-import {getSelectPosition, setRangeByWbr} from "../util/selection";
+import {getEditorRange, getSelectPosition, setRangeByWbr} from "../util/selection";
 import {renderToc} from "../util/toc";
 import {processAfterRender} from "./process";
 import {getMarkdown} from "../markdown/getMarkdown";
@@ -42,6 +42,11 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
             startSpace = false;
         }
 
+        // 检查是否在行首输入了任务列表格式 [] 或 [x] 后按了空格
+        const lineStart = blockElement.textContent.substr(0, startOffset).lastIndexOf("\n") + 1;
+        const currentLine = blockElement.textContent.substring(lineStart, startOffset).trim();
+        const isTaskListPattern = currentLine === "[]" || currentLine === "[x]" || currentLine === "[X]";
+
         // 结尾可以输入空格
         let endSpace = true;
         for (let i = startOffset - 1; i < blockElement.textContent.length; i++) {
@@ -49,6 +54,58 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
                 endSpace = false;
                 break;
             }
+        }
+
+        // 处理任务列表格式
+        if (isTaskListPattern || (startSpace && (blockElement.textContent.substring(0, startOffset).trim() === "[]" ||
+                                                blockElement.textContent.substring(0, startOffset).trim() === "[x]" ||
+                                                blockElement.textContent.substring(0, startOffset).trim() === "[X]"))) {
+            // 确定是否为已完成的任务
+            const taskText = isTaskListPattern ? currentLine : blockElement.textContent.substring(0, startOffset).trim();
+            const taskChecked = taskText === "[x]" || taskText === "[X]";
+
+            // 创建一个临时范围来选择当前行
+            const tempRange = document.createRange();
+            tempRange.selectNodeContents(blockElement);
+
+            // 清除当前行内容，准备转换为任务列表
+            if (isTaskListPattern) {
+                // 如果是行首输入的任务列表格式，只清除当前行
+                const lineContent = blockElement.textContent;
+                const lineEnd = lineContent.indexOf("\n", lineStart) > -1 ? lineContent.indexOf("\n", lineStart) : lineContent.length;
+                const beforeLine = lineStart > 0 ? lineContent.substring(0, lineStart) : "";
+                const afterLine = lineEnd < lineContent.length ? lineContent.substring(lineEnd) : "";
+                blockElement.textContent = beforeLine + afterLine;
+            } else {
+                // 如果是整行都是任务列表格式，清除整个块
+                blockElement.textContent = "";
+            }
+
+            // 插入一个标记，以便在转换后定位光标
+            blockElement.appendChild(document.createElement("wbr"));
+
+            // 使用listToggle函数将当前块转换为任务列表
+            listToggle(vditor, getEditorRange(vditor), "check", false);
+
+            // 如果是已完成的任务，设置复选框为选中状态
+            if (taskChecked) {
+                const taskItem = blockElement.querySelector("li.vditor-task input") as HTMLInputElement;
+                if (taskItem) {
+                    taskItem.setAttribute("checked", "checked");
+                }
+            }
+
+            // 设置光标位置
+            setRangeByWbr(vditor.ir.element, range);
+
+            // 处理渲染后的事件
+            processAfterRender(vditor, {
+                enableAddUndoStack: true,
+                enableHint: true,
+                enableInput: true,
+            });
+
+            return;
         }
 
         if (startSpace) {
