@@ -44,8 +44,8 @@ export const input = (vditor: IVditor, range: Range, ignoreSpace = false, event?
 
         // 检查是否在行首输入了任务列表格式 [] 或 [x] 后按了空格
         const lineStart = blockElement.textContent.substr(0, startOffset).lastIndexOf("\n") + 1;
-        const currentLine = blockElement.textContent.substring(lineStart, startOffset).trim();
-        const isTaskListPattern = currentLine === "[]" || currentLine === "[x]" || currentLine === "[X]";
+        const currentLine = blockElement.textContent.substring(lineStart, startOffset);
+        const isTaskListPattern = currentLine === "[] " || currentLine === "[x] " || currentLine === "[X] ";
 
         // 结尾可以输入空格
         let endSpace = true;
