@@ -841,7 +841,7 @@ interface IVditor {
         element: HTMLElement
         isUploading: boolean
         range: Range,
-        xhr: XMLHttpRequest,
+        xhr?: XMLHttpRequest,
     };
     undo?: {
         clearStack(vditor: IVditor): void,
