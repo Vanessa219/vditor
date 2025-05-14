@@ -41,6 +41,7 @@ import {accessLocalStorage} from "./ts/util/compatibility";
 class Vditor extends VditorMethod {
     public readonly version: string;
     public vditor: IVditor;
+    private isDestroyed = false;
 
     /**
      * @param id 要挂载 Vditor 的元素或者元素 ID。
@@ -58,7 +59,7 @@ class Vditor extends VditorMethod {
                     },
                 };
             } else if (!options.cache) {
-                options.cache = {id: `vditor${id}`};
+                options.cache = { id: `vditor${id}` };
             } else if (!options.cache.id) {
                 options.cache.id = `vditor${id}`;
             }
@@ -101,7 +102,7 @@ class Vditor extends VditorMethod {
     private showErrorTip(error: string) {
         const tip = new Tip();
         document.body.appendChild(tip.element);
-        tip.show(error, 0)
+        tip.show(error, 0);
     }
 
     public updateToolbarConfig(options: IToolbarConfig) {
@@ -369,7 +370,7 @@ class Vditor extends VditorMethod {
         this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
         this.vditor.element.classList.remove("vditor");
         this.vditor.element.removeAttribute("style");
-        const iconScript = document.getElementById("vditorIconScript")
+        const iconScript = document.getElementById("vditorIconScript");
         if (iconScript) {
             iconScript.remove();
         }
@@ -378,6 +379,7 @@ class Vditor extends VditorMethod {
         UIUnbindListener();
         this.vditor.wysiwyg.unbindListener();
         this.vditor.options.after = undefined;
+        this.isDestroyed = true;
     }
 
     /** 获取评论 ID */
@@ -484,6 +486,9 @@ class Vditor extends VditorMethod {
     }
 
     private init(id: HTMLElement, mergedOptions: IOptions) {
+        if (this.isDestroyed) {
+            return;
+        }
         this.vditor = {
             currentMode: mergedOptions.mode,
             element: id,
