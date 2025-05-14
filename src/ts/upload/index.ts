@@ -1,6 +1,6 @@
-import {getEditorRange, setSelectionFocus} from "../util/selection";
-import {getElement} from "./getElement";
-import {setHeaders} from "./setHeaders";
+import { getEditorRange, setSelectionFocus } from "../util/selection";
+import { getElement } from "./getElement";
+import { setHeaders } from "./setHeaders";
 
 class Upload {
     public element: HTMLElement;
@@ -219,6 +219,7 @@ const uploadFiles =
         }
 
         const xhr = new XMLHttpRequest();
+        vditor.upload.xhr = xhr;
         xhr.open("POST", vditor.options.upload.url);
         if (vditor.options.upload.token) {
             xhr.setRequestHeader("X-Upload-Token", vditor.options.upload.token);
@@ -254,6 +255,7 @@ const uploadFiles =
                     element.value = "";
                 }
                 vditor.upload.element.style.display = "none";
+                vditor.upload.xhr = undefined;
             }
         };
         xhr.upload.onprogress = (event: ProgressEvent) => {
@@ -268,4 +270,4 @@ const uploadFiles =
         xhr.send(formData);
     };
 
-export {Upload, uploadFiles};
+export { Upload, uploadFiles };

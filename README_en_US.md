@@ -418,6 +418,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 |   | Explanation | Default |
 | - | - | - |
+| xhr | XMLHttpRequest used when uploading | - |
 | url | Upload url, empty will not trigger upload related events | '' |
 | max | The largest upload file Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | When the clipboard contains the image address, use this url to re-upload | '' |
