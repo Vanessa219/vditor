@@ -333,6 +333,7 @@ interface ITips {
 }
 
 interface II18n {
+    de_DE: ITips;
     en_US: ITips;
     fr_FR: ITips;
     ja_JP: ITips;

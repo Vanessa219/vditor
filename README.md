@@ -201,7 +201,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | minHeight | 编辑区域最小高度 | - |
 | width | 编辑器总宽度，支持 % | 'auto' |
 | placeholder | 输入区域为空时的提示 | '' |
-| lang | 语言种类：en_US, fr_FR, pt_BR, ja_JP, ko_KR, ru_RU, sv_SE, zh_CN, zh_TW | 'zh_CN' |
+| lang | 语言种类：de_DE, en_US, fr_FR, pt_BR, ja_JP, ko_KR, ru_RU, sv_SE, zh_CN, zh_TW | 'zh_CN' |
 | input(value: string) | 输入后触发  | - |
 | focus(value: string) | 聚焦后触发 | - |
 | blur(value: string) | 失焦后触发 | - |
