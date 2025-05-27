@@ -26,7 +26,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.11.1 / 2025-05
+### v3.11.2 / 2025-06
+
+### v3.11.1 / 2025-05-27
 
 * [支持德语](https://github.com/Vanessa219/vditor/pull/1816) `文档相关`
 * [订正多语言（英语）中的 `delete-column` 和 `delete-row`](https://github.com/Vanessa219/vditor/pull/1811) `文档相关`
