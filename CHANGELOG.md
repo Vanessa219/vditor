@@ -28,6 +28,7 @@
 
 ### v3.11.1 / 2025-05
 
+* [更新 LICENSE](https://github.com/Vanessa219/vditor/pull/1812) `文档相关`
 * [添加 `options.upload.xhr` 回调](https://github.com/Vanessa219/vditor/issues/1808) `引入特性`
 * [待办列表回车换行错误](https://github.com/Vanessa219/vditor/issues/1789) `修复缺陷`
 
