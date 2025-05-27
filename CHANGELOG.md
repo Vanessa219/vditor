@@ -28,6 +28,7 @@
 
 ### v3.11.1 / 2025-05
 
+* [支持德语](https://github.com/Vanessa219/vditor/pull/1816) `文档相关`
 * [订正多语言（英语）中的 `delete-column` 和 `delete-row`](https://github.com/Vanessa219/vditor/pull/1811) `文档相关`
 * [更新 LICENSE](https://github.com/Vanessa219/vditor/pull/1812) `文档相关`
 * [添加 `options.upload.xhr` 回调](https://github.com/Vanessa219/vditor/issues/1808) `引入特性`
