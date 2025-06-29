@@ -177,7 +177,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | minHeight | Editing area minimum height | - |
 | width | Total editor width, supports % | 'auto' |
 | placeholder | Tips when the input area is empty | '' |
-| lang | I18n type: de_DE, en_US, fr_FR, pt_BR, ja_JP, ko_KR, ru_RU, sv_SE, zh_CN, zh_TW | 'zh_CN' |
+| lang | I18n type: de_DE, en_US, es_ES, fr_FR, ja_JP, ko_KR, pt_BR, ru_RU, sv_SE, vi_VN, zh_CN, zh_TW | 'zh_CN' |
 | input(value: string) | Trigger after input  | - |
 | focus(value: string) | Trigger after focusing | - |
 | blur(value: string) | Trigger after out of focus | - |

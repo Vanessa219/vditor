@@ -99,7 +99,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     previewElement.classList.add("vditor-reset");
 
     if (!mergedOptions.i18n) {
-        if (!["de_DE", "en_US", "fr_FR", "pt_BR", "ja_JP", "ko_KR", "ru_RU", "sv_SE", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
+        if (!["de_DE", "en_US", "es_ES", "fr_FR", "ja_JP", "ko_KR", "pt_BR", "ru_RU", "sv_SE", "vi_VN", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
             throw new Error(
                 "options.lang error, see https://ld246.com/article/1549638745630#options",
             );

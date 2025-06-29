@@ -335,14 +335,16 @@ interface ITips {
 interface II18n {
     de_DE: ITips;
     en_US: ITips;
+    es_ES: ITips;
     fr_FR: ITips;
     ja_JP: ITips;
     ko_KR: ITips;
+    pt_BR: ITips;
     ru_RU: ITips;
     sv_SE: ITips;
+    vi_VN: ITips;
     zh_CN: ITips;
     zh_TW: ITips;
-    pt_BR: ITips;
 }
 
 interface IClasses {
