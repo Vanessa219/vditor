@@ -1404,6 +1404,10 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         if (textHTML.trim() !== "") {
             const tempElement = document.createElement("div");
             tempElement.innerHTML = textHTML;
+            // word复制的图文混合，替换为dataUrl: <v:imagedata src="file:///C:/Users/ADMINI~1/AppData/Local/Temp/msohtmlclip1/01/clip_image001.png" o:title="">
+            replaceVmlImage(tempElement, ("clipboardData" in event ? event.clipboardData : event.dataTransfer).getData("text/rtf"))
+            await uploadBase64Img(tempElement, vditor)
+
             tempElement.querySelectorAll("[style]").forEach((e) => {
                 e.removeAttribute("style");
             });
@@ -1499,3 +1503,87 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         scrollCenter(vditor);
     }
 };
+
+//replace <v:imagedata src=...> to <img>, get image data by text/rtf
+function replaceVmlImage(root:Element, rtfData: string) {
+    const images = extractImageDataFromRtf(rtfData)
+    const shapes : Array<{shape:Element,img:Element}> = []
+    walk(root, (child : Element) => {
+        if (child.tagName === 'V:SHAPE') {
+            walk(child, (sub) => {
+                if (sub.tagName === 'V:IMAGEDATA') shapes.push({ shape: child, img: sub })
+            })
+            return false
+        }
+    })
+    for (let i = 0; i < shapes.length; i++) {
+        const img = document.createElement('img')
+        const newSrc = 'data:' + images[i].type + ';base64,' + hexToBase64(images[i].hex)
+        img.src = newSrc
+        img.title = shapes[i].img.getAttribute('title')
+        shapes[i].shape.parentNode.replaceChild(img, shapes[i].shape)
+    }
+
+    function walk(el:Element, fn: (el:Element)=> boolean| void) {
+        const goNext = fn(el)
+        if (goNext !== false)
+            for (let i=0;i<  el.children.length;i++) {
+                walk(el.children[i], fn)
+            }
+    }
+}
+function extractImageDataFromRtf( rtfData:string ) {
+    if ( !rtfData ) {
+        return [];
+    }
+
+    const regexPictureHeader = /{\\pict[\s\S]+?\\bliptag-?\d+(\\blipupi-?\d+)?({\\\*\\blipuid\s?[\da-fA-F]+)?[\s}]*?/;
+    const regexPicture = new RegExp( '(?:(' + regexPictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' );
+    const images = rtfData.match( regexPicture );
+    const result = [];
+
+    if ( images ) {
+        for ( const image of images ) {
+            let imageType;
+
+            if ( image.includes( '\\pngblip' ) ) {
+                imageType = 'image/png';
+            } else if ( image.includes( '\\jpegblip' ) ) {
+                imageType = 'image/jpeg';
+            }
+
+            if ( imageType ) {
+                result.push( {
+                    hex: image.replace( regexPictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ),
+                    type: imageType
+                } );
+            }
+        }
+    }
+
+    return result;
+}
+function hexToBase64(hexString :string) {
+    const ms = hexString.match(/\w{2}/g) || []
+    return btoa(ms.map(char => {
+        return String.fromCharCode(parseInt(char, 16));
+    }).join(''));
+}
+async function uploadBase64Img(root:Element, vditor: IVditor) {
+    if (vditor.options.upload.handleDataUrl) {
+        const imgs = root.querySelectorAll('img')
+        for (let i = 0; i < imgs.length; i++) {
+            const src = imgs[i].src || ''
+            if(src) imgs[i].src = await vditor.options.upload.handleDataUrl(src)
+        }
+    }
+}
+function base64ToBlob(base64: string, contentType: string) {
+    const raw = atob(base64 || '');
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+    }
+    return new Blob([uInt8Array], { type: contentType });
+}
