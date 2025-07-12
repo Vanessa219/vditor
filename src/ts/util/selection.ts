@@ -1,6 +1,6 @@
-import {Constants} from "../constants";
-import {isChrome} from "./compatibility";
-import {hasClosestBlock, hasClosestByClassName} from "./hasClosest";
+import { Constants } from "../constants";
+import { isChrome } from "./compatibility";
+import { hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag } from "./hasClosest";
 
 export const getEditorRange = (vditor: IVditor) => {
     let range: Range;
@@ -262,7 +262,12 @@ export const insertHTML = (html: string, vditor: IVditor) => {
         if (!blockElement) {
             vditor[vditor.currentMode].element.insertAdjacentHTML("beforeend", pasteElement.innerHTML);
         } else {
-            blockElement.insertAdjacentHTML("afterend", pasteElement.innerHTML);
+            const liElement = hasClosestByMatchTag(range.startContainer, "LI");
+            if (liElement && pasteElement.firstElementChild.tagName === "UL") {
+                liElement.insertAdjacentHTML("afterend", pasteElement.firstElementChild.innerHTML);
+            } else {
+                blockElement.insertAdjacentHTML("afterend", pasteElement.innerHTML);
+            }
         }
         setRangeByWbr(vditor[vditor.currentMode].element, range);
     } else {

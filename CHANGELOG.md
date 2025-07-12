@@ -28,6 +28,8 @@
 
 ### v3.11.2 / 2025-06
 
+* [改进列表内粘贴列表](https://github.com/Vanessa219/vditor/issues/1832) `改进功能`
+
 ### v3.11.1 / 2025-05-27
 
 * [支持德语](https://github.com/Vanessa219/vditor/pull/1816) `文档相关`
