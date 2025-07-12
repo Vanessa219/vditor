@@ -1,6 +1,6 @@
-import { Constants } from "../constants";
-import { isChrome } from "./compatibility";
-import { hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag } from "./hasClosest";
+import {Constants} from "../constants";
+import {isChrome} from "./compatibility";
+import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
 
 export const getEditorRange = (vditor: IVditor) => {
     let range: Range;

@@ -52,7 +52,7 @@ export const fixCJKPosition = (range: Range, vditor: IVditor, event: KeyboardEve
 
         // https://github.com/Vanessa219/vditor/issues/1289 WKWebView切换输入法产生六分之一空格，造成光标错位
         if (pLiElement.nodeValue) {
-            pLiElement.nodeValue = pLiElement.nodeValue.replace(/\u2006/g, '');
+            pLiElement.nodeValue = pLiElement.nodeValue.replace(/\u2006/g, "");
         }
 
         const zwspNode = document.createTextNode(Constants.ZWSP);
@@ -1255,7 +1255,7 @@ export const fixFirefoxArrowUpTable = (event: KeyboardEvent, blockElement: false
     return false;
 };
 
-export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent) & { target: HTMLElement }, callback: {
+export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent) & {target: HTMLElement}, callback: {
     pasteCode(code: string): void,
 }) => {
     if (vditor[vditor.currentMode].element.getAttribute("contenteditable") !== "true") {
@@ -1404,9 +1404,10 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         if (textHTML.trim() !== "") {
             const tempElement = document.createElement("div");
             tempElement.innerHTML = textHTML;
-            // word复制的图文混合，替换为dataUrl: <v:imagedata src="file:///C:/Users/ADMINI~1/AppData/Local/Temp/msohtmlclip1/01/clip_image001.png" o:title="">
-            replaceVmlImage(tempElement, ("clipboardData" in event ? event.clipboardData : event.dataTransfer).getData("text/rtf"))
-            await uploadBase64Img(tempElement, vditor)
+            if (!vditor.options.upload.base64ToLink) {
+                // word 复制的图文混合，替换为 link: <v:imagedata src="file:///C:/Users/ADMINI~1/AppData/Local/Temp/msohtmlclip1/01/clip_image001.png" o:title="">
+                await processVMLImage(vditor, tempElement, ("clipboardData" in event ? event.clipboardData : event.dataTransfer).getData("text/rtf"));
+            }
 
             tempElement.querySelectorAll("[style]").forEach((e) => {
                 e.removeAttribute("style");
@@ -1444,14 +1445,14 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 if (file && file.type.startsWith("image")) {
                     fileReader.readAsDataURL(file);
                     fileReader.onload = () => {
-                        let imgHTML = ''
+                        let imgHTML = "";
                         if (vditor.currentMode === "wysiwyg") {
                             imgHTML += `<img alt="${file.name}" src="${fileReader.result.toString()}">\n`;
                         } else {
                             imgHTML += `![${file.name}](${fileReader.result.toString()})\n`;
                         }
                         document.execCommand("insertHTML", false, imgHTML);
-                    }
+                    };
                 }
             }
         } else if (textPlain.trim() !== "" && files.length === 0) {
@@ -1504,86 +1505,65 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     }
 };
 
-//replace <v:imagedata src=...> to <img>, get image data by text/rtf
-function replaceVmlImage(root:Element, rtfData: string) {
-    const images = extractImageDataFromRtf(rtfData)
-    const shapes : Array<{shape:Element,img:Element}> = []
-    walk(root, (child : Element) => {
-        if (child.tagName === 'V:SHAPE') {
-            walk(child, (sub) => {
-                if (sub.tagName === 'V:IMAGEDATA') shapes.push({ shape: child, img: sub })
-            })
-            return false
-        }
-    })
-    for (let i = 0; i < shapes.length; i++) {
-        const img = document.createElement('img')
-        const newSrc = 'data:' + images[i].type + ';base64,' + hexToBase64(images[i].hex)
-        img.src = newSrc
-        img.title = shapes[i].img.getAttribute('title')
-        shapes[i].shape.parentNode.replaceChild(img, shapes[i].shape)
-    }
+const processVMLImage = async (vditor: IVditor, root: Element, rtfData: string) => {
+    if (!rtfData) {
+        return;
 
-    function walk(el:Element, fn: (el:Element)=> boolean| void) {
-        const goNext = fn(el)
-        if (goNext !== false)
-            for (let i=0;i<  el.children.length;i++) {
-                walk(el.children[i], fn)
-            }
-    }
-}
-function extractImageDataFromRtf( rtfData:string ) {
-    if ( !rtfData ) {
-        return [];
     }
 
     const regexPictureHeader = /{\\pict[\s\S]+?\\bliptag-?\d+(\\blipupi-?\d+)?({\\\*\\blipuid\s?[\da-fA-F]+)?[\s}]*?/;
-    const regexPicture = new RegExp( '(?:(' + regexPictureHeader.source + '))([\\da-fA-F\\s]+)\\}', 'g' );
-    const images = rtfData.match( regexPicture );
-    const result = [];
-
-    if ( images ) {
-        for ( const image of images ) {
+    const regexPicture = new RegExp("(?:(" + regexPictureHeader.source + "))([\\da-fA-F\\s]+)\\}", "g");
+    const regImages = rtfData.match(regexPicture);
+    const images = [];
+    if (regImages) {
+        for (const image of regImages) {
             let imageType;
 
-            if ( image.includes( '\\pngblip' ) ) {
-                imageType = 'image/png';
-            } else if ( image.includes( '\\jpegblip' ) ) {
-                imageType = 'image/jpeg';
+            if (image.includes("\\pngblip")) {
+                imageType = "image/png";
+            } else if (image.includes("\\jpegblip")) {
+                imageType = "image/jpeg";
             }
 
-            if ( imageType ) {
-                result.push( {
-                    hex: image.replace( regexPictureHeader, '' ).replace( /[^\da-fA-F]/g, '' ),
-                    type: imageType
-                } );
+            if (imageType) {
+                images.push({
+                    hex: image.replace(regexPictureHeader, "").replace(/[^\da-fA-F]/g, ""),
+                    type: imageType,
+                });
             }
         }
     }
 
-    return result;
-}
-function hexToBase64(hexString :string) {
-    const ms = hexString.match(/\w{2}/g) || []
-    return btoa(ms.map(char => {
-        return String.fromCharCode(parseInt(char, 16));
-    }).join(''));
-}
-async function uploadBase64Img(root:Element, vditor: IVditor) {
-    if (vditor.options.upload.handleDataUrl) {
-        const imgs = root.querySelectorAll('img')
-        for (let i = 0; i < imgs.length; i++) {
-            const src = imgs[i].src || ''
-            if(src) imgs[i].src = await vditor.options.upload.handleDataUrl(src)
+    const shapes: Array<{shape: Element, img: Element}> = [];
+    walk(root, (child: Element) => {
+        if (child.tagName === "V:SHAPE") {
+            walk(child, (sub) => {
+                if (sub.tagName === "V:IMAGEDATA") shapes.push({shape: child, img: sub});
+            });
+            return false;
         }
+    });
+    for (let i = 0; i < shapes.length; i++) {
+        const img = document.createElement("img");
+        const newSrc = "data:" + images[i].type + ";base64," + btoa((images[i].hex.match(/\w{2}/g) || []).map(char => {
+            return String.fromCharCode(parseInt(char, 16));
+        }).join(""));
+        img.src = newSrc;
+        img.title = shapes[i].img.getAttribute("title");
+        shapes[i].shape.parentNode.replaceChild(img, shapes[i].shape);
     }
-}
-function base64ToBlob(base64: string, contentType: string) {
-    const raw = atob(base64 || '');
-    const rawLength = raw.length;
-    const uInt8Array = new Uint8Array(rawLength);
-    for (let i = 0; i < rawLength; ++i) {
-        uInt8Array[i] = raw.charCodeAt(i);
+
+    const imgs = root.querySelectorAll("img");
+    for (let i = 0; i < imgs.length; i++) {
+        const src = imgs[i].src || "";
+        if (src) imgs[i].src = await vditor.options.upload.base64ToLink(src);
     }
-    return new Blob([uInt8Array], { type: contentType });
-}
+};
+
+const walk = (el: Element, fn: (el: Element) => boolean | void) => {
+    const goNext = fn(el);
+    if (goNext !== false)
+        for (let i = 0; i < el.children.length; i++) {
+            walk(el.children[i], fn);
+        }
+};

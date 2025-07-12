@@ -402,6 +402,8 @@ interface IUpload {
 
     //将dataUrl上传到服务器，并返回获取数据的url
     handleDataUrl?(dataUrl: string): string | Promise<string>;
+    /** 将图片的 base64 转换为链接 */
+    base64ToLink?(responseText: string): string;
 
     /** 对服务端返回的数据进行转换，以满足内置的数据结构 */
     format?(files: File[], responseText: string): string;
