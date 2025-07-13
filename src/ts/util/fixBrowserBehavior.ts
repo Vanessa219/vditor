@@ -1463,11 +1463,11 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             if (vditor.currentMode === "ir") {
                 renderers.Md2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.Md2VditorIRDOM(textPlain), vditor);
+                insertHTML(Lute.Sanitize(vditor.lute.Md2VditorIRDOM(textPlain)), vditor);
             } else if (vditor.currentMode === "wysiwyg") {
                 renderers.Md2VditorDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.Md2VditorDOM(textPlain), vditor);
+                insertHTML(Lute.Sanitize(vditor.lute.Md2VditorDOM(textPlain)), vditor);
             } else {
                 renderers.Md2VditorSVDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
