@@ -27,8 +27,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.11.2 / 2025-06
+### v3.11.2 / 2025-07
 
+* [支持西班牙语和越南语](https://github.com/Vanessa219/vditor/pull/1828) `引入特性`
 * [改进列表内粘贴列表](https://github.com/Vanessa219/vditor/pull/1830) `引入特性`
 * [改进列表内粘贴列表](https://github.com/Vanessa219/vditor/issues/1832) `改进功能`
 
