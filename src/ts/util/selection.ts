@@ -236,6 +236,8 @@ export const setRangeByWbr = (element: HTMLElement, range: Range) => {
 };
 
 export const insertHTML = (html: string, vditor: IVditor) => {
+    html = Lute.Sanitize(html);
+
     // 使用 lute 方法会添加 p 元素，只有一个 p 元素的时候进行删除
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;

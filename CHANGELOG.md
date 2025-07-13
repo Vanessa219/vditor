@@ -29,8 +29,9 @@
 
 ### v3.11.2 / 2025-07
 
+* [改进粘贴 markdown 导致的 XSS](https://github.com/Vanessa219/vditor/issues/1827) `改进功能`
 * [支持西班牙语和越南语](https://github.com/Vanessa219/vditor/pull/1828) `引入特性`
-* [改进列表内粘贴列表](https://github.com/Vanessa219/vditor/pull/1830) `引入特性`
+* [支持粘贴含有图文的 Word](https://github.com/Vanessa219/vditor/pull/1830) `引入特性`
 * [改进列表内粘贴列表](https://github.com/Vanessa219/vditor/issues/1832) `改进功能`
 
 ### v3.11.1 / 2025-05-27
