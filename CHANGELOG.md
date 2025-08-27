@@ -26,7 +26,7 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
-
+ 
 ### v3.11.2 / 2025-07
 
 * [特定情况下工具栏图标无法正常加载](https://github.com/Vanessa219/vditor/issues/1846) `兼容性`
