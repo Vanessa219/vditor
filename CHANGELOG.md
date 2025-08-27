@@ -29,6 +29,7 @@
 
 ### v3.11.2 / 2025-07
 
+* [特定情况下工具栏图标无法正常加载](https://github.com/Vanessa219/vditor/issues/1846) `兼容性`
 * [改进粘贴 markdown 导致的 XSS](https://github.com/Vanessa219/vditor/issues/1827) `改进功能`
 * [支持西班牙语和越南语](https://github.com/Vanessa219/vditor/pull/1828) `引入特性`
 * [支持粘贴含有图文的 Word](https://github.com/Vanessa219/vditor/pull/1830) `引入特性`
