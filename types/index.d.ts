@@ -190,6 +190,10 @@ declare class Lute {
 
     public SetVditorMathBlockPreview(enable: boolean): void;
 
+    public SetSub(enable: boolean): void;
+
+    public SetSup(enable: boolean): void;
+
     public PutEmojis(emojis: IObject): void;
 
     public GetEmojis(): IObject;
@@ -378,7 +382,7 @@ interface IUpload {
     /** 请求头设置 */
     headers?: IObject;
     /** 额外请求参数 */
-    extraData?: { [key: string]: string | Blob };
+    extraData?: {[key: string]: string | Blob};
     /** 是否允许多文件上传。默认值：true */
     multiple?: boolean;
     /** 上传字段名。默认值：file[] */
@@ -404,6 +408,7 @@ interface IUpload {
 
     //将dataUrl上传到服务器，并返回获取数据的url
     handleDataUrl?(dataUrl: string): string | Promise<string>;
+
     /** 将图片的 base64 转换为链接 */
     base64ToLink?(responseText: string): string;
 
@@ -815,7 +820,7 @@ interface IVditor {
         toggle(vditor: IVditor, show?: boolean, focus?: boolean): void,
     };
     toolbar?: {
-        elements?: { [key: string]: HTMLElement },
+        elements?: {[key: string]: HTMLElement},
         element?: HTMLElement,
         updateConfig(vditor: IVditor, options: IToolbarConfig): void,
     };
