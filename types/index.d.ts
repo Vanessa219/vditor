@@ -2,6 +2,20 @@ declare module "*.svg";
 
 declare module "*.png";
 
+type TWYSISYGToolbar =
+    "table"
+    | "code-block"
+    | "heading"
+    | "link-ref"
+    | "a"
+    | "image"
+    | "footnotes-block"
+    | "footnotes-ref"
+    | "vditor-toc"
+    | "blockquote"
+    | "li"
+    | "block"
+
 interface Window {
     VditorI18n: ITips;
     hljs: {
@@ -796,6 +810,9 @@ interface IOptions {
 
     /** 编辑器中未选中文字后触发 */
     unSelect?(): void;
+
+    /** 对 wysiwyg 模式下的工具栏进行自定义 */
+    customWysiwygToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void
 }
 
 interface IEChart {

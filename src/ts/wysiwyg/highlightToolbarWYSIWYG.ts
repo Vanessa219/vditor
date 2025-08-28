@@ -65,6 +65,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         if (footnotesElement) {
             vditor.wysiwyg.popover.innerHTML = "";
             genClose(footnotesElement, vditor);
+            customWysiwygToolbar(vditor, "footnotes-block")
             setPopoverPosition(vditor, footnotesElement);
             return;
         }
@@ -195,6 +196,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         if (tocElement) {
             vditor.wysiwyg.popover.innerHTML = "";
             genClose(tocElement, vditor);
+            customWysiwygToolbar(vditor, "vditor-toc")
             setPopoverPosition(vditor, tocElement);
             return;
         }
@@ -206,6 +208,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             genUp(range, blockquoteElement, vditor);
             genDown(range, blockquoteElement, vditor);
             genClose(blockquoteElement, vditor);
+            customWysiwygToolbar(vditor, "blockquote")
             setPopoverPosition(vditor, blockquoteElement);
         }
 
@@ -216,7 +219,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             genUp(range, liElement, vditor);
             genDown(range, liElement, vditor);
             genClose(liElement, vditor);
-
+            customWysiwygToolbar(vditor, "li")
             setPopoverPosition(vditor, liElement);
         }
 
@@ -549,6 +552,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
             vditor.wysiwyg.popover.insertAdjacentHTML("beforeend", " x ");
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
+            customWysiwygToolbar(vditor, "table")
             setPopoverPosition(vditor, tableElement);
         }
 
@@ -596,6 +600,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
 
             genClose(footnotesRefElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
+            customWysiwygToolbar(vditor, "footnotes-ref")
             setPopoverPosition(vditor, footnotesRefElement);
         }
 
@@ -684,7 +689,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                     }
                     const matchLangData: IHintData[] = [];
                     const key = language.value.substring(0, language.selectionStart);
-                    (vditor.options.preview.hljs.langs ||  Constants.ALIAS_CODE_LANGUAGES.concat((window.hljs?.listLanguages() ?? []).sort())).forEach((keyName) => {
+                    (vditor.options.preview.hljs.langs || Constants.ALIAS_CODE_LANGUAGES.concat((window.hljs?.listLanguages() ?? []).sort())).forEach((keyName) => {
                         if (keyName.indexOf(key.toLowerCase()) > -1) {
                             matchLangData.push({
                                 html: keyName,
@@ -696,6 +701,9 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                     event.preventDefault();
                 };
                 vditor.wysiwyg.popover.insertAdjacentElement("beforeend", languageWrap);
+                customWysiwygToolbar(vditor, "code-block")
+            } else {
+                customWysiwygToolbar(vditor, "block")
             }
             setPopoverPosition(vditor, blockRenderElement);
         } else {
@@ -735,6 +743,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
             genDown(range, headingElement, vditor);
             genClose(headingElement, vditor);
             vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
+            customWysiwygToolbar(vditor, "heading")
             setPopoverPosition(vditor, headingElement);
         }
 
@@ -763,7 +772,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                 genUp(range, blockElement, vditor);
                 genDown(range, blockElement, vditor);
                 genClose(blockElement, vditor);
-
+                customWysiwygToolbar(vditor, "block")
                 setPopoverPosition(vditor, blockElement);
             } else {
                 vditor.wysiwyg.popover.style.display = "none";
@@ -864,6 +873,7 @@ export const genLinkRefPopover = (vditor: IVditor, linkRefElement: HTMLElement, 
     genClose(linkRefElement, vditor);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
+    customWysiwygToolbar(vditor, "link-ref")
     setPopoverPosition(vditor, linkRefElement);
 };
 
@@ -1058,6 +1068,7 @@ export const genAPopover = (vditor: IVditor, aElement: HTMLElement, range: Range
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input1Wrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", input2Wrap);
+    customWysiwygToolbar(vditor, "a")
     setPopoverPosition(vditor, aElement);
 };
 
@@ -1122,7 +1133,7 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", inputWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", altWrap);
     vditor.wysiwyg.popover.insertAdjacentElement("beforeend", titleWrap);
-
+    customWysiwygToolbar(vditor, "image")
     setPopoverPosition(vditor, imgElement);
 };
 
@@ -1136,4 +1147,8 @@ const focusToElement = (event: KeyboardEvent, range: Range) => {
         event.stopPropagation();
         return true;
     }
+};
+
+const customWysiwygToolbar = (vditor: IVditor, type: TWYSISYGToolbar) => {
+    vditor.options.customWysiwygToolbar(type, vditor.wysiwyg.popover);
 };
