@@ -20,6 +20,10 @@ Easy-to-use Markdown editor, born to adapt to different application scenarios
 <a href="https://github.com/Vanessa219/vditor/blob/master/README.md">中文</a> &nbsp;|&nbsp; <a href="https://b3log.org/vditor/demo/index.html">Demo</a>
 </p>
 
+<p align="center">
+🔥 Welcome to check out our other open source project <a href="https://github.com/siyuan-note/siyuan">SiYuan</a>
+<p>
+
 ## 💡 Introduction
 
 [Vditor](https://b3log.org/vditor) is a browser-side Markdown editor, Support WYSIWYG, instant rendering (similar to Typora) and split-screen preview mode. It is implemented using TypeScript and supports native JavaScript and frameworks such as Vue, React, Angular, and Svelte..
