@@ -3,6 +3,7 @@
 ### 升级
 
 * 3.11
+  * 添加 options.customWysiwygToolbar
   * 添加 options.upload.base64ToLink
   * 添加 options.upload.xhr
   * 添加 options.upload.cancel
@@ -29,6 +30,8 @@
  
 ### v3.11.2 / 2025-07
 
+* [上标下标输入异常](https://github.com/Vanessa219/vditor/issues/1822) `修复缺陷`
+* [添加 `customWysiwygToolbar` 方法对 wysiwyg 模式下的工具栏进行自定义](https://github.com/Vanessa219/vditor/issues/1849) `引入特性`
 * [特定情况下工具栏图标无法正常加载](https://github.com/Vanessa219/vditor/issues/1846) `兼容性`
 * [改进粘贴 markdown 导致的 XSS](https://github.com/Vanessa219/vditor/issues/1827) `改进功能`
 * [支持西班牙语和越南语](https://github.com/Vanessa219/vditor/pull/1828) `引入特性`
