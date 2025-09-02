@@ -543,6 +543,8 @@ class Vditor extends VditorMethod {
                 paragraphBeginningSpace: this.vditor.options.preview.markdown
                     .paragraphBeginningSpace,
                 sanitize: this.vditor.options.preview.markdown.sanitize,
+                sub: this.vditor.options.preview.markdown.sub,
+                sup: this.vditor.options.preview.markdown.sup,
                 toc: this.vditor.options.preview.markdown.toc,
             });
 

@@ -314,6 +314,8 @@ new Vditor('vditor', {
 | linkBase | link relative path prefix | '' |
 | linkPrefix | link prefix | '' |
 | mark | enable mark tag | false |
+| sup | superscript | false |
+| sub | subscript | false |
 
 #### options.preview.math
 

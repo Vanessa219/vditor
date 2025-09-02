@@ -62,6 +62,8 @@ export abstract class Constants {
         mathBlockPreview: true,
         paragraphBeginningSpace: false,
         sanitize: true,
+        sub: false,
+        sup: false,
         toc: false,
     };
     public static readonly HLJS_OPTIONS = {

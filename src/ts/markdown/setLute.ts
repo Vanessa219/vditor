@@ -20,5 +20,7 @@ export const setLute = (options: ILuteOptions) => {
     if (options.lazyLoadImage) {
         lute.SetImageLazyLoading(options.lazyLoadImage);
     }
+    lute.SetSup(options.sup);
+    lute.SetSub(options.sub);
     return lute;
 };

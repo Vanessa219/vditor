@@ -330,6 +330,8 @@ new Vditor('vditor', {
 | linkBase | 链接相对路径前缀 | '' |
 | linkPrefix | 链接强制前缀 | '' |
 | mark | 启用 mark 标记 | false |
+| sup | 上标 | false |
+| sub | 下标 | false |
 
 #### options.preview.theme
 
