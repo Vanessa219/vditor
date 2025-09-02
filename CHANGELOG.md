@@ -27,8 +27,8 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
- 
-### v3.11.2 / 2025-07
+
+### v3.11.2 / 2025-09-02
 
 * [上标下标输入异常](https://github.com/Vanessa219/vditor/issues/1822) `修复缺陷`
 * [添加 `customWysiwygToolbar` 方法对 wysiwyg 模式下的工具栏进行自定义](https://github.com/Vanessa219/vditor/issues/1849) `引入特性`
