@@ -526,6 +526,10 @@ interface IMarkdownConfig {
     mark?: boolean;
     /** 支持自动链接 */
     gfmAutoLink?: boolean;
+    /** 支持上标 */
+    sup?: boolean;
+    /** 支持下标 */
+    sub?: boolean;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-preview */

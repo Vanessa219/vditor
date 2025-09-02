@@ -75,6 +75,8 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             mathBlockPreview: mergedOptions.markdown.mathBlockPreview,
             paragraphBeginningSpace: mergedOptions.markdown.paragraphBeginningSpace,
             sanitize: mergedOptions.markdown.sanitize,
+            sub: mergedOptions.markdown.sub,
+            sup: mergedOptions.markdown.sup,
             toc: mergedOptions.markdown.toc,
         });
         if (options?.renderers) {

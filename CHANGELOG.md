@@ -3,6 +3,8 @@
 ### 升级
 
 * 3.11
+  * 添加 options.preview.markdown.sup
+  * 添加 options.preview.markdown.sub
   * 添加 options.customWysiwygToolbar
   * 添加 options.upload.base64ToLink
   * 添加 options.upload.xhr
@@ -27,6 +29,10 @@
 ### TODO
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
+
+### v3.11.3 / 2025-09
+
+* [支持上标下标配置 `sup` `sub`](https://github.com/Vanessa219/vditor/issues/1850) `引入特性`
 
 ### v3.11.2 / 2025-09-02
 
