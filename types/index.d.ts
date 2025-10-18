@@ -208,6 +208,8 @@ declare class Lute {
 
     public SetSup(enable: boolean): void;
 
+    public SetImgPathAllowSpace(enable: boolean): void;
+
     public PutEmojis(emojis: IObject): void;
 
     public GetEmojis(): IObject;
@@ -530,6 +532,8 @@ interface IMarkdownConfig {
     sup?: boolean;
     /** 支持下标 */
     sub?: boolean;
+    /** 图片路径允许空格 */
+    imgPathAllowSpace?: boolean;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-preview */

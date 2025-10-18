@@ -320,6 +320,7 @@ new Vditor('vditor', {
 | mark | enable mark tag | false |
 | sup | superscript | false |
 | sub | subscript | false |
+| imgPathAllowSpace | Image path allows spaces | false |
 
 #### options.preview.math
 

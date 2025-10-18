@@ -533,6 +533,7 @@ class Vditor extends VditorMethod {
                 fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
                 footnotes: this.vditor.options.preview.markdown.footnotes,
                 headingAnchor: false,
+                imgPathAllowSpace: this.vditor.options.preview.markdown.imgPathAllowSpace,
                 inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
                 linkBase: this.vditor.options.preview.markdown.linkBase,
                 linkPrefix: this.vditor.options.preview.markdown.linkPrefix,

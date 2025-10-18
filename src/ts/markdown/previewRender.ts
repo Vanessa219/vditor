@@ -66,6 +66,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             fixTermTypo: mergedOptions.markdown.fixTermTypo,
             footnotes: mergedOptions.markdown.footnotes,
             headingAnchor: mergedOptions.anchor !== 0,
+            imgPathAllowSpace: mergedOptions.markdown.imgPathAllowSpace,
             inlineMathDigit: mergedOptions.math.inlineDigit,
             lazyLoadImage: mergedOptions.lazyLoadImage,
             linkBase: mergedOptions.markdown.linkBase,
