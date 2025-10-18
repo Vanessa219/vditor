@@ -336,6 +336,7 @@ new Vditor('vditor', {
 | mark | 启用 mark 标记 | false |
 | sup | 上标 | false |
 | sub | 下标 | false |
+| imgPathAllowSpace | 图片路径允许空格 | false |
 
 #### options.preview.theme
 

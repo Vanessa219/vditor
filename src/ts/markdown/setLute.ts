@@ -22,5 +22,6 @@ export const setLute = (options: ILuteOptions) => {
     }
     lute.SetSup(options.sup);
     lute.SetSub(options.sub);
+    lute.SetImgPathAllowSpace(options.imgPathAllowSpace);
     return lute;
 };
