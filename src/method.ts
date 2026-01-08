@@ -5,6 +5,7 @@ import {codeRender} from "./ts/markdown/codeRender";
 import {flowchartRender} from "./ts/markdown/flowchartRender";
 import {graphvizRender} from "./ts/markdown/graphvizRender";
 import {highlightRender} from "./ts/markdown/highlightRender";
+import {infographicRender} from "./ts/markdown/infographicRender";
 import {lazyLoadImageRender} from "./ts/markdown/lazyLoadImageRender";
 import {mathRender} from "./ts/markdown/mathRender";
 import {mediaRender} from "./ts/markdown/mediaRender";
@@ -48,6 +49,8 @@ class Vditor {
     public static abcRender = abcRender;
     /** 脑图渲染 */
     public static mindmapRender = mindmapRender;
+    /** 信息图渲染 */
+    public static infographicRender = infographicRender;
     /** plantuml渲染 */
     public static plantumlRender = plantumlRender;
     /** 大纲渲染 */

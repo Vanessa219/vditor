@@ -45,6 +45,7 @@ export abstract class Constants {
     public static readonly ALIAS_CODE_LANGUAGES: string[] = [
         // 自定义
         "abc", "plantuml", "mermaid", "flowchart", "echarts", "mindmap", "graphviz", "math", "markmap", "smiles",
+        "infographic",
         // 别名
         "js", "ts", "html", "toml", "c#", "bat"
     ];
