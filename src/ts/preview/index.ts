@@ -5,6 +5,7 @@ import {flowchartRender} from "../markdown/flowchartRender";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
+import {infographicRender} from "../markdown/infographicRender";
 import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
@@ -231,6 +232,7 @@ export class Preview {
         graphvizRender(vditor.preview.previewElement, vditor.options.cdn);
         chartRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);
         mindmapRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);
+        infographicRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);
         plantumlRender(vditor.preview.previewElement, vditor.options.cdn);
         abcRender(vditor.preview.previewElement, vditor.options.cdn);
         if (vditor.options.preview.render.media.enable) {

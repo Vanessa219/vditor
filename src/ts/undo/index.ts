@@ -151,7 +151,8 @@ class Undo {
         if (vditor.currentMode !== "sv") {
             vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview`)
                 .forEach((blockElement: HTMLElement) => {
-                    if (blockElement.parentElement.querySelector(".language-echarts")) {
+                    if (blockElement.parentElement.querySelector(".language-echarts") ||
+                        blockElement.parentElement.querySelector(".language-infographic")) {
                         if (vditor.currentMode === "ir") {
                             blockElement.parentElement.outerHTML = vditor.lute.SpinVditorIRDOM(blockElement.parentElement.outerHTML);
                         } else {
@@ -244,9 +245,16 @@ class Undo {
                 }
                 if (item.firstElementChild.classList.contains("language-echarts") ||
                     item.firstElementChild.classList.contains("language-plantuml") ||
-                    item.firstElementChild.classList.contains("language-mindmap")) {
+                    item.firstElementChild.classList.contains("language-mindmap") ||
+                    item.firstElementChild.classList.contains("language-infographic")) {
                     item.firstElementChild.removeAttribute("_echarts_instance_");
                     item.firstElementChild.removeAttribute("data-processed");
+                    if (item.firstElementChild.classList.contains("language-infographic")) {
+                        item.firstElementChild.removeAttribute("data-infographic-processed");
+                        item.firstElementChild.removeAttribute("data-infographic-code");
+                        item.firstElementChild.removeAttribute("data-infographic-theme");
+                        item.firstElementChild.removeAttribute("data-infographic-render-id");
+                    }
                     item.firstElementChild.innerHTML = item.previousElementSibling.firstElementChild.innerHTML;
                     item.setAttribute("data-render", "2");
                 } else if (item.firstElementChild.classList.contains("language-math")) {

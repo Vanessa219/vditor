@@ -4,6 +4,7 @@ import {codeRender} from "../markdown/codeRender";
 import {flowchartRender} from "../markdown/flowchartRender";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
+import {infographicRender} from "../markdown/infographicRender";
 import {mathRender} from "../markdown/mathRender";
 import {mermaidRender} from "../markdown/mermaidRender";
 import {markmapRender} from "../markdown/markmapRender";
@@ -82,6 +83,8 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         plantumlRender(previewPanel, vditor.options.cdn);
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);
+    } else if (language === "infographic") {
+        infographicRender(previewPanel, vditor.options.cdn, vditor.options.theme);
     } else if (language === "math") {
         mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     } else {

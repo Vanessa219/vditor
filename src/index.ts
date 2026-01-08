@@ -8,6 +8,7 @@ import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
+import {infographicRender} from "./ts/markdown/infographicRender";
 import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline/index";
 import {Preview} from "./ts/preview/index";
@@ -118,6 +119,7 @@ class Vditor extends VditorMethod {
     ) {
         this.vditor.options.theme = theme;
         setTheme(this.vditor);
+        infographicRender(this.vditor.element, this.vditor.options.cdn, this.vditor.options.theme);
         if (contentTheme) {
             this.vditor.options.preview.theme.current = contentTheme;
             setContentTheme(contentTheme, contentThemePath || this.vditor.options.preview.theme.path);
