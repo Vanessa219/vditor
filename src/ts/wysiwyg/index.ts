@@ -27,6 +27,8 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {genImagePopover, genLinkRefPopover, highlightToolbarWYSIWYG} from "./highlightToolbarWYSIWYG";
 import {getRenderElementNextNode, modifyPre} from "./inlineTag";
 import {input} from "./input";
+import {isInPrismEditor} from "./inlineTag";
+import {getPrismEditor} from "../markdown/prismRender";
 import {showCode} from "./showCode";
 import {getMarkdown} from "../markdown/getMarkdown";
 
@@ -344,6 +346,9 @@ class WYSIWYG {
                 return;
             }
             const range = getSelection().getRangeAt(0);
+            // 检查是否在 Prism Code Editor 中，如果是则让编辑器自己处理输入
+            if (isInPrismEditor(range.startContainer))
+                return;
             let blockElement = hasClosestBlock(range.startContainer);
             if (!blockElement) {
                 // 没有被块元素包裹
@@ -465,15 +470,7 @@ class WYSIWYG {
 
             highlightToolbarWYSIWYG(vditor);
 
-            // 点击后光标落于预览区，需展开代码块
-            let previewElement = hasClosestByClassName(event.target, "vditor-wysiwyg__preview");
-            if (!previewElement) {
-                previewElement =
-                    hasClosestByClassName(getEditorRange(vditor).startContainer, "vditor-wysiwyg__preview");
-            }
-            if (previewElement) {
-                showCode(previewElement, vditor);
-            }
+            // Prism Code Editor 可直接编辑，无需点击展开代码块，移除点击预览区域的 showCode 逻辑
 
             clickToc(event, vditor);
         });
@@ -517,6 +514,12 @@ class WYSIWYG {
                 vditor.hint.render(vditor);
             }
 
+            // 检查是否在 Prism Code Editor 中
+            if (isInPrismEditor(range.startContainer)) {
+                // 在 Prism Code Editor 中，让编辑器自己处理按键，不进行 vditor 的特殊处理
+                return;
+            }
+            
             // 上下左右，删除遇到块预览的处理
             let previewElement = hasClosestByClassName(range.startContainer, "vditor-wysiwyg__preview");
             if (!previewElement && range.startContainer.nodeType !== 3 && range.startOffset > 0) {
@@ -529,6 +532,14 @@ class WYSIWYG {
             if (!previewElement) {
                 return;
             }
+            
+            // 如果预览区域有 Prism 编辑器实例，说明已经可编辑，让浏览器自己处理键盘导航
+            const prismEditor = getPrismEditor(previewElement);
+            if (prismEditor) {
+                // Prism 编辑器已经可编辑，无需调用 showCode
+                return;
+            }
+            
             const previousElement = previewElement.previousElementSibling as HTMLElement;
             if (previousElement.style.display === "none") {
                 if (event.key === "ArrowDown" || event.key === "ArrowRight") {
@@ -551,7 +562,11 @@ class WYSIWYG {
                     // 下一节点依旧为代码渲染块
                     const nextRenderElement = nextNode.querySelector(".vditor-wysiwyg__preview") as HTMLElement;
                     if (nextRenderElement) {
-                        showCode(nextRenderElement, vditor);
+                        // 如果下一个代码块有 Prism 编辑器，让 Prism 自己处理
+                        const nextPrismEditor = getPrismEditor(nextRenderElement);
+                        if (!nextPrismEditor) {
+                            showCode(nextRenderElement, vditor);
+                        }
                         return;
                     }
                 }

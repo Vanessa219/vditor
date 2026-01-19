@@ -164,6 +164,10 @@ module.exports = [
                     {from: 'src/images', to: 'images'},
                     {from: 'src/js', to: 'js'},
                     {from: 'types', to: 'types'},
+                    {
+                        from: 'node_modules/prism-code-editor/dist', 
+                        to: 'js/prism-code-editor'
+                    }
                 ],
             }),
         ],

@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
+import {isInPrismEditor} from "./inlineTag";
 import {
     fixBlockquote, fixCJKPosition,
     fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
@@ -33,14 +34,23 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
         return false;
     }
 
+    const range = getEditorRange(vditor);
+    const startContainer = range.startContainer;
+    
+    // code render
+    const codeRenderElement = hasClosestByClassName(startContainer, "vditor-wysiwyg__block");
+    // 检查是否在 Prism Code Editor 中（尽早检查，避免干扰）
+    if (isInPrismEditor(startContainer, codeRenderElement)) {
+        // 在 Prism Code Editor 中，让编辑器自己处理按键，不进行 vditor 的特殊处理
+        // 但需要处理 Ctrl+Z (undo) 和 Ctrl+Y (redo)，这些在 editorCommonEvent.ts 中处理
+        return false;
+    }
+
     // 添加第一次记录 undo 的光标
     if (event.key.indexOf("Arrow") === -1 && event.key !== "Meta" && event.key !== "Control" && event.key !== "Alt" &&
         event.key !== "Shift" && event.key !== "CapsLock" && event.key !== "Escape" && !/^F\d{1,2}$/.test(event.key)) {
         vditor.undo.recordFirstPosition(vditor, event);
     }
-
-    const range = getEditorRange(vditor);
-    const startContainer = range.startContainer;
 
     if (!fixGSKeyBackspace(event, vditor, startContainer)) {
         return false;
@@ -73,9 +83,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     if (fixTable(vditor, event, range)) {
         return true;
     }
-
-    // code render
-    const codeRenderElement = hasClosestByClassName(startContainer, "vditor-wysiwyg__block");
+    
     if (codeRenderElement) {
         // esc: 退出编辑，仅展示渲染
         if (event.key === "Escape" && codeRenderElement.children.length === 2) {

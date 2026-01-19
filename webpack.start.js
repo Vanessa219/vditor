@@ -11,9 +11,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 
 const pkg = require("./package.json")
-
 module.exports = {
     mode: "development",
+    devServer: {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        }
+    },
     output: {
         filename: "[name]",
         path: path.resolve(__dirname, "demo/dist"),
@@ -126,6 +130,10 @@ module.exports = {
                 { from: "src/images", to: "images" },
                 { from: "src/js", to: "js" },
                 { from: "types", to: "types" },
+                {
+                    from: "node_modules/prism-code-editor/dist", 
+                    to: "js/prism-code-editor"
+                },
             ],
         }),
     ],

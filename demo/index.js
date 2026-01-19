@@ -75,6 +75,9 @@ const initVditor = (language) => {
                 engine: "KaTeX",
                 inlineDigit: true,
             },
+            hljs: {
+                lineNumber: true,
+            },
         },
         toolbarConfig: {
             pin: true,

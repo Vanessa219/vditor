@@ -15,7 +15,8 @@
         "src/assets/*"
     ],
     "dependencies": {
-        "diff-match-patch": "^1.0.5"
+        "diff-match-patch": "^1.0.5",
+        "prism-code-editor": "^5.0.0"
     },
     "types": "dist/index.d.ts",
     "devDependencies": {

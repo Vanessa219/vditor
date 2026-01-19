@@ -1,5 +1,7 @@
 import {Constants} from "../constants";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
+import {getPrismEditor} from "../markdown/prismRender";
+import {hasClosestByClassName} from "../util/hasClosest";
 
 export const previoueIsEmptyA = (node: Node) => {
     let previousNode = node.previousSibling as HTMLElement;
@@ -86,6 +88,23 @@ export const splitElement = (range: Range) => {
         afterHTML,
         beforeHTML,
     };
+};
+
+/**
+ * 检查光标是否在 Prism Code Editor 中
+ * @param startContainer 光标的起始容器节点
+ * @param codeRenderElement 可选的代码块渲染元素（用于优化查找，可以是 false | HTMLElement）
+ * @returns 如果光标在 Prism 编辑器中返回 true，否则返回 false
+ */
+export const isInPrismEditor = (
+    startContainer: Node,
+    codeRenderElement?: HTMLElement | false | null
+): boolean => {
+    // 检查预览区域是否有 Prism 编辑器实例
+    let previewElement = codeRenderElement?
+        codeRenderElement.querySelector(".vditor-wysiwyg__preview") as HTMLElement :
+        hasClosestByClassName(startContainer, "vditor-wysiwyg__preview");
+    return previewElement && !!getPrismEditor(previewElement);
 };
 
 export const modifyPre = (vditor: IVditor, range: Range) => {
