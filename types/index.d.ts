@@ -30,6 +30,36 @@ interface Window {
             name: string
         };
     };
+    Prism?: {
+        highlight: (code: string, grammar: any, language: string) => string;
+        languages: {
+            [key: string]: any;
+        };
+        [key: string]: any;
+    };
+    PrismCodeEditor?: {
+        Prism?: any;
+        basicEditor: (container: string | HTMLElement, options: {
+            language?: string;
+            theme: string;
+            value?: string;
+            [key: string]: any;
+        }, onReady?: () => void) => IPrismEditor;
+        minimalEditor: (container: string | HTMLElement, options: {
+            language?: string;
+            theme: string;
+            value?: string;
+            [key: string]: any;
+        }, onReady?: () => void) => IPrismEditor;
+    };
+}
+
+interface IPrismEditor {
+    readonly value: string;
+    setOptions(options: { value?: string; language?: string; theme?: string; [key: string]: any }): void;
+    remove?(): void;
+    update?(): void;
+    [key: string]: any;
 }
 
 interface IObject {

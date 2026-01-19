@@ -9,6 +9,7 @@ import {mermaidRender} from "../markdown/mermaidRender";
 import {markmapRender} from "../markdown/markmapRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {plantumlRender} from "../markdown/plantumlRender";
+import {prismRender} from "../markdown/prismRender";
 import {SMILESRender} from "../markdown/SMILESRender";
 
 export const processPasteCode = (html: string, text: string, type = "sv") => {
@@ -92,8 +93,13 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
             }
         })
         if (!cRender) {
-            highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
-            codeRender(previewPanel, vditor.options.preview.hljs);
+            // 在 WYSIWYG 模式下使用 Prism Code Editor，其他模式使用 highlight.js
+            if (vditor.currentMode === "wysiwyg") {
+                prismRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn, vditor);
+            } else {
+                highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
+                codeRender(previewPanel, vditor.options.preview.hljs);
+            }
         }
     }
 

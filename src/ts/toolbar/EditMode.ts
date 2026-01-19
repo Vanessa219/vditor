@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {mathRender} from "../markdown/mathRender";
+import {destroyPrismEditor} from "../markdown/prismRender";
 import {processAfterRender as processSVAfterRender, processSpinVditorSVDOM} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
@@ -87,6 +88,13 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.lute.SetVditorSV(false);
 
         vditor.currentMode = "wysiwyg";
+
+        // 销毁旧的 Prism 编辑器实例（如果从其他模式切换过来）
+        if (vditor.wysiwyg.element) {
+            vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__preview").forEach((previewElement: HTMLElement) => {
+                destroyPrismEditor(previewElement);
+            });
+        }
 
         setPadding(vditor);
         renderDomByMd(vditor, markdownText, {

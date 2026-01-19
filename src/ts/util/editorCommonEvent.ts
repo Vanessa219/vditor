@@ -9,6 +9,7 @@ import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {processKeydown} from "../wysiwyg/processKeydown";
+import {isInPrismEditor} from "../wysiwyg/inlineTag";
 import {removeHeading, setHeading} from "../wysiwyg/setHeading";
 import {getEventName, isCtrl} from "./compatibility";
 import {execAfterRender, paste} from "./fixBrowserBehavior";
@@ -149,15 +150,27 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             return;
         }
 
-        // undo
+        // 检查是否在 Prism Code Editor 中
+        const range = getEditorRange(vditor);
+        const isInPrism = vditor.currentMode === "wysiwyg" && isInPrismEditor(range.startContainer);
+
+        // undo - 如果在 Prism 编辑器中，让 Prism 自己处理
         if (matchHotKey("⌘Z", event) && !vditor.toolbar.elements.undo) {
+            if (isInPrism) {
+                // 让 Prism Code Editor 自己处理 undo
+                return;
+            }
             vditor.undo.undo(vditor);
             event.preventDefault();
             return;
         }
 
-        // redo
+        // redo - 如果在 Prism 编辑器中，让 Prism 自己处理
         if (matchHotKey("⌘Y", event) && !vditor.toolbar.elements.redo) {
+            if (isInPrism) {
+                // 让 Prism Code Editor 自己处理 redo
+                return;
+            }
             vditor.undo.redo(vditor);
             event.preventDefault();
             return;
