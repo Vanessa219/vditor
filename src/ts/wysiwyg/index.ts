@@ -11,6 +11,7 @@ import {
     selectEvent,
 } from "../util/editorCommonEvent";
 import {isHeadingMD, isHrMD, paste} from "../util/fixBrowserBehavior";
+import {buildTableSelectionClipboard} from "../util/pasteIntoTable";
 import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
@@ -233,6 +234,17 @@ class WYSIWYG {
             event.clipboardData.setData("text/plain",
                 `[${range.toString()}](${aElement.getAttribute("href")}${aTitle})`);
             event.clipboardData.setData("text/html", "");
+            return;
+        }
+
+        // https://github.com/Vanessa219/vditor/issues/905
+        // Multi-cell table selection: emit a real <table> HTML payload so the
+        // paste path can route into pasteIntoTable. Falls through to the
+        // generic markdown serialization for non-table selections.
+        const tableClip = buildTableSelectionClipboard(range);
+        if (tableClip) {
+            event.clipboardData.setData("text/html", tableClip.html);
+            event.clipboardData.setData("text/plain", tableClip.plain);
             return;
         }
 
