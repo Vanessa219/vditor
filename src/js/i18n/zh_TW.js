@@ -23,7 +23,7 @@ window.VditorI18n = {
   'downloadTip': '該瀏覽器不支持下載功能',
   'edit': '編輯',
   'edit-mode': '切換編輯模式',
-  'emoji': '表情',
+  'emoji': '表情符號',
   'export': '匯出',
   'fileTypeError': '檔案類型不允許上傳',
   'footnoteRef': '腳註參考',
