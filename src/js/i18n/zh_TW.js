@@ -65,7 +65,7 @@ window.VditorI18n = {
   'quote': '引用',
   'record': '開始錄音/結束錄音',
   'record-tip': '該設備不支持錄音功能',
-  'recording': '錄音中...',
+  'recording': '錄音中……',
   'redo': '重做',
   'remove': '刪除',
   'row': '列',
@@ -81,6 +81,6 @@ window.VditorI18n = {
   'update': '更新',
   'upload': '上傳圖片或文件',
   'uploadError': '上傳錯誤',
-  'uploading': '上傳中...',
+  'uploading': '上傳中……',
   'wysiwyg': '所見即所得',
 }
