@@ -76,7 +76,7 @@ window.VditorI18n = {
   'textIsNotEmpty': '文字（不能為空）',
   'title': '標題',
   'tooltipText': '提示文字',
-  'undo': '撤銷',
+  'undo': '還原',
   'up': '上',
   'update': '更新',
   'upload': '上傳圖片或文件',
