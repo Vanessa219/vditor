@@ -64,7 +64,7 @@ window.VditorI18n = {
   'preview': '預覽',
   'quote': '引用',
   'record': '開始錄音/結束錄音',
-  'record-tip': '該設備不支持錄音功能',
+  'record-tip': '該裝置不支持錄音功能',
   'recording': '錄音中……',
   'redo': '重做',
   'remove': '刪除',
