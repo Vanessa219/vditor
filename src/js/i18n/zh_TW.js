@@ -37,7 +37,7 @@ window.VditorI18n = {
   'heading5': '五級標題',
   'heading6': '六級標題',
   'help': '說明',
-  'imageURL': '圖片位址',
+  'imageURL': '圖片位置',
   'indent': '列表縮排',
   'info': '關於',
   'inline-code': '行內程式碼',
