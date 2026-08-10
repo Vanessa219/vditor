@@ -453,6 +453,31 @@ export const execAfterRender = (vditor: IVditor, options = {
     }
 };
 
+export const exitEmptyListItem = (liElement: HTMLElement) => {
+    const listElement = liElement.parentElement;
+    const listParent = listElement.parentElement;
+    const paragraphElement = document.createElement("p");
+    paragraphElement.setAttribute("data-block", "0");
+    paragraphElement.innerHTML = "<wbr>";
+
+    let trailingListElement: HTMLElement | undefined;
+    if (liElement.nextElementSibling) {
+        trailingListElement = listElement.cloneNode(false) as HTMLElement;
+        while (liElement.nextElementSibling) {
+            trailingListElement.appendChild(liElement.nextElementSibling);
+        }
+        listParent.insertBefore(trailingListElement, listElement.nextSibling);
+    }
+
+    liElement.remove();
+    if (listElement.childElementCount === 0) {
+        listParent.replaceChild(paragraphElement, listElement);
+    } else {
+        listParent.insertBefore(paragraphElement, trailingListElement || listElement.nextSibling);
+    }
+    return paragraphElement;
+};
+
 export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | false, event: KeyboardEvent) => {
     const startContainer = range.startContainer;
     const liElement = hasClosestByMatchTag(startContainer, "LI");
@@ -471,6 +496,16 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
             return true;
         }
 
+        // 空列表项删除标记后退出当前列表
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+            liElement.textContent.trim().replace(Constants.ZWSP, "") === "" && range.toString() === "") {
+            const paragraphElement = exitEmptyListItem(liElement);
+            setRangeByWbr(paragraphElement, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
         if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
             !liElement.previousElementSibling && range.toString() === "" &&
             getSelectPosition(liElement, vditor[vditor.currentMode].element, range).start === 0) {
@@ -482,20 +517,6 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
             } else {
                 liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
             }
-            setRangeByWbr(vditor[vditor.currentMode].element, range);
-            execAfterRender(vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        // 空列表删除后与上一级段落对齐
-        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
-            liElement.textContent.trim().replace(Constants.ZWSP, "") === "" &&
-            range.toString() === "" && liElement.previousElementSibling?.tagName === "LI") {
-            liElement.previousElementSibling.insertAdjacentText("beforeend", "\n\n");
-            range.selectNodeContents(liElement.previousElementSibling);
-            range.collapse(false);
-            liElement.remove();
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
             event.preventDefault();

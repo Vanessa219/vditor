@@ -31,6 +31,17 @@ describe("Options", () => {
         });
     });
 
+    test("Options line marker", () => {
+        const options = new Options({
+            cache,
+            toolbar: ["line"],
+        });
+        expect(options.merge().toolbar[0]).toMatchObject({
+            name: "line",
+            prefix: "***",
+        });
+    });
+
     test("Options upload", () => {
         const options = new Options({
             cache,
