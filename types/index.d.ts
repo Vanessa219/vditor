@@ -145,6 +145,9 @@ declare class Lute {
 
     public static GetHeadingID(node: ILuteNode): string;
 
+    /** 返回标题 ID 语法花括号内的原始文本，未设置时返回空字符串 */
+    public static GetHeadingIDRaw(node: ILuteNode): string;
+
     public static NewNodeID(): string;
 
     public static Sanitize(html: string): string;
