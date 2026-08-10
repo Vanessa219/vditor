@@ -33,6 +33,7 @@ import {afterRenderEvent} from "./afterRenderEvent";
 import {removeBlockElement} from "./processKeydown";
 import {renderToc} from "../util/toc";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {renderImageCaptions} from "../markdown/imageCaptionRender";
 
 export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -1079,6 +1080,7 @@ export const genImagePopover = (event: Event, vditor: IVditor) => {
         imgElement.setAttribute("src", inputElement.value);
         imgElement.setAttribute("alt", alt.value);
         imgElement.setAttribute("title", title.value);
+        renderImageCaptions(vditor.wysiwyg.element, "wysiwyg", vditor.options.preview.markdown.imageCaption);
         if (typeof vditor.options.input === "function") {
             vditor.options.input(getMarkdown(vditor));
         }

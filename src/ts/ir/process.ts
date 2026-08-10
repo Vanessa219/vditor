@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {renderImageCaptions} from "../markdown/imageCaptionRender";
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
 import {listToggle} from "../util/fixBrowserBehavior";
@@ -41,6 +42,7 @@ export const processAfterRender = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
+    renderImageCaptions(vditor.ir.element, "ir", vditor.options.preview.markdown.imageCaption);
     if (options.enableHint) {
         processHint(vditor);
     }

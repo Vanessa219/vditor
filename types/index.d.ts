@@ -145,6 +145,9 @@ declare class Lute {
 
     public static GetHeadingID(node: ILuteNode): string;
 
+    /** 返回标题 ID 语法花括号内的原始文本，未设置时返回空字符串 */
+    public static GetHeadingIDRaw(node: ILuteNode): string;
+
     public static NewNodeID(): string;
 
     public static Sanitize(html: string): string;
@@ -511,6 +514,8 @@ interface IMarkdownConfig {
     toc?: boolean;
     /** 脚注。默认值: true */
     footnotes?: boolean;
+    /** 将独占段落图片的 title 显示为图片说明。默认值: false */
+    imageCaption?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview?: boolean;
     /** wysiwyg & ir 模式数学公式块是否渲染。默认值: true */

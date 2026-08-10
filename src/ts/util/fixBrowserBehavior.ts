@@ -453,6 +453,16 @@ export const execAfterRender = (vditor: IVditor, options = {
     }
 };
 
+const isEmptyListItem = (liElement: HTMLElement) => {
+    if (liElement.textContent.split(Constants.ZWSP).join("").trim() !== "") {
+        return false;
+    }
+    return !liElement.querySelector([
+        "audio", "canvas", "embed", "hr", "iframe", "img", "object", "ol", "pre", "svg", "table", "ul", "video",
+        "input:not([type='checkbox'])",
+    ].join(", "));
+};
+
 export const exitEmptyListItem = (liElement: HTMLElement) => {
     const listElement = liElement.parentElement;
     const listParent = listElement.parentElement;
@@ -491,6 +501,18 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
             }
             range.insertNode(document.createTextNode("\n\n"));
             range.collapse(false);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        // 嵌套列表末尾的空列表项回车后转为父列表项中的段落
+        // https://github.com/Vanessa219/vditor/issues/939
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter" && range.collapsed &&
+            !liElement.nextElementSibling && liElement.parentElement.parentElement.tagName === "LI" &&
+            isEmptyListItem(liElement)) {
+            const paragraphElement = exitEmptyListItem(liElement);
+            setRangeByWbr(paragraphElement, range);
             execAfterRender(vditor);
             event.preventDefault();
             return true;
