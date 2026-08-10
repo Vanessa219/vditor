@@ -1290,6 +1290,12 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             return ["", Lute.WalkContinue];
         }
 
+        const parent = node.__internal_object__.Parent;
+        // 链接引用的目标地址由定义节点提供，不在引用位置重复渲染
+        if (parent.Type === 33 && parent.LinkType === 3) {
+            return ["", Lute.WalkContinue];
+        }
+
         if (vditor.options.upload.renderLinkDest) {
             return vditor.options.upload.renderLinkDest(vditor, node, entering);
         }
