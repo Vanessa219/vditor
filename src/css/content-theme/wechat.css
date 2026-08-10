@@ -27,6 +27,16 @@
 .vditor-reset {
     font-family: "mp-quote", -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
     color: rgb(62, 62, 62);
+    --callout-note-color: #0969da;
+    --callout-note-background-color: rgba(9, 105, 218, 0.08);
+    --callout-tip-color: #1a7f37;
+    --callout-tip-background-color: rgba(26, 127, 55, 0.08);
+    --callout-important-color: #8250df;
+    --callout-important-background-color: rgba(130, 80, 223, 0.08);
+    --callout-warning-color: #9a6700;
+    --callout-warning-background-color: rgba(154, 103, 0, 0.08);
+    --callout-caution-color: #cf222e;
+    --callout-caution-background-color: rgba(207, 34, 46, 0.08);
 }
 
 .vditor-reset a, .vditor-ir__link {

@@ -65,6 +65,7 @@ interface ILuteRender {
     renderMathBlockCloseMarker?: ILuteRenderCallback;
     renderBlockquote?: ILuteRenderCallback;
     renderBlockquoteMarker?: ILuteRenderCallback;
+    renderCallout?: ILuteRenderCallback;
     renderHeading?: ILuteRenderCallback;
     renderHeadingC8hMarker?: ILuteRenderCallback;
     renderList?: ILuteRenderCallback;
@@ -167,6 +168,8 @@ declare class Lute {
     }): void;
 
     public SetChineseParagraphBeginningSpace(enable: boolean): void;
+
+    public SetCallout(enable: boolean): void;
 
     public SetHeadingID(enable: boolean): void;
 
@@ -506,6 +509,8 @@ interface IMath {
 interface IMarkdownConfig {
     /** 自动空格。默认值: false */
     autoSpace?: boolean;
+    /** Callout。默认值: true */
+    callout?: boolean;
     /** 段落开头是否空两格。默认值: false */
     paragraphBeginningSpace?: boolean;
     /** 自动矫正术语。默认值: false */

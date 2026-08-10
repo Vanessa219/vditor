@@ -646,3 +646,73 @@
         }
     }
 }
+
+.vditor-reset .callout,
+.vditor-wysiwyg blockquote.callout,
+.vditor-ir blockquote.callout {
+    --callout-color: var(--callout-note-color, #0969da);
+    --callout-background-color: var(--callout-note-background-color, rgba(9, 105, 218, 0.08));
+    position: relative;
+    margin: 0 0 16px;
+    padding: 0.75em 1em;
+    color: inherit;
+    background-color: var(--callout-background-color);
+    border: 0;
+    border-left: 0.25em solid var(--callout-color);
+
+    &[data-subtype="TIP"] {
+        --callout-color: var(--callout-tip-color, #1a7f37);
+        --callout-background-color: var(--callout-tip-background-color, rgba(26, 127, 55, 0.08));
+    }
+
+    &[data-subtype="IMPORTANT"] {
+        --callout-color: var(--callout-important-color, #8250df);
+        --callout-background-color: var(--callout-important-background-color, rgba(130, 80, 223, 0.08));
+    }
+
+    &[data-subtype="WARNING"] {
+        --callout-color: var(--callout-warning-color, #9a6700);
+        --callout-background-color: var(--callout-warning-background-color, rgba(154, 103, 0, 0.08));
+    }
+
+    &[data-subtype="CAUTION"] {
+        --callout-color: var(--callout-caution-color, #cf222e);
+        --callout-background-color: var(--callout-caution-background-color, rgba(207, 34, 46, 0.08));
+    }
+
+    > .callout-info {
+        display: flex;
+        align-items: center;
+        min-height: 1.5em;
+        margin: 0 0 0.5em;
+        color: var(--callout-color);
+        font-weight: 600;
+
+        .callout-icon {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 0.35em;
+        }
+
+        .callout-title {
+            min-width: 1px;
+        }
+
+        .callout-img,
+        > .callout-img {
+            width: 1.2em;
+            height: 1.2em;
+            margin-right: 0.35em;
+            object-fit: contain;
+        }
+    }
+
+    > .callout-content > :last-child,
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.vditor-wysiwyg__callout-marker {
+    display: none;
+}

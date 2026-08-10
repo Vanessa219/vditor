@@ -525,6 +525,7 @@ class Vditor extends VditorMethod {
         ).then(() => {
             this.vditor.lute = setLute({
                 autoSpace: this.vditor.options.preview.markdown.autoSpace,
+                callout: this.vditor.options.preview.markdown.callout,
                 gfmAutoLink: this.vditor.options.preview.markdown.gfmAutoLink,
                 codeBlockPreview: this.vditor.options.preview.markdown
                     .codeBlockPreview,

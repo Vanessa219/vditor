@@ -51,6 +51,7 @@ export abstract class Constants {
     public static readonly CDN = `https://unpkg.com/vditor@${VDITOR_VERSION}`;
     public static readonly MARKDOWN_OPTIONS = {
         autoSpace: false,
+        callout: true,
         gfmAutoLink: true,
         codeBlockPreview: true,
         fixTermTypo: false,

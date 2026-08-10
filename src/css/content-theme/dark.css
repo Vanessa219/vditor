@@ -26,6 +26,16 @@
  */
 .vditor-reset {
     color: #d1d5da;
+    --callout-note-color: #58a6ff;
+    --callout-note-background-color: rgba(56, 139, 253, 0.15);
+    --callout-tip-color: #3fb950;
+    --callout-tip-background-color: rgba(46, 160, 67, 0.15);
+    --callout-important-color: #a371f7;
+    --callout-important-background-color: rgba(163, 113, 247, 0.15);
+    --callout-warning-color: #d29922;
+    --callout-warning-background-color: rgba(187, 128, 9, 0.15);
+    --callout-caution-color: #f85149;
+    --callout-caution-background-color: rgba(248, 81, 73, 0.15);
 }
 
 .vditor-reset a, .vditor-ir__link {

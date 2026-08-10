@@ -24,6 +24,19 @@
  * SOFTWARE.
  *
  */
+.vditor-reset {
+    --callout-note-color: #0969da;
+    --callout-note-background-color: rgba(9, 105, 218, 0.08);
+    --callout-tip-color: #1a7f37;
+    --callout-tip-background-color: rgba(26, 127, 55, 0.08);
+    --callout-important-color: #8250df;
+    --callout-important-background-color: rgba(130, 80, 223, 0.08);
+    --callout-warning-color: #9a6700;
+    --callout-warning-background-color: rgba(154, 103, 0, 0.08);
+    --callout-caution-color: #cf222e;
+    --callout-caution-background-color: rgba(207, 34, 46, 0.08);
+}
+
 .vditor-reset h1, .vditor-reset h2 {
     padding-bottom: 0.3em;
     border-bottom: 1px solid #eaecef;
