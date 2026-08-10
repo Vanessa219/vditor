@@ -33,6 +33,19 @@
 ### v3.11.3 / 2026-08
 
 * [在即时渲染模式粘贴带引用式链接的文本，会在每个链接后添加 URL](https://github.com/Vanessa219/vditor/issues/1476) `修复缺陷`
+* [输入内容与渲染内容不一致](https://github.com/Vanessa219/vditor/issues/1737) `修复缺陷`
+* [Markdown 行内加粗语法混合 html <a> 标签内容渲染出现问题](https://github.com/Vanessa219/vditor/issues/1486) `修复缺陷`
+* [文档 标题内容带有下划线(_)时，在preview模式下，生成目录时把标题内容中的下划线(_)删除了](https://github.com/Vanessa219/vditor/issues/1543) `修复缺陷`
+* [linkBase 在切换编辑器时会丢失](https://github.com/Vanessa219/vditor/issues/1636) `修复缺陷`
+* [列表项中增加表格时，无法正常显示](https://github.com/Vanessa219/vditor/issues/1716) `修复缺陷`
+* [用尖括号输入链接时出现异常](https://github.com/Vanessa219/vditor/issues/1720) `修复缺陷`
+* [输入内容与渲染内容不一致](https://github.com/Vanessa219/vditor/issues/1737) `修复缺陷`
+* [设置 preview 的 linkbase 时，base64 的图片不能渲染](https://github.com/Vanessa219/vditor/issues/1742) `修复缺陷`
+* [对“有序列表”元素调用h1-h6标题，重复的设置与取消，会有大量空行](https://github.com/Vanessa219/vditor/issues/1840) `修复缺陷`
+* [getHTML() 和 html2md 公式互转有损失](https://github.com/Vanessa219/vditor/issues/1848) `修复缺陷`
+* [IR 模式表格内出现异常的 br 标签](https://github.com/Vanessa219/vditor/issues/1204) `修复缺陷`
+* [表格单元格内文本换行显示异常](https://github.com/Vanessa219/vditor/issues/645) `修复缺陷`
+* [在即时渲染模式粘贴带引用式链接的文本，会在每个链接后添加 URL](https://github.com/Vanessa219/vditor/issues/1476) `修复缺陷`
 * [添加 `options.preview.markdown.sup/sub` 对上下标的配置](https://github.com/Vanessa219/vditor/pull/1853) `引入特性`
 * [升级 mermaid.js 11.6.0 至 11.11.0](https://github.com/Vanessa219/vditor/issues/1857) `改进功能`
 
