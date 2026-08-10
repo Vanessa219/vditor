@@ -71,6 +71,7 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
 
         const isWYSIWYGElement = blockElement.isEqualNode(vditor.wysiwyg.element);
         const footnoteElement = hasClosestByAttribute(blockElement, "data-type", "footnotes-block");
+        const calloutElement = hasClosestByAttribute(range.startContainer, "data-type", "callout");
 
         if (!isWYSIWYGElement) {
             // 列表需要到最顶层
@@ -88,6 +89,10 @@ export const input = (vditor: IVditor, range: Range, event?: InputEvent) => {
             // 修改脚注
             if (footnoteElement) {
                 blockElement = footnoteElement;
+            }
+
+            if (calloutElement) {
+                blockElement = calloutElement;
             }
 
             html = blockElement.outerHTML;
