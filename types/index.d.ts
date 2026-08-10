@@ -41,6 +41,7 @@ interface ILuteNode {
     __internal_object__: {
         Parent: {
             Type: number,
+            LinkType: number,
         },
         HeadingLevel: string,
     };
