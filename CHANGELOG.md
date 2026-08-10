@@ -30,8 +30,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.11.3 / 2025-09
+### v3.11.3 / 2026-08
 
+* [在即时渲染模式粘贴带引用式链接的文本，会在每个链接后添加 URL](https://github.com/Vanessa219/vditor/issues/1476) `修复缺陷`
 * [添加 `options.preview.markdown.sup/sub` 对上下标的配置](https://github.com/Vanessa219/vditor/pull/1853) `引入特性`
 * [升级 mermaid.js 11.6.0 至 11.11.0](https://github.com/Vanessa219/vditor/issues/1857) `改进功能`
 
