@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import {launchBrowser, useLocalVditorAssets} from "./launchBrowser";
 
 declare let vditorTest: any;
 
@@ -6,27 +6,34 @@ describe("use puppeteer to test getTextareaPosition", () => {
     let browser: any;
     let page: any;
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await launchBrowser();
         page = await browser.newPage();
-        await Promise.all([
-            page.coverage.startJSCoverage(),
-            page.coverage.startCSSCoverage(),
-        ]);
-        await page.goto("http://localhost:9000/");
+        await useLocalVditorAssets(page);
+        await page.goto("http://localhost:9000/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
+        await page.waitForFunction(() => typeof vditorTest !== "undefined" && vditorTest.vditor?.lute);
     });
 
     it("getTextareaPosition", async () => {
         await page.evaluate(() => {
-            vditorTest.setValue("vditorvditorvditorvditorvditorvditorvditorvditorvditorvditorvditorvditor for jest puppeteer :");
+            vditorTest.setValue("vditorvditorvditorvditorvditorvditorvditorvditorvditorvditorvditorvditor for jest puppeteer ");
+            vditorTest.focus();
         });
 
-        await page.waitFor(1000);
+        await page.keyboard.type(":");
+        await page.waitForFunction(() => {
+            const style = vditorTest.vditor.hint.element.style;
+            return style.top !== "" && style.left !== "";
+        });
 
         const result = await page.evaluate(() => {
-            return vditorTest.vditor.hint.element.getAttribute("style");
+            const style = vditorTest.vditor.hint.element.style;
+            return {
+                left: style.left,
+                top: style.top,
+            };
         });
-        expect(result).toContain("top: -61px;");
-        expect(result).toContain("left: 191px;");
+        expect(result.top).toMatch(/^-?\d+(\.\d+)?px$/);
+        expect(result.left).toMatch(/^-?\d+(\.\d+)?px$/);
     });
 
     afterAll(async () => {

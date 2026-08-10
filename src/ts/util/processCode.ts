@@ -10,6 +10,7 @@ import {markmapRender} from "../markdown/markmapRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {plantumlRender} from "../markdown/plantumlRender";
 import {SMILESRender} from "../markdown/SMILESRender";
+import {wavedromRender} from "../markdown/wavedromRender";
 
 export const processPasteCode = (html: string, text: string, type = "sv") => {
     const tempElement = document.createElement("div");
@@ -82,6 +83,8 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         plantumlRender(previewPanel, vditor.options.cdn);
     } else if (language === "graphviz") {
         graphvizRender(previewPanel, vditor.options.cdn);
+    } else if (language === "wavedrom") {
+        wavedromRender(previewPanel, vditor.options.cdn);
     } else if (language === "math") {
         mathRender(previewPanel, {cdn: vditor.options.cdn, math: vditor.options.preview.math});
     } else {

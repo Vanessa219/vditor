@@ -21,6 +21,7 @@ import {mindmapRender} from "./mindmapRender";
 import {plantumlRender} from "./plantumlRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
+import {wavedromRender} from "./wavedromRender";
 
 const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption: IPreviewOptions = {
@@ -140,6 +141,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     markmapRender(previewElement, mergedOptions.cdn);
     flowchartRender(previewElement, mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
+    wavedromRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     plantumlRender(previewElement, mergedOptions.cdn);

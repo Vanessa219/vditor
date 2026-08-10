@@ -363,6 +363,16 @@ cond(yes)->e
 cond(no)->op
 ```
 
+### WaveDrom
+
+```wavedrom
+{ signal: [
+  { name: "clk", wave: "p......" },
+  { name: "bus", wave: "x.34.5x", data: "head body tail" },
+  { name: "wire", wave: "0.1..0." }
+]}
+```
+
 ### 多媒体
 
 支持 v.qq.com，youtube.com，youku.com，coub.com，facebook.com/video，dailymotion.com，.mp4，.m4v，.ogg，.ogv，.webm，.mp3，.wav 链接解析

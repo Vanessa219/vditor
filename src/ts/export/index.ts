@@ -74,6 +74,7 @@ export const exportHTML = (vditor: IVditor) => {
     Vditor.markmapRender(previewElement, '${vditor.options.cdn}');
     Vditor.flowchartRender(previewElement, '${vditor.options.cdn}');
     Vditor.graphvizRender(previewElement, '${vditor.options.cdn}');
+    Vditor.wavedromRender(previewElement, '${vditor.options.cdn}');
     Vditor.chartRender(previewElement, '${vditor.options.cdn}', '${vditor.options.theme}');
     Vditor.mindmapRender(previewElement, '${vditor.options.cdn}', '${vditor.options.theme}');
     Vditor.abcRender(previewElement, '${vditor.options.cdn}');

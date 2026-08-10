@@ -14,6 +14,7 @@ import {markmapRender} from "./ts/markdown/markmapRender";
 import {mindmapRender} from "./ts/markdown/mindmapRender";
 import {outlineRender} from "./ts/markdown/outlineRender";
 import {plantumlRender} from "./ts/markdown/plantumlRender";
+import {wavedromRender} from "./ts/markdown/wavedromRender";
 import {md2html, previewRender} from "./ts/markdown/previewRender";
 import {speechRender} from "./ts/markdown/speechRender";
 import {previewImage} from "./ts/preview/image";
@@ -30,6 +31,8 @@ class Vditor {
     public static codeRender = codeRender;
     /** 对 graphviz 进行渲染 */
     public static graphvizRender = graphvizRender;
+    /** 对数字波形图进行渲染 */
+    public static wavedromRender = wavedromRender;
     /** 为 element 中的代码块进行高亮渲染 */
     public static highlightRender = highlightRender;
     /** 对数学公式进行渲染 */

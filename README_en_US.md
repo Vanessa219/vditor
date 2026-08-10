@@ -55,7 +55,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 ## ✨  Features
 
 * Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
-* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://ld246.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
+* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, sequence diagrams, digital timing diagrams, staffs, [multimedia](https://ld246.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
 * Export, image lazy loading, task list, multi-platform preview, multi-theme switching, copy to WeChat/zhihu function
 * Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://ld246.com/article/1549638745630#options-preview-markdown)
 * The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://ld246.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
@@ -101,6 +101,7 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
 * Chart syntax
   * Flow chart, sequence diagram, Gantt chart, supported by Mermaid
   * Graphviz
+  * Digital timing diagrams, supported by WaveDrom
   * Line chart, pie chart, brain chart, etc., supported by ECharts
 * Stave: supported by abc.js
 * Math formulas: Math formula blocks, row-level math formulas, supported by MathJax and KaTeX
@@ -572,6 +573,7 @@ options?: IPreviewOptions {
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
 | graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
+| wavedromRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | Render digital timing diagrams |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 | setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
 | setContentTheme (contentTheme: string, path: string)  | update content theme |
@@ -628,6 +630,7 @@ Vditor uses the [MIT](https://opensource.org/licenses/MIT) open source license.
 * [Lute](https://github.com/88250/lute): A structured Markdown engine that supports Go and JavaScript
 * [highlight.js](https://github.com/highlightjs/highlight.js): JavaScript syntax highlighter
 * [mermaid](https://github.com/knsv/mermaid): Generation of diagram and flowchart from text in a similar manner as Markdown
+* [WaveDrom](https://github.com/wavedrom/wavedrom): Digital timing diagram rendering engine
 * [incubator-echarts](https://github.com/apache/incubator-echarts): A powerful, interactive charting and visualization library for browser
 * [abcjs](https://github.com/paulrosen/abcjs): JavaScript library for rendering standard music notation in a browser
 * [IntelliJ IDEA](https://www.jetbrains.com/?from=Vditor): Family of capable and ergonomic development environments

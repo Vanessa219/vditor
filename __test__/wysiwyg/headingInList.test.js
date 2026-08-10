@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const {launchBrowser, useLocalVditorAssets} = require("../util/launchBrowser");
 
 jest.setTimeout(30000);
 
@@ -7,19 +7,9 @@ describe("WYSIWYG headings in lists", () => {
     let page;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await launchBrowser();
         page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on("request", (request) => {
-            const url = request.url();
-            const distMarker = "/dist/";
-            if (url.includes("cdn.jsdelivr.net/npm/vditor") && url.includes(distMarker)) {
-                const localPath = url.substring(url.indexOf(distMarker) + distMarker.length);
-                request.continue({url: `http://localhost:9000/${localPath}`});
-            } else {
-                request.continue();
-            }
-        });
+        await useLocalVditorAssets(page);
         await page.goto("http://localhost:9000/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
         await page.waitForFunction(() => window.vditorTest?.vditor?.lute);
         await page.evaluate(() => {
@@ -29,8 +19,9 @@ describe("WYSIWYG headings in lists", () => {
                     altKey: true,
                     bubbles: true,
                     code: "Digit7",
-                    ctrlKey: true,
+                    ctrlKey: !navigator.platform.toUpperCase().includes("MAC"),
                     key: "7",
+                    metaKey: navigator.platform.toUpperCase().includes("MAC"),
                 }));
             }
         });
@@ -59,8 +50,9 @@ describe("WYSIWYG headings in lists", () => {
                     altKey: true,
                     bubbles: true,
                     code: `Digit${level}`,
-                    ctrlKey: true,
+                    ctrlKey: !navigator.platform.toUpperCase().includes("MAC"),
                     key: level.toString(),
+                    metaKey: navigator.platform.toUpperCase().includes("MAC"),
                 }));
             };
 
@@ -115,8 +107,9 @@ describe("WYSIWYG headings in lists", () => {
                     altKey: true,
                     bubbles: true,
                     code: "Digit1",
-                    ctrlKey: true,
+                    ctrlKey: !navigator.platform.toUpperCase().includes("MAC"),
                     key: "1",
+                    metaKey: navigator.platform.toUpperCase().includes("MAC"),
                 }));
                 return {
                     html: editor.innerHTML,
@@ -130,8 +123,9 @@ describe("WYSIWYG headings in lists", () => {
                 altKey: true,
                 bubbles: true,
                 code: "Digit1",
-                ctrlKey: true,
+                ctrlKey: !navigator.platform.toUpperCase().includes("MAC"),
                 key: "1",
+                metaKey: navigator.platform.toUpperCase().includes("MAC"),
             }));
             task.canceledValue = vditorTest.getValue();
             const nested = setFirstItemHeading("1. first\n   * nested");
@@ -140,8 +134,9 @@ describe("WYSIWYG headings in lists", () => {
                 altKey: true,
                 bubbles: true,
                 code: "Digit1",
-                ctrlKey: true,
+                ctrlKey: !navigator.platform.toUpperCase().includes("MAC"),
                 key: "1",
+                metaKey: navigator.platform.toUpperCase().includes("MAC"),
             }));
             const loose = {
                 firstBlock: editor.querySelector("li")?.firstElementChild?.tagName,

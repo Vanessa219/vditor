@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const {launchBrowser, useLocalVditorAssets} = require("../util/launchBrowser");
 
 jest.setTimeout(30000);
 
@@ -7,20 +7,9 @@ describe("inline math round trip", () => {
     let page;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await launchBrowser();
         page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on("request", (request) => {
-            const url = request.url();
-            const distMarker = "/dist/";
-            const isVditorCDN = url.includes("cdn.jsdelivr.net/npm/vditor") || url.includes("unpkg.com/vditor");
-            if (isVditorCDN && url.includes(distMarker)) {
-                const localPath = url.substring(url.indexOf(distMarker) + distMarker.length);
-                request.continue({url: `http://localhost:9000/${localPath}`});
-            } else {
-                request.continue();
-            }
-        });
+        await useLocalVditorAssets(page);
         await page.goto("http://localhost:9000/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
         await page.waitForFunction(() => window.vditorTest?.vditor?.lute);
     });

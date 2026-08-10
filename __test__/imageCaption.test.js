@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const {launchBrowser} = require("./util/launchBrowser");
 
 jest.setTimeout(30000);
 
@@ -7,7 +7,7 @@ describe("image caption", () => {
     let page;
 
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await launchBrowser();
         page = await browser.newPage();
         await page.goto("http://localhost:9000/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
         await page.waitForFunction(() => window.vditorTest);
