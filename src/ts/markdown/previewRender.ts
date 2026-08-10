@@ -10,6 +10,7 @@ import {codeRender} from "./codeRender";
 import {flowchartRender} from "./flowchartRender";
 import {graphvizRender} from "./graphvizRender";
 import {highlightRender} from "./highlightRender";
+import {renderImageCaptionHTML} from "./imageCaptionRender";
 import {lazyLoadImageRender} from "./lazyLoadImageRender";
 import {mathRender} from "./mathRender";
 import {mediaRender} from "./mediaRender";
@@ -87,7 +88,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             });
         }
         lute.SetHeadingID(true);
-        return lute.Md2HTML(mdText);
+        return renderImageCaptionHTML(lute.Md2HTML(mdText), mergedOptions.markdown.imageCaption);
     });
 };
 

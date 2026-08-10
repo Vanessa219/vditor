@@ -5,6 +5,7 @@ import {flowchartRender} from "../markdown/flowchartRender";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
+import {renderImageCaptions} from "../markdown/imageCaptionRender";
 import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
@@ -152,6 +153,7 @@ export class Preview {
 
         if (value) {
             this.previewElement.innerHTML = value;
+            renderImageCaptions(this.previewElement, "preview", vditor.options.preview.markdown.imageCaption);
             return;
         }
 
@@ -205,6 +207,7 @@ export class Preview {
     }
 
     private afterRender(vditor: IVditor, startTime: number) {
+        renderImageCaptions(this.previewElement, "preview", vditor.options.preview.markdown.imageCaption);
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }

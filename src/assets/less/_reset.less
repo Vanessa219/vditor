@@ -70,6 +70,35 @@
             vertical-align: sub;
         }
 
+        figure.vditor-image {
+            margin: 0 0 16px;
+            text-align: center;
+
+            figcaption {
+                font-size: 0.875em;
+                margin-top: 4px;
+                opacity: 0.65;
+                white-space: pre-wrap;
+            }
+        }
+
+        span.vditor-image[data-image-caption] {
+            display: inline-block;
+            max-width: 100%;
+            text-align: center;
+            vertical-align: top;
+
+            &::after {
+                content: attr(data-image-caption);
+                display: block;
+                font-size: 0.875em;
+                line-height: 1.5;
+                margin-top: 4px;
+                opacity: 0.65;
+                white-space: pre-wrap;
+            }
+        }
+
         h1,
         h2,
         h3,

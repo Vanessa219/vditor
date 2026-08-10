@@ -511,6 +511,8 @@ interface IMarkdownConfig {
     toc?: boolean;
     /** 脚注。默认值: true */
     footnotes?: boolean;
+    /** 将独占段落图片的 title 显示为图片说明。默认值: false */
+    imageCaption?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview?: boolean;
     /** wysiwyg & ir 模式数学公式块是否渲染。默认值: true */
