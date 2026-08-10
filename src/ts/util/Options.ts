@@ -290,7 +290,7 @@ export class Options {
                 hotkey: "⇧⌘H",
                 icon: '<svg><use xlink:href="#vditor-icon-line"></use></svg>',
                 name: "line",
-                prefix: "---",
+                prefix: "***",
                 tipPosition: "n",
             },
             {
