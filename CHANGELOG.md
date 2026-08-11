@@ -30,7 +30,9 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.11.3 / 2026-08
+### v3.11.4 / 2026
+
+### v3.11.3 / 2026-08-11
 
 * [改进 IR 模式下加粗和斜体的连续切换](https://github.com/Vanessa219/vditor/issues/1928) `改进功能`
 * [改进繁体中文用语](https://github.com/Vanessa219/vditor/pull/1933) `改进功能`
