@@ -3,6 +3,7 @@
 ### 升级
 
 * 3.11
+  * 添加 wavedromRender 方法
   * 添加 options.preview.markdown.sup
   * 添加 options.preview.markdown.sub
   * 添加 options.customWysiwygToolbar
@@ -45,7 +46,6 @@
 * [支持引述块](https://github.com/Vanessa219/vditor/issues/1866) `引入特性`
 * [支持 WaveDrom 数字波形图渲染](https://github.com/Vanessa219/vditor/issues/1931) `引入特性`
 * [升级 Mermaid 至 11.16.1](https://github.com/Vanessa219/vditor/issues/1911) `改进功能`
-* [在即时渲染模式粘贴带引用式链接的文本，会在每个链接后添加 URL](https://github.com/Vanessa219/vditor/issues/1476) `修复缺陷`
 * [输入内容与渲染内容不一致](https://github.com/Vanessa219/vditor/issues/1737) `修复缺陷`
 * [Markdown 行内加粗语法混合 html <a> 标签内容渲染出现问题](https://github.com/Vanessa219/vditor/issues/1486) `修复缺陷`
 * [文档 标题内容带有下划线(_)时，在preview模式下，生成目录时把标题内容中的下划线(_)删除了](https://github.com/Vanessa219/vditor/issues/1543) `修复缺陷`
