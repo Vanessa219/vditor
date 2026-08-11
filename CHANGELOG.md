@@ -32,6 +32,9 @@
 
 ### v3.11.3 / 2026-08
 
+* [显示图片的标题](https://github.com/Vanessa219/vditor/issues/930) `引入特性`
+* [支持在自定义渲染器中获取标题的原始 ID](https://github.com/Vanessa219/vditor/issues/1042) `改进功能`
+* [列表第一次回车需和同级块对齐](https://github.com/Vanessa219/vditor/issues/939) `改进功能`
 * [支持引述块](https://github.com/Vanessa219/vditor/issues/1866) `引入特性`
 * [支持 WaveDrom 数字波形图渲染](https://github.com/Vanessa219/vditor/issues/1931) `引入特性`
 * [升级 Mermaid 至 11.16.1](https://github.com/Vanessa219/vditor/issues/1911) `改进功能`
