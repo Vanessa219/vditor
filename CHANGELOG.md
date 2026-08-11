@@ -32,6 +32,7 @@
 
 ### v3.11.3 / 2026-08
 
+* [修正日语表格行列标签](https://github.com/Vanessa219/vditor/pull/1930) `文档相关`
 * [IR 模式复制需要带 mark](https://github.com/Vanessa219/vditor/issues/688) `改进功能`
 * [显示图片的标题](https://github.com/Vanessa219/vditor/issues/930) `引入特性`
 * [支持在自定义渲染器中获取标题的原始 ID](https://github.com/Vanessa219/vditor/issues/1042) `改进功能`
