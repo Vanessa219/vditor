@@ -32,6 +32,7 @@
 
 ### v3.11.3 / 2026-08
 
+* [支持引述块](https://github.com/Vanessa219/vditor/issues/1866) `引入特性`
 * [支持 WaveDrom 数字波形图渲染](https://github.com/Vanessa219/vditor/issues/1931) `引入特性`
 * [升级 Mermaid 至 11.16.1](https://github.com/Vanessa219/vditor/issues/1911) `改进功能`
 * [在即时渲染模式粘贴带引用式链接的文本，会在每个链接后添加 URL](https://github.com/Vanessa219/vditor/issues/1476) `修复缺陷`
