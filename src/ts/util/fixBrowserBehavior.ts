@@ -1064,6 +1064,27 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
     const startContainer = range.startContainer;
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.toString() === "") {
+        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
+            pElement.parentElement.isSameNode(blockquoteElement) &&
+            hasClosestByMatchTag(blockquoteElement.parentElement, "LI") &&
+            (range.collapsed || !range.cloneContents().firstElementChild) &&
+            pElement.innerHTML.replace(Constants.ZWSP, "") !== "\n" &&
+            pElement.innerHTML.replace(Constants.ZWSP, "") !== "") {
+            // 列表内的引用由浏览器处理回车时会新建列表项 https://github.com/Vanessa219/vditor/issues/1925
+            const trailingRange = range.cloneRange();
+            trailingRange.setEnd(pElement, pElement.childNodes.length);
+            const paragraphElement = document.createElement("p");
+            paragraphElement.setAttribute("data-block", "0");
+            paragraphElement.appendChild(trailingRange.extractContents());
+            pElement.insertAdjacentElement("afterend", paragraphElement);
+            range.setStart(paragraphElement, 0);
+            range.collapse(true);
+            setSelectionFocus(range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
             getSelectPosition(blockquoteElement, vditor[vditor.currentMode].element, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
@@ -1111,8 +1132,14 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
             return true;
         }
 
-        if (insertAfterBlock(vditor, event, range, blockquoteElement, blockquoteElement)) {
+        const itemElement = blockquoteElement.parentElement.tagName === "LI" ? blockquoteElement.parentElement : null;
+        const afterBlockElement = !blockquoteElement.nextElementSibling && itemElement?.nextElementSibling?.tagName === "LI" ?
+            itemElement : blockquoteElement;
+        if (insertAfterBlock(vditor, event, range, blockquoteElement, afterBlockElement)) {
             return true;
+        }
+        if (event.key === "ArrowUp" && itemElement && !blockquoteElement.previousElementSibling) {
+            return false;
         }
         if (insertBeforeBlock(vditor, event, range, blockquoteElement, blockquoteElement)) {
             return true;

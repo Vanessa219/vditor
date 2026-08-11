@@ -32,9 +32,9 @@
 
 ### v3.11.3 / 2026-08
 
-* [改进繁体中文用语](https://github.com/Vanessa219/vditor/pull/1933) `文档相关`
+* [改进繁体中文用语](https://github.com/Vanessa219/vditor/pull/1933) `改进功能`
 * [列表内引用回车会创建新列表项](https://github.com/Vanessa219/vditor/issues/1925) `改进功能`
-* [修正日语表格行列标签](https://github.com/Vanessa219/vditor/pull/1930) `文档相关`
+* [修正日语表格行列标签](https://github.com/Vanessa219/vditor/pull/1930) `改进功能`
 * [IR 模式复制需要带 mark](https://github.com/Vanessa219/vditor/issues/688) `改进功能`
 * [显示图片的标题](https://github.com/Vanessa219/vditor/issues/930) `引入特性`
 * [支持在自定义渲染器中获取标题的原始 ID](https://github.com/Vanessa219/vditor/issues/1042) `改进功能`
