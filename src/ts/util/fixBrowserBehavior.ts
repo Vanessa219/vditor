@@ -18,6 +18,7 @@ import {
 import {getLastNode} from "./hasClosest";
 import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
+import {buildTableFragmentFromMatrix, parseMarkdownTableRows, pasteIntoTable} from "./pasteIntoTable";
 import {processCodeRender, processPasteCode} from "./processCode";
 import {
     getEditorRange,
@@ -1491,18 +1492,35 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
                 e.remove();
             });
-            if (vditor.currentMode === "ir") {
-                renderers.HTML2VditorIRDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
-                renderers.HTML2VditorDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
-                insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
-            } else {
-                renderers.Md2VditorSVDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
-                processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
+            let handledByCell = false;
+            if (vditor.currentMode !== "sv" && tempElement.querySelector("table")) {
+                const pasteRange = getEditorRange(vditor);
+                const startCell = (hasClosestByMatchTag(pasteRange.startContainer, "TD")
+                    || hasClosestByMatchTag(pasteRange.startContainer, "TH")) as HTMLTableCellElement | false;
+                const endCell = pasteRange.collapsed ? startCell :
+                    (hasClosestByMatchTag(pasteRange.endContainer, "TD")
+                        || hasClosestByMatchTag(pasteRange.endContainer, "TH")) as HTMLTableCellElement | false;
+                if (startCell && startCell === endCell) {
+                    if (!pasteRange.collapsed) {
+                        pasteRange.deleteContents();
+                    }
+                    handledByCell = pasteIntoTable(vditor, startCell, tempElement);
+                }
+            }
+            if (!handledByCell) {
+                if (vditor.currentMode === "ir") {
+                    renderers.HTML2VditorIRDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
+                } else if (vditor.currentMode === "wysiwyg") {
+                    renderers.HTML2VditorDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
+                } else {
+                    renderers.Md2VditorSVDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
+                }
             }
             vditor.outline.render(vditor);
         } else if (files.length > 0) {
@@ -1536,18 +1554,42 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             if (range.toString() !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
                 textPlain = `[${range.toString()}](${textPlain})`;
             }
-            if (vditor.currentMode === "ir") {
-                renderers.Md2VditorIRDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
-                insertHTML(Lute.Sanitize(vditor.lute.Md2VditorIRDOM(textPlain)), vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
-                renderers.Md2VditorDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
-                insertHTML(Lute.Sanitize(vditor.lute.Md2VditorDOM(textPlain)), vditor);
-            } else {
-                renderers.Md2VditorSVDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
-                processPaste(vditor, textPlain);
+            // https://github.com/Vanessa219/vditor/issues/905
+            // Vditor's own copy emits text/plain (markdown) only, with text/html
+            // cleared. Detect a markdown table-row fragment here so vditor->vditor
+            // table copy/paste lands in the focused cell instead of falling
+            // through to insertHTML (which would dump raw text).
+            let handledByCell = false;
+            if (vditor.currentMode !== "sv" && /\|/.test(textPlain)) {
+                const startCell = (hasClosestByMatchTag(range.startContainer, "TD")
+                    || hasClosestByMatchTag(range.startContainer, "TH")) as HTMLTableCellElement | false;
+                const endCell = range.collapsed ? startCell :
+                    (hasClosestByMatchTag(range.endContainer, "TD")
+                        || hasClosestByMatchTag(range.endContainer, "TH")) as HTMLTableCellElement | false;
+                if (startCell && startCell === endCell) {
+                    const matrix = parseMarkdownTableRows(textPlain);
+                    if (matrix) {
+                        if (!range.collapsed) {
+                            range.deleteContents();
+                        }
+                        handledByCell = pasteIntoTable(vditor, startCell, buildTableFragmentFromMatrix(matrix));
+                    }
+                }
+            }
+            if (!handledByCell) {
+                if (vditor.currentMode === "ir") {
+                    renderers.Md2VditorIRDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    insertHTML(Lute.Sanitize(vditor.lute.Md2VditorIRDOM(textPlain)), vditor);
+                } else if (vditor.currentMode === "wysiwyg") {
+                    renderers.Md2VditorDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    insertHTML(Lute.Sanitize(vditor.lute.Md2VditorDOM(textPlain)), vditor);
+                } else {
+                    renderers.Md2VditorSVDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    processPaste(vditor, textPlain);
+                }
             }
             vditor.outline.render(vditor);
         }

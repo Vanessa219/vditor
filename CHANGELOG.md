@@ -2,6 +2,8 @@
 
 ### 升级
 
+* 3.12
+  * 修复 #905: 跨单元格复制粘贴单元格内容
 * 3.11
   * 添加 wavedromRender 方法
   * 添加 options.preview.markdown.sup
