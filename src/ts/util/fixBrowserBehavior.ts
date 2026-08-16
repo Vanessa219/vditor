@@ -227,7 +227,14 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
             } else {
                 if (itemElement.querySelector("input")) {
                     itemElement.parentElement.querySelectorAll("li").forEach((item) => {
-                        item.querySelector("input").remove();
+                        const inputElement = item.querySelector("input");
+                        if (inputElement) {
+                            const nextSibling = inputElement.nextSibling;
+                            inputElement.remove();
+                            if (nextSibling && nextSibling.nodeType === 3 && nextSibling.textContent.startsWith(" ")) {
+                                nextSibling.textContent = nextSibling.textContent.substring(1);
+                            }
+                        }
                         item.classList.remove("vditor-task");
                     });
                 }

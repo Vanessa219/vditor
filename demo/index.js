@@ -48,6 +48,22 @@ if (window.innerWidth < 768) {
             ],
         }]
 }
+
+const customWysiwygMobileToolbar = (type, element) => {
+    if (!["block", "heading", "li"].includes(type)) {
+        return
+    }
+    const button = document.createElement("button")
+    button.type = "button"
+    button.className = "vditor-icon"
+    button.setAttribute("aria-label", "AI 重写")
+    button.textContent = "AI"
+    button.addEventListener("click", () => {
+        console.log(type, window.vditor.getSelection())
+    })
+    element.appendChild(button)
+}
+
 const initVditor = (language) => {
     window.vditor = new Vditor("vditor", {
         // _lutePath: `http://192.168.31.194:9090/lute.min.js?${new Date().getTime()}`,
@@ -56,6 +72,7 @@ const initVditor = (language) => {
         toolbar,
         lang: language,
         mode: "wysiwyg",
+        customWysiwygMobileToolbar,
         height: window.innerHeight + 100,
         outline: {
             enable: true,

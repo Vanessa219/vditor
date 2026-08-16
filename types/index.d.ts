@@ -828,6 +828,9 @@ interface IOptions {
 
     /** 对 wysiwyg 模式下的工具栏进行自定义 */
     customWysiwygToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void
+
+    /** 对移动端 wysiwyg 模式下的工具栏进行自定义 */
+    customWysiwygMobileToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void
 }
 
 interface IEChart {

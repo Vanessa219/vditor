@@ -201,6 +201,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | icon | icon theme: ant, material | 'ant' |
 | customRenders: {language: string, render: (element: HTMLElement, vditor: IVditor) => void}[] | Custom render | [] |
 | customWysiwygToolbar(type: TWYSISYGToolbar, element: HTMLElement): void | Customizing the toolbar in wysiwyg mode | - |
+| customWysiwygMobileToolbar(type: TWYSISYGToolbar, element: HTMLElement): void | Customize the toolbar in mobile WYSIWYG mode; the entry is hidden when no menu item is added | - |
 
 #### options.toolbar
 

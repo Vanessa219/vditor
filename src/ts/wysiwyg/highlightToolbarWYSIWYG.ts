@@ -3,7 +3,7 @@ import {disableToolbar} from "../toolbar/setToolbar";
 import {enableToolbar} from "../toolbar/setToolbar";
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
-import {isCtrl, updateHotkeyTip} from "../util/compatibility";
+import {getEventName, isCtrl, updateHotkeyTip} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
     deleteColumn,
@@ -793,6 +793,57 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     }, 200);
 };
 
+const genMobileToolbar = (type: TWYSISYGToolbar, vditor: IVditor) => {
+    const customToolbar = vditor.options.customWysiwygMobileToolbar;
+    if (!customToolbar || window.innerWidth > 520) {
+        return;
+    }
+    const toolbarElement = document.createElement("div");
+    toolbarElement.className = "vditor-wysiwyg__mobile-toolbar";
+
+    const menuButton = document.createElement("button");
+    menuButton.type = "button";
+    menuButton.className = "vditor-icon";
+    menuButton.setAttribute("data-type", "mobile-menu");
+    menuButton.setAttribute("aria-label", window.VditorI18n.more);
+    menuButton.textContent = "+";
+
+    const actionsElement = document.createElement("div");
+    actionsElement.className = "vditor-panel vditor-wysiwyg__mobile-actions";
+    const savedRange = getEditorRange(vditor).cloneRange();
+    customToolbar(type, actionsElement);
+
+    if (!actionsElement.hasChildNodes()) {
+        return;
+    }
+
+    const restoreSelection = () => {
+        if (!vditor.wysiwyg.element.contains(savedRange.commonAncestorContainer)) {
+            return;
+        }
+        const restoredRange = savedRange.cloneRange();
+        vditor.wysiwyg.range = restoredRange;
+        setSelectionFocus(restoredRange);
+        actionsElement.classList.remove("vditor-wysiwyg__mobile-actions--open");
+    };
+    actionsElement.addEventListener("touchstart", restoreSelection, true);
+    actionsElement.addEventListener("click", restoreSelection, true);
+
+    menuButton.addEventListener(getEventName(), (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        actionsElement.classList.toggle("vditor-wysiwyg__mobile-actions--open");
+        actionsElement.classList.remove("vditor-panel--left");
+        if (actionsElement.getBoundingClientRect().right > window.innerWidth) {
+            actionsElement.classList.add("vditor-panel--left");
+        }
+    });
+
+    toolbarElement.appendChild(menuButton);
+    toolbarElement.appendChild(actionsElement);
+    vditor.wysiwyg.popover.insertAdjacentElement("afterbegin", toolbarElement);
+};
+
 const setPopoverPosition = (vditor: IVditor, element: HTMLElement) => {
     let targetElement = element;
     const tableElement = hasClosestByMatchTag(element, "TABLE");
@@ -1152,6 +1203,7 @@ const focusToElement = (event: KeyboardEvent, range: Range) => {
 };
 
 const customWysiwygToolbar = (vditor: IVditor, type: TWYSISYGToolbar) => {
+    genMobileToolbar(type, vditor);
     if (vditor.options.customWysiwygToolbar) {
         vditor.options.customWysiwygToolbar(type, vditor.wysiwyg.popover);
     }

@@ -177,8 +177,38 @@
   }
 }
 
+.vditor-wysiwyg__mobile-toolbar {
+  display: none;
+}
+
 @media screen and (max-width: @max-width) {
   .vditor-wysiwyg {
+    &__mobile-toolbar {
+      display: block;
+      float: left;
+      height: 21px;
+      position: relative;
+      width: 23px;
+    }
+
+    &__mobile-actions {
+      box-sizing: border-box;
+      flex-wrap: wrap;
+      left: 0;
+      padding: 5px;
+      top: 26px;
+      white-space: normal;
+
+      &.vditor-panel--left {
+        left: auto;
+        right: 0;
+      }
+
+      &--open {
+        display: flex;
+      }
+    }
+
     h1:before,
     h2:before,
     h3:before,
