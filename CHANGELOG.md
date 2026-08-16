@@ -32,7 +32,7 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v3.11.4 / 2026
+### v4.0.0 / 2026
 
 * [支持自定义移动端 WYSIWYG 工具栏 `customWysiwygMobileToolbar`](https://github.com/Vanessa219/vditor/issues/414) `引入特性`
 
