@@ -1540,8 +1540,10 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             }
         } else if (textPlain.trim() !== "" && files.length === 0) {
             const range = getEditorRange(vditor);
-            if (range.toString() !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
-                textPlain = `[${range.toString()}](${textPlain})`;
+            const rangeText=range.toString();
+            if (vditor.lute.IsValidLinkDest(textPlain)) {
+                const title= rangeText ? rangeText : textPlain;
+                textPlain = `[${title}](${textPlain})`;
             }
             if (vditor.currentMode === "ir") {
                 renderers.Md2VditorIRDOM = {renderLinkDest};
