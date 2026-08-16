@@ -53,3 +53,25 @@ it("converts callout edits back to markdown", () => {
         .replace("Note", "Warning");
     expect(lute.VditorIRDOM2Md(irDOM)).toContain("[!WARNING]");
 });
+
+it("imports callout HTML", () => {
+    const lute = Lute.New();
+    lute.SetCallout(true);
+    const html = [
+        ["NOTE", "✏️", "Note", "突出显示即使快速浏览也应注意的信息。"],
+        ["TIP", "💡", "Tip", "可选信息，有助于更顺利地完成任务。"],
+        ["IMPORTANT", "❗", "Important", "成功完成任务所必需的关键信息。"],
+        ["WARNING", "⚠️", "Warning", "由于存在潜在风险，此重要内容需要立即关注。"],
+        ["CAUTION", "🚨", "Caution", "某项操作可能带来的负面后果。"],
+    ].map(([type, icon, title, content]) => `<div class="callout" data-subtype="${type}">` +
+        `<div class="callout-info"><span class="callout-icon">${icon}</span>` +
+        `<span class="callout-title">${title}</span></div>` +
+        `<div class="callout-content"><p>${content}</p></div></div>`).join("");
+
+    const markdown = lute.HTML2Md(html);
+    expect(markdown).toContain("> [!NOTE]");
+    expect(markdown).toContain("> [!CAUTION]");
+    expect((lute.HTML2VditorDOM(html).match(/data-type="callout"/g) || []).length).toBe(5);
+    expect((lute.HTML2VditorIRDOM(html).match(/data-type="callout"/g) || []).length).toBe(5);
+    expect((lute.Md2VditorSVDOM(markdown).match(/vditor-sv__marker--callout/g) || []).length).toBe(5);
+});
