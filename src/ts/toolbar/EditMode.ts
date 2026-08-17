@@ -113,7 +113,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
 
         vditor.lute.SetVditorIR(false);
         vditor.lute.SetVditorWYSIWYG(false);
-        vditor.lute.SetVditorSV(true);
+        vditor.lute.SetVditorSV(false);
 
         vditor.currentMode = "sv";
         vditor.sv.element.value = markdownText;
