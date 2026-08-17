@@ -26,6 +26,48 @@ import {nextIsCode} from "./inlineTag";
 import {removeHeading, setHeading} from "./setHeading";
 import {showCode} from "./showCode";
 
+const fixAndroidCursor = (vditor: IVditor, range: Range, event: KeyboardEvent) => {
+    if (navigator.userAgent.indexOf("Android") === -1 || event.ctrlKey || event.metaKey || event.altKey) {
+        return false;
+    }
+    const pElement = hasClosestByMatchTag(range.startContainer, "P");
+    const startElement = range.startContainer.nodeType === 3 ?
+        range.startContainer.parentElement : range.startContainer;
+    if (!pElement || !pElement.isSameNode(startElement) ||
+        !pElement.parentElement.isSameNode(vditor.wysiwyg.element)) {
+        return false;
+    }
+
+    let direction: "backward" | "forward";
+    let granularity: "character" | "documentboundary" | "line";
+    if (event.key === "ArrowLeft") {
+        direction = "backward";
+        granularity = "character";
+    } else if (event.key === "ArrowRight") {
+        direction = "forward";
+        granularity = "character";
+    } else if (event.key === "ArrowUp") {
+        direction = "backward";
+        granularity = "line";
+    } else if (event.key === "ArrowDown") {
+        direction = "forward";
+        granularity = "line";
+    } else if (event.key === "End") {
+        direction = "forward";
+        granularity = "documentboundary";
+    } else {
+        return false;
+    }
+
+    const selection = window.getSelection();
+    if (typeof selection.modify !== "function") {
+        return false;
+    }
+    selection.modify(event.shiftKey ? "extend" : "move", direction, granularity);
+    event.preventDefault();
+    return true;
+};
+
 export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     // Chrome firefox 触发 compositionend 机制不一致 https://github.com/Vanessa219/vditor/issues/188
     vditor.wysiwyg.composingLock = event.isComposing;
@@ -41,6 +83,11 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const range = getEditorRange(vditor);
     const startContainer = range.startContainer;
+
+    // Android 输入法的编辑面板无法在 contenteditable 中正确处理方向键和 End
+    if (fixAndroidCursor(vditor, range, event)) {
+        return true;
+    }
 
     if (!fixGSKeyBackspace(event, vditor, startContainer)) {
         return false;
