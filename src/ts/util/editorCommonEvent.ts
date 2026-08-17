@@ -58,7 +58,9 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     });
 };
 
-export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+export const dropEvent = (vditor: IVditor, editorElement: HTMLElement, pasteCode = (code: string) => {
+    document.execCommand("insertHTML", false, code);
+}) => {
     editorElement.addEventListener("dragstart", (event) => {
         // 选中编辑器中的文字进行拖拽
         event.dataTransfer.setData(Constants.DROP_EDITOR, Constants.DROP_EDITOR);
@@ -71,9 +73,7 @@ export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             } else if (event.dataTransfer.types.includes("Files") || event.dataTransfer.types.includes("text/html")) {
                 // 外部文件拖入编辑器中或者编辑器内选中文字拖拽
                 paste(vditor, event, {
-                    pasteCode: (code: string) => {
-                        document.execCommand("insertHTML", false, code);
-                    },
+                    pasteCode,
                 });
             }
         });

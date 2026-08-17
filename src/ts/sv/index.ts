@@ -1,6 +1,6 @@
 import {getMarkdown} from "../markdown/getMarkdown";
 import {isFirefox} from "../util/compatibility";
-import {focusEvent, hotkeyEvent} from "../util/editorCommonEvent";
+import {dropEvent, focusEvent, hotkeyEvent} from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {processAfterRender, processPaste} from "./process";
 
@@ -18,6 +18,9 @@ class Editor {
         this.bindEvent(vditor);
         focusEvent(vditor, this.element);
         hotkeyEvent(vditor, this.element);
+        dropEvent(vditor, this.element, (code: string) => {
+            processPaste(vditor, code.replace(/&lt;/g, "<").replace(/&amp;/g, "&"));
+        });
     }
 
     private bindEvent(vditor: IVditor) {

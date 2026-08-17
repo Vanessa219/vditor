@@ -95,6 +95,27 @@ describe("SV textarea", () => {
         });
     });
 
+    test("inserts a dropped image", async () => {
+        await page.evaluate(() => {
+            const editor = window.svEditor;
+            editor.enable();
+            editor.setValue("");
+            const textarea = editor.vditor.sv.element;
+            textarea.focus();
+            textarea.setSelectionRange(0, 0);
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(new File(["image"], "test.png", {type: "image/png"}));
+            textarea.dispatchEvent(new DragEvent("drop", {
+                bubbles: true,
+                dataTransfer,
+            }));
+        });
+        await page.waitForFunction(() => window.svEditor.getValue().includes("data:image/png;base64,aW1hZ2U="));
+
+        const value = await page.evaluate(() => window.svEditor.getValue());
+        expect(value).toBe("![test.png](data:image/png;base64,aW1hZ2U=)\n");
+    });
+
     afterAll(async () => {
         await page.evaluate(() => {
             if (window.svEditor) {
