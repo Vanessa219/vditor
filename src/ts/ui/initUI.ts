@@ -146,9 +146,13 @@ export const setTypewriterPosition = (vditor: IVditor) => {
   if (vditor.element.classList.contains("vditor--fullscreen")) {
     height = window.innerHeight;
   }
-  // 由于 Firefox padding-bottom bug，只能使用 :after
-  vditor[vditor.currentMode].element.style.setProperty("--editor-bottom",
-    ((height - vditor.toolbar.element.offsetHeight) / 2) + "px");
+  const editorBottom = ((height - vditor.toolbar.element.offsetHeight) / 2) + "px";
+  if (vditor.currentMode === "sv") {
+    vditor.sv.element.style.paddingBottom = editorBottom;
+  } else {
+    // 由于 Firefox padding-bottom bug，只能使用 :after
+    vditor[vditor.currentMode].element.style.setProperty("--editor-bottom", editorBottom);
+  }
 };
 
 let resizeCb: () => void;

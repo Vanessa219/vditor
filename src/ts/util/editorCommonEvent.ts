@@ -45,11 +45,13 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (expandElement) {
                 expandElement.classList.remove("vditor-ir__node--expand");
             }
-        } else if (vditor.currentMode === "wysiwyg" &&
-            !vditor.wysiwyg.selectPopover.contains(event.relatedTarget as HTMLElement)) {
-            vditor.wysiwyg.hideComment();
+            vditor.ir.range = getEditorRange(vditor);
+        } else if (vditor.currentMode === "wysiwyg") {
+            if (!vditor.wysiwyg.selectPopover.contains(event.relatedTarget as HTMLElement)) {
+                vditor.wysiwyg.hideComment();
+            }
+            vditor.wysiwyg.range = getEditorRange(vditor);
         }
-        vditor[vditor.currentMode].range = getEditorRange(vditor);
         if (vditor.options.blur) {
             vditor.options.blur(getMarkdown(vditor));
         }
@@ -102,7 +104,14 @@ export const scrollCenter = (vditor: IVditor) => {
         return;
     }
     const editorElement = vditor[vditor.currentMode].element;
-    const cursorTop = getCursorPosition(editorElement).top;
+    let cursorTop: number;
+    if (vditor.currentMode === "sv") {
+        const lineHeight = parseInt(getComputedStyle(vditor.sv.element).lineHeight, 10) || 22;
+        cursorTop = (vditor.sv.element.value.substring(0, vditor.sv.element.selectionStart).split("\n").length - 1) *
+            lineHeight;
+    } else {
+        cursorTop = getCursorPosition(editorElement).top;
+    }
     if (vditor.options.height === "auto" && !vditor.element.classList.contains("vditor--fullscreen")) {
         window.scrollTo(window.scrollX,
             cursorTop + vditor.element.offsetTop + vditor.toolbar.element.offsetHeight - window.innerHeight / 2 + 10);

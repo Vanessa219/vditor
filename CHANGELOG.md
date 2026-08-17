@@ -34,6 +34,7 @@
 
 ### v4.0.0 / 2026
 
+* [SV 模式改用 textarea 输入](https://github.com/Vanessa219/vditor/issues/1319) `改进功能`
 * [支持自定义移动端 WYSIWYG 工具栏 `customWysiwygMobileToolbar`](https://github.com/Vanessa219/vditor/issues/414) `引入特性`
 
 ### v3.11.3 / 2026-08-11

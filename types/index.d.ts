@@ -413,7 +413,7 @@ interface IUpload {
     setHeaders?(): IObject;
 
     /** 上传成功回调 */
-    success?(editor: HTMLPreElement, msg: string): void;
+    success?(editor: HTMLPreElement | HTMLTextAreaElement, msg: string): void;
 
     /** 上传失败回调 */
     error?(msg: string): void;
@@ -889,6 +889,8 @@ interface IVditor {
         element: HTMLElement
         isUploading: boolean
         range: Range,
+        selectionEnd: number,
+        selectionStart: number,
         xhr?: XMLHttpRequest,
     };
     undo?: {
@@ -924,12 +926,9 @@ interface IVditor {
         hlToolbarTimeoutId: number,
     };
     sv?: {
-        range: Range,
-        element: HTMLPreElement,
+        element: HTMLTextAreaElement,
         processTimeoutId: number,
-        hlToolbarTimeoutId: number,
         composingLock: boolean,
-        preventInput: boolean,
     };
 }
 

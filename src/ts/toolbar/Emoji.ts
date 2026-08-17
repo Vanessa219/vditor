@@ -6,6 +6,7 @@ import {MenuItem} from "./MenuItem";
 import {toggleSubMenu} from "./setToolbar";
 import {hasClosestBlock} from "../util/hasClosest";
 import {modifyPre} from "../wysiwyg/inlineTag";
+import {processPaste} from "../sv/process";
 
 export class Emoji extends MenuItem {
     public element: HTMLElement;
@@ -44,6 +45,12 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
             if (btnElement) {
                 event.preventDefault();
                 const value = btnElement.getAttribute("data-value");
+                if (vditor.currentMode === "sv") {
+                    processPaste(vditor, value);
+                    (this.element.lastElementChild as HTMLElement).style.display = "none";
+                    execAfterRender(vditor);
+                    return;
+                }
                 const range = getEditorRange(vditor);
                 let html = value;
                 if (vditor.currentMode === "wysiwyg") {
@@ -51,7 +58,7 @@ data-value=":${key}: " data-key=":${key}:" class="vditor-emojis__icon" src="${em
                 } else if (vditor.currentMode === "ir") {
                     html = vditor.lute.SpinVditorIRDOM(value);
                 }
-                if (value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
+                if (value.indexOf(":") > -1) {
                     const tempElement = document.createElement("div");
                     tempElement.innerHTML = html;
                     html = tempElement.firstElementChild.firstElementChild.outerHTML + " ";

@@ -2,7 +2,7 @@ import {Constants} from "../constants";
 import {processAfterRender} from "../ir/process";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {mathRender} from "../markdown/mathRender";
-import {processAfterRender as processSVAfterRender, processSpinVditorSVDOM} from "../sv/process";
+import {processAfterRender as processSVAfterRender} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
 import {highlightToolbar} from "../util/highlightToolbar";
@@ -18,7 +18,6 @@ import {
     removeCurrentToolbar,
     showToolbar, toggleSubMenu,
 } from "./setToolbar";
-import {combineFootnote} from "../sv/combineFootnote";
 
 export const setEditMode = (vditor: IVditor, type: string, event: Event | string) => {
     let markdownText;
@@ -117,13 +116,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
         vditor.lute.SetVditorSV(true);
 
         vditor.currentMode = "sv";
-        let svHTML = processSpinVditorSVDOM(markdownText, vditor);
-        if (svHTML === "<div data-block='0'></div>") {
-            // https://github.com/Vanessa219/vditor/issues/654 SV 模式 Placeholder 显示问题
-            svHTML = "";
-        }
-        vditor.sv.element.innerHTML = svHTML;
-        combineFootnote(vditor.sv.element)
+        vditor.sv.element.value = markdownText;
         processSVAfterRender(vditor, {
             enableAddUndoStack: true,
             enableHint: false,

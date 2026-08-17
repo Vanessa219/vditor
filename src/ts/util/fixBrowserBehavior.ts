@@ -79,6 +79,21 @@ export const fixCursorDownInlineMath = (range: Range, key: string) => {
 };
 
 export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
+    if (vditor.currentMode === "sv") {
+        const element = vditor.sv.element;
+        if (position === "beforebegin") {
+            const lineStart = element.value.lastIndexOf("\n", element.selectionStart - 1) + 1;
+            element.setRangeText("\n", lineStart, lineStart, "end");
+            element.setSelectionRange(lineStart, lineStart);
+        } else {
+            const lineEndIndex = element.value.indexOf("\n", element.selectionEnd);
+            const lineEnd = lineEndIndex === -1 ? element.value.length : lineEndIndex;
+            element.setRangeText("\n", lineEnd, lineEnd, "end");
+        }
+        element.focus();
+        processSVAfterRender(vditor);
+        return;
+    }
     const range = getEditorRange(vditor);
     const blockElement = hasClosestBlock(range.startContainer);
     if (blockElement) {
@@ -1335,7 +1350,8 @@ export const fixFirefoxArrowUpTable = (event: KeyboardEvent, blockElement: false
 export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent) & {target: HTMLElement}, callback: {
     pasteCode(code: string): void,
 }) => {
-    if (vditor[vditor.currentMode].element.getAttribute("contenteditable") !== "true") {
+    if (vditor.currentMode === "sv" ? vditor.sv.element.disabled :
+        vditor[vditor.currentMode].element.getAttribute("contenteditable") !== "true") {
         return;
     }
     event.stopPropagation();
@@ -1360,7 +1376,6 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         HTML2VditorIRDOM?: ILuteRender,
         Md2VditorDOM?: ILuteRender,
         Md2VditorIRDOM?: ILuteRender,
-        Md2VditorSVDOM?: ILuteRender,
     } = {};
     const renderLinkDest: ILuteRenderCallback = (node, entering) => {
         if (!entering) {
@@ -1404,12 +1419,11 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                         }
                         const original = responseJSON.data.originalURL;
                         if (vditor.currentMode === "sv") {
-                            vditor.sv.element.querySelectorAll(".vditor-sv__marker--link")
-                                .forEach((item: HTMLElement) => {
-                                    if (item.textContent === original) {
-                                        item.textContent = responseJSON.data.url;
-                                    }
-                                });
+                            const selectionStart = vditor.sv.element.selectionStart;
+                            const selectionEnd = vditor.sv.element.selectionEnd;
+                            vditor.sv.element.value = vditor.sv.element.value.split(original)
+                                .join(responseJSON.data.url);
+                            vditor.sv.element.setSelectionRange(selectionStart, selectionEnd);
                         } else {
                             const imgElement: HTMLImageElement =
                                 vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
@@ -1435,7 +1449,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         } else if (vditor.currentMode === "wysiwyg") {
             return ["", Lute.WalkContinue];
         } else {
-            return [`<span class="vditor-sv__marker--link">${Lute.EscapeHTMLStr(src)}</span>`, Lute.WalkContinue];
+            return ["", Lute.WalkContinue];
         }
     };
 
@@ -1507,8 +1521,6 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             } else {
-                renderers.Md2VditorSVDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
                 processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
             vditor.outline.render(vditor);
@@ -1534,14 +1546,20 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                         } else {
                             imgHTML += `![${file.name}](${fileReader.result.toString()})\n`;
                         }
-                        document.execCommand("insertHTML", false, imgHTML);
+                        if (vditor.currentMode === "sv") {
+                            processPaste(vditor, imgHTML);
+                            execAfterRender(vditor);
+                        } else {
+                            document.execCommand("insertHTML", false, imgHTML);
+                        }
                     };
                 }
             }
         } else if (textPlain.trim() !== "" && files.length === 0) {
-            const range = getEditorRange(vditor);
-            if (range.toString() !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
-                textPlain = `[${range.toString()}](${textPlain})`;
+            const selectedText = vditor.currentMode === "sv" ? vditor.sv.element.value.substring(
+                vditor.sv.element.selectionStart, vditor.sv.element.selectionEnd) : getEditorRange(vditor).toString();
+            if (selectedText !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
+                textPlain = `[${selectedText}](${textPlain})`;
             }
             if (vditor.currentMode === "ir") {
                 renderers.Md2VditorIRDOM = {renderLinkDest};
@@ -1552,8 +1570,6 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(Lute.Sanitize(vditor.lute.Md2VditorDOM(textPlain)), vditor);
             } else {
-                renderers.Md2VditorSVDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
                 processPaste(vditor, textPlain);
             }
             vditor.outline.render(vditor);

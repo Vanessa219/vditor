@@ -37,6 +37,12 @@ describe("blockquote in a list", () => {
                 await new Promise((resolve) => setTimeout(resolve, vditor.options.undoDelay + 100));
             }
             const editor = vditor[currentMode].element;
+            if (currentMode === "sv") {
+                const textOffset = editor.value.indexOf(caretText) + caretOffset;
+                editor.focus();
+                editor.setSelectionRange(textOffset, textOffset);
+                return;
+            }
             const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
             let textNode = walker.nextNode();
             while (textNode && !textNode.textContent.includes(caretText)) {
@@ -176,14 +182,13 @@ describe("blockquote in a list", () => {
         });
     });
 
-    it("keeps the existing marker continuation in sv mode", async () => {
+    it("does not continue markers in sv mode", async () => {
         await setModeAndCaret("sv", "9");
         await page.keyboard.press("Enter");
         await page.keyboard.type("after");
 
         const value = await page.evaluate(() => window.vditorTest.getValue());
-        expect(value).toContain("    > quote\n    > after");
-        expect(value).not.toContain("  -\n");
+        expect(value).toBe("- parent\n\n  - child\n\n    > quote\nafter\n");
     });
 
     afterAll(async () => {

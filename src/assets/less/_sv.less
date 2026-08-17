@@ -20,13 +20,12 @@
   word-break: break-word;
   word-wrap: break-word;
 
-  &[contenteditable="false"] {
+  &:disabled {
     opacity: 0.3;
     cursor: not-allowed;
   }
 
-  &:empty::before {
-    content: attr(placeholder);
+  &::placeholder {
     color: var(--second-color);
   }
 
@@ -34,99 +33,4 @@
     background-color: var(--textarea-background-color);
   }
 
-  &:after {
-    content: "";
-    height: var(--editor-bottom);
-    display: block;
-  }
-
-  span[data-type="newline"] + span[data-type="text"]:empty {
-    display: inherit;
-  }
-
-  .sup {
-    vertical-align: super;
-    font-size: smaller;
-  }
-
-  .strong {
-    font-weight: bold;
-  }
-
-  .em {
-    font-style: italic;
-  }
-
-  .s {
-    text-decoration: line-through;
-  }
-
-  .mark:not(.vditor-sv__marker) {
-    background-color: yellow;
-    color: black;
-  }
-
-  .h1 {
-    font-size: 1.75em;
-    line-height: 44px;
-  }
-
-  .h2 {
-    font-size: 1.55em;
-    line-height: 38px;
-  }
-
-  .h3 {
-    font-size: 1.38em;
-    line-height: 27px;
-  }
-
-  .h4 {
-    font-size: 1.25em;
-    line-height: 25px;
-  }
-
-  .h5 {
-    font-size: 1.13em;
-  }
-
-  .h6 {
-    font-size: 1em;
-  }
-
-  &__marker {
-    color: var(--second-color);
-
-    &--heading {
-      color: var(--ir-heading-color);
-    }
-
-    &--bi {
-      color: var(--ir-bi-color);
-    }
-
-    &--link {
-      color: var(--ir-link-color);
-    }
-
-    &--title {
-      color: var(--ir-title-color);
-    }
-
-    &--bracket {
-      color: var(--ir-bracket-color);
-    }
-
-    &--paren {
-      color: var(--ir-paren-color);
-    }
-
-    &--info {
-      color: var(--ir-heading-color);
-    }
-
-    &--strong {
-      font-weight: bold;
-    }
-  }
 }
