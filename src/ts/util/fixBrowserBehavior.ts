@@ -1475,7 +1475,13 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     const codeElement = vditor.currentMode === "sv" ?
         hasClosestByAttribute(event.target, "data-type", "code-block") :
         hasClosestByMatchTag(event.target, "CODE");
-    if (codeElement) {
+    const cellElement = vditor.currentMode === "wysiwyg" &&
+        (hasClosestByMatchTag(getEditorRange(vditor).startContainer, "TD") ||
+            hasClosestByMatchTag(getEditorRange(vditor).startContainer, "TH"));
+    if (cellElement && /[\r\n]/.test(textPlain)) {
+        // 表格单元格内的换行使用 br 表示，避免自旋时解析为新的表格行
+        insertHTML(Lute.EscapeHTMLStr(textPlain).replace(/\r\n|\r|\n/g, "<br>"), vditor);
+    } else if (codeElement) {
         // 粘贴在代码位置
         if (vditor.currentMode === "sv") {
             document.execCommand("insertHTML", false, textPlain.replace(/&/g, "&amp;").replace(/</g, "&lt;"));
