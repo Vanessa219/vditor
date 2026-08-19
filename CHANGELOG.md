@@ -34,6 +34,7 @@
 
 ### v4.0.0 / 2026
 
+* [上传失败时编辑器内容会被修改](https://github.com/Vanessa219/vditor/issues/1918) `修复缺陷`
 * [工具栏按钮在表单中会触发表单提交](https://github.com/Vanessa219/vditor/issues/1907) `修复缺陷`
 * [改进多行选区的列表快捷键转换](https://github.com/Vanessa219/vditor/issues/1937) `改进功能`
 * [改进单元格内多行的粘贴](https://github.com/Vanessa219/vditor/issues/1012) `改进功能`
