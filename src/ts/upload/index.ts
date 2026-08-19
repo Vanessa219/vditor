@@ -1,7 +1,7 @@
-import { getEditorRange, setSelectionFocus } from "../util/selection";
-import { processAfterRender as processSVAfterRender, processPaste } from "../sv/process";
-import { getElement } from "./getElement";
-import { setHeaders } from "./setHeaders";
+import {getEditorRange, setSelectionFocus} from "../util/selection";
+import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
+import {getElement} from "./getElement";
+import {setHeaders} from "./setHeaders";
 
 class Upload {
     public element: HTMLElement;
@@ -149,6 +149,14 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
             }
         }
     });
+    if (!succFileText) {
+        if (vditor.currentMode === "sv") {
+            vditor.sv.element.setSelectionRange(vditor.upload.selectionStart, vditor.upload.selectionEnd);
+        } else {
+            setSelectionFocus(vditor.upload.range);
+        }
+        return;
+    }
     if (vditor.currentMode === "sv") {
         vditor.sv.element.setSelectionRange(vditor.upload.selectionStart, vditor.upload.selectionEnd);
         processPaste(vditor, succFileText);
@@ -294,4 +302,4 @@ const uploadFiles =
         xhr.send(formData);
     };
 
-export { Upload, uploadFiles };
+export {Upload, uploadFiles};
