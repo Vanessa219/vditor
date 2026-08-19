@@ -192,10 +192,40 @@ export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: 
 
 export const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
     const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
+    const selectedBlockElements: HTMLElement[] = [];
+    const startBlockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+    const endBlockElement = hasClosestByAttribute(range.endContainer, "data-block", "0");
+    if (startBlockElement && endBlockElement &&
+        startBlockElement.parentElement.isSameNode(endBlockElement.parentElement)) {
+        let blockElement: Element = startBlockElement;
+        while (blockElement) {
+            selectedBlockElements.push(blockElement as HTMLElement);
+            if (blockElement.isSameNode(endBlockElement)) {
+                break;
+            }
+            blockElement = blockElement.nextElementSibling;
+        }
+    }
     vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
         wbr.remove();
     });
-    range.insertNode(document.createElement("wbr"));
+    const keepSelection = !range.collapsed;
+    if (keepSelection) {
+        // 列表转换会重建块元素，分别标记选区起止位置以便恢复原始选区
+        const endRange = range.cloneRange();
+        endRange.collapse(false);
+        const endElement = document.createElement("wbr");
+        endElement.setAttribute("data-type", "list-selection-end");
+        endRange.insertNode(endElement);
+
+        const startRange = range.cloneRange();
+        startRange.collapse(true);
+        const startElement = document.createElement("wbr");
+        startElement.setAttribute("data-type", "list-selection-start");
+        startRange.insertNode(startElement);
+    } else {
+        range.insertNode(document.createElement("wbr"));
+    }
 
     if (cancel && itemElement) {
         // 取消
@@ -212,25 +242,24 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
     } else {
         if (!itemElement) {
             // 添加
-            let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-            if (!blockElement) {
+            if (selectedBlockElements.length === 0) {
                 vditor[vditor.currentMode].element.querySelector("wbr").remove();
-                blockElement = vditor[vditor.currentMode].element.querySelector("p");
+                const blockElement = vditor[vditor.currentMode].element.querySelector("p");
                 blockElement.innerHTML = "<wbr>";
+                selectedBlockElements.push(blockElement);
             }
-            if (type === "check") {
-                blockElement.insertAdjacentHTML("beforebegin",
-                    `<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li></ul>`);
-                blockElement.remove();
-            } else if (type === "list") {
-                blockElement.insertAdjacentHTML("beforebegin",
-                    `<ul data-block="0"><li>${blockElement.innerHTML}</li></ul>`);
-                blockElement.remove();
-            } else if (type === "ordered-list") {
-                blockElement.insertAdjacentHTML("beforebegin",
-                    `<ol data-block="0"><li>${blockElement.innerHTML}</li></ol>`);
-                blockElement.remove();
-            }
+            let listHTML = "";
+            selectedBlockElements.forEach((blockElement) => {
+                if (type === "check") {
+                    listHTML += `<li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li>`;
+                } else {
+                    listHTML += `<li>${blockElement.innerHTML}</li>`;
+                }
+            });
+            const listTagName = type === "ordered-list" ? "ol" : "ul";
+            selectedBlockElements[0].insertAdjacentHTML("beforebegin",
+                `<${listTagName} data-block="0">${listHTML}</${listTagName}>`);
+            selectedBlockElements.forEach((blockElement) => blockElement.remove());
         } else {
             // 切换
             if (type === "check") {
@@ -266,6 +295,18 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
                 element.innerHTML = itemElement.parentElement.innerHTML;
                 itemElement.parentElement.parentNode.replaceChild(element, itemElement.parentElement);
             }
+        }
+    }
+    if (keepSelection) {
+        const editorElement = vditor[vditor.currentMode].element;
+        const startElement = editorElement.querySelector('[data-type="list-selection-start"]');
+        const endElement = editorElement.querySelector('[data-type="list-selection-end"]');
+        if (startElement && endElement) {
+            range.setStartAfter(startElement);
+            range.setEndBefore(endElement);
+            startElement.remove();
+            endElement.remove();
+            setSelectionFocus(range);
         }
     }
 };

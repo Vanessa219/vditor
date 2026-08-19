@@ -34,6 +34,7 @@
 
 ### v4.0.0 / 2026
 
+* [改进多行选区的列表快捷键转换](https://github.com/Vanessa219/vditor/issues/1937) `改进功能`
 * [改进单元格内多行的粘贴](https://github.com/Vanessa219/vditor/issues/1012) `改进功能`
 * [SV 模式改用 textarea 输入](https://github.com/Vanessa219/vditor/issues/1319) `改进功能`
 * [支持自定义移动端 WYSIWYG 工具栏 `customWysiwygMobileToolbar`](https://github.com/Vanessa219/vditor/issues/414) `引入特性`
