@@ -121,7 +121,49 @@ export const scrollCenter = (vditor: IVditor) => {
     }
 };
 
+const flushPendingUndoStack = (vditor: IVditor) => {
+    if (vditor.currentMode === "wysiwyg" && vditor.wysiwyg.afterRenderTimeoutId > 0) {
+        clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
+        vditor.wysiwyg.afterRenderTimeoutId = 0;
+        if (!vditor.wysiwyg.composingLock) {
+            vditor.undo.addToUndoStack(vditor);
+        }
+        return;
+    }
+
+    if (vditor.currentMode === "ir" && vditor.ir.processTimeoutId > 0) {
+        clearTimeout(vditor.ir.processTimeoutId);
+        vditor.ir.processTimeoutId = 0;
+        if (!vditor.ir.composingLock) {
+            vditor.undo.addToUndoStack(vditor);
+        }
+        return;
+    }
+
+    if (vditor.currentMode === "sv" && vditor.sv.processTimeoutId > 0) {
+        clearTimeout(vditor.sv.processTimeoutId);
+        vditor.sv.processTimeoutId = 0;
+        if (!vditor.sv.composingLock) {
+            vditor.undo.addToUndoStack(vditor);
+        }
+    }
+};
+
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("beforeinput", (event: InputEvent) => {
+        if (event.inputType !== "historyUndo" && event.inputType !== "historyRedo") {
+            return;
+        }
+
+        flushPendingUndoStack(vditor);
+        event.preventDefault();
+        if (event.inputType === "historyUndo") {
+            vditor.undo.undo(vditor);
+            return;
+        }
+        vditor.undo.redo(vditor);
+    });
+
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
         if (!event.isComposing && vditor.options.keydown) {
             vditor.options.keydown(event);
@@ -159,14 +201,16 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // undo
-        if (matchHotKey("⌘Z", event) && !vditor.toolbar.elements.undo) {
+        if (matchHotKey("⌘Z", event)) {
+            flushPendingUndoStack(vditor);
             vditor.undo.undo(vditor);
             event.preventDefault();
             return;
         }
 
         // redo
-        if (matchHotKey("⌘Y", event) && !vditor.toolbar.elements.redo) {
+        if (matchHotKey("⌘Y", event)) {
+            flushPendingUndoStack(vditor);
             vditor.undo.redo(vditor);
             event.preventDefault();
             return;
