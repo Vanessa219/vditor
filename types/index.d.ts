@@ -170,6 +170,7 @@ declare class Lute {
     public SetChineseParagraphBeginningSpace(enable: boolean): void;
 
     public SetCallout(enable: boolean): void;
+    public SetInlineMath(enable: boolean): void;
 
     public SetHeadingID(enable: boolean): void;
 
@@ -511,6 +512,8 @@ interface IMarkdownConfig {
     autoSpace?: boolean;
     /** Callout。默认值: true */
     callout?: boolean;
+    /** 是否解析行内数学公式。默认值: true */
+    inlineMath?: boolean;
     /** 段落开头是否空两格。默认值: false */
     paragraphBeginningSpace?: boolean;
     /** 自动矫正术语。默认值: false */

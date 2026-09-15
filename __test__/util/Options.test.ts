@@ -116,6 +116,7 @@ describe("Options", () => {
             markdown: {
                 autoSpace: false,
                 callout: true,
+                inlineMath: true,
                 codeBlockPreview: true,
                 fixTermTypo: false,
                 footnotes: true,

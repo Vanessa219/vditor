@@ -52,6 +52,7 @@ export abstract class Constants {
     public static readonly MARKDOWN_OPTIONS = {
         autoSpace: false,
         callout: true,
+        inlineMath: true,
         gfmAutoLink: true,
         codeBlockPreview: true,
         fixTermTypo: false,

@@ -6,6 +6,7 @@ export const setLute = (options: ILuteOptions) => {
     lute.SetInlineMathAllowDigitAfterOpenMarker(options.inlineMathDigit);
     lute.SetAutoSpace(options.autoSpace);
     lute.SetCallout(options.callout);
+    lute.SetInlineMath(options.inlineMath);
     lute.SetToC(options.toc);
     lute.SetFootnotes(options.footnotes);
     lute.SetFixTermTypo(options.fixTermTypo);

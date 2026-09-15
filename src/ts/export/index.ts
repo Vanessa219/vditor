@@ -37,6 +37,7 @@ window.addEventListener("message", (e) => {
     cdn: "${vditor.options.cdn}",
     markdown: {
       callout: ${JSON.stringify(vditor.options.preview.markdown.callout)},
+      inlineMath: ${JSON.stringify(vditor.options.preview.markdown.inlineMath)},
       theme: ${JSON.stringify(vditor.options.preview.theme)}
     },
     hljs: {

@@ -325,6 +325,7 @@ new Vditor('vditor', {
 | - | - | - |
 | autoSpace | 自动空格 | false |
 | callout | Callout 块 | true |
+| inlineMath | 是否解析行内数学公式 `$...$` | true |
 | gfmAutoLink | 自动链接 | true |
 | fixTermTypo | 自动矫正术语 | false |
 | toc | 插入目录 | false |

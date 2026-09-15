@@ -62,6 +62,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
         const lute = setLute({
             autoSpace: mergedOptions.markdown.autoSpace,
             callout: mergedOptions.markdown.callout,
+            inlineMath: mergedOptions.markdown.inlineMath,
             gfmAutoLink: mergedOptions.markdown.gfmAutoLink,
             codeBlockPreview: mergedOptions.markdown.codeBlockPreview,
             emojiSite: mergedOptions.emojiPath,
