@@ -1,9 +1,33 @@
 ## Vditor change log
 
-### 升级
+### 4.x 升级
+
+* 4.0.1
+  * 添加 options.preview.markdown.inlineMath 参数
+* 4.0.0
+  * 添加 options.customWysiwygMobileToolbar
+
+### TODO
+
+* [open issues](https://github.com/Vanessa219/vditor/issues)
+
+### v4.0.1 / 2026
+* [支持关闭行内数学公式解析](https://github.com/Vanessa219/vditor/issues/1942) `引入特性`
+* [改进 blockquote 和 callout 样式](https://github.com/Vanessa219/vditor/issues/1941) `改进功能`
+
+### v4.0.0 / 2026-08-30
+
+* [WYSIWYG 和 IR 模式保存时会写入不换行空格](https://github.com/Vanessa219/vditor/issues/1938) `修复缺陷`
+* [上传失败时编辑器内容会被修改](https://github.com/Vanessa219/vditor/issues/1918) `修复缺陷`
+* [工具栏按钮在表单中会触发表单提交](https://github.com/Vanessa219/vditor/issues/1907) `修复缺陷`
+* [改进多行选区的列表快捷键转换](https://github.com/Vanessa219/vditor/issues/1937) `改进功能`
+* [改进单元格内多行的粘贴](https://github.com/Vanessa219/vditor/issues/1012) `改进功能`
+* [SV 模式改用 textarea 输入](https://github.com/Vanessa219/vditor/issues/1319) `改进功能`
+* [支持自定义移动端 WYSIWYG 工具栏 `customWysiwygMobileToolbar`](https://github.com/Vanessa219/vditor/issues/414) `引入特性`
+
+### 3.x 升级
 
 * 3.11
-  * 添加 options.customWysiwygMobileToolbar
   * 添加 wavedromRender 方法
   * 添加 options.preview.markdown.sup
   * 添加 options.preview.markdown.sub
@@ -27,24 +51,6 @@
   * 添加 hljs.renderMenu
   * 添加 preview.render.media.enable
   * 添加 updateToolbarConfig
-
-### TODO
-
-* [open issues](https://github.com/Vanessa219/vditor/issues)
-
-### v4.0.1 / 2026
-* [支持关闭行内数学公式解析](https://github.com/Vanessa219/vditor/issues/1942) `引入特性`
-* [改进 blockquote 和 callout 样式](https://github.com/Vanessa219/vditor/issues/1941) `改进功能`
-
-### v4.0.0 / 2026-08-30
-
-* [WYSIWYG 和 IR 模式保存时会写入不换行空格](https://github.com/Vanessa219/vditor/issues/1938) `修复缺陷`
-* [上传失败时编辑器内容会被修改](https://github.com/Vanessa219/vditor/issues/1918) `修复缺陷`
-* [工具栏按钮在表单中会触发表单提交](https://github.com/Vanessa219/vditor/issues/1907) `修复缺陷`
-* [改进多行选区的列表快捷键转换](https://github.com/Vanessa219/vditor/issues/1937) `改进功能`
-* [改进单元格内多行的粘贴](https://github.com/Vanessa219/vditor/issues/1012) `改进功能`
-* [SV 模式改用 textarea 输入](https://github.com/Vanessa219/vditor/issues/1319) `改进功能`
-* [支持自定义移动端 WYSIWYG 工具栏 `customWysiwygMobileToolbar`](https://github.com/Vanessa219/vditor/issues/414) `引入特性`
 
 ### v3.11.3 / 2026-08-11
 
