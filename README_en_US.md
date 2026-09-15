@@ -308,6 +308,7 @@ new Vditor('vditor', {
 |   | Explanation | Default |
 | - | - | - |
 | autoSpace | Autospace | false |
+| inlineMath | Whether to parse inline math formulas `$...$` | true |
 | gfmAutoLink | Automatic link | true |
 | fixTermTypo | Automatically correct terminology | false |
 | toc | Insert Table of Contents | false |
