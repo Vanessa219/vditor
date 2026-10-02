@@ -12,7 +12,7 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
 ### v4.0.1 / 2026
-* [Mermaid 子图节点横向排列，与预期的纵向布局不一致](https://github.com/Vanessa219/vditor/issues/1943) `修复缺陷`
+* [升级 Mermaid 到 11.17.2](https://github.com/Vanessa219/vditor/issues/1943) `修复缺陷`
 * [支持关闭行内数学公式解析](https://github.com/Vanessa219/vditor/issues/1942) `引入特性`
 * [改进 blockquote 和 callout 样式](https://github.com/Vanessa219/vditor/issues/1941) `改进功能`
 
