@@ -11,7 +11,11 @@
 
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
-### v4.0.1 / 2026
+### v4.0.2
+
+### v4.0.1 / 2026-10-18
+
+* [修复媒体渲染中的 XSS 漏洞](https://github.com/Vanessa219/vditor/security/advisories/GHSA-x2mx-f527-mxr9) `修复缺陷`
 * [升级 Mermaid 到 11.17.2](https://github.com/Vanessa219/vditor/issues/1943) `修复缺陷`
 * [支持关闭行内数学公式解析](https://github.com/Vanessa219/vditor/issues/1942) `引入特性`
 * [改进 blockquote 和 callout 样式](https://github.com/Vanessa219/vditor/issues/1941) `改进功能`
