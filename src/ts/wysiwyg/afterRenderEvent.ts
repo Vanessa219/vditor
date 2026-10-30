@@ -14,6 +14,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
         if (vditor.wysiwyg.composingLock) {
+            vditor.wysiwyg.afterRenderTimeoutId = 0;
             return;
         }
         const text = getMarkdown(vditor);
@@ -39,5 +40,6 @@ export const afterRenderEvent = (vditor: IVditor, options = {
         if (options.enableAddUndoStack) {
             vditor.undo.addToUndoStack(vditor);
         }
+        vditor.wysiwyg.afterRenderTimeoutId = 0;
     }, vditor.options.undoDelay);
 };

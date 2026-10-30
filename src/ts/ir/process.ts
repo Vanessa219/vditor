@@ -50,6 +50,7 @@ export const processAfterRender = (vditor: IVditor, options = {
     clearTimeout(vditor.ir.processTimeoutId);
     vditor.ir.processTimeoutId = window.setTimeout(() => {
         if (vditor.ir.composingLock) {
+            vditor.ir.processTimeoutId = 0;
             return;
         }
         const text = getMarkdown(vditor);
@@ -75,6 +76,7 @@ export const processAfterRender = (vditor: IVditor, options = {
         if (options.enableAddUndoStack) {
             vditor.undo.addToUndoStack(vditor);
         }
+        vditor.ir.processTimeoutId = 0;
     }, vditor.options.undoDelay);
 };
 
