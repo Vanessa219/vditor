@@ -13,6 +13,8 @@
 
 ### v4.0.2
 
+* [改进即时渲染模式下普通代码块的重复预览](https://github.com/siyuan-note/siyuan/issues/21192) `改进功能`
+
 ### v4.0.1 / 2026-10-18
 
 * [修复媒体渲染中的 XSS 漏洞](https://github.com/Vanessa219/vditor/security/advisories/GHSA-x2mx-f527-mxr9) `修复缺陷`
