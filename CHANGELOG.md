@@ -13,7 +13,7 @@
 
 ### v4.0.2
 
-* [改进即时渲染模式下普通代码块的重复预览](https://github.com/siyuan-note/siyuan/issues/21192) `改进功能`
+* [改进即时渲染和所见即所得模式下普通代码块的重复预览](https://github.com/siyuan-note/siyuan/issues/21192) `改进功能`
 
 ### v4.0.1 / 2026-10-18
 

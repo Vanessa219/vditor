@@ -60,7 +60,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
     if (!previewPanel) {
         return;
     }
-    previewPanel.classList.remove("vditor-ir__preview--code");
+    previewPanel.classList.remove("vditor-code__preview");
     if (previewPanel.parentElement.getAttribute("data-type") === "html-block") {
         previewPanel.setAttribute("data-render", "1");
         return;
@@ -96,7 +96,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
             }
         })
         if (!cRender) {
-            previewPanel.classList.add("vditor-ir__preview--code");
+            previewPanel.classList.add("vditor-code__preview");
             highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
             codeRender(previewPanel, vditor.options.preview.hljs);
         }

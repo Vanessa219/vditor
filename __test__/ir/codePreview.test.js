@@ -54,7 +54,7 @@ describe.each([
         const preview = block.querySelector(".vditor-ir__preview");
         return {
             expanded: block.classList.contains("vditor-ir__node--expand"),
-            ordinary: preview.classList.contains("vditor-ir__preview--code"),
+            ordinary: preview.classList.contains("vditor-code__preview"),
             visible: getComputedStyle(preview).visibility !== "hidden",
             height: preview.getBoundingClientRect().height,
             markdown: window.vditorTest.getValue(),

@@ -30,7 +30,7 @@ describe("ordinary code preview classification", () => {
             customRenders: [] as Array<{language: string, render: jest.Mock}>},
     };
     const render = () => processCodeRender(panel as unknown as HTMLElement, vditor as unknown as IVditor);
-    const ordinary = () => classes.has("vditor-ir__preview--code");
+    const ordinary = () => classes.has("vditor-code__preview");
 
     beforeEach(() => {
         classes.clear();
