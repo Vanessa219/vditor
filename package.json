@@ -40,6 +40,7 @@
         "html-webpack-plugin": "^5.3.1",
         "identity-obj-proxy": "^3.0.0",
         "jest": "^29.7.0",
+        "jest-environment-jsdom": "29.7.0",
         "less": "^4.2.0",
         "less-loader": "^10.2.0",
         "mini-css-extract-plugin": "^2.6.0",
