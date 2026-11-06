@@ -1,9 +1,10 @@
 import {Constants} from "../constants";
 import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
+import {setCodeHighlight} from "../util/codeSelection";
 
 export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Document = document,
-                                cdn = Constants.CDN) => {
+                                cdn = Constants.CDN, canRenderEditable?: () => boolean) => {
     let style = hljsOption.style;
     if (!Constants.CODE_THEME.includes(style)) {
         style = "github";
@@ -27,9 +28,11 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
     addScript(`${cdn}/dist/js/highlight.js/highlight.min.js?v=11.7.0`, "vditorHljsScript").then(() => {
         addScript(`${cdn}/dist/js/highlight.js/third-languages.js?v=1.0.1`, "vditorHljsThirdScript").then(() => {
             element.querySelectorAll("pre > code").forEach((block) => {
-                // ir & wysiwyg 区域不渲染
-                if (block.parentElement.classList.contains("vditor-ir__marker--pre") ||
-                    block.parentElement.classList.contains("vditor-wysiwyg__pre")) {
+                if (canRenderEditable && (!canRenderEditable() || block.querySelector("wbr"))) {
+                    return;
+                }
+                if (!canRenderEditable && (block.parentElement.classList.contains("vditor-ir__marker--pre") ||
+                    block.parentElement.classList.contains("vditor-wysiwyg__pre"))) {
                     return;
                 }
 
@@ -41,23 +44,29 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                     return;
                 }
 
-                if (hljsOption.defaultLang !== "" && block.className.indexOf("language-") === -1) {
-                    block.classList.add("language-" + hljsOption.defaultLang)
+                if (!canRenderEditable && hljsOption.defaultLang !== "" && block.className.indexOf("language-") === -1) {
+                    block.classList.add("language-" + hljsOption.defaultLang);
                 }
-
-                let language = block.className.replace("language-", "");
+                let language = Array.from(block.classList).find(name => name.startsWith("language-"))?.slice(9) ||
+                    hljsOption.defaultLang;
                 if (!window.hljs.getLanguage(language)) {
                     language = "plaintext";
                 }
-                block.innerHTML = window.hljs.highlight(
+                const html = window.hljs.highlight(
                     block.textContent,
                     {
                         language,
                         ignoreIllegals: true
                     }).value;
+                if (canRenderEditable) {
+                    block.setAttribute("data-code-highlight", "true");
+                    setCodeHighlight(block, html);
+                } else {
+                    block.innerHTML = html;
+                }
 
                 block.classList.add("hljs");
-                if (!hljsOption.lineNumber) {
+                if (canRenderEditable || !hljsOption.lineNumber) {
                     return;
                 }
 

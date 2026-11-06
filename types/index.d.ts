@@ -878,6 +878,8 @@ interface IVditor {
         timeId: number
         element: HTMLDivElement
         recentLanguage: string
+        hide(): void;
+        destroy(): void;
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
         genHTML(data: IHintData[], key: string, vditor: IVditor): void

@@ -4,7 +4,8 @@ import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {execAfterRender} from "../util/fixBrowserBehavior";
 import {highlightToolbar} from "../util/highlightToolbar";
-import {processCodeRender} from "../util/processCode";
+import {highlightEditableCode, processCodeRender} from "../util/processCode";
+import {normalizeCodeDOM} from "../util/codeDOM";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {renderToc} from "../util/toc";
 
@@ -205,6 +206,8 @@ class Undo {
             .forEach((item: HTMLElement) => {
                 processCodeRender(item, vditor);
             });
+        vditor[vditor.currentMode].element.querySelectorAll(".vditor-code__preview")
+            .forEach((item: HTMLElement) => highlightEditableCode(item, vditor));
 
         if (this[vditor.currentMode].undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
@@ -258,6 +261,7 @@ class Undo {
         }
         // 移除数学公式、echart 渲染 https://github.com/Vanessa219/vditor/issues/1738
         const cloneElement = vditor[vditor.currentMode].element.cloneNode(true) as HTMLElement;
+        normalizeCodeDOM(cloneElement);
         cloneElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='1']`)
             .forEach((item: HTMLElement) => {
                 if (!item.firstElementChild) {

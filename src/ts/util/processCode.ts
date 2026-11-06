@@ -56,6 +56,16 @@ export const processPasteCode = (html: string, text: string, type = "sv") => {
     return false;
 };
 
+export const highlightEditableCode = (previewPanel: HTMLElement, vditor: IVditor) => {
+    const source = previewPanel.previousElementSibling as HTMLElement;
+    const mode = vditor.currentMode;
+    if (source?.tagName === "PRE" && mode !== "sv") {
+        highlightRender(vditor.options.preview.hljs, source, vditor.options.cdn, () =>
+            vditor.currentMode === mode && !vditor[mode].composingLock &&
+            vditor[mode].element.contains(source));
+    }
+};
+
 export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) => {
     if (!previewPanel) {
         return;
@@ -65,7 +75,8 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         previewPanel.setAttribute("data-render", "1");
         return;
     }
-    const language = previewPanel.firstElementChild.className.replace("language-", "");
+    const language = previewPanel.firstElementChild.className.split(/\s+/)
+        .find(name => name.startsWith("language-"))?.slice(9) || "";
     if (language === "abc") {
         abcRender(previewPanel, vditor.options.cdn);
     } else if (language === "mermaid") {
@@ -97,6 +108,7 @@ export const processCodeRender = (previewPanel: HTMLElement, vditor: IVditor) =>
         })
         if (!cRender) {
             previewPanel.classList.add("vditor-code__preview");
+            highlightEditableCode(previewPanel, vditor);
             highlightRender(Object.assign({}, vditor.options.preview.hljs), previewPanel, vditor.options.cdn);
             codeRender(previewPanel, vditor.options.preview.hljs);
         }

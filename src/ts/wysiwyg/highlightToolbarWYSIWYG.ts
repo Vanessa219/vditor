@@ -671,7 +671,7 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
                         event.key === "Escape" &&
                         vditor.hint.element.style.display === "block"
                     ) {
-                        vditor.hint.element.style.display = "none";
+                        vditor.hint.hide();
                         event.preventDefault();
                         return;
                     }
