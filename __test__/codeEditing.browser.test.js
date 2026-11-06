@@ -58,7 +58,11 @@ describe("highlighted code editing", () => {
     afterAll(async () => {
         await browser?.close();
         if (server) await new Promise(resolve => server.close(resolve));
-        if (directory) fs.rmSync(directory, {recursive: true, force: true});
+        if (directory) {
+            expect(path.dirname(path.resolve(directory))).toBe(path.resolve(os.tmpdir()));
+            expect(path.basename(directory)).toMatch(/^vditor-code-browser-/);
+            fs.rmSync(directory, {recursive: true, force: true});
+        }
     });
 
     const openEditor = async (mode, extra = {}) => {
