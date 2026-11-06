@@ -24,7 +24,7 @@ class Undo {
 
     constructor() {
         this.resetStack();
-        // @ts-ignore
+        // @ts-expect-error CommonJS 导出在运行时是可构造函数。
         this.dmp = new DiffMatchPatch();
     }
 
@@ -111,8 +111,14 @@ class Undo {
     }
 
     public addToUndoStack(vditor: IVditor) {
-        // afterRenderEvent.ts 已经 debounce
+        if (vditor[vditor.currentMode].composingLock) {
+            return;
+        }
         const text = this.addCaret(vditor, true);
+        if (this[vditor.currentMode].undoStack.length > 0 &&
+            text.replace("<wbr>", "") === this[vditor.currentMode].lastText.replace("<wbr>", "")) {
+            return;
+        }
         const diff = this.dmp.diff_main(text, this[vditor.currentMode].lastText, true);
         const patchList = this.dmp.patch_make(text, this[vditor.currentMode].lastText, diff);
         if (patchList.length === 0 && this[vditor.currentMode].undoStack.length > 0) {

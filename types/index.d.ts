@@ -692,7 +692,7 @@ interface IResize {
 interface IOptions {
     /** RTL */
     rtl?: boolean;
-    /** 历史记录间隔 */
+    /** 历史记录间隔；0 表示在每次编辑完成时同步记录，输入法候选期间不记录中间态 */
     undoDelay?: number;
     /** 内部调试时使用 */
     _lutePath?: string;

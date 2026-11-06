@@ -105,15 +105,18 @@ class IR {
             hidePanel(vditor, ["hint"]);
         });
 
-        this.element.addEventListener("compositionstart", (event: InputEvent) => {
+        this.element.addEventListener("compositionstart", () => {
             this.composingLock = true;
         });
 
-        this.element.addEventListener("compositionend", (event: InputEvent) => {
+        this.element.addEventListener("compositionend", () => {
             if (!isFirefox()) {
                 input(vditor, getSelection().getRangeAt(0).cloneRange());
             }
             this.composingLock = false;
+            if (vditor.options.undoDelay === 0 && !isFirefox()) {
+                vditor.undo.addToUndoStack(vditor);
+            }
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {

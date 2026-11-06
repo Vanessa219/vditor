@@ -327,6 +327,9 @@ class WYSIWYG {
                 input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
             }
             this.composingLock = false;
+            if (vditor.options.undoDelay === 0 && !isFirefox()) {
+                vditor.undo.addToUndoStack(vditor);
+            }
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {
