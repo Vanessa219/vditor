@@ -596,6 +596,15 @@ interface IPreviewActionCustom {
     click: (key: string) => void;
 }
 
+interface IPlantumlOptions {
+    /** PlantUML 服务地址，需以 `/` 结尾。默认值: 'https://www.plantuml.com/plantuml/svg/' */
+    server?: string;
+    /** 自定义渲染。传入后不再请求 PlantUML 服务，可用于接入离线渲染引擎，实现方式参见
+     * https://github.com/Vanessa219/vditor#optionsplantuml
+     */
+    renderer?: (code: string, element: HTMLElement) => void | Promise<void>;
+}
+
 interface IPreviewOptions {
     mode: "dark" | "light";
     customEmoji?: IObject;
@@ -615,6 +624,8 @@ interface IPreviewOptions {
     theme?: IPreviewTheme;
     icon?: "ant" | "material" | undefined;
     render?: IPreviewRender;
+    /** @link https://github.com/Vanessa219/vditor#optionsplantuml */
+    plantuml?: IPlantumlOptions;
 
     transform?(html: string): string;
 
@@ -761,6 +772,8 @@ interface IOptions {
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://ld246.com/article/1549638745630#options-preview */
     preview?: IPreview;
+    /** @link https://github.com/Vanessa219/vditor#optionsplantuml */
+    plantuml?: IPlantumlOptions;
     /** @link https://ld246.com/article/1549638745630#options-link */
     link?: {
         /** 是否打开链接地址。默认值: true */

@@ -377,6 +377,44 @@ new Vditor('vditor', {
 |--------|-----------|------|
 | enable | 是否启用多媒体渲染 | true |
 
+#### options.plantuml
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| server | PlantUML 服务地址，需以 `/` 结尾 | `https://www.plantuml.com/plantuml/svg/` |
+| renderer(code: string, element: HTMLElement) | 自定义渲染。传入后不再请求 PlantUML 服务，可用于接入离线渲染引擎 | - |
+
+不配置时使用 PlantUML 官方服务，自建服务只需替换地址：
+
+```js
+new Vditor('vditor', {
+  plantuml: {server: 'https://plantuml.example.com/plantuml/svg/'},
+})
+```
+
+需要浏览器端完全离线渲染时，可安装 [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) 与 [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz)（Vditor 不包含这两个依赖），在 `renderer` 中调用：
+
+```js
+import Vditor from 'vditor'
+
+const renderPlantuml = async (code) => {
+  const viz = await import('@viz-js/viz')
+  globalThis.PLANTUML_VIZ = viz
+  const {renderToString} = await import('@plantuml/core')
+  return new Promise((resolve, reject) => {
+    renderToString(code.split(/\r\n|\r|\n/), resolve, reject)
+  })
+}
+
+new Vditor('vditor', {
+  plantuml: {
+    renderer: async (code, element) => {
+      element.innerHTML = await renderPlantuml(code)
+    },
+  },
+})
+```
+
 #### options.image
 
 |   | 说明 | 默认值 |

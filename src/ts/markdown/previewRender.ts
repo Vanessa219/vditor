@@ -35,6 +35,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         markdown: Constants.MARKDOWN_OPTIONS,
         math: Constants.MATH_OPTIONS,
         mode: "light",
+        plantuml: Constants.PLANTUML_OPTIONS,
         speech: {
             enable: false,
         },
@@ -145,7 +146,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     wavedromRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
-    plantumlRender(previewElement, mergedOptions.cdn);
+    plantumlRender(previewElement, mergedOptions.cdn, mergedOptions.plantuml);
     abcRender(previewElement, mergedOptions.cdn);
     if (mergedOptions.render.media.enable) {
         mediaRender(previewElement);
