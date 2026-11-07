@@ -2,6 +2,9 @@
 
 ### 4.x 升级
 
+* 4.0.2
+  * 添加 options.plantuml.server 参数，可替换默认的 plantuml.com 服务地址
+  * 添加 options.plantuml.renderer 参数，可接管渲染，无需 PlantUML 服务即可离线出图
 * 4.0.1
   * 添加 options.preview.markdown.inlineMath 参数
 * 4.0.0
@@ -12,6 +15,8 @@
 * [open issues](https://github.com/Vanessa219/vditor/issues)
 
 ### v4.0.2
+
+* [支持自定义 PlantUML 服务地址，或注入渲染器实现无需 PlantUML 服务的离线渲染](https://github.com/Vanessa219/vditor/issues/1910) `引入特性`
 
 ### v4.0.1 / 2026-10-18
 

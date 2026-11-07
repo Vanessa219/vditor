@@ -351,6 +351,44 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 |--------|-----------|------|
 | enable | Whether to enable multimedia render | true |
 
+#### options.plantuml
+
+|   | Explanation | Default |
+| - | - | - |
+| server | PlantUML server address, must end with `/` | `https://www.plantuml.com/plantuml/svg/` |
+| renderer(code: string, element: HTMLElement) | Custom render. When provided, no request is sent to the PlantUML server, which can be used to integrate an offline render engine | - |
+
+The official PlantUML server is used when not configured. To use a self-hosted server, just replace the address:
+
+```js
+new Vditor('vditor', {
+  plantuml: {server: 'https://plantuml.example.com/plantuml/svg/'},
+})
+```
+
+For fully offline rendering in the browser, install [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) and [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz) (Vditor does not include these two dependencies), and call them in `renderer`:
+
+```js
+import Vditor from 'vditor'
+
+const renderPlantuml = async (code) => {
+  const viz = await import('@viz-js/viz')
+  globalThis.PLANTUML_VIZ = viz
+  const {renderToString} = await import('@plantuml/core')
+  return new Promise((resolve, reject) => {
+    renderToString(code.split(/\r\n|\r|\n/), resolve, reject)
+  })
+}
+
+new Vditor('vditor', {
+  plantuml: {
+    renderer: async (code, element) => {
+      element.innerHTML = await renderPlantuml(code)
+    },
+  },
+})
+```
+
 #### options.image
 
 |   | Explanation | Default |
