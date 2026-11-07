@@ -181,9 +181,12 @@ class Undo {
                 });
             if (!vditor[vditor.currentMode].element.querySelector("wbr")) {
                 // Safari 第一次输入没有光标，需手动定位到结尾
-                const range = getSelection().getRangeAt(0);
-                range.setEndBefore(vditor[vditor.currentMode].element);
+                const element = vditor[vditor.currentMode].element;
+                const range = element.ownerDocument.createRange();
+                range.selectNodeContents(element);
                 range.collapse(false);
+                element.focus();
+                setSelectionFocus(range);
             } else {
                 setRangeByWbr(
                     vditor[vditor.currentMode].element, vditor[vditor.currentMode].element.ownerDocument.createRange());

@@ -59,6 +59,55 @@ describe("native input undo granularity", () => {
     });
 
     for (const mode of ["wysiwyg", "ir", "sv"]) {
+        for (const initialValue of ["", "start"]) {
+            it(`keeps the caret inside a markerless ${JSON.stringify(initialValue)} undo snapshot in ${mode}`, async () => {
+                await page.goto(origin);
+                await page.evaluate(async ({mode, origin, initialValue}) => {
+                    window.editor = await new Promise(resolve => {
+                        let editor;
+                        editor = new Vditor("editor", {mode, cdn: origin, _lutePath: origin + "/js/lute/lute.min.js",
+                            i18n: window.VditorI18n, undoDelay: 0, cache: {enable: false},
+                            toolbar: ["undo", "redo"], value: initialValue, after: () => resolve(editor)});
+                    });
+                    const surface = window.editor.vditor[mode].element;
+                    surface.focus();
+                    if (mode === "sv") surface.setSelectionRange(surface.value.length, surface.value.length);
+                    else {
+                        const range = document.createRange();
+                        range.selectNodeContents(surface);
+                        range.collapse(false);
+                        getSelection().removeAllRanges();
+                        getSelection().addRange(range);
+                    }
+                }, {mode, origin, initialValue});
+                await page.keyboard.type("a");
+                for (let iteration = 0; iteration < 2; iteration++) {
+                    expect(await page.evaluate((iteration) => {
+                        const state = window.editor.vditor;
+                        // The fallback must also work without an existing selection.
+                        if (iteration === 0) getSelection().removeAllRanges();
+                        else {
+                            const outside = document.createElement("input");
+                            document.body.append(outside);
+                            outside.focus();
+                        }
+                        state.undo.undo(state);
+                        const surface = state[state.currentMode].element;
+                        return {value: window.editor.getValue().trim(), focused: document.activeElement === surface,
+                            caret: state.currentMode === "sv" ? surface.selectionStart === surface.value.length :
+                                surface.contains(getSelection().anchorNode)};
+                    }, iteration)).toEqual({value: initialValue, focused: true, caret: true});
+                    if (iteration === 0) {
+                        expect(await page.evaluate(() => {
+                            window.editor.vditor.undo.redo(window.editor.vditor);
+                            return window.editor.getValue().trim();
+                        })).toBe(initialValue + "a");
+                    }
+                }
+                await page.keyboard.type("next");
+                expect(await page.evaluate(() => window.editor.getValue().trim())).toBe(initialValue + "next");
+            });
+        }
         it(`undoes rapid native keystrokes separately in ${mode}`, async () => {
             await page.goto(origin);
             await page.evaluate(async ({mode, origin}) => {
