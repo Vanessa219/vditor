@@ -93,6 +93,44 @@ describe("highlighted code editing", () => {
     };
 
     for (const mode of ["ir", "wysiwyg"]) {
+        it(`restores ${mode} preview highlighting when undo reaches the initial snapshot`, async () => {
+            await openEditor(mode, {value: ""});
+            await page.evaluate(markdown => window.editor.setValue(markdown, true), markdown);
+            const highlighted = () => page.waitForFunction(() => {
+                const source = window.source();
+                const preview = source?.parentElement.nextElementSibling;
+                return source?.querySelector(".hljs-keyword") && preview?.querySelector(".hljs-keyword");
+            });
+            await highlighted();
+            await page.evaluate(mode => {
+                const root = window.editor.vditor[mode].element;
+                const range = document.createRange();
+                range.selectNodeContents(root.querySelector("p"));
+                range.collapse(false);
+                root.focus();
+                getSelection().removeAllRanges();
+                getSelection().addRange(range);
+            }, mode);
+            await page.keyboard.type("x");
+            await page.evaluate(() => window.editor.vditor.undo.undo(window.editor.vditor));
+            expect(await page.evaluate(() => window.editor.getValue())).toBe(markdown);
+            await highlighted();
+            for (const redo of [true, false]) {
+                await page.evaluate(redo => {
+                    const state = window.editor.vditor;
+                    if (redo) state.undo.redo(state);
+                    else state.undo.undo(state);
+                }, redo);
+                expect(await page.evaluate(() => window.editor.getValue())).toBe(redo ? markdown.replace("outside", "outsidex") : markdown);
+                await highlighted();
+                expect(await page.evaluate(() => {
+                    const preview = window.source().parentElement.nextElementSibling;
+                    return getComputedStyle(preview.querySelector(".hljs-keyword")).color !==
+                        getComputedStyle(preview.querySelector("code")).color;
+                })).toBe(true);
+            }
+        });
+
         it(`keeps native typing, composition and undo in highlighted ${mode} code`, async () => {
             await openEditor(mode);
             await page.waitForFunction(() => window.source()?.querySelector(".hljs-keyword"));

@@ -8,6 +8,7 @@ import {highlightEditableCode, processCodeRender} from "../util/processCode";
 import {normalizeCodeDOM} from "../util/codeDOM";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {renderToc} from "../util/toc";
+import {highlightRender} from "../markdown/highlightRender";
 
 interface IUndo {
     hasUndo: boolean;
@@ -210,7 +211,13 @@ class Undo {
                 processCodeRender(item, vditor);
             });
         vditor[vditor.currentMode].element.querySelectorAll(".vditor-code__preview")
-            .forEach((item: HTMLElement) => highlightEditableCode(item, vditor));
+            .forEach((item: HTMLElement) => {
+                highlightEditableCode(item, vditor);
+                // 快照可能早于异步高亮完成，普通预览需补齐其渲染结果。
+                if (!item.querySelector("code.hljs")) {
+                    highlightRender(vditor.options.preview.hljs, item, vditor.options.cdn);
+                }
+            });
 
         if (this[vditor.currentMode].undoStack.length > 1) {
             enableToolbar(vditor.toolbar.elements, ["undo"]);
