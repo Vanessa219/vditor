@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {isCtrl, isFirefox} from "../util/compatibility";
+import {buildTableSelectionClipboard} from "../util/pasteIntoTable";
 import {
     blurEvent,
     copyEvent, cutEvent, dblclickEvent,
@@ -81,6 +82,13 @@ class IR {
         }
         event.stopPropagation();
         event.preventDefault();
+
+        const tableClip = buildTableSelectionClipboard(vditor, range);
+        if (tableClip) {
+            event.clipboardData.setData("text/html", tableClip.html);
+            event.clipboardData.setData("text/plain", tableClip.plain);
+            return;
+        }
 
         const tempElement = document.createElement("div");
         tempElement.appendChild(range.cloneContents());

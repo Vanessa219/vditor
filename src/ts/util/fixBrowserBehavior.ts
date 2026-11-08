@@ -8,6 +8,7 @@ import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {input} from "../wysiwyg/input";
 import {isCtrl, isFirefox} from "./compatibility";
 import {scrollCenter} from "./editorCommonEvent";
+import {parseMarkdownTableRows, pasteIntoTable} from "./pasteIntoTable";
 import {
     getTopList,
     hasClosestBlock,
@@ -1540,7 +1541,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     const cellElement = vditor.currentMode === "wysiwyg" &&
         (hasClosestByMatchTag(getEditorRange(vditor).startContainer, "TD") ||
             hasClosestByMatchTag(getEditorRange(vditor).startContainer, "TH"));
-    if (cellElement && /[\r\n]/.test(textPlain)) {
+    if (cellElement && !textHTML && /[\r\n]/.test(textPlain) && !parseMarkdownTableRows(textPlain)) {
         // 表格单元格内的换行使用 br 表示，避免自旋时解析为新的表格行
         insertHTML(Lute.EscapeHTMLStr(textPlain).replace(/\r\n|\r|\n/g, "<br>"), vditor);
     } else if (codeElement) {
@@ -1580,7 +1581,9 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
                 e.remove();
             });
-            if (vditor.currentMode === "ir") {
+            if (pasteIntoTable(vditor, tempElement.innerHTML)) {
+                // 单元格填充与普通粘贴共用后续规范化和撤销记录。
+            } else if (vditor.currentMode === "ir") {
                 renderers.HTML2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
@@ -1631,7 +1634,9 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             if (selectedText !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
                 textPlain = `[${selectedText}](${textPlain})`;
             }
-            if (vditor.currentMode === "ir") {
+            if (pasteIntoTable(vditor, "", textPlain)) {
+                // 单元格填充与普通粘贴共用后续规范化和撤销记录。
+            } else if (vditor.currentMode === "ir") {
                 renderers.Md2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(Lute.Sanitize(vditor.lute.Md2VditorIRDOM(textPlain)), vditor);
