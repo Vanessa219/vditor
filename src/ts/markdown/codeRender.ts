@@ -1,5 +1,9 @@
 import {code160to32} from "../util/code160to32";
+import {bindCodeCopy} from "./codeCopy";
+
 import {Constants} from "../constants";
+
+const initializedMenus = new WeakSet<HTMLElement>();
 
 export const codeRender = (element: HTMLElement, option?: IHljs) => {
     Array.from<HTMLElement>(element.querySelectorAll("pre > code")).filter((e, index) => {
@@ -15,9 +19,6 @@ export const codeRender = (element: HTMLElement, option?: IHljs) => {
             return false;
         }
 
-        if (e.style.maxHeight.indexOf("px") > -1) {
-            return false;
-        }
 
         // 避免预览区在渲染后由于代码块过多产生性能问题 https://github.com/b3log/vditor/issues/67
         if (element.classList.contains("vditor-preview") && index > 5) {
@@ -25,6 +26,11 @@ export const codeRender = (element: HTMLElement, option?: IHljs) => {
         }
         return true;
     }).forEach((e) => {
+        const previous = e.previousElementSibling as HTMLElement;
+        if (previous?.classList.contains("vditor-copy")) {
+            if (initializedMenus.has(previous)) return;
+            previous.remove();
+        }
         let codeText = e.innerText;
         if (e.classList.contains("highlight-chroma")) {
             const codeElement = e.cloneNode(true) as HTMLElement;
@@ -42,19 +48,24 @@ export const codeRender = (element: HTMLElement, option?: IHljs) => {
 
         const divElement = document.createElement("div");
         divElement.className = "vditor-copy";
-        divElement.innerHTML = `<span aria-label="${window.VditorI18n?.copy || "复制"}"
-onmouseover="this.setAttribute('aria-label', '${window.VditorI18n?.copy || "复制"}')"
-class="vditor-tooltipped vditor-tooltipped__w"
-onclick="event.stopPropagation();this.previousElementSibling.select();document.execCommand('copy');this.setAttribute('aria-label', '${window.VditorI18n?.copied || "已复制"}');this.previousElementSibling.blur()">${iconHTML}</span>`;
+        const button = document.createElement("span");
+        button.className = "vditor-tooltipped vditor-tooltipped__w";
+        button.innerHTML = iconHTML;
+        divElement.appendChild(button);
         const textarea = document.createElement("textarea");
         textarea.value = code160to32(codeText);
         divElement.insertAdjacentElement("afterbegin", textarea);
+        bindCodeCopy(divElement, textarea, button);
+        initializedMenus.add(divElement);
         if (option && option.renderMenu) {
             option.renderMenu(e, divElement);
         }
         e.before(divElement);
         e.style.maxHeight = (window.outerHeight - 40) + "px";
         // https://github.com/Vanessa219/vditor/issues/1356
-        e.insertAdjacentHTML("afterend", `<span style="position: absolute">${Constants.ZWSP}</span>`)
+        if (!(e.nextElementSibling?.textContent === Constants.ZWSP &&
+            (e.nextElementSibling as HTMLElement).style.position === "absolute")) {
+            e.insertAdjacentHTML("afterend", `<span style="position: absolute">${Constants.ZWSP}</span>`);
+        }
     });
 };
