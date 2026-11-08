@@ -1549,7 +1549,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             xhr.send(JSON.stringify({url: src}));
         }
         if (vditor.currentMode === "ir") {
-            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${Lute.EscapeHTMLStr(src)}</span>`, Lute.WalkContinue];
+            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${Lute.EscapeHTMLStr(src.replace(/ /g, "%20"))}</span>`, Lute.WalkContinue];
         } else if (vditor.currentMode === "wysiwyg") {
             return ["", Lute.WalkContinue];
         } else {
