@@ -27,15 +27,18 @@ export const plantumlRender = (element: (HTMLElement | Document) = document, cdn
             if (renderer) {
                 Promise.resolve().then(() => renderer(text, e)).catch((error) => {
                     e.className = "vditor-reset--error";
-                    e.innerHTML = `plantuml render error: <br>${error}`;
+                    e.textContent = `plantuml render error: ${error}`;
                 });
                 return;
             }
             try {
-                e.innerHTML = `<object type="image/svg+xml" data="${server}~1${plantumlEncoder.encode(text)}"/>`;
+                const image = document.createElement("object");
+                image.type = "image/svg+xml";
+                image.data = `${server}~1${plantumlEncoder.encode(text)}`;
+                e.replaceChildren(image);
             } catch (error) {
                 e.className = "vditor-reset--error";
-                e.innerHTML = `plantuml render error: <br>${error}`;
+                e.textContent = `plantuml render error: ${error}`;
             }
         });
     };

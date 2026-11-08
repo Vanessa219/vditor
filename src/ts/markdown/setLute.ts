@@ -1,3 +1,5 @@
+import {normalizeCodeHTML} from "../util/codeDOM";
+
 export const setLute = (options: ILuteOptions) => {
     const lute: Lute = Lute.New();
     lute.PutEmojis(options.emojis);
@@ -24,5 +26,12 @@ export const setLute = (options: ILuteOptions) => {
     }
     lute.SetSup(options.sup);
     lute.SetSub(options.sub);
+    // 编辑区的高亮是临时展示，传入 Lute 的代码正文需保留纯文本和光标标记。
+    const conversions = ["SpinVditorDOM", "SpinVditorIRDOM", "VditorDOM2Md", "VditorIRDOM2Md",
+        "VditorDOM2HTML", "VditorIRDOM2HTML"] as const;
+    conversions.forEach(name => {
+        const convert = lute[name].bind(lute);
+        lute[name] = (html: string) => convert(normalizeCodeHTML(html));
+    });
     return lute;
 };

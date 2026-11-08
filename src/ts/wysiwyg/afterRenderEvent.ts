@@ -8,6 +8,9 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     enableInput: true,
 }) => {
     renderImageCaptions(vditor.wysiwyg.element, "wysiwyg", vditor.options.preview.markdown.imageCaption);
+    if (options.enableAddUndoStack && vditor.options.undoDelay === 0) {
+        vditor.undo.addToUndoStack(vditor);
+    }
     if (options.enableHint) {
         vditor.hint.render(vditor);
     }
@@ -36,7 +39,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
             vditor.devtools.renderEchart(vditor);
         }
 
-        if (options.enableAddUndoStack) {
+        if (options.enableAddUndoStack && vditor.options.undoDelay !== 0) {
             vditor.undo.addToUndoStack(vditor);
         }
     }, vditor.options.undoDelay);

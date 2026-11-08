@@ -17,6 +17,11 @@
 ### v4.0.2
 
 * [支持自定义 PlantUML 服务地址，或注入渲染器实现无需 PlantUML 服务的离线渲染](https://github.com/Vanessa219/vditor/issues/1910) `引入特性`
+* [修复撤销和重做后代码块复制失效](https://github.com/siyuan-note/siyuan/issues/21289) `修复缺陷`
+* [修复撤销后普通代码块预览高亮丢失](https://github.com/siyuan-note/siyuan/issues/21256) `修复缺陷`
+* [修复撤销到空文档时光标移出编辑区](https://github.com/siyuan-note/siyuan/issues/21288) `修复缺陷`
+* [支持逐次记录编辑操作的撤销模式](https://github.com/siyuan-note/siyuan/issues/21255) `改进功能`
+* [改进即时渲染和所见即所得模式下普通代码块的重复预览](https://github.com/siyuan-note/siyuan/issues/21192) `改进功能`
 
 ### v4.0.1 / 2026-10-18
 

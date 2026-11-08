@@ -16,6 +16,9 @@ export const processAfterRender = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
+    if (options.enableAddUndoStack && vditor.options.undoDelay === 0) {
+        vditor.undo.addToUndoStack(vditor);
+    }
     vditor.preview.render(vditor);
 
     const text = getMarkdown(vditor);
@@ -40,7 +43,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 
     clearTimeout(vditor.sv.processTimeoutId);
     vditor.sv.processTimeoutId = window.setTimeout(() => {
-        if (options.enableAddUndoStack && !vditor.sv.composingLock) {
+        if (options.enableAddUndoStack && vditor.options.undoDelay !== 0 && !vditor.sv.composingLock) {
             vditor.undo.addToUndoStack(vditor);
         }
     }, vditor.options.undoDelay);

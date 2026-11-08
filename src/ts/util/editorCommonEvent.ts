@@ -175,7 +175,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         // esc
         if (event.key === "Escape") {
             if (vditor.hint.element.style.display === "block") {
-                vditor.hint.element.style.display = "none";
+                vditor.hint.hide();
             } else if (vditor.options.esc && !event.isComposing) {
                 vditor.options.esc(getMarkdown(vditor));
             }
