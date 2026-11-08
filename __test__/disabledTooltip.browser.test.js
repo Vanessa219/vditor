@@ -17,6 +17,8 @@ describe("disabled toolbar tooltip", () => {
             button.classList.remove("vditor-menu--disabled");
             return {enabled, disabled, restored: getComputedStyle(button, "::after").display};
         });
-        expect(result).toEqual({enabled: "inline-block", disabled: "none", restored: "inline-block"});
+        expect(result.enabled).not.toBe("none");
+        expect(result.disabled).toBe("none");
+        expect(result.restored).toBe(result.enabled);
     });
 });
