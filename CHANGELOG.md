@@ -22,6 +22,7 @@
 
 ### v4.0.2
 
+* [触屏设备隐藏标题菜单中的快捷键提示](https://github.com/Vanessa219/vditor/issues/1887) `改进功能`
 * [修复自定义按钮禁用后提示不消失](https://github.com/Vanessa219/vditor/issues/1875) `修复缺陷`
 * [支持跨单元格复制粘贴表格内容](https://github.com/Vanessa219/vditor/issues/905) `改进功能`
 * [更新 Graphviz 运行时，移除旧版 zlib 依赖](https://github.com/Vanessa219/vditor/issues/1891) `修复缺陷`
