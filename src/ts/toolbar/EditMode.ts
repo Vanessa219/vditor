@@ -5,6 +5,7 @@ import {mathRender} from "../markdown/mathRender";
 import {processAfterRender as processSVAfterRender} from "../sv/process";
 import {setPadding, setTypewriterPosition} from "../ui/initUI";
 import {getEventName, updateHotkeyTip} from "../util/compatibility";
+import {notifyConfigChange} from "../util/notifyConfigChange";
 import {highlightToolbar} from "../util/highlightToolbar";
 import {processCodeRender} from "../util/processCode";
 import {renderToc} from "../util/toc";
@@ -141,6 +142,9 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     }
 
     vditor.outline.toggle(vditor, vditor.currentMode !== "sv" && vditor.options.outline.enable, typeof event !== "string");
+    if (typeof event !== "string") {
+        notifyConfigChange(vditor);
+    }
 };
 
 export class EditMode extends MenuItem {

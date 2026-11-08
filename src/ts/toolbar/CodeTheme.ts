@@ -1,6 +1,7 @@
 import {Constants} from "../constants";
 import {setCodeTheme} from "../ui/setCodeTheme";
 import {getEventName} from "../util/compatibility";
+import {notifyConfigChange} from "../util/notifyConfigChange";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
 
@@ -25,6 +26,7 @@ export class CodeTheme extends MenuItem {
                 hidePanel(vditor, ["subToolbar"]);
                 vditor.options.preview.hljs.style = event.target.textContent;
                 setCodeTheme(event.target.textContent, vditor.options.cdn);
+                notifyConfigChange(vditor);
                 event.preventDefault();
                 event.stopPropagation();
             }

@@ -1,5 +1,6 @@
 import {setContentTheme} from "../ui/setContentTheme";
 import {getEventName} from "../util/compatibility";
+import {notifyConfigChange} from "../util/notifyConfigChange";
 import {MenuItem} from "./MenuItem";
 import {hidePanel, toggleSubMenu} from "./setToolbar";
 
@@ -24,6 +25,7 @@ export class ContentTheme extends MenuItem {
                 hidePanel(vditor, ["subToolbar"]);
                 vditor.options.preview.theme.current = event.target.getAttribute("data-type");
                 setContentTheme(vditor.options.preview.theme.current, vditor.options.preview.theme.path);
+                notifyConfigChange(vditor);
                 event.preventDefault();
                 event.stopPropagation();
             }

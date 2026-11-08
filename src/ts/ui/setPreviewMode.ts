@@ -1,5 +1,6 @@
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {setCurrentToolbar} from "../toolbar/setToolbar";
+import {notifyConfigChange} from "../util/notifyConfigChange";
 
 export const setPreviewMode = (mode: "both" | "editor", vditor: IVditor) => {
     if (vditor.options.preview.mode === mode) {
@@ -28,4 +29,5 @@ export const setPreviewMode = (mode: "both" | "editor", vditor: IVditor) => {
     if (vditor.devtools) {
         vditor.devtools.renderEchart(vditor);
     }
+    notifyConfigChange(vditor);
 };

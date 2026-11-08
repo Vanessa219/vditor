@@ -229,6 +229,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
 | typewriterMode | 是否启用打字机模式；输入及方向键、Home/End、PageUp/PageDown 导航后居中光标 | false |
 | tips: {show(text: string, time: number): void, hide(): void} | 接管消息提示；time 单位为毫秒，0 表示持续显示；到期、手动隐藏和销毁时调用 hide，替换消息会重置计时 | - |
+| configChange(preferences: IEditorPreferences): void | 编辑模式、主题、内容主题、代码主题、大纲显隐及分屏预览设置操作后的回调；不在初始化或正文输入时调用。快照可 JSON 序列化后保存，并作为下一次初始化选项合并传入；Vditor 不自动持久化 | - |
 | cdn | 配置自建 CDN 地址 | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
 | mode | 可选模式：sv, ir, wysiwyg | 'ir' |
 | debugger | 是否显示日志 | false |

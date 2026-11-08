@@ -709,12 +709,25 @@ interface IResize {
 }
 
 /** @link https://ld246.com/article/1549638745630#options */
+interface IEditorPreferences {
+    mode: "wysiwyg" | "ir" | "sv";
+    theme: "classic" | "dark";
+    preview: {
+        mode: "both" | "editor";
+        theme: {current: string};
+        hljs: {style: string};
+    };
+    outline: IOutline;
+}
+
 interface ICustomTips {
     show(text: string, time: number): void;
     hide(): void;
 }
 
 interface IOptions {
+    /** 工具栏、模式快捷键及主题/预览 API 操作后的偏好快照；不在初始化或正文输入时调用 */
+    configChange?(preferences: IEditorPreferences): void;
     /** 自定义消息提示；time 为 0 时保持显示，其他情况到期调用 hide */
     tips?: ICustomTips;
     /** RTL */

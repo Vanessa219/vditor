@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 添加 options.configChange，可保存并恢复编辑器偏好快照
   * 添加 outlineRender 的 click 回调，可接管展现模式的大纲导航
   * 添加 options.tips，可接管消息提示的显示与隐藏
   * 添加 index.mjs 和 method.mjs ESM 产物，保留 UMD / CommonJS 入口
@@ -24,6 +25,7 @@
 
 ### v4.0.2
 
+* [支持监听编辑器偏好设置操作](https://github.com/Vanessa219/vditor/issues/1896) `改进功能`
 * [支持自定义展现模式的大纲点击事件](https://github.com/Vanessa219/vditor/issues/1006) `改进功能`
 * [支持自定义消息提示接口](https://github.com/Vanessa219/vditor/issues/982) `改进功能`
 * [打字机模式在方向键及行首行尾翻页导航后居中光标](https://github.com/Vanessa219/vditor/issues/705) `改进功能`

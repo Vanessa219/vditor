@@ -205,6 +205,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
 | typewriterMode | Center the caret while typing and after arrow, Home/End and PageUp/PageDown navigation | false |
 | tips: {show(text: string, time: number): void, hide(): void} | Custom notifications; time is in milliseconds, 0 stays visible; hide runs on expiry, manual dismissal or destroy, and a replacement resets the timer | - |
+| configChange(preferences: IEditorPreferences): void | Snapshot after editing mode, UI/content/code theme, outline visibility or split preview settings are operated; not called during initialization or text input. JSON-serialize and store the snapshot, then merge it into the next initialization options; Vditor does not persist it automatically | - |
 | cdn | Configure self-built CDN address | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
 | mode | Editing mode: sv, ir, wysiwyg | 'ir' |
 | debugger | Whether to display the log | false |

@@ -30,6 +30,7 @@ import {addScript, addScriptSync} from "./ts/util/addScript";
 import {getSelectText} from "./ts/util/getSelectText";
 import {Options} from "./ts/util/Options";
 import {processCodeRender} from "./ts/util/processCode";
+import {notifyConfigChange} from "./ts/util/notifyConfigChange";
 import {getCursorPosition, getEditorRange, insertHTML} from "./ts/util/selection";
 import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {WYSIWYG} from "./ts/wysiwyg/index";
@@ -126,6 +127,7 @@ class Vditor extends VditorMethod {
             this.vditor.options.preview.hljs.style = codeTheme;
             setCodeTheme(codeTheme, this.vditor.options.cdn);
         }
+        notifyConfigChange(this.vditor);
     }
 
     /** 获取 Markdown 内容 */
