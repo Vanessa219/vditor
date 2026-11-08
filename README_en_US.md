@@ -57,6 +57,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 * Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
 * Wrap selected text with quotes, backticks or opening brackets, including paired Chinese punctuation, with undo/redo support
 * Backspace or Delete between an empty pair removes both symbols: brackets, quotes, backticks and empty `*`, `~` or `$` pairs
+* Hover over a horizontally overflowing table and use the wheel to scroll it sideways; page scrolling resumes at its boundary, while horizontal trackpad gestures and browser zoom retain their behavior
 * Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, sequence diagrams, digital timing diagrams, staffs, [multimedia](https://ld246.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
 * Export, image lazy loading, task list, multi-platform preview, multi-theme switching, copy to WeChat/zhihu function
 * Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://ld246.com/article/1549638745630#options-preview-markdown)

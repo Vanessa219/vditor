@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
+import {bindTableWheel} from "../util/tableWheel";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
@@ -70,6 +71,7 @@ export const initUI = (vditor: IVditor) => {
 
   vditor.element.appendChild(contentElement);
   vditor.outline.bindResize(vditor);
+  bindTableWheel(vditor.element);
 
   contentElement.addEventListener("click", () => {
     hidePanel(vditor, ["subToolbar"]);

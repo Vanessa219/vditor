@@ -26,6 +26,7 @@
 
 ### v4.0.2
 
+* [表格横向溢出时可使用普通滚轮左右滚动](https://github.com/Vanessa219/vditor/issues/1048) `改进功能`
 * [空的配对标记支持同时删除两侧符号](https://github.com/Vanessa219/vditor/issues/836) `改进功能`
 * [选中文本后输入引号、反引号及括号可包裹所选内容](https://github.com/Vanessa219/vditor/issues/1417) `改进功能`
 * [支持拖拽调整大纲宽度](https://github.com/Vanessa219/vditor/issues/854) `改进功能`

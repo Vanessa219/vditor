@@ -3,6 +3,7 @@ import {setContentTheme} from "../ui/setContentTheme";
 import {addScript} from "../util/addScript";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {merge} from "../util/merge";
+import {bindTableWheel} from "../util/tableWheel";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -104,6 +105,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
+    bindTableWheel(previewElement);
 
     if (!mergedOptions.i18n) {
         if (!["de_DE", "en_US", "es_ES", "fr_FR", "ja_JP", "ko_KR", "pt_BR", "ru_RU", "sv_SE", "vi_VN", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
