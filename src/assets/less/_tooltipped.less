@@ -61,8 +61,8 @@
   &:hover::after,
   &:active::before,
   &:active::after,
-  &:focus::before,
-  &:focus::after {
+  &:focus:not(.vditor-menu--disabled)::before,
+  &:focus:not(.vditor-menu--disabled)::after {
     display: inline-block;
     text-decoration: none;
     animation-name: tooltip-appear;

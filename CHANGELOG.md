@@ -22,6 +22,7 @@
 
 ### v4.0.2
 
+* [修复自定义按钮禁用后提示不消失](https://github.com/Vanessa219/vditor/issues/1875) `修复缺陷`
 * [支持跨单元格复制粘贴表格内容](https://github.com/Vanessa219/vditor/issues/905) `改进功能`
 * [更新 Graphviz 运行时，移除旧版 zlib 依赖](https://github.com/Vanessa219/vditor/issues/1891) `修复缺陷`
 * [支持自定义 PlantUML 服务地址，或注入渲染器实现无需 PlantUML 服务的离线渲染](https://github.com/Vanessa219/vditor/issues/1910) `引入特性`
