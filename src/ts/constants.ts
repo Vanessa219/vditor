@@ -80,6 +80,9 @@ export abstract class Constants {
         inlineDigit: false,
         macros: {},
     };
+    public static readonly PLANTUML_OPTIONS: IPlantumlOptions = {
+        server: "https://www.plantuml.com/plantuml/svg/",
+    };
     public static readonly THEME_OPTIONS = {
         current: "light",
         list: {
