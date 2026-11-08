@@ -14,9 +14,7 @@
 ### v4.0.2
 
 * [修复撤销后普通代码块预览高亮丢失](https://github.com/siyuan-note/siyuan/issues/21256) `修复缺陷`
-
 * [修复撤销到空文档时光标移出编辑区](https://github.com/siyuan-note/siyuan/issues/21288) `修复缺陷`
-
 * [支持逐次记录编辑操作的撤销模式](https://github.com/siyuan-note/siyuan/issues/21255) `改进功能`
 * [改进即时渲染和所见即所得模式下普通代码块的重复预览](https://github.com/siyuan-note/siyuan/issues/21192) `改进功能`
 
