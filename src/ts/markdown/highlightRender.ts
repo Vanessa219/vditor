@@ -47,6 +47,8 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                 if (!canRenderEditable && hljsOption.defaultLang !== "" && block.className.indexOf("language-") === -1) {
                     block.classList.add("language-" + hljsOption.defaultLang);
                 }
+                block.querySelectorAll(".vditor-linenumber__temp, .vditor-linenumber__rows").forEach(item => item.remove());
+                block.classList.remove("vditor-linenumber");
                 let language = Array.from(block.classList).find(name => name.startsWith("language-"))?.slice(9) ||
                     hljsOption.defaultLang;
                 if (!window.hljs.getLanguage(language)) {
@@ -84,7 +86,9 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                 }
                 let lineNumberHTML = "";
                 const lineList = block.textContent.split(/\r\n|\r|\n/g);
-                lineList.pop();
+                if (lineList.length > 1 && lineList[lineList.length - 1] === "") {
+                    lineList.pop();
+                }
                 lineList.map((line) => {
                     let lineHeight = "";
                     if (isSoftWrap) {
@@ -94,7 +98,7 @@ export const highlightRender = (hljsOption?: IHljs, element: HTMLElement | Docum
                     lineNumberHTML += `<span${lineHeight}></span>`;
                 });
 
-                linenNumberTemp.style.display = "none";
+                linenNumberTemp.remove();
                 lineNumberHTML = `<span class="vditor-linenumber__rows">${lineNumberHTML}</span>`;
                 block.insertAdjacentHTML("beforeend", lineNumberHTML);
             })
