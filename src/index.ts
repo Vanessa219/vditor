@@ -88,8 +88,8 @@ class Vditor extends VditorMethod {
                 });
                 addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID).then(() => {
                     this.init(id as HTMLElement, mergedOptions);
-                }).catch(error => {
-                    this.showErrorTip(`GET ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js net::ERR_ABORTED 404 (Not Found)`);
+                }, () => {
+                    this.showErrorTip(`Failed to load ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`);
                 });
             }
         } else {
