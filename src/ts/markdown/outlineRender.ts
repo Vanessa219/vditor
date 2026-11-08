@@ -77,17 +77,30 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
             } else if (target.getAttribute("data-target-id")) {
                 event.preventDefault();
                 event.stopPropagation();
-                const idElement = document.getElementById(target.getAttribute("data-target-id"));
+                const idElement = Array.from(contentElement.children).find(item =>
+                    item.id === target.getAttribute("data-target-id")) as HTMLElement;
                 if (!idElement) {
                     return;
                 }
                 if (vditor) {
                     if (vditor.options.height === "auto") {
-                        let windowScrollY = idElement.offsetTop + vditor.element.offsetTop;
-                        if (!vditor.options.toolbarConfig.pin) {
-                            windowScrollY += vditor.toolbar.element.offsetHeight;
+                        idElement.scrollIntoView({block: "start", inline: "nearest"});
+                        if (vditor.options.toolbarConfig.pin) {
+                            let parent = idElement.parentElement;
+                            while (parent && parent !== document.documentElement) {
+                                if (/auto|scroll/.test(getComputedStyle(parent).overflowY) &&
+                                    parent.scrollHeight > parent.clientHeight) {
+                                    break;
+                                }
+                                parent = parent.parentElement;
+                            }
+                            const offset = -vditor.toolbar.element.offsetHeight;
+                            if (parent && parent !== document.documentElement) {
+                                parent.scrollTop += offset;
+                            } else {
+                                window.scrollBy(0, offset);
+                            }
                         }
-                        window.scrollTo(window.scrollX, windowScrollY);
                     } else {
                         if (vditor.element.offsetTop < window.scrollY) {
                             window.scrollTo(window.scrollX, vditor.element.offsetTop);
