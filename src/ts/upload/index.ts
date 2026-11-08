@@ -119,7 +119,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         let type = key.substr(lastIndex);
         const filename = vditor.options.upload.filename(key.substr(0, lastIndex)) + type;
         type = type.toLowerCase();
-        if (type.indexOf(".wav") === 0 || type.indexOf(".mp3") === 0 || type.indexOf(".ogg") === 0) {
+        if (type.indexOf(".wav") === 0 || type.indexOf(".mp3") === 0 || type.indexOf(".ogg") === 0 || type === ".aac") {
             if (vditor.currentMode === "wysiwyg") {
                 succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block"
  data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre><pre class="vditor-wysiwyg__preview" data-render="1"><audio controls="controls" src="${path}"></audio></pre></div>\n`;

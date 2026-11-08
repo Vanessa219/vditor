@@ -658,7 +658,7 @@ options?: IPreviewOptions {
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
-| mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频、嵌入的 iframe |
+| mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频（含 AAC）、嵌入的 iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染，需要浏览器支持 WebAssembly 和 Worker |

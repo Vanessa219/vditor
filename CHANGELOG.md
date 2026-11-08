@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 支持将 AAC 音频链接和上传文件渲染为播放器
   * Graphviz 渲染运行时升级为 Viz.js 3.31.0，需要浏览器支持 WebAssembly 和 Worker
   * 添加 options.plantuml.server 参数，可替换默认的 plantuml.com 服务地址
   * 添加 options.plantuml.renderer 参数，可接管渲染，无需 PlantUML 服务即可离线出图

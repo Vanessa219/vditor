@@ -81,7 +81,7 @@ export const mediaRender = (element: HTMLElement) => {
         }
         if (url.match(/^.+.(mp4|m4v|ogg|ogv|webm)$/)) {
             replaceMedia(aElement, "video", url);
-        } else if (url.match(/^.+.(mp3|wav|flac)$/)) {
+        } else if (url.match(/^.+\.(mp3|wav|flac|aac)(?:[?#].*)?$/i)) {
             replaceMedia(aElement, "audio", url);
         } else {
             iframeRender(aElement, url);
