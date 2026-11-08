@@ -392,7 +392,7 @@ new Vditor('vditor', {
 })
 ```
 
-需要浏览器端完全离线渲染时，可安装 [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) 与 [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz)（Vditor 不包含这两个依赖），在 `renderer` 中调用：
+需要浏览器端完全离线渲染时，可在应用中安装 [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) 与 [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz) 这两个 npm 包，在 `renderer` 中调用：
 
 ```js
 import Vditor from 'vditor'
@@ -661,7 +661,7 @@ options?: IPreviewOptions {
 | mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频、嵌入的 iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
-| graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
+| graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染，需要浏览器支持 WebAssembly 和 Worker |
 | wavedromRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 对数字波形图进行渲染 |
 | outlineRender(contentElement: HTMLElement, targetElement: Element) | 对大纲进行渲染 |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | 对启用懒加载的图片进行渲染 |

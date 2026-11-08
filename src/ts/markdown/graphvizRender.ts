@@ -1,49 +1,61 @@
 import {Constants} from "../constants";
-import {addScript} from "../util/addScript";
 import {graphvizRenderAdapter} from "./adapterRender";
-
-declare class Viz {
-    public renderSVGElement: (code: string) => Promise<any>;
-
-    constructor({ }: { worker: Worker });
-}
 
 export const graphvizRender = (element: HTMLElement, cdn = Constants.CDN) => {
     const graphvizElements = graphvizRenderAdapter.getElements(element);
+    graphvizElements.forEach((e: HTMLDivElement) => {
+        if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
+            e.parentElement.classList.contains("vditor-ir__marker--pre")) {
+            return;
+        }
+        const code = graphvizRenderAdapter.getCode(e);
+        if (e.getAttribute("data-processed") === "true" || code.trim() === "") {
+            return;
+        }
 
-    if (graphvizElements.length === 0) {
-        return;
-    }
-    addScript(`${cdn}/dist/js/graphviz/viz.js`, "vditorGraphVizScript").then(() => {
-        graphvizElements.forEach((e: HTMLDivElement) => {
-            const code = graphvizRenderAdapter.getCode(e);
-            if (e.parentElement.classList.contains("vditor-wysiwyg__pre") ||
-                e.parentElement.classList.contains("vditor-ir__marker--pre")) {
-                return;
+        let worker: Worker;
+        let blobUrl: string;
+        const cleanup = () => {
+            worker?.terminate();
+            if (blobUrl) {
+                URL.revokeObjectURL(blobUrl);
             }
-
-            if (e.getAttribute("data-processed") === "true" || code.trim() === "") {
-                return;
-            }
-
-            try {
-                const blob = new Blob([`importScripts('${(document.getElementById("vditorGraphVizScript") as HTMLScriptElement).src.replace("viz.js", "full.render.js")}');`],
-                    { type: "application/javascript" });
-                const url = window.URL || window.webkitURL;
-                const blobUrl = url.createObjectURL(blob);
-                const worker = new Worker(blobUrl);
-                new Viz({ worker })
-                    .renderSVGElement(code).then((result: HTMLElement) => {
-                        e.innerHTML = result.outerHTML;
-                    }).catch((error) => {
-                        e.innerHTML = `graphviz render error: <br>${error}`;
-                        e.className = "vditor-reset--error";
-                    });
-            } catch (e) {
-                console.error("graphviz error", e);
-            }
-
+        };
+        const fail = (error: string) => {
+            e.textContent = `graphviz render error: ${error}`;
+            e.className = "vditor-reset--error";
+            cleanup();
+        };
+        try {
+            const scriptUrl = new URL(`${cdn}/dist/js/graphviz/viz.js`, document.baseURI).href;
+            const blob = new Blob([`
+                importScripts(${JSON.stringify(scriptUrl)});
+                const renderer = Viz.instance();
+                self.onmessage = event => {
+                    renderer.then(viz => viz.renderString(event.data, {format: "svg"})).then(
+                        svg => self.postMessage({svg}),
+                        error => self.postMessage({error: String(error)})
+                    );
+                };
+            `], {type: "application/javascript"});
+            blobUrl = URL.createObjectURL(blob);
+            worker = new Worker(blobUrl);
+            worker.onmessage = (event: MessageEvent<{svg?: string, error?: string}>) => {
+                if (event.data.error) {
+                    fail(event.data.error);
+                    return;
+                }
+                e.innerHTML = event.data.svg;
+                cleanup();
+            };
+            worker.onerror = event => {
+                event.preventDefault();
+                fail(event.message);
+            };
             e.setAttribute("data-processed", "true");
-        });
+            worker.postMessage(code);
+        } catch (error) {
+            fail(String(error));
+        }
     });
 };

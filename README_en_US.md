@@ -366,7 +366,7 @@ new Vditor('vditor', {
 })
 ```
 
-For fully offline rendering in the browser, install [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) and [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz) (Vditor does not include these two dependencies), and call them in `renderer`:
+For fully offline rendering in the browser, install the [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) and [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz) npm packages in your application, and call them in `renderer`:
 
 ```js
 import Vditor from 'vditor'
@@ -612,7 +612,7 @@ options?: IPreviewOptions {
 | mediaRender(element: HTMLElement) | Rendering as [specific link](https://ld246.com/article/1589813914768) as video, audio, embedded iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
-| graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
+| graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz; requires browser support for WebAssembly and Worker |
 | wavedromRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | Render digital timing diagrams |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 | setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
