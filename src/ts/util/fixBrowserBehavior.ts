@@ -3,7 +3,7 @@ import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
 import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
 import {uploadFiles} from "../upload/index";
-import {setHeaders} from "../upload/setHeaders";
+import {uploadLinkToImg} from "../upload/linkToImg";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {input} from "../wysiwyg/input";
 import {isCtrl, isFirefox} from "./compatibility";
@@ -1499,55 +1499,8 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
 
         const src = node.TokensStr();
         if (node.__internal_object__.Parent.Type === 34 && src && src.indexOf("file://") === -1 &&
-            vditor.options.upload.linkToImgUrl) {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", vditor.options.upload.linkToImgUrl);
-            if (vditor.options.upload.token) {
-                xhr.setRequestHeader("X-Upload-Token", vditor.options.upload.token);
-            }
-            if (vditor.options.upload.withCredentials) {
-                xhr.withCredentials = true;
-            }
-            setHeaders(vditor, xhr);
-            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        let responseText = xhr.responseText;
-                        if (vditor.options.upload.linkToImgFormat) {
-                            responseText = vditor.options.upload.linkToImgFormat(xhr.responseText);
-                        }
-                        const responseJSON = JSON.parse(responseText);
-                        if (responseJSON.code !== 0) {
-                            vditor.tip.show(responseJSON.msg);
-                            return;
-                        }
-                        const original = responseJSON.data.originalURL;
-                        if (vditor.currentMode === "sv") {
-                            const selectionStart = vditor.sv.element.selectionStart;
-                            const selectionEnd = vditor.sv.element.selectionEnd;
-                            vditor.sv.element.value = vditor.sv.element.value.split(original)
-                                .join(responseJSON.data.url);
-                            vditor.sv.element.setSelectionRange(selectionStart, selectionEnd);
-                        } else {
-                            const imgElement: HTMLImageElement =
-                                vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
-                            imgElement.src = responseJSON.data.url;
-                            if (vditor.currentMode === "ir") {
-                                imgElement.previousElementSibling.previousElementSibling.innerHTML =
-                                    responseJSON.data.url;
-                            }
-                        }
-                        execAfterRender(vditor);
-                    } else {
-                        vditor.tip.show(xhr.responseText);
-                    }
-                    if (vditor.options.upload.linkToImgCallback) {
-                        vditor.options.upload.linkToImgCallback(xhr.responseText);
-                    }
-                }
-            };
-            xhr.send(JSON.stringify({url: src}));
+            (vditor.options.upload.linkToImgUrl || vditor.options.upload.linkToImgHandler)) {
+            uploadLinkToImg(vditor, src, () => execAfterRender(vditor));
         }
         if (vditor.currentMode === "ir") {
             return [`<span class="vditor-ir__marker vditor-ir__marker--link">${Lute.EscapeHTMLStr(src.replace(/ /g, "%20"))}</span>`, Lute.WalkContinue];
@@ -1687,7 +1640,8 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(Lute.Sanitize(vditor.lute.Md2VditorDOM(textPlain)), vditor);
             } else {
-                if (vditor.options.upload.linkToImgUrl || vditor.options.upload.renderLinkDest) {
+                if (vditor.options.upload.linkToImgUrl || vditor.options.upload.linkToImgHandler ||
+                    vditor.options.upload.renderLinkDest) {
                     renderers.Md2VditorDOM = {renderLinkDest};
                     vditor.lute.SetJSRenderers({renderers});
                     vditor.lute.Md2VditorDOM(textPlain);

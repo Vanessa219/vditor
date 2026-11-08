@@ -518,6 +518,7 @@ if (xhr.status === 200) {
 | url | 上传 url，为空则不会触发上传相关事件 | '' |
 | max | 上传文件最大 Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | 剪切板中包含图片地址时，使用此 url 重新上传 | '' |
+| linkToImgHandler(url: string): string \| Promise&lt;string&gt; | 自定义外链图片转存，返回替换 URL；空字符串保留原图，抛出异常显示错误；优先于 linkToImgUrl，接管请求时不调用 linkToImgFormat / linkToImgCallback | - |
 | linkToImgCallback(responseText: string) | 图片地址上传回调 | - |
 | linkToImgFormat(responseText: string): string | 对图片地址上传的返回值进行格式化 | - |
 | success(editor: HTMLPreElement, msg: string) | 上传成功回调 | - |

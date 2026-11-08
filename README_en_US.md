@@ -470,6 +470,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | url | Upload url, empty will not trigger upload related events | '' |
 | max | The largest upload file Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | When the clipboard contains the image address, use this url to re-upload | '' |
+| linkToImgHandler(url: string): string \| Promise&lt;string&gt; | Transfer an external image and return its replacement URL; an empty string keeps the original and a thrown error is shown; takes precedence over linkToImgUrl and handles the request without linkToImgFormat / linkToImgCallback | - |
 | linkToImgCallback | Callback when uploading picture address | - |
 | linkToImgFormat | Transform the data returned by the server to meet the built-in data structure (responseText: string): string | - |
 | success | Upload success callback (editor: HTMLPreElement, msg: string) | - |

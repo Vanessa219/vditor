@@ -398,6 +398,9 @@ interface IUpload {
     /** 剪切板中包含图片地址时，使用此 url 重新上传 */
     linkToImgUrl?: string;
 
+    /** 自定义外链图片转存，返回替换 URL；空字符串保留原图，异常通过提示显示；优先于 linkToImgUrl */
+    linkToImgHandler?(url: string): string | Promise<string>;
+
     /** 剪切板中包含图片地址时，使用此方法进行自定义 */
     renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number];
 
