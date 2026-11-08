@@ -412,7 +412,7 @@ interface IUpload {
     withCredentials?: boolean;
     /** 请求头设置 */
     headers?: IObject;
-    /** 额外请求参数 */
+    /** 额外请求参数；linkToImgUrl 的 JSON 请求仅发送字符串值，url 字段由当前图片地址提供 */
     extraData?: {[key: string]: string | Blob};
     /** 是否允许多文件上传。默认值：true */
     multiple?: boolean;

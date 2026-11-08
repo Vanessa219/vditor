@@ -85,5 +85,7 @@ export const uploadLinkToImg = (vditor: IVditor, src: string, afterRender: () =>
         }
         upload.linkToImgCallback?.(xhr.responseText);
     };
-    xhr.send(JSON.stringify({url: src}));
+    const extraData = Object.fromEntries(Object.entries(upload.extraData || {})
+        .filter(([, value]) => typeof value === "string"));
+    xhr.send(JSON.stringify({...extraData, url: src}));
 };

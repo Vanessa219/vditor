@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 外链图片转存的 JSON 请求支持 options.upload.extraData 中的字符串参数
   * 添加 options.upload.linkToImgHandler，自定义外链图片转存
   * 添加 getOutline 方法，返回标题文本、级别和 ID
   * 支持将 AAC 音频链接和上传文件渲染为播放器

@@ -18,7 +18,9 @@ describe("external image transfer", () => {
                 const root = document.createElement("div");
                 document.body.appendChild(root);
                 const calls = [];
-                const upload = {linkToImgUrl: "/transfer", linkToImgCallback: text => calls.push(JSON.parse(text))};
+                const requests = [];
+                const upload = {linkToImgUrl: "/transfer", linkToImgCallback: text => calls.push(JSON.parse(text)),
+                    extraData: {owner: "test", url: "must-not-override", file: new Blob(["binary"])}};
                 if (kind !== "builtin") upload.linkToImgHandler = async url => {
                     calls.push(url);
                     if (kind === "failure") throw new Error("transfer failed");
@@ -39,6 +41,7 @@ describe("external image transfer", () => {
                     open() {}
                     setRequestHeader() {}
                     send(body) {
+                        requests.push(JSON.parse(body));
                         this.status = 200; this.readyState = 4;
                         this.responseText = JSON.stringify({code: 0, data: {originalURL: JSON.parse(body).url, url: "/uploaded.png"}});
                         setTimeout(() => this.onreadystatechange(), 20);
@@ -54,13 +57,14 @@ describe("external image transfer", () => {
                     const data = new DataTransfer(); data.setData("text/plain", "![image](https://example.com/original.png)");
                     editable.dispatchEvent(new ClipboardEvent("paste", {bubbles: true, clipboardData: data}));
                     await new Promise(resolve => setTimeout(resolve, 120));
-                    return {value: editor.getValue(), html: editor.getHTML(), tip: editor.vditor.tip.element.textContent, calls};
+                    return {value: editor.getValue(), html: editor.getHTML(), tip: editor.vditor.tip.element.textContent, calls, requests};
                 } finally {
                     window.XMLHttpRequest = NativeXHR;
                     editor.destroy(); root.remove();
                 }
             }, {mode, kind});
             expect(result.calls).toHaveLength(1);
+            expect(result.requests).toEqual(kind === "builtin" ? [{owner: "test", url: "https://example.com/original.png"}] : []);
             expect(result.value).toContain(kind === "empty" || kind === "failure" ? "https://example.com/original.png" : "/uploaded.png");
             if (kind === "failure") expect(result.tip).toContain("transfer failed");
             if (kind === "paths") {

@@ -486,7 +486,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | file(files: File[]): File[] \| Promise<File[]> | Process the uploaded file before return. | - |
 | cancel(files: File[]): void | Cancel uploading a file. | - |
 | setHeaders | Use the return value to set the header before uploading (): { [key: string]: string } | - |
-| extraData | Append data to FormData { [key: string]: string | Blob } | - |
+| extraData | Append data to FormData { [key: string]: string \| Blob }; linkToImgUrl sends string values in its JSON body and reserves url for the current image address | - |
 | multiple | Allow multiple file uploads | true |
 | fieldName | The key of field name | file[] |
 | renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number] | Process the image address in the clipboard | '' |

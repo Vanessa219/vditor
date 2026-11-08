@@ -534,7 +534,7 @@ if (xhr.status === 200) {
 | file(files: File[]): File[] \| Promise<File[]> | 将上传的文件处理后再返回 | - |
 | cancel(files: File[]): void | 取消正在上传的文件 | - |
 | setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |
-| extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数 | - |
+| extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数；linkToImgUrl 的 JSON 请求仅发送字符串值，url 始终为当前图片地址 | - |
 | multiple | 上传文件是否为多个 | true |
 | fieldName | 上传字段名称 | 'file[]' |
 | renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number] | 处理剪贴板中的图片地址 | '' |
