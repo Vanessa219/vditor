@@ -16,6 +16,7 @@ import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition, getEditorRange} from "./selection";
+import {wrapSelection} from "./pairedSymbols";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -122,6 +123,12 @@ export const scrollCenter = (vditor: IVditor) => {
 };
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("beforeinput", (event: InputEvent) => {
+        if (event.cancelable && !event.defaultPrevented && !event.isComposing && event.inputType === "insertText" &&
+            wrapSelection(vditor, event.data)) {
+            event.preventDefault();
+        }
+    });
     editorElement.addEventListener("keyup", (event: KeyboardEvent) => {
         if (!event.isComposing && /^(Arrow(Up|Down|Left|Right)|Home|End|PageUp|PageDown)$/.test(event.key)) {
             scrollCenter(vditor);

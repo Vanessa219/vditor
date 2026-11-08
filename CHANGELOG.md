@@ -26,6 +26,7 @@
 
 ### v4.0.2
 
+* [选中文本后输入引号、反引号及括号可包裹所选内容](https://github.com/Vanessa219/vditor/issues/1417) `改进功能`
 * [支持拖拽调整大纲宽度](https://github.com/Vanessa219/vditor/issues/854) `改进功能`
 * [支持监听编辑器偏好设置操作](https://github.com/Vanessa219/vditor/issues/1896) `改进功能`
 * [支持自定义展现模式的大纲点击事件](https://github.com/Vanessa219/vditor/issues/1006) `改进功能`
