@@ -227,7 +227,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | select(value: string) | 编辑器中选中文字后触发 | - |
 | unSelect() | 编辑器中未选中文字后触发 | - |
 | tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
-| typewriterMode | 是否启用打字机模式 | false |
+| typewriterMode | 是否启用打字机模式；输入及方向键、Home/End、PageUp/PageDown 导航后居中光标 | false |
 | cdn | 配置自建 CDN 地址 | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
 | mode | 可选模式：sv, ir, wysiwyg | 'ir' |
 | debugger | 是否显示日志 | false |

@@ -203,7 +203,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | select(value: string) | Triggered after selecting text in the editor | - |
 | unSelect() | Triggered after un selecting text in the editor | - |
 | tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
-| typewriterMode | Whether to enable typewriter mode | false |
+| typewriterMode | Center the caret while typing and after arrow, Home/End and PageUp/PageDown navigation | false |
 | cdn | Configure self-built CDN address | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
 | mode | Editing mode: sv, ir, wysiwyg | 'ir' |
 | debugger | Whether to display the log | false |

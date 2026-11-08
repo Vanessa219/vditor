@@ -122,6 +122,11 @@ export const scrollCenter = (vditor: IVditor) => {
 };
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("keyup", (event: KeyboardEvent) => {
+        if (!event.isComposing && /^(Arrow(Up|Down|Left|Right)|Home|End|PageUp|PageDown)$/.test(event.key)) {
+            scrollCenter(vditor);
+        }
+    });
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
         if (!event.isComposing && vditor.options.keydown) {
             vditor.options.keydown(event);
