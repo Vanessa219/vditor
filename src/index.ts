@@ -412,6 +412,7 @@ class Vditor extends VditorMethod {
     /** 销毁编辑器 */
     public destroy() {
         this.vditor.hint.destroy();
+        this.vditor.tip.hide();
         this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
         this.vditor.element.classList.remove("vditor");
         this.vditor.element.removeAttribute("style");
@@ -542,7 +543,7 @@ class Vditor extends VditorMethod {
             options: mergedOptions,
             originalInnerHTML: id.innerHTML,
             outline: new Outline(window.VditorI18n.outline),
-            tip: new Tip(),
+            tip: new Tip(mergedOptions.tips),
         };
 
         this.vditor.sv = new Editor(this.vditor);

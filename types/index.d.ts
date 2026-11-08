@@ -709,7 +709,14 @@ interface IResize {
 }
 
 /** @link https://ld246.com/article/1549638745630#options */
+interface ICustomTips {
+    show(text: string, time: number): void;
+    hide(): void;
+}
+
 interface IOptions {
+    /** 自定义消息提示；time 为 0 时保持显示，其他情况到期调用 hide */
+    tips?: ICustomTips;
     /** RTL */
     rtl?: boolean;
     /** 历史记录间隔；0 表示在每次编辑完成时同步记录，输入法候选期间不记录中间态 */

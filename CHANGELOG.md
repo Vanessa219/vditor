@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 添加 options.tips，可接管消息提示的显示与隐藏
   * 添加 index.mjs 和 method.mjs ESM 产物，保留 UMD / CommonJS 入口
   * 外链图片转存的 JSON 请求支持 options.upload.extraData 中的字符串参数
   * 添加 options.upload.linkToImgHandler，自定义外链图片转存
@@ -22,6 +23,7 @@
 
 ### v4.0.2
 
+* [支持自定义消息提示接口](https://github.com/Vanessa219/vditor/issues/982) `改进功能`
 * [打字机模式在方向键及行首行尾翻页导航后居中光标](https://github.com/Vanessa219/vditor/issues/705) `改进功能`
 * [触屏设备隐藏标题菜单中的快捷键提示](https://github.com/Vanessa219/vditor/issues/1887) `改进功能`
 * [修复自定义按钮禁用后提示不消失](https://github.com/Vanessa219/vditor/issues/1875) `修复缺陷`

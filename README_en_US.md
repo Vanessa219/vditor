@@ -204,6 +204,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | unSelect() | Triggered after un selecting text in the editor | - |
 | tab | <kbd>tab</kbd> key operation string, support `\ t` and any string | - |
 | typewriterMode | Center the caret while typing and after arrow, Home/End and PageUp/PageDown navigation | false |
+| tips: {show(text: string, time: number): void, hide(): void} | Custom notifications; time is in milliseconds, 0 stays visible; hide runs on expiry, manual dismissal or destroy, and a replacement resets the timer | - |
 | cdn | Configure self-built CDN address | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
 | mode | Editing mode: sv, ir, wysiwyg | 'ir' |
 | debugger | Whether to display the log | false |
