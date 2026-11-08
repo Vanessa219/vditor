@@ -45,5 +45,5 @@ jobs:
       - name: Publish
         shell: bash
         run: |
-          TAG=$(node -p "require('./package.json').version.includes('-') ? 'next' : 'latest'")
+          TAG=$(node -p "require('./package.json').version.includes('-') ? 'alpha' : 'latest'")
           npm publish --tag "$TAG"
