@@ -13,7 +13,7 @@ describe("external image transfer", () => {
     afterAll(async () => { await browser?.close(); });
 
     for (const mode of ["sv", "ir", "wysiwyg"]) {
-        it.each(["custom", "builtin", "empty", "failure"])(`handles %s transfer in ${mode}`, async kind => {
+        it.each(["custom", "builtin", "empty", "failure", "paths", "absolute-paths", "root-paths"])(`handles %s transfer in ${mode}`, async kind => {
             const result = await page.evaluate(async ({mode, kind}) => {
                 const root = document.createElement("div");
                 document.body.appendChild(root);
@@ -22,12 +22,15 @@ describe("external image transfer", () => {
                 if (kind !== "builtin") upload.linkToImgHandler = async url => {
                     calls.push(url);
                     if (kind === "failure") throw new Error("transfer failed");
+                    if (kind === "paths") return "images/uploaded.png";
+                    if (kind === "absolute-paths") return "https://cdn.example.com/uploaded.png";
                     return kind === "empty" ? "" : "/uploaded.png";
                 };
                 const editor = await new Promise(resolve => {
                     const instance = new window.vditorTest.constructor(root, {
                         mode, icon: "", upload, cache: {enable: false}, i18n: window.VditorI18n,
                         _lutePath: "/js/lute/lute.min.js", after: () => resolve(instance),
+                        preview: {markdown: kind.includes("paths") ? {linkBase: "/base", linkPrefix: "/prefix"} : {}},
                     });
                 });
                 const NativeXHR = window.XMLHttpRequest;
@@ -51,7 +54,7 @@ describe("external image transfer", () => {
                     const data = new DataTransfer(); data.setData("text/plain", "![image](https://example.com/original.png)");
                     editable.dispatchEvent(new ClipboardEvent("paste", {bubbles: true, clipboardData: data}));
                     await new Promise(resolve => setTimeout(resolve, 120));
-                    return {value: editor.getValue(), tip: editor.vditor.tip.element.textContent, calls};
+                    return {value: editor.getValue(), html: editor.getHTML(), tip: editor.vditor.tip.element.textContent, calls};
                 } finally {
                     window.XMLHttpRequest = NativeXHR;
                     editor.destroy(); root.remove();
@@ -60,6 +63,13 @@ describe("external image transfer", () => {
             expect(result.calls).toHaveLength(1);
             expect(result.value).toContain(kind === "empty" || kind === "failure" ? "https://example.com/original.png" : "/uploaded.png");
             if (kind === "failure") expect(result.tip).toContain("transfer failed");
+            if (kind === "paths") {
+                expect(result.value).toContain("images/uploaded.png");
+                expect(result.html).toContain("/prefix/base/images/uploaded.png");
+            }
+            if (kind === "absolute-paths") expect(result.html).toContain("/prefixhttps://cdn.example.com/uploaded.png");
+            if (kind === "root-paths") expect(result.html).toContain("/prefix/uploaded.png");
+            expect(result.value).not.toContain("/prefix");
         });
     }
 });

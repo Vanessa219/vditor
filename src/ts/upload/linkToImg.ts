@@ -1,5 +1,24 @@
 import {setHeaders} from "./setHeaders";
 
+const getDisplayURLs = (vditor: IVditor, urls: string[]) => {
+    if (!vditor.options.preview.markdown.linkBase && !vditor.options.preview.markdown.linkPrefix) {
+        return urls;
+    }
+    const lute = Lute.New();
+    const image = document.createElement("img");
+    const markdown = urls.map(url => {
+        image.setAttribute("src", url);
+        return lute.HTML2Md(image.outerHTML);
+    });
+    lute.SetLinkBase(vditor.options.preview.markdown.linkBase);
+    lute.SetLinkPrefix(vditor.options.preview.markdown.linkPrefix);
+    const content = document.createElement("div");
+    return markdown.map((value, index) => {
+        content.innerHTML = lute.Md2HTML(value);
+        return content.querySelector("img")?.getAttribute("src") || urls[index];
+    });
+};
+
 const replaceImageURL = (vditor: IVditor, original: string, url: string, afterRender: () => void) => {
     if (!original || !url) {
         return;
@@ -11,13 +30,17 @@ const replaceImageURL = (vditor: IVditor, original: string, url: string, afterRe
         element.value = element.value.split(original).join(url);
         element.setSelectionRange(start, end);
     } else {
+        const [originalDisplay, display] = getDisplayURLs(vditor, [original, url]);
         vditor[vditor.currentMode].element.querySelectorAll("img").forEach(img => {
-            if (img.getAttribute("src") !== original) {
+            if (img.getAttribute("src") !== original && img.getAttribute("src") !== originalDisplay) {
                 return;
             }
-            img.setAttribute("src", url);
+            img.setAttribute("src", display);
             if (vditor.currentMode === "ir") {
-                img.previousElementSibling.previousElementSibling.textContent = url;
+                const marker = img.closest('[data-type="img"]')?.querySelector(".vditor-ir__marker--link");
+                if (marker) {
+                    marker.textContent = url;
+                }
             }
         });
     }
