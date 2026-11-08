@@ -16,7 +16,10 @@ export const getOutlineHeadings = (contentElement: HTMLElement, assignIDs = fals
     return headings;
 };
 
-export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) => {
+export const outlineRender = (contentElement: HTMLElement, targetElement: Element,
+                              vditorOrClick?: IVditor | ((heading: HTMLElement, event: Event) => void)) => {
+    const vditor = typeof vditorOrClick === "function" ? undefined : vditorOrClick;
+    const click = typeof vditorOrClick === "function" ? vditorOrClick : undefined;
     let tocHTML = "";
     const ids: string[] = [];
     getOutlineHeadings(contentElement, !!vditor).forEach(item => {
@@ -89,6 +92,10 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
                 const idElement = Array.from(contentElement.children).find(item =>
                     item.id === target.getAttribute("data-target-id")) as HTMLElement;
                 if (!idElement) {
+                    return;
+                }
+                if (click) {
+                    click(idElement, event);
                     return;
                 }
                 if (vditor) {

@@ -677,7 +677,7 @@ options?: IPreviewOptions {
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染，需要浏览器支持 WebAssembly 和 Worker |
 | wavedromRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 对数字波形图进行渲染 |
-| outlineRender(contentElement: HTMLElement, targetElement: Element) | 对大纲进行渲染 |
+| outlineRender(contentElement: HTMLElement, targetElement: Element, click?: (heading: HTMLElement, event: Event) => void) | 对大纲进行渲染；配置 click 后由调用方处理标题点击及滚动，折叠按钮保持原有行为；第三参数仍兼容原有 IVditor |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | 对启用懒加载的图片进行渲染 |
 | setCodeTheme(codeTheme: string, cdn = options.cdn) | 设置代码主题，codeTheme 参见 options.preview.hljs.style |
 | setContentTheme(contentTheme: string, path: string) | 设置内容主题，contentTheme 参见 options.preview.theme.list |
