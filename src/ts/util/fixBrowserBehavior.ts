@@ -18,7 +18,7 @@ import {
 import {getLastNode} from "./hasClosest";
 import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
-import {processCodeRender, processPasteCode} from "./processCode";
+import {isPlainTextPaste, processCodeRender, processPasteCode} from "./processCode";
 import {
     getEditorRange,
     getSelectPosition,
@@ -1572,6 +1572,10 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         textHTML = doc.body.innerHTML;
     }
     textHTML = Lute.Sanitize(textHTML);
+    const transfer = "clipboardData" in event ? event.clipboardData : event.dataTransfer;
+    if (textPlain && isPlainTextPaste(textHTML, transfer.getData("vscode-editor-data"))) {
+        textHTML = "";
+    }
     vditor.wysiwyg.getComments(vditor);
 
     // process code
