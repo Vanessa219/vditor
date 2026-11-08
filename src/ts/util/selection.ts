@@ -271,8 +271,17 @@ export const insertHTML = (html: string, vditor: IVditor) => {
             vditor[vditor.currentMode].element.insertAdjacentHTML("beforeend", pasteElement.innerHTML);
         } else {
             const liElement = hasClosestByMatchTag(range.startContainer, "LI");
-            if (liElement && pasteElement.firstElementChild.tagName === "UL") {
-                liElement.insertAdjacentHTML("afterend", pasteElement.firstElementChild.innerHTML);
+            if (liElement && pasteElement.childElementCount === 1 && (pasteElement.firstElementChild.tagName === "UL" ||
+                pasteElement.firstElementChild.tagName === "OL")) {
+                const before = range.cloneRange();
+                before.selectNodeContents(liElement);
+                before.setEnd(range.startContainer, range.startOffset);
+                const prefix = document.createElement("div");
+                prefix.appendChild(before.cloneContents());
+                prefix.querySelectorAll(".vditor-ir__marker, input").forEach(item => item.remove());
+                const atStart = prefix.textContent.replace(/\u200b/g, "").trim() === "" &&
+                    !prefix.querySelector("img, video, audio, iframe, ul, ol, table, pre");
+                liElement.insertAdjacentHTML(atStart ? "beforebegin" : "afterend", pasteElement.firstElementChild.innerHTML);
             } else {
                 blockElement.insertAdjacentHTML("afterend", pasteElement.innerHTML);
             }
