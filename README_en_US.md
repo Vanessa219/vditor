@@ -530,6 +530,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | - | - | - |
 | enable | Initialize whether to show outline | false |
 | position | Outline location: 'left', 'right' | 'left' |
+| width | Initial width in pixels; uses CSS width when omitted. Drag the divider, or focus it and use Left/Right (Shift for larger steps), Home/End; save width through configChange | - |
 
 #### methods
 

@@ -10,6 +10,7 @@ export const notifyConfigChange = (vditor: IVditor) => {
         outline: {
             enable: vditor.options.outline.enable,
             position: vditor.options.outline.position,
+            ...(vditor.options.outline.width === undefined ? {} : {width: vditor.options.outline.width}),
         },
     });
 };

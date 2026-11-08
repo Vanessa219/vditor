@@ -578,6 +578,7 @@ if (xhr.status === 200) {
 | - | - | - |
 | enable | 初始化是否展现大纲 | false |
 | position | 大纲位置：'left', 'right' | 'left' |
+| width | 初始宽度（像素）；未设置时使用 CSS 宽度。可拖动边界调整，或聚焦分隔条后用左右方向键（Shift 加大步长）、Home/End 调整；宽度可通过 configChange 保存 | - |
 
 #### methods
 

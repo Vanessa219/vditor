@@ -699,6 +699,8 @@ interface IOutline {
     enable: boolean;
     /** 大纲位置：'left', 'right'。默认值: 'left' */
     position: "left" | "right";
+    /** 大纲初始宽度（像素），拖拽时更新；未设置时沿用 CSS 宽度 */
+    width?: number;
 }
 
 interface IResize {
@@ -896,6 +898,8 @@ interface IVditor {
     };
     outline: {
         element: HTMLElement,
+        resizeElement: HTMLElement,
+        bindResize(vditor: IVditor): void,
         render(vditor: IVditor): string,
         toggle(vditor: IVditor, show?: boolean, focus?: boolean): void,
     };

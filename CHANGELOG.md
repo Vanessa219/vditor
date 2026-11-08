@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 添加 options.outline.width，大纲边界支持拖拽及键盘调整
   * 添加 options.configChange，可保存并恢复编辑器偏好快照
   * 添加 outlineRender 的 click 回调，可接管展现模式的大纲导航
   * 添加 options.tips，可接管消息提示的显示与隐藏
@@ -25,6 +26,7 @@
 
 ### v4.0.2
 
+* [支持拖拽调整大纲宽度](https://github.com/Vanessa219/vditor/issues/854) `改进功能`
 * [支持监听编辑器偏好设置操作](https://github.com/Vanessa219/vditor/issues/1896) `改进功能`
 * [支持自定义展现模式的大纲点击事件](https://github.com/Vanessa219/vditor/issues/1006) `改进功能`
 * [支持自定义消息提示接口](https://github.com/Vanessa219/vditor/issues/982) `改进功能`
