@@ -139,6 +139,17 @@ import "~vditor/src/assets/less/index" // Or use dark
 const vditor = new Vditor(id, {options...})
 ```
 
+### ESM
+
+Bundlers that support the `module` field use `dist/index.mjs`. You can also import that ESM entry directly; static rendering methods are available from `dist/method.mjs`. Load styles separately. The UMD / CommonJS entries remain available.
+
+```ts
+import Vditor from "vditor/dist/index.mjs";
+import "vditor/dist/index.css";
+```
+
+For browser `<script type="module">` usage, use the URL of your hosted `.mjs` file and load `index.css` through a `<link>` element.
+
 ### HTML script
 
 * Insert CSS and js in HTML, you can refer to [demo](https://b3log.org/vditor/demo/index.html)

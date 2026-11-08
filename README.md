@@ -142,6 +142,17 @@ import "~vditor/src/assets/less/index"
 const vditor = new Vditor(id, {options...})
 ```
 
+### ESM
+
+支持 `module` 字段的打包工具会使用 `dist/index.mjs`，也可以直接导入 ESM 入口；静态渲染方法位于 `dist/method.mjs`。样式仍需单独引入，UMD / CommonJS 入口保持可用。
+
+```ts
+import Vditor from "vditor/dist/index.mjs";
+import "vditor/dist/index.css";
+```
+
+在浏览器中使用 `<script type="module">` 时，将导入地址替换为自托管的 `.mjs` 地址，并通过 `<link>` 加载 `index.css`。
+
 ### HTML script
 
 * 在 HTML 中插入 CSS 和 JavaScript，可参考 [demo](https://b3log.org/vditor/demo/index.html)

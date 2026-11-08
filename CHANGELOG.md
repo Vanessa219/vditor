@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 添加 index.mjs 和 method.mjs ESM 产物，保留 UMD / CommonJS 入口
   * 外链图片转存的 JSON 请求支持 options.upload.extraData 中的字符串参数
   * 添加 options.upload.linkToImgHandler，自定义外链图片转存
   * 添加 getOutline 方法，返回标题文本、级别和 ID
