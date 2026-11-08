@@ -26,6 +26,7 @@
 
 ### v4.0.2
 
+* [空的配对标记支持同时删除两侧符号](https://github.com/Vanessa219/vditor/issues/836) `改进功能`
 * [选中文本后输入引号、反引号及括号可包裹所选内容](https://github.com/Vanessa219/vditor/issues/1417) `改进功能`
 * [支持拖拽调整大纲宽度](https://github.com/Vanessa219/vditor/issues/854) `改进功能`
 * [支持监听编辑器偏好设置操作](https://github.com/Vanessa219/vditor/issues/1896) `改进功能`

@@ -25,13 +25,10 @@ export const useLocalVditorAssets = async (page: Page) => {
         const isVditorCDN = url.includes("cdn.jsdelivr.net/npm/vditor") || url.includes("unpkg.com/vditor");
         if (isVditorCDN && url.includes(distMarker)) {
             const localPath = url.substring(url.indexOf(distMarker) + distMarker.length);
-            if (process.env.VDITOR_TEST_BROWSER === "firefox") {
-                const response = await fetch(`http://localhost:9000/${localPath}`);
-                await request.respond({status: response.status, headers: {"access-control-allow-origin": "*"},
-                    contentType: response.headers.get("content-type"), body: Buffer.from(await response.arrayBuffer())});
-            } else {
-                request.continue({url: `http://localhost:9000/${localPath}`});
-            }
+            const origin = process.env.VDITOR_TEST_ORIGIN || "http://localhost:9000";
+            const response = await fetch(`${origin}/${localPath}`);
+            await request.respond({status: response.status, headers: {"access-control-allow-origin": "*"},
+                contentType: response.headers.get("content-type"), body: Buffer.from(await response.arrayBuffer())});
         } else {
             request.continue();
         }

@@ -16,7 +16,7 @@ import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition, getEditorRange} from "./selection";
-import {wrapSelection} from "./pairedSymbols";
+import {deleteEmptyPair, wrapSelection} from "./pairedSymbols";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -124,8 +124,11 @@ export const scrollCenter = (vditor: IVditor) => {
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("beforeinput", (event: InputEvent) => {
-        if (event.cancelable && !event.defaultPrevented && !event.isComposing && event.inputType === "insertText" &&
-            wrapSelection(vditor, event.data)) {
+        if (!event.cancelable || event.defaultPrevented || event.isComposing) {
+            return;
+        }
+        if ((event.inputType === "insertText" && wrapSelection(vditor, event.data)) ||
+            (["deleteContentBackward", "deleteContentForward"].includes(event.inputType) && deleteEmptyPair(vditor))) {
             event.preventDefault();
         }
     });

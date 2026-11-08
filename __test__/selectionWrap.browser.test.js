@@ -55,6 +55,21 @@ describe("selection symbol wrapping", () => {
             expect(result).toEqual({prevented: false, collapsed: false, value: "hello\n"});
         });
 
+        it(`${mode}: inserts one quote at a caret after the first undo bookmark`, async () => {
+            await newEditor(page, {mode, value: "hello"});
+            await page.evaluate(mode => {
+                const element = window.testEditor.vditor[mode].element;
+                element.focus();
+                if (mode === "sv") { element.setSelectionRange(5, 5); }
+                else {
+                    const range = document.createRange(); range.selectNodeContents(element.firstElementChild); range.collapse(false);
+                    getSelection().removeAllRanges(); getSelection().addRange(range);
+                }
+            }, mode);
+            await page.keyboard.type('"');
+            expect(await page.evaluate(() => window.testEditor.getValue())).toBe('hello"\n');
+        });
+
         if (mode !== "sv") { it(`${mode}: keeps rich formatting inside quotes`, async () => {
             await newEditor(page, {mode, value: "**bold**"});
             await page.evaluate(mode => {
