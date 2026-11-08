@@ -13,6 +13,12 @@ export class Hint {
     public recentLanguage: string;
     private splitChar = "";
     private lastIndex = -1;
+    private requestId = 0;
+    private dismiss = (event: Event) => {
+        if (!this.element.contains(event.target as Node)) {
+            this.hide();
+        }
+    };
 
     constructor(hintExtends: IHintExtend[]) {
         this.timeId = -1;
@@ -20,21 +26,38 @@ export class Hint {
         this.element.className = "vditor-hint";
         this.recentLanguage = "";
         hintExtends.push({key: ":"});
+        document.addEventListener("pointerdown", this.dismiss, true);
+        document.addEventListener("focusin", this.dismiss, true);
+        this.element.addEventListener("pointerdown", event => event.preventDefault());
+    }
+
+    public hide() {
+        this.requestId++;
+        clearTimeout(this.timeId);
+        this.element.style.display = "none";
+    }
+
+    public destroy() {
+        this.hide();
+        document.removeEventListener("pointerdown", this.dismiss, true);
+        document.removeEventListener("focusin", this.dismiss, true);
     }
 
     public render(vditor: IVditor) {
+        this.hide();
+        if (vditor.currentMode === "sv") {
+            return;
+        }
         if (!window.getSelection().focusNode) {
             return;
         }
-        let currentLineValue: string;
         const range = getSelection().getRangeAt(0);
-        currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
+        const currentLineValue = range.startContainer.textContent.substring(0, range.startOffset) || "";
 
         const key = this.getKey(currentLineValue, vditor.options.hint.extend);
 
         if (typeof key === "undefined") {
-            this.element.style.display = "none";
-            clearTimeout(this.timeId);
+            return;
         } else {
             if (this.splitChar === ":") {
                 const emojiHint = key === "" ? vditor.options.hint.emoji : vditor.lute.GetEmojis();
@@ -59,8 +82,12 @@ export class Hint {
                 vditor.options.hint.extend.forEach((item) => {
                     if (item.key === this.splitChar) {
                         clearTimeout(this.timeId);
+                        const requestId = this.requestId;
                         this.timeId = window.setTimeout(async () => {
-                            this.genHTML(await item.hint(key), key, vditor);
+                            const data = await item.hint(key);
+                            if (requestId === this.requestId) {
+                                this.genHTML(data, key, vditor);
+                            }
                         }, vditor.options.hint.delay);
                     }
                 });
@@ -70,7 +97,7 @@ export class Hint {
 
     public genHTML(data: IHintData[], key: string, vditor: IVditor) {
         if (data.length === 0) {
-            this.element.style.display = "none";
+            this.hide();
             return;
         }
 
@@ -127,7 +154,10 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
     }
 
     public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
-        this.element.style.display = "none";
+        this.hide();
+        if (vditor.currentMode === "sv") {
+            return;
+        }
 
         const value = decodeURIComponent(element.getAttribute("data-value"));
         const range: Range = window.getSelection().getRangeAt(0);
@@ -172,9 +202,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         range.deleteContents();
 
         if (vditor.options.hint.parse) {
-            if (vditor.currentMode === "sv") {
-                insertHTML(vditor.lute.SpinVditorSVDOM(value), vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
+            if (vditor.currentMode === "wysiwyg") {
                 insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
             } else {
                 insertHTML(vditor.lute.SpinVditorIRDOM(value), vditor);
@@ -182,7 +210,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         } else {
             insertHTML(value, vditor);
         }
-        if (this.splitChar === ":" && value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
+        if (this.splitChar === ":" && value.indexOf(":") > -1) {
             range.insertNode(document.createTextNode(" "));
         }
         range.collapse(false);

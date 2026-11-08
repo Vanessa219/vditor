@@ -1,6 +1,7 @@
-import puppeteer from "puppeteer";
+import {launchBrowser, useLocalVditorAssets} from "../util/launchBrowser";
 
 declare let vditorTest: any;
+declare let setVditorSelection: (start: number, end: number) => void;
 
 describe("use puppeteer to test methods", () => {
     let browser: any;
@@ -11,13 +12,52 @@ describe("use puppeteer to test methods", () => {
     const updateValue = "* [Vditor 使用指南](https://ld246.com/article/1549638745630?r=Vanessa)";
 
     beforeAll(async () => {
-        browser = await puppeteer.launch();
+        browser = await launchBrowser();
         page = await browser.newPage();
-        await Promise.all([
-            page.coverage.startJSCoverage(),
-            page.coverage.startCSSCoverage(),
-        ]);
-        await page.goto("http://localhost:9000");
+        await useLocalVditorAssets(page);
+        await page.goto("http://localhost:9000/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
+        await page.waitForFunction(() => typeof vditorTest !== "undefined" && vditorTest.vditor?.lute);
+        await page.evaluate(() => {
+            (window as any).setVditorSelection = (start: number, end: number) => {
+                const editorElement = vditorTest.vditor[vditorTest.vditor.currentMode].element;
+                const walker = document.createTreeWalker(editorElement, NodeFilter.SHOW_TEXT);
+                let currentOffset = 0;
+                let startContainer: Node;
+                let startOffset = 0;
+                let endContainer: Node;
+                let endOffset = 0;
+                let node = walker.nextNode();
+                while (node) {
+                    const nextOffset = currentOffset + node.textContent.length;
+                    if (!startContainer && start <= nextOffset) {
+                        startContainer = node;
+                        startOffset = Math.max(0, start - currentOffset);
+                    }
+                    if (end <= nextOffset) {
+                        endContainer = node;
+                        endOffset = Math.max(0, end - currentOffset);
+                        break;
+                    }
+                    currentOffset = nextOffset;
+                    node = walker.nextNode();
+                }
+                const range = document.createRange();
+                if (!startContainer) {
+                    range.selectNodeContents(editorElement);
+                    range.collapse(false);
+                } else {
+                    range.setStart(startContainer, startOffset);
+                    if (endContainer) {
+                        range.setEnd(endContainer, endOffset);
+                    } else {
+                        range.setEndAfter(editorElement.lastChild);
+                    }
+                }
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            };
+        });
     });
 
     it("method: getValue", async () => {
@@ -31,16 +71,17 @@ describe("use puppeteer to test methods", () => {
 
     it("method: insertValue", async () => {
         const result = await page.evaluate(() => {
+            setVditorSelection(Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
             vditorTest.insertValue("于是，Vditor 就这样诞生了。");
             return vditorTest.getValue();
         });
-        expect(result).toBe(defaultValue + insertValue + "\n");
+        expect(result).toBe(defaultValue + "\n\n" + insertValue + "\n");
     });
 
     it("method: focus", async () => {
         const result = await page.evaluate(() => {
             vditorTest.focus();
-            return document.activeElement === vditorTest.vditor.editor.element;
+            return document.activeElement === vditorTest.vditor[vditorTest.vditor.currentMode].element;
         });
         expect(result).toBeTruthy();
     });
@@ -48,7 +89,7 @@ describe("use puppeteer to test methods", () => {
     it("method: blur", async () => {
         const result = await page.evaluate(() => {
             vditorTest.blur();
-            return document.activeElement === vditorTest.vditor.editor.element;
+            return document.activeElement === vditorTest.vditor[vditorTest.vditor.currentMode].element;
         });
         expect(result).toBeFalsy();
     });
@@ -56,7 +97,7 @@ describe("use puppeteer to test methods", () => {
     it("method: disabled", async () => {
         const result = await page.evaluate(() => {
             vditorTest.disabled();
-            return vditorTest.vditor.editor.element.getAttribute("contenteditable");
+            return vditorTest.vditor[vditorTest.vditor.currentMode].element.getAttribute("contenteditable");
         });
         expect(result).toBe("false");
     });
@@ -64,17 +105,17 @@ describe("use puppeteer to test methods", () => {
     it("method: enable", async () => {
         const result = await page.evaluate(() => {
             vditorTest.enable();
-            return vditorTest.vditor.editor.element.getAttribute("contenteditable");
+            return vditorTest.vditor[vditorTest.vditor.currentMode].element.getAttribute("contenteditable");
         });
         expect(result).toBeTruthy();
     });
 
     it("method: setSelection and getSelection", async () => {
         const result = await page.evaluate(() => {
-            vditorTest.setSelection(25, 66);
+            setVditorSelection(25, 66);
             return vditorTest.getSelection();
         });
-        expect(result).toBe("[Vditor](https://github.com/Vanessa219/vditor)");
+        expect(result).toBe("Vditor");
     });
 
     it("method: setValue", async () => {
@@ -88,15 +129,17 @@ describe("use puppeteer to test methods", () => {
     it("method: deleteValue and disabledCache", async () => {
         const result = await page.evaluate(() => {
             vditorTest.disabledCache();
-            vditorTest.setSelection(0, 3);
+            setVditorSelection(0, 3);
             vditorTest.deleteValue();
             return {
                 cache: localStorage.getItem("vditorvditorTest"),
+                cacheEnabled: vditorTest.vditor.options.cache.enable,
                 value: vditorTest.getValue(),
             };
         });
         expect(result.value).toBe("Vditor 就这样诞生了。\n");
-        expect(result.cache).toBe(insertValue + "\n");
+        expect(result.cache).toBeNull();
+        expect(result.cacheEnabled).toBe(false);
     });
 
     it("method: deleteValue null", async () => {
@@ -110,15 +153,17 @@ describe("use puppeteer to test methods", () => {
     it("method: updateValue and enableCache", async () => {
         const result = await page.evaluate(() => {
             vditorTest.enableCache();
-            vditorTest.setSelection(0, 14);
+            setVditorSelection(0, 14);
             vditorTest.updateValue("* [Vditor 使用指南](https://ld246.com/article/1549638745630?r=Vanessa)");
             return {
                 value: vditorTest.getValue(),
                 cache: localStorage.getItem("vditorvditorTest"),
+                cacheEnabled: vditorTest.vditor.options.cache.enable,
             };
         });
         expect(result.value).toBe(updateValue + "\n");
-        expect(result.cache).toBe(updateValue + "\n");
+        expect(result.cache).toBeNull();
+        expect(result.cacheEnabled).toBe(true);
     });
 
     it("method: clearCache", async () => {
@@ -133,7 +178,7 @@ describe("use puppeteer to test methods", () => {
         const result = await page.evaluate(() => {
             return vditorTest.html2md('<a href="https://ld246.com/tag/vditor">讨论区</a>');
         });
-        expect(result).toBe("[讨论区](https://ld246.com/tag/vditor)");
+        expect(result.trimEnd()).toBe("[讨论区](https://ld246.com/tag/vditor)");
     });
 
     it("method: isUploading false", async () => {

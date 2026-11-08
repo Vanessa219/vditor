@@ -55,7 +55,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 ## ✨  Features
 
 * Support three editing modes: WYSIWYG(wysiwyg), Instant Rendering(ir) and Split View(sv)
-* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, timing charts, staffs, [multimedia](https://ld246.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
+* Support outline, mathematical formulas, mind maps, charts, flowcharts, Gantt charts, sequence diagrams, digital timing diagrams, staffs, [multimedia](https://ld246.com/article/1589813914768), voice reading, heading anchors, code highlighting and copying, graphviz rendering
 * Export, image lazy loading, task list, multi-platform preview, multi-theme switching, copy to WeChat/zhihu function
 * Implementation of CommonMark and GFM specifications, formatting and syntax tree viewing of Markdown, and support for [10+ configurations](https://ld246.com/article/1549638745630#options-preview-markdown)
 * The toolbar contains 36+ items of operations. In addition to support for expansion, the [shortcut keys](https://ld246.com/article/1582778815353), tip, tip positions, icons, click events, class names, and sub-toolbars can be customized
@@ -101,6 +101,7 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
 * Chart syntax
   * Flow chart, sequence diagram, Gantt chart, supported by Mermaid
   * Graphviz
+  * Digital timing diagrams, supported by WaveDrom
   * Line chart, pie chart, brain chart, etc., supported by ECharts
 * Stave: supported by abc.js
 * Math formulas: Math formula blocks, row-level math formulas, supported by MathJax and KaTeX
@@ -137,6 +138,17 @@ import "~vditor/src/assets/less/index" // Or use dark
 
 const vditor = new Vditor(id, {options...})
 ```
+
+### ESM
+
+Bundlers that support the `module` field use `dist/index.mjs`. You can also import that ESM entry directly; static rendering methods are available from `dist/method.mjs`. Load styles separately. The UMD / CommonJS entries remain available.
+
+```ts
+import Vditor from "vditor/dist/index.mjs";
+import "vditor/dist/index.css";
+```
+
+For browser `<script type="module">` usage, use the URL of your hosted `.mjs` file and load `index.css` through a `<link>` element.
 
 ### HTML script
 
@@ -200,6 +212,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | icon | icon theme: ant, material | 'ant' |
 | customRenders: {language: string, render: (element: HTMLElement, vditor: IVditor) => void}[] | Custom render | [] |
 | customWysiwygToolbar(type: TWYSISYGToolbar, element: HTMLElement): void | Customizing the toolbar in wysiwyg mode | - |
+| customWysiwygMobileToolbar(type: TWYSISYGToolbar, element: HTMLElement): void | Customize the toolbar in mobile WYSIWYG mode; the entry is hidden when no menu item is added | - |
 
 #### options.toolbar
 
@@ -306,6 +319,7 @@ new Vditor('vditor', {
 |   | Explanation | Default |
 | - | - | - |
 | autoSpace | Autospace | false |
+| inlineMath | Whether to parse inline math formulas `$...$` | true |
 | gfmAutoLink | Automatic link | true |
 | fixTermTypo | Automatically correct terminology | false |
 | toc | Insert Table of Contents | false |
@@ -347,6 +361,44 @@ Default: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"]
 |        | Explanation        | Default  |
 |--------|-----------|------|
 | enable | Whether to enable multimedia render | true |
+
+#### options.plantuml
+
+|   | Explanation | Default |
+| - | - | - |
+| server | PlantUML server address, must end with `/` | `https://www.plantuml.com/plantuml/svg/` |
+| renderer(code: string, element: HTMLElement) | Custom render. When provided, no request is sent to the PlantUML server, which can be used to integrate an offline render engine | - |
+
+The official PlantUML server is used when not configured. To use a self-hosted server, just replace the address:
+
+```js
+new Vditor('vditor', {
+  plantuml: {server: 'https://plantuml.example.com/plantuml/svg/'},
+})
+```
+
+For fully offline rendering in the browser, install the [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) and [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz) npm packages in your application, and call them in `renderer`:
+
+```js
+import Vditor from 'vditor'
+
+const renderPlantuml = async (code) => {
+  const viz = await import('@viz-js/viz')
+  globalThis.PLANTUML_VIZ = viz
+  const {renderToString} = await import('@plantuml/core')
+  return new Promise((resolve, reject) => {
+    renderToString(code.split(/\r\n|\r|\n/), resolve, reject)
+  })
+}
+
+new Vditor('vditor', {
+  plantuml: {
+    renderer: async (code, element) => {
+      element.innerHTML = await renderPlantuml(code)
+    },
+  },
+})
+```
 
 #### options.image
 
@@ -429,6 +481,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | url | Upload url, empty will not trigger upload related events | '' |
 | max | The largest upload file Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | When the clipboard contains the image address, use this url to re-upload | '' |
+| linkToImgHandler(url: string): string \| Promise&lt;string&gt; | Transfer an external image and return its replacement URL; an empty string keeps the original and a thrown error is shown; takes precedence over linkToImgUrl and handles the request without linkToImgFormat / linkToImgCallback | - |
 | linkToImgCallback | Callback when uploading picture address | - |
 | linkToImgFormat | Transform the data returned by the server to meet the built-in data structure (responseText: string): string | - |
 | success | Upload success callback (editor: HTMLPreElement, msg: string) | - |
@@ -444,7 +497,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | file(files: File[]): File[] \| Promise<File[]> | Process the uploaded file before return. | - |
 | cancel(files: File[]): void | Cancel uploading a file. | - |
 | setHeaders | Use the return value to set the header before uploading (): { [key: string]: string } | - |
-| extraData | Append data to FormData { [key: string]: string | Blob } | - |
+| extraData | Append data to FormData { [key: string]: string \| Blob }; linkToImgUrl sends string values in its JSON body and reserves url for the current image address | - |
 | multiple | Allow multiple file uploads | true |
 | fieldName | The key of field name | file[] |
 | renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number] | Process the image address in the clipboard | '' |
@@ -482,6 +535,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | - | - |
 | exportJSON(markdown: string) | Get JSON by markdown |
 | getValue() | Get editor content |
+| getOutline(): IOutlineItem[] | Get the top-level headings used by the built-in outline as text, level and id; in SV mode, IDs match headings after the built-in preview renders |
 | getHTML() | Get preview area content |
 | insertValue(value: string, render = true) | Insert content at the focus and markdown rendering by default |
 | focus() | Focus on the editor |
@@ -568,10 +622,11 @@ options?: IPreviewOptions {
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown text is converted to HTML, this method needs to use [asynchronous programming](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | Page Markdown article rendering |
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | Highlight the code block in element |
-| mediaRender(element: HTMLElement) | Rendering as [specific link](https://ld246.com/article/1589813914768) as video, audio, embedded iframe |
+| mediaRender(element: HTMLElement) | Render [specific links](https://ld246.com/article/1589813914768) as video, audio (including AAC), or embedded iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | Render math formulas |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | Read the selected text |
-| graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz |
+| graphvizRender(element: HTMLElement, cdn?: string) | Render graphviz; requires browser support for WebAssembly and Worker |
+| wavedromRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | Render digital timing diagrams |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | Render lazy load image |
 | setCodeTheme (codeTheme: string, cdn = options.cdn)  | update code theme |
 | setContentTheme (contentTheme: string, path: string)  | update content theme |
@@ -628,6 +683,7 @@ Vditor uses the [MIT](https://opensource.org/licenses/MIT) open source license.
 * [Lute](https://github.com/88250/lute): A structured Markdown engine that supports Go and JavaScript
 * [highlight.js](https://github.com/highlightjs/highlight.js): JavaScript syntax highlighter
 * [mermaid](https://github.com/knsv/mermaid): Generation of diagram and flowchart from text in a similar manner as Markdown
+* [WaveDrom](https://github.com/wavedrom/wavedrom): Digital timing diagram rendering engine
 * [incubator-echarts](https://github.com/apache/incubator-echarts): A powerful, interactive charting and visualization library for browser
 * [abcjs](https://github.com/paulrosen/abcjs): JavaScript library for rendering standard music notation in a browser
 * [IntelliJ IDEA](https://www.jetbrains.com/?from=Vditor): Family of capable and ergonomic development environments

@@ -3,6 +3,9 @@ import {isChrome} from "./compatibility";
 import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
 
 export const getEditorRange = (vditor: IVditor) => {
+    if (vditor.currentMode === "sv") {
+        throw new Error("SV mode uses textarea selection");
+    }
     let range: Range;
     const element = vditor[vditor.currentMode].element;
     if (getSelection().rangeCount > 0) {
@@ -11,8 +14,9 @@ export const getEditorRange = (vditor: IVditor) => {
             return range;
         }
     }
-    if (vditor[vditor.currentMode].range) {
-        return vditor[vditor.currentMode].range;
+    const lastRange = vditor.currentMode === "ir" ? vditor.ir.range : vditor.wysiwyg.range;
+    if (lastRange) {
+        return lastRange;
     }
     element.focus();
     range = element.ownerDocument.createRange();
@@ -250,7 +254,11 @@ export const insertHTML = (html: string, vditor: IVditor) => {
 
     const range = getEditorRange(vditor);
     if (range.toString() !== "") {
-        vditor[vditor.currentMode].preventInput = true;
+        if (vditor.currentMode === "ir") {
+            vditor.ir.preventInput = true;
+        } else if (vditor.currentMode === "wysiwyg") {
+            vditor.wysiwyg.preventInput = true;
+        }
         document.execCommand("delete", false, "");
     }
 
@@ -263,8 +271,17 @@ export const insertHTML = (html: string, vditor: IVditor) => {
             vditor[vditor.currentMode].element.insertAdjacentHTML("beforeend", pasteElement.innerHTML);
         } else {
             const liElement = hasClosestByMatchTag(range.startContainer, "LI");
-            if (liElement && pasteElement.firstElementChild.tagName === "UL") {
-                liElement.insertAdjacentHTML("afterend", pasteElement.firstElementChild.innerHTML);
+            if (liElement && pasteElement.childElementCount === 1 && (pasteElement.firstElementChild.tagName === "UL" ||
+                pasteElement.firstElementChild.tagName === "OL")) {
+                const before = range.cloneRange();
+                before.selectNodeContents(liElement);
+                before.setEnd(range.startContainer, range.startOffset);
+                const prefix = document.createElement("div");
+                prefix.appendChild(before.cloneContents());
+                prefix.querySelectorAll(".vditor-ir__marker, input").forEach(item => item.remove());
+                const atStart = prefix.textContent.replace(/\u200b/g, "").trim() === "" &&
+                    !prefix.querySelector("img, video, audio, iframe, ul, ol, table, pre");
+                liElement.insertAdjacentHTML(atStart ? "beforebegin" : "afterend", pasteElement.firstElementChild.innerHTML);
             } else {
                 blockElement.insertAdjacentHTML("afterend", pasteElement.innerHTML);
             }

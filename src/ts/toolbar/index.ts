@@ -181,6 +181,9 @@ export class Toolbar {
         if (!menuItemObj) {
             return;
         }
+        menuItemObj.element.querySelectorAll("button").forEach((button) => {
+            button.setAttribute("type", "button");
+        });
         let key = menuItem.name;
         if (key === "br" || key === "|") {
             key = key + index;

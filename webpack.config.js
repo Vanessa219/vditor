@@ -44,6 +44,7 @@ SOFTWARE.
 
 module.exports = [
     {
+        name: "umd",
         mode: 'production',
         output: {
             filename: '[name].js',
@@ -168,3 +169,23 @@ module.exports = [
             }),
         ],
     }]
+
+const umdConfig = module.exports[0];
+module.exports.push({
+    ...umdConfig,
+    name: "esm",
+    dependencies: ["umd"],
+    experiments: {outputModule: true},
+    output: {
+        filename: "[name].mjs",
+        path: path.resolve(__dirname, "dist"),
+        library: {type: "module"},
+    },
+    entry: {
+        index: "./src/index.ts",
+        method: "./src/method.ts",
+    },
+    optimization: {minimize: false},
+    plugins: umdConfig.plugins.filter(plugin =>
+        !(plugin instanceof CleanWebpackPlugin) && !(plugin instanceof CopyPlugin)),
+});

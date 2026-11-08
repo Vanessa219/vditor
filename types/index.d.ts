@@ -36,11 +36,18 @@ interface IObject {
     [key: string]: string;
 }
 
+interface IOutlineItem {
+    text: string;
+    level: number;
+    id: string;
+}
+
 interface ILuteNode {
     TokensStr: () => string;
     __internal_object__: {
         Parent: {
             Type: number,
+            LinkType: number,
         },
         HeadingLevel: string,
     };
@@ -64,6 +71,7 @@ interface ILuteRender {
     renderMathBlockCloseMarker?: ILuteRenderCallback;
     renderBlockquote?: ILuteRenderCallback;
     renderBlockquoteMarker?: ILuteRenderCallback;
+    renderCallout?: ILuteRenderCallback;
     renderHeading?: ILuteRenderCallback;
     renderHeadingC8hMarker?: ILuteRenderCallback;
     renderList?: ILuteRenderCallback;
@@ -144,6 +152,9 @@ declare class Lute {
 
     public static GetHeadingID(node: ILuteNode): string;
 
+    /** 返回标题 ID 语法花括号内的原始文本，未设置时返回空字符串 */
+    public static GetHeadingIDRaw(node: ILuteNode): string;
+
     public static NewNodeID(): string;
 
     public static Sanitize(html: string): string;
@@ -163,6 +174,9 @@ declare class Lute {
     }): void;
 
     public SetChineseParagraphBeginningSpace(enable: boolean): void;
+
+    public SetCallout(enable: boolean): void;
+    public SetInlineMath(enable: boolean): void;
 
     public SetHeadingID(enable: boolean): void;
 
@@ -384,6 +398,9 @@ interface IUpload {
     /** 剪切板中包含图片地址时，使用此 url 重新上传 */
     linkToImgUrl?: string;
 
+    /** 自定义外链图片转存，返回替换 URL；空字符串保留原图，异常通过提示显示；优先于 linkToImgUrl */
+    linkToImgHandler?(url: string): string | Promise<string>;
+
     /** 剪切板中包含图片地址时，使用此方法进行自定义 */
     renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number];
 
@@ -395,7 +412,7 @@ interface IUpload {
     withCredentials?: boolean;
     /** 请求头设置 */
     headers?: IObject;
-    /** 额外请求参数 */
+    /** 额外请求参数；linkToImgUrl 的 JSON 请求仅发送字符串值，url 字段由当前图片地址提供 */
     extraData?: {[key: string]: string | Blob};
     /** 是否允许多文件上传。默认值：true */
     multiple?: boolean;
@@ -406,7 +423,7 @@ interface IUpload {
     setHeaders?(): IObject;
 
     /** 上传成功回调 */
-    success?(editor: HTMLPreElement, msg: string): void;
+    success?(editor: HTMLPreElement | HTMLTextAreaElement, msg: string): void;
 
     /** 上传失败回调 */
     error?(msg: string): void;
@@ -502,6 +519,10 @@ interface IMath {
 interface IMarkdownConfig {
     /** 自动空格。默认值: false */
     autoSpace?: boolean;
+    /** Callout。默认值: true */
+    callout?: boolean;
+    /** 是否解析行内数学公式。默认值: true */
+    inlineMath?: boolean;
     /** 段落开头是否空两格。默认值: false */
     paragraphBeginningSpace?: boolean;
     /** 自动矫正术语。默认值: false */
@@ -510,6 +531,8 @@ interface IMarkdownConfig {
     toc?: boolean;
     /** 脚注。默认值: true */
     footnotes?: boolean;
+    /** 将独占段落图片的 title 显示为图片说明。默认值: false */
+    imageCaption?: boolean;
     /** wysiwyg & ir 模式代码块是否渲染。默认值: true */
     codeBlockPreview?: boolean;
     /** wysiwyg & ir 模式数学公式块是否渲染。默认值: true */
@@ -582,6 +605,15 @@ interface IPreviewActionCustom {
     click: (key: string) => void;
 }
 
+interface IPlantumlOptions {
+    /** PlantUML 服务地址，需以 `/` 结尾。默认值: 'https://www.plantuml.com/plantuml/svg/' */
+    server?: string;
+    /** 自定义渲染。传入后不再请求 PlantUML 服务，可用于接入离线渲染引擎，实现方式参见
+     * https://github.com/Vanessa219/vditor#optionsplantuml
+     */
+    renderer?: (code: string, element: HTMLElement) => void | Promise<void>;
+}
+
 interface IPreviewOptions {
     mode: "dark" | "light";
     customEmoji?: IObject;
@@ -601,6 +633,8 @@ interface IPreviewOptions {
     theme?: IPreviewTheme;
     icon?: "ant" | "material" | undefined;
     render?: IPreviewRender;
+    /** @link https://github.com/Vanessa219/vditor#optionsplantuml */
+    plantuml?: IPlantumlOptions;
 
     transform?(html: string): string;
 
@@ -678,7 +712,7 @@ interface IResize {
 interface IOptions {
     /** RTL */
     rtl?: boolean;
-    /** 历史记录间隔 */
+    /** 历史记录间隔；0 表示在每次编辑完成时同步记录，输入法候选期间不记录中间态 */
     undoDelay?: number;
     /** 内部调试时使用 */
     _lutePath?: string;
@@ -747,6 +781,8 @@ interface IOptions {
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://ld246.com/article/1549638745630#options-preview */
     preview?: IPreview;
+    /** @link https://github.com/Vanessa219/vditor#optionsplantuml */
+    plantuml?: IPlantumlOptions;
     /** @link https://ld246.com/article/1549638745630#options-link */
     link?: {
         /** 是否打开链接地址。默认值: true */
@@ -817,6 +853,9 @@ interface IOptions {
 
     /** 对 wysiwyg 模式下的工具栏进行自定义 */
     customWysiwygToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void
+
+    /** 对移动端 wysiwyg 模式下的工具栏进行自定义 */
+    customWysiwygMobileToolbar?(type: TWYSISYGToolbar, element: HTMLElement): void
 }
 
 interface IEChart {
@@ -861,6 +900,8 @@ interface IVditor {
         timeId: number
         element: HTMLDivElement
         recentLanguage: string
+        hide(): void;
+        destroy(): void;
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
         genHTML(data: IHintData[], key: string, vditor: IVditor): void
@@ -875,6 +916,8 @@ interface IVditor {
         element: HTMLElement
         isUploading: boolean
         range: Range,
+        selectionEnd: number,
+        selectionStart: number,
         xhr?: XMLHttpRequest,
     };
     undo?: {
@@ -910,12 +953,9 @@ interface IVditor {
         hlToolbarTimeoutId: number,
     };
     sv?: {
-        range: Range,
-        element: HTMLPreElement,
+        element: HTMLTextAreaElement,
         processTimeoutId: number,
-        hlToolbarTimeoutId: number,
         composingLock: boolean,
-        preventInput: boolean,
     };
 }
 

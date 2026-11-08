@@ -36,6 +36,8 @@ window.addEventListener("message", (e) => {
   Vditor.preview(document.getElementById('preview'), e.data, {
     cdn: "${vditor.options.cdn}",
     markdown: {
+      callout: ${JSON.stringify(vditor.options.preview.markdown.callout)},
+      inlineMath: ${JSON.stringify(vditor.options.preview.markdown.inlineMath)},
       theme: ${JSON.stringify(vditor.options.preview.theme)}
     },
     hljs: {
@@ -73,6 +75,7 @@ export const exportHTML = (vditor: IVditor) => {
     Vditor.markmapRender(previewElement, '${vditor.options.cdn}');
     Vditor.flowchartRender(previewElement, '${vditor.options.cdn}');
     Vditor.graphvizRender(previewElement, '${vditor.options.cdn}');
+    Vditor.wavedromRender(previewElement, '${vditor.options.cdn}');
     Vditor.chartRender(previewElement, '${vditor.options.cdn}', '${vditor.options.theme}');
     Vditor.mindmapRender(previewElement, '${vditor.options.cdn}', '${vditor.options.theme}');
     Vditor.abcRender(previewElement, '${vditor.options.cdn}');

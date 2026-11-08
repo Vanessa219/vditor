@@ -8,12 +8,12 @@ import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
+import {getOutlineHeadings} from "./ts/markdown/outlineRender";
 import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline/index";
 import {Preview} from "./ts/preview/index";
 import {Resize} from "./ts/resize/index";
 import {Editor} from "./ts/sv/index";
-import {inputEvent} from "./ts/sv/inputEvent";
 import {processAfterRender as processSVAfterRender, processPaste} from "./ts/sv/process";
 import {Tip} from "./ts/tip/index";
 import {Toolbar} from "./ts/toolbar/index";
@@ -89,8 +89,8 @@ class Vditor extends VditorMethod {
                 });
                 addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID).then(() => {
                     this.init(id as HTMLElement, mergedOptions);
-                }).catch(error => {
-                    this.showErrorTip(`GET ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js net::ERR_ABORTED 404 (Not Found)`);
+                }, () => {
+                    this.showErrorTip(`Failed to load ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`);
                 });
             }
         } else {
@@ -133,6 +133,18 @@ class Vditor extends VditorMethod {
         return getMarkdown(this.vditor);
     }
 
+    public getOutline(): IOutlineItem[] {
+        const content = document.createElement("div");
+        content.innerHTML = getHTML(this.vditor);
+        const rendered = getOutlineHeadings(content);
+        const source = this.vditor.currentMode === "sv" ? content : this.vditor[this.vditor.currentMode].element;
+        return getOutlineHeadings(source, true).map((heading, index) => ({
+            text: (rendered[index] || heading).textContent.replace(/\u200b/g, ""),
+            level: Number(heading.tagName.substring(1)),
+            id: heading.id,
+        }));
+    }
+
     /** 获取编辑器当前编辑模式 */
     public getCurrentMode() {
         return this.vditor.currentMode;
@@ -167,10 +179,11 @@ class Vditor extends VditorMethod {
             this.vditor.toolbar.elements,
             Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode"]),
         );
-        this.vditor[this.vditor.currentMode].element.setAttribute(
-            "contenteditable",
-            "false",
-        );
+        if (this.vditor.currentMode === "sv") {
+            this.vditor.sv.element.disabled = true;
+        } else {
+            this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "false");
+        }
     }
 
     /** 解除编辑器禁用 */
@@ -180,7 +193,11 @@ class Vditor extends VditorMethod {
             Constants.EDIT_TOOLBARS.concat(["undo", "redo", "fullscreen", "edit-mode"]),
         );
         this.vditor.undo.resetIcon(this.vditor);
-        this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
+        if (this.vditor.currentMode === "sv") {
+            this.vditor.sv.element.disabled = false;
+        } else {
+            this.vditor[this.vditor.currentMode].element.setAttribute("contenteditable", "true");
+        }
     }
 
     /** 返回选中的字符串 */
@@ -188,7 +205,10 @@ class Vditor extends VditorMethod {
         if (this.vditor.currentMode === "wysiwyg") {
             return getSelectText(this.vditor.wysiwyg.element);
         } else if (this.vditor.currentMode === "sv") {
-            return getSelectText(this.vditor.sv.element);
+            return this.vditor.sv.element.value.substring(
+                this.vditor.sv.element.selectionStart,
+                this.vditor.sv.element.selectionEnd,
+            );
         } else if (this.vditor.currentMode === "ir") {
             return getSelectText(this.vditor.ir.element);
         }
@@ -201,6 +221,15 @@ class Vditor extends VditorMethod {
 
     /** 获取焦点位置 */
     public getCursorPosition() {
+        if (this.vditor.currentMode === "sv") {
+            const element = this.vditor.sv.element;
+            const lineHeight = parseInt(getComputedStyle(element).lineHeight, 10) || 22;
+            const line = element.value.substring(0, element.selectionStart).split("\n").length - 1;
+            return {
+                left: 0,
+                top: line * lineHeight - element.scrollTop,
+            };
+        }
         return getCursorPosition(this.vditor[this.vditor.currentMode].element);
     }
 
@@ -258,6 +287,14 @@ class Vditor extends VditorMethod {
 
     /** 删除选中内容 */
     public deleteValue() {
+        if (this.vditor.currentMode === "sv") {
+            if (this.vditor.sv.element.selectionStart === this.vditor.sv.element.selectionEnd) {
+                return;
+            }
+            processPaste(this.vditor, "");
+            processSVAfterRender(this.vditor);
+            return;
+        }
         if (window.getSelection().isCollapsed) {
             return;
         }
@@ -266,11 +303,23 @@ class Vditor extends VditorMethod {
 
     /** 更新选中内容 */
     public updateValue(value: string) {
+        if (this.vditor.currentMode === "sv") {
+            processPaste(this.vditor, value);
+            processSVAfterRender(this.vditor);
+            return;
+        }
         document.execCommand("insertHTML", false, value);
     }
 
     /** 在焦点处插入内容，并默认进行 Markdown 渲染 */
     public insertValue(value: string, render = true) {
+        if (this.vditor.currentMode === "sv") {
+            processPaste(this.vditor, value);
+            if (render) {
+                processSVAfterRender(this.vditor);
+            }
+            return;
+        }
         const range = getEditorRange(this.vditor);
         range.collapse(true);
         // https://github.com/Vanessa219/vditor/issues/716
@@ -279,12 +328,7 @@ class Vditor extends VditorMethod {
         tmpElement.innerHTML = value;
         range.insertNode(tmpElement.content.cloneNode(true));
         range.collapse(false);
-        if (this.vditor.currentMode === "sv") {
-            this.vditor.sv.preventInput = true;
-            if (render) {
-                inputEvent(this.vditor);
-            }
-        } else if (this.vditor.currentMode === "wysiwyg") {
+        if (this.vditor.currentMode === "wysiwyg") {
             // 由于 https://github.com/Vanessa219/vditor/issues/1566 不能使用 this.vditor.wysiwyg.preventInput = true;
             if (render) {
                 input(this.vditor, getSelection().getRangeAt(0));
@@ -314,7 +358,7 @@ class Vditor extends VditorMethod {
     /** 设置编辑器内容 */
     public setValue(markdown: string, clearStack = false) {
         if (this.vditor.currentMode === "sv") {
-            this.vditor.sv.element.innerHTML = `<div data-block='0'>${this.vditor.lute.SpinVditorSVDOM(markdown)}</div>`;
+            this.vditor.sv.element.value = markdown;
             processSVAfterRender(this.vditor, {
                 enableAddUndoStack: true,
                 enableHint: false,
@@ -367,6 +411,7 @@ class Vditor extends VditorMethod {
 
     /** 销毁编辑器 */
     public destroy() {
+        this.vditor.hint.destroy();
         this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
         this.vditor.element.classList.remove("vditor");
         this.vditor.element.removeAttribute("style");
@@ -525,6 +570,8 @@ class Vditor extends VditorMethod {
         ).then(() => {
             this.vditor.lute = setLute({
                 autoSpace: this.vditor.options.preview.markdown.autoSpace,
+                callout: this.vditor.options.preview.markdown.callout,
+                inlineMath: this.vditor.options.preview.markdown.inlineMath,
                 gfmAutoLink: this.vditor.options.preview.markdown.gfmAutoLink,
                 codeBlockPreview: this.vditor.options.preview.markdown
                     .codeBlockPreview,

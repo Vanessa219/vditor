@@ -237,11 +237,7 @@ class WYSIWYG {
             return;
         }
 
-        // https://github.com/Vanessa219/vditor/issues/905
-        // Multi-cell table selection: emit a real <table> HTML payload so the
-        // paste path can route into pasteIntoTable. Falls through to the
-        // generic markdown serialization for non-table selections.
-        const tableClip = buildTableSelectionClipboard(range);
+        const tableClip = buildTableSelectionClipboard(vditor, range);
         if (tableClip) {
             event.clipboardData.setData("text/html", tableClip.html);
             event.clipboardData.setData("text/plain", tableClip.plain);
@@ -339,6 +335,9 @@ class WYSIWYG {
                 input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
             }
             this.composingLock = false;
+            if (vditor.options.undoDelay === 0 && !isFirefox()) {
+                vditor.undo.addToUndoStack(vditor);
+            }
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {

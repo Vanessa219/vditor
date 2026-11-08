@@ -12,6 +12,7 @@ import {
 } from "../util/editorCommonEvent";
 import {paste} from "../util/fixBrowserBehavior";
 import {hasClosestByAttribute, hasClosestByClassName} from "../util/hasClosest";
+import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {
     getEditorRange, setRangeByWbr,
     setSelectionFocus,
@@ -22,6 +23,28 @@ import {highlightToolbarIR} from "./highlightToolbarIR";
 import {input} from "./input";
 import {processAfterRender, processHint} from "./process";
 import {hidePanel} from "../toolbar/setToolbar";
+
+const getHeadingMarker = (headingElement: Element) => {
+    return Array.from(headingElement.children).find((item) => item.getAttribute("data-type") === "heading-marker");
+};
+
+const restoreHeadingMarker = (sourceHeading: HTMLElement | false, copiedHeading?: HTMLElement) => {
+    if (!sourceHeading || !copiedHeading || sourceHeading.tagName !== copiedHeading.tagName ||
+        sourceHeading.getAttribute("data-marker") !== copiedHeading.getAttribute("data-marker") ||
+        copiedHeading.textContent.trim() === "" || getHeadingMarker(copiedHeading)) {
+        return;
+    }
+
+    const markerElement = getHeadingMarker(sourceHeading);
+    if (!markerElement) {
+        return;
+    }
+    if (sourceHeading.firstElementChild === markerElement) {
+        copiedHeading.insertBefore(markerElement.cloneNode(true), copiedHeading.firstChild);
+    } else if (sourceHeading.lastElementChild === markerElement) {
+        copiedHeading.appendChild(markerElement.cloneNode(true));
+    }
+};
 
 class IR {
     public range: Range;
@@ -60,8 +83,7 @@ class IR {
         event.stopPropagation();
         event.preventDefault();
 
-        // https://github.com/Vanessa219/vditor/issues/905
-        const tableClip = buildTableSelectionClipboard(range);
+        const tableClip = buildTableSelectionClipboard(vditor, range);
         if (tableClip) {
             event.clipboardData.setData("text/html", tableClip.html);
             event.clipboardData.setData("text/plain", tableClip.plain);
@@ -70,6 +92,9 @@ class IR {
 
         const tempElement = document.createElement("div");
         tempElement.appendChild(range.cloneContents());
+        const copiedHeadings = tempElement.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6");
+        restoreHeadingMarker(hasClosestByHeadings(range.startContainer), copiedHeadings.item(0));
+        restoreHeadingMarker(hasClosestByHeadings(range.endContainer), copiedHeadings.item(copiedHeadings.length - 1));
 
         event.clipboardData.setData("text/plain", vditor.lute.VditorIRDOM2Md(tempElement.innerHTML).trim());
         event.clipboardData.setData("text/html", "");
@@ -88,15 +113,18 @@ class IR {
             hidePanel(vditor, ["hint"]);
         });
 
-        this.element.addEventListener("compositionstart", (event: InputEvent) => {
+        this.element.addEventListener("compositionstart", () => {
             this.composingLock = true;
         });
 
-        this.element.addEventListener("compositionend", (event: InputEvent) => {
+        this.element.addEventListener("compositionend", () => {
             if (!isFirefox()) {
                 input(vditor, getSelection().getRangeAt(0).cloneRange());
             }
             this.composingLock = false;
+            if (vditor.options.undoDelay === 0 && !isFirefox()) {
+                vditor.undo.addToUndoStack(vditor);
+            }
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {

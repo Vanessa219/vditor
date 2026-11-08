@@ -26,6 +26,13 @@
  */
 .vditor-reset {
     color: #d1d5da;
+    --blockquote-border-color: rgba(230, 230, 230, 0.1);
+    --blockquote-text-color: #9aa0a6;
+    --callout-note-color: #3575f0;
+    --callout-tip-color: #65b84d;
+    --callout-important-color: #b388ff;
+    --callout-warning-color: #ff9632;
+    --callout-caution-color: #d23f31;
 }
 
 .vditor-reset a, .vditor-ir__link {
@@ -39,12 +46,6 @@
 
 .vditor-reset hr {
     background-color: #d1d5da
-}
-
-.vditor-reset blockquote {
-    padding: 0 1em;
-    color: #b9b9b9;
-    border-left: .25em solid #d1d5da
 }
 
 .vditor-reset iframe {
