@@ -571,6 +571,7 @@ if (xhr.status === 200) {
 | - | - |
 | exportJSON(markdown: string) | 根据 Markdown 获取对应 JSON |
 | getValue() | 获取 Markdown 内容 |
+| getOutline(): IOutlineItem[] | 获取与内置大纲范围一致的顶层标题，返回文本 text、标题级别 level 和标题 ID id；SV 模式下的 ID 对应内置预览渲染后的标题 |
 | getHTML() | 获取 HTML 内容 |
 | insertValue(value: string, render = true) | 在焦点处插入内容，并默认进行 Markdown 渲染 |
 | focus() | 聚焦到编辑器 |

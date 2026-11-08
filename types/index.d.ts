@@ -36,6 +36,12 @@ interface IObject {
     [key: string]: string;
 }
 
+interface IOutlineItem {
+    text: string;
+    level: number;
+    id: string;
+}
+
 interface ILuteNode {
     TokensStr: () => string;
     __internal_object__: {

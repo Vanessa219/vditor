@@ -8,6 +8,7 @@ import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
+import {getOutlineHeadings} from "./ts/markdown/outlineRender";
 import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline/index";
 import {Preview} from "./ts/preview/index";
@@ -130,6 +131,18 @@ class Vditor extends VditorMethod {
     /** 获取 Markdown 内容 */
     public getValue() {
         return getMarkdown(this.vditor);
+    }
+
+    public getOutline(): IOutlineItem[] {
+        const content = document.createElement("div");
+        content.innerHTML = getHTML(this.vditor);
+        const rendered = getOutlineHeadings(content);
+        const source = this.vditor.currentMode === "sv" ? content : this.vditor[this.vditor.currentMode].element;
+        return getOutlineHeadings(source, true).map((heading, index) => ({
+            text: (rendered[index] || heading).textContent.replace(/\u200b/g, ""),
+            level: Number(heading.tagName.substring(1)),
+            id: heading.id,
+        }));
     }
 
     /** 获取编辑器当前编辑模式 */

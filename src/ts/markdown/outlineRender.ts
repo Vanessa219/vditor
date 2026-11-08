@@ -1,18 +1,27 @@
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {mathRender} from "./mathRender";
 
+export const getOutlineHeadings = (contentElement: HTMLElement, assignIDs = false) => {
+    const headings: HTMLElement[] = [];
+    Array.from(contentElement.children).forEach((item: HTMLElement, index: number) => {
+        if (!hasClosestByHeadings(item)) {
+            return;
+        }
+        if (assignIDs) {
+            const lastIndex = item.id.lastIndexOf("_");
+            item.id = item.id.substring(0, lastIndex === -1 ? undefined : lastIndex) + "_" + index;
+        }
+        headings.push(item);
+    });
+    return headings;
+};
+
 export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) => {
     let tocHTML = "";
     const ids: string[] = [];
-    Array.from(contentElement.children).forEach((item: HTMLElement, index: number) => {
-        if (hasClosestByHeadings(item)) {
-            if (vditor) {
-                const lastIndex = item.id.lastIndexOf("_");
-                item.id = item.id.substring(0, lastIndex === -1 ? undefined : lastIndex) + "_" + index;
-            }
-            ids.push(item.id);
-            tocHTML += item.outerHTML.replace("<wbr>", "");
-        }
+    getOutlineHeadings(contentElement, !!vditor).forEach(item => {
+        ids.push(item.id);
+        tocHTML += item.outerHTML.replace("<wbr>", "");
     });
     if (tocHTML === "") {
         targetElement.innerHTML = "";

@@ -523,6 +523,7 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 | - | - |
 | exportJSON(markdown: string) | Get JSON by markdown |
 | getValue() | Get editor content |
+| getOutline(): IOutlineItem[] | Get the top-level headings used by the built-in outline as text, level and id; in SV mode, IDs match headings after the built-in preview renders |
 | getHTML() | Get preview area content |
 | insertValue(value: string, render = true) | Insert content at the focus and markdown rendering by default |
 | focus() | Focus on the editor |
