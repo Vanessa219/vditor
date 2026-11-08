@@ -1476,6 +1476,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         }
     }
     const renderers: {
+        HTML2Md?: ILuteRender,
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
         Md2VditorDOM?: ILuteRender,
@@ -1553,7 +1554,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         } else if (vditor.currentMode === "wysiwyg") {
             return ["", Lute.WalkContinue];
         } else {
-            return ["", Lute.WalkContinue];
+            return [src, Lute.WalkContinue];
         }
     };
 
@@ -1631,6 +1632,8 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             } else {
+                renderers.HTML2Md = {renderLinkDest};
+                vditor.lute.SetJSRenderers({renderers});
                 processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
             vditor.outline.render(vditor);
@@ -1680,6 +1683,11 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(Lute.Sanitize(vditor.lute.Md2VditorDOM(textPlain)), vditor);
             } else {
+                if (vditor.options.upload.linkToImgUrl || vditor.options.upload.renderLinkDest) {
+                    renderers.Md2VditorDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    vditor.lute.Md2VditorDOM(textPlain);
+                }
                 processPaste(vditor, textPlain);
             }
             vditor.outline.render(vditor);
