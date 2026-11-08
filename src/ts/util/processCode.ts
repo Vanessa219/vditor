@@ -11,45 +11,55 @@ import {mindmapRender} from "../markdown/mindmapRender";
 import {plantumlRender} from "../markdown/plantumlRender";
 import {SMILESRender} from "../markdown/SMILESRender";
 
-const looksLikeCodeContent = (content: string) => {
-    const text = content.trim();
-    if (!text) {
-        return false;
+export const isPlainTextPaste = (html: string, editorData: string) => {
+    if (editorData) {
+        try {
+            if (JSON.parse(editorData).mode === "markdown") {
+                return true;
+            }
+        } catch {
+            // 剪贴板中的第三方元数据可能损坏，仍按 HTML 结构处理。
+        }
     }
-    const lines = text.split("\n");
-    if (lines.length < 2) {
-        return false;
-    }
-
-    let score = 0;
-    if (/[{};]/.test(text)) {
-        score++;
-    }
-    if (/\b(const|let|var|function|class|interface|if|else|for|while|return)\b/.test(text)) {
-        score++;
-    }
-    if (/<\/?[a-z][^>]*>/.test(text)) {
-        score++;
-    }
-    if (/^\s{2,}|\t/m.test(text)) {
-        score++;
-    }
-
-    return score >= 2;
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = html;
+    const pre = tempElement.firstElementChild as HTMLElement;
+    // 浏览器为纯文本生成的 pre-wrap 包装不表示代码语义。
+    return tempElement.childNodes.length === 1 && pre?.tagName === "PRE" &&
+        pre.style.whiteSpace === "pre-wrap" && pre.childElementCount === 0;
 };
 
 export const processPasteCode = (html: string, text: string, type = "sv") => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
+    const preElement = tempElement.querySelector("pre");
+    if (preElement) {
+        let element: Element = preElement;
+        while (element !== tempElement) {
+            const parent = element.parentElement;
+            // 混合内容需要交给 HTML 转换，以保留段落、表格和独立代码块。
+            if (Array.from(parent.childNodes).some(node => node !== element &&
+                (node.nodeType === Node.ELEMENT_NODE ||
+                    node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ""))) {
+                return false;
+            }
+            element = parent;
+        }
+    }
     let isCode = false;
+    if (tempElement.childElementCount === 1 &&
+        (tempElement.lastElementChild as HTMLElement).style.fontFamily.indexOf("monospace") > -1) {
+        isCode = true;
+    }
     const pres = tempElement.querySelectorAll("pre");
     if (tempElement.childElementCount === 1 && pres.length === 1
         && pres[0].className !== "vditor-wysiwyg"
         && pres[0].className !== "vditor-sv") {
-        const preElement = pres[0] as HTMLElement;
-        const hasCodeChild = !!preElement.querySelector("code");
-        const preText = text || preElement.textContent || "";
-        isCode = hasCodeChild || looksLikeCodeContent(preText);
+        isCode = true;
+    }
+    if (tempElement.childElementCount === 1 && tempElement.firstElementChild.tagName === "TABLE" &&
+        tempElement.querySelector(".line-number") && tempElement.querySelector(".line-content")) {
+        isCode = true;
     }
 
     if (isCode) {
