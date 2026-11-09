@@ -813,6 +813,8 @@ interface IOptions {
     link?: {
         /** 是否打开链接地址。默认值: true */
         isOpen?: boolean;
+        /** 编辑区链接是否按住 Ctrl（macOS 为 ⌘）点击才跳转。默认值: false */
+        ctrlClick?: boolean;
         /** 点击链接事件 */
         click?: (bom: Element) => void;
     },

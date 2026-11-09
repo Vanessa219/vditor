@@ -14,7 +14,8 @@ describe.each(["desktop", "mobile"])("inline links on %s", (platform) => {
             await page.setUserAgent("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36");
         }
         await useLocalVditorAssets(page);
-        await page.goto("http://localhost:9000/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
+        const origin = process.env.VDITOR_TEST_ORIGIN || "http://localhost:9000";
+        await page.goto(origin + "/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
         await page.waitForFunction(() => window.vditorTest?.vditor?.lute);
         await page.evaluate(() => {
             window.vditorTest.vditor.options.undoDelay = 0;

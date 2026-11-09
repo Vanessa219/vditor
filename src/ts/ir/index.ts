@@ -190,7 +190,8 @@ class IR {
             }
             // 打开链接
             const aElement = hasClosestByAttribute(event.target, "data-type", "a");
-            if (aElement && (!aElement.classList.contains("vditor-ir__node--expand"))) {
+            if (aElement && (vditor.options.link.ctrlClick ? isCtrl(event) :
+                !aElement.classList.contains("vditor-ir__node--expand"))) {
                 if (vditor.options.link.click) {
                     vditor.options.link.click(aElement.querySelector(":scope > .vditor-ir__marker--link"));
                 } else if (vditor.options.link.isOpen) {

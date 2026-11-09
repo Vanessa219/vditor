@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 添加 options.link.ctrlClick，编辑区可使用普通点击编辑、Ctrl/⌘ 点击跳转链接，默认关闭
   * 添加 options.preview.markdown.imgPathAllowSpace，允许图片和链接路径包含空格，默认关闭
   * 添加 options.outline.width，大纲边界支持拖拽及键盘调整
   * 添加 options.configChange，可保存并恢复编辑器偏好快照
@@ -27,6 +28,7 @@
 
 ### v4.0.2
 
+* [支持普通点击编辑链接，Ctrl 或 ⌘ 点击跳转](https://github.com/Vanessa219/vditor/issues/1330) `改进功能`
 * [修复 Mermaid 图表的点击回调未绑定](https://github.com/Vanessa219/vditor/issues/1877) `修复缺陷`
 * [表格横向溢出时可使用普通滚轮左右滚动](https://github.com/Vanessa219/vditor/issues/1048) `改进功能`
 * [空的配对标记支持同时删除两侧符号](https://github.com/Vanessa219/vditor/issues/836) `改进功能`

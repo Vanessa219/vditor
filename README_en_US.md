@@ -418,6 +418,7 @@ new Vditor('vditor', {
 |   | Explanation | Default |
 | - | - | - |
 | isOpen | Whether to open the link address | true |
+| ctrlClick | In the editor, click to edit links and Ctrl-click (⌘-click on macOS) to follow them; preview links are unaffected | false |
 | click(bom: Element) => void | Click link event | - |
 
 #### options.hint

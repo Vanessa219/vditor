@@ -449,13 +449,15 @@ class WYSIWYG {
             // 打开链接
             const a = hasClosestByMatchTag(event.target, "A");
             if (a) {
-                if (vditor.options.link.click) {
-                    vditor.options.link.click(a);
-                } else if (vditor.options.link.isOpen) {
-                    window.open(a.getAttribute("href"));
-                }
                 event.preventDefault();
-                return;
+                if (!vditor.options.link.ctrlClick || isCtrl(event)) {
+                    if (vditor.options.link.click) {
+                        vditor.options.link.click(a);
+                    } else if (vditor.options.link.isOpen) {
+                        window.open(a.getAttribute("href"));
+                    }
+                    return;
+                }
             }
 
             const range = getEditorRange(vditor);

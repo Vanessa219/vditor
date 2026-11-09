@@ -444,6 +444,7 @@ new Vditor('vditor', {
 |   | 说明 | 默认值 |
 | - | - | - |
 | isOpen | 是否打开链接地址 | true |
+| ctrlClick | 编辑区普通点击编辑链接，Ctrl（macOS 为 ⌘）点击才跳转；不影响预览区 | false |
 | click(bom: Element) => void | 点击链接事件 | - |
 
 #### options.hint

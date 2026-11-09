@@ -68,6 +68,7 @@ export class Options {
         },
         link: {
             isOpen: true,
+            ctrlClick: false,
         },
         image: {
             isPreview: true,
