@@ -34,6 +34,7 @@ import {removeBlockElement} from "./processKeydown";
 import {renderToc} from "../util/toc";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {renderImageCaptions} from "../markdown/imageCaptionRender";
+import {expandHTMLTags} from "../util/expandHTMLTags";
 
 export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
     clearTimeout(vditor.wysiwyg.hlToolbarTimeoutId);
@@ -51,6 +52,10 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         enableToolbar(vditor.toolbar.elements, Constants.EDIT_TOOLBARS);
 
         const range = getSelection().getRangeAt(0);
+        vditor.wysiwyg.element.querySelectorAll(".vditor-wysiwyg__kbd-marker--expand").forEach(element => {
+            element.classList.remove("vditor-wysiwyg__kbd-marker--expand");
+        });
+        expandHTMLTags(vditor.wysiwyg.element, range, "vditor-wysiwyg__kbd-marker--expand");
         let typeElement = range.startContainer as HTMLElement;
         if (range.startContainer.nodeType === 3) {
             typeElement = range.startContainer.parentElement;
@@ -226,8 +231,6 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
 
         // table popover
         if (tableElement) {
-            const lang: keyof II18n | "" = vditor.options.lang;
-            const options: IOptions = vditor.options;
             vditor.wysiwyg.popover.innerHTML = "";
             const updateTable = () => {
                 const oldRow = tableElement.rows.length;
@@ -566,8 +569,6 @@ export const highlightToolbarWYSIWYG = (vditor: IVditor) => {
         // footnote popover
         const footnotesRefElement = hasClosestByAttribute(typeElement, "data-type", "footnotes-ref");
         if (footnotesRefElement) {
-            const lang: keyof II18n | "" = vditor.options.lang;
-            const options: IOptions = vditor.options;
             vditor.wysiwyg.popover.innerHTML = "";
 
             const inputWrap = document.createElement("span");

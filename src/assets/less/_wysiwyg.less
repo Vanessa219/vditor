@@ -51,6 +51,10 @@
     padding-right: 0 !important;
   }
 
+  &__kbd-marker:not(.vditor-wysiwyg__kbd-marker--expand) {
+    display: none;
+  }
+
   &__block {
     // Source visibility is serialized both by Lute and by CSSStyleDeclaration.
     // Keep the preview laid out for asynchronous wrapped line-number measurements.
