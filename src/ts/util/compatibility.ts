@@ -9,7 +9,7 @@ export const isFirefox = () => {
 export const accessLocalStorage = () => {
     try {
        return typeof localStorage !== "undefined";
-    } catch (e) {
+    } catch {
         return false;
     }
 };
@@ -24,7 +24,7 @@ export const getEventName = () => {
 };
 
 // 区别 mac 上的 ctrl 和 meta
-export const isCtrl = (event: KeyboardEvent) => {
+export const isCtrl = (event: Pick<KeyboardEvent, "ctrlKey" | "metaKey">) => {
     if (navigator.platform.toUpperCase().indexOf("MAC") >= 0) {
         // mac
         if (event.metaKey && !event.ctrlKey) {

@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {getEventName} from "../util/compatibility";
+import {notifyConfigChange} from "../util/notifyConfigChange";
 import {MenuItem} from "./MenuItem";
 
 export class Outline extends MenuItem {
@@ -16,6 +17,7 @@ export class Outline extends MenuItem {
             }
             vditor.options.outline.enable = !this.element.firstElementChild.classList.contains("vditor-menu--current");
             vditor.outline.toggle(vditor, vditor.options.outline.enable);
+            notifyConfigChange(vditor);
         });
     }
 }

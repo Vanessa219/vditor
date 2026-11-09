@@ -49,6 +49,11 @@ export class Record extends MenuItem {
             if (mediaRecorder.isRecording) {
                 mediaRecorder.stopRecording();
                 vditor.tip.hide();
+                if (vditor.currentMode === "sv") {
+                    vditor.sv.element.disabled = false;
+                } else {
+                    editorElement.setAttribute("contenteditable", "true");
+                }
                 const file: File = new File([mediaRecorder.buildWavFileBlob()],
                     `record${(new Date()).getTime()}.wav`, {type: "video/webm"});
                 uploadFiles(vditor, [file]);

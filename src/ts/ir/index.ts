@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {isCtrl, isFirefox} from "../util/compatibility";
+import {buildTableSelectionClipboard} from "../util/pasteIntoTable";
 import {
     blurEvent,
     copyEvent, cutEvent, dblclickEvent,
@@ -82,6 +83,13 @@ class IR {
         event.stopPropagation();
         event.preventDefault();
 
+        const tableClip = buildTableSelectionClipboard(vditor, range);
+        if (tableClip) {
+            event.clipboardData.setData("text/html", tableClip.html);
+            event.clipboardData.setData("text/plain", tableClip.plain);
+            return;
+        }
+
         const tempElement = document.createElement("div");
         tempElement.appendChild(range.cloneContents());
         const copiedHeadings = tempElement.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6");
@@ -105,15 +113,18 @@ class IR {
             hidePanel(vditor, ["hint"]);
         });
 
-        this.element.addEventListener("compositionstart", (event: InputEvent) => {
+        this.element.addEventListener("compositionstart", () => {
             this.composingLock = true;
         });
 
-        this.element.addEventListener("compositionend", (event: InputEvent) => {
+        this.element.addEventListener("compositionend", () => {
             if (!isFirefox()) {
                 input(vditor, getSelection().getRangeAt(0).cloneRange());
             }
             this.composingLock = false;
+            if (vditor.options.undoDelay === 0 && !isFirefox()) {
+                vditor.undo.addToUndoStack(vditor);
+            }
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {
@@ -179,7 +190,8 @@ class IR {
             }
             // 打开链接
             const aElement = hasClosestByAttribute(event.target, "data-type", "a");
-            if (aElement && (!aElement.classList.contains("vditor-ir__node--expand"))) {
+            if (aElement && (vditor.options.link.ctrlClick ? isCtrl(event) :
+                !aElement.classList.contains("vditor-ir__node--expand"))) {
                 if (vditor.options.link.click) {
                     vditor.options.link.click(aElement.querySelector(":scope > .vditor-ir__marker--link"));
                 } else if (vditor.options.link.isOpen) {

@@ -3,6 +3,7 @@ import {setContentTheme} from "../ui/setContentTheme";
 import {addScript} from "../util/addScript";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {merge} from "../util/merge";
+import {bindTableWheel} from "../util/tableWheel";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -35,6 +36,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         markdown: Constants.MARKDOWN_OPTIONS,
         math: Constants.MATH_OPTIONS,
         mode: "light",
+        plantuml: Constants.PLANTUML_OPTIONS,
         speech: {
             enable: false,
         },
@@ -70,6 +72,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             fixTermTypo: mergedOptions.markdown.fixTermTypo,
             footnotes: mergedOptions.markdown.footnotes,
             headingAnchor: mergedOptions.anchor !== 0,
+            imgPathAllowSpace: mergedOptions.markdown.imgPathAllowSpace,
             inlineMathDigit: mergedOptions.math.inlineDigit,
             lazyLoadImage: mergedOptions.lazyLoadImage,
             linkBase: mergedOptions.markdown.linkBase,
@@ -103,6 +106,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
+    bindTableWheel(previewElement);
 
     if (!mergedOptions.i18n) {
         if (!["de_DE", "en_US", "es_ES", "fr_FR", "ja_JP", "ko_KR", "pt_BR", "ru_RU", "sv_SE", "vi_VN", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
@@ -145,7 +149,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     wavedromRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
-    plantumlRender(previewElement, mergedOptions.cdn);
+    plantumlRender(previewElement, mergedOptions.cdn, mergedOptions.plantuml);
     abcRender(previewElement, mergedOptions.cdn);
     if (mergedOptions.render.media.enable) {
         mediaRender(previewElement);

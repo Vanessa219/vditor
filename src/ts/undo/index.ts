@@ -4,9 +4,12 @@ import {isFirefox, isSafari} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {execAfterRender} from "../util/fixBrowserBehavior";
 import {highlightToolbar} from "../util/highlightToolbar";
-import {processCodeRender} from "../util/processCode";
+import {highlightEditableCode, processCodeRender} from "../util/processCode";
+import {normalizeCodeDOM} from "../util/codeDOM";
 import {setRangeByWbr, setSelectionFocus} from "../util/selection";
 import {renderToc} from "../util/toc";
+import {codeRender} from "../markdown/codeRender";
+import {highlightRender} from "../markdown/highlightRender";
 
 interface IUndo {
     hasUndo: boolean;
@@ -24,7 +27,7 @@ class Undo {
 
     constructor() {
         this.resetStack();
-        // @ts-ignore
+        // @ts-expect-error CommonJS 导出在运行时是可构造函数。
         this.dmp = new DiffMatchPatch();
     }
 
@@ -111,8 +114,14 @@ class Undo {
     }
 
     public addToUndoStack(vditor: IVditor) {
-        // afterRenderEvent.ts 已经 debounce
+        if (vditor[vditor.currentMode].composingLock) {
+            return;
+        }
         const text = this.addCaret(vditor, true);
+        if (this[vditor.currentMode].undoStack.length > 0 &&
+            text.replace("<wbr>", "") === this[vditor.currentMode].lastText.replace("<wbr>", "")) {
+            return;
+        }
         const diff = this.dmp.diff_main(text, this[vditor.currentMode].lastText, true);
         const patchList = this.dmp.patch_make(text, this[vditor.currentMode].lastText, diff);
         if (patchList.length === 0 && this[vditor.currentMode].undoStack.length > 0) {
@@ -174,9 +183,12 @@ class Undo {
                 });
             if (!vditor[vditor.currentMode].element.querySelector("wbr")) {
                 // Safari 第一次输入没有光标，需手动定位到结尾
-                const range = getSelection().getRangeAt(0);
-                range.setEndBefore(vditor[vditor.currentMode].element);
+                const element = vditor[vditor.currentMode].element;
+                const range = element.ownerDocument.createRange();
+                range.selectNodeContents(element);
                 range.collapse(false);
+                element.focus();
+                setSelectionFocus(range);
             } else {
                 setRangeByWbr(
                     vditor[vditor.currentMode].element, vditor[vditor.currentMode].element.ownerDocument.createRange());
@@ -198,6 +210,15 @@ class Undo {
         vditor[vditor.currentMode].element.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='2']`)
             .forEach((item: HTMLElement) => {
                 processCodeRender(item, vditor);
+            });
+        vditor[vditor.currentMode].element.querySelectorAll(".vditor-code__preview")
+            .forEach((item: HTMLElement) => {
+                highlightEditableCode(item, vditor);
+                codeRender(item, vditor.options.preview.hljs);
+                // 快照可能早于异步高亮完成，普通预览需补齐其渲染结果。
+                if (!item.querySelector("code.hljs")) {
+                    highlightRender(vditor.options.preview.hljs, item, vditor.options.cdn);
+                }
             });
 
         if (this[vditor.currentMode].undoStack.length > 1) {
@@ -252,6 +273,7 @@ class Undo {
         }
         // 移除数学公式、echart 渲染 https://github.com/Vanessa219/vditor/issues/1738
         const cloneElement = vditor[vditor.currentMode].element.cloneNode(true) as HTMLElement;
+        normalizeCodeDOM(cloneElement);
         cloneElement.querySelectorAll(`.vditor-${vditor.currentMode}__preview[data-render='1']`)
             .forEach((item: HTMLElement) => {
                 if (!item.firstElementChild) {

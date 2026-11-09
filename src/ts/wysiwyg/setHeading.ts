@@ -121,6 +121,10 @@ export const setHeading = (vditor: IVditor, tagName: string) => {
         } else {
             replaceBlockElement(blockElement, tagName);
         }
+        const headingElement = wbrElement.closest(tagName);
+        if (headingElement && (headingElement.textContent.includes("\n") || headingElement.querySelector("br"))) {
+            headingElement.outerHTML = vditor.lute.SpinVditorDOM(headingElement.outerHTML);
+        }
         setRangeByWbr(vditor.wysiwyg.element, range);
         renderToc(vditor);
     }

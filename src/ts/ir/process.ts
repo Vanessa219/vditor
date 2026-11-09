@@ -43,6 +43,9 @@ export const processAfterRender = (vditor: IVditor, options = {
     enableInput: true,
 }) => {
     renderImageCaptions(vditor.ir.element, "ir", vditor.options.preview.markdown.imageCaption);
+    if (options.enableAddUndoStack && vditor.options.undoDelay === 0) {
+        vditor.undo.addToUndoStack(vditor);
+    }
     if (options.enableHint) {
         processHint(vditor);
     }
@@ -72,7 +75,7 @@ export const processAfterRender = (vditor: IVditor, options = {
             vditor.devtools.renderEchart(vditor);
         }
 
-        if (options.enableAddUndoStack) {
+        if (options.enableAddUndoStack && vditor.options.undoDelay !== 0) {
             vditor.undo.addToUndoStack(vditor);
         }
     }, vditor.options.undoDelay);

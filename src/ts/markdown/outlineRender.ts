@@ -1,18 +1,30 @@
 import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {mathRender} from "./mathRender";
 
-export const outlineRender = (contentElement: HTMLElement, targetElement: Element, vditor?: IVditor) => {
+export const getOutlineHeadings = (contentElement: HTMLElement, assignIDs = false) => {
+    const headings: HTMLElement[] = [];
+    Array.from(contentElement.children).forEach((item: HTMLElement, index: number) => {
+        if (!hasClosestByHeadings(item)) {
+            return;
+        }
+        if (assignIDs) {
+            const lastIndex = item.id.lastIndexOf("_");
+            item.id = item.id.substring(0, lastIndex === -1 ? undefined : lastIndex) + "_" + index;
+        }
+        headings.push(item);
+    });
+    return headings;
+};
+
+export const outlineRender = (contentElement: HTMLElement, targetElement: Element,
+                              vditorOrClick?: IVditor | ((heading: HTMLElement, event: Event) => void)) => {
+    const vditor = typeof vditorOrClick === "function" ? undefined : vditorOrClick;
+    const click = typeof vditorOrClick === "function" ? vditorOrClick : undefined;
     let tocHTML = "";
     const ids: string[] = [];
-    Array.from(contentElement.children).forEach((item: HTMLElement, index: number) => {
-        if (hasClosestByHeadings(item)) {
-            if (vditor) {
-                const lastIndex = item.id.lastIndexOf("_");
-                item.id = item.id.substring(0, lastIndex === -1 ? undefined : lastIndex) + "_" + index;
-            }
-            ids.push(item.id);
-            tocHTML += item.outerHTML.replace("<wbr>", "");
-        }
+    getOutlineHeadings(contentElement, !!vditor).forEach(item => {
+        ids.push(item.id);
+        tocHTML += item.outerHTML.replace("<wbr>", "");
     });
     if (tocHTML === "") {
         targetElement.innerHTML = "";
@@ -77,17 +89,34 @@ export const outlineRender = (contentElement: HTMLElement, targetElement: Elemen
             } else if (target.getAttribute("data-target-id")) {
                 event.preventDefault();
                 event.stopPropagation();
-                const idElement = document.getElementById(target.getAttribute("data-target-id"));
+                const idElement = Array.from(contentElement.children).find(item =>
+                    item.id === target.getAttribute("data-target-id")) as HTMLElement;
                 if (!idElement) {
+                    return;
+                }
+                if (click) {
+                    click(idElement, event);
                     return;
                 }
                 if (vditor) {
                     if (vditor.options.height === "auto") {
-                        let windowScrollY = idElement.offsetTop + vditor.element.offsetTop;
-                        if (!vditor.options.toolbarConfig.pin) {
-                            windowScrollY += vditor.toolbar.element.offsetHeight;
+                        idElement.scrollIntoView({block: "start", inline: "nearest"});
+                        if (vditor.options.toolbarConfig.pin) {
+                            let parent = idElement.parentElement;
+                            while (parent && parent !== document.documentElement) {
+                                if (/auto|scroll/.test(getComputedStyle(parent).overflowY) &&
+                                    parent.scrollHeight > parent.clientHeight) {
+                                    break;
+                                }
+                                parent = parent.parentElement;
+                            }
+                            const offset = -vditor.toolbar.element.offsetHeight;
+                            if (parent && parent !== document.documentElement) {
+                                parent.scrollTop += offset;
+                            } else {
+                                window.scrollBy(0, offset);
+                            }
                         }
-                        window.scrollTo(window.scrollX, windowScrollY);
                     } else {
                         if (vditor.element.offsetTop < window.scrollY) {
                             window.scrollTo(window.scrollX, vditor.element.offsetTop);

@@ -322,6 +322,14 @@
             overflow: auto;
         }
 
+        p.indent--2 {
+            text-indent: 2em;
+        }
+
+        &--indent p[data-block="0"] {
+            text-indent: 2em;
+        }
+
         kbd {
             display: inline-block;
             padding: 3px 5px;
@@ -603,10 +611,25 @@
 
     &-outline {
         width: 250px;
+        max-width: calc(100% - 140px);
+        flex-shrink: 0;
         border-right: 1px solid var(--border-color);
         background-color: var(--panel-background-color);
         display: none;
         overflow: auto;
+
+        &__resize {
+            display: none;
+            width: 5px;
+            flex-shrink: 0;
+            cursor: col-resize;
+            touch-action: none;
+
+            &:hover,
+            &:focus-visible {
+                background-color: var(--border-color);
+            }
+        }
 
         &--right {
             border-right: 0;
@@ -668,6 +691,12 @@
                 transform: rotate(-90deg);
             }
         }
+    }
+}
+
+@media (pointer: coarse) {
+    .vditor-outline__resize {
+        width: 16px;
     }
 }
 

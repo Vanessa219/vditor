@@ -2,12 +2,16 @@ import {Constants} from "../constants";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
+import {bindTableWheel} from "../util/tableWheel";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
 export const initUI = (vditor: IVditor) => {
   vditor.element.innerHTML = "";
   vditor.element.classList.add("vditor");
+  [vditor.wysiwyg.element, vditor.ir.element].forEach(element => {
+    element.classList.toggle("vditor-reset--indent", !!vditor.options.preview.markdown.paragraphBeginningSpace);
+  });
   // 支持 RTL
   if (vditor.options.rtl) {
     vditor.element.setAttribute("dir", "rtl")
@@ -35,6 +39,7 @@ export const initUI = (vditor: IVditor) => {
 
   if (vditor.options.outline.position === "left") {
     contentElement.appendChild(vditor.outline.element);
+    contentElement.appendChild(vditor.outline.resizeElement);
   }
 
   contentElement.appendChild(vditor.wysiwyg.element.parentElement);
@@ -51,6 +56,7 @@ export const initUI = (vditor: IVditor) => {
 
   if (vditor.options.outline.position === "right") {
     vditor.outline.element.classList.add("vditor-outline--right");
+    contentElement.appendChild(vditor.outline.resizeElement);
     contentElement.appendChild(vditor.outline.element);
   }
 
@@ -67,6 +73,8 @@ export const initUI = (vditor: IVditor) => {
   contentElement.appendChild(vditor.tip.element);
 
   vditor.element.appendChild(contentElement);
+  vditor.outline.bindResize(vditor);
+  bindTableWheel(vditor.element);
 
   contentElement.addEventListener("click", () => {
     hidePanel(vditor, ["subToolbar"]);
@@ -85,7 +93,7 @@ export const initUI = (vditor: IVditor) => {
   if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== "undefined") {
     // https://github.com/Vanessa219/vditor/issues/379
     let pendingUpdate = false;
-    const viewportHandler = (event: Event) => {
+    const viewportHandler = () => {
       if (pendingUpdate) {
         return;
       }

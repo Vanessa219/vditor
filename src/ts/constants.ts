@@ -57,6 +57,7 @@ export abstract class Constants {
         codeBlockPreview: true,
         fixTermTypo: false,
         footnotes: true,
+        imgPathAllowSpace: false,
         imageCaption: false,
         linkBase: "",
         linkPrefix: "",
@@ -79,6 +80,9 @@ export abstract class Constants {
         engine: "KaTeX",
         inlineDigit: false,
         macros: {},
+    };
+    public static readonly PLANTUML_OPTIONS: IPlantumlOptions = {
+        server: "https://www.plantuml.com/plantuml/svg/",
     };
     public static readonly THEME_OPTIONS = {
         current: "light",

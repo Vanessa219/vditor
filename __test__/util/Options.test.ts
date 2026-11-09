@@ -3,6 +3,11 @@ globalAny.VDITOR_VERSION = "version";
 import {Options} from "../../src/ts/util/Options";
 
 describe("Options", () => {
+    test("link modifier clicks are opt-in", () => {
+        expect(new Options({cache: {enable: false}}).merge().link).toEqual({isOpen: true, ctrlClick: false});
+        expect(new Options({cache: {enable: false}, link: {ctrlClick: true}}).merge().link)
+            .toEqual({isOpen: true, ctrlClick: true});
+    });
     const cache = {
         enable: true,
         id: "vditorTest",
@@ -122,6 +127,7 @@ describe("Options", () => {
                 footnotes: true,
                 gfmAutoLink: true,
                 imageCaption: false,
+                imgPathAllowSpace: false,
                 linkBase: "",
                 linkPrefix: "",
                 listStyle: false,

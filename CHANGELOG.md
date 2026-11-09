@@ -2,6 +2,22 @@
 
 ### 4.x 升级
 
+* 4.0.2
+  * WYSIWYG 和 IR 模式的左右方向键跳过任务列表复选框及分隔空格，保留 Markdown 和原有选择、删除规则
+  * 添加 options.link.ctrlClick，编辑区可使用普通点击编辑、Ctrl/⌘ 点击跳转链接，默认关闭
+  * 添加 options.preview.markdown.imgPathAllowSpace，允许图片和链接路径包含空格，默认关闭
+  * 添加 options.outline.width，大纲边界支持拖拽及键盘调整
+  * 添加 options.configChange，可保存并恢复编辑器偏好快照
+  * 添加 outlineRender 的 click 回调，可接管展现模式的大纲导航
+  * 添加 options.tips，可接管消息提示的显示与隐藏
+  * 添加 index.mjs 和 method.mjs ESM 产物，保留 UMD / CommonJS 入口
+  * 外链图片转存的 JSON 请求支持 options.upload.extraData 中的字符串参数
+  * 添加 options.upload.linkToImgHandler，自定义外链图片转存
+  * 添加 getOutline 方法，返回标题文本、级别和 ID
+  * 支持将 AAC 音频链接和上传文件渲染为播放器
+  * Graphviz 渲染运行时升级为 Viz.js 3.31.0，需要浏览器支持 WebAssembly 和 Worker
+  * 添加 options.plantuml.server 参数，可替换默认的 plantuml.com 服务地址
+  * 添加 options.plantuml.renderer 参数，可接管渲染，无需 PlantUML 服务即可离线出图
 * 4.0.1
   * 添加 options.preview.markdown.inlineMath 参数
 * 4.0.0
@@ -14,6 +30,26 @@
 ### v4.0.2
 
 * [粘贴网址时使用网址作为默认链接文字](https://github.com/Vanessa219/vditor/pull/1899) `改进功能`
+* [支持普通点击编辑链接，Ctrl 或 ⌘ 点击跳转](https://github.com/Vanessa219/vditor/issues/1330) `改进功能`
+* [修复 Mermaid 图表的点击回调未绑定](https://github.com/Vanessa219/vditor/issues/1877) `修复缺陷`
+* [表格横向溢出时可使用普通滚轮左右滚动](https://github.com/Vanessa219/vditor/issues/1048) `改进功能`
+* [空的配对标记支持同时删除两侧符号](https://github.com/Vanessa219/vditor/issues/836) `改进功能`
+* [选中文本后输入引号、反引号及括号可包裹所选内容](https://github.com/Vanessa219/vditor/issues/1417) `改进功能`
+* [支持拖拽调整大纲宽度](https://github.com/Vanessa219/vditor/issues/854) `改进功能`
+* [支持监听编辑器偏好设置操作](https://github.com/Vanessa219/vditor/issues/1896) `改进功能`
+* [支持自定义展现模式的大纲点击事件](https://github.com/Vanessa219/vditor/issues/1006) `改进功能`
+* [支持自定义消息提示接口](https://github.com/Vanessa219/vditor/issues/982) `改进功能`
+* [打字机模式在方向键及行首行尾翻页导航后居中光标](https://github.com/Vanessa219/vditor/issues/705) `改进功能`
+* [触屏设备隐藏标题菜单中的快捷键提示](https://github.com/Vanessa219/vditor/issues/1887) `改进功能`
+* [修复自定义按钮禁用后提示不消失](https://github.com/Vanessa219/vditor/issues/1875) `修复缺陷`
+* [支持跨单元格复制粘贴表格内容](https://github.com/Vanessa219/vditor/issues/905) `改进功能`
+* [更新 Graphviz 运行时，移除旧版 zlib 依赖](https://github.com/Vanessa219/vditor/issues/1891) `修复缺陷`
+* [支持自定义 PlantUML 服务地址，或注入渲染器实现无需 PlantUML 服务的离线渲染](https://github.com/Vanessa219/vditor/issues/1910) `引入特性`
+* [修复撤销和重做后代码块复制失效](https://github.com/siyuan-note/siyuan/issues/21289) `修复缺陷`
+* [修复撤销后普通代码块预览高亮丢失](https://github.com/siyuan-note/siyuan/issues/21256) `修复缺陷`
+* [修复撤销到空文档时光标移出编辑区](https://github.com/siyuan-note/siyuan/issues/21288) `修复缺陷`
+* [支持逐次记录编辑操作的撤销模式](https://github.com/siyuan-note/siyuan/issues/21255) `改进功能`
+* [改进即时渲染和所见即所得模式下普通代码块的重复预览](https://github.com/siyuan-note/siyuan/issues/21192) `改进功能`
 
 ### v4.0.1 / 2026-10-18
 

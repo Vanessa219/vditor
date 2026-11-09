@@ -57,6 +57,9 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 ## ✨  特性
 
 * 支持三种编辑模式：所见即所得（wysiwyg）、即时渲染（ir）、分屏预览（sv）
+* 选中文本后输入引号、反引号或左括号可包裹所选内容，支持中英文配对符号及撤销重做
+* 光标位于空的配对符号中间时，Backspace 或 Delete 可同时删除两侧符号，支持括号、引号、反引号及空的 `*`、`~`、`$` 对
+* 鼠标悬停在横向溢出的表格中时，普通滚轮可横向滚动表格；到达边界后继续滚动页面，保留触控板横向滚动及浏览器缩放操作
 * 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、数字波形图、五线谱、[多媒体](https://ld246.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染、[plantuml](https://plantuml.com)UML图
 * 导出、图片懒加载、任务列表、多平台预览、多主题切换、复制到微信公众号/知乎功能
 * 实现 CommonMark 和 GFM 规范，可对 Markdown 进行格式化和语法树查看，并支持[10+项](https://ld246.com/article/1549638745630#options-preview-markdown)配置
@@ -95,6 +98,10 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 传统的*分屏预览*模式适合大屏下的 Markdown 编辑。
 
 ![vditor-sv](https://b3logfile.com/file/2020/07/sv-595dcb28.gif)
+
+### 任务列表导航
+
+WYSIWYG 和 IR 模式中，单独按左右方向键会跳过任务列表复选框及分隔空格，在正文之间移动。文档开头的任务会将光标留在正文开头。Shift 选择、修饰键和 Backspace 沿用现有规则，Markdown 中的空格保持不变。
 
 ## 🍱 语法支持
 
@@ -142,6 +149,17 @@ import "~vditor/src/assets/less/index"
 
 const vditor = new Vditor(id, {options...})
 ```
+
+### ESM
+
+支持 `module` 字段的打包工具会使用 `dist/index.mjs`，也可以直接导入 ESM 入口；静态渲染方法位于 `dist/method.mjs`。样式仍需单独引入，UMD / CommonJS 入口保持可用。
+
+```ts
+import Vditor from "vditor/dist/index.mjs";
+import "vditor/dist/index.css";
+```
+
+在浏览器中使用 `<script type="module">` 时，将导入地址替换为自托管的 `.mjs` 地址，并通过 `<link>` 加载 `index.css`。
 
 ### HTML script
 
@@ -217,7 +235,9 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | select(value: string) | 编辑器中选中文字后触发 | - |
 | unSelect() | 编辑器中未选中文字后触发 | - |
 | tab | <kbd>tab</kbd> 键操作字符串，支持 `\t` 及任意字符串 | - |
-| typewriterMode | 是否启用打字机模式 | false |
+| typewriterMode | 是否启用打字机模式；输入及方向键、Home/End、PageUp/PageDown 导航后居中光标 | false |
+| tips: {show(text: string, time: number): void, hide(): void} | 接管消息提示；time 单位为毫秒，0 表示持续显示；到期、手动隐藏和销毁时调用 hide，替换消息会重置计时 | - |
+| configChange(preferences: IEditorPreferences): void | 编辑模式、主题、内容主题、代码主题、大纲显隐及分屏预览设置操作后的回调；不在初始化或正文输入时调用。快照可 JSON 序列化后保存，并作为下一次初始化选项合并传入；Vditor 不自动持久化 | - |
 | cdn | 配置自建 CDN 地址 | `https://unpkg.com/vditor@${VDITOR_VERSION}` |
 | mode | 可选模式：sv, ir, wysiwyg | 'ir' |
 | debugger | 是否显示日志 | false |
@@ -341,6 +361,7 @@ new Vditor('vditor', {
 | mark | 启用 mark 标记 | false |
 | sup | 上标 | false |
 | sub | 下标 | false |
+| imgPathAllowSpace | 允许图片和链接路径包含未转义的空格 | false |
 
 #### options.preview.theme
 
@@ -378,6 +399,44 @@ new Vditor('vditor', {
 |--------|-----------|------|
 | enable | 是否启用多媒体渲染 | true |
 
+#### options.plantuml
+
+|   | 说明 | 默认值 |
+| - | - | - |
+| server | PlantUML 服务地址，需以 `/` 结尾 | `https://www.plantuml.com/plantuml/svg/` |
+| renderer(code: string, element: HTMLElement) | 自定义渲染。传入后不再请求 PlantUML 服务，可用于接入离线渲染引擎 | - |
+
+不配置时使用 PlantUML 官方服务，自建服务只需替换地址：
+
+```js
+new Vditor('vditor', {
+  plantuml: {server: 'https://plantuml.example.com/plantuml/svg/'},
+})
+```
+
+需要浏览器端完全离线渲染时，可在应用中安装 [@plantuml/core](https://www.npmjs.com/package/@plantuml/core) 与 [@viz-js/viz](https://www.npmjs.com/package/@viz-js/viz) 这两个 npm 包，在 `renderer` 中调用：
+
+```js
+import Vditor from 'vditor'
+
+const renderPlantuml = async (code) => {
+  const viz = await import('@viz-js/viz')
+  globalThis.PLANTUML_VIZ = viz
+  const {renderToString} = await import('@plantuml/core')
+  return new Promise((resolve, reject) => {
+    renderToString(code.split(/\r\n|\r|\n/), resolve, reject)
+  })
+}
+
+new Vditor('vditor', {
+  plantuml: {
+    renderer: async (code, element) => {
+      element.innerHTML = await renderPlantuml(code)
+    },
+  },
+})
+```
+
 #### options.image
 
 |   | 说明 | 默认值 |
@@ -390,6 +449,7 @@ new Vditor('vditor', {
 |   | 说明 | 默认值 |
 | - | - | - |
 | isOpen | 是否打开链接地址 | true |
+| ctrlClick | 编辑区普通点击编辑链接，Ctrl（macOS 为 ⌘）点击才跳转；不影响预览区 | false |
 | click(bom: Element) => void | 点击链接事件 | - |
 
 #### options.hint
@@ -481,6 +541,7 @@ if (xhr.status === 200) {
 | url | 上传 url，为空则不会触发上传相关事件 | '' |
 | max | 上传文件最大 Byte | 10 * 1024 * 1024 |
 | linkToImgUrl | 剪切板中包含图片地址时，使用此 url 重新上传 | '' |
+| linkToImgHandler(url: string): string \| Promise&lt;string&gt; | 自定义外链图片转存，返回替换 URL；空字符串保留原图，抛出异常显示错误；优先于 linkToImgUrl，接管请求时不调用 linkToImgFormat / linkToImgCallback | - |
 | linkToImgCallback(responseText: string) | 图片地址上传回调 | - |
 | linkToImgFormat(responseText: string): string | 对图片地址上传的返回值进行格式化 | - |
 | success(editor: HTMLPreElement, msg: string) | 上传成功回调 | - |
@@ -496,7 +557,7 @@ if (xhr.status === 200) {
 | file(files: File[]): File[] \| Promise<File[]> | 将上传的文件处理后再返回 | - |
 | cancel(files: File[]): void | 取消正在上传的文件 | - |
 | setHeaders(): { [key: string]: string } | 上传前使用返回值设置头 | - |
-| extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数 | - |
+| extraData: { [key: string]: string \| Blob } | 为 FormData 添加额外的参数；linkToImgUrl 的 JSON 请求仅发送字符串值，url 始终为当前图片地址 | - |
 | multiple | 上传文件是否为多个 | true |
 | fieldName | 上传字段名称 | 'file[]' |
 | renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number] | 处理剪贴板中的图片地址 | '' |
@@ -527,6 +588,7 @@ if (xhr.status === 200) {
 | - | - | - |
 | enable | 初始化是否展现大纲 | false |
 | position | 大纲位置：'left', 'right' | 'left' |
+| width | 初始宽度（像素）；未设置时使用 CSS 宽度。可拖动边界调整，或聚焦分隔条后用左右方向键（Shift 加大步长）、Home/End 调整；宽度可通过 configChange 保存 | - |
 
 #### methods
 
@@ -534,6 +596,7 @@ if (xhr.status === 200) {
 | - | - |
 | exportJSON(markdown: string) | 根据 Markdown 获取对应 JSON |
 | getValue() | 获取 Markdown 内容 |
+| getOutline(): IOutlineItem[] | 获取与内置大纲范围一致的顶层标题，返回文本 text、标题级别 level 和标题 ID id；SV 模式下的 ID 对应内置预览渲染后的标题 |
 | getHTML() | 获取 HTML 内容 |
 | insertValue(value: string, render = true) | 在焦点处插入内容，并默认进行 Markdown 渲染 |
 | focus() | 聚焦到编辑器 |
@@ -621,12 +684,12 @@ options?: IPreviewOptions {
 | md2html(mdText: string, options?: IPreviewOptions): Promise\<string> | Markdown 文本转换为 HTML，该方法需使用[异步编程](https://ld246.com/article/1546828434083?r=Vanessa#toc_h3_1) |
 | preview(previewElement: HTMLDivElement, markdown: string, options?: IPreviewOptions) | 页面 Markdown 文章渲染 |
 | highlightRender(hljsOption?: IHljs, element?: HTMLElement \| Document, cdn = options.cdn) | 为 element 中的代码块进行高亮渲染 |
-| mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频、嵌入的 iframe |
+| mediaRender(element: HTMLElement) | 为[特定链接](https://ld246.com/article/1589813914768)分别渲染为视频、音频（含 AAC）、嵌入的 iframe |
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
-| graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
+| graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染，需要浏览器支持 WebAssembly 和 Worker |
 | wavedromRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 对数字波形图进行渲染 |
-| outlineRender(contentElement: HTMLElement, targetElement: Element) | 对大纲进行渲染 |
+| outlineRender(contentElement: HTMLElement, targetElement: Element, click?: (heading: HTMLElement, event: Event) => void) | 对大纲进行渲染；配置 click 后由调用方处理标题点击及滚动，折叠按钮保持原有行为；第三参数仍兼容原有 IVditor |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | 对启用懒加载的图片进行渲染 |
 | setCodeTheme(codeTheme: string, cdn = options.cdn) | 设置代码主题，codeTheme 参见 options.preview.hljs.style |
 | setContentTheme(contentTheme: string, path: string) | 设置内容主题，contentTheme 参见 options.preview.theme.list |

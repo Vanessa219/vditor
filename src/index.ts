@@ -8,6 +8,7 @@ import {input as irInput} from "./ts/ir/input";
 import {processAfterRender} from "./ts/ir/process";
 import {getHTML} from "./ts/markdown/getHTML";
 import {getMarkdown} from "./ts/markdown/getMarkdown";
+import {getOutlineHeadings} from "./ts/markdown/outlineRender";
 import {setLute} from "./ts/markdown/setLute";
 import {Outline} from "./ts/outline/index";
 import {Preview} from "./ts/preview/index";
@@ -25,10 +26,11 @@ import {setPreviewMode} from "./ts/ui/setPreviewMode";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo/index";
 import {Upload} from "./ts/upload/index";
-import {addScript, addScriptSync} from "./ts/util/addScript";
+import {addScript} from "./ts/util/addScript";
 import {getSelectText} from "./ts/util/getSelectText";
 import {Options} from "./ts/util/Options";
 import {processCodeRender} from "./ts/util/processCode";
+import {notifyConfigChange} from "./ts/util/notifyConfigChange";
 import {getCursorPosition, getEditorRange, insertHTML} from "./ts/util/selection";
 import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {WYSIWYG} from "./ts/wysiwyg/index";
@@ -88,8 +90,8 @@ class Vditor extends VditorMethod {
                 });
                 addScript(`${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`, i18nScriptID).then(() => {
                     this.init(id as HTMLElement, mergedOptions);
-                }).catch(error => {
-                    this.showErrorTip(`GET ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js net::ERR_ABORTED 404 (Not Found)`);
+                }, () => {
+                    this.showErrorTip(`Failed to load ${mergedOptions.cdn}/dist/js/i18n/${mergedOptions.lang}.js`);
                 });
             }
         } else {
@@ -125,11 +127,24 @@ class Vditor extends VditorMethod {
             this.vditor.options.preview.hljs.style = codeTheme;
             setCodeTheme(codeTheme, this.vditor.options.cdn);
         }
+        notifyConfigChange(this.vditor);
     }
 
     /** 获取 Markdown 内容 */
     public getValue() {
         return getMarkdown(this.vditor);
+    }
+
+    public getOutline(): IOutlineItem[] {
+        const content = document.createElement("div");
+        content.innerHTML = getHTML(this.vditor);
+        const rendered = getOutlineHeadings(content);
+        const source = this.vditor.currentMode === "sv" ? content : this.vditor[this.vditor.currentMode].element;
+        return getOutlineHeadings(source, true).map((heading, index) => ({
+            text: (rendered[index] || heading).textContent.replace(/\u200b/g, ""),
+            level: Number(heading.tagName.substring(1)),
+            id: heading.id,
+        }));
     }
 
     /** 获取编辑器当前编辑模式 */
@@ -398,6 +413,8 @@ class Vditor extends VditorMethod {
 
     /** 销毁编辑器 */
     public destroy() {
+        this.vditor.hint.destroy();
+        this.vditor.tip.hide();
         this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
         this.vditor.element.classList.remove("vditor");
         this.vditor.element.removeAttribute("style");
@@ -528,7 +545,7 @@ class Vditor extends VditorMethod {
             options: mergedOptions,
             originalInnerHTML: id.innerHTML,
             outline: new Outline(window.VditorI18n.outline),
-            tip: new Tip(),
+            tip: new Tip(mergedOptions.tips),
         };
 
         this.vditor.sv = new Editor(this.vditor);
@@ -566,6 +583,7 @@ class Vditor extends VditorMethod {
                 fixTermTypo: this.vditor.options.preview.markdown.fixTermTypo,
                 footnotes: this.vditor.options.preview.markdown.footnotes,
                 headingAnchor: false,
+                imgPathAllowSpace: this.vditor.options.preview.markdown.imgPathAllowSpace,
                 inlineMathDigit: this.vditor.options.preview.math.inlineDigit,
                 linkBase: this.vditor.options.preview.markdown.linkBase,
                 linkPrefix: this.vditor.options.preview.markdown.linkPrefix,
@@ -590,7 +608,7 @@ class Vditor extends VditorMethod {
             }
             if (mergedOptions.icon) {
                 // 防止初始化 2 个编辑器时加载 2 次
-                addScriptSync(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+                addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
             }
         });
     }

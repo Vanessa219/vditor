@@ -36,6 +36,12 @@ interface IObject {
     [key: string]: string;
 }
 
+interface IOutlineItem {
+    text: string;
+    level: number;
+    id: string;
+}
+
 interface ILuteNode {
     TokensStr: () => string;
     __internal_object__: {
@@ -216,6 +222,8 @@ declare class Lute {
 
     public SetSup(enable: boolean): void;
 
+    public SetImgPathAllowSpace(enable: boolean): void;
+
     public PutEmojis(emojis: IObject): void;
 
     public GetEmojis(): IObject;
@@ -392,6 +400,9 @@ interface IUpload {
     /** 剪切板中包含图片地址时，使用此 url 重新上传 */
     linkToImgUrl?: string;
 
+    /** 自定义外链图片转存，返回替换 URL；空字符串保留原图，异常通过提示显示；优先于 linkToImgUrl */
+    linkToImgHandler?(url: string): string | Promise<string>;
+
     /** 剪切板中包含图片地址时，使用此方法进行自定义 */
     renderLinkDest?(vditor: IVditor, node: ILuteNode, entering: boolean): [string, number];
 
@@ -403,7 +414,7 @@ interface IUpload {
     withCredentials?: boolean;
     /** 请求头设置 */
     headers?: IObject;
-    /** 额外请求参数 */
+    /** 额外请求参数；linkToImgUrl 的 JSON 请求仅发送字符串值，url 字段由当前图片地址提供 */
     extraData?: {[key: string]: string | Blob};
     /** 是否允许多文件上传。默认值：true */
     multiple?: boolean;
@@ -544,6 +555,8 @@ interface IMarkdownConfig {
     sup?: boolean;
     /** 支持下标 */
     sub?: boolean;
+    /** 允许图片和链接路径包含未转义的空格。默认值: false */
+    imgPathAllowSpace?: boolean;
 }
 
 /** @link https://ld246.com/article/1549638745630#options-preview */
@@ -596,6 +609,15 @@ interface IPreviewActionCustom {
     click: (key: string) => void;
 }
 
+interface IPlantumlOptions {
+    /** PlantUML 服务地址，需以 `/` 结尾。默认值: 'https://www.plantuml.com/plantuml/svg/' */
+    server?: string;
+    /** 自定义渲染。传入后不再请求 PlantUML 服务，可用于接入离线渲染引擎，实现方式参见
+     * https://github.com/Vanessa219/vditor#optionsplantuml
+     */
+    renderer?: (code: string, element: HTMLElement) => void | Promise<void>;
+}
+
 interface IPreviewOptions {
     mode: "dark" | "light";
     customEmoji?: IObject;
@@ -615,6 +637,8 @@ interface IPreviewOptions {
     theme?: IPreviewTheme;
     icon?: "ant" | "material" | undefined;
     render?: IPreviewRender;
+    /** @link https://github.com/Vanessa219/vditor#optionsplantuml */
+    plantuml?: IPlantumlOptions;
 
     transform?(html: string): string;
 
@@ -679,6 +703,8 @@ interface IOutline {
     enable: boolean;
     /** 大纲位置：'left', 'right'。默认值: 'left' */
     position: "left" | "right";
+    /** 大纲初始宽度（像素），拖拽时更新；未设置时沿用 CSS 宽度 */
+    width?: number;
 }
 
 interface IResize {
@@ -689,10 +715,30 @@ interface IResize {
 }
 
 /** @link https://ld246.com/article/1549638745630#options */
+interface IEditorPreferences {
+    mode: "wysiwyg" | "ir" | "sv";
+    theme: "classic" | "dark";
+    preview: {
+        mode: "both" | "editor";
+        theme: {current: string};
+        hljs: {style: string};
+    };
+    outline: IOutline;
+}
+
+interface ICustomTips {
+    show(text: string, time: number): void;
+    hide(): void;
+}
+
 interface IOptions {
+    /** 工具栏、模式快捷键及主题/预览 API 操作后的偏好快照；不在初始化或正文输入时调用 */
+    configChange?(preferences: IEditorPreferences): void;
+    /** 自定义消息提示；time 为 0 时保持显示，其他情况到期调用 hide */
+    tips?: ICustomTips;
     /** RTL */
     rtl?: boolean;
-    /** 历史记录间隔 */
+    /** 历史记录间隔；0 表示在每次编辑完成时同步记录，输入法候选期间不记录中间态 */
     undoDelay?: number;
     /** 内部调试时使用 */
     _lutePath?: string;
@@ -761,10 +807,14 @@ interface IOptions {
     mode?: "wysiwyg" | "sv" | "ir";
     /** @link https://ld246.com/article/1549638745630#options-preview */
     preview?: IPreview;
+    /** @link https://github.com/Vanessa219/vditor#optionsplantuml */
+    plantuml?: IPlantumlOptions;
     /** @link https://ld246.com/article/1549638745630#options-link */
     link?: {
         /** 是否打开链接地址。默认值: true */
         isOpen?: boolean;
+        /** 编辑区链接是否按住 Ctrl（macOS 为 ⌘）点击才跳转。默认值: false */
+        ctrlClick?: boolean;
         /** 点击链接事件 */
         click?: (bom: Element) => void;
     },
@@ -854,6 +904,8 @@ interface IVditor {
     };
     outline: {
         element: HTMLElement,
+        resizeElement: HTMLElement,
+        bindResize(vditor: IVditor): void,
         render(vditor: IVditor): string,
         toggle(vditor: IVditor, show?: boolean, focus?: boolean): void,
     };
@@ -878,6 +930,8 @@ interface IVditor {
         timeId: number
         element: HTMLDivElement
         recentLanguage: string
+        hide(): void;
+        destroy(): void;
         fillEmoji(element: HTMLElement, vditor: IVditor): void
         render(vditor: IVditor): void,
         genHTML(data: IHintData[], key: string, vditor: IVditor): void

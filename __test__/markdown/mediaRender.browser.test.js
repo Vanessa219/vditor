@@ -59,7 +59,7 @@ describe("media rendering after sanitization", () => {
         };
     }, url);
 
-    it.each(["mp4", "m4v", "ogg", "ogv", "webm", "mp3", "wav", "flac"])(
+    it.each(["mp4", "m4v", "ogg", "ogv", "webm", "mp3", "wav", "flac", "aac"])(
         "keeps decoded quotes inside the %s source attribute", async (extension) => {
             const url = `x" onerror="window.mediaExecuted++" y="a.${extension}`;
             const result = await render(url);
@@ -85,6 +85,8 @@ describe("media rendering after sanitization", () => {
     it.each([
         ["https://example.com/movie.mp4", "VIDEO"],
         ["/assets/music.mp3", "AUDIO"],
+        ["/assets/recording.aac", "AUDIO"],
+        ["/assets/recording.AAC?download=1#play", "AUDIO"],
     ])("preserves normal media controls and source: %s", async (url, tag) => {
         expect(await render(url)).toMatchObject({tag, src: url, controls: true});
     });

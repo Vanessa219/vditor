@@ -50,6 +50,7 @@ export class Options {
             position: "left",
         },
         placeholder: "",
+        plantuml: Constants.PLANTUML_OPTIONS,
         preview: {
             actions: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"],
             delay: 1000,
@@ -67,6 +68,7 @@ export class Options {
         },
         link: {
             isOpen: true,
+            ctrlClick: false,
         },
         image: {
             isPreview: true,
