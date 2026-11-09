@@ -134,6 +134,18 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         if (!event.cancelable || event.defaultPrevented || event.isComposing) {
             return;
         }
+        if (event.inputType === "historyUndo" || event.inputType === "historyRedo") {
+            if (vditor[vditor.currentMode].composingLock) {
+                return;
+            }
+            event.preventDefault();
+            if (event.inputType === "historyUndo") {
+                vditor.undo.undo(vditor);
+            } else {
+                vditor.undo.redo(vditor);
+            }
+            return;
+        }
         if ((event.inputType === "insertText" && wrapSelection(vditor, event.data)) ||
             (["deleteContentBackward", "deleteContentForward"].includes(event.inputType) && deleteEmptyPair(vditor))) {
             event.preventDefault();
@@ -181,14 +193,14 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         }
 
         // undo
-        if (matchHotKey("⌘Z", event) && !vditor.toolbar.elements.undo) {
+        if (!event.isComposing && matchHotKey("⌘Z", event)) {
             vditor.undo.undo(vditor);
             event.preventDefault();
             return;
         }
 
         // redo
-        if (matchHotKey("⌘Y", event) && !vditor.toolbar.elements.redo) {
+        if (!event.isComposing && matchHotKey("⌘Y", event)) {
             vditor.undo.redo(vditor);
             event.preventDefault();
             return;

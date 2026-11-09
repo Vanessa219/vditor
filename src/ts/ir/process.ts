@@ -52,6 +52,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 
     clearTimeout(vditor.ir.processTimeoutId);
     vditor.ir.processTimeoutId = window.setTimeout(() => {
+        vditor.ir.processTimeoutId = 0;
         if (vditor.ir.composingLock) {
             return;
         }

@@ -55,10 +55,11 @@ class Undo {
     }
 
     public undo(vditor: IVditor) {
-        if (vditor.currentMode === "sv" ? vditor.sv.element.disabled :
-            vditor[vditor.currentMode].element.getAttribute("contenteditable") === "false") {
+        if (vditor[vditor.currentMode].composingLock || (vditor.currentMode === "sv" ? vditor.sv.element.disabled :
+            vditor[vditor.currentMode].element.getAttribute("contenteditable") === "false")) {
             return;
         }
+        this.flushPendingUndoStack(vditor);
         if (this[vditor.currentMode].undoStack.length < 2) {
             return;
         }
@@ -74,16 +75,26 @@ class Undo {
     }
 
     public redo(vditor: IVditor) {
-        if (vditor.currentMode === "sv" ? vditor.sv.element.disabled :
-            vditor[vditor.currentMode].element.getAttribute("contenteditable") === "false") {
+        if (vditor[vditor.currentMode].composingLock || (vditor.currentMode === "sv" ? vditor.sv.element.disabled :
+            vditor[vditor.currentMode].element.getAttribute("contenteditable") === "false")) {
             return;
         }
+        this.flushPendingUndoStack(vditor);
         const state = this[vditor.currentMode].redoStack.pop();
         if (!state) {
             return;
         }
         this[vditor.currentMode].undoStack.push(state);
         this.renderDiff(state, vditor, true);
+    }
+
+    private flushPendingUndoStack(vditor: IVditor) {
+        const timeoutId = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.afterRenderTimeoutId :
+            vditor[vditor.currentMode].processTimeoutId;
+        if (timeoutId > 0) {
+            // 输入通知、计数和缓存共用该定时器，记录快照后仍需执行回调。
+            this.addToUndoStack(vditor);
+        }
     }
 
     public recordFirstPosition(vditor: IVditor, event: KeyboardEvent) {

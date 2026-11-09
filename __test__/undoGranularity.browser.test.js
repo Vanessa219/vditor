@@ -34,7 +34,7 @@ describe("native input undo granularity", () => {
             const pathname = new URL(request.url, "http://localhost").pathname.replace(/^\/dist\//, "/");
             if (pathname === "/") {
                 response.setHeader("Content-Type", "text/html");
-                response.end('<link rel="stylesheet" href="/index.css"><div id="editor"></div>' +
+                response.end('<meta charset="utf-8"><link rel="stylesheet" href="/index.css"><div id="editor"></div>' +
                     '<script src="/index.js"></script><script src="/js/i18n/en_US.js"></script>');
                 return;
             }
@@ -59,6 +59,85 @@ describe("native input undo granularity", () => {
     });
 
     for (const mode of ["wysiwyg", "ir", "sv"]) {
+        const createDelayedEditor = async (toolbar) => {
+            await page.goto(origin);
+            await page.evaluate(async ({mode, origin, toolbar}) => {
+                window.editor = await new Promise(resolve => {
+                    const editor = new Vditor("editor", {mode, cdn: origin,
+                        _lutePath: origin + "/js/lute/lute.min.js", i18n: window.VditorI18n,
+                        undoDelay: 60000, cache: {enable: false}, toolbar, value: "base",
+                        after: () => resolve(editor)});
+                });
+                const state = window.editor.vditor;
+                state.undo.addToUndoStack(state);
+                window.editor.setValue("start");
+                const surface = state[mode].element;
+                surface.focus();
+                if (mode === "sv") surface.setSelectionRange(surface.value.length, surface.value.length);
+                else {
+                    const range = document.createRange();
+                    range.selectNodeContents(surface.lastElementChild);
+                    range.collapse(false);
+                    getSelection().removeAllRanges();
+                    getSelection().addRange(range);
+                }
+                state.undo.addToUndoStack(state);
+            }, {mode, origin, toolbar});
+        };
+
+        it(`undoes pending native keystrokes with visible and hidden toolbar actions in ${mode}`, async () => {
+            for (const toolbar of [["undo", "redo"], []]) {
+                await createDelayedEditor(toolbar);
+                await page.keyboard.type("abc");
+                await page.keyboard.down("Control");
+                await page.keyboard.press("z");
+                await page.keyboard.up("Control");
+                expect(await page.evaluate(() => window.editor.getValue().trimEnd())).toBe("start");
+                await page.keyboard.down("Control");
+                await page.keyboard.press("y");
+                await page.keyboard.up("Control");
+                expect(await page.evaluate(() => window.editor.getValue().trimEnd())).toBe("startabc");
+            }
+        });
+
+        it(`routes native history events through one editor history action in ${mode}`, async () => {
+            await createDelayedEditor(["undo", "redo"]);
+            await page.keyboard.type("abc");
+            expect(await page.evaluate(() => {
+                const state = window.editor.vditor;
+                const surface = state[state.currentMode].element;
+                const values = [];
+                const cancelled = [];
+                for (const inputType of ["historyUndo", "historyRedo"]) {
+                    cancelled.push(!surface.dispatchEvent(new InputEvent("beforeinput", {
+                        inputType, bubbles: true, cancelable: true,
+                    })));
+                    values.push(window.editor.getValue().trimEnd());
+                }
+                return {values, cancelled};
+            })).toEqual({values: ["start", "startabc"], cancelled: [true, true]});
+        });
+
+        it(`preserves composition and read-only state for native history events in ${mode}`, async () => {
+            await createDelayedEditor(["undo", "redo"]);
+            await page.keyboard.type("abc");
+            expect(await page.evaluate(() => {
+                const state = window.editor.vditor;
+                const surface = state[state.currentMode].element;
+                state[state.currentMode].composingLock = true;
+                surface.dispatchEvent(new InputEvent("beforeinput", {
+                    inputType: "historyUndo", cancelable: true, bubbles: true,
+                }));
+                const composing = window.editor.getValue().trimEnd();
+                state[state.currentMode].composingLock = false;
+                window.editor.disabled();
+                surface.dispatchEvent(new InputEvent("beforeinput", {
+                    inputType: "historyUndo", cancelable: true, bubbles: true,
+                }));
+                return {composing, disabled: window.editor.getValue().trimEnd()};
+            })).toEqual({composing: "startabc", disabled: "startabc"});
+        });
+
         for (const initialValue of ["", "start"]) {
             it(`keeps the caret inside a markerless ${JSON.stringify(initialValue)} undo snapshot in ${mode}`, async () => {
                 await page.goto(origin);

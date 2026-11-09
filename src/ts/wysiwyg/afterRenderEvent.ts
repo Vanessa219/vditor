@@ -16,6 +16,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     }
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
+        vditor.wysiwyg.afterRenderTimeoutId = 0;
         if (vditor.wysiwyg.composingLock) {
             return;
         }

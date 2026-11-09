@@ -43,6 +43,7 @@ export const processAfterRender = (vditor: IVditor, options = {
 
     clearTimeout(vditor.sv.processTimeoutId);
     vditor.sv.processTimeoutId = window.setTimeout(() => {
+        vditor.sv.processTimeoutId = 0;
         if (options.enableAddUndoStack && vditor.options.undoDelay !== 0 && !vditor.sv.composingLock) {
             vditor.undo.addToUndoStack(vditor);
         }

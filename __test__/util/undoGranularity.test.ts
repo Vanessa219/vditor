@@ -136,4 +136,79 @@ describe.each(["wysiwyg", "ir", "sv"] as const)("undo granularity in %s", (mode)
         vditor.undo.undo(vditor);
         expect(value()).toBe("start");
     });
+
+    it("captures delayed edits before immediate undo and redo", () => {
+        vditor.options.undoDelay = 800;
+        edit("starta");
+        edit("startab");
+        vditor.undo.undo(vditor);
+        expect(value()).toBe("start");
+        vditor.undo.redo(vditor);
+        expect(value()).toBe("startab");
+        jest.advanceTimersByTime(800);
+        vditor.undo.undo(vditor);
+        expect(value()).toBe("start");
+    });
+
+    it("discards stale redo when a new delayed edit branches history", () => {
+        vditor.options.undoDelay = 800;
+        edit("starta");
+        jest.advanceTimersByTime(800);
+        vditor.undo.undo(vditor);
+        edit("replacement");
+        vditor.undo.redo(vditor);
+        expect(value()).toBe("replacement");
+        vditor.undo.undo(vditor);
+        expect(value()).toBe("start");
+        vditor.undo.redo(vditor);
+        expect(value()).toBe("replacement");
+    });
+
+    it("preserves input, counter and cache callbacks after redo without redo history", () => {
+        vditor.options.undoDelay = 800;
+        vditor.options.counter.enable = true;
+        vditor.counter = {render: jest.fn()} as unknown as IVditor["counter"];
+        vditor.options.cache = {enable: true, id: "undo-regression", after: jest.fn()};
+        edit("starta");
+        vditor.undo.redo(vditor);
+        expect(value()).toBe("starta");
+        jest.advanceTimersByTime(800);
+        expect(vditor.options.input).toHaveBeenLastCalledWith(getMarkdown(vditor));
+        expect(vditor.counter.render).toHaveBeenLastCalledWith(vditor, getMarkdown(vditor));
+        expect(localStorage.getItem("undo-regression")).toBe(getMarkdown(vditor));
+        expect(vditor.options.cache.after).toHaveBeenLastCalledWith(getMarkdown(vditor));
+        vditor.undo.undo(vditor);
+        expect(value()).toBe("start");
+        localStorage.clear();
+    });
+
+    it("leaves composition candidates intact when history is requested", () => {
+        vditor.options.undoDelay = 800;
+        edit("starta");
+        jest.advanceTimersByTime(800);
+        vditor[mode].composingLock = true;
+        edit("startani");
+        vditor.undo.undo(vditor);
+        vditor.undo.redo(vditor);
+        expect(value()).toBe("startani");
+        vditor[mode].composingLock = false;
+        edit("starta你");
+        vditor.undo.undo(vditor);
+        expect(value()).toBe("starta");
+    });
+
+    it("does not snapshot edits in a read-only editor", () => {
+        vditor.options.undoDelay = 800;
+        edit("starta");
+        if (mode === "sv") {
+            (element as HTMLTextAreaElement).disabled = true;
+        } else {
+            element.setAttribute("contenteditable", "false");
+        }
+        const addToUndoStack = jest.spyOn(vditor.undo, "addToUndoStack");
+        vditor.undo.undo(vditor);
+        vditor.undo.redo(vditor);
+        expect(addToUndoStack).not.toHaveBeenCalled();
+        expect(value()).toBe("starta");
+    });
 });
