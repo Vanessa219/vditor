@@ -44,17 +44,20 @@ export abstract class Constants {
         "stackoverflow-light", "tokyo-night-light", "vs", "xcode", "default"];
     public static readonly ALIAS_CODE_LANGUAGES: string[] = [
         // 自定义
-        "abc", "plantuml", "mermaid", "flowchart", "echarts", "mindmap", "graphviz", "math", "markmap", "smiles",
+        "abc", "plantuml", "mermaid", "flowchart", "echarts", "mindmap", "graphviz", "wavedrom", "math", "markmap", "smiles",
         // 别名
         "js", "ts", "html", "toml", "c#", "bat"
     ];
     public static readonly CDN = `https://unpkg.com/vditor@${VDITOR_VERSION}`;
     public static readonly MARKDOWN_OPTIONS = {
         autoSpace: false,
+        callout: true,
+        inlineMath: true,
         gfmAutoLink: true,
         codeBlockPreview: true,
         fixTermTypo: false,
         footnotes: true,
+        imageCaption: false,
         linkBase: "",
         linkPrefix: "",
         listStyle: false,

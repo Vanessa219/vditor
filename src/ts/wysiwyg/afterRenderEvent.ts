@@ -1,4 +1,5 @@
 import {getMarkdown} from "../markdown/getMarkdown";
+import {renderImageCaptions} from "../markdown/imageCaptionRender";
 import {accessLocalStorage} from "../util/compatibility";
 
 export const afterRenderEvent = (vditor: IVditor, options = {
@@ -6,6 +7,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
+    renderImageCaptions(vditor.wysiwyg.element, "wysiwyg", vditor.options.preview.markdown.imageCaption);
     if (options.enableHint) {
         vditor.hint.render(vditor);
     }

@@ -3,6 +3,9 @@ import {isChrome} from "./compatibility";
 import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
 
 export const getEditorRange = (vditor: IVditor) => {
+    if (vditor.currentMode === "sv") {
+        throw new Error("SV mode uses textarea selection");
+    }
     let range: Range;
     const element = vditor[vditor.currentMode].element;
     if (getSelection().rangeCount > 0) {
@@ -11,8 +14,9 @@ export const getEditorRange = (vditor: IVditor) => {
             return range;
         }
     }
-    if (vditor[vditor.currentMode].range) {
-        return vditor[vditor.currentMode].range;
+    const lastRange = vditor.currentMode === "ir" ? vditor.ir.range : vditor.wysiwyg.range;
+    if (lastRange) {
+        return lastRange;
     }
     element.focus();
     range = element.ownerDocument.createRange();
@@ -250,7 +254,11 @@ export const insertHTML = (html: string, vditor: IVditor) => {
 
     const range = getEditorRange(vditor);
     if (range.toString() !== "") {
-        vditor[vditor.currentMode].preventInput = true;
+        if (vditor.currentMode === "ir") {
+            vditor.ir.preventInput = true;
+        } else if (vditor.currentMode === "wysiwyg") {
+            vditor.wysiwyg.preventInput = true;
+        }
         document.execCommand("delete", false, "");
     }
 

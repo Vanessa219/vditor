@@ -34,7 +34,11 @@ export class Record extends MenuItem {
                     };
                     mediaRecorder.startRecordingNewWavFile();
                     vditor.tip.show(window.VditorI18n.recording);
-                    editorElement.setAttribute("contenteditable", "false");
+                    if (vditor.currentMode === "sv") {
+                        vditor.sv.element.disabled = true;
+                    } else {
+                        editorElement.setAttribute("contenteditable", "false");
+                    }
                     this.element.children[0].classList.add("vditor-menu--current");
                 }).catch(() => {
                     vditor.tip.show(window.VditorI18n["record-tip"]);
@@ -51,7 +55,11 @@ export class Record extends MenuItem {
                 this.element.children[0].classList.remove("vditor-menu--current");
             } else {
                 vditor.tip.show(window.VditorI18n.recording);
-                editorElement.setAttribute("contenteditable", "false");
+                if (vditor.currentMode === "sv") {
+                    vditor.sv.element.disabled = true;
+                } else {
+                    editorElement.setAttribute("contenteditable", "false");
+                }
                 mediaRecorder.startRecordingNewWavFile();
                 this.element.children[0].classList.add("vditor-menu--current");
             }

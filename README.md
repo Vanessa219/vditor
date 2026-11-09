@@ -57,7 +57,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 ## ✨  特性
 
 * 支持三种编辑模式：所见即所得（wysiwyg）、即时渲染（ir）、分屏预览（sv）
-* 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、五线谱、[多媒体](https://ld246.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染、[plantuml](https://plantuml.com)UML图
+* 支持大纲、数学公式、脑图、图表、流程图、甘特图、时序图、数字波形图、五线谱、[多媒体](https://ld246.com/article/1589813914768)、语音阅读、标题锚点、代码高亮及复制、graphviz 渲染、[plantuml](https://plantuml.com)UML图
 * 导出、图片懒加载、任务列表、多平台预览、多主题切换、复制到微信公众号/知乎功能
 * 实现 CommonMark 和 GFM 规范，可对 Markdown 进行格式化和语法树查看，并支持[10+项](https://ld246.com/article/1549638745630#options-preview-markdown)配置
 * 工具栏包含 36+ 项操作，除支持扩展外还可对每一项中的[快捷键](https://ld246.com/article/1582778815353)、提示、提示位置、图标、点击事件、类名、子工具栏进行自定义
@@ -66,6 +66,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 * 实时保存内容，防止意外丢失
 * 录音支持，用户可直接发布语音
 * 粘贴 HTML 自动转换为 Markdown，如粘贴中包含外链图片可通过指定接口上传到服务器
+* 在普通文本位置粘贴单个网址时自动生成链接，使用选中文字或网址本身作为链接文字；在源码模式的链接地址、图片地址、代码和公式内保留粘贴原文
 * 支持主窗口大小拖拽、字符计数
 * 多主题支持，内置黑白绿三套主题
 * 多语言支持，内置中、英、韩文本地化
@@ -103,6 +104,7 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 * 图表语法
   * 流程图、时序图、甘特图，通过 Mermaid 支持
   * Graphviz
+  * 数字波形图，通过 WaveDrom 支持
   * 折线图、饼图、脑图等，通过 ECharts 支持
 * 五线谱：通过 abc.js 支持
 * 数学公式：数学公式块、行级数学公式，通过 MathJax 和 KaTeX 支持
@@ -224,6 +226,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | icon | 图标风格：ant, material | 'ant' |
 | customRenders: {language: string, render: (element: HTMLElement, vditor: IVditor) => void}[] | 自定义渲染器 | [] |
 | customWysiwygToolbar(type: TWYSISYGToolbar, element: HTMLElement): void | 对 wysiwyg 模式下的工具栏进行自定义 | - |
+| customWysiwygMobileToolbar(type: TWYSISYGToolbar, element: HTMLElement): void | 对移动端 wysiwyg 模式下的工具栏进行自定义，未添加菜单项时不显示入口 | - |
 
 #### options.toolbar
 
@@ -322,6 +325,8 @@ new Vditor('vditor', {
 |   | 说明 | 默认值 |
 | - | - | - |
 | autoSpace | 自动空格 | false |
+| callout | Callout 块 | true |
+| inlineMath | 是否解析行内数学公式 `$...$` | true |
 | gfmAutoLink | 自动链接 | true |
 | fixTermTypo | 自动矫正术语 | false |
 | toc | 插入目录 | false |
@@ -620,6 +625,7 @@ options?: IPreviewOptions {
 | mathRender(element: HTMLElement, options?: {cdn?: string, math?: IMath}) | 对数学公式进行渲染 |
 | speechRender(element: HTMLElement, lang?: (keyof II18nLang)) | 对选中的文字进行阅读 |
 | graphvizRender(element: HTMLElement, cdn?: string) | 对 graphviz 进行渲染 |
+| wavedromRender(element: (HTMLElement \| Document) = document, cdn = options.cdn) | 对数字波形图进行渲染 |
 | outlineRender(contentElement: HTMLElement, targetElement: Element) | 对大纲进行渲染 |
 | lazyLoadImageRender(element: (HTMLElement \| Document) = document) | 对启用懒加载的图片进行渲染 |
 | setCodeTheme(codeTheme: string, cdn = options.cdn) | 设置代码主题，codeTheme 参见 options.preview.hljs.style |
@@ -677,6 +683,7 @@ Vditor 使用 [MIT](https://opensource.org/licenses/MIT) 开源协议。
 * [Lute](https://github.com/88250/lute)：🎼 一款结构化的 Markdown 引擎，支持 Go 和 JavaScript
 * [highlight.js](https://github.com/highlightjs/highlight.js)：JavaScript syntax highlighter
 * [mermaid](https://github.com/knsv/mermaid)：Generation of diagram and flowchart from text in a similar manner as Markdown
+* [WaveDrom](https://github.com/wavedrom/wavedrom)：Digital timing diagram rendering engine
 * [incubator-echarts](https://github.com/apache/incubator-echarts)：A powerful, interactive charting and visualization library for browser
 * [abcjs](https://github.com/paulrosen/abcjs)：JavaScript library for rendering standard music notation in a browser
 

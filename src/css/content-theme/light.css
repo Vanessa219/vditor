@@ -24,6 +24,16 @@
  * SOFTWARE.
  *
  */
+.vditor-reset {
+    --blockquote-border-color: #e0e0e0;
+    --blockquote-text-color: #5f6368;
+    --callout-note-color: #3575f0;
+    --callout-tip-color: #65b84d;
+    --callout-important-color: #8957e5;
+    --callout-warning-color: #ff9632;
+    --callout-caution-color: #d23f31;
+}
+
 .vditor-reset h1, .vditor-reset h2 {
     padding-bottom: 0.3em;
     border-bottom: 1px solid #eaecef;
@@ -31,11 +41,6 @@
 
 .vditor-reset hr {
     background-color: #eaecef;
-}
-
-.vditor-reset blockquote {
-    color: #6a737d;
-    border-left: .25em solid #eaecef
 }
 
 .vditor-reset iframe {

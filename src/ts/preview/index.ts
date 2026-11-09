@@ -5,6 +5,7 @@ import {flowchartRender} from "../markdown/flowchartRender";
 import {getMarkdown} from "../markdown/getMarkdown";
 import {graphvizRender} from "../markdown/graphvizRender";
 import {highlightRender} from "../markdown/highlightRender";
+import {renderImageCaptions} from "../markdown/imageCaptionRender";
 import {mathRender} from "../markdown/mathRender";
 import {mediaRender} from "../markdown/mediaRender";
 import {mermaidRender} from "../markdown/mermaidRender";
@@ -12,6 +13,7 @@ import {SMILESRender} from "../markdown/SMILESRender";
 import {markmapRender} from "../markdown/markmapRender";
 import {mindmapRender} from "../markdown/mindmapRender";
 import {plantumlRender} from "../markdown/plantumlRender";
+import {wavedromRender} from "../markdown/wavedromRender";
 import {getEventName} from "../util/compatibility";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {hasClosestByTag} from "../util/hasClosestByHeadings";
@@ -152,6 +154,7 @@ export class Preview {
 
         if (value) {
             this.previewElement.innerHTML = value;
+            renderImageCaptions(this.previewElement, "preview", vditor.options.preview.markdown.imageCaption);
             return;
         }
 
@@ -205,6 +208,7 @@ export class Preview {
     }
 
     private afterRender(vditor: IVditor, startTime: number) {
+        renderImageCaptions(this.previewElement, "preview", vditor.options.preview.markdown.imageCaption);
         if (vditor.options.preview.parse) {
             vditor.options.preview.parse(this.element);
         }
@@ -229,6 +233,7 @@ export class Preview {
         SMILESRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);
         flowchartRender(vditor.preview.previewElement, vditor.options.cdn);
         graphvizRender(vditor.preview.previewElement, vditor.options.cdn);
+        wavedromRender(vditor.preview.previewElement, vditor.options.cdn);
         chartRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);
         mindmapRender(vditor.preview.previewElement, vditor.options.cdn, vditor.options.theme);
         plantumlRender(vditor.preview.previewElement, vditor.options.cdn);

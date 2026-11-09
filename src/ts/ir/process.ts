@@ -1,5 +1,6 @@
 import {Constants} from "../constants";
 import {getMarkdown} from "../markdown/getMarkdown";
+import {renderImageCaptions} from "../markdown/imageCaptionRender";
 import {removeCurrentToolbar} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
 import {listToggle} from "../util/fixBrowserBehavior";
@@ -41,6 +42,7 @@ export const processAfterRender = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
+    renderImageCaptions(vditor.ir.element, "ir", vditor.options.preview.markdown.imageCaption);
     if (options.enableHint) {
         processHint(vditor);
     }
@@ -96,12 +98,25 @@ export const processHeading = (vditor: IVditor, value: string) => {
 const removeInline = (range: Range, vditor: IVditor, type: string) => {
     const inlineElement = hasClosestByAttribute(range.startContainer, "data-type", type) as HTMLElement;
     if (inlineElement) {
+        const keepSelection = !range.collapsed;
         inlineElement.firstElementChild.remove();
         inlineElement.lastElementChild.remove();
+        if (keepSelection) {
+            const endRange = range.cloneRange();
+            endRange.collapse(false);
+            endRange.insertNode(document.createElement("wbr"));
+        }
         range.insertNode(document.createElement("wbr"));
         const tempElement = document.createElement("div");
         tempElement.innerHTML = vditor.lute.SpinVditorIRDOM(inlineElement.outerHTML);
         inlineElement.outerHTML = tempElement.firstElementChild.innerHTML.trim();
+        if (keepSelection) {
+            setRangeByWbr(vditor.ir.element, range);
+            const endWbrElement = vditor.ir.element.querySelector("wbr");
+            range.setEndBefore(endWbrElement);
+            endWbrElement.remove();
+            setSelectionFocus(range);
+        }
     }
 };
 
@@ -182,6 +197,7 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
         } else if (commandName === "italic" || commandName === "bold" || commandName === "strike"
             || commandName === "inline-code" || commandName === "code" || commandName === "table") {
             let html;
+            let keepSelection = false;
             if (range.toString() === "") {
                 html = `${prefix}<wbr>${suffix}`;
             } else {
@@ -190,7 +206,8 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
                 } else if (commandName === "table") {
                     html = `${prefix}${range.toString()}<wbr>${suffix}`;
                 } else {
-                    html = `${prefix}${range.toString()}${suffix}<wbr>`;
+                    html = `${prefix}<wbr>${range.toString()}<wbr>${suffix}`;
+                    keepSelection = true;
                 }
                 range.deleteContents();
             }
@@ -202,6 +219,12 @@ export const processToolbar = (vditor: IVditor, actionBtn: Element, prefix: stri
             spanElement.innerHTML = html;
             range.insertNode(spanElement);
             input(vditor, range);
+            if (keepSelection) {
+                const endWbrElement = vditor.ir.element.querySelector("wbr");
+                range.setEndBefore(endWbrElement);
+                endWbrElement.remove();
+                setSelectionFocus(range);
+            }
 
             if (commandName === "table") {
                 range.selectNodeContents(getSelection().getRangeAt(0).startContainer.parentElement);

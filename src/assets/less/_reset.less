@@ -70,6 +70,35 @@
             vertical-align: sub;
         }
 
+        figure.vditor-image {
+            margin: 0 0 16px;
+            text-align: center;
+
+            figcaption {
+                font-size: 0.875em;
+                margin-top: 4px;
+                opacity: 0.65;
+                white-space: pre-wrap;
+            }
+        }
+
+        span.vditor-image[data-image-caption] {
+            display: inline-block;
+            max-width: 100%;
+            text-align: center;
+            vertical-align: top;
+
+            &::after {
+                content: attr(data-image-caption);
+                display: block;
+                font-size: 0.875em;
+                line-height: 1.5;
+                margin-top: 4px;
+                opacity: 0.65;
+                white-space: pre-wrap;
+            }
+        }
+
         h1,
         h2,
         h3,
@@ -123,11 +152,26 @@
             margin-bottom: 16px;
         }
 
-        blockquote {
-            padding: 0 1em;
-            color: #6a737d;
-            border-left: 0.25em solid #eaecef;
+        blockquote:not(.callout) {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 0 0 0 calc(0.25em + 6px);
+            color: var(--blockquote-text-color, #5f6368);
+            background-color: transparent;
+            border: 0;
             margin: 0 0 16px 0;
+
+            &::before {
+                position: absolute;
+                top: 6px;
+                bottom: 6px;
+                left: 2px;
+                width: 0.25em;
+                content: "";
+                background-color: var(--blockquote-border-color, #e0e0e0);
+                border-radius: 6px;
+            }
 
             & > :first-child {
                 margin-top: 0;
@@ -135,6 +179,13 @@
 
             & > :last-child {
                 margin-bottom: 0;
+            }
+
+            & > p {
+                padding: 4px;
+                margin: 2px 0;
+                line-height: 1.625;
+                border-radius: 6px;
             }
         }
 
@@ -235,7 +286,8 @@
         .language-markmap,
         .language-abc,
         .language-flowchart,
-        .language-graphviz {
+        .language-graphviz,
+        .language-wavedrom {
             margin-bottom: 16px;
         }
 
@@ -261,7 +313,8 @@
         .language-mermaid,
         .language-markmap,
         .language-flowchart,
-        .language-graphviz {
+        .language-graphviz,
+        .language-wavedrom {
             text-align: center;
         }
 
@@ -616,4 +669,104 @@
             }
         }
     }
+}
+
+.vditor-reset .callout,
+.vditor-wysiwyg blockquote.callout,
+.vditor-ir blockquote.callout {
+    --callout-color: var(--callout-note-color, #3575f0);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 16px;
+    padding: 0 0 0 calc(0.25em + 6px);
+    color: var(--blockquote-text-color, #5f6368);
+    border: 0;
+
+    &::before {
+        position: absolute;
+        top: 6px;
+        bottom: 6px;
+        left: 2px;
+        width: 0.25em;
+        content: "";
+        background-color: var(--callout-color);
+        border-radius: 6px;
+    }
+
+    &[data-subtype="TIP"] {
+        --callout-color: var(--callout-tip-color, #65b84d);
+    }
+
+    &[data-subtype="IMPORTANT"] {
+        --callout-color: var(--callout-important-color, #8957e5);
+    }
+
+    &[data-subtype="WARNING"] {
+        --callout-color: var(--callout-warning-color, #ff9632);
+    }
+
+    &[data-subtype="CAUTION"] {
+        --callout-color: var(--callout-caution-color, #d23f31);
+    }
+
+    > .callout-info {
+        display: flex;
+        align-items: center;
+        min-height: 1.5em;
+        margin: 2px 0;
+        padding: 4px;
+        color: var(--callout-color);
+
+        .callout-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.2em;
+            height: 1.2em;
+            padding: 4px;
+            line-height: 1.2em;
+            text-align: center;
+            font-variant-emoji: emoji;
+            border-radius: 6px;
+
+            &:empty {
+                display: none;
+            }
+        }
+
+        .callout-title {
+            flex: 1;
+            min-width: 1px;
+            margin-left: 4px;
+            font-size: 114%;
+            font-weight: 500;
+            opacity: 0.86;
+        }
+
+        .callout-img,
+        > .callout-img {
+            height: 1.2em;
+            width: 100%;
+        }
+    }
+
+    > p:not(.callout-info),
+    > .callout-content > p {
+        padding: 4px;
+        margin: 2px 0;
+        line-height: 1.625;
+        border-radius: 6px;
+    }
+}
+
+.vditor-wysiwyg blockquote.callout > .callout-info,
+.vditor-ir blockquote.callout > .callout-info {
+    font-size: 114%;
+    font-weight: 500;
+    opacity: 0.86;
+}
+
+.vditor-wysiwyg__callout-marker {
+    display: none;
 }

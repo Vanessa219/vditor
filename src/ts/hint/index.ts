@@ -23,6 +23,10 @@ export class Hint {
     }
 
     public render(vditor: IVditor) {
+        if (vditor.currentMode === "sv") {
+            this.element.style.display = "none";
+            return;
+        }
         if (!window.getSelection().focusNode) {
             return;
         }
@@ -128,6 +132,9 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
 
     public fillEmoji = (element: HTMLElement, vditor: IVditor) => {
         this.element.style.display = "none";
+        if (vditor.currentMode === "sv") {
+            return;
+        }
 
         const value = decodeURIComponent(element.getAttribute("data-value"));
         const range: Range = window.getSelection().getRangeAt(0);
@@ -172,9 +179,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         range.deleteContents();
 
         if (vditor.options.hint.parse) {
-            if (vditor.currentMode === "sv") {
-                insertHTML(vditor.lute.SpinVditorSVDOM(value), vditor);
-            } else if (vditor.currentMode === "wysiwyg") {
+            if (vditor.currentMode === "wysiwyg") {
                 insertHTML(vditor.lute.SpinVditorDOM(value), vditor);
             } else {
                 insertHTML(vditor.lute.SpinVditorIRDOM(value), vditor);
@@ -182,7 +187,7 @@ ${i === 0 ? "class='vditor-hint--current'" : ""}> ${html}</button>`;
         } else {
             insertHTML(value, vditor);
         }
-        if (this.splitChar === ":" && value.indexOf(":") > -1 && vditor.currentMode !== "sv") {
+        if (this.splitChar === ":" && value.indexOf(":") > -1) {
             range.insertNode(document.createTextNode(" "));
         }
         range.collapse(false);

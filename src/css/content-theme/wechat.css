@@ -27,6 +27,13 @@
 .vditor-reset {
     font-family: "mp-quote", -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", "EmojiSymbols";
     color: rgb(62, 62, 62);
+    --blockquote-border-color: #e0e0e0;
+    --blockquote-text-color: #5f6368;
+    --callout-note-color: #3575f0;
+    --callout-tip-color: #65b84d;
+    --callout-important-color: #8957e5;
+    --callout-warning-color: #ff9632;
+    --callout-caution-color: #d23f31;
 }
 
 .vditor-reset a, .vditor-ir__link {
@@ -61,15 +68,6 @@
     transform-origin: 0 0;
     transform: scale(1, 0.5);
     height: 0;
-}
-
-.vditor-reset blockquote {
-    padding: 4px 0 0 10px;
-    border-left: 3px solid #dbdbdb;
-    color: #9a9a9a;
-    line-height: 1.6;
-    font-size: 15px;
-    margin: 1em 0;
 }
 
 .vditor-reset code {
