@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {setEditMode} from "../toolbar/EditMode";
 import {hidePanel} from "../toolbar/setToolbar";
 import {accessLocalStorage} from "../util/compatibility";
+import {bindTableWheel} from "../util/tableWheel";
 import {setContentTheme} from "./setContentTheme";
 import {setTheme} from "./setTheme";
 
@@ -35,6 +36,7 @@ export const initUI = (vditor: IVditor) => {
 
   if (vditor.options.outline.position === "left") {
     contentElement.appendChild(vditor.outline.element);
+    contentElement.appendChild(vditor.outline.resizeElement);
   }
 
   contentElement.appendChild(vditor.wysiwyg.element.parentElement);
@@ -51,6 +53,7 @@ export const initUI = (vditor: IVditor) => {
 
   if (vditor.options.outline.position === "right") {
     vditor.outline.element.classList.add("vditor-outline--right");
+    contentElement.appendChild(vditor.outline.resizeElement);
     contentElement.appendChild(vditor.outline.element);
   }
 
@@ -67,6 +70,8 @@ export const initUI = (vditor: IVditor) => {
   contentElement.appendChild(vditor.tip.element);
 
   vditor.element.appendChild(contentElement);
+  vditor.outline.bindResize(vditor);
+  bindTableWheel(vditor.element);
 
   contentElement.addEventListener("click", () => {
     hidePanel(vditor, ["subToolbar"]);
@@ -85,7 +90,7 @@ export const initUI = (vditor: IVditor) => {
   if (navigator.userAgent.indexOf("iPhone") > -1 && typeof window.visualViewport !== "undefined") {
     // https://github.com/Vanessa219/vditor/issues/379
     let pendingUpdate = false;
-    const viewportHandler = (event: Event) => {
+    const viewportHandler = () => {
       if (pendingUpdate) {
         return;
       }
@@ -146,9 +151,13 @@ export const setTypewriterPosition = (vditor: IVditor) => {
   if (vditor.element.classList.contains("vditor--fullscreen")) {
     height = window.innerHeight;
   }
-  // 由于 Firefox padding-bottom bug，只能使用 :after
-  vditor[vditor.currentMode].element.style.setProperty("--editor-bottom",
-    ((height - vditor.toolbar.element.offsetHeight) / 2) + "px");
+  const editorBottom = ((height - vditor.toolbar.element.offsetHeight) / 2) + "px";
+  if (vditor.currentMode === "sv") {
+    vditor.sv.element.style.paddingBottom = editorBottom;
+  } else {
+    // 由于 Firefox padding-bottom bug，只能使用 :after
+    vditor[vditor.currentMode].element.style.setProperty("--editor-bottom", editorBottom);
+  }
 };
 
 let resizeCb: () => void;

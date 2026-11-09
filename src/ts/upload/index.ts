@@ -1,11 +1,14 @@
-import { getEditorRange, setSelectionFocus } from "../util/selection";
-import { getElement } from "./getElement";
-import { setHeaders } from "./setHeaders";
+import {getEditorRange, setSelectionFocus} from "../util/selection";
+import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
+import {getElement} from "./getElement";
+import {setHeaders} from "./setHeaders";
 
 class Upload {
     public element: HTMLElement;
     public isUploading: boolean;
     public range: Range;
+    public selectionEnd: number;
+    public selectionStart: number;
 
     constructor() {
         this.isUploading = false;
@@ -116,7 +119,7 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
         let type = key.substr(lastIndex);
         const filename = vditor.options.upload.filename(key.substr(0, lastIndex)) + type;
         type = type.toLowerCase();
-        if (type.indexOf(".wav") === 0 || type.indexOf(".mp3") === 0 || type.indexOf(".ogg") === 0) {
+        if (type.indexOf(".wav") === 0 || type.indexOf(".mp3") === 0 || type.indexOf(".ogg") === 0 || type === ".aac") {
             if (vditor.currentMode === "wysiwyg") {
                 succFileText += `<div class="vditor-wysiwyg__block" data-type="html-block"
  data-block="0"><pre><code>&lt;audio controls="controls" src="${path}"&gt;&lt;/audio&gt;</code></pre><pre class="vditor-wysiwyg__preview" data-render="1"><audio controls="controls" src="${path}"></audio></pre></div>\n`;
@@ -146,9 +149,25 @@ const genUploadedLabel = (responseText: string, vditor: IVditor) => {
             }
         }
     });
-    setSelectionFocus(vditor.upload.range);
-    document.execCommand("insertHTML", false, succFileText);
-    vditor.upload.range = getSelection().getRangeAt(0).cloneRange();
+    if (!succFileText) {
+        if (vditor.currentMode === "sv") {
+            vditor.sv.element.setSelectionRange(vditor.upload.selectionStart, vditor.upload.selectionEnd);
+        } else {
+            setSelectionFocus(vditor.upload.range);
+        }
+        return;
+    }
+    if (vditor.currentMode === "sv") {
+        vditor.sv.element.setSelectionRange(vditor.upload.selectionStart, vditor.upload.selectionEnd);
+        processPaste(vditor, succFileText);
+        processSVAfterRender(vditor);
+        vditor.upload.selectionStart = vditor.sv.element.selectionStart;
+        vditor.upload.selectionEnd = vditor.sv.element.selectionEnd;
+    } else {
+        setSelectionFocus(vditor.upload.range);
+        document.execCommand("insertHTML", false, succFileText);
+        vditor.upload.range = getSelection().getRangeAt(0).cloneRange();
+    }
 };
 
 const uploadFiles =
@@ -197,7 +216,12 @@ const uploadFiles =
         }
         const editorElement = getElement(vditor);
 
-        vditor.upload.range = getEditorRange(vditor);
+        if (vditor.currentMode === "sv") {
+            vditor.upload.selectionStart = vditor.sv.element.selectionStart;
+            vditor.upload.selectionEnd = vditor.sv.element.selectionEnd;
+        } else {
+            vditor.upload.range = getEditorRange(vditor);
+        }
 
         const validateResult = validateFile(vditor, fileList);
         if (validateResult.length === 0) {
@@ -229,11 +253,19 @@ const uploadFiles =
         }
         setHeaders(vditor, xhr);
         vditor.upload.isUploading = true;
-        editorElement.setAttribute("contenteditable", "false");
+        if (vditor.currentMode === "sv") {
+            vditor.sv.element.disabled = true;
+        } else {
+            editorElement.setAttribute("contenteditable", "false");
+        }
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 vditor.upload.isUploading = false;
-                editorElement.setAttribute("contenteditable", "true");
+                if (vditor.currentMode === "sv") {
+                    vditor.sv.element.disabled = false;
+                } else {
+                    editorElement.setAttribute("contenteditable", "true");
+                }
                 if (xhr.status >= 200 && xhr.status < 300) {
                     if (vditor.options.upload.success) {
                         vditor.options.upload.success(editorElement, xhr.responseText);
@@ -270,4 +302,4 @@ const uploadFiles =
         xhr.send(formData);
     };
 
-export { Upload, uploadFiles };
+export {Upload, uploadFiles};

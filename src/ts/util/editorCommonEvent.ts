@@ -16,6 +16,7 @@ import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition, getEditorRange} from "./selection";
+import {deleteEmptyPair, wrapSelection} from "./pairedSymbols";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -45,18 +46,22 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (expandElement) {
                 expandElement.classList.remove("vditor-ir__node--expand");
             }
-        } else if (vditor.currentMode === "wysiwyg" &&
-            !vditor.wysiwyg.selectPopover.contains(event.relatedTarget as HTMLElement)) {
-            vditor.wysiwyg.hideComment();
+            vditor.ir.range = getEditorRange(vditor);
+        } else if (vditor.currentMode === "wysiwyg") {
+            if (!vditor.wysiwyg.selectPopover.contains(event.relatedTarget as HTMLElement)) {
+                vditor.wysiwyg.hideComment();
+            }
+            vditor.wysiwyg.range = getEditorRange(vditor);
         }
-        vditor[vditor.currentMode].range = getEditorRange(vditor);
         if (vditor.options.blur) {
             vditor.options.blur(getMarkdown(vditor));
         }
     });
 };
 
-export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+export const dropEvent = (vditor: IVditor, editorElement: HTMLElement, pasteCode = (code: string) => {
+    document.execCommand("insertHTML", false, code);
+}) => {
     editorElement.addEventListener("dragstart", (event) => {
         // 选中编辑器中的文字进行拖拽
         event.dataTransfer.setData(Constants.DROP_EDITOR, Constants.DROP_EDITOR);
@@ -69,9 +74,7 @@ export const dropEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             } else if (event.dataTransfer.types.includes("Files") || event.dataTransfer.types.includes("text/html")) {
                 // 外部文件拖入编辑器中或者编辑器内选中文字拖拽
                 paste(vditor, event, {
-                    pasteCode: (code: string) => {
-                        document.execCommand("insertHTML", false, code);
-                    },
+                    pasteCode,
                 });
             }
         });
@@ -102,7 +105,14 @@ export const scrollCenter = (vditor: IVditor) => {
         return;
     }
     const editorElement = vditor[vditor.currentMode].element;
-    const cursorTop = getCursorPosition(editorElement).top;
+    let cursorTop: number;
+    if (vditor.currentMode === "sv") {
+        const lineHeight = parseInt(getComputedStyle(vditor.sv.element).lineHeight, 10) || 22;
+        cursorTop = (vditor.sv.element.value.substring(0, vditor.sv.element.selectionStart).split("\n").length - 1) *
+            lineHeight;
+    } else {
+        cursorTop = getCursorPosition(editorElement).top;
+    }
     if (vditor.options.height === "auto" && !vditor.element.classList.contains("vditor--fullscreen")) {
         window.scrollTo(window.scrollX,
             cursorTop + vditor.element.offsetTop + vditor.toolbar.element.offsetHeight - window.innerHeight / 2 + 10);
@@ -113,6 +123,20 @@ export const scrollCenter = (vditor: IVditor) => {
 };
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    editorElement.addEventListener("beforeinput", (event: InputEvent) => {
+        if (!event.cancelable || event.defaultPrevented || event.isComposing) {
+            return;
+        }
+        if ((event.inputType === "insertText" && wrapSelection(vditor, event.data)) ||
+            (["deleteContentBackward", "deleteContentForward"].includes(event.inputType) && deleteEmptyPair(vditor))) {
+            event.preventDefault();
+        }
+    });
+    editorElement.addEventListener("keyup", (event: KeyboardEvent) => {
+        if (!event.isComposing && /^(Arrow(Up|Down|Left|Right)|Home|End|PageUp|PageDown)$/.test(event.key)) {
+            scrollCenter(vditor);
+        }
+    });
     editorElement.addEventListener("keydown", (event: KeyboardEvent & { target: HTMLElement }) => {
         if (!event.isComposing && vditor.options.keydown) {
             vditor.options.keydown(event);
@@ -166,7 +190,7 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
         // esc
         if (event.key === "Escape") {
             if (vditor.hint.element.style.display === "block") {
-                vditor.hint.element.style.display = "none";
+                vditor.hint.hide();
             } else if (vditor.options.esc && !event.isComposing) {
                 vditor.options.esc(getMarkdown(vditor));
             }

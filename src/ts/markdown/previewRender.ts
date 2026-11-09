@@ -3,6 +3,7 @@ import {setContentTheme} from "../ui/setContentTheme";
 import {addScript} from "../util/addScript";
 import {hasClosestByClassName, hasClosestByMatchTag} from "../util/hasClosest";
 import {merge} from "../util/merge";
+import {bindTableWheel} from "../util/tableWheel";
 import {abcRender} from "./abcRender";
 import {anchorRender} from "./anchorRender";
 import {chartRender} from "./chartRender";
@@ -10,6 +11,7 @@ import {codeRender} from "./codeRender";
 import {flowchartRender} from "./flowchartRender";
 import {graphvizRender} from "./graphvizRender";
 import {highlightRender} from "./highlightRender";
+import {renderImageCaptionHTML} from "./imageCaptionRender";
 import {lazyLoadImageRender} from "./lazyLoadImageRender";
 import {mathRender} from "./mathRender";
 import {mediaRender} from "./mediaRender";
@@ -20,6 +22,7 @@ import {mindmapRender} from "./mindmapRender";
 import {plantumlRender} from "./plantumlRender";
 import {setLute} from "./setLute";
 import {speechRender} from "./speechRender";
+import {wavedromRender} from "./wavedromRender";
 
 const mergeOptions = (options?: IPreviewOptions) => {
     const defaultOption: IPreviewOptions = {
@@ -33,6 +36,7 @@ const mergeOptions = (options?: IPreviewOptions) => {
         markdown: Constants.MARKDOWN_OPTIONS,
         math: Constants.MATH_OPTIONS,
         mode: "light",
+        plantuml: Constants.PLANTUML_OPTIONS,
         speech: {
             enable: false,
         },
@@ -59,6 +63,8 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
     return addScript(`${mergedOptions.cdn}/dist/js/lute/lute.min.js`, "vditorLuteScript").then(() => {
         const lute = setLute({
             autoSpace: mergedOptions.markdown.autoSpace,
+            callout: mergedOptions.markdown.callout,
+            inlineMath: mergedOptions.markdown.inlineMath,
             gfmAutoLink: mergedOptions.markdown.gfmAutoLink,
             codeBlockPreview: mergedOptions.markdown.codeBlockPreview,
             emojiSite: mergedOptions.emojiPath,
@@ -88,7 +94,7 @@ export const md2html = (mdText: string, options?: IPreviewOptions) => {
             });
         }
         lute.SetHeadingID(true);
-        return lute.Md2HTML(mdText);
+        return renderImageCaptionHTML(lute.Md2HTML(mdText), mergedOptions.markdown.imageCaption);
     });
 };
 
@@ -100,6 +106,7 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     }
     previewElement.innerHTML = html;
     previewElement.classList.add("vditor-reset");
+    bindTableWheel(previewElement);
 
     if (!mergedOptions.i18n) {
         if (!["de_DE", "en_US", "es_ES", "fr_FR", "ja_JP", "ko_KR", "pt_BR", "ru_RU", "sv_SE", "vi_VN", "zh_CN", "zh_TW"].includes(mergedOptions.lang)) {
@@ -139,9 +146,10 @@ export const previewRender = async (previewElement: HTMLDivElement, markdown: st
     markmapRender(previewElement, mergedOptions.cdn);
     flowchartRender(previewElement, mergedOptions.cdn);
     graphvizRender(previewElement, mergedOptions.cdn);
+    wavedromRender(previewElement, mergedOptions.cdn);
     chartRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
     mindmapRender(previewElement, mergedOptions.cdn, mergedOptions.mode);
-    plantumlRender(previewElement, mergedOptions.cdn);
+    plantumlRender(previewElement, mergedOptions.cdn, mergedOptions.plantuml);
     abcRender(previewElement, mergedOptions.cdn);
     if (mergedOptions.render.media.enable) {
         mediaRender(previewElement);

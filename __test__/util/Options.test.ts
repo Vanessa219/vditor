@@ -20,7 +20,7 @@ describe("Options", () => {
             toolbar: [{
                 name: "br",
             }, {
-                hotkey: "⌘-'",
+                hotkey: "⌘'",
                 name: "fullscreen",
                 tipPosition: "nw",
             }, {
@@ -28,6 +28,17 @@ describe("Options", () => {
                 name: "preview",
                 tipPosition: "nw",
             }],
+        });
+    });
+
+    test("Options line marker", () => {
+        const options = new Options({
+            cache,
+            toolbar: ["line"],
+        });
+        expect(options.merge().toolbar[0]).toMatchObject({
+            name: "line",
+            prefix: "***",
         });
     });
 
@@ -94,21 +105,33 @@ describe("Options", () => {
             },
         });
         expect(options.merge().preview).toEqual({
+            actions: ["desktop", "tablet", "mobile", "mp-wechat", "zhihu"],
             delay: 1000,
             hljs: {
+                defaultLang: "",
                 enable: true,
                 lineNumber: false,
                 style: "github",
             },
             markdown: {
                 autoSpace: false,
+                callout: true,
+                inlineMath: true,
                 codeBlockPreview: true,
                 fixTermTypo: false,
                 footnotes: true,
+                gfmAutoLink: true,
+                imageCaption: false,
+                imgPathAllowSpace: false,
                 linkBase: "",
+                linkPrefix: "",
                 listStyle: false,
+                mark: false,
+                mathBlockPreview: true,
+                paragraphBeginningSpace: false,
                 sanitize: true,
-                setext: false,
+                sub: false,
+                sup: false,
                 toc: false,
             },
             math: {
@@ -118,8 +141,21 @@ describe("Options", () => {
             },
             maxWidth: 800,
             mode: "both",
-            theme: "light",
-            themes: {dark: "", light: "", wechat: ""},
+            render: {
+                media: {
+                    enable: true,
+                },
+            },
+            theme: {
+                current: "light",
+                list: {
+                    "ant-design": "Ant Design",
+                    dark: "Dark",
+                    light: "Light",
+                    wechat: "WeChat",
+                },
+                path: "https://unpkg.com/vditor@version/dist/css/content-theme",
+            },
         });
     });
 

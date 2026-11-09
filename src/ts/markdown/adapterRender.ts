@@ -31,6 +31,10 @@ export const graphvizRenderAdapter = {
     getCode: (el: Element) => el.textContent,
     getElements: (el: HTMLElement | Document) => el.querySelectorAll(".language-graphviz"),
 };
+export const wavedromRenderAdapter = {
+    getCode: (el: Element) => el.textContent,
+    getElements: (el: HTMLElement | Document) => el.querySelectorAll(".language-wavedrom"),
+};
 export const flowchartRenderAdapter = {
     getCode: (el: Element) => el.textContent,
     getElements: (el: HTMLElement | Document) => el.querySelectorAll(".language-flowchart"),

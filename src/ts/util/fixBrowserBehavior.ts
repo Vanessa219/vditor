@@ -3,11 +3,12 @@ import {input as IRInput} from "../ir/input";
 import {processAfterRender} from "../ir/process";
 import {processAfterRender as processSVAfterRender, processPaste} from "../sv/process";
 import {uploadFiles} from "../upload/index";
-import {setHeaders} from "../upload/setHeaders";
+import {uploadLinkToImg} from "../upload/linkToImg";
 import {afterRenderEvent} from "../wysiwyg/afterRenderEvent";
 import {input} from "../wysiwyg/input";
 import {isCtrl, isFirefox} from "./compatibility";
 import {scrollCenter} from "./editorCommonEvent";
+import {parseMarkdownTableRows, pasteIntoTable} from "./pasteIntoTable";
 import {
     getTopList,
     hasClosestBlock,
@@ -18,7 +19,7 @@ import {
 import {getLastNode} from "./hasClosest";
 import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
-import {processCodeRender, processPasteCode} from "./processCode";
+import {isPlainTextPaste, processCodeRender, processPasteCode} from "./processCode";
 import {
     getEditorRange,
     getSelectPosition,
@@ -79,6 +80,21 @@ export const fixCursorDownInlineMath = (range: Range, key: string) => {
 };
 
 export const insertEmptyBlock = (vditor: IVditor, position: InsertPosition) => {
+    if (vditor.currentMode === "sv") {
+        const element = vditor.sv.element;
+        if (position === "beforebegin") {
+            const lineStart = element.value.lastIndexOf("\n", element.selectionStart - 1) + 1;
+            element.setRangeText("\n", lineStart, lineStart, "end");
+            element.setSelectionRange(lineStart, lineStart);
+        } else {
+            const lineEndIndex = element.value.indexOf("\n", element.selectionEnd);
+            const lineEnd = lineEndIndex === -1 ? element.value.length : lineEndIndex;
+            element.setRangeText("\n", lineEnd, lineEnd, "end");
+        }
+        element.focus();
+        processSVAfterRender(vditor);
+        return;
+    }
     const range = getEditorRange(vditor);
     const blockElement = hasClosestBlock(range.startContainer);
     if (blockElement) {
@@ -177,10 +193,40 @@ export const insertBeforeBlock = (vditor: IVditor, event: KeyboardEvent, range: 
 
 export const listToggle = (vditor: IVditor, range: Range, type: string, cancel = true) => {
     const itemElement = hasClosestByMatchTag(range.startContainer, "LI");
+    const selectedBlockElements: HTMLElement[] = [];
+    const startBlockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
+    const endBlockElement = hasClosestByAttribute(range.endContainer, "data-block", "0");
+    if (startBlockElement && endBlockElement &&
+        startBlockElement.parentElement.isSameNode(endBlockElement.parentElement)) {
+        let blockElement: Element = startBlockElement;
+        while (blockElement) {
+            selectedBlockElements.push(blockElement as HTMLElement);
+            if (blockElement.isSameNode(endBlockElement)) {
+                break;
+            }
+            blockElement = blockElement.nextElementSibling;
+        }
+    }
     vditor[vditor.currentMode].element.querySelectorAll("wbr").forEach((wbr) => {
         wbr.remove();
     });
-    range.insertNode(document.createElement("wbr"));
+    const keepSelection = !range.collapsed;
+    if (keepSelection) {
+        // 列表转换会重建块元素，分别标记选区起止位置以便恢复原始选区
+        const endRange = range.cloneRange();
+        endRange.collapse(false);
+        const endElement = document.createElement("wbr");
+        endElement.setAttribute("data-type", "list-selection-end");
+        endRange.insertNode(endElement);
+
+        const startRange = range.cloneRange();
+        startRange.collapse(true);
+        const startElement = document.createElement("wbr");
+        startElement.setAttribute("data-type", "list-selection-start");
+        startRange.insertNode(startElement);
+    } else {
+        range.insertNode(document.createElement("wbr"));
+    }
 
     if (cancel && itemElement) {
         // 取消
@@ -197,25 +243,24 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
     } else {
         if (!itemElement) {
             // 添加
-            let blockElement = hasClosestByAttribute(range.startContainer, "data-block", "0");
-            if (!blockElement) {
+            if (selectedBlockElements.length === 0) {
                 vditor[vditor.currentMode].element.querySelector("wbr").remove();
-                blockElement = vditor[vditor.currentMode].element.querySelector("p");
+                const blockElement = vditor[vditor.currentMode].element.querySelector("p");
                 blockElement.innerHTML = "<wbr>";
+                selectedBlockElements.push(blockElement);
             }
-            if (type === "check") {
-                blockElement.insertAdjacentHTML("beforebegin",
-                    `<ul data-block="0"><li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li></ul>`);
-                blockElement.remove();
-            } else if (type === "list") {
-                blockElement.insertAdjacentHTML("beforebegin",
-                    `<ul data-block="0"><li>${blockElement.innerHTML}</li></ul>`);
-                blockElement.remove();
-            } else if (type === "ordered-list") {
-                blockElement.insertAdjacentHTML("beforebegin",
-                    `<ol data-block="0"><li>${blockElement.innerHTML}</li></ol>`);
-                blockElement.remove();
-            }
+            let listHTML = "";
+            selectedBlockElements.forEach((blockElement) => {
+                if (type === "check") {
+                    listHTML += `<li class="vditor-task"><input type="checkbox" /> ${blockElement.innerHTML}</li>`;
+                } else {
+                    listHTML += `<li>${blockElement.innerHTML}</li>`;
+                }
+            });
+            const listTagName = type === "ordered-list" ? "ol" : "ul";
+            selectedBlockElements[0].insertAdjacentHTML("beforebegin",
+                `<${listTagName} data-block="0">${listHTML}</${listTagName}>`);
+            selectedBlockElements.forEach((blockElement) => blockElement.remove());
         } else {
             // 切换
             if (type === "check") {
@@ -227,7 +272,14 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
             } else {
                 if (itemElement.querySelector("input")) {
                     itemElement.parentElement.querySelectorAll("li").forEach((item) => {
-                        item.querySelector("input").remove();
+                        const inputElement = item.querySelector("input");
+                        if (inputElement) {
+                            const nextSibling = inputElement.nextSibling;
+                            inputElement.remove();
+                            if (nextSibling && nextSibling.nodeType === 3 && nextSibling.textContent.startsWith(" ")) {
+                                nextSibling.textContent = nextSibling.textContent.substring(1);
+                            }
+                        }
                         item.classList.remove("vditor-task");
                     });
                 }
@@ -244,6 +296,18 @@ export const listToggle = (vditor: IVditor, range: Range, type: string, cancel =
                 element.innerHTML = itemElement.parentElement.innerHTML;
                 itemElement.parentElement.parentNode.replaceChild(element, itemElement.parentElement);
             }
+        }
+    }
+    if (keepSelection) {
+        const editorElement = vditor[vditor.currentMode].element;
+        const startElement = editorElement.querySelector('[data-type="list-selection-start"]');
+        const endElement = editorElement.querySelector('[data-type="list-selection-end"]');
+        if (startElement && endElement) {
+            range.setStartAfter(startElement);
+            range.setEndBefore(endElement);
+            startElement.remove();
+            endElement.remove();
+            setSelectionFocus(range);
         }
     }
 };
@@ -453,9 +517,107 @@ export const execAfterRender = (vditor: IVditor, options = {
     }
 };
 
+const isEmptyListItem = (liElement: HTMLElement) => {
+    if (liElement.textContent.split(Constants.ZWSP).join("").trim() !== "") {
+        return false;
+    }
+    return !liElement.querySelector([
+        "audio", "canvas", "embed", "hr", "iframe", "img", "object", "ol", "pre", "svg", "table", "ul", "video",
+        "input:not([type='checkbox'])",
+    ].join(", "));
+};
+
+export const exitEmptyListItem = (liElement: HTMLElement) => {
+    const listElement = liElement.parentElement;
+    const listParent = listElement.parentElement;
+    const paragraphElement = document.createElement("p");
+    paragraphElement.setAttribute("data-block", "0");
+    paragraphElement.innerHTML = "<wbr>";
+
+    let trailingListElement: HTMLElement | undefined;
+    if (liElement.nextElementSibling) {
+        trailingListElement = listElement.cloneNode(false) as HTMLElement;
+        while (liElement.nextElementSibling) {
+            trailingListElement.appendChild(liElement.nextElementSibling);
+        }
+        listParent.insertBefore(trailingListElement, listElement.nextSibling);
+    }
+
+    liElement.remove();
+    if (listElement.childElementCount === 0) {
+        listParent.replaceChild(paragraphElement, listElement);
+    } else {
+        listParent.insertBefore(paragraphElement, trailingListElement || listElement.nextSibling);
+    }
+    return paragraphElement;
+};
+
+const isEmptyParagraph = (element: HTMLElement) => {
+    if (element.getAttribute("contenteditable") === "false" || element.hasAttribute("data-type") ||
+        element.textContent.split(Constants.ZWSP).join("").replace(/\r\n|\r|\n/g, "") !== "") {
+        return false;
+    }
+    // 多个换行仍占据可见空行，不能将整段作为单个占位符删除。
+    if ((element.textContent.match(/\r\n|\r|\n/g) || []).length + element.querySelectorAll("br").length > 1) {
+        return false;
+    }
+    // 仅忽略空的行内格式与占位符，保留没有文本的媒体、控件和自定义节点。
+    return Array.from(element.querySelectorAll("*")).every((child) =>
+        /^(BR|WBR|SPAN|B|STRONG|EM|I|S|STRIKE|U|A|SMALL|SUB|SUP|CODE)$/.test(child.tagName) &&
+        !child.hasAttribute("data-type") && child.getAttribute("contenteditable") !== "false");
+};
+
+const setListStart = (element: HTMLElement, range: Range) => {
+    for (let i = 0; i < element.childNodes.length; i++) {
+        const node = element.childNodes[i];
+        if (node.nodeType === 3) {
+            // 任务框后的一个空格属于列表标记，光标应落在正文前。
+            const offset = node.previousSibling && node.previousSibling.nodeName === "INPUT" &&
+                node.textContent.startsWith(" ") ? 1 : 0;
+            if (node.textContent.length > offset) {
+                range.setStart(node, offset);
+                return;
+            }
+        } else if (node.nodeType === 1) {
+            const child = node as HTMLElement;
+            if ((child.tagName === "INPUT" && child.getAttribute("type") === "checkbox") ||
+                child.classList.contains("vditor-ir__marker")) {
+                continue;
+            }
+            if (child.childNodes.length > 0 && child.tagName !== "UL" && child.tagName !== "OL" &&
+                child.getAttribute("contenteditable") !== "false" &&
+                (!child.hasAttribute("data-type") || /^(strong|em|s|a|code|mark)$/.test(child.getAttribute("data-type"))) &&
+                !child.classList.contains("vditor-ir__preview") &&
+                !child.classList.contains("vditor-wysiwyg__preview")) {
+                setListStart(child, range);
+            } else {
+                range.setStartBefore(child);
+            }
+            return;
+        }
+    }
+    range.selectNodeContents(element);
+    range.collapse(false);
+};
+
 export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | false, event: KeyboardEvent) => {
     const startContainer = range.startContainer;
     const liElement = hasClosestByMatchTag(startContainer, "LI");
+    if (event.key === "Delete" && !event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey &&
+        range.collapsed && !liElement && pElement && pElement.tagName === "P" && pElement.contains(startContainer) &&
+        isEmptyParagraph(pElement)) {
+        const listElement = pElement.nextSibling as HTMLElement;
+        if (listElement && (listElement.nodeName === "UL" || listElement.nodeName === "OL") &&
+            listElement.firstElementChild && listElement.firstElementChild.tagName === "LI") {
+            setListStart(listElement.firstElementChild as HTMLElement, range);
+            range.collapse(true);
+            pElement.remove();
+            setSelectionFocus(range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+    }
     if (liElement) {
         if (!isCtrl(event) && !event.altKey && event.key === "Enter" &&
             // fix li 中有多个 P 时，在第一个 P 中换行会在下方生成新的 li
@@ -466,6 +628,28 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
             }
             range.insertNode(document.createTextNode("\n\n"));
             range.collapse(false);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        // 嵌套列表末尾的空列表项回车后转为父列表项中的段落
+        // https://github.com/Vanessa219/vditor/issues/939
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Enter" && range.collapsed &&
+            !liElement.nextElementSibling && liElement.parentElement.parentElement.tagName === "LI" &&
+            isEmptyListItem(liElement)) {
+            const paragraphElement = exitEmptyListItem(liElement);
+            setRangeByWbr(paragraphElement, range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
+        // 空列表项删除标记后退出当前列表
+        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
+            liElement.textContent.trim().replace(Constants.ZWSP, "") === "" && range.toString() === "") {
+            const paragraphElement = exitEmptyListItem(liElement);
+            setRangeByWbr(paragraphElement, range);
             execAfterRender(vditor);
             event.preventDefault();
             return true;
@@ -482,20 +666,6 @@ export const fixList = (range: Range, vditor: IVditor, pElement: HTMLElement | f
             } else {
                 liElement.parentElement.outerHTML = `<p data-block="0"><wbr>${liElement.innerHTML}</p>`;
             }
-            setRangeByWbr(vditor[vditor.currentMode].element, range);
-            execAfterRender(vditor);
-            event.preventDefault();
-            return true;
-        }
-
-        // 空列表删除后与上一级段落对齐
-        if (!isCtrl(event) && !event.shiftKey && !event.altKey && event.key === "Backspace" &&
-            liElement.textContent.trim().replace(Constants.ZWSP, "") === "" &&
-            range.toString() === "" && liElement.previousElementSibling?.tagName === "LI") {
-            liElement.previousElementSibling.insertAdjacentText("beforeend", "\n\n");
-            range.selectNodeContents(liElement.previousElementSibling);
-            range.collapse(false);
-            liElement.remove();
             setRangeByWbr(vditor[vditor.currentMode].element, range);
             execAfterRender(vditor);
             event.preventDefault();
@@ -1021,6 +1191,27 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
     const startContainer = range.startContainer;
     const blockquoteElement = hasClosestByMatchTag(startContainer, "BLOCKQUOTE");
     if (blockquoteElement && range.toString() === "") {
+        if (pElement && event.key === "Enter" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
+            pElement.parentElement.isSameNode(blockquoteElement) &&
+            hasClosestByMatchTag(blockquoteElement.parentElement, "LI") &&
+            (range.collapsed || !range.cloneContents().firstElementChild) &&
+            pElement.innerHTML.replace(Constants.ZWSP, "") !== "\n" &&
+            pElement.innerHTML.replace(Constants.ZWSP, "") !== "") {
+            // 列表内的引用由浏览器处理回车时会新建列表项 https://github.com/Vanessa219/vditor/issues/1925
+            const trailingRange = range.cloneRange();
+            trailingRange.setEnd(pElement, pElement.childNodes.length);
+            const paragraphElement = document.createElement("p");
+            paragraphElement.setAttribute("data-block", "0");
+            paragraphElement.appendChild(trailingRange.extractContents());
+            pElement.insertAdjacentElement("afterend", paragraphElement);
+            range.setStart(paragraphElement, 0);
+            range.collapse(true);
+            setSelectionFocus(range);
+            execAfterRender(vditor);
+            event.preventDefault();
+            return true;
+        }
+
         if (event.key === "Backspace" && !isCtrl(event) && !event.shiftKey && !event.altKey &&
             getSelectPosition(blockquoteElement, vditor[vditor.currentMode].element, range).start === 0) {
             // Backspace: 光标位于引用中的第零个字符，仅删除引用标签
@@ -1068,8 +1259,14 @@ export const fixBlockquote = (vditor: IVditor, range: Range, event: KeyboardEven
             return true;
         }
 
-        if (insertAfterBlock(vditor, event, range, blockquoteElement, blockquoteElement)) {
+        const itemElement = blockquoteElement.parentElement.tagName === "LI" ? blockquoteElement.parentElement : null;
+        const afterBlockElement = !blockquoteElement.nextElementSibling && itemElement?.nextElementSibling?.tagName === "LI" ?
+            itemElement : blockquoteElement;
+        if (insertAfterBlock(vditor, event, range, blockquoteElement, afterBlockElement)) {
             return true;
+        }
+        if (event.key === "ArrowUp" && itemElement && !blockquoteElement.previousElementSibling) {
+            return false;
         }
         if (insertBeforeBlock(vditor, event, range, blockquoteElement, blockquoteElement)) {
             return true;
@@ -1258,7 +1455,8 @@ export const fixFirefoxArrowUpTable = (event: KeyboardEvent, blockElement: false
 export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent) & {target: HTMLElement}, callback: {
     pasteCode(code: string): void,
 }) => {
-    if (vditor[vditor.currentMode].element.getAttribute("contenteditable") !== "true") {
+    if (vditor.currentMode === "sv" ? vditor.sv.element.disabled :
+        vditor[vditor.currentMode].element.getAttribute("contenteditable") !== "true") {
         return;
     }
     event.stopPropagation();
@@ -1279,14 +1477,20 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         }
     }
     const renderers: {
+        HTML2Md?: ILuteRender,
         HTML2VditorDOM?: ILuteRender,
         HTML2VditorIRDOM?: ILuteRender,
         Md2VditorDOM?: ILuteRender,
         Md2VditorIRDOM?: ILuteRender,
-        Md2VditorSVDOM?: ILuteRender,
     } = {};
     const renderLinkDest: ILuteRenderCallback = (node, entering) => {
         if (!entering) {
+            return ["", Lute.WalkContinue];
+        }
+
+        const parent = node.__internal_object__.Parent;
+        // 链接引用的目标地址由定义节点提供，不在引用位置重复渲染
+        if (parent.Type === 33 && parent.LinkType === 3) {
             return ["", Lute.WalkContinue];
         }
 
@@ -1296,63 +1500,15 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
 
         const src = node.TokensStr();
         if (node.__internal_object__.Parent.Type === 34 && src && src.indexOf("file://") === -1 &&
-            vditor.options.upload.linkToImgUrl) {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", vditor.options.upload.linkToImgUrl);
-            if (vditor.options.upload.token) {
-                xhr.setRequestHeader("X-Upload-Token", vditor.options.upload.token);
-            }
-            if (vditor.options.upload.withCredentials) {
-                xhr.withCredentials = true;
-            }
-            setHeaders(vditor, xhr);
-            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        let responseText = xhr.responseText;
-                        if (vditor.options.upload.linkToImgFormat) {
-                            responseText = vditor.options.upload.linkToImgFormat(xhr.responseText);
-                        }
-                        const responseJSON = JSON.parse(responseText);
-                        if (responseJSON.code !== 0) {
-                            vditor.tip.show(responseJSON.msg);
-                            return;
-                        }
-                        const original = responseJSON.data.originalURL;
-                        if (vditor.currentMode === "sv") {
-                            vditor.sv.element.querySelectorAll(".vditor-sv__marker--link")
-                                .forEach((item: HTMLElement) => {
-                                    if (item.textContent === original) {
-                                        item.textContent = responseJSON.data.url;
-                                    }
-                                });
-                        } else {
-                            const imgElement: HTMLImageElement =
-                                vditor[vditor.currentMode].element.querySelector(`img[src="${original}"]`);
-                            imgElement.src = responseJSON.data.url;
-                            if (vditor.currentMode === "ir") {
-                                imgElement.previousElementSibling.previousElementSibling.innerHTML =
-                                    responseJSON.data.url;
-                            }
-                        }
-                        execAfterRender(vditor);
-                    } else {
-                        vditor.tip.show(xhr.responseText);
-                    }
-                    if (vditor.options.upload.linkToImgCallback) {
-                        vditor.options.upload.linkToImgCallback(xhr.responseText);
-                    }
-                }
-            };
-            xhr.send(JSON.stringify({url: src}));
+            (vditor.options.upload.linkToImgUrl || vditor.options.upload.linkToImgHandler)) {
+            uploadLinkToImg(vditor, src, () => execAfterRender(vditor));
         }
         if (vditor.currentMode === "ir") {
-            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${Lute.EscapeHTMLStr(src)}</span>`, Lute.WalkContinue];
+            return [`<span class="vditor-ir__marker vditor-ir__marker--link">${Lute.EscapeHTMLStr(src.replace(/ /g, "%20"))}</span>`, Lute.WalkContinue];
         } else if (vditor.currentMode === "wysiwyg") {
             return ["", Lute.WalkContinue];
         } else {
-            return [`<span class="vditor-sv__marker--link">${Lute.EscapeHTMLStr(src)}</span>`, Lute.WalkContinue];
+            return [src, Lute.WalkContinue];
         }
     };
 
@@ -1370,6 +1526,10 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
         textHTML = doc.body.innerHTML;
     }
     textHTML = Lute.Sanitize(textHTML);
+    const transfer = "clipboardData" in event ? event.clipboardData : event.dataTransfer;
+    if (textPlain && isPlainTextPaste(textHTML, transfer.getData("vscode-editor-data"))) {
+        textHTML = "";
+    }
     vditor.wysiwyg.getComments(vditor);
 
     // process code
@@ -1378,7 +1538,13 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
     const codeElement = vditor.currentMode === "sv" ?
         hasClosestByAttribute(event.target, "data-type", "code-block") :
         hasClosestByMatchTag(event.target, "CODE");
-    if (codeElement) {
+    const cellElement = vditor.currentMode === "wysiwyg" &&
+        (hasClosestByMatchTag(getEditorRange(vditor).startContainer, "TD") ||
+            hasClosestByMatchTag(getEditorRange(vditor).startContainer, "TH"));
+    if (cellElement && !textHTML && /[\r\n]/.test(textPlain) && !parseMarkdownTableRows(textPlain)) {
+        // 表格单元格内的换行使用 br 表示，避免自旋时解析为新的表格行
+        insertHTML(Lute.EscapeHTMLStr(textPlain).replace(/\r\n|\r|\n/g, "<br>"), vditor);
+    } else if (codeElement) {
         // 粘贴在代码位置
         if (vditor.currentMode === "sv") {
             document.execCommand("insertHTML", false, textPlain.replace(/&/g, "&amp;").replace(/</g, "&lt;"));
@@ -1415,7 +1581,9 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
             tempElement.querySelectorAll(".vditor-copy").forEach((e) => {
                 e.remove();
             });
-            if (vditor.currentMode === "ir") {
+            if (pasteIntoTable(vditor, tempElement.innerHTML)) {
+                // 单元格填充与普通粘贴共用后续规范化和撤销记录。
+            } else if (vditor.currentMode === "ir") {
                 renderers.HTML2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorIRDOM(tempElement.innerHTML), vditor);
@@ -1424,7 +1592,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(vditor.lute.HTML2VditorDOM(tempElement.innerHTML), vditor);
             } else {
-                renderers.Md2VditorSVDOM = {renderLinkDest};
+                renderers.HTML2Md = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 processPaste(vditor, vditor.lute.HTML2Md(tempElement.innerHTML).trimRight());
             }
@@ -1451,16 +1619,24 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                         } else {
                             imgHTML += `![${file.name}](${fileReader.result.toString()})\n`;
                         }
-                        document.execCommand("insertHTML", false, imgHTML);
+                        if (vditor.currentMode === "sv") {
+                            processPaste(vditor, imgHTML);
+                            execAfterRender(vditor);
+                        } else {
+                            document.execCommand("insertHTML", false, imgHTML);
+                        }
                     };
                 }
             }
         } else if (textPlain.trim() !== "" && files.length === 0) {
-            const range = getEditorRange(vditor);
-            if (range.toString() !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
-                textPlain = `[${range.toString()}](${textPlain})`;
+            const selectedText = vditor.currentMode === "sv" ? vditor.sv.element.value.substring(
+                vditor.sv.element.selectionStart, vditor.sv.element.selectionEnd) : getEditorRange(vditor).toString();
+            if (selectedText !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
+                textPlain = `[${selectedText}](${textPlain})`;
             }
-            if (vditor.currentMode === "ir") {
+            if (pasteIntoTable(vditor, "", textPlain)) {
+                // 单元格填充与普通粘贴共用后续规范化和撤销记录。
+            } else if (vditor.currentMode === "ir") {
                 renderers.Md2VditorIRDOM = {renderLinkDest};
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(Lute.Sanitize(vditor.lute.Md2VditorIRDOM(textPlain)), vditor);
@@ -1469,8 +1645,12 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 vditor.lute.SetJSRenderers({renderers});
                 insertHTML(Lute.Sanitize(vditor.lute.Md2VditorDOM(textPlain)), vditor);
             } else {
-                renderers.Md2VditorSVDOM = {renderLinkDest};
-                vditor.lute.SetJSRenderers({renderers});
+                if (vditor.options.upload.linkToImgUrl || vditor.options.upload.linkToImgHandler ||
+                    vditor.options.upload.renderLinkDest) {
+                    renderers.Md2VditorDOM = {renderLinkDest};
+                    vditor.lute.SetJSRenderers({renderers});
+                    vditor.lute.Md2VditorDOM(textPlain);
+                }
                 processPaste(vditor, textPlain);
             }
             vditor.outline.render(vditor);

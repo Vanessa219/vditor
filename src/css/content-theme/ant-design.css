@@ -29,6 +29,13 @@
     color: rgba(0, 0, 0, .85);
     font-size: 14px;
     line-height: 2;
+    --blockquote-border-color: #e0e0e0;
+    --blockquote-text-color: #5f6368;
+    --callout-note-color: #3575f0;
+    --callout-tip-color: #65b84d;
+    --callout-important-color: #8957e5;
+    --callout-warning-color: #ff9632;
+    --callout-caution-color: #d23f31;
 }
 
 .vditor-reset img {
@@ -167,18 +174,6 @@
     padding: 16px 24px;
     text-align: left;
     border: 1px solid #f0f0f0
-}
-
-.vditor-reset blockquote {
-    margin: 1em 0;
-    padding-left: .8em;
-    color: rgba(0, 0, 0, .45);
-    font-size: 90%;
-    border-left: 4px solid #f0f0f0
-}
-
-.vditor-reset blockquote p {
-    margin: 0;
 }
 
 .vditor-reset .vditor-anchor {

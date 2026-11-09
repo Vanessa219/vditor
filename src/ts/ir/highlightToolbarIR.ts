@@ -5,12 +5,12 @@ import {hasClosestByHeadings} from "../util/hasClosestByHeadings";
 import {getEditorRange, selectIsEditor} from "../util/selection";
 
 export const highlightToolbarIR = (vditor: IVditor) => {
-    clearTimeout(vditor[vditor.currentMode].hlToolbarTimeoutId);
-    vditor[vditor.currentMode].hlToolbarTimeoutId = window.setTimeout(() => {
-        if (vditor[vditor.currentMode].element.getAttribute("contenteditable") === "false") {
+    clearTimeout(vditor.ir.hlToolbarTimeoutId);
+    vditor.ir.hlToolbarTimeoutId = window.setTimeout(() => {
+        if (vditor.ir.element.getAttribute("contenteditable") === "false") {
             return;
         }
-        if (!selectIsEditor(vditor[vditor.currentMode].element)) {
+        if (!selectIsEditor(vditor.ir.element)) {
             return;
         }
 

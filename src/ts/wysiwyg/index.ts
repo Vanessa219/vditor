@@ -11,6 +11,7 @@ import {
     selectEvent,
 } from "../util/editorCommonEvent";
 import {isHeadingMD, isHrMD, paste} from "../util/fixBrowserBehavior";
+import {buildTableSelectionClipboard} from "../util/pasteIntoTable";
 import {
     hasClosestBlock, hasClosestByAttribute,
     hasClosestByClassName, hasClosestByMatchTag,
@@ -236,6 +237,13 @@ class WYSIWYG {
             return;
         }
 
+        const tableClip = buildTableSelectionClipboard(vditor, range);
+        if (tableClip) {
+            event.clipboardData.setData("text/html", tableClip.html);
+            event.clipboardData.setData("text/plain", tableClip.plain);
+            return;
+        }
+
         const tempElement = document.createElement("div");
         tempElement.appendChild(range.cloneContents());
 
@@ -327,6 +335,9 @@ class WYSIWYG {
                 input(vditor, getSelection().getRangeAt(0).cloneRange(), event);
             }
             this.composingLock = false;
+            if (vditor.options.undoDelay === 0 && !isFirefox()) {
+                vditor.undo.addToUndoStack(vditor);
+            }
         });
 
         this.element.addEventListener("input", (event: InputEvent) => {

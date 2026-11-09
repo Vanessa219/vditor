@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "target": "es2018",
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "__test__",
+    "src",
+    "types"
+  ]
+}
