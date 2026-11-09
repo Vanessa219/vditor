@@ -1,5 +1,5 @@
 import {Constants} from "../constants";
-import {addScript, addScriptSync} from "../util/addScript";
+import {addScript} from "../util/addScript";
 import {addStyle} from "../util/addStyle";
 import {code160to32} from "../util/code160to32";
 import {mathRenderAdapter} from "./adapterRender";
@@ -14,7 +14,17 @@ declare const katex: {
 
 declare global {
     interface Window {
-        MathJax: any;
+        MathJax: {
+            loader?: {paths: {mathjax: string}};
+            startup: {
+                typeset?: boolean;
+                promise?: Promise<void>;
+                document?: {clear(): void; updateDocument(): void};
+            };
+            tex?: {macros: object};
+            getMetricsFor?(element: Element): {display?: boolean};
+            tex2svgPromise?(math: string, options: {display?: boolean}): Promise<Element>;
+        };
     }
 }
 
@@ -77,18 +87,6 @@ export const mathRender = (element: (HTMLElement | Document) = document, options
             });
         });
     } else if (options.math.engine === "MathJax") {
-        const chainAsync = (fns: any) => {
-            if (fns.length === 0) {
-                return;
-            }
-            let curr = 0;
-            const last = fns[fns.length - 1];
-            const next = () => {
-                const fn = fns[curr++];
-                fn === last ? fn() : fn(next);
-            };
-            next();
-        };
         if (!window.MathJax) {
             window.MathJax = {
                 loader: {
@@ -104,13 +102,11 @@ export const mathRender = (element: (HTMLElement | Document) = document, options
             // https://github.com/Vanessa219/vditor/issues/1453
             Object.assign(window.MathJax, options.math.mathJaxOptions);
         }
-        // 循环加载会抛异常
-        addScriptSync(`${options.cdn}/dist/js/mathjax/tex-svg-full.js`, "protyleMathJaxScript");
-        const renderMath = (mathElement: Element, next?: () => void) => {
+        const renderMath = (mathElement: Element) => {
             const math = code160to32(mathElement.textContent).trim();
             const mathOptions = window.MathJax.getMetricsFor(mathElement);
             mathOptions.display = mathElement.tagName === "DIV";
-            window.MathJax.tex2svgPromise(math, mathOptions).then((node: Element) => {
+            return window.MathJax.tex2svgPromise(math, mathOptions).then((node: Element) => {
                 mathElement.innerHTML = "";
                 mathElement.setAttribute("data-math", math);
                 mathElement.append(node);
@@ -121,28 +117,20 @@ export const mathRender = (element: (HTMLElement | Document) = document, options
                     mathElement.innerHTML = errorTextElement.textContent.trim();
                     mathElement.className = "vditor-reset--error";
                 }
-                if (next) {
-                    next();
-                }
             });
         };
-        window.MathJax.startup.promise.then(() => {
-            const chains: any[] = [];
-            for (let i = 0; i < mathElements.length; i++) {
-                const mathElement = mathElements[i];
-                if (!mathElement.parentElement.classList.contains("vditor-wysiwyg__pre") &&
-                    !mathElement.parentElement.classList.contains("vditor-ir__marker--pre") &&
-                    !mathElement.getAttribute("data-math") && code160to32(mathElement.textContent).trim()) {
-                    chains.push((next: () => void) => {
-                        if (i === mathElements.length - 1) {
-                            renderMath(mathElement);
-                        } else {
-                            renderMath(mathElement, next);
-                        }
-                    });
+        addScript(`${options.cdn}/dist/js/mathjax/tex-svg-full.js`, "protyleMathJaxScript")
+            .then(() => window.MathJax.startup.promise).then(() => {
+                let rendering = Promise.resolve();
+                for (let i = 0; i < mathElements.length; i++) {
+                    const mathElement = mathElements[i];
+                    if (!mathElement.parentElement.classList.contains("vditor-wysiwyg__pre") &&
+                        !mathElement.parentElement.classList.contains("vditor-ir__marker--pre") &&
+                        !mathElement.getAttribute("data-math") && code160to32(mathElement.textContent).trim()) {
+                        rendering = rendering.then(() => renderMath(mathElement));
+                    }
                 }
-            }
-            chainAsync(chains);
-        });
+                return rendering;
+            });
     }
 };

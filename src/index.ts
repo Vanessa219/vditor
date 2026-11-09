@@ -26,7 +26,7 @@ import {setPreviewMode} from "./ts/ui/setPreviewMode";
 import {setTheme} from "./ts/ui/setTheme";
 import {Undo} from "./ts/undo/index";
 import {Upload} from "./ts/upload/index";
-import {addScript, addScriptSync} from "./ts/util/addScript";
+import {addScript} from "./ts/util/addScript";
 import {getSelectText} from "./ts/util/getSelectText";
 import {Options} from "./ts/util/Options";
 import {processCodeRender} from "./ts/util/processCode";
@@ -608,7 +608,7 @@ class Vditor extends VditorMethod {
             }
             if (mergedOptions.icon) {
                 // 防止初始化 2 个编辑器时加载 2 次
-                addScriptSync(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
+                addScript(`${mergedOptions.cdn}/dist/js/icons/${mergedOptions.icon}.js`, "vditorIconScript");
             }
         });
     }
