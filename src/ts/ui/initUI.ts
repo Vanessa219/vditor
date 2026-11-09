@@ -9,6 +9,9 @@ import {setTheme} from "./setTheme";
 export const initUI = (vditor: IVditor) => {
   vditor.element.innerHTML = "";
   vditor.element.classList.add("vditor");
+  [vditor.wysiwyg.element, vditor.ir.element].forEach(element => {
+    element.classList.toggle("vditor-reset--indent", !!vditor.options.preview.markdown.paragraphBeginningSpace);
+  });
   // 支持 RTL
   if (vditor.options.rtl) {
     vditor.element.setAttribute("dir", "rtl")
