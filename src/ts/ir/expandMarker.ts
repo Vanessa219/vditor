@@ -1,5 +1,6 @@
 import {hasClosestByClassName, hasTopClosestByClassName} from "../util/hasClosest";
 import {setSelectionFocus} from "../util/selection";
+import {expandHTMLTags} from "../util/expandHTMLTags";
 
 const nextIsNode = (range: Range) => {
     const startContainer = range.startContainer;
@@ -62,6 +63,8 @@ export const expandMarker = (range: Range, vditor: IVditor) => {
         // https://github.com/Vanessa219/vditor/issues/615 safari中光标位置跳动
         setSelectionFocus(range);
     }
+
+    expandHTMLTags(vditor.ir.element, range, "vditor-ir__node--expand");
 
     const nextNode = nextIsNode(range);
     if (nextNode) {
