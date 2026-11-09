@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * WYSIWYG 和 IR 模式的左右方向键跳过任务列表复选框及分隔空格，保留 Markdown 和原有选择、删除规则
   * 添加 options.link.ctrlClick，编辑区可使用普通点击编辑、Ctrl/⌘ 点击跳转链接，默认关闭
   * 添加 options.preview.markdown.imgPathAllowSpace，允许图片和链接路径包含空格，默认关闭
   * 添加 options.outline.width，大纲边界支持拖拽及键盘调整

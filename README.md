@@ -98,6 +98,10 @@ Vditor 在这些方面做了努力，希望能为现代化的通用 Markdown 编
 
 ![vditor-sv](https://b3logfile.com/file/2020/07/sv-595dcb28.gif)
 
+### 任务列表导航
+
+WYSIWYG 和 IR 模式中，单独按左右方向键会跳过任务列表复选框及分隔空格，在正文之间移动。文档开头的任务会将光标留在正文开头。Shift 选择、修饰键和 Backspace 沿用现有规则，Markdown 中的空格保持不变。
+
 ## 🍱 语法支持
 
 * 所有 CommonMark 语法：分隔线、ATX 标题、Setext 标题、缩进代码块、围栏代码块、HTML 块、链接引用定义、段落、块引用、列表、反斜杠转义、HTML 实体、行级代码、强调、加粗、链接、图片、行级 HTML、硬换行、软换行和纯文本。

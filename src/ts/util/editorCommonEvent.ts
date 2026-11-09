@@ -17,6 +17,7 @@ import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {getCursorPosition, getEditorRange} from "./selection";
 import {deleteEmptyPair, wrapSelection} from "./pairedSymbols";
+import {bindTaskNavigation} from "./taskNavigation";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -123,6 +124,7 @@ export const scrollCenter = (vditor: IVditor) => {
 };
 
 export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
+    bindTaskNavigation(vditor, editorElement);
     editorElement.addEventListener("beforeinput", (event: InputEvent) => {
         if (!event.cancelable || event.defaultPrevented || event.isComposing) {
             return;

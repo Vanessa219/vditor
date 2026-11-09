@@ -96,6 +96,10 @@ The traditional *Split View* mode is suitable for Markdown editing on a large sc
 
 ![vditor-sv](https://b3logfile.com/file/2020/07/sv-595dcb28.gif)
 
+### Task list navigation
+
+In WYSIWYG and IR modes, Left and Right without modifiers skip task checkboxes and their separator space, moving between task bodies. At the beginning of the document, the caret stays at the start of the first task's body. Shift selection, modified keys and Backspace keep their existing behavior, and spaces in the Markdown remain unchanged.
+
 ## 🍱 Syntax support
 
 * All CommonMark syntax: Thematic breaks, ATX headings, Setext headings, Indented code blocks, Fenced code blocks, HTML blocks, Link reference definitions, Paragraphs, Block quotes, Lists, Backslash escapes, Entity and numeric character references, Code spans, Emphasis and strong emphasis, Links, Images, Raw HTML, Hard line breaks, Soft line breaks, and Textual content.
