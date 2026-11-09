@@ -4,8 +4,8 @@ import {mermaidRenderAdapter} from "./adapterRender";
 import {genUUID} from "../util/function";
 
 declare const mermaid: {
-    initialize(options: any): void,
-    render(id: string, text: string): { svg: string }
+    initialize(options: Record<string, unknown>): void,
+    render(id: string, text: string): Promise<{svg: string, bindFunctions?: (element: Element) => void}>
 };
 
 export const mermaidRender = (element: (HTMLElement | Document) = document, cdn = Constants.CDN, theme: string) => {
@@ -14,7 +14,7 @@ export const mermaidRender = (element: (HTMLElement | Document) = document, cdn 
         return;
     }
     addScript(`${cdn}/dist/js/mermaid/mermaid.min.js?v=11.17.2`, "vditorMermaidScript").then(() => {
-        const config: any = {
+        const config: Record<string, unknown> = {
             securityLevel: "loose", // 升级后无 https://github.com/siyuan-note/siyuan/issues/3587，可使用该选项
             altFontFamily: "sans-serif",
             fontFamily: "sans-serif",
@@ -48,6 +48,7 @@ export const mermaidRender = (element: (HTMLElement | Document) = document, cdn 
             try {
                 const mermaidData = await mermaid.render(id, item.textContent);
                 item.innerHTML = mermaidData.svg;
+                mermaidData.bindFunctions?.(item);
             } catch (e) {
                 const errorElement = document.querySelector("#" + id);
                 item.innerHTML = `${errorElement.outerHTML}<br>

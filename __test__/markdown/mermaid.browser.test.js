@@ -1,7 +1,9 @@
 const path = require("path");
+const fs = require("fs");
+const ts = require("typescript");
 const {launchBrowser} = require("../util/launchBrowser");
 
-describe("Mermaid subgraph layout", () => {
+describe("Mermaid rendering", () => {
     let browser;
     let page;
 
@@ -10,12 +12,49 @@ describe("Mermaid subgraph layout", () => {
         page = await browser.newPage();
         await page.setContent("<div id='diagram'></div>");
         await page.addScriptTag({path: path.resolve(__dirname, "../../src/js/mermaid/mermaid.min.js")});
+        const source = ts.transpileModule(fs.readFileSync(path.resolve(__dirname,
+            "../../src/ts/markdown/mermaidRender.ts"), "utf8"), {
+            compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020},
+        }).outputText;
+        await page.addScriptTag({content: `(() => {
+            const api = {};
+            const deps = {"../constants": {Constants: {}}, "../util/addScript": {addScript: () => Promise.resolve()},
+                "../util/function": {genUUID: () => Math.random().toString(16).slice(2)},
+                "./adapterRender": {mermaidRenderAdapter: {
+                    getElements: root => root.querySelectorAll(".language-mermaid"), getCode: el => el.textContent}}};
+            new Function("exports", "require", ${JSON.stringify(source)})(api, name => deps[name]);
+            window.renderMermaid = api.mermaidRender;
+        })();`});
     });
 
     afterAll(async () => {
         if (browser) {
             await browser.close();
         }
+    });
+
+    it.each(["light", "dark"])("binds class diagram callbacks after inserting the SVG in %s theme", async theme => {
+        await page.evaluate(theme => {
+            const diagram = document.querySelector("#diagram");
+            diagram.innerHTML = '<code class="language-mermaid"></code>';
+            diagram.firstElementChild.textContent = `classDiagram
+class 产品主数据 {
+-1
+-2
+-3
+-4
+}
+click 产品主数据 call mermaidCallback(产品主数据,2)`;
+            window.mermaidCalls = [];
+            window.mermaidCallback = (...args) => window.mermaidCalls.push(args);
+            window.renderMermaid(diagram, "", theme);
+        }, theme);
+        await page.waitForFunction(() => document.querySelector("#diagram code")?.dataset.processed === "true");
+        await page.click("#diagram .node");
+        expect(await page.evaluate(() => window.mermaidCalls)).toEqual([["产品主数据", "2"]]);
+        await page.evaluate(theme => window.renderMermaid(document.querySelector("#diagram"), "", theme), theme);
+        await page.click("#diagram .node");
+        expect(await page.evaluate(() => window.mermaidCalls)).toHaveLength(2);
     });
 
     it.each(["default", "dark"])("stacks connected subgraph nodes vertically in %s theme", async (theme) => {
