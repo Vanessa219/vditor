@@ -67,6 +67,7 @@ Vditor has made efforts in these areas, hoping to make some contributions to the
 * Save content in real time to prevent accidental loss
 * Recording support, users can directly publish voice
 * The markup HTML is automatically converted to Markdown, if the paste contains images of external links, it can be uploaded to the server through the specified interface
+* Pasting a single URL into ordinary text creates a link using the selected text or the URL itself as its label; source-mode link destinations, image destinations, code, and formulas keep the pasted text unchanged
 * Support main window size drag and drop, character counting
 * Multi-theme support, built-in black, white and green three sets of themes
 * Multi-language support, built-in Chinese, English, Korean text localization

@@ -20,6 +20,7 @@ import {getLastNode} from "./hasClosest";
 import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
 import {isPlainTextPaste, processCodeRender, processPasteCode} from "./processCode";
+import {getPastedLink} from "./pasteLink";
 import {
     getEditorRange,
     getSelectPosition,
@@ -1629,11 +1630,7 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 }
             }
         } else if (textPlain.trim() !== "" && files.length === 0) {
-            const selectedText = vditor.currentMode === "sv" ? vditor.sv.element.value.substring(
-                vditor.sv.element.selectionStart, vditor.sv.element.selectionEnd) : getEditorRange(vditor).toString();
-            if (selectedText !== "" && vditor.lute.IsValidLinkDest(textPlain)) {
-                textPlain = `[${selectedText}](${textPlain})`;
-            }
+            textPlain = getPastedLink(vditor, textPlain);
             if (pasteIntoTable(vditor, "", textPlain)) {
                 // 单元格填充与普通粘贴共用后续规范化和撤销记录。
             } else if (vditor.currentMode === "ir") {

@@ -29,6 +29,7 @@
 
 ### v4.0.2
 
+* [粘贴网址时使用网址作为默认链接文字](https://github.com/Vanessa219/vditor/pull/1899) `改进功能`
 * [支持普通点击编辑链接，Ctrl 或 ⌘ 点击跳转](https://github.com/Vanessa219/vditor/issues/1330) `改进功能`
 * [修复 Mermaid 图表的点击回调未绑定](https://github.com/Vanessa219/vditor/issues/1877) `修复缺陷`
 * [表格横向溢出时可使用普通滚轮左右滚动](https://github.com/Vanessa219/vditor/issues/1048) `改进功能`
