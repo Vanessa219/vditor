@@ -339,6 +339,7 @@ new Vditor('vditor', {
 | mark | enable mark tag | false |
 | sup | superscript | false |
 | sub | subscript | false |
+| imgPathAllowSpace | Allow unescaped spaces in image and link destinations | false |
 
 #### options.preview.math
 

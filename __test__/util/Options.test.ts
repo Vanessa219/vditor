@@ -122,6 +122,7 @@ describe("Options", () => {
                 footnotes: true,
                 gfmAutoLink: true,
                 imageCaption: false,
+                imgPathAllowSpace: false,
                 linkBase: "",
                 linkPrefix: "",
                 listStyle: false,

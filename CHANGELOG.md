@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 添加 options.preview.markdown.imgPathAllowSpace，允许图片和链接路径包含空格，默认关闭
   * 添加 options.outline.width，大纲边界支持拖拽及键盘调整
   * 添加 options.configChange，可保存并恢复编辑器偏好快照
   * 添加 outlineRender 的 click 回调，可接管展现模式的大纲导航

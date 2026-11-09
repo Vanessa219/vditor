@@ -57,6 +57,7 @@ export abstract class Constants {
         codeBlockPreview: true,
         fixTermTypo: false,
         footnotes: true,
+        imgPathAllowSpace: false,
         imageCaption: false,
         linkBase: "",
         linkPrefix: "",

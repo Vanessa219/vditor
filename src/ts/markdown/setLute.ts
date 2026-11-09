@@ -26,6 +26,7 @@ export const setLute = (options: ILuteOptions) => {
     }
     lute.SetSup(options.sup);
     lute.SetSub(options.sub);
+    lute.SetImgPathAllowSpace(options.imgPathAllowSpace);
     // 编辑区的高亮是临时展示，传入 Lute 的代码正文需保留纯文本和光标标记。
     const conversions = ["SpinVditorDOM", "SpinVditorIRDOM", "VditorDOM2Md", "VditorIRDOM2Md",
         "VditorDOM2HTML", "VditorIRDOM2HTML"] as const;
