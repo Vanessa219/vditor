@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Publish packages
 
 on:
   release:
@@ -15,11 +15,23 @@ concurrency:
 jobs:
   publish:
     if: github.repository == 'Vanessa219/vditor'
+    name: Publish to ${{ matrix.target }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: npmjs
+            registry: https://registry.npmjs.org
+            scope: ""
+          - target: GitHub Packages
+            registry: https://npm.pkg.github.com
+            scope: "@vanessa219"
     permissions:
       contents: read
       id-token: write
+      packages: write
 
     steps:
       - uses: actions/checkout@v6
@@ -29,7 +41,8 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: "24"
-          registry-url: "https://registry.npmjs.org"
+          registry-url: ${{ matrix.registry }}
+          scope: ${{ matrix.scope }}
           package-manager-cache: false
 
       - name: Validate release version
@@ -58,11 +71,25 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Configure GitHub package name
+        if: matrix.target == 'GitHub Packages'
+        run: npm pkg set name=@vanessa219/vditor
+
       - name: Inspect package
         run: npm pack --dry-run
 
-      - name: Publish
+      - name: Publish to npmjs
+        if: matrix.target == 'npmjs'
         shell: bash
         run: |
           TAG=$(node -p "require('./package.json').version.includes('-') ? 'alpha' : 'latest'")
-          npm publish --tag "$TAG"
+          npm publish --registry https://registry.npmjs.org --tag "$TAG"
+
+      - name: Publish to GitHub Packages
+        if: matrix.target == 'GitHub Packages'
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG=$(node -p "require('./package.json').version.includes('-') ? 'alpha' : 'latest'")
+          npm publish --registry https://npm.pkg.github.com --tag "$TAG"
