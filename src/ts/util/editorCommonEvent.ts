@@ -18,6 +18,7 @@ import {matchHotKey} from "./hotKey";
 import {getCursorPosition, getEditorRange} from "./selection";
 import {deleteEmptyPair, wrapSelection} from "./pairedSymbols";
 import {bindTaskNavigation} from "./taskNavigation";
+import {bindImageDrag} from "./imageDrag";
 
 export const focusEvent = (vditor: IVditor, editorElement: HTMLElement) => {
     editorElement.addEventListener("focus", () => {
@@ -63,12 +64,16 @@ export const blurEvent = (vditor: IVditor, editorElement: HTMLElement) => {
 export const dropEvent = (vditor: IVditor, editorElement: HTMLElement, pasteCode = (code: string) => {
     document.execCommand("insertHTML", false, code);
 }) => {
+    const dropImage = bindImageDrag(vditor, editorElement);
     editorElement.addEventListener("dragstart", (event) => {
         // 选中编辑器中的文字进行拖拽
         event.dataTransfer.setData(Constants.DROP_EDITOR, Constants.DROP_EDITOR);
     });
     editorElement.addEventListener("drop",
-        (event: ClipboardEvent & { dataTransfer?: DataTransfer, target: HTMLElement }) => {
+        (event: DragEvent & { target: HTMLElement }) => {
+            if (dropImage(event)) {
+                return;
+            }
             if (event.dataTransfer.getData(Constants.DROP_EDITOR)) {
                 // 编辑器内选中文字拖拽
                 execAfterRender(vditor);
