@@ -89,10 +89,9 @@ class Undo {
     }
 
     private flushPendingUndoStack(vditor: IVditor) {
-        const timeoutId = vditor.currentMode === "wysiwyg" ? vditor.wysiwyg.afterRenderTimeoutId :
-            vditor[vditor.currentMode].processTimeoutId;
-        if (timeoutId > 0) {
+        if (vditor[vditor.currentMode].pendingUndoStack) {
             // 输入通知、计数和缓存共用该定时器，记录快照后仍需执行回调。
+            vditor[vditor.currentMode].pendingUndoStack = false;
             this.addToUndoStack(vditor);
         }
     }

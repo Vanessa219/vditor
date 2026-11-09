@@ -128,6 +128,22 @@ describe.each(["wysiwyg", "ir", "sv"] as const)("undo granularity in %s", (mode)
         expect(value()).toBe("replacement");
     });
 
+    it.each([0, 800])("preserves redo while only notifications are pending with undoDelay=%s", delay => {
+        vditor.options.undoDelay = delay;
+        edit("starta");
+        jest.runOnlyPendingTimers();
+        vditor.undo.undo(vditor);
+        if (mode !== "sv") {
+            element.firstElementChild.setAttribute("data-rendered", "true");
+        }
+        const addToUndoStack = jest.spyOn(vditor.undo, "addToUndoStack");
+        vditor.undo.redo(vditor);
+        expect(value()).toBe("starta");
+        expect(addToUndoStack).not.toHaveBeenCalled();
+        jest.runOnlyPendingTimers();
+        expect(vditor.options.input).toHaveBeenLastCalledWith(getMarkdown(vditor));
+    });
+
     it("preserves positive undoDelay batching", () => {
         vditor.options.undoDelay = 800;
         edit("starta");

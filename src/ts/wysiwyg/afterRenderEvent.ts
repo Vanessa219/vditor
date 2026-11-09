@@ -7,6 +7,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
+    vditor.wysiwyg.pendingUndoStack = options.enableAddUndoStack && vditor.options.undoDelay !== 0;
     renderImageCaptions(vditor.wysiwyg.element, "wysiwyg", vditor.options.preview.markdown.imageCaption);
     if (options.enableAddUndoStack && vditor.options.undoDelay === 0) {
         vditor.undo.addToUndoStack(vditor);
@@ -17,6 +18,7 @@ export const afterRenderEvent = (vditor: IVditor, options = {
     clearTimeout(vditor.wysiwyg.afterRenderTimeoutId);
     vditor.wysiwyg.afterRenderTimeoutId = window.setTimeout(() => {
         vditor.wysiwyg.afterRenderTimeoutId = 0;
+        vditor.wysiwyg.pendingUndoStack = false;
         if (vditor.wysiwyg.composingLock) {
             return;
         }

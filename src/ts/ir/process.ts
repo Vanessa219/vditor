@@ -42,6 +42,7 @@ export const processAfterRender = (vditor: IVditor, options = {
     enableHint: false,
     enableInput: true,
 }) => {
+    vditor.ir.pendingUndoStack = options.enableAddUndoStack && vditor.options.undoDelay !== 0;
     renderImageCaptions(vditor.ir.element, "ir", vditor.options.preview.markdown.imageCaption);
     if (options.enableAddUndoStack && vditor.options.undoDelay === 0) {
         vditor.undo.addToUndoStack(vditor);
@@ -53,6 +54,7 @@ export const processAfterRender = (vditor: IVditor, options = {
     clearTimeout(vditor.ir.processTimeoutId);
     vditor.ir.processTimeoutId = window.setTimeout(() => {
         vditor.ir.processTimeoutId = 0;
+        vditor.ir.pendingUndoStack = false;
         if (vditor.ir.composingLock) {
             return;
         }

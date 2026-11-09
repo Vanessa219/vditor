@@ -36,6 +36,7 @@ import {afterRenderEvent} from "./ts/wysiwyg/afterRenderEvent";
 import {WYSIWYG} from "./ts/wysiwyg/index";
 import {input} from "./ts/wysiwyg/input";
 import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
+import {renderToc} from "./ts/util/toc";
 import {execAfterRender, insertEmptyBlock} from "./ts/util/fixBrowserBehavior";
 import {accessLocalStorage} from "./ts/util/compatibility";
 
@@ -386,7 +387,11 @@ class Vditor extends VditorMethod {
             });
         }
 
-        this.vditor.outline.render(this.vditor);
+        if (this.vditor.currentMode === "sv") {
+            this.vditor.outline.render(this.vditor);
+        } else {
+            renderToc(this.vditor);
+        }
 
         if (!markdown) {
             hidePanel(this.vditor, ["emoji", "headings", "submenu", "hint"]);

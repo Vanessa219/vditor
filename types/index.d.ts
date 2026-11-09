@@ -964,6 +964,7 @@ interface IVditor {
         selectPopover: HTMLDivElement,
         popover: HTMLDivElement,
         afterRenderTimeoutId: number,
+        pendingUndoStack: boolean,
         hlToolbarTimeoutId: number,
         preventInput: boolean,
         composingLock: boolean,
@@ -980,11 +981,13 @@ interface IVditor {
         composingLock: boolean,
         preventInput: boolean,
         processTimeoutId: number,
+        pendingUndoStack: boolean,
         hlToolbarTimeoutId: number,
     };
     sv?: {
         element: HTMLTextAreaElement,
         processTimeoutId: number,
+        pendingUndoStack: boolean,
         composingLock: boolean,
     };
 }

@@ -1,7 +1,7 @@
 import {mathRender} from "../markdown/mathRender";
 import {execAfterRender, insertAfterBlock, insertBeforeBlock} from "./fixBrowserBehavior";
-import {hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
-import {getSelectPosition} from "./selection";
+import {hasClosestByClassName} from "./hasClosest";
+import {getSelectPosition, setSelectionFocus} from "./selection";
 
 export const renderToc = (vditor: IVditor) => {
     if (vditor.currentMode === "sv") {
@@ -22,10 +22,16 @@ export const renderToc = (vditor: IVditor) => {
 };
 
 export const clickToc = (event: MouseEvent & { target: HTMLElement }, vditor: IVditor) => {
-    const spanElement = hasClosestByMatchTag(event.target, "SPAN");
+    const spanElement = event.target.closest<HTMLElement>("[data-target-id]");
     if (spanElement && hasClosestByClassName(spanElement, "vditor-toc")) {
         const headingElement = vditor[vditor.currentMode].element.querySelector("#" + spanElement.getAttribute("data-target-id")) as HTMLElement;
         if (headingElement) {
+            const editorElement = vditor[vditor.currentMode].element;
+            const range = editorElement.ownerDocument.createRange();
+            range.selectNodeContents(headingElement);
+            range.collapse(true);
+            editorElement.focus({preventScroll: true});
+            setSelectionFocus(range);
             if (vditor.options.height === "auto") {
                 let windowScrollY = headingElement.offsetTop + vditor.element.offsetTop;
                 if (!vditor.options.toolbarConfig.pin) {

@@ -8,6 +8,7 @@ class Editor {
     public element: HTMLTextAreaElement;
     public composingLock: boolean = false;
     public processTimeoutId: number;
+    public pendingUndoStack = false;
 
     constructor(vditor: IVditor) {
         this.element = document.createElement("textarea");

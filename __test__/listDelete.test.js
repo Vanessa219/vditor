@@ -48,12 +48,18 @@ describe("Delete before a list", () => {
                 const deleted = await page.evaluate(() => {
                     const instance = window.vditorTest;
                     const editor = instance.vditor[instance.vditor.currentMode].element;
+                    const caret = getSelection().getRangeAt(0).cloneRange();
+                    const firstItem = editor.querySelector("li");
+                    const before = document.createRange();
+                    before.selectNodeContents(firstItem);
+                    before.setEnd(caret.startContainer, caret.startOffset);
                     return {html: editor.innerHTML, markdown: instance.getValue(),
-                        caret: getSelection().anchorNode.textContent.substring(getSelection().anchorOffset)};
+                        inside: firstItem.contains(caret.startContainer), caret: before.toString().trim()};
                 });
                 expect(deleted.html).toBe(original.list);
                 expect(deleted.markdown).toBe(original.markdown);
-                expect(deleted.caret).toBe("first");
+                expect(deleted.inside).toBe(true);
+                expect(deleted.caret).toBe("");
 
                 await page.evaluate(() => {
                     const vditor = window.vditorTest.vditor;

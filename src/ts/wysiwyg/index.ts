@@ -37,6 +37,7 @@ class WYSIWYG {
     public popover: HTMLDivElement;
     public selectPopover: HTMLDivElement;
     public afterRenderTimeoutId: number;
+    public pendingUndoStack = false;
     public hlToolbarTimeoutId: number;
     public preventInput: boolean;
     public composingLock = false;

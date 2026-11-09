@@ -15,7 +15,7 @@ import {execAfterRender, paste} from "./fixBrowserBehavior";
 import {getSelectText} from "./getSelectText";
 import {hasClosestByAttribute, hasClosestByMatchTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
-import {getCursorPosition, getEditorRange} from "./selection";
+import {getCursorPosition, getEditorRange, setSelectionFocus} from "./selection";
 import {deleteEmptyPair, wrapSelection} from "./pairedSymbols";
 import {bindTaskNavigation} from "./taskNavigation";
 import {bindImageDrag} from "./imageDrag";
@@ -184,6 +184,15 @@ export const hotkeyEvent = (vditor: IVditor, editorElement: HTMLElement) => {
             if (irProcessKeydown(vditor, event)) {
                 return;
             }
+        }
+
+        if (!event.isComposing && !event.defaultPrevented && vditor.currentMode !== "sv" && matchHotKey("⌘A", event)) {
+            // 目录等不可编辑节点也属于正文，全选需覆盖整个编辑区。
+            const range = editorElement.ownerDocument.createRange();
+            range.selectNodeContents(editorElement);
+            setSelectionFocus(range);
+            event.preventDefault();
+            return;
         }
 
         if (vditor.options.ctrlEnter && matchHotKey("⌘Enter", event)) {

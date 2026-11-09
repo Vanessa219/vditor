@@ -50,6 +50,7 @@ class IR {
     public range: Range;
     public element: HTMLPreElement;
     public processTimeoutId: number;
+    public pendingUndoStack = false;
     public hlToolbarTimeoutId: number;
     public composingLock: boolean = false;
     public preventInput: boolean;
