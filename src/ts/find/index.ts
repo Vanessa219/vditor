@@ -17,6 +17,7 @@ export class Find {
     private count: HTMLElement;
     private replaceRow: HTMLElement;
     private replaceButtons: HTMLButtonElement[] = [];
+    private navigationButtons: HTMLButtonElement[] = [];
     private index = 0;
     private total = 0;
     private composing = false;
@@ -33,7 +34,7 @@ export class Find {
     constructor(private vditor: IVditor) {
         const labels = {
             find: "Find", replace: "Replace", replaceAll: "Replace all", matchCase: "Match case",
-            previousMatch: "Previous match", nextMatch: "Next match", close: "Close",
+            previousMatch: "Previous", nextMatch: "Next", close: "Close",
         };
         const label = (key: keyof typeof labels) => vditor.options.i18n?.[key] || window.VditorI18n[key] || labels[key];
         this.element = document.createElement("section");
@@ -49,8 +50,9 @@ export class Find {
         this.count = document.createElement("output");
         this.count.setAttribute("aria-live", "polite");
         row.appendChild(this.count);
-        row.appendChild(this.button(label("previousMatch"), () => this.move(-1)));
-        row.appendChild(this.button(label("nextMatch"), () => this.move(1)));
+        this.navigationButtons = [this.button(label("previousMatch"), () => this.move(-1)),
+            this.button(label("nextMatch"), () => this.move(1))];
+        row.append(...this.navigationButtons);
         const sensitive = document.createElement("label");
         this.sensitive = document.createElement("input");
         this.sensitive.type = "checkbox";
@@ -143,6 +145,7 @@ export class Find {
         this.index = Math.max(0, result.index);
         this.total = result.total;
         this.count.textContent = `${result.index + 1}/${result.total}`;
+        this.navigationButtons.forEach(button => {button.disabled = !result.total;});
         this.replaceButtons.forEach(button => {button.disabled = !result.total || !this.editable();});
     }
 
