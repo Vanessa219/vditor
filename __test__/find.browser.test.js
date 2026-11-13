@@ -243,6 +243,7 @@ describe("find and replace", () => {
                     const findButton = editor.vditor.toolbar.elements.find.querySelector("button");
                     findButton.dispatchEvent(new Event(navigator.userAgent.includes("iPhone") ? "touchstart" : "click", {bubbles: true, cancelable: true}));
                     const panel = editor.vditor.find.element;
+                    check(!panel.querySelector(".vditor-find__scope"), "find panel omits the range hint");
                     check(!panel.hidden, "toolbar opens panel");
                     const query = panel.querySelector('input[type="search"]');
                     query.value = "Omega";

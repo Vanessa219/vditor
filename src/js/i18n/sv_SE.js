@@ -5,8 +5,6 @@
   "matchCase": "Skiftlägeskänslig",
   "previousMatch": "Föregående träff",
   "nextMatch": "Nästa träff",
-  "findBody": "Sök i dokumenttexten",
-  "findSource": "Sök i Markdown-källkoden",
   'alignCenter': 'Centrera',
   'alignLeft': 'Vänsterställ',
   'alignRight': 'Högerställ',

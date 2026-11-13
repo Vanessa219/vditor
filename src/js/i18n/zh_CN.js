@@ -5,8 +5,6 @@ window.VditorI18n = {
   "matchCase": "区分大小写",
   "previousMatch": "上一个匹配",
   "nextMatch": "下一个匹配",
-  "findBody": "搜索正文",
-  "findSource": "搜索 Markdown 源码",
   'alignCenter': '居中',
   'alignLeft': '居左',
   'alignRight': '居右',

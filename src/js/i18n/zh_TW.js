@@ -5,8 +5,6 @@ window.VditorI18n = {
   "matchCase": "區分大小寫",
   "previousMatch": "上一個相符項目",
   "nextMatch": "下一個相符項目",
-  "findBody": "搜尋內文",
-  "findSource": "搜尋 Markdown 原始碼",
   'alignCenter': '置中',
   'alignLeft': '置左',
   'alignRight': '置右',

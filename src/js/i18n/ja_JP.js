@@ -5,8 +5,6 @@ window.VditorI18n = {
   "matchCase": "大文字と小文字を区別",
   "previousMatch": "前の一致",
   "nextMatch": "次の一致",
-  "findBody": "本文を検索",
-  "findSource": "Markdown ソースを検索",
   'alignCenter': '中央',
   'alignLeft': '左側',
   'alignRight': '右側',

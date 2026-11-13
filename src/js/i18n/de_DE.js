@@ -5,8 +5,6 @@ window.VditorI18n = {
   "matchCase": "Groß-/Kleinschreibung beachten",
   "previousMatch": "Vorheriger Treffer",
   "nextMatch": "Nächster Treffer",
-  "findBody": "Dokumenttext durchsuchen",
-  "findSource": "Markdown-Quelltext durchsuchen",
   'alignCenter': 'Zentriert',
   'alignLeft': 'Linksbündig',
   'alignRight': 'Rechtsbündig',

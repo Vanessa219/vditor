@@ -5,8 +5,6 @@ window.VditorI18n = {
   "matchCase": "Distinguir mayúsculas",
   "previousMatch": "Coincidencia anterior",
   "nextMatch": "Coincidencia siguiente",
-  "findBody": "Buscar en el texto",
-  "findSource": "Buscar en el código Markdown",
   'alignCenter': 'Centrar',
   'alignLeft': 'Alinear a la izquierda',
   'alignRight': 'Alinear a la derecha',

@@ -15,7 +15,6 @@ export class Find {
     private replacement: HTMLInputElement;
     private sensitive: HTMLInputElement;
     private count: HTMLElement;
-    private scope: HTMLElement;
     private replaceRow: HTMLElement;
     private replaceButtons: HTMLButtonElement[] = [];
     private index = 0;
@@ -35,7 +34,6 @@ export class Find {
         const labels = {
             find: "Find", replace: "Replace", replaceAll: "Replace all", matchCase: "Match case",
             previousMatch: "Previous match", nextMatch: "Next match", close: "Close",
-            findBody: "Search document text", findSource: "Search Markdown source",
         };
         const label = (key: keyof typeof labels) => vditor.options.i18n?.[key] || window.VditorI18n[key] || labels[key];
         this.element = document.createElement("section");
@@ -74,11 +72,7 @@ export class Find {
         this.replaceButtons = [this.button(label("replace"), () => this.replaceCurrent(false)),
             this.button(label("replaceAll"), () => this.replaceCurrent(true))];
         this.replaceRow.append(...this.replaceButtons);
-        this.scope = document.createElement("div");
-        this.scope.className = "vditor-find__scope";
-        this.scope.dataset.body = label("findBody");
-        this.scope.dataset.source = label("findSource");
-        this.element.append(this.replaceRow, this.scope);
+        this.element.append(this.replaceRow);
         const signal = this.events.signal;
         this.query.addEventListener("input", () => {
             this.index = 0;
@@ -149,7 +143,6 @@ export class Find {
         this.index = Math.max(0, result.index);
         this.total = result.total;
         this.count.textContent = `${result.index + 1}/${result.total}`;
-        this.scope.textContent = this.vditor.currentMode === "sv" ? this.scope.dataset.source : this.scope.dataset.body;
         this.replaceButtons.forEach(button => {button.disabled = !result.total || !this.editable();});
     }
 
