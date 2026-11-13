@@ -1,0 +1,88 @@
+.vditor-find {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--toolbar-background-color);
+  color: var(--textarea-text-color);
+  max-height: 45vh;
+  overflow: auto;
+  flex-shrink: 0;
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+
+    & + & {
+      margin-top: 8px;
+    }
+
+    > .vditor-input {
+      flex: 1 1 160px;
+      min-width: 100px;
+    }
+
+    > label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__scope {
+    margin-top: 8px;
+  }
+
+  &__source {
+    position: absolute;
+    overflow: hidden;
+    pointer-events: none;
+    color: transparent;
+    z-index: 1;
+
+    > div {
+      box-sizing: border-box;
+    }
+
+    mark {
+      color: var(--find-text-color);
+      background-color: var(--find-background-color);
+    }
+  }
+}
+
+.vditor-button {
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 4px 8px;
+  font: inherit;
+  color: var(--toolbar-icon-color);
+  background-color: var(--panel-background-color);
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--toolbar-icon-hover-color);
+    outline-offset: 1px;
+  }
+
+  &:hover {
+    color: var(--toolbar-icon-hover-color);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+@media (pointer: coarse) {
+  .vditor-find .vditor-button,
+  .vditor-find .vditor-input,
+  .vditor-find label {
+    min-height: 44px;
+  }
+}

@@ -26,6 +26,7 @@ import {Redo} from "./Redo";
 import {toggleSubMenu} from "./setToolbar";
 import {Undo} from "./Undo";
 import {Upload} from "./Upload";
+import {Find} from "./Find";
 
 export class Toolbar {
     public elements: { [key: string]: HTMLElement };
@@ -44,7 +45,7 @@ export class Toolbar {
             if (menuItem.toolbar) {
                 const panelElement = document.createElement("div");
                 panelElement.className = "vditor-hint vditor-panel--arrow";
-                panelElement.addEventListener(getEventName(), (event) => {
+                panelElement.addEventListener(getEventName(), () => {
                     panelElement.style.display = "none";
                 });
                 menuItem.toolbar.forEach((subMenuItem: IMenuItem, subI: number) => {
@@ -89,6 +90,9 @@ export class Toolbar {
     private genItem(vditor: IVditor, menuItem: IMenuItem, index: number) {
         let menuItemObj;
         switch (menuItem.name) {
+            case "find":
+                menuItemObj = new Find(vditor, menuItem);
+                break;
             case "bold":
             case "italic":
             case "more":

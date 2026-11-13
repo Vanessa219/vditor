@@ -196,6 +196,7 @@ Can be filled with element `id` or element itself` HTMLElement`
 | - | - | - |
 | i18n | I18n, more details see ITips | - |
 | undoDelay | Undo interval | - |
+| beforeReplace(markdown: string): boolean &#124; void | Validate the complete resulting Markdown before replacement. Return false to cancel | - |
 | after | Callback method after editor asynchronous rendering is completed | - |
 | height | Total editor height | 'auto' |
 | minHeight | Editing area minimum height | - |
@@ -544,10 +545,15 @@ xhr.send(JSON.stringify({url: src})); // src is the address of the image outside
 
 #### methods
 
+Search uses literal text. IR and WYSIWYG search document text and code, while SV searches the full Markdown source. Rich-text matches may span inline formatting within one paragraph or table cell. Finding does not trigger `input`. Replacement returns 0 during composition or in read-only mode. Hosts can validate the complete resulting Markdown with `options.beforeReplace` and return false to cancel.
+
 |   | Explanation |
 | - | - |
 | exportJSON(markdown: string) | Get JSON by markdown |
 | getValue() | Get editor content |
+| openFind() / closeFind() | Open or close the find-and-replace panel. Open with the `find` toolbar item or Ctrl/Cmd+F, close with Escape |
+| find(query: string, options?: IFindOptions): IFindResult | Find literal text. Returns total, zero-based index (-1 when absent), and the current match. caseSensitive defaults to false and index to 0. An out-of-range index returns the first match |
+| replace(query: string, replacement: string, options?: IFindOptions): number | Replace literal text and return the replacement count. Omit index to replace all, or specify a zero-based index. Each call creates one undo step and triggers the input callback |
 | getOutline(): IOutlineItem[] | Get the top-level headings used by the built-in outline as text, level and id; in SV mode, IDs match headings after the built-in preview renders |
 | getHTML() | Get preview area content |
 | insertValue(value: string, render = true) | Insert content at the focus and markdown rendering by default |

@@ -1,4 +1,12 @@
 window.VditorI18n = {
+  "find": "Localizar",
+  "replace": "Substituir",
+  "replaceAll": "Substituir tudo",
+  "matchCase": "Diferenciar maiúsculas",
+  "previousMatch": "Ocorrência anterior",
+  "nextMatch": "Próxima ocorrência",
+  "findBody": "Pesquisar no texto",
+  "findSource": "Pesquisar no código Markdown",
   'alignCenter': 'Centralizar',
   'alignLeft': 'Alinhar à esquerda',
   'alignRight': 'Alinhar à direita',

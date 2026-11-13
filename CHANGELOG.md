@@ -3,6 +3,7 @@
 ### 4.x 升级
 
 * 4.0.2
+  * 添加查找替换面板、Ctrl/Cmd+F 快捷键及 openFind、closeFind、find、replace 方法，支持大小写匹配、循环导航、单步撤销全部替换及 beforeReplace 校验
   * WYSIWYG 和 IR 模式的左右方向键跳过任务列表复选框及分隔空格，保留 Markdown 和原有选择、删除规则
   * 添加 options.link.ctrlClick，编辑区可使用普通点击编辑、Ctrl/⌘ 点击跳转链接，默认关闭
   * 添加 options.preview.markdown.imgPathAllowSpace，允许图片和链接路径包含空格，默认关闭

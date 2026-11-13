@@ -1,4 +1,12 @@
 window.VditorI18n = {
+  "find": "Найти",
+  "replace": "Заменить",
+  "replaceAll": "Заменить всё",
+  "matchCase": "Учитывать регистр",
+  "previousMatch": "Предыдущее совпадение",
+  "nextMatch": "Следующее совпадение",
+  "findBody": "Поиск в тексте документа",
+  "findSource": "Поиск в исходном Markdown",
   'alignCenter': 'Выровнять по центру',
   'alignLeft': 'Выровнять по левому краю',
   'alignRight': 'Выровнять по правому краю',

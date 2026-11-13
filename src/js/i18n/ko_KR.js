@@ -1,4 +1,12 @@
 window.VditorI18n = {
+  "find": "찾기",
+  "replace": "바꾸기",
+  "replaceAll": "모두 바꾸기",
+  "matchCase": "대소문자 구분",
+  "previousMatch": "이전 일치 항목",
+  "nextMatch": "다음 일치 항목",
+  "findBody": "본문 검색",
+  "findSource": "Markdown 소스 검색",
   'alignCenter': '가운데',
   'alignLeft': '왼쪽',
   'alignRight': '오른쪽',

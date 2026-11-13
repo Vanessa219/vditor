@@ -740,6 +740,8 @@ interface IOptions {
     rtl?: boolean;
     /** 历史记录间隔；0 表示在每次编辑完成时同步记录，输入法候选期间不记录中间态 */
     undoDelay?: number;
+    /** 替换前接收完整 Markdown；返回 false 可阻止替换 */
+    beforeReplace?(markdown: string): boolean | void;
     /** 内部调试时使用 */
     _lutePath?: string;
     /** 编辑器初始化值。默认值: '' */
@@ -892,7 +894,30 @@ interface IEChart {
     resize(): void;
 }
 
+interface IFindOptions {
+    /** 默认不区分大小写 */
+    caseSensitive?: boolean;
+    /** 从 0 开始；查找默认首项，替换时省略表示替换全部 */
+    index?: number;
+}
+
+interface IFindResult {
+    total: number;
+    index: number;
+    /** 正文偏移相对当前段落、列表项、单元格或代码块，SV 偏移相对全文；range 仅在正文模式提供 */
+    match?: {start: number; end: number; range?: Range};
+}
+
 interface IVditor {
+    find?: {
+        element: HTMLElement;
+        open(): void;
+        close(focus?: boolean): void;
+        refresh(): void;
+        find(query: string, options?: IFindOptions): IFindResult;
+        replace(query: string, replacement: string, options?: IFindOptions): number;
+        destroy(): void;
+    };
     element: HTMLElement;
     options: IOptions;
     originalInnerHTML: string;

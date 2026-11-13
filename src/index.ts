@@ -39,6 +39,7 @@ import {renderDomByMd} from "./ts/wysiwyg/renderDomByMd";
 import {renderToc} from "./ts/util/toc";
 import {execAfterRender, insertEmptyBlock} from "./ts/util/fixBrowserBehavior";
 import {accessLocalStorage} from "./ts/util/compatibility";
+import {Find} from "./ts/find/index";
 
 class Vditor extends VditorMethod {
     public readonly version: string;
@@ -134,6 +135,22 @@ class Vditor extends VditorMethod {
     /** 获取 Markdown 内容 */
     public getValue() {
         return getMarkdown(this.vditor);
+    }
+
+    public openFind() {
+        this.vditor.find.open();
+    }
+
+    public closeFind() {
+        this.vditor.find.close();
+    }
+
+    public find(query: string, options?: IFindOptions): IFindResult {
+        return this.vditor.find.find(query, options);
+    }
+
+    public replace(query: string, replacement: string, options?: IFindOptions): number {
+        return this.vditor.find.replace(query, replacement, options);
     }
 
     public getOutline(): IOutlineItem[] {
@@ -360,6 +377,7 @@ class Vditor extends VditorMethod {
 
     /** 设置编辑器内容 */
     public setValue(markdown: string, clearStack = false) {
+        this.vditor.find.close();
         if (this.vditor.currentMode === "sv") {
             this.vditor.sv.element.value = markdown;
             processSVAfterRender(this.vditor, {
@@ -418,6 +436,7 @@ class Vditor extends VditorMethod {
 
     /** 销毁编辑器 */
     public destroy() {
+        this.vditor.find.destroy();
         this.vditor.hint.destroy();
         this.vditor.tip.hide();
         this.vditor.element.innerHTML = this.vditor.originalInnerHTML;
@@ -558,6 +577,7 @@ class Vditor extends VditorMethod {
         this.vditor.wysiwyg = new WYSIWYG(this.vditor);
         this.vditor.ir = new IR(this.vditor);
         this.vditor.toolbar = new Toolbar(this.vditor);
+        this.vditor.find = new Find(this.vditor);
 
         if (mergedOptions.resize.enable) {
             this.vditor.resize = new Resize(this.vditor);

@@ -220,6 +220,7 @@ Markdown 输出的 HTML 所展现的外观。内置 ant-design, light，dark，w
 | - | - | - |
 | i18n | 多语言，参见 ITips | - |
 | undoDelay | 历史记录间隔 | - |
+| beforeReplace(markdown: string): boolean &#124; void | 替换前校验完整 Markdown，返回 false 可阻止替换 | - |
 | after | 编辑器异步渲染完成后的回调方法 | - |
 | height | 编辑器总高度 | 'auto' |
 | minHeight | 编辑区域最小高度 | - |
@@ -592,10 +593,15 @@ if (xhr.status === 200) {
 
 #### methods
 
+查找替换使用字面文本匹配。IR 和 WYSIWYG 模式搜索正文及代码，SV 模式搜索完整 Markdown 源码。正文匹配可跨行内格式，匹配范围限制在同一段落或表格单元格。查找不会触发 `input`，替换在输入法组合或只读状态下返回 0。宿主可通过 `options.beforeReplace` 校验替换后的完整 Markdown，返回 false 可阻止替换。
+
 |   | 说明 |
 | - | - |
 | exportJSON(markdown: string) | 根据 Markdown 获取对应 JSON |
 | getValue() | 获取 Markdown 内容 |
+| openFind() / closeFind() | 打开或关闭查找替换面板，也可使用工具栏 `find` 项和 Ctrl/Cmd+F 打开，Esc 关闭 |
+| find(query: string, options?: IFindOptions): IFindResult | 查找字面文本，返回匹配总数 total、当前序号 index（从 0 开始，无匹配为 -1）及当前 match；caseSensitive 默认 false，index 默认 0，超出范围时回到首项 |
+| replace(query: string, replacement: string, options?: IFindOptions): number | 替换字面文本，返回替换数量；省略 index 时替换全部，指定 index 时替换该项；一次调用形成一步撤销，触发 input 回调 |
 | getOutline(): IOutlineItem[] | 获取与内置大纲范围一致的顶层标题，返回文本 text、标题级别 level 和标题 ID id；SV 模式下的 ID 对应内置预览渲染后的标题 |
 | getHTML() | 获取 HTML 内容 |
 | insertValue(value: string, render = true) | 在焦点处插入内容，并默认进行 Markdown 渲染 |

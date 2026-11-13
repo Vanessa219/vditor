@@ -1,4 +1,12 @@
 window.VditorI18n = {
+  "find": "Rechercher",
+  "replace": "Remplacer",
+  "replaceAll": "Tout remplacer",
+  "matchCase": "Respecter la casse",
+  "previousMatch": "Occurrence précédente",
+  "nextMatch": "Occurrence suivante",
+  "findBody": "Rechercher dans le texte",
+  "findSource": "Rechercher dans le code Markdown",
   'alignCenter': 'Centré',
   'alignLeft': 'Gauche',
   'alignRight': 'Droite',

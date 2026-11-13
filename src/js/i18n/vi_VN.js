@@ -1,4 +1,12 @@
 window.VditorI18n = {
+  "find": "Tìm",
+  "replace": "Thay thế",
+  "replaceAll": "Thay thế tất cả",
+  "matchCase": "Phân biệt hoa thường",
+  "previousMatch": "Kết quả trước",
+  "nextMatch": "Kết quả tiếp theo",
+  "findBody": "Tìm trong nội dung",
+  "findSource": "Tìm trong mã nguồn Markdown",
   'alignCenter': 'Căn giữa',
   'alignLeft': 'Căn trái',
   'alignRight': 'Căn phải',

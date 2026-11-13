@@ -111,6 +111,7 @@ export class Options {
             {
                 name: "more",
                 toolbar: [
+                    "find",
                     "both",
                     "code-theme",
                     "content-theme",
@@ -190,6 +191,12 @@ export class Options {
 
     private mergeToolbar(toolbar: Array<string | IMenuItem>) {
         const toolbarItem = [
+            {
+                name: "find",
+                hotkey: "⌘F",
+                icon: '<svg><use xlink:href="#vditor-icon-search"></use></svg>',
+                tipPosition: "ne",
+            },
             {
                 icon: '<svg><use xlink:href="#vditor-icon-export"></use></svg>',
                 name: "export",

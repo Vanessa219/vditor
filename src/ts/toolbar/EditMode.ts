@@ -142,6 +142,7 @@ export const setEditMode = (vditor: IVditor, type: string, event: Event | string
     }
 
     vditor.outline.toggle(vditor, vditor.currentMode !== "sv" && vditor.options.outline.enable, typeof event !== "string");
+    vditor.find?.refresh();
     if (typeof event !== "string") {
         notifyConfigChange(vditor);
     }
