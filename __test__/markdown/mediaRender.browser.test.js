@@ -87,8 +87,19 @@ describe("media rendering after sanitization", () => {
         ["/assets/music.mp3", "AUDIO"],
         ["/assets/recording.aac", "AUDIO"],
         ["/assets/recording.AAC?download=1#play", "AUDIO"],
+        ["/assets/clip.MP4?download=1#t=5", "VIDEO"],
     ])("preserves normal media controls and source: %s", async (url, tag) => {
         expect(await render(url)).toMatchObject({tag, src: url, controls: true});
+    });
+
+    it.each([
+        "https://github.com/webmproject/libwebm",
+        "https://example.com/blog/convert-mov-to-mp4",
+        "https://example.com/tags/ogg",
+    ])("leaves a link without a video file extension as a link: %s", async (url) => {
+        const result = await render(url);
+        expect(result.tag).toBeUndefined();
+        expect(result.mediaCount).toBe(0);
     });
 
     it.each([
