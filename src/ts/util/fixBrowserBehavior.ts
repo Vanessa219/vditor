@@ -17,10 +17,12 @@ import {
     hasClosestByMatchTag,
 } from "./hasClosest";
 import {getLastNode} from "./hasClosest";
+import {hasClosestByHeadings} from "./hasClosestByHeadings";
 import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
 import {isPlainTextPaste, processCodeRender, processPasteCode} from "./processCode";
 import {getPastedLink} from "./pasteLink";
+import {renderToc} from "./toc";
 import {
     getEditorRange,
     getSelectPosition,
@@ -39,6 +41,36 @@ export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor, startCo
             return false;
         }
     }
+    return true;
+};
+
+export const backspaceEmptyHeading = (event: KeyboardEvent, vditor: IVditor, range: Range) => {
+    if (event.key !== "Backspace" || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+        event.defaultPrevented || !range.collapsed) {
+        return false;
+    }
+    const heading = hasClosestByHeadings(range.startContainer);
+    if (!heading) {
+        return false;
+    }
+    const firstElement = heading.firstElementChild;
+    const marker = firstElement?.getAttribute("data-type") === "heading-marker" ? firstElement : null;
+    const empty = Array.from(heading.childNodes).every((node) => node === marker ||
+        node.nodeName === "BR" || node.nodeName === "WBR" ||
+        (node.nodeType === Node.TEXT_NODE && node.textContent.split(Constants.ZWSP).join("").trim() === ""));
+    if (!empty) {
+        return false;
+    }
+
+    const paragraph = heading.ownerDocument.createElement("p");
+    paragraph.setAttribute("data-block", "0");
+    paragraph.innerHTML = `${Constants.ZWSP}<wbr>\n`;
+    heading.replaceWith(paragraph);
+    setRangeByWbr(paragraph, range);
+    renderToc(vditor);
+    highlightToolbar(vditor);
+    execAfterRender(vditor);
+    event.preventDefault();
     return true;
 };
 

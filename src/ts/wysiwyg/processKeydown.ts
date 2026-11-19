@@ -2,6 +2,7 @@ import {Constants} from "../constants";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
+    backspaceEmptyHeading,
     fixBlockquote, fixCJKPosition,
     fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
     fixList,
@@ -83,6 +84,10 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
 
     const range = getEditorRange(vditor);
     const startContainer = range.startContainer;
+
+    if (backspaceEmptyHeading(event, vditor, range)) {
+        return true;
+    }
 
     // Android 输入法的编辑面板无法在 contenteditable 中正确处理方向键和 End
     if (fixAndroidCursor(vditor, range, event)) {
