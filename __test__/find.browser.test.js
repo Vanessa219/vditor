@@ -205,7 +205,13 @@ describe("find and replace", () => {
             await page.evaluate(() => window.findTest.refreshed);
             expect(await page.evaluate(() => window.findTest.surface.scrollTop)).toBe(scrollTop);
 
-            await page.keyboard.press(process.platform === "darwin" ? "Meta+c" : "Control+c");
+            const modifier = process.platform === "darwin" ? "Meta" : "Control";
+            await page.keyboard.down(modifier);
+            try {
+                await page.keyboard.press("c");
+            } finally {
+                await page.keyboard.up(modifier);
+            }
             expect(await page.evaluate(() => window.findTest.copied)).toBe("Copy Alpha");
             expect(await page.evaluate(() => window.findTest.surface.scrollTop)).toBe(scrollTop);
 
