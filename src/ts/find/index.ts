@@ -22,6 +22,7 @@ export class Find {
     private total = 0;
     private composing = false;
     private timer = 0;
+    private revealPending = false;
     private observer: MutationObserver;
     private events = new AbortController();
     private highlightName = `vditor-find-${++instanceCount}`;
@@ -78,16 +79,16 @@ export class Find {
         const signal = this.events.signal;
         this.query.addEventListener("input", () => {
             this.index = 0;
-            this.schedule();
+            this.schedule(true);
         }, {signal});
         this.sensitive.addEventListener("change", () => {
             this.index = 0;
             this.refresh();
         }, {signal});
         this.element.addEventListener("compositionstart", () => {this.composing = true;}, {signal});
-        this.element.addEventListener("compositionend", () => {
+        this.element.addEventListener("compositionend", event => {
             this.composing = false;
-            this.schedule();
+            this.schedule(event.target === this.query);
         }, {signal});
         vditor.element.addEventListener("keydown", event => {
             if (event.isComposing || this.composing || vditor[vditor.currentMode].composingLock) return;
@@ -134,14 +135,16 @@ export class Find {
     public close(focus = false) {
         this.element.hidden = true;
         window.clearTimeout(this.timer);
+        this.revealPending = false;
         this.clearHighlight();
         if (focus) this.vditor[this.vditor.currentMode].element.focus();
     }
 
-    public refresh() {
+    public refresh(reveal = true) {
         if (this.element.hidden || this.composing || this.vditor[this.vditor.currentMode].composingLock) return;
         window.clearTimeout(this.timer);
-        const result = this.find(this.query.value, {caseSensitive: this.sensitive.checked, index: this.index});
+        this.revealPending = false;
+        const result = this.findMatch(this.query.value, {caseSensitive: this.sensitive.checked, index: this.index}, reveal);
         this.index = Math.max(0, result.index);
         this.total = result.total;
         this.count.textContent = `${result.index + 1}/${result.total}`;
@@ -150,24 +153,30 @@ export class Find {
     }
 
     public find(query: string, options: IFindOptions = {}): IFindResult {
+        return this.findMatch(query, options, true);
+    }
+
+    private findMatch(query: string, options: IFindOptions, reveal: boolean): IFindResult {
         this.clearHighlight();
         const result = findText(this.vditor[this.vditor.currentMode].element, query,
             !!options.caseSensitive, options.index || 0);
         if (result.match && !this.vditor[this.vditor.currentMode].composingLock) {
             if (this.vditor.currentMode === "sv") {
                 const element = this.vditor.sv.element;
-                element.setSelectionRange(result.match.start, result.match.end);
-                this.highlightSource(result.match);
+                if (reveal) element.setSelectionRange(result.match.start, result.match.end);
+                this.highlightSource(result.match, reveal);
             } else {
                 const range = displayRange(result.match.range);
                 const css = window.CSS as typeof CSS & {highlights?: Map<string, unknown>};
                 const HighlightClass = (window as unknown as {Highlight?: new(range: Range) => unknown}).Highlight;
                 if (css?.highlights && HighlightClass) css.highlights.set(this.highlightName, new HighlightClass(range));
-                const rect = range.getBoundingClientRect();
-                const element = this.vditor[this.vditor.currentMode].element;
-                const viewport = element.getBoundingClientRect();
-                if (rect.top < viewport.top || rect.bottom > viewport.bottom) {
-                    element.scrollTop += rect.top - viewport.top - element.clientHeight / 2;
+                if (reveal) {
+                    const rect = range.getBoundingClientRect();
+                    const element = this.vditor[this.vditor.currentMode].element;
+                    const viewport = element.getBoundingClientRect();
+                    if (rect.top < viewport.top || rect.bottom > viewport.bottom) {
+                        element.scrollTop += rect.top - viewport.top - element.clientHeight / 2;
+                    }
                 }
             }
         }
@@ -239,10 +248,12 @@ export class Find {
         this.refresh();
     }
 
-    private schedule() {
+    private schedule(reveal = false) {
         if (this.element.hidden) return;
+        // 查询输入和正文更新共用定时器，查询框仍有焦点时才定位待显示的命中。
+        this.revealPending ||= reveal;
         window.clearTimeout(this.timer);
-        this.timer = window.setTimeout(() => this.refresh(), 120);
+        this.timer = window.setTimeout(() => this.refresh(this.revealPending && document.activeElement === this.query), 120);
     }
 
     private clearHighlight() {
@@ -270,7 +281,7 @@ export class Find {
         return button;
     }
 
-    private highlightSource(match: IFindResult["match"], reveal = true) {
+    private highlightSource(match: IFindResult["match"], reveal: boolean) {
         const element = this.vditor.sv.element;
         this.sourceMatch = match;
         if (!this.sourceHighlight) {

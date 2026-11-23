@@ -157,6 +157,72 @@ describe("find and replace", () => {
     }
 
     for (const mode of ["wysiwyg", "ir", "sv"]) {
+        test(`${mode} keeps the document selection and scroll position while refreshing find results`, async () => {
+            await page.goto(origin);
+            await page.evaluate(async ({mode, origin}) => {
+                const editor = await new Promise(resolve => {
+                    const instance = new Vditor("editor", {mode, cdn: origin, i18n: window.VditorI18n,
+                        cache: {enable: false}, height: 300, preview: {mode: "editor"},
+                        value: "Alpha\n\n" + "A paragraph.\n\n".repeat(60) + "Copy Alpha here.\n",
+                        after: () => resolve(instance)});
+                });
+                const panel = editor.vditor.find.element;
+                const query = panel.querySelector('input[type="search"]');
+                const output = panel.querySelector("output");
+                const surface = editor.vditor[mode].element;
+                editor.openFind();
+                query.value = "Alpha";
+                query.dispatchEvent(new Event("input", {bubbles: true}));
+                window.findTest = {surface, output, mode};
+            }, {mode, origin});
+            await page.waitForFunction(() => window.findTest.output.textContent === "1/2");
+            const scrollTop = await page.evaluate(() => {
+                const {surface, mode, output} = window.findTest;
+                surface.focus();
+                surface.scrollTop = surface.scrollHeight;
+                if (mode === "sv") {
+                    const start = surface.value.indexOf("Copy Alpha");
+                    surface.setSelectionRange(start, start + "Copy Alpha".length);
+                } else {
+                    const node = surface.lastElementChild.firstChild;
+                    window.getSelection().setBaseAndExtent(node, 0, node, "Copy Alpha".length);
+                }
+                surface.addEventListener("copy", event => {
+                    window.findTest.copied = mode === "sv" ? surface.value.slice(surface.selectionStart, surface.selectionEnd) :
+                        event.clipboardData.getData("text/plain");
+                });
+                window.findTest.refreshed = new Promise(resolve => {
+                    const observer = new MutationObserver(() => {
+                        observer.disconnect();
+                        resolve();
+                    });
+                    observer.observe(output, {childList: true});
+                });
+                surface.append(document.createComment("refresh"));
+                return surface.scrollTop;
+            });
+            expect(scrollTop).toBeGreaterThan(0);
+            await page.evaluate(() => window.findTest.refreshed);
+            expect(await page.evaluate(() => window.findTest.surface.scrollTop)).toBe(scrollTop);
+
+            await page.keyboard.press(process.platform === "darwin" ? "Meta+c" : "Control+c");
+            expect(await page.evaluate(() => window.findTest.copied)).toBe("Copy Alpha");
+            expect(await page.evaluate(() => window.findTest.surface.scrollTop)).toBe(scrollTop);
+
+            await page.keyboard.press("x");
+            await page.waitForFunction(() => window.findTest.output.textContent === "1/1");
+            expect(await page.evaluate(() => window.findTest.surface.scrollTop)).toBeGreaterThan(0);
+            await page.keyboard.press("y");
+            expect(await page.evaluate(() => {
+                const {surface, mode} = window.findTest;
+                return mode === "sv" ? surface.value : surface.textContent;
+            })).toContain("xy here.");
+
+            await page.focus('input[type="search"]');
+            await page.keyboard.press("Enter");
+            expect(await page.evaluate(() => window.findTest.surface.scrollTop)).toBe(0);
+        });
+
         test(`${mode} replacement records pending input and preserves redo`, async () => {
             await page.goto(origin);
             await page.evaluate(async ({mode, origin}) => {
