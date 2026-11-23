@@ -79,7 +79,7 @@ export const mediaRender = (element: HTMLElement) => {
         if (!url) {
             return;
         }
-        if (url.match(/^.+.(mp4|m4v|ogg|ogv|webm)$/)) {
+        if (url.match(/^.+\.(mp4|m4v|ogg|ogv|webm)(?:[?#].*)?$/i)) {
             replaceMedia(aElement, "video", url);
         } else if (url.match(/^.+\.(mp3|wav|flac|aac)(?:[?#].*)?$/i)) {
             replaceMedia(aElement, "audio", url);
