@@ -21,7 +21,7 @@ import {hasClosestByHeadings} from "./hasClosestByHeadings";
 import {highlightToolbar} from "./highlightToolbar";
 import {matchHotKey} from "./hotKey";
 import {isPlainTextPaste, processCodeRender, processPasteCode} from "./processCode";
-import {getPastedLink} from "./pasteLink";
+import {getPastedLink, pasteUnfinishedIRLinkDestination} from "./pasteLink";
 import {renderToc} from "./toc";
 import {
     getEditorRange,
@@ -1662,6 +1662,12 @@ export const paste = async (vditor: IVditor, event: (ClipboardEvent | DragEvent)
                 }
             }
         } else if (textPlain.trim() !== "" && files.length === 0) {
+            if (pasteUnfinishedIRLinkDestination(vditor, textPlain)) {
+                // 结束括号输入后由即时渲染重新解析整条链接。
+                vditor.wysiwyg.triggerRemoveComment(vditor);
+                execAfterRender(vditor);
+                return;
+            }
             textPlain = getPastedLink(vditor, textPlain);
             if (pasteIntoTable(vditor, "", textPlain)) {
                 // 单元格填充与普通粘贴共用后续规范化和撤销记录。

@@ -1,4 +1,4 @@
-const {launchBrowser} = require("./util/launchBrowser");
+const {launchBrowser, useLocalVditorAssets} = require("./util/launchBrowser");
 
 describe.each(["desktop", "mobile"])("URL clipboard paste on %s", platform => {
     let browser;
@@ -12,6 +12,7 @@ describe.each(["desktop", "mobile"])("URL clipboard paste on %s", platform => {
             await page.setUserAgent("Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36");
         }
         const origin = process.env.VDITOR_TEST_ORIGIN || "http://localhost:9000";
+        await useLocalVditorAssets(page);
         await page.goto(origin + "/jest-puppeteer.html", {waitUntil: "domcontentloaded"});
         await page.waitForFunction(() => window.vditorTest?.vditor?.lute);
     });
@@ -120,5 +121,23 @@ describe.each(["desktop", "mobile"])("URL clipboard paste on %s", platform => {
     it("replaces a selected source destination with the URL", async () => {
         const result = await paste("sv", "https://example.com", "[label](old)", 8, 11);
         expect(result.value.trim()).toBe("[label](https://example.com)");
+    });
+
+    it("inserts the URL as the destination of an unfinished IR link", async () => {
+        await paste("ir", "");
+        const surface = await page.evaluateHandle(() => window.pasteLinkEditor.vditor.ir.element);
+        await surface.evaluate(element => element.focus());
+        await page.keyboard.type("[issue](");
+        const url = "https://example.com/path";
+        const beforeClosing = await surface.evaluate((element, url) => {
+            const clipboardData = new DataTransfer();
+            clipboardData.setData("text/plain", url);
+            element.dispatchEvent(new ClipboardEvent("paste", {bubbles: true, cancelable: true, clipboardData}));
+            return element.textContent.replace(/[\u200b\n]/g, "");
+        }, url);
+        expect(beforeClosing).toBe("[issue](" + url);
+        await page.keyboard.type(")");
+        const result = await page.evaluate(() => window.pasteLinkEditor.getValue());
+        expect(result.trim()).toBe("[issue](" + url + ")");
     });
 });

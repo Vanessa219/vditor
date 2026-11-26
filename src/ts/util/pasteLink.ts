@@ -1,5 +1,5 @@
 import {getEditorRange} from "./selection";
-import {hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
+import {hasClosestBlock, hasClosestByAttribute, hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
 
 interface IMarkdownNode {
     Type: string;
@@ -13,6 +13,39 @@ const containsPlainText = (node: IMarkdownNode, marker: string): boolean => {
     }
     return (node.Type === "NodeText" && !!node.Data?.includes(marker)) ||
         !!node.Children?.some(child => containsPlainText(child, marker));
+};
+
+// 百分号编码语法字符和实体中的非保留字符，保持查询参数分隔符和 Markdown 往返语义。
+const escapeDestination = (text: string) => {
+    const encode = (character: string) => "%" + character.charCodeAt(0).toString(16).toUpperCase();
+    return text.replace(/[\\()<>|]/g, encode).replace(
+        /&(?:#[xX]?)?([a-zA-Z0-9])(?=[a-zA-Z0-9]*;)/g,
+        (match, character: string) => match.slice(0, -1) + encode(character));
+};
+
+export const pasteUnfinishedIRLinkDestination = (vditor: IVditor, text: string): boolean => {
+    if (vditor.currentMode !== "ir" || !vditor.lute.IsValidLinkDest(text)) {
+        return false;
+    }
+    const range = getEditorRange(vditor);
+    const block = hasClosestBlock(range.startContainer);
+    if (!block || !block.contains(range.endContainer) ||
+        hasClosestByAttribute(range.startContainer, "data-type", "a") ||
+        hasClosestByMatchTag(range.startContainer, "CODE")) {
+        return false;
+    }
+    const prefix = range.cloneRange();
+    prefix.selectNodeContents(block);
+    prefix.setEnd(range.startContainer, range.startOffset);
+    if (!/(?:^|[^\\])!?\[(?:\\.|[^[\]\\\r\n])+\]\(\s*$/.test(prefix.toString())) {
+        return false;
+    }
+    const destination = document.createTextNode(escapeDestination(text));
+    range.deleteContents();
+    range.insertNode(destination);
+    range.setStartAfter(destination);
+    range.collapse(true);
+    return true;
 };
 
 export const getPastedLink = (vditor: IVditor, text: string): string => {
@@ -42,10 +75,6 @@ export const getPastedLink = (vditor: IVditor, text: string): string => {
         selectedText = range.toString();
     }
     const title = (selectedText || text).replace(/[\\`*_[\]!~^=$&<>|:]/g, "\\$&");
-    const encode = (character: string) => "%" + character.charCodeAt(0).toString(16).toUpperCase();
-    // 百分号编码语法字符和实体中的非保留字符，保持查询参数分隔符和 Markdown 往返语义。
-    const destination = text.replace(/[\\()<>|]/g, encode).replace(
-        /&(?:#[xX]?)?([a-zA-Z0-9])(?=[a-zA-Z0-9]*;)/g,
-        (match, character: string) => match.slice(0, -1) + encode(character));
+    const destination = escapeDestination(text);
     return `[${title}](${destination})`;
 };
