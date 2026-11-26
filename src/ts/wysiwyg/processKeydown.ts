@@ -2,7 +2,7 @@ import {Constants} from "../constants";
 import {isCtrl, isFirefox} from "../util/compatibility";
 import {scrollCenter} from "../util/editorCommonEvent";
 import {
-    backspaceEmptyHeading,
+    deleteEmptyHeading,
     fixBlockquote, fixCJKPosition,
     fixCodeBlock, fixCursorDownInlineMath, fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
     fixList,
@@ -85,7 +85,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getEditorRange(vditor);
     const startContainer = range.startContainer;
 
-    if (backspaceEmptyHeading(event, vditor, range)) {
+    if (deleteEmptyHeading(event, vditor, range)) {
         return true;
     }
 

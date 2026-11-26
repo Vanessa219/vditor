@@ -2,7 +2,7 @@ import {Constants} from "../constants";
 import {hidePanel} from "../toolbar/setToolbar";
 import {isCtrl} from "../util/compatibility";
 import {
-    backspaceEmptyHeading,
+    deleteEmptyHeading,
     fixBlockquote, fixCJKPosition,
     fixCodeBlock, fixCursorDownInlineMath,
     fixDelete, fixFirefoxArrowUpTable, fixGSKeyBackspace, fixHR,
@@ -41,7 +41,7 @@ export const processKeydown = (vditor: IVditor, event: KeyboardEvent) => {
     const range = getEditorRange(vditor);
     const startContainer = range.startContainer;
 
-    if (backspaceEmptyHeading(event, vditor, range)) {
+    if (deleteEmptyHeading(event, vditor, range)) {
         return true;
     }
 

@@ -1,6 +1,6 @@
 const {openEditorPage, newEditor} = require("./util/editorHarness");
 
-describe("Backspace on an empty heading", () => {
+describe("Deleting the contents of a heading", () => {
     let browser;
     let page;
     beforeAll(async () => { ({browser, page} = await openEditorPage()); });
@@ -77,4 +77,42 @@ describe("Backspace on an empty heading", () => {
         await page.keyboard.type("body");
         expect((await snapshot(mode)).value).toBe("body\n");
     });
+
+    it.each([["wysiwyg", "Backspace"], ["ir", "Backspace"], ["wysiwyg", "Delete"], ["ir", "Delete"]])(
+        "leaves an editable paragraph when %s removes the last selected character with %s", async (mode, key) => {
+            await newEditor(page, {mode, value: "[above](https://example.com)\n\n### 2\n\nbelow"});
+            await page.evaluate(mode => {
+                const surface = window.testEditor.vditor[mode].element;
+                surface.focus();
+                const heading = surface.querySelector("h3");
+                const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+                while (walker.nextNode()) {
+                    const text = walker.currentNode;
+                    const offset = text.textContent.indexOf("2");
+                    if (offset !== -1) {
+                        const range = document.createRange();
+                        range.setStart(text, offset);
+                        range.setEnd(text, offset + 1);
+                        getSelection().removeAllRanges();
+                        getSelection().addRange(range);
+                        return;
+                    }
+                }
+                throw new Error("Heading text is missing");
+            }, mode);
+            const before = await snapshot(mode);
+            await page.keyboard.press(key);
+            expect(await snapshot(mode)).toMatchObject({tags: ["P", "P", "P"], caret: 1, collapsed: true});
+            await page.evaluate(() => {
+                const {vditor} = window.testEditor;
+                vditor.undo.undo(vditor);
+            });
+            expect((await snapshot(mode)).value).toBe(before.value);
+            await page.evaluate(() => {
+                const {vditor} = window.testEditor;
+                vditor.undo.redo(vditor);
+            });
+            await page.keyboard.type("body");
+            expect((await snapshot(mode)).value).toBe("[above](https://example.com)\n\nbody\n\nbelow\n");
+        });
 });

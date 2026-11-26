@@ -44,22 +44,35 @@ export const fixGSKeyBackspace = (event: KeyboardEvent, vditor: IVditor, startCo
     return true;
 };
 
-export const backspaceEmptyHeading = (event: KeyboardEvent, vditor: IVditor, range: Range) => {
-    if (event.key !== "Backspace" || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
-        event.defaultPrevented || !range.collapsed) {
+export const deleteEmptyHeading = (event: KeyboardEvent, vditor: IVditor, range: Range) => {
+    if ((event.key !== "Backspace" && (event.key !== "Delete" || range.collapsed)) ||
+        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.defaultPrevented) {
         return false;
     }
     const heading = hasClosestByHeadings(range.startContainer);
-    if (!heading) {
+    if (!heading || !heading.contains(range.endContainer)) {
         return false;
     }
-    const firstElement = heading.firstElementChild;
-    const marker = firstElement?.getAttribute("data-type") === "heading-marker" ? firstElement : null;
-    const empty = Array.from(heading.childNodes).every((node) => node === marker ||
+    const isEmpty = (nodes: NodeListOf<ChildNode>) => Array.from(nodes).every((node) =>
+        (node.nodeType === Node.ELEMENT_NODE && (node as Element).getAttribute("data-type") === "heading-marker") ||
         node.nodeName === "BR" || node.nodeName === "WBR" ||
         (node.nodeType === Node.TEXT_NODE && node.textContent.split(Constants.ZWSP).join("").trim() === ""));
-    if (!empty) {
-        return false;
+    if (range.collapsed) {
+        if (!isEmpty(heading.childNodes)) {
+            return false;
+        }
+    } else {
+        const remainder = range.cloneRange();
+        remainder.selectNodeContents(heading);
+        remainder.setEnd(range.startContainer, range.startOffset);
+        if (!isEmpty(remainder.cloneContents().childNodes)) {
+            return false;
+        }
+        remainder.selectNodeContents(heading);
+        remainder.setStart(range.endContainer, range.endOffset);
+        if (!isEmpty(remainder.cloneContents().childNodes)) {
+            return false;
+        }
     }
 
     const paragraph = heading.ownerDocument.createElement("p");
